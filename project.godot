@@ -56,7 +56,8 @@ gdscript/warnings/return_value_discarded=false
 
 [gdnative]
 
-singletons=[ "res://addons/godot_ovrmobile/godot_ovrmobile.gdnlib" ]
+singletons=[ "res://addons/godot-oculus/godot_oculus.gdnlib", "res://addons/godot_ovrmobile/godot_ovrmobile.gdnlib" ]
+singletons_disabled=[ "res://addons/godot-oculus/godot_oculus.gdnlib" ]
 
 [layer_names]
 
