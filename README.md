@@ -20,7 +20,9 @@ Select your new preset, and click `Export PCK/ZIP`
 Export it as `data.pck` and save it to: `<root>/export/server`
 
 Now if you're on Windows, you need Windows Subsystem for Linux (WSL) setup. I'm using Ubuntu as my distro on top of WSL:
+
 WSL setup: https://docs.microsoft.com/en-us/windows/wsl/install-win10
+
 Ubuntu WSL: https://ubuntu.com/wsl
 
 With that setup, if you have Windows Explorer open to `<root>/export/server` you can Shift + Right Click and select `Open Linux shell here`
