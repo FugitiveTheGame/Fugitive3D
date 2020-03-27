@@ -1,0 +1,54 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Camera",
+"class": "FpsCamera",
+"language": "GDScript",
+"path": "res://client/game/player/flat/Camera.gd"
+}, {
+"base": "KinematicBody",
+"class": "FpsController",
+"language": "GDScript",
+"path": "res://client/game/player/flat/FlatPlayer.gd"
+} ]
+_global_script_class_icons={
+"FpsCamera": "",
+"FpsController": ""
+}
+
+[application]
+
+config/name="Fugitive 3D"
+run/main_scene="res://entry/Entry.tscn"
+config/icon="res://icon.png"
+
+[autoload]
+
+ClientNetwork="*res://networking/ClientNetwork.gd"
+ServerNetwork="*res://networking/ServerNetwork.gd"
+GameData="*res://networking/GameData.gd"
+
+[debug]
+
+gdscript/warnings/unused_argument=false
+gdscript/warnings/return_value_discarded=false
+
+[gdnative]
+
+singletons=[ "res://addons/godot_ovrmobile/godot_ovrmobile.gdnlib" ]
+
+[layer_names]
+
+2d_physics/layer_1="players"
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"
