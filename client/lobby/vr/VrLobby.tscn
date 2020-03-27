@@ -1,9 +1,10 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://client/lobby/vr/VrLobbyUi.tscn" type="PackedScene" id=1]
-[ext_resource path="res://OQ_Toolkit/OQ_UI2D/OQ_UI2DCanvas.tscn" type="PackedScene" id=2]
-[ext_resource path="res://OQ_Toolkit/OQ_UI2D/OQ_UI2DLogWindow.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/OQ_Toolkit/OQ_UI2D/OQ_UI2DCanvas.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/OQ_Toolkit/OQ_UI2D/OQ_UI2DLogWindow.tscn" type="PackedScene" id=3]
 [ext_resource path="res://client/vr_menu_player/VrMenuPlayer.tscn" type="PackedScene" id=4]
+
 
 
 
