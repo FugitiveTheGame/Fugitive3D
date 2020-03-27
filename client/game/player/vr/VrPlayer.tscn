@@ -1,13 +1,14 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://client/game/player/vr/VrPlayer.gd" type="Script" id=1]
-[ext_resource path="res://OQ_Toolkit/OQ_ARVROrigin/Feature_PlayerCollision.tscn" type="PackedScene" id=2]
-[ext_resource path="res://OQ_Toolkit/OQ_ARVROrigin.tscn" type="PackedScene" id=3]
-[ext_resource path="res://OQ_Toolkit/OQ_LeftController.tscn" type="PackedScene" id=4]
-[ext_resource path="res://OQ_Toolkit/OQ_ARVROrigin/Feature_Falling.tscn" type="PackedScene" id=5]
-[ext_resource path="res://OQ_Toolkit/OQ_ARVROrigin/Locomotion_Stick.tscn" type="PackedScene" id=6]
-[ext_resource path="res://OQ_Toolkit/OQ_ARVRCamera.tscn" type="PackedScene" id=7]
-[ext_resource path="res://OQ_Toolkit/OQ_RightController.tscn" type="PackedScene" id=8]
+[ext_resource path="res://addons/OQ_Toolkit/OQ_ARVROrigin/Feature_PlayerCollision.tscn" type="PackedScene" id=2]
+[ext_resource path="res://addons/OQ_Toolkit/OQ_ARVROrigin.tscn" type="PackedScene" id=3]
+[ext_resource path="res://addons/OQ_Toolkit/OQ_LeftController.tscn" type="PackedScene" id=4]
+[ext_resource path="res://addons/OQ_Toolkit/OQ_ARVROrigin/Feature_Falling.tscn" type="PackedScene" id=5]
+[ext_resource path="res://addons/OQ_Toolkit/OQ_ARVROrigin/Locomotion_Stick.tscn" type="PackedScene" id=6]
+[ext_resource path="res://addons/OQ_Toolkit/OQ_ARVRCamera.tscn" type="PackedScene" id=7]
+[ext_resource path="res://addons/OQ_Toolkit/OQ_RightController.tscn" type="PackedScene" id=8]
+
 
 [node name="VrMobileUser" type="Spatial"]
 script = ExtResource( 1 )
