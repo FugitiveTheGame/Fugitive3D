@@ -2,9 +2,8 @@
 
 [ext_resource path="res://client/main_menu/MainMenu.gd" type="Script" id=1]
 
-[node name="MainMenu" type="Control"]
-anchor_right = 1.0
-anchor_bottom = 1.0
+[node name="MainMenu" type="ReferenceRect"]
+rect_min_size = Vector2( 1024, 600 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -30,6 +29,8 @@ margin_top = 22.0
 margin_right = 242.0
 margin_bottom = 46.0
 text = "A Player"
+caret_blink = true
+caret_blink_speed = 0.5
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -48,7 +49,9 @@ __meta__ = {
 margin_top = 21.0
 margin_right = 243.0
 margin_bottom = 45.0
-text = "127.0.0.1"
+text = "192.168.43.191"
+caret_blink = true
+caret_blink_speed = 0.5
 __meta__ = {
 "_edit_use_anchors_": false
 }

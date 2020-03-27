@@ -12,8 +12,8 @@ func _ready():
 	# When running from the editor, this is how we'll default to being a client
 	else:
 		print("Could not detect application type! Defaulting to client.")
-		#go_to_client()
-		go_to_server()
+		go_to_client()
+		#go_to_server()
 
 
 func go_to_client():
