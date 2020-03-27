@@ -2,8 +2,9 @@
 It's Fugitive, with more Ds.
 
 ## Clients:
-Flat: This is the normal 3D client
-VR: This client should run on both Oculus Quest as well as PC VR
+**Flat:** This is the normal 3D client
+
+**VR:** This client should run on both Oculus Quest as well as PC VR
 
 ## Server:
 Download the Server from here:
