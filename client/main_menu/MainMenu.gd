@@ -11,10 +11,12 @@ func _on_ConnectButton_pressed():
 
 
 func connect_to_server(playerName: String, serverIp: String):
+	vr.log_info("connect_to_server")
 	ClientNetwork.join_game(serverIp, playerName)
 
 
 func on_connected_to_server():
+	vr.log_info("on_connected_to_server")
 	go_to_lobby()
 
 
