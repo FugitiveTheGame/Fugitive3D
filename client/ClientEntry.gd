@@ -11,8 +11,8 @@ func _ready():
 	# Devel branch
 	else:
 		#go_to_pc_vr()
-		go_to_mobile_vr()
-		#go_to_flat()
+		#go_to_mobile_vr()
+		go_to_flat()
 
 
 func go_to_flat():
