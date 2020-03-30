@@ -1,17 +1,29 @@
 extends Spatial
 
+var game: Spatial
+var players: Node
 
 func _ready():
 	print("Entering game")
 	get_tree().paused = true
+	
+	load_map()
 	
 	ClientNetwork.connect("remove_player", self, "remove_player")
 	
 	pre_configure()
 
 
+func load_map():
+	# TODO: This needs to be made dynamic of course
+	var scene := preload("res://common/game/maps/test_map_00/TestMap00.tscn")
+	game = scene.instance()
+	add_child(game)
+	players = game.find_node("Players")
+
+
 func remove_player(playerId: int):
-	var playerNode = $Players.get_node(str(playerId))
+	var playerNode = players.get_node(str(playerId))
 	playerNode.queue_free()
 
 
@@ -53,7 +65,7 @@ func spawn_player(playerId, order):
 	
 	#node.get_node("NameLabel").text = playerName
 	
-	$Players.add_child(node)
+	players.add_child(node)
 
 
 func create_base_node() -> Node:
@@ -70,3 +82,5 @@ func create_player_node() -> Node:
 remotesync func on_pre_configure_complete():
 	print("All clients are configured. Starting the game.")
 	get_tree().paused = false
+
+

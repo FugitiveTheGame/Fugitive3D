@@ -1,0 +1,65 @@
+[gd_scene load_steps=6 format=2]
+
+[sub_resource type="VisualShaderNodeInput" id=1]
+input_name = "uv"
+
+[sub_resource type="VisualShaderNodeColorFunc" id=5]
+
+[sub_resource type="VisualShader" id=2]
+code = "shader_type spatial;
+
+
+
+void vertex() {
+// Output:0
+
+}
+
+void fragment() {
+// Input:3
+	vec3 n_out3p0 = vec3(UV, 0.0);
+
+// ColorFunc:4
+	vec3 n_out4p0;
+	{
+		vec3 c = n_out3p0;
+		float max1 = max(c.r, c.g);
+		float max2 = max(max1, c.b);
+		float max3 = max(max1, max2);
+		n_out4p0 = vec3(max3, max3, max3);
+	}
+
+// Output:0
+	ALBEDO = n_out4p0;
+
+}
+
+void light() {
+// Output:0
+
+}
+"
+nodes/fragment/0/position = Vector2( 400, 100 )
+nodes/fragment/3/node = SubResource( 1 )
+nodes/fragment/3/position = Vector2( -80, 100 )
+nodes/fragment/4/node = SubResource( 5 )
+nodes/fragment/4/position = Vector2( 140, 100 )
+nodes/fragment/connections = PoolIntArray( 3, 0, 4, 0, 4, 0, 0, 0 )
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = SubResource( 2 )
+
+[sub_resource type="BoxShape" id=4]
+extents = Vector3( 0.25, 2, 10 )
+
+[node name="Wall" type="StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
+
+[node name="CSGBox" type="CSGBox" parent="."]
+width = 0.5
+height = 4.0
+depth = 20.0
+material = SubResource( 3 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+shape = SubResource( 4 )
