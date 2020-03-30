@@ -43,7 +43,8 @@ func _ready():
 	self.heldObject = get_node_or_null(HeldObjectPath)
 	
 	if is_network_master():
-		self.mouseCaptured = true
+		if not OS.has_touchscreen_ui_hint():
+			self.mouseCaptured = true
 		self.camera.current = CameraIsCurrentOnStart
 		forward_velocity = Movement_Speed
 
@@ -67,45 +68,45 @@ func _physics_process(delta):
 	
 		var Accelaration: float
 		var Maximum_Speed: float
-		if Input.is_key_pressed(KEY_SHIFT):
+		if Input.is_action_pressed("flat_player_sprint"):
 			Accelaration = Sprint_Accelaration
 			Maximum_Speed = Maximum_Sprint_Speed
 		else:
 			Accelaration = Walk_Accelaration
 			Maximum_Speed = Maximum_Walk_Speed
 		
-		if Input.is_key_pressed(KEY_W) or Input.is_key_pressed(KEY_UP):
+		if Input.is_action_pressed("flat_player_up"):
 			Movement_Speed += Accelaration
 			if Movement_Speed > Maximum_Speed:
 				Movement_Speed = Maximum_Speed
 			velocity.x += -global_transform.basis.z.x * Movement_Speed
 			velocity.z += -global_transform.basis.z.z * Movement_Speed
-		elif Input.is_key_pressed(KEY_S) or Input.is_key_pressed(KEY_DOWN):
+		elif Input.is_action_pressed("flat_player_down"):
 			Movement_Speed += Accelaration
 			if Movement_Speed > Maximum_Speed:
 				Movement_Speed = Maximum_Speed
 			velocity.x += global_transform.basis.z.x * Movement_Speed
 			velocity.z += global_transform.basis.z.z * Movement_Speed
 		
-		if Input.is_key_pressed(KEY_LEFT) or Input.is_key_pressed(KEY_A):
+		if Input.is_action_pressed("flat_player_left"):
 			Movement_Speed += Accelaration
 			if Movement_Speed > Maximum_Speed:
 				Movement_Speed = Maximum_Speed
 			velocity.x += -global_transform.basis.x.x * Movement_Speed
 			velocity.z += -global_transform.basis.x.z * Movement_Speed
-		elif Input.is_key_pressed(KEY_RIGHT) or Input.is_key_pressed(KEY_D):
+		elif Input.is_action_pressed("flat_player_right"):
 			Movement_Speed += Accelaration
 			if Movement_Speed > Maximum_Speed:
 				Movement_Speed = Maximum_Speed
 			velocity.x += global_transform.basis.x.x * Movement_Speed
 			velocity.z += global_transform.basis.x.z * Movement_Speed
 			
-		if not(Input.is_key_pressed(KEY_W) or Input.is_key_pressed(KEY_A) or Input.is_key_pressed(KEY_S) or Input.is_key_pressed(KEY_D) or Input.is_key_pressed(KEY_UP) or Input.is_key_pressed(KEY_DOWN) or Input.is_key_pressed(KEY_LEFT) or Input.is_key_pressed(KEY_RIGHT)):
+		if not(Input.is_action_pressed("flat_player_up") or Input.is_action_pressed("flat_player_down") or Input.is_action_pressed("flat_player_left") or Input.is_action_pressed("flat_player_right")):
 			velocity.x = 0
 			velocity.z = 0
 			
 		if is_on_floor():
-			if Input.is_action_just_pressed("ui_accept"):
+			if Input.is_action_just_pressed("flat_player_jump"):
 				velocity.y = Jump_Speed
 		velocity = move_and_slide(velocity, Vector3(0,1,0))
 		

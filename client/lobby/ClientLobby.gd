@@ -6,6 +6,7 @@ func _ready():
 	# Tell the server about you
 	ServerNetwork.register_self(get_tree().get_network_unique_id(), ClientNetwork.localPlayerName)
 
+
 func _on_StartButton_pressed():
 	ClientNetwork.start_game()
 
