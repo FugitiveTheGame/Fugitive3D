@@ -1,7 +1,8 @@
 extends Control
 
+
 func _ready():
-	get_tree().connect('connected_to_server', self, 'on_connected_to_server')
+	get_tree().connect("connected_to_server", self, "on_connected_to_server")
 
 
 func _on_ConnectButton_pressed():
@@ -22,3 +23,4 @@ func on_connected_to_server():
 
 func go_to_lobby():
 	print("go_to_lobby() MUST BE OVERRIDEN")
+
