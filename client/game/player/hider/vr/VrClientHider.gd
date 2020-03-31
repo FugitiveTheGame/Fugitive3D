@@ -1,14 +1,8 @@
-extends Hider
+extends "res://client/game/player/controller/vr/VrPlayerController.gd"
 
 func _ready():
-	var playerController = find_node("PlayerController", false, false)
-	if playerController != null:
-		print("VrClientHider setting player node")
-		playerController.player = self
+	$Player.set_is_local_player()
 
 
-func set_not_local_player():
-	.set_not_local_player()
-	var controller = $PlayerController
-	remove_child(controller)
-	controller.queue_free()
+func _physics_process(delta):
+	$Player.rpc_unreliable("network_update", translation, rotation)

@@ -9,8 +9,14 @@ func _ready():
 		unreadyPlayers[playerId] = playerId
 
 
-func create_player_node() -> Node:
-	print("create_player_node() should never be called on the server")
+func create_player_seeker_node() -> Node:
+	print("create_player_seeker_node() MUST NOT BE CALLED ON SERVER")
+	assert(false)
+	return null
+
+
+func create_player_hider_node() -> Node:
+	print("create_player_hider_node() MUST NOT BE CALLED ON SERVER")
 	assert(false)
 	return null
 
