@@ -49,34 +49,41 @@ func spawn_player(playerId, order):
 	print("Creating player game object")
 	
 	var player = GameData.players[playerId]
-	var playerName = player[GameData.PLAYER_NAME]
+	var playerName := player[GameData.PLAYER_NAME] as String
+	var playerType := player[GameData.PLAYER_TYPE] as int
 	
 	var node: Node
-	if get_tree().get_network_unique_id() == playerId:
-		node = create_player_node()
-	else:
-		node = create_base_node()
+	match playerType:
+		0:
+			node = create_player_seeker_node()
+		1:
+			node = create_player_hider_node()
 	
 	node.set_network_master(playerId)
 	node.set_name(str(playerId))
 	
+	if get_tree().get_network_unique_id() != playerId:
+		node.set_not_local_player()
+	else:
+		node.set_is_local_player()
+	
+	node.configure(playerName)
+	
+	# Hacky spawn position
 	node.translation.x = 1 * (order + 1)
 	node.translation.y = 1
-	
-	#node.get_node("NameLabel").text = playerName
 	
 	players.add_child(node)
 
 
-func create_base_node() -> Node:
-	var scene = preload("res://common/game/player/Player.tscn")
+func create_player_seeker_node() -> Node:
+	var scene = preload("res://common/game/player/seeker/Seeker.tscn")
 	return scene.instance()
 
 
-func create_player_node() -> Node:
-	print("MUST OVERRIDE create_player_node()")
-	assert(false)
-	return null
+func create_player_hider_node() -> Node:
+	var scene = preload("res://common/game/player/hider/Hider.tscn")
+	return scene.instance()
 
 
 remotesync func on_pre_configure_complete():

@@ -17,12 +17,7 @@ _global_script_classes=[ {
 "base": "Camera",
 "class": "FpsCamera",
 "language": "GDScript",
-"path": "res://client/game/player/flat/Camera.gd"
-}, {
-"base": "KinematicBody",
-"class": "FpsController",
-"language": "GDScript",
-"path": "res://client/game/player/flat/FlatPlayer.gd"
+"path": "res://client/game/player/controller/flat/Camera.gd"
 }, {
 "base": "KinematicBody",
 "class": "Hider",
@@ -38,14 +33,25 @@ _global_script_classes=[ {
 "class": "OQClass_GrabbableRigidBody",
 "language": "GDScript",
 "path": "res://addons/OQ_Toolkit/OQ_Classes/OQClass_GrabbableRigidBody.gd"
+}, {
+"base": "Spatial",
+"class": "PlayerController",
+"language": "GDScript",
+"path": "res://client/game/player/controller/PlayerController.gd"
+}, {
+"base": "KinematicBody",
+"class": "Seeker",
+"language": "GDScript",
+"path": "res://common/game/player/seeker/Seeker.gd"
 } ]
 _global_script_class_icons={
 "Feature_RigidBodyGrab": "",
 "FpsCamera": "",
-"FpsController": "",
 "Hider": "",
 "Joystick": "",
-"OQClass_GrabbableRigidBody": ""
+"OQClass_GrabbableRigidBody": "",
+"PlayerController": "",
+"Seeker": ""
 }
 
 [application]
@@ -68,6 +74,8 @@ gdscript/warnings/return_value_discarded=false
 
 [display]
 
+window/size/width=1280
+window/size/height=800
 window/dpi/allow_hidpi=true
 window/stretch/mode="viewport"
 
