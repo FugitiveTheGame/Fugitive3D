@@ -1,11 +1,19 @@
-extends KinematicBody
+extends Spatial
 
 const SPEED := 50.0
 
+export(NodePath) var shapePath: NodePath
+export(NodePath) var playerControllerPath: NodePath
+
+var playerController: Spatial
+
+func _ready():
+	playerController = get_node(playerControllerPath)
+
 
 puppet func network_update(networkPosition: Vector3, networkRotation: Vector3):
-	self.translation = networkPosition
-	self.rotation = networkRotation
+	playerController.translation = networkPosition
+	playerController.rotation = networkRotation
 
 
 func configure(playerName: String):
@@ -26,4 +34,7 @@ func set_player_name(playerName: String):
 
 
 func hide_avatar():
-	$Avatar.hide()
+	var shape := get_node(shapePath)
+	var visibleShape = shape.get_visible_shape()
+	visibleShape.hide()
+	
