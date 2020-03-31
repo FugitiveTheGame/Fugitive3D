@@ -13,7 +13,7 @@ script = ExtResource( 1 )
 transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.21527, 0 )
 shape = SubResource( 1 )
 
-[node name="CSGCylinder" type="CSGCylinder" parent="."]
+[node name="Avatar" type="CSGCylinder" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.20726, 0 )
 radius = 0.325534
 height = 2.04634

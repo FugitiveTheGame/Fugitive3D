@@ -1,5 +1,4 @@
-extends "res://common/game/player/Player.gd"
-class_name FpsController
+extends "res://client/game/player/controller/PlayerController.gd"
 
 onready var camera := $Camera as FpsCamera
 
@@ -79,38 +78,38 @@ func _physics_process(delta):
 			Movement_Speed += Accelaration
 			if Movement_Speed > Maximum_Speed:
 				Movement_Speed = Maximum_Speed
-			velocity.x += -global_transform.basis.z.x * Movement_Speed
-			velocity.z += -global_transform.basis.z.z * Movement_Speed
+			velocity.x += -player.global_transform.basis.z.x * Movement_Speed
+			velocity.z += -player.global_transform.basis.z.z * Movement_Speed
 		elif Input.is_action_pressed("flat_player_down"):
 			Movement_Speed += Accelaration
 			if Movement_Speed > Maximum_Speed:
 				Movement_Speed = Maximum_Speed
-			velocity.x += global_transform.basis.z.x * Movement_Speed
-			velocity.z += global_transform.basis.z.z * Movement_Speed
+			velocity.x += player.global_transform.basis.z.x * Movement_Speed
+			velocity.z += player.global_transform.basis.z.z * Movement_Speed
 		
 		if Input.is_action_pressed("flat_player_left"):
 			Movement_Speed += Accelaration
 			if Movement_Speed > Maximum_Speed:
 				Movement_Speed = Maximum_Speed
-			velocity.x += -global_transform.basis.x.x * Movement_Speed
-			velocity.z += -global_transform.basis.x.z * Movement_Speed
+			velocity.x += -player.global_transform.basis.x.x * Movement_Speed
+			velocity.z += -player.global_transform.basis.x.z * Movement_Speed
 		elif Input.is_action_pressed("flat_player_right"):
 			Movement_Speed += Accelaration
 			if Movement_Speed > Maximum_Speed:
 				Movement_Speed = Maximum_Speed
-			velocity.x += global_transform.basis.x.x * Movement_Speed
-			velocity.z += global_transform.basis.x.z * Movement_Speed
+			velocity.x += player.global_transform.basis.x.x * Movement_Speed
+			velocity.z += player.global_transform.basis.x.z * Movement_Speed
 			
 		if not(Input.is_action_pressed("flat_player_up") or Input.is_action_pressed("flat_player_down") or Input.is_action_pressed("flat_player_left") or Input.is_action_pressed("flat_player_right")):
 			velocity.x = 0
 			velocity.z = 0
 			
-		if is_on_floor():
+		if player.is_on_floor():
 			if Input.is_action_just_pressed("flat_player_jump"):
 				velocity.y = Jump_Speed
-		velocity = move_and_slide(velocity, Vector3(0,1,0))
+		velocity = player.move_and_slide(velocity, Vector3(0,1,0))
 		
-		rpc_unreliable("network_update", translation, rotation)
+		player.rpc_unreliable("network_update", player.translation, player.rotation)
 
 
 func _input(event):
@@ -120,7 +119,7 @@ func _input(event):
 			return
 		
 		if event is InputEventMouseMotion:
-			rotate_y(-Sensitivity_X * event.relative.x)
+			player.rotate_y(-Sensitivity_X * event.relative.x)
 
 
 func _notification(what):

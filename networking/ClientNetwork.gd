@@ -32,7 +32,7 @@ func register_player(recipientId: int, playerId: int, playerName: String):
 remote func on_register_player(playerId: int, playerName: String):
 	print(playerName)
 	print("on_register_player: " + str(playerId))
-	GameData.add_player(playerId, playerName)
+	GameData.add_player(playerId, playerName, 0)
 	emit_signal("create_player", playerId)
 	print("Total players: %d" % GameData.players.size())
 

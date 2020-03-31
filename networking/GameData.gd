@@ -4,11 +4,12 @@ var players = {}
 
 const PLAYER_ID = "id"
 const PLAYER_NAME = "name"
-func create_new_player(playerId: int, playerName: String) -> Dictionary:
-	return { PLAYER_ID: playerId, PLAYER_NAME: playerName }
+const PLAYER_TYPE = "type"
+func create_new_player(playerId: int, playerName: String, playerType: int) -> Dictionary:
+	return { PLAYER_ID: playerId, PLAYER_NAME: playerName, PLAYER_TYPE: playerType }
 
-func add_player(playerId: int, playerName: String):
-	var newPlayer = create_new_player(playerId, playerName)
+func add_player(playerId: int, playerName: String, playerType: int):
+	var newPlayer = create_new_player(playerId, playerName, playerType)
 	self.players[playerId] = newPlayer
 
 func reset():
