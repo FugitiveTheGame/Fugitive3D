@@ -1,0 +1,11 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://common/game/player/seeker/Seeker.tscn" type="PackedScene" id=1]
+[ext_resource path="res://client/game/player/controller/flat/FlatPlayerController.tscn" type="PackedScene" id=2]
+[ext_resource path="res://client/game/player/seeker/flat/FlatClientSeeker.gd" type="Script" id=3]
+
+[node name="Seeker" instance=ExtResource( 1 )]
+script = ExtResource( 3 )
+
+[node name="PlayerController" parent="." index="2" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.9887, 0 )
