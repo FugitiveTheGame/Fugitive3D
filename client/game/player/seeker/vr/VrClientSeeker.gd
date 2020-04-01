@@ -6,3 +6,6 @@ func _ready():
 
 func _physics_process(delta):
 	$Player.rpc_unreliable("network_update", translation, rotation)
+	
+	$Flashlight.translation = $OQ_RightController.translation
+	$Flashlight.rotation = $OQ_RightController.rotation
