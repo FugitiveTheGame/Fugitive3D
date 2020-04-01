@@ -9,9 +9,9 @@
 script = ExtResource( 3 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
+shapePath = NodePath("../CollisionShape")
 playerControllerPath = NodePath("..")
 
-[node name="Flashlight" parent="." instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.5, 0.25, 0.5 )
+[node name="CollisionShape" parent="." instance=ExtResource( 2 )]
 
-[node name="CollissionShape" parent="." instance=ExtResource( 2 )]
+[node name="Flashlight" parent="." instance=ExtResource( 4 )]

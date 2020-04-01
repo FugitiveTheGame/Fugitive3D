@@ -19,7 +19,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://client/game/player/controller/flat/Camera.gd"
 }, {
-"base": "KinematicBody",
+"base": "Spatial",
 "class": "Hider",
 "language": "GDScript",
 "path": "res://common/game/player/hider/Hider.gd"
@@ -34,7 +34,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/OQ_Toolkit/OQ_Classes/OQClass_GrabbableRigidBody.gd"
 }, {
-"base": "KinematicBody",
+"base": "Spatial",
 "class": "Seeker",
 "language": "GDScript",
 "path": "res://common/game/player/seeker/Seeker.gd"
