@@ -10,6 +10,7 @@ func _ready():
 	
 	get_tree().connect("network_peer_disconnected", self, "_player_disconnected")
 
+
 # Every network peer needs to clean up the disconnected client
 func _player_disconnected(id):
 	print("Player disconnected: " + str(id))
@@ -17,6 +18,7 @@ func _player_disconnected(id):
 	
 	emit_signal("remove_player", id)
 	print("Total players: %d" % GameData.players.size())
+
 
 # Completely reset the game state and clear the network
 func reset_network():

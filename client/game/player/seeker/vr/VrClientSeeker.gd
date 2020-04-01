@@ -7,5 +7,6 @@ func _ready():
 func _physics_process(delta):
 	$Player.rpc_unreliable("network_update", translation, rotation)
 	
+	# Copy the hand attitude to the flashlight
 	$Flashlight.translation = $OQ_RightController.translation
 	$Flashlight.rotation = $OQ_RightController.rotation
