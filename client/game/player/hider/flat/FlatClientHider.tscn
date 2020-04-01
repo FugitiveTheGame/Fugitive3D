@@ -8,6 +8,9 @@
 [node name="PlayerController" instance=ExtResource( 3 )]
 script = ExtResource( 2 )
 
+[node name="Camera" parent="." index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25857, 0 )
+
 [node name="Player" parent="." index="1" instance=ExtResource( 1 )]
 shapePath = NodePath("../CollissionShape")
 playerControllerPath = NodePath("..")

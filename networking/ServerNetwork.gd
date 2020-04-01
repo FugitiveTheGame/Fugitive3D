@@ -12,18 +12,24 @@ func register_self(playerId: int, playerName: String):
 
 
 remote func on_register_self(playerId, playerName):
+	var playerType: int
+	if GameData.players.size() == 0:
+		playerType = 0
+	else:
+		playerType = 1
+	
 	# Register this client with the server
-	ClientNetwork.on_register_player(playerId, playerName)
+	ClientNetwork.on_register_player(playerId, playerName, playerType)
 	
 	# Register the new player with all existing clients
 	for curPlayerId in GameData.players:
-		ClientNetwork.register_player(curPlayerId, playerId, playerName)
+		ClientNetwork.register_player(curPlayerId, playerId, playerName, playerType)
 	
 	# Catch the new player up on who is already here
 	for curPlayerId in GameData.players:
 		if curPlayerId != playerId:
 			var player = GameData.players[curPlayerId]
-			ClientNetwork.register_player(playerId, curPlayerId, player.name)
+			ClientNetwork.register_player(playerId, curPlayerId, player.name, player.type)
 
 
 func is_hosting() -> bool:
