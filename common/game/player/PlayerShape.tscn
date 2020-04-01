@@ -6,8 +6,8 @@
 radius = 0.340168
 height = 2.0
 
-[node name="CollissionShape" type="CollisionShape"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.34804, 0 )
+[node name="CollisionShape" type="CollisionShape"]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 0, 0 )
 shape = SubResource( 1 )
 script = ExtResource( 1 )
 
@@ -23,7 +23,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.29317e-08, 0.982163 )
 radius = 0.295438
 
 [node name="CSGBox" type="CSGBox" parent="VisibleShape"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.268883, -3.90638e-08, 0.893677 )
+transform = Transform( -4.37114e-08, -1, -4.37114e-08, 1, -4.37114e-08, -4.37114e-08, 4.37114e-08, -4.37114e-08, 1, 0, 0.224396, 0.894 )
 width = 0.339344
 height = 0.479977
 depth = 0.282393
