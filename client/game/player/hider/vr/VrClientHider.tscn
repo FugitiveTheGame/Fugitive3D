@@ -7,15 +7,18 @@
 [ext_resource path="res://client/game/player/hider/vr/VrClientHider.gd" type="Script" id=5]
 
 [node name="PlayerController" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.33868, 0 )
 script = ExtResource( 5 )
 
 [node name="OQ_ARVRCamera" parent="." index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.885143, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25223, 0 )
+
+[node name="Feature_PlayerCollision" parent="." index="5"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.29521, 0 )
 
 [node name="CollisionShape" parent="Feature_PlayerCollision" index="0" instance=ExtResource( 3 )]
 
 [node name="Flashlight" parent="." index="6" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.32183, 0 )
 
 [node name="Player" parent="." index="7" instance=ExtResource( 2 )]
 shapePath = NodePath("../Feature_PlayerCollision/CollisionShape")
