@@ -34,11 +34,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/OQ_Toolkit/OQ_Classes/OQClass_GrabbableRigidBody.gd"
 }, {
-"base": "Spatial",
-"class": "PlayerController",
-"language": "GDScript",
-"path": "res://client/game/player/controller/PlayerController.gd"
-}, {
 "base": "KinematicBody",
 "class": "Seeker",
 "language": "GDScript",
@@ -50,7 +45,6 @@ _global_script_class_icons={
 "Hider": "",
 "Joystick": "",
 "OQClass_GrabbableRigidBody": "",
-"PlayerController": "",
 "Seeker": ""
 }
 

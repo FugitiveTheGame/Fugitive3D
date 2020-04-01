@@ -4,7 +4,6 @@
 [ext_resource path="res://client/game/player/controller/flat/FlatPlayerController.gd" type="Script" id=3]
 
 [node name="PlayerController" type="KinematicBody"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.106878, 0 )
 script = ExtResource( 3 )
 
 [node name="Camera" type="Camera" parent="."]
