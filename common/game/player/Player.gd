@@ -2,18 +2,31 @@ extends Spatial
 
 const SPEED := 50.0
 
+var show_avatar := true
+var is_crouching := false setget set_is_crouching
+func set_is_crouching(value: bool):
+	if value != is_crouching:
+		is_crouching = value
+		
+		if show_avatar:
+			playerShape.set_crouching(value)
+
+
 export(NodePath) var shapePath: NodePath
 export(NodePath) var playerControllerPath: NodePath
 
 var playerController: Spatial
+var playerShape: Spatial
 
 func _ready():
+	playerShape = get_node(shapePath)
 	playerController = get_node(playerControllerPath)
 
 
-puppet func network_update(networkPosition: Vector3, networkRotation: Vector3):
+puppet func network_update(networkPosition: Vector3, networkRotation: Vector3, networkCrouching: bool):
 	playerController.translation = networkPosition
 	playerController.rotation = networkRotation
+	self.is_crouching = networkCrouching
 
 
 func configure(playerName: String):
@@ -34,7 +47,13 @@ func set_player_name(playerName: String):
 
 
 func hide_avatar():
-	var shape := get_node(shapePath)
-	var visibleShape = shape.get_visible_shape()
-	visibleShape.hide()
-	
+	show_avatar = false
+	playerShape.get_standing_shape().hide()
+	playerShape.get_crouching_shape().hide()
+
+
+func get_current_shape() -> Spatial:
+	if is_crouching:
+		return playerShape.get_crouching_shape()
+	else:
+		return playerShape.get_standing_shape()
