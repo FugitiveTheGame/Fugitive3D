@@ -8,7 +8,6 @@
 [ext_resource path="res://addons/OQ_Toolkit/OQ_UI2D/OQ_UI2DKeyboard.tscn" type="PackedScene" id=6]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_ARVRController/Feature_UIRayCast.tscn" type="PackedScene" id=7]
 
-
 [node name="VrMenuPlayer" type="Spatial"]
 
 [node name="OQ_ARVROrigin" parent="." instance=ExtResource( 4 )]

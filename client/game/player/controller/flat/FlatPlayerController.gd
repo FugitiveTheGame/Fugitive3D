@@ -46,6 +46,7 @@ func _ready():
 			self.mouseCaptured = true
 		self.camera.current = CameraIsCurrentOnStart
 		forward_velocity = Movement_Speed
+		update_camera_to_head()
 
 
 func _process(delta):
@@ -109,10 +110,10 @@ func _physics_process(delta):
 				velocity.y = Jump_Speed
 		velocity = move_and_slide(velocity, Vector3(0,1,0))
 		
-		$Player.rpc_unreliable("network_update", translation, rotation)
+		$Player.rpc_unreliable("network_update", translation, rotation, $Player.is_crouching)
 
 
-func _input(event):
+func _unhandled_input(event):
 	if is_network_master():
 		# Don't process input if we aren't capturing the mouse
 		if not self.mouseCaptured:
@@ -120,6 +121,15 @@ func _input(event):
 		
 		if event is InputEventMouseMotion:
 			rotate_y(-Sensitivity_X * event.relative.x)
+		else:
+			if event.is_action_pressed("flat_player_crouch", true):
+				if $Player != null:
+					$Player.is_crouching = true
+					update_camera_to_head()
+			elif event.is_action_released("flat_player_crouch"):
+				if $Player != null:
+					$Player.is_crouching = false
+					update_camera_to_head()
 
 
 func _notification(what):
@@ -128,3 +138,12 @@ func _notification(what):
 			self.mouseCaptured = true
 		elif what == MainLoop.NOTIFICATION_WM_FOCUS_OUT:
 			self.mouseCaptured = false
+
+
+func update_camera_to_head():
+	var shape = $Player.get_current_shape()
+	var head = shape.get_node("Head")
+	var global = shape.to_global(head.translation)
+	var local = to_local(global)
+	
+	$Camera.translation.y = local.y
