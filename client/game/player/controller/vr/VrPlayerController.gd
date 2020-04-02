@@ -3,6 +3,9 @@ extends "res://addons/OQ_Toolkit/OQ_ARVROrigin/scripts/OQ_ARVROrigin.gd"
 var standingHeight: float
 const CROUCH_THRESHOLD := 0.75
 
+onready var camera := $OQ_ARVRCamera
+onready var player := $Player
+
 func _ready():
 	$Player.set_is_local_player()
 	
@@ -11,27 +14,29 @@ func _ready():
 
 
 func set_standing_height():
-	standingHeight = $OQ_ARVRCamera.translation.y
+	standingHeight = camera.translation.y
 
 
 func _process(delta):
-	var curHeight = $OQ_ARVRCamera.translation.y
-	#var heightDiff = standingHeight - curHeight
+	var curHeight = camera.translation.y
 	var curPercent = curHeight / standingHeight
-	
-	print("%f / %f = %f" % [curHeight, standingHeight, curPercent])
 	
 	# If the player's is different enough, consider them crouching
 	if curHeight < standingHeight and curPercent < CROUCH_THRESHOLD:
-		print("Is crouching")
-		$Player.is_crouching = true
+		player.is_crouching = true
 	else:
-		print("Is standing")
-		$Player.is_crouching = false
+		player.is_crouching = false
 	
+	# Handle VR controller input
 	if vr.button_just_released(vr.BUTTON.B):
 		set_standing_height()
 
 
 func _physics_process(delta):
-	$Player.rpc_unreliable("network_update", translation, rotation, $Player.is_crouching)
+	var totalTranslation = translation
+	
+	# We need to incorporate head turn into our network rotation
+	var totalRotation = rotation
+	totalRotation.y += camera.rotation.y
+	
+	player.rpc_unreliable("network_update", totalTranslation, totalRotation, player.is_crouching)
