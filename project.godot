@@ -131,6 +131,8 @@ flat_player_crouch={
 [layer_names]
 
 2d_physics/layer_1="players"
+3d_physics/layer_1="players"
+3d_physics/layer_2="walls"
 
 [rendering]
 
