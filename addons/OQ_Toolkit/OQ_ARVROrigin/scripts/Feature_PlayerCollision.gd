@@ -10,7 +10,7 @@ onready var collision_object = $CollisionShape;
 
 func _ready():
 	if (not get_parent() is ARVROrigin):
-		vr.log_error("Feature_StickMovement: parent is not ARVROrigin");
+		vr.log_error("Feature_PlayerCollision: parent is not ARVROrigin");
 		
 	_update_collsion_shape_start_position();
 
