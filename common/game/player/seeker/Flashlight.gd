@@ -11,3 +11,6 @@ puppet func network_update(networkPosition: Vector3, networkRotation: Vector3, n
 func _physics_process(delta):
 	if is_network_master():
 		rpc_unreliable("network_update", translation, rotation, isOn)
+
+func get_ray_caster():
+	return $RayCast

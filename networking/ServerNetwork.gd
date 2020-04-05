@@ -14,9 +14,9 @@ func register_self(playerId: int, playerName: String):
 remote func on_register_self(playerId, playerName):
 	var playerType: int
 	if GameData.players.size() == 0:
-		playerType = 0
+		playerType = GameData.PlayerType.Seeker
 	else:
-		playerType = 1
+		playerType = GameData.PlayerType.Hider
 	
 	# Register this client with the server
 	ClientNetwork.on_register_player(playerId, playerName, playerType)
