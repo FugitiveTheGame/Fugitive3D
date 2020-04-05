@@ -2,10 +2,11 @@ extends "res://common/game/player/Player.gd"
 class_name Seeker
 
 const GROUP := "seeker"
-const CONE_WIDTH = deg2rad(45.0)
+const CONE_WIDTH = cos(deg2rad(35.0))
 const MAX_DETECT_DISTANCE := 2.0
 const MAX_VISION_DISTANCE := 50.0
 const MIN_VISION_DISTANCE := 3.0
+const CLOSE_PROXIMITY_DISTANCE := 1.5
 
 const MOVEMENT_VISIBILITY_PENALTY := 0.01
 const SPRINT_VISIBILITY_PENALTY := 0.75
@@ -26,9 +27,12 @@ func process_hider(hider: Hider):
 	# Distance between Hider and Seeker
 	var distance = playerController.transform.origin.distance_to(hider.playerController.transform.origin)
 	
+	# TODO: CLOSE_PROXIMITY_DISTANCE is a hack, see issue #14
+	if distance < CLOSE_PROXIMITY_DISTANCE:
+		hider.update_visibility(1.0)
 	# Quick reject, if too far away, just give up
-	if distance <=  MAX_VISION_DISTANCE:
-		# Cast a ray between the seeker and this hider
+	elif distance <=  MAX_VISION_DISTANCE:
+		# Cast a ray between the seeker's flashlight and this hider
 		var curHiderShape = hider.get_current_shape()
 		var look_vec := flash_light.to_local(curHiderShape.global_transform.origin)
 		
@@ -43,14 +47,10 @@ func process_hider(hider: Hider):
 			
 			# If the ray hits a wall or something else first, then this Hider is fully occluded
 			if(bodySeen == hider.playerBody):
-				# Calculate the angle of this ray from the cetner of the Seeker's FOV
-				#var look_angle = atan2(look_vec.y, look_vec.x)
-				#var light_vec := flash_light.transform.basis.z.normalized()
+				# Calculate the angle of this ray from the cetner of the Flashlight's FOV
+				var look_angle := Vector3(0.0, 0.0, -1.0).dot(look_vec.normalized())
 				
-				# Hhmmm, I thought this should be the -Z axis... not sure why +X works
-				var look_angle := look_vec.normalized().dot(flash_light.transform.basis.x)
-				
-				# To be detected, the Hider must be inside the Seeker's FOV cone.
+				# To be detected, the Hider must be inside the Seeker's flashlight FOV cone.
 				#
 				# Some extra game logic for distance, should have to be some what close to "detect"
 				# the Hider for gameplay purposes
@@ -86,10 +86,12 @@ func process_hider(hider: Hider):
 				# If hider is in the center of Seeker's FOV, they are fully visible
 				# otherwise, they will gradually fade out the further out to the edges
 				# of the FOV they are. Outside the FOV cone, they are invisible.
-				var fov_visibility = 1.0 - clamp(abs(look_angle / CONE_WIDTH), 0.0, 1.0)
+				var rangeShifted = clamp(look_angle - CONE_WIDTH, 0.0, CONE_WIDTH)
+				var rangeMapped = rangeShifted / (1.0 - CONE_WIDTH)
+				var fov_visibility = rangeMapped
 				
 				# FOV visibility can be faded out if at edge of distance visibility
-				var percent_visible = fov_visibility * distance_visibility
+				var percent_visible: float = fov_visibility * distance_visibility
 				
 				# If the hider is moving at all, make them a little visible
 				# regaurdless of FOV/Distance
@@ -99,8 +101,8 @@ func process_hider(hider: Hider):
 				elif hider.is_moving():
 					percent_visible += MOVEMENT_VISIBILITY_PENALTY
 				"""
+				
 				percent_visible = clamp(percent_visible, 0.0, 1.0)
-				#print("visible: %f" % percent_visible)
 				
 				# The hider's set visibility method will handle the visible effects of this
 				hider.update_visibility(percent_visible)
