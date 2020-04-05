@@ -5,11 +5,14 @@
 [ext_resource path="res://common/game/player/hider/HiderShape.tscn" type="PackedScene" id=3]
 
 [node name="PlayerController" type="KinematicBody"]
+collision_mask = 3
 script = ExtResource( 2 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 shapePath = NodePath("../CollisionShape")
 playerControllerPath = NodePath("..")
+playerBodyPath = NodePath("..")
 
 [node name="CollisionShape" parent="." instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.30345, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )

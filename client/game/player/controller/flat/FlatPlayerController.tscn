@@ -4,6 +4,7 @@
 [ext_resource path="res://client/game/player/controller/flat/FlatPlayerController.gd" type="Script" id=3]
 
 [node name="PlayerController" type="KinematicBody"]
+collision_mask = 3
 script = ExtResource( 3 )
 
 [node name="Camera" type="Camera" parent="."]

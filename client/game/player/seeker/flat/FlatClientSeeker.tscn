@@ -14,7 +14,7 @@ HeldObjectPath = NodePath("Flashlight")
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.30522, 0 )
 
 [node name="CollisionShape" parent="." index="1" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 1.31109, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.31109, 0 )
 
 [node name="Flashlight" parent="." index="2" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.75, -0.5 )
@@ -22,3 +22,5 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.75, -0.5 )
 [node name="Player" parent="." index="3" instance=ExtResource( 1 )]
 shapePath = NodePath("../CollisionShape")
 playerControllerPath = NodePath("..")
+playerBodyPath = NodePath("..")
+flash_light_path = NodePath("../Flashlight")
