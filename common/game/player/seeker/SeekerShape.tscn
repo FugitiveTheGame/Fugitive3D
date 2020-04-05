@@ -1,68 +1,30 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://common/game/player/PlayerShape.tscn" type="PackedScene" id=1]
+[ext_resource path="res://common/game/player/seeker/assets/body_crouching/seeker_crouching_body.glb" type="PackedScene" id=2]
+[ext_resource path="res://common/game/player/hider/assets/head/head.glb" type="PackedScene" id=3]
+[ext_resource path="res://common/game/player/seeker/assets/body_standing/seeker_standing_body.glb" type="PackedScene" id=4]
 
-[sub_resource type="SpatialMaterial" id=1]
-albedo_color = Color( 1, 0.458824, 0.913725, 1 )
-
-[sub_resource type="SpatialMaterial" id=2]
-albedo_color = Color( 0.101961, 0.0941176, 0.0941176, 1 )
-
-[sub_resource type="SpatialMaterial" id=3]
-albedo_color = Color( 1, 0, 0, 1 )
-
-[sub_resource type="SpatialMaterial" id=4]
-albedo_color = Color( 0.960784, 0.313726, 1, 1 )
-
-[sub_resource type="SpatialMaterial" id=5]
-albedo_color = Color( 0.12549, 0.117647, 0.117647, 1 )
-
-[sub_resource type="SpatialMaterial" id=6]
-albedo_color = Color( 1, 0.117647, 0.117647, 1 )
+[sub_resource type="CylinderShape" id=1]
+radius = 0.311235
+height = 1.76322
 
 [node name="CollisionShape" instance=ExtResource( 1 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+shape = SubResource( 1 )
 
 [node name="Standing" type="Spatial" parent="." index="0"]
 
-[node name="Head" type="CSGCombiner" parent="Standing" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -4.3465e-08, 0.994362 )
+[node name="head" parent="Standing" index="0" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.06664, 0 )
 
-[node name="Head" type="CSGSphere" parent="Standing/Head" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.01 )
-radius = 0.25
-material = SubResource( 1 )
-
-[node name="HMD" type="CSGBox" parent="Standing/Head" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0 )
-width = 0.4
-height = 0.25
-depth = 0.15
-material = SubResource( 2 )
-
-[node name="Body" type="CSGCylinder" parent="Standing" index="1"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 5.28158e-09, -0.120828 )
-radius = 0.3
-height = 1.75
-material = SubResource( 3 )
+[node name="seeker_standing_body" parent="Standing" index="1" instance=ExtResource( 4 )]
 
 [node name="Crouching" type="Spatial" parent="." index="1"]
 visible = false
 
-[node name="Head" type="CSGCombiner" parent="Crouching" index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -1.02967e-08, 0.23556 )
+[node name="head" parent="Crouching" index="0" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.285883, 0 )
 
-[node name="Head" type="CSGSphere" parent="Crouching/Head" index="0"]
-radius = 0.25
-material = SubResource( 4 )
-
-[node name="HMD" type="CSGBox" parent="Crouching/Head" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.2, 0 )
-width = 0.4
-height = 0.25
-depth = 0.15
-material = SubResource( 5 )
-
-[node name="Body" type="CSGCylinder" parent="Crouching" index="1"]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0, 2.27099e-08, -0.519541 )
-radius = 0.3
-material = SubResource( 6 )
+[node name="seeker_crouching_body" parent="Crouching" index="1" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.864674, 0 )

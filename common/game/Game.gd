@@ -65,16 +65,16 @@ func spawn_player(playerId, order):
 	# Create the player controller for the local player
 	if get_tree().get_network_unique_id() == playerId:
 		match playerType:
-			0:
+			GameData.PlayerType.Seeker:
 				pcNode = create_player_seeker_node()
-			1:
+			GameData.PlayerType.Hider:
 				pcNode = create_player_hider_node()
 	# Create the player controller for all remote players
 	else:
 		match playerType:
-			0:
+			GameData.PlayerType.Seeker:
 				pcNode = create_remote_seeker_node()
-			1:
+			GameData.PlayerType.Hider:
 				pcNode = create_remote_hider_node()
 	
 	pcNode.set_network_master(playerId)
@@ -127,3 +127,35 @@ func create_player_hider_node() -> Node:
 	print("create_player_hider_node() MUST BE OVERRIDEN")
 	assert(false)
 	return null	
+
+###################################
+
+func _process(delta):
+	process_hiders()
+
+
+func process_hiders():
+	var seekers = get_tree().get_nodes_in_group(Seeker.GROUP)
+	var hiders = get_tree().get_nodes_in_group(Hider.GROUP)
+	#var lights = get_tree().get_nodes_in_group(Groups.LIGHTS)
+	
+	var currentPlayer = GameData.get_current_player()
+	var curPlayerType = currentPlayer[GameData.PLAYER_TYPE]
+	
+	# Process each hider, find if any have been seen
+	for hider in hiders:
+		# Re-hide Hiders every frame for Seekers
+		if curPlayerType == GameData.PlayerType.Seeker:
+			if not hider.frozen:
+				hider.current_visibility = 0.0
+			# Frozen Hiders should always be vizible to Seekers
+			else:
+				hider.current_visibility = 1.0
+		else:
+			hider.current_visibility = 0.0
+		
+		for seeker in seekers:
+			seeker.process_hider(hider)
+		
+		#for light in lights:
+		#	light.process_hider(hider)

@@ -14,13 +14,11 @@ func set_is_crouching(value: bool):
 
 export(NodePath) var shapePath: NodePath
 export(NodePath) var playerControllerPath: NodePath
+export(NodePath) var playerBodyPath: NodePath
 
-var playerController: Spatial
-var playerShape: Spatial
-
-func _ready():
-	playerShape = get_node(shapePath)
-	playerController = get_node(playerControllerPath)
+onready var playerController := get_node(playerControllerPath) as Spatial
+onready var playerShape := get_node(shapePath) as Spatial
+onready var playerBody := get_node(playerBodyPath) as KinematicBody
 
 
 puppet func network_update(networkPosition: Vector3, networkRotation: Vector3, networkCrouching: bool):

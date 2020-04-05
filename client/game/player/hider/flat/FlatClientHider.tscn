@@ -14,6 +14,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.25857, 0 )
 [node name="Player" parent="." index="1" instance=ExtResource( 1 )]
 shapePath = NodePath("../CollissionShape")
 playerControllerPath = NodePath("..")
+playerBodyPath = NodePath("..")
 
 [node name="CollissionShape" parent="." index="2" instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 1.34804, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.34804, 0 )
