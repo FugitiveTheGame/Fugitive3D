@@ -59,6 +59,11 @@ func _process(delta):
 				self.mouseCaptured = false
 
 
+func _exit_tree():
+	# Release the mouse if we're leaving the scene
+	self.mouseCaptured = false
+
+
 func _physics_process(delta):
 	# Network master accepts input
 	if is_network_master():
