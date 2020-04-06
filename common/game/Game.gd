@@ -120,15 +120,16 @@ func create_remote_hider_node() -> Node:
 func create_player_seeker_node() -> Node:
 	print("create_player_seeker_node() MUST BE OVERRIDEN")
 	assert(false)
-	return null	
+	return null
 
 
 func create_player_hider_node() -> Node:
 	print("create_player_hider_node() MUST BE OVERRIDEN")
 	assert(false)
-	return null	
+	return null
 
 ###################################
+
 
 func _process(delta):
 	process_hiders()
@@ -140,7 +141,12 @@ func process_hiders():
 	#var lights = get_tree().get_nodes_in_group(Groups.LIGHTS)
 	
 	var currentPlayer = GameData.get_current_player()
-	var curPlayerType = currentPlayer[GameData.PLAYER_TYPE]
+	
+	var curPlayerType: int
+	if currentPlayer != null:
+		curPlayerType = currentPlayer[GameData.PLAYER_TYPE]
+	else:
+		curPlayerType = GameData.PlayerType.Server
 	
 	# Process each hider, find if any have been seen
 	for hider in hiders:
