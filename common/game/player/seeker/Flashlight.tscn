@@ -145,3 +145,10 @@ visible = false
 height = 0.0353672
 depth = 0.0393034
 material = SubResource( 11 )
+
+[node name="SpotLight" type="SpotLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.331047 )
+light_color = Color( 0.933333, 0.941176, 0.141176, 1 )
+shadow_enabled = true
+spot_range = 20.0
+spot_angle = 25.0
