@@ -52,6 +52,7 @@ _global_script_class_icons={
 
 config/name="Fugitive 3D"
 run/main_scene="res://entry/Entry.tscn"
+boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 
 [autoload]
