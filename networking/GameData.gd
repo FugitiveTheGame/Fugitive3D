@@ -1,6 +1,6 @@
 extends Node
 
-enum PlayerType { Hider, Seeker, Random }
+enum PlayerType { Hider, Seeker, Random, Server }
 
 var players = {}
 
@@ -23,4 +23,7 @@ func reset():
 
 
 func get_current_player():
-	return players[get_tree().get_network_unique_id()]
+	if get_tree().is_network_server():
+		return null
+	else:
+		return players[get_tree().get_network_unique_id()]
