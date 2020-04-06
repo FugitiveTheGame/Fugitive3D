@@ -28,6 +28,9 @@ func remove_player(playerId: int):
 	playerNode.queue_free()
 
 
+# This will be overriden by the server.
+# The server will trigger the actual end-game functionality
+# This makes the server authoratative about when the game ends
 func finish_game():
 	print("game is complete!")
 
