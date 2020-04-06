@@ -7,13 +7,13 @@
 [ext_resource path="res://common/game/player/seeker/Flashlight.tscn" type="PackedScene" id=5]
 
 [node name="PlayerController" instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.33731, 0 )
 script = ExtResource( 4 )
 
 [node name="OQ_ARVRCamera" parent="." index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.965527, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.94618, 0 )
 
 [node name="Feature_PlayerCollision" parent="." index="5"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.876435, 0 )
 collision_mask = 3
 
 [node name="CollisionShape" parent="Feature_PlayerCollision" index="0" instance=ExtResource( 3 )]

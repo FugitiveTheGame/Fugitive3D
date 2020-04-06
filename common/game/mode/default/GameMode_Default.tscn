@@ -7,6 +7,8 @@ extents = Vector3( 10, 0.0144828, 10 )
 
 [sub_resource type="PlaneMesh" id=2]
 size = Vector2( 20, 20 )
+subdivide_width = 10
+subdivide_depth = 10
 
 [sub_resource type="VisualShaderNodeInput" id=3]
 input_name = "uv"
