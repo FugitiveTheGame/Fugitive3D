@@ -28,6 +28,10 @@ func remove_player(playerId: int):
 	playerNode.queue_free()
 
 
+func finish_game():
+	print("game is complete!")
+
+
 # Pre-game configuration
 # Create all of the players and entities
 # This has to be completed on all clients before the game can start

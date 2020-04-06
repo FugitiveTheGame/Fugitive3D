@@ -39,3 +39,14 @@ func server_remove_player(playerId: int):
 		get_tree().change_scene("res://server/lobby/ServerLobby.tscn")
 	else:
 		print("Players remaining: %d" % GameData.players.size())
+
+
+func finish_game():
+	.finish_game()
+	print("SERVER: game is complete!")
+	rpc("on_go_to_lobby")
+
+
+remotesync func on_go_to_lobby():
+	print("SERVER: on_go_to_lobby()")
+	get_tree().change_scene("res://server/lobby/ServerLobby.tscn")

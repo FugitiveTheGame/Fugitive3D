@@ -6,3 +6,6 @@
 script = ExtResource( 1 )
 
 [node name="Players" type="Spatial" parent="."]
+
+[node name="WinArea" type="Area" parent="."]
+[connection signal="body_entered" from="WinArea" to="." method="_on_WinArea_body_entered"]
