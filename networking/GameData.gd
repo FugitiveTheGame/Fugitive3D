@@ -23,7 +23,8 @@ func reset():
 
 
 func get_current_player():
-	if get_tree().is_network_server():
-		return null
+	var id := get_tree().get_network_unique_id()
+	if players.has(id):
+		return players[id]
 	else:
-		return players[get_tree().get_network_unique_id()]
+		return null
