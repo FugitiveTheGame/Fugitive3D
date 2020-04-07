@@ -36,6 +36,7 @@ func set_not_local_player():
 
 
 func set_is_local_player():
+	print("set_is_local_player()")
 	hide_avatar()
 
 
