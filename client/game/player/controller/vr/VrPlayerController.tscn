@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://client/game/player/controller/vr/VrPlayerController.gd" type="Script" id=1]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_ARVROrigin/scripts/Feature_PlayerCollision.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://addons/OQ_Toolkit/OQ_ARVROrigin/Locomotion_Stick.tscn" type="PackedScene" id=5]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_ARVRCamera.tscn" type="PackedScene" id=6]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_ARVROrigin/Feature_Falling.tscn" type="PackedScene" id=7]
+[ext_resource path="res://addons/OQ_Toolkit/OQ_UI2D/OQ_UI2DLabel.tscn" type="PackedScene" id=8]
 
 [node name="PlayerController" type="ARVROrigin"]
 script = ExtResource( 1 )
@@ -16,6 +17,17 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
 current = true
 
 [node name="OQ_LeftController" parent="." instance=ExtResource( 3 )]
+
+[node name="FpsLabel" parent="OQ_LeftController" instance=ExtResource( 8 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0 )
+margin = 16
+billboard = false
+depth_test = true
+resize_mode = 0
+font_size_multiplier = 1.0
+font_color = Color( 1, 1, 1, 1 )
+background_color = Color( 0, 0, 0, 1 )
+transparent = false
 
 [node name="OQ_RightController" parent="." instance=ExtResource( 4 )]
 
