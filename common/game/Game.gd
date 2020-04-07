@@ -45,16 +45,20 @@ func finish_game():
 # This has to be completed on all clients before the game can start
 # Once completed, notify the server that we are done
 func pre_configure():
-	var order := 0
 	var sortedPlayers = []
 	for playerId in GameData.players:
 		sortedPlayers.push_back(playerId)
 	
 	sortedPlayers.sort()
 	
+	var hiderSpawns = game.get_hider_spawns()
+	assert(not hiderSpawns.empty())
+	
+	var seekerSpawns = game.get_seeker_spawns()
+	assert(not seekerSpawns.empty())
+	
 	for playerId in sortedPlayers:
-		spawn_player(playerId, order)
-		order += 1
+		spawn_player(playerId, hiderSpawns, seekerSpawns)
 	
 	if not get_tree().is_network_server():
 		print("Reporting ready: %d" % get_tree().get_network_unique_id())
@@ -63,7 +67,7 @@ func pre_configure():
 
 
 # Spawn an individual player for the local client
-func spawn_player(playerId, order):
+func spawn_player(playerId: int, hiderSpawns: Array, seekerSpawns: Array):
 	print("Creating player game object")
 	
 	# Extract the player data
@@ -73,21 +77,27 @@ func spawn_player(playerId, order):
 	
 	# This is the node for the PlayerController
 	var pcNode: Node
+	var spawnPointNode: Spatial
+	var spawnPoint: Vector3
 	
 	# Create the player controller for the local player
 	if get_tree().get_network_unique_id() == playerId:
 		match playerType:
 			GameData.PlayerType.Seeker:
 				pcNode = create_player_seeker_node()
+				spawnPointNode = seekerSpawns.pop_front()
 			GameData.PlayerType.Hider:
 				pcNode = create_player_hider_node()
+				spawnPointNode = hiderSpawns.pop_front()
 	# Create the player controller for all remote players
 	else:
 		match playerType:
 			GameData.PlayerType.Seeker:
 				pcNode = create_remote_seeker_node()
+				spawnPointNode = seekerSpawns.pop_front()
 			GameData.PlayerType.Hider:
 				pcNode = create_remote_hider_node()
+				spawnPointNode = hiderSpawns.pop_front()
 	
 	pcNode.set_network_master(playerId)
 	pcNode.set_name(str(playerId))
@@ -96,12 +106,12 @@ func spawn_player(playerId, order):
 	var playerNode = pcNode.get_node("Player")
 	playerNode.configure(playerName)
 	
-	# Hacky spawn position
-	pcNode.translation.x = 1 * (order + 1)
-	pcNode.translation.y = 1
-	
 	# Add the PlayerController to the player's node in the game scene
 	players.add_child(pcNode)
+	
+	# Move to the spawn point
+	pcNode.global_transform.origin = spawnPointNode.global_transform.origin
+	pcNode.global_transform.basis = spawnPointNode.global_transform.basis
 
 
 # When all clients have reported that they have finished setting up the gmae
