@@ -76,7 +76,7 @@ window/stretch/mode="viewport"
 
 [editor_plugins]
 
-enabled=PoolStringArray(  )
+enabled=PoolStringArray( "Fugitive3D" )
 
 [gdnative]
 
