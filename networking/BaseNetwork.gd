@@ -6,8 +6,6 @@ const SERVER_PORT := 3000
 const MAX_PLAYERS := 15
 
 func _ready():
-	reset_network()
-	
 	get_tree().connect("network_peer_disconnected", self, "_player_disconnected")
 
 
