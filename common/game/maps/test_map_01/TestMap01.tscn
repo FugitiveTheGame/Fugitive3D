@@ -1,0 +1,46 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://common/game/tilesets/neighborhood/neighborhood.meshlib" type="MeshLibrary" id=1]
+[ext_resource path="res://common/game/mode/default/GameMode_Default.tscn" type="PackedScene" id=2]
+[ext_resource path="res://common/game/maps/default_environment.tres" type="Environment" id=3]
+[ext_resource path="res://addons/OQ_Toolkit/OQ_UI2D/OQ_UI2DLabel.tscn" type="PackedScene" id=4]
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 4, 4, 4 )
+
+[node name="Game" instance=ExtResource( 2 )]
+
+[node name="WorldEnvironment" parent="." index="0"]
+environment = ExtResource( 3 )
+
+[node name="GridMap" type="GridMap" parent="." index="2"]
+mesh_library = ExtResource( 1 )
+cell_size = Vector3( 8, 2, 8 )
+collision_layer = 2
+collision_mask = 0
+data = {
+"cells": PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, -1609957374, 65532, 0, 655362, 65533, 0, 536870912, 65534, 0, 0, 65535, 0, 0, 0, 1, 537919490, 1, 1, 1048578, 2, 1, 655361, 65533, 1, -1609170942, 65534, 1, 1048577, 65535, 1, -1609564158, 0, 65535, 538312706, 1, 65535, 538312706, 2, 65535, -1609170943, 65533, 65535, 1048578, 65534, 65535, 1, 65535, 65535, 1441794 )
+}
+__meta__ = {
+"_editor_clip_": 0,
+"_editor_floor_": Vector3( 0, 0, 0 )
+}
+
+[node name="WinArea" parent="." index="3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18.2252, 0, 3.72404 )
+
+[node name="CollisionShape" type="CollisionShape" parent="WinArea" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.70752, 0, 0.125631 )
+shape = SubResource( 1 )
+
+[node name="WinZoneLabel" parent="WinArea" index="1" instance=ExtResource( 4 )]
+transform = Transform( -1.50459e-07, 0.38357, 0.923512, 6.24915e-08, 0.923512, -0.38357, -1, 0, -1.62921e-07, 2.28329, 4.02706, 0 )
+text = "Win Zone"
+margin = 16
+billboard = false
+depth_test = true
+resize_mode = 0
+font_size_multiplier = 10.0
+font_color = Color( 1, 1, 1, 1 )
+background_color = Color( 0, 0, 0, 1 )
+transparent = false
