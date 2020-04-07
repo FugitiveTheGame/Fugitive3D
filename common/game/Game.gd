@@ -16,7 +16,7 @@ func _ready():
 
 func load_map():
 	# TODO: This needs to be made dynamic of course
-	var scene := preload("res://common/game/maps/test_map_00/TestMap00.tscn")
+	var scene := load("res://common/game/maps/test_map_01/TestMap01.tscn")
 	game = scene.instance()
 	add_child(game)
 	players = game.find_node("Players")
@@ -28,13 +28,18 @@ func remove_player(playerId: int):
 	playerNode.queue_free()
 
 
-# This will be overriden by the server.
+################################
+# This is called by the GameMode class when it has decided
+# the game is complete
+
+# This will be overriden by ServerGame.
 # The server will trigger the actual end-game functionality
 # This makes the server authoratative about when the game ends
 func finish_game():
 	print("game is complete!")
 
 
+################################
 # Pre-game configuration
 # Create all of the players and entities
 # This has to be completed on all clients before the game can start
