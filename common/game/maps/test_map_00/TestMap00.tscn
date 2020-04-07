@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://common/game/mode/default/GameMode_Default.tscn" type="PackedScene" id=1]
 [ext_resource path="res://common/game/maps/test_map_00/Wall.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_UI2D/OQ_UI2DLabel.tscn" type="PackedScene" id=3]
 [ext_resource path="res://common/game/maps/test_map_00/Ground.tscn" type="PackedScene" id=4]
+[ext_resource path="res://common/game/mode/HiderSpawn.gd" type="Script" id=5]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 2, 2, 2 )
@@ -45,3 +46,19 @@ font_size_multiplier = 10.0
 font_color = Color( 1, 1, 1, 1 )
 background_color = Color( 0, 0, 0, 1 )
 transparent = false
+
+[node name="spawn00" type="Spatial" parent="HiderSpawns" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
+script = ExtResource( 5 )
+
+[node name="spawn01" type="Spatial" parent="HiderSpawns" index="1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 3 )
+script = ExtResource( 5 )
+
+[node name="spawn00" type="Spatial" parent="SeekerSpawns" index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 2, 0 )
+script = ExtResource( 5 )
+
+[node name="spawn01" type="Spatial" parent="SeekerSpawns" index="1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 2, 3 )
+script = ExtResource( 5 )
