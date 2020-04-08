@@ -7,11 +7,10 @@ It's Fugitive, with more Ds.
 **VR:** This client should run on both Oculus Quest as well as PC VR
 
 ## Server:
-Download the Server from here:
-https://godotengine.org/download/server
+Download the Server [from here](https://godotengine.org/download/server)
 (server, not headless!)
 
-Extract it to: `<root>/export/server`
+Extract it to: `<root>/export/server` 
 
 Then in Godot, add an Export preset:
 `Linux/X11` named: `Linux - Server`
@@ -21,9 +20,9 @@ Export it as `data.pck` and save it to: `<root>/export/server`
 
 Now if you're on Windows, you need Windows Subsystem for Linux (WSL) setup. I'm using Ubuntu as my distro on top of WSL:
 
-WSL setup: https://docs.microsoft.com/en-us/windows/wsl/install-win10
+[WSL setup](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
 
-Ubuntu WSL: https://ubuntu.com/wsl
+[Ubuntu WSL](https://ubuntu.com/wsl)
 
 With that setup, if you have Windows Explorer open to `<root>/export/server` you can Shift + Right Click and select `Open Linux shell here`
 
@@ -31,7 +30,6 @@ And execute this:
 `./Godot_v3.2.1-stable_linux_server.64 --main-pack data.pck`
 
 Personally I've created a shell script that contains that line called `run.sh` in that directory to make it quicker.
-
 
 ## Quick Dev
 To truly test things out, you need to run the server, spin up and connect multiple clients. It can all be done on one box, but it makes itteration times quite slow.
@@ -47,6 +45,7 @@ Create a new scene that inherits from the map you wish to load locally. Add some
 
 Next you need to extend the script on the scene root.
 You need to manually initialze some of the game data, and then unpause the game:
+
 ```gdscript
 func _ready():
 	GameData.add_player(1, "real player", GameData.PlayerType.Seeker)
