@@ -1,6 +1,15 @@
 extends Spatial
+class_name Player
 
-const SPEED := 50.0
+const SPEED_WALK := 5.0
+const SPEED_SPRINT := 10.0
+const STAMINA_MAX := 100.0
+const STAMINA_SPRINT_RATE := 20.0
+const STAMINA_REGEN_RATE := 5.0
+
+var isMoving := false
+var isSprinting := false
+var stamina := STAMINA_MAX
 
 var show_avatar := true
 var is_crouching := false setget set_is_crouching
@@ -25,6 +34,11 @@ puppet func network_update(networkPosition: Vector3, networkRotation: Vector3, n
 	playerController.translation = networkPosition
 	playerController.rotation = networkRotation
 	self.is_crouching = networkCrouching
+
+
+func _physics_process(delta):
+	if is_network_master():
+		process_stamina(delta)
 
 
 func configure(playerName: String):
@@ -56,3 +70,19 @@ func get_current_shape() -> Spatial:
 		return playerShape.get_crouching_shape()
 	else:
 		return playerShape.get_standing_shape()
+
+
+func is_sprinting() -> bool:
+	return isSprinting and stamina > 0.0
+
+
+func is_moving():
+	return isMoving
+
+
+func process_stamina(delta: float):
+	if is_sprinting() and is_moving():
+		stamina -= (STAMINA_SPRINT_RATE * delta)
+	elif not is_moving():
+		stamina += (STAMINA_REGEN_RATE * delta)
+	stamina = clamp(stamina, 0.0, STAMINA_MAX)
