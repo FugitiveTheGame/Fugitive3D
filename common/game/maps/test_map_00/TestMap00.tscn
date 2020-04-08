@@ -1,17 +1,19 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://common/game/mode/default/GameMode_Default.tscn" type="PackedScene" id=1]
 [ext_resource path="res://common/game/maps/test_map_00/Wall.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_UI2D/OQ_UI2DLabel.tscn" type="PackedScene" id=3]
 [ext_resource path="res://common/game/maps/test_map_00/Ground.tscn" type="PackedScene" id=4]
 [ext_resource path="res://common/game/mode/player_spawn/PlayerSpawn.gd" type="Script" id=5]
-
-
+[ext_resource path="res://common/game/maps/test_map_00/TestMap00.gd" type="Script" id=6]
+[ext_resource path="res://client/game/player/seeker/flat/FlatClientSeeker.tscn" type="PackedScene" id=7]
+[ext_resource path="res://common/game/player/hider/RemoteHider.tscn" type="PackedScene" id=8]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 2, 2, 2 )
 
 [node name="Game" instance=ExtResource( 1 )]
+script = ExtResource( 6 )
 
 [node name="Wall" parent="." index="1" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -10, 2, 0 )
@@ -27,6 +29,15 @@ transform = Transform( 6.70552e-08, 0, -1, 0, 1, 0, 1, 0, 6.70552e-08, 0, 2, 10 
 
 [node name="Wall5" parent="." index="5" instance=ExtResource( 2 )]
 transform = Transform( 6.70552e-08, 0, -1, 0, 1, 0, 1, 0, 6.70552e-08, 15.7398, 2, 6.18053 )
+
+[node name="local_player" parent="Players" index="0" instance=ExtResource( 7 )]
+HeldObjectPath = NodePath("../Players/PlayerController/Flashlight")
+
+[node name="hider00" parent="Players" index="1" instance=ExtResource( 8 )]
+transform = Transform( -0.96854, 0, -0.248859, 0, 1, 0, 0.248859, 0, -0.96854, 0, 0, -4.94171 )
+
+[node name="hider01" parent="Players" index="2" instance=ExtResource( 8 )]
+transform = Transform( -0.244563, 0, 0.969633, 0, 1, 0, -0.969633, 0, -0.244563, 1.96643, 0, -4.81857 )
 
 [node name="Ground" parent="." index="7" instance=ExtResource( 4 )]
 

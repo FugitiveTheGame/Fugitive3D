@@ -8,12 +8,12 @@ export(bool) var Invert_Y_Axis := false
 export(bool) var Exit_On_Escape := true
 export(float) var Maximum_Y_Look := 45
 export(float) var Walk_Accelaration := 3.0
-export(float) var Maximum_Walk_Speed := 5.0
 export(float) var Sprint_Accelaration := 6.0
-export(float) var Maximum_Sprint_Speed := 10.0
 export(float) var Jump_Speed := 4.0
 export(float) var Gravity := 9.8
 export(bool) var CameraIsCurrentOnStart: bool = true
+
+const MOVEMENT_LAMBDA := 0.00001
 
 export(NodePath) var HeldObjectPath: NodePath
 var heldObject: Spatial setget held_object_set, held_object_get
@@ -22,6 +22,8 @@ func held_object_set(value: Spatial):
 	self.camera.heldObject = self.heldObject
 func held_object_get() -> Spatial:
 	return heldObject
+
+onready var player := $Player as Player
 
 var mouseCaptured: bool setget mouse_captured_set, mouse_captured_get
 func mouse_captured_set(value: bool):
@@ -50,13 +52,19 @@ func _ready():
 
 
 func _process(delta):
-	if is_network_master():
-		if Exit_On_Escape:
-			if Input.is_key_pressed(KEY_ESCAPE):
-				get_tree().quit()
-		else:
-			if Input.is_key_pressed(KEY_ESCAPE):
-				self.mouseCaptured = false
+	########################################
+	# Allow local user to exit the program
+	if Exit_On_Escape:
+		if Input.is_key_pressed(KEY_ESCAPE):
+			get_tree().quit()
+	else:
+		if Input.is_key_pressed(KEY_ESCAPE):
+			self.mouseCaptured = false
+	
+	########################################
+	# Handle input for gameplay purposes
+	player.isSprinting = Input.is_action_pressed("flat_player_sprint")
+	player.isMoving = (velocity.length() > MOVEMENT_LAMBDA)
 
 
 func _exit_tree():
@@ -73,12 +81,16 @@ func _physics_process(delta):
 	
 		var Accelaration: float
 		var Maximum_Speed: float
-		if Input.is_action_pressed("flat_sprint"):
+		
+		if player.is_sprinting():
 			Accelaration = Sprint_Accelaration
-			Maximum_Speed = Maximum_Sprint_Speed
+			Maximum_Speed = player.SPEED_SPRINT
 		else:
 			Accelaration = Walk_Accelaration
-			Maximum_Speed = Maximum_Walk_Speed
+			Maximum_Speed = player.SPEED_WALK
+		
+		#print("s: %s - spr %s mov %s" % [player.stamina, str(player.is_sprinting()), str(player.is_moving())])
+		
 		
 		if Input.is_action_pressed("flat_player_up"):
 			Movement_Speed += Accelaration
