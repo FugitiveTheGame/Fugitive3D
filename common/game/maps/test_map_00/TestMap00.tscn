@@ -4,7 +4,9 @@
 [ext_resource path="res://common/game/maps/test_map_00/Wall.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_UI2D/OQ_UI2DLabel.tscn" type="PackedScene" id=3]
 [ext_resource path="res://common/game/maps/test_map_00/Ground.tscn" type="PackedScene" id=4]
-[ext_resource path="res://common/game/mode/HiderSpawn.gd" type="Script" id=5]
+[ext_resource path="res://common/game/mode/player_spawn/PlayerSpawn.gd" type="Script" id=5]
+
+
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 2, 2, 2 )
