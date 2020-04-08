@@ -13,6 +13,8 @@ export(float) var Jump_Speed := 4.0
 export(float) var Gravity := 9.8
 export(bool) var CameraIsCurrentOnStart: bool = true
 
+# Our velocity vector never seems to be exactly zero.
+# So any velocity under this threshold will be considered no moving
 const MOVEMENT_LAMBDA := 0.00001
 
 export(NodePath) var HeldObjectPath: NodePath
@@ -88,9 +90,6 @@ func _physics_process(delta):
 		else:
 			Accelaration = Walk_Accelaration
 			Maximum_Speed = player.SPEED_WALK
-		
-		#print("s: %s - spr %s mov %s" % [player.stamina, str(player.is_sprinting()), str(player.is_moving())])
-		
 		
 		if Input.is_action_pressed("flat_player_up"):
 			Movement_Speed += Accelaration

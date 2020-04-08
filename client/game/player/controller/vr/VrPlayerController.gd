@@ -4,7 +4,8 @@ var standingHeight: float
 const CROUCH_THRESHOLD := 0.75
 
 onready var camera := $OQ_ARVRCamera
-onready var player := $Player
+onready var player := $Player as Player
+onready var locomotion := $Locomotion_Stick
 
 func _ready():
 	$Player.set_is_local_player()
@@ -30,6 +31,14 @@ func _process(delta):
 	# Handle VR controller input
 	if vr.button_just_released(vr.BUTTON.B):
 		set_standing_height()
+	
+	player.isSprinting = vr.button_pressed(vr.BUTTON.A)
+	player.isMoving = locomotion.is_moving
+	
+	if player.is_sprinting():
+		locomotion.move_speed = player.SPEED_SPRINT
+	else:
+		locomotion.move_speed = player.SPEED_WALK
 
 
 func _physics_process(delta):
