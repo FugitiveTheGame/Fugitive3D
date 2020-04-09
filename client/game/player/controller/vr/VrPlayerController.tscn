@@ -4,7 +4,7 @@
 [ext_resource path="res://addons/OQ_Toolkit/OQ_ARVROrigin/scripts/Feature_PlayerCollision.gd" type="Script" id=2]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_LeftController.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_RightController.tscn" type="PackedScene" id=4]
-[ext_resource path="res://addons/OQ_Toolkit/OQ_ARVROrigin/Locomotion_Stick.tscn" type="PackedScene" id=5]
+[ext_resource path="res://client/game/player/controller/vr/Locomotion_Stick.tscn" type="PackedScene" id=5]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_ARVRCamera.tscn" type="PackedScene" id=6]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_ARVROrigin/Feature_Falling.tscn" type="PackedScene" id=7]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_UI2D/OQ_UI2DLabel.tscn" type="PackedScene" id=8]
@@ -31,10 +31,9 @@ transparent = false
 
 [node name="OQ_RightController" parent="." instance=ExtResource( 4 )]
 
-[node name="Locomotion_Stick" parent="." instance=ExtResource( 5 )]
-move_speed = 1.5
-
 [node name="Feature_Falling" parent="." instance=ExtResource( 7 )]
 
 [node name="Feature_PlayerCollision" type="KinematicBody" parent="."]
 script = ExtResource( 2 )
+
+[node name="Locomotion_Stick" parent="." instance=ExtResource( 5 )]

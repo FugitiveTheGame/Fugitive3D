@@ -15,6 +15,8 @@ export(NodePath) var flash_light_path: NodePath
 onready var flash_light := get_node(flash_light_path) as Spatial
 onready var seeker_ray_caster := flash_light.get_ray_caster() as RayCast
 
+onready var win_zones := get_tree().get_nodes_in_group(Groups.WIN_ZONE)
+
 
 func _ready():
 	add_to_group(GROUP)
@@ -54,16 +56,11 @@ func process_hider(hider: Hider):
 				#
 				# Some extra game logic for distance, should have to be some what close to "detect"
 				# the Hider for gameplay purposes
-				"""
 				if(look_angle < CONE_WIDTH and look_angle  > -CONE_WIDTH and distance <= MAX_DETECT_DISTANCE):
 					# Don't allow capture while in a car, or while in a win zone
-					if self.car == null and (not is_in_winzone(hider)):
-					# Every client is running this part of the sim
-					# But only let the server actually dispatch this very important RPC
-					if not hider.frozen and get_tree().is_network_server():
-						hider.freeze()
-						rpc('record_capture')
-				"""
+					#if self.car == null and (not is_in_winzone(hider)):
+					if not is_in_winzone(hider) and not hider.frozen:
+						self.freeze_hider(hider)
 				
 				############################################
 				# Begin visibility calculations
@@ -106,3 +103,19 @@ func process_hider(hider: Hider):
 				
 				# The hider's set visibility method will handle the visible effects of this
 				hider.update_visibility(percent_visible)
+
+
+func is_in_winzone(hider) -> bool:
+	for zone in win_zones:
+		if zone.overlaps_body(hider):
+			return true
+	return false
+
+
+# This will be overriden by the server to do authoratative stuff
+func freeze_hider(hider):
+	print("Freeze hider!")
+	
+	# Only the server is actually making this decision
+	if get_tree().is_network_server():
+		hider.freeze()

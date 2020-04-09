@@ -29,4 +29,9 @@ func update_visibility(percentVisible: float):
 
 
 func freeze():
+	rpc("on_freeze")
+
+
+remotesync func on_freeze():
+	print("Hider frozen")
 	frozen = true
