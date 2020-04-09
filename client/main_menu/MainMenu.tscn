@@ -56,6 +56,28 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="ServerPortLabel" type="Label" parent="."]
+margin_left = 447.39
+margin_top = 179.0
+margin_right = 504.39
+margin_bottom = 193.0
+text = "Port
+"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ServerPort" type="LineEdit" parent="ServerPortLabel"]
+margin_top = 21.0
+margin_right = 58.0
+margin_bottom = 45.0
+text = "31000"
+caret_blink = true
+caret_blink_speed = 0.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="ConnectButton" type="Button" parent="."]
 margin_left = 375.0
 margin_top = 268.0
