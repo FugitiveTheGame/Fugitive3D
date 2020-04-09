@@ -7,8 +7,9 @@ onready var camera := $OQ_ARVRCamera
 onready var player := $Player as Player
 onready var locomotion := $Locomotion_Stick
 
+
 func _ready():
-	$Player.set_is_local_player()
+	player.set_is_local_player()
 	
 	# Record the players height when we start here
 	call_deferred("set_standing_height")

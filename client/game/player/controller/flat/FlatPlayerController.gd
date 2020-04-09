@@ -17,6 +17,8 @@ export(bool) var CameraIsCurrentOnStart: bool = true
 # So any velocity under this threshold will be considered no moving
 const MOVEMENT_LAMBDA := 0.00001
 
+var allowMovement := true
+
 export(NodePath) var HeldObjectPath: NodePath
 var heldObject: Spatial setget held_object_set, held_object_get
 func held_object_set(value: Spatial):
@@ -66,7 +68,7 @@ func _process(delta):
 	########################################
 	# Handle input for gameplay purposes
 	player.isSprinting = Input.is_action_pressed("flat_player_sprint")
-	player.isMoving = (velocity.length() > MOVEMENT_LAMBDA)
+	player.isMoving = (abs(velocity.length()) > MOVEMENT_LAMBDA)
 
 
 func _exit_tree():
@@ -124,6 +126,10 @@ func _physics_process(delta):
 		if is_on_floor():
 			if Input.is_action_just_pressed("flat_player_jump"):
 				velocity.y = Jump_Speed
+		
+		if not allowMovement:
+			velocity = Vector3()
+		
 		velocity = move_and_slide(velocity, Vector3(0,1,0))
 		
 		$Player.rpc_unreliable("network_update", translation, rotation, $Player.is_crouching)
