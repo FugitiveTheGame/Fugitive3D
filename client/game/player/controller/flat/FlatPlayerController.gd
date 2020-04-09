@@ -3,6 +3,9 @@ extends KinematicBody
 onready var camera := $Camera as FpsCamera
 onready var player := $Player as Player
 
+func get_player():
+	return player
+
 export(float) var Sensitivity_X := 0.01
 export(float) var Sensitivity_Y := 0.005
 export(bool) var Invert_Y_Axis := false

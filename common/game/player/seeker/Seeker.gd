@@ -19,6 +19,7 @@ onready var win_zones := get_tree().get_nodes_in_group(Groups.WIN_ZONE)
 
 
 func _ready():
+	playerType = GameData.PlayerType.Seeker
 	add_to_group(GROUP)
 
 
