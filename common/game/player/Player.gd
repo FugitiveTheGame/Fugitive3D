@@ -7,6 +7,8 @@ const STAMINA_MAX := 100.0
 const STAMINA_SPRINT_RATE := 20.0
 const STAMINA_REGEN_RATE := 5.0
 
+var playerType: int
+
 var isMoving := false
 var isSprinting := false
 var stamina := STAMINA_MAX

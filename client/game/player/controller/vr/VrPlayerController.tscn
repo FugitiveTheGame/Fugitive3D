@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://client/game/player/controller/vr/VrPlayerController.gd" type="Script" id=1]
-[ext_resource path="res://addons/OQ_Toolkit/OQ_ARVROrigin/scripts/Feature_PlayerCollision.gd" type="Script" id=2]
+[ext_resource path="res://client/game/player/controller/vr/Feature_PlayerCollision.gd" type="Script" id=2]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_LeftController.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_RightController.tscn" type="PackedScene" id=4]
 [ext_resource path="res://client/game/player/controller/vr/Locomotion_Stick.tscn" type="PackedScene" id=5]
@@ -20,6 +20,7 @@ current = true
 
 [node name="FpsLabel" parent="OQ_LeftController" instance=ExtResource( 8 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0 )
+text = "00 fps"
 margin = 16
 billboard = false
 depth_test = true
