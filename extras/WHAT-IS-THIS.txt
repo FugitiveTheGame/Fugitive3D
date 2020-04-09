@@ -1,0 +1,1 @@
+This directory is for anything that Godot doesn't care about, but is still important to the project.
