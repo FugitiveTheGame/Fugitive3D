@@ -2,7 +2,7 @@ extends Node
 
 signal remove_player
 
-const SERVER_PORT := 3000
+const SERVER_PORT := 31000
 const MAX_PLAYERS := 15
 
 func _ready():
