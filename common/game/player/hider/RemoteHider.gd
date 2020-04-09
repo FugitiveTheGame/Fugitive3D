@@ -1,4 +1,6 @@
 extends KinematicBody
 
+onready var player := $Player as Player
+
 func _ready():
-	$Player.set_not_local_player()
+	player.set_not_local_player()
