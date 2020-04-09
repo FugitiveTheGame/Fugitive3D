@@ -179,8 +179,21 @@ func process_hiders():
 			# Frozen Hiders should always be vizible to Seekers
 			else:
 				hider.current_visibility = 1.0
+				
+			# If the hider is moving at all, make them a little visible
+			# regaurdless of FOV/Distance
+			var percent_visible = hider.current_visibility
+			if hider.is_moving_fast():
+				percent_visible += Seeker.SPRINT_VISIBILITY_PENALTY
+				print("is moving fast")
+			elif hider.is_moving():
+				percent_visible += Seeker.MOVEMENT_VISIBILITY_PENALTY
+				print("is moving")
+			
+			hider.current_visibility = clamp(percent_visible, 0.0, 1.0)
+		# Hiders are always visible to everyone else
 		else:
-			hider.current_visibility = 0.0
+			hider.current_visibility = 1.0
 		
 		for seeker in seekers:
 			seeker.process_hider(hider)

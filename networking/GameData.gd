@@ -28,3 +28,7 @@ func get_current_player():
 		return players[id]
 	else:
 		return null
+
+
+func get_current_playerType() -> int:
+	return get_current_player()[PLAYER_TYPE]

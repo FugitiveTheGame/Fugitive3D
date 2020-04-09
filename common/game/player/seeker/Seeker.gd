@@ -8,7 +8,7 @@ const MAX_VISION_DISTANCE := 50.0
 const MIN_VISION_DISTANCE := 3.0
 const CLOSE_PROXIMITY_DISTANCE := 1.5
 
-const MOVEMENT_VISIBILITY_PENALTY := 0.01
+const MOVEMENT_VISIBILITY_PENALTY := 0.10
 const SPRINT_VISIBILITY_PENALTY := 0.75
 
 export(NodePath) var flash_light_path: NodePath
@@ -52,16 +52,6 @@ func process_hider(hider: Hider):
 				# Calculate the angle of this ray from the cetner of the Flashlight's FOV
 				var look_angle := Vector3(0.0, 0.0, -1.0).dot(look_vec.normalized())
 				
-				# To be detected, the Hider must be inside the Seeker's flashlight FOV cone.
-				#
-				# Some extra game logic for distance, should have to be some what close to "detect"
-				# the Hider for gameplay purposes
-				if(look_angle < CONE_WIDTH and look_angle  > -CONE_WIDTH and distance <= MAX_DETECT_DISTANCE):
-					# Don't allow capture while in a car, or while in a win zone
-					#if self.car == null and (not is_in_winzone(hider)):
-					if not is_in_winzone(hider) and not hider.frozen:
-						self.freeze_hider(hider)
-				
 				############################################
 				# Begin visibility calculations
 				############################################
@@ -87,18 +77,18 @@ func process_hider(hider: Hider):
 				var rangeMapped = rangeShifted / (1.0 - CONE_WIDTH)
 				var fov_visibility = rangeMapped
 				
+				# To be detected, the Hider must be inside the Seeker's flashlight FOV cone.
+				#
+				# Some extra game logic for distance, should have to be some what close to "detect"
+				# the Hider for gameplay purposes
+				if(fov_visibility > 0.0 and distance <= MAX_DETECT_DISTANCE):
+					# Don't allow capture while in a car, or while in a win zone
+					#if self.car == null and (not is_in_winzone(hider)):
+					if not is_in_winzone(hider) and not hider.frozen:
+						freeze_hider(hider)
+				
 				# FOV visibility can be faded out if at edge of distance visibility
 				var percent_visible: float = fov_visibility * distance_visibility
-				
-				# If the hider is moving at all, make them a little visible
-				# regaurdless of FOV/Distance
-				"""
-				if hider.is_moving_fast():
-					percent_visible += SPRINT_VISIBILITY_PENALTY
-				elif hider.is_moving():
-					percent_visible += MOVEMENT_VISIBILITY_PENALTY
-				"""
-				
 				percent_visible = clamp(percent_visible, 0.0, 1.0)
 				
 				# The hider's set visibility method will handle the visible effects of this
