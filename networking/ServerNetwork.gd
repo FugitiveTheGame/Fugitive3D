@@ -39,13 +39,12 @@ func is_hosting() -> bool:
 		return false
 
 
-func host_game() -> bool:
-	
+func host_game(port: int = SERVER_PORT) -> bool:
 	# Clear out any old state
 	reset_network()
 	
 	var peer = NetworkedMultiplayerENet.new()
-	var result = peer.create_server(SERVER_PORT, MAX_PLAYERS)
+	var result = peer.create_server(port, MAX_PLAYERS)
 	if result == OK:
 		get_tree().set_network_peer(peer)
 		
