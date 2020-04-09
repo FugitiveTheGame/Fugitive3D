@@ -29,6 +29,8 @@ With that setup, if you have Windows Explorer open to `<root>/export/server` you
 And execute this:
 `./Godot_v3.2.1-stable_linux_server.64 --main-pack data.pck`
 
+To change the port that the server binds to, add this argument: `--port xxxxx`
+
 Personally I've created a shell script that contains that line called `run.sh` in that directory to make it quicker.
 
 ## Quick Dev
