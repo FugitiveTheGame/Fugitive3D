@@ -8,6 +8,7 @@ var frozen := false
 
 
 func _ready():
+	playerType = GameData.PlayerType.Hider
 	add_to_group(GROUP)
 
 
@@ -35,3 +36,26 @@ func freeze():
 remotesync func on_freeze():
 	print("Hider frozen")
 	frozen = true
+
+
+func unfreeze():
+	rpc("on_unfreeze")
+
+
+remotesync func on_unfreeze():
+	print("Hider unfrozen")
+	frozen = false
+
+
+func _on_UnfreezeArea_body_entered(body):
+	print("_on_UnfreezeArea_body_entered")
+	# Server authoratative
+	if get_tree().is_network_server():
+		print("is server")
+		# If we are frozen, and another hider is tagging us, then unfreeze
+		if frozen and body.has_method("get_player"):
+			print("is player")
+			var player := body.get_player() as Player
+			if player.playerType == GameData.PlayerType.Hider:
+				print("Unfreeze!")
+				unfreeze()
