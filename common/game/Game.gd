@@ -2,6 +2,7 @@ extends Spatial
 
 var game: Spatial
 var players: Node
+var gameOver := false
 
 func _ready():
 	print("Entering game")
@@ -36,6 +37,7 @@ func remove_player(playerId: int):
 # The server will trigger the actual end-game functionality
 # This makes the server authoratative about when the game ends
 func finish_game():
+	self.gameOver = true
 	print("game is complete!")
 
 
