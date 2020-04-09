@@ -185,10 +185,8 @@ func process_hiders():
 			var percent_visible = hider.current_visibility
 			if hider.is_moving_fast():
 				percent_visible += Seeker.SPRINT_VISIBILITY_PENALTY
-				print("is moving fast")
 			elif hider.is_moving():
 				percent_visible += Seeker.MOVEMENT_VISIBILITY_PENALTY
-				print("is moving")
 			
 			hider.current_visibility = clamp(percent_visible, 0.0, 1.0)
 		# Hiders are always visible to everyone else
