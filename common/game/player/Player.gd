@@ -30,10 +30,12 @@ onready var playerShape := get_node(shapePath) as Spatial
 onready var playerBody := get_node(playerBodyPath) as KinematicBody
 
 
-puppet func network_update(networkPosition: Vector3, networkRotation: Vector3, networkCrouching: bool):
+puppet func network_update(networkPosition: Vector3, networkRotation: Vector3, networkCrouching: bool, networkMoving: bool, networkSprinting):
 	playerController.translation = networkPosition
 	playerController.rotation = networkRotation
 	self.is_crouching = networkCrouching
+	self.isMoving = networkMoving
+	self.isSprinting = networkSprinting
 
 
 func _physics_process(delta):
@@ -73,11 +75,15 @@ func get_current_shape() -> Spatial:
 
 
 func is_sprinting() -> bool:
-	return isSprinting and stamina > 0.0
+	return isSprinting and stamina > 0.0 and not is_crouching
 
 
 func is_moving():
 	return isMoving
+
+
+func is_moving_fast():
+	return is_moving() and is_sprinting()
 
 
 func process_stamina(delta: float):

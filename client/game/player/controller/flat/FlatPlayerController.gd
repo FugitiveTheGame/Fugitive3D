@@ -1,6 +1,7 @@
 extends KinematicBody
 
 onready var camera := $Camera as FpsCamera
+onready var player := $Player as Player
 
 export(float) var Sensitivity_X := 0.01
 export(float) var Sensitivity_Y := 0.005
@@ -26,8 +27,6 @@ func held_object_set(value: Spatial):
 	self.camera.heldObject = self.heldObject
 func held_object_get() -> Spatial:
 	return heldObject
-
-onready var player := $Player as Player
 
 var mouseCaptured: bool setget mouse_captured_set, mouse_captured_get
 func mouse_captured_set(value: bool):
@@ -132,7 +131,7 @@ func _physics_process(delta):
 		
 		velocity = move_and_slide(velocity, Vector3(0,1,0))
 		
-		$Player.rpc_unreliable("network_update", translation, rotation, $Player.is_crouching)
+		player.rpc_unreliable("network_update", translation, rotation, player.is_crouching, player.isMoving, player.isSprinting)
 
 
 func _unhandled_input(event):
@@ -145,12 +144,12 @@ func _unhandled_input(event):
 			rotate_y(-Sensitivity_X * event.relative.x)
 		else:
 			if event.is_action_pressed("flat_player_crouch", true):
-				if $Player != null:
-					$Player.is_crouching = true
+				if player != null:
+					player.is_crouching = true
 					update_camera_to_head()
 			elif event.is_action_released("flat_player_crouch"):
-				if $Player != null:
-					$Player.is_crouching = false
+				if player != null:
+					player.is_crouching = false
 					update_camera_to_head()
 
 
@@ -163,9 +162,9 @@ func _notification(what):
 
 
 func update_camera_to_head():
-	var shape = $Player.get_current_shape()
+	var shape = player.get_current_shape()
 	var head = shape.get_node("head")
 	var global = shape.to_global(head.translation)
 	var local = to_local(global)
 	
-	$Camera.translation.y = local.y
+	camera.translation.y = local.y

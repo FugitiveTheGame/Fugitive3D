@@ -49,7 +49,7 @@ func _physics_process(delta):
 	var totalRotation = rotation
 	totalRotation.y += camera.rotation.y
 	
-	player.rpc_unreliable("network_update", totalTranslation, totalRotation, player.is_crouching)
+	player.rpc_unreliable("network_update", totalTranslation, totalRotation, player.is_crouching, player.isMoving, player.isSprinting)
 	
 	var fps := Engine.get_frames_per_second()
 	$OQ_LeftController/FpsLabel.set_label_text("%d fps" % fps)
