@@ -5,13 +5,13 @@ signal start_game
 
 var localPlayerName: String
 
-func join_game(serverIp: String, playerName: String) -> bool:
+func join_game(serverIp: String, serverPort: int, playerName: String) -> bool:
 	get_tree().connect('connected_to_server', self, 'on_connected_to_server')
 	
 	self.localPlayerName = playerName
 	
 	var peer = NetworkedMultiplayerENet.new()
-	var result = peer.create_client(serverIp, SERVER_PORT)
+	var result = peer.create_client(serverIp, serverPort)
 	
 	if result == OK:
 		get_tree().set_network_peer(peer)
