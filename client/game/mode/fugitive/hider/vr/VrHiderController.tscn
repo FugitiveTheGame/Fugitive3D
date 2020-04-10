@@ -1,0 +1,26 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://client/game/mode/fugitive/VrFugitiveController.tscn" type="PackedScene" id=1]
+[ext_resource path="res://client/game/mode/fugitive/hider/vr/VrHiderController.gd" type="Script" id=2]
+[ext_resource path="res://common/game/mode/fugitive/hider/Hider.tscn" type="PackedScene" id=3]
+[ext_resource path="res://common/game/mode/fugitive/hider/HiderShape.tscn" type="PackedScene" id=4]
+[ext_resource path="res://client/game/mode/fugitive/hider/VisibilityHud.tscn" type="PackedScene" id=5]
+
+[node name="PlayerController" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+
+[node name="VisibilityHud" parent="OQ_LeftController/HudCanvas/HudContainer" index="3" instance=ExtResource( 5 )]
+margin_left = 1.89996
+margin_top = 48.4502
+margin_right = 1.81995
+margin_bottom = 48.8502
+playerPath = NodePath("../../../../Player")
+
+[node name="CollisionShape" parent="Feature_PlayerCollision" index="0" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 1, 0 )
+
+[node name="Player" parent="." index="6" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
+shapePath = NodePath("../Feature_PlayerCollision/CollisionShape")
+playerControllerPath = NodePath("..")
+playerBodyPath = NodePath("../Feature_PlayerCollision")

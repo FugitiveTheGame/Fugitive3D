@@ -12,7 +12,7 @@ func _ready():
 
 
 func on_start_game():
-	get_tree().change_scene("res://server/game/ServerGame.tscn")
+	get_tree().change_scene("res://server/game/mode/fugitive/ServerFugitiveGame.tscn")
 
 
 # Parse command line port in the form of:
