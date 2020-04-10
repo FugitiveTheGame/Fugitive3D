@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Node",
+"class": "FSM",
+"language": "GDScript",
+"path": "res://common/game/mode/default/fsm/FSM.gd"
+}, {
 "base": "Spatial",
 "class": "Feature_RigidBodyGrab",
 "language": "GDScript",
@@ -48,8 +53,14 @@ _global_script_classes=[ {
 "class": "Seeker",
 "language": "GDScript",
 "path": "res://common/game/player/seeker/Seeker.gd"
+}, {
+"base": "Node",
+"class": "State",
+"language": "GDScript",
+"path": "res://common/game/mode/default/fsm/State.gd"
 } ]
 _global_script_class_icons={
+"FSM": "",
 "Feature_RigidBodyGrab": "",
 "FpsCamera": "",
 "Groups": "",
@@ -57,7 +68,8 @@ _global_script_class_icons={
 "Joystick": "",
 "OQClass_GrabbableRigidBody": "",
 "Player": "",
-"Seeker": ""
+"Seeker": "",
+"State": ""
 }
 
 [application]
@@ -150,4 +162,5 @@ flat_player_crouch={
 
 [rendering]
 
+quality/driver/driver_name="GLES2"
 environment/default_environment="res://default_env.tres"
