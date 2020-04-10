@@ -9,5 +9,5 @@ ground_horizon_color = Color( 0.109804, 0.141176, 0.192157, 1 )
 [resource]
 background_mode = 2
 background_sky = SubResource( 1 )
-ambient_light_color = Color( 0.0352941, 0.0392157, 0.458824, 1 )
-ambient_light_energy = 1.52
+ambient_light_color = Color( 0.0980392, 0.101961, 0.552941, 1 )
+ambient_light_energy = 2.5

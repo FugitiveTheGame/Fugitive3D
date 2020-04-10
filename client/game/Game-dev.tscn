@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://client/game/flat/FlatClientGame.tscn" type="PackedScene" id=1]
+[ext_resource path="res://client/game/Game-dev.gd" type="Script" id=2]
+
+[node name="GameContainer" instance=ExtResource( 1 )]
+script = ExtResource( 2 )

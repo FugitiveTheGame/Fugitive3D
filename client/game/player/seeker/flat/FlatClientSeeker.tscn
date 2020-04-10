@@ -14,7 +14,7 @@ HeldObjectPath = NodePath("Flashlight")
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.30522, 0 )
 
 [node name="CollisionShape" parent="." index="1" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.31109, 0 )
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 1, 0 )
 
 [node name="Flashlight" parent="." index="2" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.75, -0.5 )
