@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://common/game/mode/fugitive/FugitiveMap.gd" type="Script" id=2]
+
+[node name="Game" type="Spatial"]
+script = ExtResource( 2 )
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+
+[node name="Players" type="Spatial" parent="."]
+
+[node name="WinArea" type="Area" parent="." groups=[
+"win_zone",
+]]
+
+[node name="HiderSpawns" type="Spatial" parent="."]
+
+[node name="SeekerSpawns" type="Spatial" parent="."]
+
+[node name="GameTimer" type="Timer" parent="." groups=[
+"game_timer",
+]]
+wait_time = 60000.0
+one_shot = true
