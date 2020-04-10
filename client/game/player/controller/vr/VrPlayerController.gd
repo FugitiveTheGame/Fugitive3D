@@ -52,4 +52,4 @@ func _physics_process(delta):
 	player.rpc_unreliable("network_update", totalTranslation, totalRotation, player.is_crouching, player.isMoving, player.isSprinting)
 	
 	var fps := Engine.get_frames_per_second()
-	$OQ_LeftController/FpsLabel.set_label_text("%d fps" % fps)
+	$OQ_LeftController/HudCanvas/HudContainer/FpsLabel.text = ("%d fps" % fps)

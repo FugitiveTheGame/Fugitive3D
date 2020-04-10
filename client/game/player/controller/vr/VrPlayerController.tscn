@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://client/game/player/controller/vr/VrPlayerController.gd" type="Script" id=1]
 [ext_resource path="res://client/game/player/controller/vr/Feature_PlayerCollision.gd" type="Script" id=2]
@@ -7,7 +7,8 @@
 [ext_resource path="res://client/game/player/controller/vr/Locomotion_Stick.tscn" type="PackedScene" id=5]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_ARVRCamera.tscn" type="PackedScene" id=6]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_ARVROrigin/Feature_Falling.tscn" type="PackedScene" id=7]
-[ext_resource path="res://addons/OQ_Toolkit/OQ_UI2D/OQ_UI2DLabel.tscn" type="PackedScene" id=8]
+[ext_resource path="res://addons/OQ_Toolkit/OQ_UI2D/OQ_UI2DCanvas.tscn" type="PackedScene" id=8]
+[ext_resource path="res://client/game/player/hud/StaminaHud.tscn" type="PackedScene" id=9]
 
 [node name="PlayerController" type="ARVROrigin"]
 script = ExtResource( 1 )
@@ -18,17 +19,24 @@ current = true
 
 [node name="OQ_LeftController" parent="." instance=ExtResource( 3 )]
 
-[node name="FpsLabel" parent="OQ_LeftController" instance=ExtResource( 8 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0 )
-text = "00 fps"
-margin = 16
-billboard = false
-depth_test = true
-resize_mode = 0
-font_size_multiplier = 1.0
-font_color = Color( 1, 1, 1, 1 )
-background_color = Color( 0, 0, 0, 1 )
-transparent = false
+[node name="HudCanvas" parent="OQ_LeftController" instance=ExtResource( 8 )]
+editor_live_update = false
+transparent = true
+
+[node name="HudContainer" type="Control" parent="OQ_LeftController/HudCanvas"]
+margin_right = 212.0
+margin_bottom = 184.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StaminaHud" parent="OQ_LeftController/HudCanvas/HudContainer" instance=ExtResource( 9 )]
+
+[node name="FpsLabel" type="Label" parent="OQ_LeftController/HudCanvas/HudContainer"]
+margin_left = 166.131
+margin_top = 6.61583
+margin_right = 206.131
+margin_bottom = 20.6158
 
 [node name="OQ_RightController" parent="." instance=ExtResource( 4 )]
 
