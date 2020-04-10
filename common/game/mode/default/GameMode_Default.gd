@@ -1,5 +1,6 @@
 extends Spatial
 
+var stateMachine := FSM.new()
 onready var winZones := get_tree().get_nodes_in_group(Groups.WIN_ZONE)
 
 func get_hider_spawns() -> Array:
