@@ -20,6 +20,7 @@ current = true
 [node name="OQ_LeftController" parent="." instance=ExtResource( 3 )]
 
 [node name="HudCanvas" parent="OQ_LeftController" instance=ExtResource( 8 )]
+transform = Transform( 0.896695, -0.0624615, 0.43822, 0, 0.989994, 0.141109, -0.442649, -0.126531, 0.887723, 0, 0, 0 )
 editor_live_update = false
 transparent = true
 
