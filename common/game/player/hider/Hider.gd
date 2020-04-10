@@ -16,9 +16,7 @@ func set_current_visibility(percentVisible: float):
 	current_visibility = percentVisible
 	
 	# If we are a Seeker, use visibility to fade hider out
-	var currentPlayer = GameData.get_current_player()
-	var playerType = currentPlayer[GameData.PLAYER_TYPE]
-	if playerType == GameData.PlayerType.Seeker:
+	if GameData.get_current_player_type() == GameData.PlayerType.Seeker:
 		playerShape.alpha = percentVisible
 
 

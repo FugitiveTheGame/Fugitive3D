@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://common/game/player/hider/Hider.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/game/player/hider/flat/FlatClientHider.gd" type="Script" id=2]
 [ext_resource path="res://client/game/player/controller/flat/FlatPlayerController.tscn" type="PackedScene" id=3]
 [ext_resource path="res://common/game/player/hider/HiderShape.tscn" type="PackedScene" id=4]
+[ext_resource path="res://client/game/player/hider/VisibilityHud.tscn" type="PackedScene" id=5]
 
 [node name="PlayerController" instance=ExtResource( 3 )]
 script = ExtResource( 2 )
@@ -18,3 +19,13 @@ playerBodyPath = NodePath("..")
 
 [node name="CollissionShape" parent="." index="2" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.34804, 0 )
+
+[node name="StaminaHud" parent="HudCanvas/HudContainer" index="0"]
+playerPath = NodePath("../../../Player")
+
+[node name="VisibilityHud" parent="HudCanvas/HudContainer" index="1" instance=ExtResource( 5 )]
+margin_left = 17.5322
+margin_top = 738.299
+margin_right = 17.4521
+margin_bottom = 738.699
+playerPath = NodePath("../../../Player")

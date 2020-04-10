@@ -24,3 +24,6 @@ shapePath = NodePath("../CollisionShape")
 playerControllerPath = NodePath("..")
 playerBodyPath = NodePath("..")
 flash_light_path = NodePath("../Flashlight")
+
+[node name="StaminaHud" parent="HudCanvas/HudContainer" index="0"]
+playerPath = NodePath("../../../Player")
