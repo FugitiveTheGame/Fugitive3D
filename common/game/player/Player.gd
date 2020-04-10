@@ -1,6 +1,8 @@
 extends Spatial
 class_name Player
 
+signal local_player_ready
+
 const SPEED_WALK := 5.0
 const SPEED_SPRINT := 10.0
 const STAMINA_MAX := 100.0
@@ -55,6 +57,7 @@ func set_not_local_player():
 
 func set_is_local_player():
 	print("set_is_local_player()")
+	add_to_group(Groups.LOCAL_PLAYER)
 	hide_avatar()
 
 

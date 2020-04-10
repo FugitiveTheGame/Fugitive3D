@@ -1,0 +1,21 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://client/game/mode/fugitive/VrFugitiveController.tscn" type="PackedScene" id=1]
+[ext_resource path="res://client/game/mode/fugitive/seeker/vr/VrSeekerController.gd" type="Script" id=2]
+[ext_resource path="res://common/game/mode/fugitive/seeker/Seeker.tscn" type="PackedScene" id=3]
+[ext_resource path="res://common/game/mode/fugitive/seeker/SeekerShape.tscn" type="PackedScene" id=4]
+[ext_resource path="res://common/game/mode/fugitive/seeker/Flashlight.tscn" type="PackedScene" id=5]
+
+[node name="PlayerController" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+
+[node name="CollisionShape" parent="Feature_PlayerCollision" index="0" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 1, 0 )
+
+[node name="Player" parent="." index="6" instance=ExtResource( 3 )]
+shapePath = NodePath("../Feature_PlayerCollision/CollisionShape")
+playerControllerPath = NodePath("..")
+playerBodyPath = NodePath("../Feature_PlayerCollision")
+flash_light_path = NodePath("../Flashlight")
+
+[node name="Flashlight" parent="." index="7" instance=ExtResource( 5 )]
