@@ -146,6 +146,7 @@ flat_player_crouch={
 2d_physics/layer_1="players"
 3d_physics/layer_1="players"
 3d_physics/layer_2="walls"
+3d_physics/layer_3="visibility"
 
 [rendering]
 

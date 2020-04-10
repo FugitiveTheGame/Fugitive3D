@@ -11,7 +11,7 @@ func _enter_tree():
 
 # Load the dev map
 func load_map():
-	var scene := load("res://common/game/maps/test_map_01/TestMap01_dev.tscn")
+	var scene := load("res://common/game/maps/test_map_01/TestMap01-dev.tscn")
 	game = scene.instance()
 	add_child(game)
 	players = game.find_node("Players")
