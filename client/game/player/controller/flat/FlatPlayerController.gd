@@ -6,6 +6,7 @@ onready var player := $Player as Player
 func get_player():
 	return player
 
+
 export(float) var Sensitivity_X := 0.01
 export(float) var Sensitivity_Y := 0.005
 export(bool) var Invert_Y_Axis := false
@@ -13,8 +14,8 @@ export(bool) var Exit_On_Escape := true
 export(float) var Maximum_Y_Look := 45
 export(float) var Walk_Accelaration := 3.0
 export(float) var Sprint_Accelaration := 6.0
-export(float) var Jump_Speed := 4.0
-export(float) var Gravity := 9.8
+export(float) var Jump_Speed := 20.0
+export(float) var Gravity := pow(9.8, 2)
 export(bool) var CameraIsCurrentOnStart: bool = true
 
 # Our velocity vector never seems to be exactly zero.
