@@ -1,14 +1,15 @@
-extends "res://common/game/mode/GameMode.gd"
+extends GameMode
 class_name FugitiveGame
 
-#onready var stateMachine := $StateMachine
-var stateMachine
+onready var stateMachine := $StateMachine as FugitiveStateMachine
 
 var mapPath: String = "res://common/game/maps/test_map_01/TestMap01.tscn"
 var map: FugitiveMap
 var players: Node
 var gameTimer: Timer
+var localPlayer: Player
 
+var gameStarted := false
 var gameOver := false
 
 
@@ -29,6 +30,7 @@ func load_map():
 	add_child(map)
 	players = map.get_players()
 	gameTimer = map.get_game_timer()
+	gameTimer.connect("timeout", self, "game_time_limit_exceeded")
 
 
 # If a player has disconnected, remove them from the world
@@ -45,8 +47,11 @@ func remove_player(playerId: int):
 # The server will trigger the actual end-game functionality
 # This makes the server authoratative about when the game ends
 func finish_game():
-	self.gameOver = true
-	print("game is complete!")
+	rpc("on_finish_game")
+
+
+remotesync func on_finish_game():
+	stateMachine.transition_by_name(FugitiveStateMachine.TRANS_END_GAME)
 
 
 ################################
@@ -69,11 +74,6 @@ func pre_configure():
 	
 	for playerId in sortedPlayers:
 		spawn_player(playerId, hiderSpawns, seekerSpawns)
-	
-	if not get_tree().is_network_server():
-		print("Reporting ready: %d" % get_tree().get_network_unique_id())
-		# Report that this client is done
-		rpc_id(ServerNetwork.SERVER_ID, "on_client_ready", get_tree().get_network_unique_id())
 
 
 # Spawn an individual player for the local client
@@ -115,6 +115,8 @@ func spawn_player(playerId: int, hiderSpawns: Array, seekerSpawns: Array):
 	# Final setup and config for the player
 	var playerNode = pcNode.get_node("Player")
 	playerNode.configure(playerName)
+	# Player listens to Game state changes
+	stateMachine.connect("state_change", playerNode, "on_game_state_changed")
 	
 	# Add the PlayerController to the player's node in the game scene
 	players.add_child(pcNode)
@@ -124,11 +126,17 @@ func spawn_player(playerId: int, hiderSpawns: Array, seekerSpawns: Array):
 	pcNode.global_transform.basis = spawnPointNode.global_transform.basis
 
 
+remotesync func on_all_clients_configured():
+	print("All clients are configured. Waiting for them to ready up.")
+	get_tree().paused = false
+	stateMachine.transition_by_name(FugitiveStateMachine.TRANS_CONFIGURED)
+
+
 # When all clients have reported that they have finished setting up the gmae
 # The server calls this on all clients telling them to start the game
-remotesync func on_pre_configure_complete():
-	print("All clients are configured. Starting the game.")
-	get_tree().paused = false
+remotesync func on_all_ready():
+	print("All clients are ready. Starting the count down.")
+	stateMachine.transition_by_name(FugitiveStateMachine.TRANS_START_COUNT)
 
 
 ####################################
@@ -164,7 +172,7 @@ func create_player_hider_node() -> Node:
 
 
 func _process(delta):
-	if not gameOver:
+	if gameStarted and not gameOver:
 		process_hiders()
 		check_win_conditions()
 
@@ -252,9 +260,31 @@ func check_win_conditions():
 			if winZone.overlaps_body(body):
 				finish_game()
 				break
-	
-	"""
-	if gameTimer.time_left <= 0.0:
-		print("Time ran out!")
-		finish_game()
-	"""
+
+
+func game_time_limit_exceeded():
+	print("Time ran out!")
+	finish_game()
+
+
+func on_state_countdown(current_state: State, transition: Transition):
+	print("Starting countdown")
+	map.get_start_timer().start()
+
+
+remotesync func begin_game():
+	print("Release the hiders!")
+	stateMachine.transition_by_name(FugitiveStateMachine.TRANS_GAME_START)
+	map.get_headstart_timer().start()
+	gameTimer.start()
+	gameStarted = true
+
+
+remotesync func release_cops():
+	print("Release the cops!")
+	stateMachine.transition_by_name(FugitiveStateMachine.TRANS_COPS_RELEASED)
+
+
+func on_state_end_game():
+	self.gameOver = true
+	print("game is complete!")

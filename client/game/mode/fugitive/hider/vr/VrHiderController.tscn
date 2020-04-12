@@ -9,12 +9,31 @@
 [node name="PlayerController" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
-[node name="VisibilityHud" parent="OQ_LeftController/HudCanvas/HudContainer" index="3" instance=ExtResource( 5 )]
-margin_left = 1.89996
-margin_top = 48.4502
-margin_right = 1.81995
-margin_bottom = 48.8502
+[node name="HudContainer" parent="OQ_LeftController/HudCanvas" index="2"]
+margin_right = 460.0
+margin_bottom = 243.0
+rect_min_size = Vector2( 0, 0 )
+
+[node name="StaminaHud" parent="OQ_LeftController/HudCanvas/HudContainer" index="0"]
 playerPath = NodePath("../../../../Player")
+
+[node name="FpsLabel" parent="OQ_LeftController/HudCanvas/HudContainer" index="1"]
+margin_left = 172.012
+margin_top = 104.383
+margin_right = 212.012
+margin_bottom = 118.383
+text = ""
+
+[node name="VisibilityHud" parent="OQ_LeftController/HudCanvas/HudContainer" index="3" instance=ExtResource( 5 )]
+margin_left = 3.79998
+margin_top = 44.6502
+margin_right = 3.71997
+margin_bottom = 45.0502
+playerPath = NodePath("../../../../Player")
+
+[node name="Feature_PlayerCollision" parent="." index="4"]
+collision_mask = 7
+playerPath = NodePath("../Player")
 
 [node name="CollisionShape" parent="Feature_PlayerCollision" index="0" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 1, 0 )

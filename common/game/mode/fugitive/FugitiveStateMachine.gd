@@ -11,7 +11,7 @@ const STATE_GAME_OVER := "game_over"
 
 const TRANS_CONFIGURED := "configured"
 const TRANS_READY := "ready"
-const TRANS_START_COUNT := "star_count"
+const TRANS_START_COUNT := "start_count"
 const TRANS_GAME_START := "game_start"
 const TRANS_COPS_RELEASED := "cops_released"
 const TRANS_END_GAME := "end_game"

@@ -1,4 +1,4 @@
-extends FugitivePlayer
+extends "res://common/game/mode/FugitivePlayer.gd"
 class_name Hider
 
 const GROUP := "hider"
@@ -32,9 +32,14 @@ func _on_UnfreezeArea_body_entered(body):
 	if get_tree().is_network_server():
 		print("is server")
 		# If we are frozen, and another hider is tagging us, then unfreeze
-		if frozen and body.has_method("get_player"):
+		if frozen and body.has_method("get_player") and is_playing():
 			print("is player")
 			var player := body.get_player() as Player
 			if player.playerType == GameData.PlayerType.Hider:
 				print("Unfreeze!")
 				unfreeze()
+
+
+func on_state_playing_headstart():
+	if get_tree().is_network_server():
+		unfreeze()

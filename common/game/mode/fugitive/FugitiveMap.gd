@@ -25,5 +25,13 @@ func start_game_timer():
 	$GameTimer.start()
 
 
+func get_start_timer():
+	return $StartTimer
+
+
+func get_headstart_timer():
+	return $HeadstartTimer
+
+
 func get_win_zones() -> Array:
 	return winZones

@@ -17,8 +17,10 @@ func initializeComponents():
 	else:
 		inversion_mult = -1
 
+
 func _ready():
 	self.initializeComponents()
+
 
 func _input(event):
 	# Don't process input if we aren't capturing the mouse
