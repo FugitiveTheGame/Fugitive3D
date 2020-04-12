@@ -1,6 +1,6 @@
 extends Node
 
-enum PlayerType { Hider, Seeker, Random, Server }
+enum PlayerType { Hider, Seeker, Random, Server, Unset }
 
 var players = {}
 
@@ -31,4 +31,8 @@ func get_current_player():
 
 
 func get_current_player_type() -> int:
-	return get_current_player()[PLAYER_TYPE]
+	var curPlayer = get_current_player()
+	if curPlayer != null:
+		return curPlayer[PLAYER_TYPE]
+	else:
+		return PlayerType.Unset

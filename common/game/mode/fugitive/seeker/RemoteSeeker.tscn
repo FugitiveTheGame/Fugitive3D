@@ -5,7 +5,6 @@
 [ext_resource path="res://common/game/mode/fugitive/seeker/RemoteSeeker.gd" type="Script" id=3]
 [ext_resource path="res://common/game/mode/fugitive/seeker/Flashlight.tscn" type="PackedScene" id=4]
 
-
 [node name="PlayerController" type="KinematicBody"]
 script = ExtResource( 3 )
 

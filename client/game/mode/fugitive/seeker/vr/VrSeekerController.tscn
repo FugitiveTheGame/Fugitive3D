@@ -9,6 +9,34 @@
 [node name="PlayerController" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
+[node name="HudContainer" parent="OQ_LeftController/HudCanvas" index="2"]
+margin_right = 212.0
+margin_bottom = 184.0
+
+[node name="StaminaHud" parent="OQ_LeftController/HudCanvas/HudContainer" index="0"]
+anchor_top = 1.0
+anchor_right = 0.0
+anchor_bottom = 1.0
+margin_left = 5.41504
+margin_top = -72.1487
+margin_right = 48.415
+margin_bottom = -55.0527
+playerPath = NodePath("../../../../Player")
+
+[node name="FpsLabel" parent="OQ_LeftController/HudCanvas/HudContainer" index="1"]
+margin_left = 166.131
+margin_top = 6.61583
+margin_right = 206.131
+margin_bottom = 20.6158
+text = ""
+
+[node name="RemoteTransform" type="RemoteTransform" parent="OQ_RightController" index="0"]
+remote_path = NodePath("../../Flashlight")
+
+[node name="Feature_PlayerCollision" parent="." index="4"]
+collision_mask = 7
+playerPath = NodePath("../Player")
+
 [node name="CollisionShape" parent="Feature_PlayerCollision" index="0" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 1, 0 )
 
@@ -19,3 +47,4 @@ playerBodyPath = NodePath("../Feature_PlayerCollision")
 flash_light_path = NodePath("../Flashlight")
 
 [node name="Flashlight" parent="." index="7" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.5, -0.5 )

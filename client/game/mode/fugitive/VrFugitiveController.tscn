@@ -9,13 +9,17 @@
 script = ExtResource( 2 )
 
 [node name="PregameHud" parent="OQ_LeftController/HudCanvas/HudContainer" index="2" instance=ExtResource( 3 )]
-margin_left = 13.1543
-margin_top = 15.4757
-margin_right = 13.2343
-margin_bottom = 15.8757
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 0.0
+margin_bottom = 0.0
 
 [node name="GameTimerReadout" parent="OQ_LeftController/HudCanvas/HudContainer" index="3" instance=ExtResource( 4 )]
-margin_left = 231.361
-margin_top = 12.3806
-margin_right = 256.761
-margin_bottom = 20.1246
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+margin_left = -49.4
+margin_right = 78.6
+margin_bottom = 64.0
+align = 1
+valign = 1
