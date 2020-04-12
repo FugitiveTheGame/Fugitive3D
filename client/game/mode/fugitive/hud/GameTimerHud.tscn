@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://client/game/mode/fugitive/hud/GameTimerHud.gd" type="Script" id=1]
+
+[node name="GameTimerReadout" type="Label"]
+anchor_right = 0.05
+anchor_bottom = 0.034
+margin_bottom = -0.200001
+text = "00:00"
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UpdateTimer" type="Timer" parent="."]
+autostart = true
+[connection signal="timeout" from="UpdateTimer" to="." method="_on_UpdateTimer_timeout"]

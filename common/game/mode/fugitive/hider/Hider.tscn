@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://common/game/player/Player.tscn" type="PackedScene" id=1]
+[ext_resource path="res://common/game/mode/fugitive/hider/Hider.gd" type="Script" id=2]
+
+[sub_resource type="CylinderShape" id=1]
+
+[node name="Player" instance=ExtResource( 1 )]
+script = ExtResource( 2 )
+
+[node name="UnfreezeArea" type="Area" parent="." index="0"]
+
+[node name="CollisionShape" type="CollisionShape" parent="UnfreezeArea" index="0"]
+shape = SubResource( 1 )
+[connection signal="body_entered" from="UnfreezeArea" to="." method="_on_UnfreezeArea_body_entered"]

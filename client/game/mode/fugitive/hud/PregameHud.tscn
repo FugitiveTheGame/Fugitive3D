@@ -1,0 +1,53 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://client/game/mode/fugitive/hud/PregameHud.gd" type="Script" id=1]
+
+[node name="PregameHud" type="Control"]
+anchor_right = 0.239
+anchor_bottom = 0.217
+margin_right = 0.0799866
+margin_bottom = 0.399994
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="NotReadyLabel" type="Label" parent="."]
+margin_left = 75.9648
+margin_top = 30.2097
+margin_right = 233.965
+margin_bottom = 44.2097
+text = "Press JUMP to ready up"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ReadyLabel" type="Label" parent="."]
+margin_left = 58.6018
+margin_top = 71.9507
+margin_right = 227.602
+margin_bottom = 85.9507
+text = "Waiting for other players..."
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StartTimerLabel" type="Label" parent="."]
+margin_left = 89.6623
+margin_top = 47.4683
+margin_right = 129.662
+margin_bottom = 61.4683
+text = "Game starts in: 00:00"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HeadstartTimerLabel" type="Label" parent="."]
+margin_left = 87.9043
+margin_top = 70.3234
+margin_right = 225.904
+margin_bottom = 84.3234
+text = "Game starts in: 00:00"
+__meta__ = {
+"_edit_use_anchors_": false
+}

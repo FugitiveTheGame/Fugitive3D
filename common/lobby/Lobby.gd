@@ -1,4 +1,5 @@
 extends Control
+class_name Lobby
 
 
 func _ready():

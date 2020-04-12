@@ -6,6 +6,8 @@ const CROUCH_THRESHOLD := 0.75
 onready var camera := $OQ_ARVRCamera
 onready var player := $Player as Player
 onready var locomotion := $Locomotion_Stick
+onready var hud := $OQ_LeftController/HudCanvas.find_node("HudContainer", true, false) as Control
+onready var fpsLabel := $OQ_LeftController/HudCanvas.find_node("FpsLabel", true, false) as Label
 
 
 func _ready():
@@ -52,4 +54,4 @@ func _physics_process(delta):
 	player.rpc_unreliable("network_update", totalTranslation, totalRotation, player.is_crouching, player.isMoving, player.isSprinting)
 	
 	var fps := Engine.get_frames_per_second()
-	$OQ_LeftController/HudCanvas/HudContainer/FpsLabel.text = ("%d fps" % fps)
+	fpsLabel.text = ("%d fps" % fps)

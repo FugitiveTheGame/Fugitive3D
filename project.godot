@@ -9,6 +9,11 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "FugitiveGame",
+"class": "ClientFugitiveGame",
+"language": "GDScript",
+"path": "res://client/game/mode/fugitive/ClientFugitiveGame.gd"
+}, {
 "base": "Spatial",
 "class": "Feature_RigidBodyGrab",
 "language": "GDScript",
@@ -19,6 +24,31 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://client/game/player/controller/flat/Camera.gd"
 }, {
+"base": "GameMode",
+"class": "FugitiveGame",
+"language": "GDScript",
+"path": "res://common/game/mode/fugitive/FugitiveGame.gd"
+}, {
+"base": "Spatial",
+"class": "FugitiveMap",
+"language": "GDScript",
+"path": "res://common/game/mode/fugitive/FugitiveMap.gd"
+}, {
+"base": "Spatial",
+"class": "FugitivePlayer",
+"language": "GDScript",
+"path": "res://common/game/mode/FugitivePlayer.gd"
+}, {
+"base": "StateMachine",
+"class": "FugitiveStateMachine",
+"language": "GDScript",
+"path": "res://common/game/mode/fugitive/FugitiveStateMachine.gd"
+}, {
+"base": "Spatial",
+"class": "GameMode",
+"language": "GDScript",
+"path": "res://common/game/mode/GameMode.gd"
+}, {
 "base": "Node",
 "class": "Groups",
 "language": "GDScript",
@@ -27,12 +57,17 @@ _global_script_classes=[ {
 "base": "Spatial",
 "class": "Hider",
 "language": "GDScript",
-"path": "res://common/game/player/hider/Hider.gd"
+"path": "res://common/game/mode/fugitive/hider/Hider.gd"
 }, {
 "base": "Control",
 "class": "Joystick",
 "language": "GDScript",
 "path": "res://addons/Joystick/Joystick.gd"
+}, {
+"base": "Control",
+"class": "Lobby",
+"language": "GDScript",
+"path": "res://common/lobby/Lobby.gd"
 }, {
 "base": "RigidBody",
 "class": "OQClass_GrabbableRigidBody",
@@ -47,17 +82,42 @@ _global_script_classes=[ {
 "base": "Spatial",
 "class": "Seeker",
 "language": "GDScript",
-"path": "res://common/game/player/seeker/Seeker.gd"
+"path": "res://common/game/mode/fugitive/seeker/Seeker.gd"
+}, {
+"base": "Object",
+"class": "State",
+"language": "GDScript",
+"path": "res://common/game/FSM/State.gd"
+}, {
+"base": "Node",
+"class": "StateMachine",
+"language": "GDScript",
+"path": "res://common/game/FSM/StateMachine.gd"
+}, {
+"base": "Object",
+"class": "Transition",
+"language": "GDScript",
+"path": "res://common/game/FSM/Transition.gd"
 } ]
 _global_script_class_icons={
+"ClientFugitiveGame": "",
 "Feature_RigidBodyGrab": "",
 "FpsCamera": "",
+"FugitiveGame": "",
+"FugitiveMap": "",
+"FugitivePlayer": "",
+"FugitiveStateMachine": "",
+"GameMode": "",
 "Groups": "",
 "Hider": "",
 "Joystick": "",
+"Lobby": "",
 "OQClass_GrabbableRigidBody": "",
 "Player": "",
-"Seeker": ""
+"Seeker": "",
+"State": "",
+"StateMachine": "",
+"Transition": ""
 }
 
 [application]
