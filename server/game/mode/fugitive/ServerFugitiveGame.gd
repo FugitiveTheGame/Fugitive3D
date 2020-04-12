@@ -51,12 +51,6 @@ remote func on_client_ready(playerId: int):
 			rpc("on_all_ready")
 
 
-func finish_game():
-	.finish_game()
-	print("SERVER: game is complete!")
-	rpc("on_go_to_lobby")
-
-
 # Only the Server listens to the timer
 func start_timer_timeout():
 	print("Start timer expired")
@@ -66,6 +60,12 @@ func start_timer_timeout():
 func headstart_timer_timeout():
 	print("Headstart timer expired")
 	rpc("release_cops")
+
+
+func finish_game():
+	.finish_game()
+	print("SERVER: game is complete!")
+	rpc("on_go_to_lobby")
 
 
 remotesync func on_go_to_lobby():

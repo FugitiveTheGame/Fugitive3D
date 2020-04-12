@@ -1,14 +1,22 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://client/game/mode/fugitive/FlatFugitiveController.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/game/mode/fugitive/hider/flat/FlatHiderController.gd" type="Script" id=2]
 [ext_resource path="res://common/game/mode/fugitive/hider/Hider.tscn" type="PackedScene" id=3]
 [ext_resource path="res://common/game/mode/fugitive/hider/HiderShape.tscn" type="PackedScene" id=4]
+[ext_resource path="res://client/game/mode/fugitive/hider/VisibilityHud.tscn" type="PackedScene" id=5]
 
 [node name="PlayerController" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
 [node name="StaminaHud" parent="HudCanvas/HudContainer" index="0"]
+playerPath = NodePath("../../../Player")
+
+[node name="VisibilityHud" parent="HudCanvas/HudContainer" index="3" instance=ExtResource( 5 )]
+margin_left = 11.1067
+margin_top = 615.628
+margin_right = 11.0267
+margin_bottom = 616.028
 playerPath = NodePath("../../../Player")
 
 [node name="Player" parent="." index="2" instance=ExtResource( 3 )]

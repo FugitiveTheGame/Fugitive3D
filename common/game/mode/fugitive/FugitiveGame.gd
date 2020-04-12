@@ -180,15 +180,9 @@ func _process(delta):
 func process_hiders():
 	var seekers = get_tree().get_nodes_in_group(Seeker.GROUP)
 	var hiders = get_tree().get_nodes_in_group(Hider.GROUP)
-	#var lights = get_tree().get_nodes_in_group(Groups.LIGHTS)
+	var lights = get_tree().get_nodes_in_group(Groups.LIGHTS)
 	
-	var currentPlayer = GameData.get_current_player()
-	
-	var curPlayerType: int
-	if currentPlayer != null:
-		curPlayerType = currentPlayer[GameData.PLAYER_TYPE]
-	else:
-		curPlayerType = GameData.PlayerType.Server
+	var curPlayerType = GameData.get_current_player_type()
 	
 	# Process each hider, find if any have been seen
 	for hider in hiders:
@@ -212,8 +206,8 @@ func process_hiders():
 		for seeker in seekers:
 			seeker.process_hider(hider)
 		
-		#for light in lights:
-		#	light.process_hider(hider)
+		for light in lights:
+			light.process_hider(hider)
 
 
 func check_win_conditions():

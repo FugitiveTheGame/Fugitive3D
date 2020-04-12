@@ -9,6 +9,8 @@ script = ExtResource( 2 )
 
 [node name="Players" type="Spatial" parent="."]
 
+[node name="Lights" type="Spatial" parent="."]
+
 [node name="WinArea" type="Area" parent="." groups=[
 "win_zone",
 ]]

@@ -36,7 +36,11 @@ func pre_configure():
 	localPlayer.connect("local_player_ready", self, "local_player_ready")
 	
 	print("Sending client configured")
-	rpc_id(ServerNetwork.SERVER_ID, "on_client_configured", get_tree().get_network_unique_id())
+	if not get_tree().is_network_server():
+		rpc_id(ServerNetwork.SERVER_ID, "on_client_configured", get_tree().get_network_unique_id())
+	# This is a special case to help development testing
+	else:
+		on_all_clients_configured()
 
 
 func local_player_ready():
