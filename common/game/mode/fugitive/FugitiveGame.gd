@@ -3,7 +3,7 @@ class_name FugitiveGame
 
 onready var stateMachine := $StateMachine as FugitiveStateMachine
 
-var mapPath: String = "res://common/game/maps/test_map_01/TestMap01.tscn"
+var mapPath: String = "res://common/game/maps/test_map_01/TestMap01.scn"
 var map: FugitiveMap
 var players: Node
 var gameTimer: Timer
