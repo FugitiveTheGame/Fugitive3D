@@ -1,4 +1,4 @@
-extends "res://common/lobby/Lobby.gd"
+extends Lobby
 
 func _ready():
 	ClientNetwork.connect("start_game", self, "on_start_game")

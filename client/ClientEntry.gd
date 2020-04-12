@@ -3,10 +3,13 @@ extends Node
 # Go to the proper entry for this client
 func _ready():
 	if OS.has_feature("client_flat"):
+		print("Client is Flat")
 		go_to_flat()
 	elif OS.has_feature("client_vr_desktop"):
+		print("Client is PC VR")
 		go_to_pc_vr()
 	elif OS.has_feature("client_vr_mobile"):
+		print("Client is Mobile VR")
 		go_to_mobile_vr()
 	# Devel branch
 	else:
