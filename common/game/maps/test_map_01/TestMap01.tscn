@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://common/game/tilesets/neighborhood/neighborhood.meshlib" type="MeshLibrary" id=1]
 [ext_resource path="res://common/game/mode/fugitive/FugitiveMap.tscn" type="PackedScene" id=2]
@@ -7,7 +7,13 @@
 [ext_resource path="res://common/game/mode/player_spawn/PlayerSpawn.gd" type="Script" id=5]
 [ext_resource path="res://common/game/mode/fugitive/street_light/StreetLight.tscn" type="PackedScene" id=6]
 
-[sub_resource type="BoxShape" id=1]
+[sub_resource type="BakedLightmapData" id=3]
+bounds = AABB( -24.7846, -10, -16.1718, 49.5692, 20, 32.3436 )
+cell_space_transform = Transform( 4, 0, 0, 0, 4, 0, 0, 0, 4, 99.1385, 40, 64.6872 )
+cell_subdiv = 9
+octree = PoolByteArray( 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255 )
+
+[sub_resource type="BoxShape" id=2]
 extents = Vector3( 4, 1.5, 4 )
 
 [node name="Game" instance=ExtResource( 2 )]
@@ -21,7 +27,7 @@ cell_size = Vector3( 8, 2, 8 )
 collision_layer = 2
 collision_mask = 0
 data = {
-"cells": PoolIntArray( 0, 0, 1441795, 1, 0, 1441795, 2, 0, 655361, 65532, 0, 655361, 65533, 0, 0, 65534, 0, 1441795, 65535, 0, 1441795, 0, 1, 1048577, 1, 1, 1048577, 2, 1, 655362, 65533, 1, 1441793, 65534, 1, 1048578, 65535, 1, 1048577, 0, 65535, 1441793, 1, 65535, 1441793, 2, 65535, 1441794, 65533, 65535, 1048577, 65534, 65535, 2, 65535, 65535, 1441793 )
+"cells": PoolIntArray( 0, 0, 1441795, 1, 0, 1441795, 2, 0, 655361, 65532, 0, 655361, 65533, 0, 0, 65534, 0, 1441795, 65535, 0, 1441795, 0, 1, 1048577, 1, 1, 537919489, 2, 1, 655362, 65533, 1, 1441793, 65534, 1, 1048578, 65535, 1, 1048577, 0, 65535, 1441793, 1, 65535, 1441793, 2, 65535, 1441794, 65533, 65535, 1048577, 65534, 65535, 2, 65535, 65535, 1441793 )
 }
 __meta__ = {
 "_editor_clip_": 0,
@@ -34,12 +40,17 @@ transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, -5, 1, 
 [node name="StreetLight01" parent="Lights" index="1" instance=ExtResource( 6 )]
 transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, 10, 1, -0.25 )
 
+[node name="BakedLightmap" type="BakedLightmap" parent="Lights" index="2"]
+bake_extents = Vector3( 24.7846, 10, 16.1718 )
+image_path = "res://common/game/maps/test_map_01"
+light_data = SubResource( 3 )
+
 [node name="WinArea" parent="." index="4"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -18.2252, 0, 3.72404 )
 
 [node name="CollisionShape" type="CollisionShape" parent="WinArea" index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.70752, 2.49935, 0.271921 )
-shape = SubResource( 1 )
+shape = SubResource( 2 )
 
 [node name="WinZoneLabel" parent="WinArea" index="1" instance=ExtResource( 4 )]
 transform = Transform( -1.50459e-07, 0.38357, 0.923512, 6.24915e-08, 0.923512, -0.38357, -1, 0, -1.62921e-07, 2.28329, 4.02706, 0 )
