@@ -1,11 +1,11 @@
 extends "res://client/game/mode/fugitive/FlatClientFugitiveGame.gd"
 
 # Change this to determine what you will spwan as
-var be_seeker := false
+var be_seeker := true
 
 func _enter_tree():
 	# Change this to test what ever map you wish
-	mapPath = "res://common/game/maps/test_map_01/TestMap01.tscn"
+	mapPath = "res://common/game/maps/test_map_01/TestMap01.scn"
 
 	# Start a local server, the whole game expects to be multiplayer	
 	var peer := NetworkedMultiplayerENet.new()
