@@ -1,6 +1,5 @@
-extends FugitivePlayer
+extends "res://common/game/mode/FugitivePlayer.gd"
 class_name Seeker
-
 const GROUP := "seeker"
 const CONE_WIDTH = cos(deg2rad(35.0))
 const MAX_DETECT_DISTANCE := 2.0
@@ -26,7 +25,7 @@ func _ready():
 # Detect if a particular hider has been seen by the seeker
 # Change the visibility of the Hider depending on if the
 # seeker can see them.
-func process_hider(hider: Hider):
+func process_hider(hider):
 	# Distance between Hider and Seeker
 	var distance = playerController.transform.origin.distance_to(hider.playerController.transform.origin)
 	
@@ -103,10 +102,15 @@ func is_in_winzone(hider) -> bool:
 	return false
 
 
-# This will be overriden by the server to do authoratative stuff
 func freeze_hider(hider):
 	print("Freeze hider!")
 	
 	# Only the server is actually making this decision
 	if get_tree().is_network_server():
 		hider.freeze()
+
+
+func on_state_playing():
+	print("Seeker: on_state_playing()")
+	if get_tree().is_network_server():
+		unfreeze()

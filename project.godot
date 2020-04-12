@@ -24,7 +24,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://client/game/player/controller/flat/Camera.gd"
 }, {
-"base": "Spatial",
+"base": "GameMode",
 "class": "FugitiveGame",
 "language": "GDScript",
 "path": "res://common/game/mode/fugitive/FugitiveGame.gd"
@@ -34,7 +34,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://common/game/mode/fugitive/FugitiveMap.gd"
 }, {
-"base": "Player",
+"base": "Spatial",
 "class": "FugitivePlayer",
 "language": "GDScript",
 "path": "res://common/game/mode/FugitivePlayer.gd"
@@ -54,7 +54,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://common/game/Groups.gd"
 }, {
-"base": "FugitivePlayer",
+"base": "Spatial",
 "class": "Hider",
 "language": "GDScript",
 "path": "res://common/game/mode/fugitive/hider/Hider.gd"
@@ -79,7 +79,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://common/game/player/Player.gd"
 }, {
-"base": "FugitivePlayer",
+"base": "Spatial",
 "class": "Seeker",
 "language": "GDScript",
 "path": "res://common/game/mode/fugitive/seeker/Seeker.gd"

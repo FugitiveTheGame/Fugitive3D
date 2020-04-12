@@ -2,7 +2,6 @@
 
 [ext_resource path="res://client/game/mode/fugitive/hud/GameTimerHud.gd" type="Script" id=1]
 
-
 [node name="GameTimerReadout" type="Label"]
 anchor_right = 0.05
 anchor_bottom = 0.034
