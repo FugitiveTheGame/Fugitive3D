@@ -21,23 +21,28 @@ current = true
 
 [node name="HudCanvas" parent="OQ_LeftController" instance=ExtResource( 8 )]
 transform = Transform( 0.896695, -0.0624615, 0.43822, 0, 0.989994, 0.141109, -0.442649, -0.126531, 0.887723, 0, 0, 0 )
-editor_live_update = false
 transparent = true
 
 [node name="HudContainer" type="Control" parent="OQ_LeftController/HudCanvas"]
-margin_right = 212.0
-margin_bottom = 184.0
+margin_right = 480.0
+margin_bottom = 256.0
+rect_min_size = Vector2( 480, 256 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="StaminaHud" parent="OQ_LeftController/HudCanvas/HudContainer" instance=ExtResource( 9 )]
+margin_left = 5.88074
+margin_top = 97.7675
+margin_right = 5.68073
+margin_bottom = 97.9675
 
 [node name="FpsLabel" type="Label" parent="OQ_LeftController/HudCanvas/HudContainer"]
-margin_left = 166.131
-margin_top = 6.61583
-margin_right = 206.131
-margin_bottom = 20.6158
+margin_left = 210.972
+margin_top = 99.9728
+margin_right = 250.972
+margin_bottom = 113.973
+text = "00 fps"
 
 [node name="OQ_RightController" parent="." instance=ExtResource( 4 )]
 
