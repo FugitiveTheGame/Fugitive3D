@@ -1,4 +1,4 @@
-extends "res://common/game/mode/FugitivePlayer.gd"
+extends FugitivePlayer
 class_name Seeker
 const GROUP := "seeker"
 const CONE_WIDTH = cos(deg2rad(35.0))

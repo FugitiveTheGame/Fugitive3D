@@ -1,4 +1,4 @@
-extends "res://common/game/player/Player.gd"
+extends Player
 class_name FugitivePlayer
 
 signal local_player_ready

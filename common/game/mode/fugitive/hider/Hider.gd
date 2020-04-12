@@ -1,4 +1,4 @@
-extends "res://common/game/mode/FugitivePlayer.gd"
+extends FugitivePlayer
 class_name Hider
 
 const GROUP := "hider"
