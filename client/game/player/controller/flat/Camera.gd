@@ -9,7 +9,7 @@ var max_y := 89.0
 
 var heldObject: Spatial
 
-func initializeComponents():
+func initialize_components():
 	sensitivity_y = self.get_parent().Sensitivity_Y
 	max_y = self.get_parent().Maximum_Y_Look
 	if self.get_parent().Invert_Y_Axis:
@@ -19,7 +19,7 @@ func initializeComponents():
 
 
 func _ready():
-	self.initializeComponents()
+	self.initialize_components()
 
 
 func _input(event):
