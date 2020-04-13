@@ -1,4 +1,8 @@
+*.mesh filter=lfs diff=lfs merge=lfs -text
+*.jpg filter=lfs diff=lfs merge=lfs -text
+*.png filter=lfs diff=lfs merge=lfs -text
 *.dll filter=lfs diff=lfs merge=lfs -text
+*.gld filter=lfs diff=lfs merge=lfs -text
 *.scn filter=lfs diff=lfs merge=lfs -text
 *.ogg filter=lfs diff=lfs merge=lfs -text
 *.material filter=lfs diff=lfs merge=lfs -text
