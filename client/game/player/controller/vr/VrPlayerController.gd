@@ -15,6 +15,10 @@ func _ready():
 	
 	# Record the players height when we start here
 	call_deferred("set_standing_height")
+	
+	# Visibility distance is a huge contributor to performance issues
+	if OS.has_feature("mobile"):
+		camera.far = 100.0
 
 
 func set_standing_height():
