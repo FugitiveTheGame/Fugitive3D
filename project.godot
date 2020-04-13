@@ -214,6 +214,10 @@ flat_player_crouch={
 3d_physics/layer_2="walls"
 3d_physics/layer_3="visibility"
 
+[memory]
+
+limits/message_queue/max_size_kb=2048
+
 [rendering]
 
 environment/default_environment="res://default_env.tres"
