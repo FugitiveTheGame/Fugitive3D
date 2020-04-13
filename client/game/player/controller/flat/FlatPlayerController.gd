@@ -14,7 +14,7 @@ export(bool) var Exit_On_Escape := true
 export(float) var Maximum_Y_Look := 45
 export(float) var Walk_Accelaration := 3.0
 export(float) var Sprint_Accelaration := 6.0
-export(float) var Jump_Speed := 20.0
+export(float) var Jump_Speed := 10.0
 export(float) var Gravity := pow(9.8, 2)
 export(bool) var CameraIsCurrentOnStart: bool = true
 

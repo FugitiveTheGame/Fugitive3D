@@ -1,7 +1,7 @@
 extends Spatial
 class_name StreetLight
 
-export (int) var illumination_range := 6.0
+export (int) var illumination_range := 7.0
 
 onready var rayCaster := $OmniLight/RayCast
 
