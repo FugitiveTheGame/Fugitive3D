@@ -90,10 +90,10 @@ func _physics_process(delta):
 	
 	if player.is_sprinting():
 		Accelaration = Sprint_Accelaration
-		Maximum_Speed = player.SPEED_SPRINT
+		Maximum_Speed = player.speed_sprint
 	else:
 		Accelaration = Walk_Accelaration
-		Maximum_Speed = player.SPEED_WALK
+		Maximum_Speed = player.speed_walk
 	
 	if Input.is_action_pressed("flat_player_up"):
 		Movement_Speed += Accelaration

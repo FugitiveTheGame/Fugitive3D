@@ -2,15 +2,21 @@ extends Spatial
 class_name Player
 
 
-const SPEED_WALK := 5.0
-const SPEED_SPRINT := 10.0
-const STAMINA_MAX := 100.0
-const STAMINA_SPRINT_RATE := 20.0
-const STAMINA_REGEN_RATE := 5.0
+const DEFAULT_SPEED_WALK := 5.0
+const DEFAULT_SPEED_SPRINT := 10.0
+const DEFAULT_STAMINA_MAX := 100.0
+const DEFAULT_STAMINA_SPRINT_RATE := 20.0
+const DEFAULT_STAMINA_REGEN_RATE := 5.0
+
+var speed_walk := DEFAULT_SPEED_WALK
+var speed_sprint := DEFAULT_SPEED_SPRINT
+var stamina_max := DEFAULT_STAMINA_MAX
+var stamina_sprint_rate := DEFAULT_STAMINA_SPRINT_RATE
+var stamina_regen_rate := DEFAULT_STAMINA_REGEN_RATE
 
 var isMoving := false
 var isSprinting := false
-var stamina := STAMINA_MAX
+var stamina := stamina_max
 
 var show_avatar := true
 var is_crouching := false setget set_is_crouching
@@ -90,7 +96,7 @@ func is_moving_fast():
 
 func process_stamina(delta: float):
 	if is_sprinting() and is_moving():
-		stamina -= (STAMINA_SPRINT_RATE * delta)
+		stamina -= (stamina_sprint_rate * delta)
 	elif not is_moving():
-		stamina += (STAMINA_REGEN_RATE * delta)
-	stamina = clamp(stamina, 0.0, STAMINA_MAX)
+		stamina += (stamina_sprint_rate * delta)
+	stamina = clamp(stamina, 0.0, stamina_max)

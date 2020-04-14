@@ -6,8 +6,8 @@ const CROUCH_THRESHOLD := 0.75
 onready var camera := $OQ_ARVRCamera
 onready var player := $Player as Player
 onready var locomotion := $Locomotion_Stick
-onready var hud := $OQ_LeftController/HudCanvas.find_node("HudContainer", true, false) as Control
-onready var fpsLabel := $OQ_LeftController/HudCanvas.find_node("FpsLabel", true, false) as Label
+onready var hud := $OQ_LeftController/VisibilityToggle/HudCanvas.find_node("HudContainer", true, false) as Control
+onready var fpsLabel := $OQ_LeftController/VisibilityToggle/HudCanvas.find_node("FpsLabel", true, false) as Label
 
 
 func _ready():
@@ -16,9 +16,10 @@ func _ready():
 	# Record the players height when we start here
 	call_deferred("set_standing_height")
 	
-	# Visibility distance is a huge contributor to performance issues
+	# Performance tuning for mobile VR clients
 	if OS.has_feature("mobile"):
 		camera.far = 100.0
+		hud.transparent = false
 
 
 func set_standing_height():
@@ -43,9 +44,9 @@ func _process(delta):
 	player.isMoving = locomotion.is_moving
 	
 	if player.is_sprinting():
-		locomotion.move_speed = player.SPEED_SPRINT
+		locomotion.move_speed = player.speed_sprint
 	else:
-		locomotion.move_speed = player.SPEED_WALK
+		locomotion.move_speed = player.speed_walk
 
 
 func _physics_process(delta):

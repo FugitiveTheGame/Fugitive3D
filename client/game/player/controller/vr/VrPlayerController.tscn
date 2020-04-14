@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://client/game/player/controller/vr/VrPlayerController.gd" type="Script" id=1]
 [ext_resource path="res://client/game/player/controller/vr/Feature_PlayerCollision.gd" type="Script" id=2]
@@ -9,6 +9,7 @@
 [ext_resource path="res://addons/OQ_Toolkit/OQ_ARVROrigin/Feature_Falling.tscn" type="PackedScene" id=7]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_UI2D/OQ_UI2DCanvas.tscn" type="PackedScene" id=8]
 [ext_resource path="res://client/game/player/hud/StaminaHud.tscn" type="PackedScene" id=9]
+[ext_resource path="res://addons/OQ_Toolkit/OQ_Helpers/OQ_VisibilityToggle.tscn" type="PackedScene" id=10]
 
 [node name="PlayerController" type="ARVROrigin"]
 script = ExtResource( 1 )
@@ -20,12 +21,14 @@ far = 300.0
 
 [node name="OQ_LeftController" parent="." instance=ExtResource( 3 )]
 
-[node name="HudCanvas" parent="OQ_LeftController" instance=ExtResource( 8 )]
+[node name="VisibilityToggle" parent="OQ_LeftController" instance=ExtResource( 10 )]
+
+[node name="HudCanvas" parent="OQ_LeftController/VisibilityToggle" instance=ExtResource( 8 )]
 transform = Transform( 0.896695, -0.0624615, 0.43822, 0, 0.989994, 0.141109, -0.442649, -0.126531, 0.887723, 0, 0, 0 )
 editor_live_update = false
 transparent = true
 
-[node name="HudContainer" type="Control" parent="OQ_LeftController/HudCanvas"]
+[node name="HudContainer" type="Control" parent="OQ_LeftController/VisibilityToggle/HudCanvas"]
 margin_right = 480.0
 margin_bottom = 256.0
 rect_min_size = Vector2( 480, 256 )
@@ -33,13 +36,13 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="StaminaHud" parent="OQ_LeftController/HudCanvas/HudContainer" instance=ExtResource( 9 )]
+[node name="StaminaHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" instance=ExtResource( 9 )]
 margin_left = 5.88074
 margin_top = 97.7675
 margin_right = 5.68073
 margin_bottom = 97.9675
 
-[node name="FpsLabel" type="Label" parent="OQ_LeftController/HudCanvas/HudContainer"]
+[node name="FpsLabel" type="Label" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer"]
 margin_left = 210.972
 margin_top = 99.9728
 margin_right = 250.972
