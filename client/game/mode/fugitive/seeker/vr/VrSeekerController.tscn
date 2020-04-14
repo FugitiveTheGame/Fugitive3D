@@ -9,26 +9,8 @@
 [node name="PlayerController" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
-[node name="HudContainer" parent="OQ_LeftController/HudCanvas" index="2"]
-margin_right = 212.0
-margin_bottom = 184.0
-
-[node name="StaminaHud" parent="OQ_LeftController/HudCanvas/HudContainer" index="0"]
-anchor_top = 1.0
-anchor_right = 0.0
-anchor_bottom = 1.0
-margin_left = 5.41504
-margin_top = -72.1487
-margin_right = 48.415
-margin_bottom = -55.0527
-playerPath = NodePath("../../../../Player")
-
-[node name="FpsLabel" parent="OQ_LeftController/HudCanvas/HudContainer" index="1"]
-margin_left = 166.131
-margin_top = 6.61583
-margin_right = 206.131
-margin_bottom = 20.6158
-text = ""
+[node name="StaminaHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="0"]
+playerPath = NodePath("../../../../../Player")
 
 [node name="RemoteTransform" type="RemoteTransform" parent="OQ_RightController" index="0"]
 remote_path = NodePath("../../Flashlight")

@@ -3,7 +3,7 @@ class_name Seeker
 
 const GROUP := "seeker"
 const CONE_WIDTH = cos(deg2rad(35.0))
-const MAX_DETECT_DISTANCE := 2.0
+const MAX_DETECT_DISTANCE := 3.0
 const MAX_VISION_DISTANCE := 50.0
 const MIN_VISION_DISTANCE := 3.0
 const CLOSE_PROXIMITY_DISTANCE := 1.5
@@ -20,6 +20,9 @@ onready var win_zones := get_tree().get_nodes_in_group(Groups.WIN_ZONE)
 
 func _ready():
 	playerType = GameData.PlayerType.Seeker
+	# Seeker should walk and sprint slightly faster than the Hider
+	speed_walk = DEFAULT_SPEED_WALK * 1.5
+	speed_sprint = DEFAULT_SPEED_SPRINT * 1.1
 	add_to_group(GROUP)
 
 
