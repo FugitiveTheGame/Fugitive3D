@@ -16,10 +16,11 @@ shape = SubResource( 1 )
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, -1 )
 
 [node name="seeker_standing_body" parent="Standing" index="0" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 4.43482e-19, 1, 0, 0, 0, 1, -1.7505e-12, 0.076952, 0 )
 
 [node name="Crouching" type="Spatial" parent="." index="1"]
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0 )
 visible = false
 
 [node name="seeker_crouching_body" parent="Crouching" index="0" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.864674, 0 )
+transform = Transform( 1, 0, 0, 4.43482e-19, 1, 0, 0, 0, 1, 2.47241e-12, -0.973361, 3.45213e-16 )
