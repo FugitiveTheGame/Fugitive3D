@@ -1,8 +1,7 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://common/game/player/PlayerShape.tscn" type="PackedScene" id=1]
 [ext_resource path="res://common/game/mode/fugitive/seeker/assets/body_crouching/seeker_crouching_body.glb" type="PackedScene" id=2]
-[ext_resource path="res://common/game/mode/fugitive/hider/assets/head/head.glb" type="PackedScene" id=3]
 [ext_resource path="res://common/game/mode/fugitive/seeker/assets/body_standing/seeker_standing_body.glb" type="PackedScene" id=4]
 
 [sub_resource type="CapsuleShape" id=1]
@@ -16,17 +15,11 @@ shape = SubResource( 1 )
 [node name="Standing" type="Spatial" parent="." index="0"]
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, -1 )
 
-[node name="head" parent="Standing" index="0" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.06664, 0 )
-
-[node name="seeker_standing_body" parent="Standing" index="1" instance=ExtResource( 4 )]
+[node name="seeker_standing_body" parent="Standing" index="0" instance=ExtResource( 4 )]
 
 [node name="Crouching" type="Spatial" parent="." index="1"]
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0 )
 visible = false
 
-[node name="head" parent="Crouching" index="0" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.285883, 0 )
-
-[node name="seeker_crouching_body" parent="Crouching" index="1" instance=ExtResource( 2 )]
+[node name="seeker_crouching_body" parent="Crouching" index="0" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.864674, 0 )
