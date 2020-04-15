@@ -165,7 +165,7 @@ func _notification(what):
 
 func update_camera_to_head():
 	var shape = player.get_current_shape()
-	var head = shape.get_node("head")
+	var head = shape.head
 	var global = shape.to_global(head.translation)
 	var local = to_local(global)
 	
