@@ -11,13 +11,8 @@ func set_alpha(value: float):
 
 
 func _ready():
-	standingMaterials.append($Standing/hider_standing_body/Cylinder.material_override)
-	standingMaterials.append($Standing/head/Cube.material_override)
-	standingMaterials.append($Standing/head/Sphere.material_override)
-	
-	crouchingMaterials.append($Crouching/hider_crouching_body/Cylinder.material_override)
-	crouchingMaterials.append($Crouching/head/Cube.material_override)
-	crouchingMaterials.append($Crouching/head/Sphere.material_override)
+	standingMaterials.append($Standing/hider_standing_body/hider_standing_body.material_override)
+	crouchingMaterials.append($Crouching/hider_crouching_body/hider_crouching_body.material_override)
 
 
 func update_shaders():
