@@ -5,7 +5,6 @@
 [ext_resource path="res://common/game/mode/fugitive/hider/assets/head/head.glb" type="PackedScene" id=3]
 [ext_resource path="res://common/game/mode/fugitive/seeker/assets/body_standing/seeker_standing_body.glb" type="PackedScene" id=4]
 
-
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.303884
 height = 1.5
@@ -15,7 +14,7 @@ transform = Transform( 1, -0.000139626, 0, -2.2748e-11, -1.62921e-07, 1, -0.0001
 shape = SubResource( 1 )
 
 [node name="Standing" type="Spatial" parent="." index="0"]
-transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0 )
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, -1 )
 
 [node name="head" parent="Standing" index="0" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.06664, 0 )
