@@ -218,10 +218,6 @@ flat_player_crouch={
 
 limits/message_queue/max_size_kb=2048
 
-[physics]
-
-3d/physics_engine="GodotPhysics"
-
 [rendering]
 
 threads/thread_model=2
