@@ -4,4 +4,4 @@ onready var gameTimer: Timer = get_tree().get_nodes_in_group(Groups.GAME_TIMER)[
 
 
 func _on_UpdateTimer_timeout():
-	text = str(gameTimer.time_left)
+	text = TimeUtils.format_seconds_for_display(gameTimer.time_left)

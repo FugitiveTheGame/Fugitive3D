@@ -14,14 +14,9 @@ transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 0, 0
 shape = SubResource( 1 )
 script = ExtResource( 6 )
 
-[node name="Standing" type="Spatial" parent="." index="0"]
+[node name="Standing" parent="." index="0" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 2.68904e-08, -1.16505 )
 
-[node name="hider_standing_body" parent="Standing" index="0" instance=ExtResource( 3 )]
-
-[node name="Crouching" type="Spatial" parent="." index="1"]
-transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 5.2644e-08, -0.323126 )
+[node name="Crouching" parent="." index="1" instance=ExtResource( 2 )]
+transform = Transform( -1.62921e-07, 0, -1, -1, -1.62921e-07, 1.62921e-07, -1.62921e-07, 1, 2.65433e-14, 0, 1.95439e-07, -1.19959 )
 visible = false
-
-[node name="hider_crouching_body" parent="Crouching" index="0" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.890251, 0 )

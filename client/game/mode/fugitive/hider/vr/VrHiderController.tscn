@@ -1,15 +1,22 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://client/game/mode/fugitive/VrFugitiveController.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/game/mode/fugitive/hider/vr/VrHiderController.gd" type="Script" id=2]
 [ext_resource path="res://common/game/mode/fugitive/hider/Hider.tscn" type="PackedScene" id=3]
 [ext_resource path="res://common/game/mode/fugitive/hider/HiderShape.tscn" type="PackedScene" id=4]
+[ext_resource path="res://client/game/mode/fugitive/hider/VisibilityHud.tscn" type="PackedScene" id=5]
 
 [node name="PlayerController" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
 [node name="StaminaHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="0"]
 playerPath = NodePath("../../../../../Player")
+
+[node name="VisibilityHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="4" instance=ExtResource( 5 )]
+margin_left = 5.70001
+margin_top = 139.65
+margin_right = 5.62
+margin_bottom = 140.05
 
 [node name="Feature_PlayerCollision" parent="." index="4"]
 collision_mask = 7

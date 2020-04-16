@@ -8,18 +8,10 @@
 [node name="PlayerController" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
-[node name="PregameHud" parent="OQ_LeftController/HudCanvas/HudContainer" index="2" instance=ExtResource( 3 )]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_right = 0.0
-margin_bottom = 0.0
+[node name="GameTimerReadout" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="2" instance=ExtResource( 4 )]
+margin_left = 218.981
+margin_top = 9.2854
+margin_right = 230.981
+margin_bottom = 14.5814
 
-[node name="GameTimerReadout" parent="OQ_LeftController/HudCanvas/HudContainer" index="3" instance=ExtResource( 4 )]
-anchor_left = 1.0
-anchor_right = 1.0
-anchor_bottom = 0.0
-margin_left = -49.4
-margin_right = 78.6
-margin_bottom = 64.0
-align = 1
-valign = 1
+[node name="PregameHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="3" instance=ExtResource( 3 )]

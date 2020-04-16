@@ -24,8 +24,7 @@ far = 300.0
 [node name="VisibilityToggle" parent="OQ_LeftController" instance=ExtResource( 10 )]
 
 [node name="HudCanvas" parent="OQ_LeftController/VisibilityToggle" instance=ExtResource( 8 )]
-transform = Transform( 0.896695, -0.0624615, 0.43822, 0, 0.989994, 0.141109, -0.442649, -0.126531, 0.887723, 0, 0, 0 )
-editor_live_update = false
+transform = Transform( 0.896695, -0.0624615, 0.43822, 0, 0.989994, 0.141109, -0.442649, -0.126531, 0.887723, 0, 0.0652056, 0 )
 transparent = true
 
 [node name="HudContainer" type="Control" parent="OQ_LeftController/VisibilityToggle/HudCanvas"]

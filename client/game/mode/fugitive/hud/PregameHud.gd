@@ -38,5 +38,5 @@ func show_headstart_timer():
 
 
 func _process(delta):
-	$StartTimerLabel.text = str(startTimer.time_left)
-	$HeadstartTimerLabel.text = str(headstartTimer.time_left)
+	$StartTimerLabel.text = TimeUtils.format_seconds_for_display(startTimer.time_left)
+	$HeadstartTimerLabel.text = TimeUtils.format_seconds_for_display(headstartTimer.time_left)
