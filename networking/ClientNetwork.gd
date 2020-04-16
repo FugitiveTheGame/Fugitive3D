@@ -30,8 +30,7 @@ func register_player(recipientId: int, playerId: int, playerName: String, player
 
 
 remote func on_register_player(playerId: int, playerName: String, playerType: int):
-	print(playerName)
-	print("on_register_player: " + str(playerId))
+	print("on_register_player: %d - %s" % [playerId, playerName] )
 	
 	GameData.add_player(playerId, playerName, playerType)
 	emit_signal("create_player", playerId)
