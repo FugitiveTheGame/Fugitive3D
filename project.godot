@@ -221,6 +221,4 @@ limits/message_queue/max_size_kb=2048
 [rendering]
 
 threads/thread_model=2
-quality/shadows/filter_mode=2
-quality/filters/use_nearest_mipmap_filter=true
 environment/default_environment="res://default_env.tres"
