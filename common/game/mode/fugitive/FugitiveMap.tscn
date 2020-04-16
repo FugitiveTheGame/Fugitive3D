@@ -22,7 +22,7 @@ script = ExtResource( 2 )
 [node name="GameTimer" type="Timer" parent="." groups=[
 "game_timer",
 ]]
-wait_time = 60000.0
+wait_time = 600.0
 one_shot = true
 
 [node name="StartTimer" type="Timer" parent="." groups=[
@@ -34,5 +34,5 @@ one_shot = true
 [node name="HeadstartTimer" type="Timer" parent="." groups=[
 "headstart_timer",
 ]]
-wait_time = 10.0
+wait_time = 15.0
 one_shot = true
