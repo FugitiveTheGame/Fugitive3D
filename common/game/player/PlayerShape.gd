@@ -1,5 +1,5 @@
 extends CollisionShape
-	
+
 
 func get_standing_shape() -> Spatial:
 	return $Standing as Spatial
