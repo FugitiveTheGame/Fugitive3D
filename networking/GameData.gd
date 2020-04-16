@@ -13,9 +13,13 @@ func create_new_player(playerId: int, playerName: String, playerType: int) -> Di
 	return { PLAYER_ID: playerId, PLAYER_NAME: playerName, PLAYER_TYPE: playerType }
 
 
-func add_player(playerId: int, playerName: String, playerType: int):
-	var newPlayer = create_new_player(playerId, playerName, playerType)
-	self.players[playerId] = newPlayer
+func add_player(playerId: int, playerName: String, playerType: int) -> bool:
+	if not self.players.has(playerId):
+		var newPlayer = create_new_player(playerId, playerName, playerType)
+		self.players[playerId] = newPlayer
+		return true
+	else:
+		return false
 
 
 func reset():

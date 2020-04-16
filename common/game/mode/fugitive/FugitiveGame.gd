@@ -51,8 +51,16 @@ func finish_game():
 
 
 remotesync func on_finish_game():
-	stateMachine.transition_by_name(FugitiveStateMachine.TRANS_END_GAME)
-
+	var curState := stateMachine.current_state.name
+	
+	# There are only 2 valid states that the game can be finished from
+	if curState == FugitiveStateMachine.STATE_PLAYING_HEADSTART:
+		stateMachine.transition_by_name(FugitiveStateMachine.TRANS_END_GAME_EARLY)
+	elif curState == FugitiveStateMachine.STATE_PLAYING:
+		stateMachine.transition_by_name(FugitiveStateMachine.TRANS_END_GAME)
+	else:
+		print("FATAL! on_finish_game(): cannot finish game, in invalid state: %s " % curState)
+		assert(false)
 
 ################################
 # Pre-game configuration

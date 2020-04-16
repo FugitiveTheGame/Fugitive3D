@@ -8,8 +8,12 @@ func _ready():
 
 
 func create_player(playerId: int):
+	var existingPlayer := find_player_node(playerId)
+	if existingPlayer != null:
+		return
+	
 	print("Creating player in lobby")
-	#var player = GameData.players[playerId]
+	
 	var namePlateScene = preload("res://common/lobby/NamePlate.tscn")
 	
 	var namePlateNode = namePlateScene.instance()
@@ -22,10 +26,21 @@ func create_player(playerId: int):
 	$Players.add_child(namePlateNode)
 
 
-func remove_player(playerId: int):
-	var name = str(playerId)
+func find_player_node(playerId: int) -> Control:
+	var playerNode: Control = null
+	
+	var nodeName := str(playerId)
 	for child in $Players.get_children():
-		if child.name == name:
-			print("Player removed")
-			$Players.remove_child(child)
+		if child.name == nodeName:
+			playerNode = child
 			break
+	
+	return playerNode
+
+
+func remove_player(playerId: int):
+	var node := find_player_node(playerId)
+	if node != null:
+		$Players.remove_child(node)
+	else:
+		print("Lobby: remove_player: failed to find node for player: %d" % playerId)
