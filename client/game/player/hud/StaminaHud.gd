@@ -6,7 +6,8 @@ onready var staminaBar := $ProgressBar
 
 
 func _ready():
-	staminaBar.max_value = player.STAMINA_MAX
+	staminaBar.max_value = player.stamina_max
+
 
 func _process(delta):
 	staminaBar.value = player.stamina
