@@ -16,12 +16,12 @@ script = ExtResource( 6 )
 
 [node name="Standing" type="Spatial" parent="." index="0"]
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 2.68904e-08, -1.16505 )
-visible = false
 
 [node name="hider_standing_body" parent="Standing" index="0" instance=ExtResource( 3 )]
 
 [node name="Crouching" type="Spatial" parent="." index="1"]
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 5.2644e-08, -0.323126 )
+visible = false
 
 [node name="hider_crouching_body" parent="Crouching" index="0" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.890251, 0 )

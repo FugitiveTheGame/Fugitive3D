@@ -23,6 +23,7 @@ playerBodyPath = NodePath("..")
 flash_light_path = NodePath("../Flashlight")
 
 [node name="CollisionShape" parent="." index="3" instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 0, 0 )
 
 [node name="Flashlight" parent="." index="4" instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.25, -0.5 )
