@@ -18,6 +18,9 @@ margin_top = 139.65
 margin_right = 5.62
 margin_bottom = 140.05
 
+[node name="CrouchingHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="5"]
+playerPath = NodePath("../../../../../Player")
+
 [node name="Feature_PlayerCollision" parent="." index="4"]
 collision_mask = 7
 playerPath = NodePath("../Player")
