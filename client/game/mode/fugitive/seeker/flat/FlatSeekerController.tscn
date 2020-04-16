@@ -16,6 +16,9 @@ follow_viewport_enable = true
 [node name="StaminaHud" parent="HudCanvas/HudContainer" index="0"]
 playerPath = NodePath("../../../Player")
 
+[node name="CrouchingHud" parent="HudCanvas/HudContainer" index="3"]
+playerPath = NodePath("../../../Player")
+
 [node name="Player" parent="." index="2" instance=ExtResource( 3 )]
 shapePath = NodePath("../CollisionShape")
 playerControllerPath = NodePath("..")

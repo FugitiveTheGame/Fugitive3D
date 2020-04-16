@@ -19,6 +19,9 @@ margin_right = 11.0267
 margin_bottom = 616.028
 playerPath = NodePath("../../../Player")
 
+[node name="CrouchingHud" parent="HudCanvas/HudContainer" index="4"]
+playerPath = NodePath("../../../Player")
+
 [node name="Player" parent="." index="2" instance=ExtResource( 3 )]
 shapePath = NodePath("../CollisionShape")
 playerControllerPath = NodePath("..")

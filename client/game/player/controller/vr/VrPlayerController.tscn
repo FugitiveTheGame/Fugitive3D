@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://client/game/player/controller/vr/VrPlayerController.gd" type="Script" id=1]
 [ext_resource path="res://client/game/player/controller/vr/Feature_PlayerCollision.gd" type="Script" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://addons/OQ_Toolkit/OQ_UI2D/OQ_UI2DCanvas.tscn" type="PackedScene" id=8]
 [ext_resource path="res://client/game/player/hud/StaminaHud.tscn" type="PackedScene" id=9]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_Helpers/OQ_VisibilityToggle.tscn" type="PackedScene" id=10]
+[ext_resource path="res://client/game/mode/fugitive/hud/CrouchIndicatorHud.tscn" type="PackedScene" id=11]
 
 [node name="PlayerController" type="ARVROrigin"]
 script = ExtResource( 1 )
@@ -25,6 +26,7 @@ far = 300.0
 
 [node name="HudCanvas" parent="OQ_LeftController/VisibilityToggle" instance=ExtResource( 8 )]
 transform = Transform( 0.896695, -0.0624615, 0.43822, 0, 0.989994, 0.141109, -0.442649, -0.126531, 0.887723, 0, 0.0652056, 0 )
+editor_live_update = false
 transparent = true
 
 [node name="HudContainer" type="Control" parent="OQ_LeftController/VisibilityToggle/HudCanvas"]
@@ -47,6 +49,16 @@ margin_top = 99.9728
 margin_right = 250.972
 margin_bottom = 113.973
 text = "00 fps"
+
+[node name="CrouchingHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" instance=ExtResource( 11 )]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -96.0
+margin_top = -64.0
+margin_right = 0.0
+margin_bottom = 0.0
 
 [node name="OQ_RightController" parent="." instance=ExtResource( 4 )]
 

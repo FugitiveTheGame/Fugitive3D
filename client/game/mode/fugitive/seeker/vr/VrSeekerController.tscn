@@ -12,6 +12,9 @@ script = ExtResource( 2 )
 [node name="StaminaHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="0"]
 playerPath = NodePath("../../../../../Player")
 
+[node name="CrouchingHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="4"]
+playerPath = NodePath("../../../../../Player")
+
 [node name="RemoteTransform" type="RemoteTransform" parent="OQ_RightController" index="0"]
 remote_path = NodePath("../../Flashlight")
 
