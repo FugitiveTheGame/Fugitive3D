@@ -14,8 +14,29 @@ var stamina_max := DEFAULT_STAMINA_MAX
 var stamina_sprint_rate := DEFAULT_STAMINA_SPRINT_RATE
 var stamina_regen_rate := DEFAULT_STAMINA_REGEN_RATE
 
-var isMoving := false
-var isSprinting := false
+onready var walking_sound = $WalkingSound
+
+var isMoving := false setget set_is_moving
+func set_is_moving(value: bool):
+	isMoving = value
+	
+	if value:
+		if not walking_sound.playing:
+			walking_sound.play()
+	else:
+		if walking_sound.playing:
+			walking_sound.stop()
+
+
+var isSprinting := false setget set_is_sprinting
+func set_is_sprinting(value: bool):
+	isSprinting = value
+	if value:
+		walking_sound.pitch_scale = 2.0
+	else:
+		walking_sound.pitch_scale = 1.0
+
+
 var stamina := stamina_max
 
 var show_avatar := true
