@@ -39,7 +39,7 @@ func process_hider(hider):
 	# Quick reject, if too far away, just give up
 	elif distance <=  MAX_VISION_DISTANCE:
 		# Cast a ray between the seeker's flashlight and this hider
-		var curHiderShape = hider.get_current_shape()
+		var curHiderShape = hider.get_current_shape().head
 		var look_vec := flash_light.to_local(curHiderShape.global_transform.origin)
 		
 		seeker_ray_caster.cast_to = look_vec

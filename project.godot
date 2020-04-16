@@ -100,9 +100,19 @@ _global_script_classes=[ {
 "path": "res://common/game/mode/fugitive/street_light/StreetLight.gd"
 }, {
 "base": "Object",
+"class": "TimeUtils",
+"language": "GDScript",
+"path": "res://addons/TimeUtils/TimeUtils.gd"
+}, {
+"base": "Object",
 "class": "Transition",
 "language": "GDScript",
 "path": "res://common/game/FSM/Transition.gd"
+}, {
+"base": "Node",
+"class": "WallClockTimer",
+"language": "GDScript",
+"path": "res://addons/WallclockTimer/WallClockTimer.gd"
 } ]
 _global_script_class_icons={
 "ClientFugitiveGame": "",
@@ -123,7 +133,9 @@ _global_script_class_icons={
 "State": "",
 "StateMachine": "",
 "StreetLight": "",
-"Transition": ""
+"TimeUtils": "",
+"Transition": "",
+"WallClockTimer": ""
 }
 
 [application]

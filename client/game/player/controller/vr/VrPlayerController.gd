@@ -19,7 +19,6 @@ func _ready():
 	# Performance tuning for mobile VR clients
 	if OS.has_feature("mobile"):
 		camera.far = 100.0
-		hud.transparent = false
 
 
 func set_standing_height():
