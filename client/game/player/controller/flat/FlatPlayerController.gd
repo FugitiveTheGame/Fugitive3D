@@ -21,7 +21,7 @@ export(bool) var CameraIsCurrentOnStart: bool = true
 
 # Our velocity vector never seems to be exactly zero.
 # So any velocity under this threshold will be considered no moving
-const MOVEMENT_LAMBDA := 0.00001
+const MOVEMENT_LAMBDA := 0.01
 
 var allowMovement := true
 
@@ -73,7 +73,6 @@ func _process(delta):
 	########################################
 	# Handle input for gameplay purposes
 	player.isSprinting = Input.is_action_pressed("flat_player_sprint")
-	player.isMoving = (abs(velocity.length()) > MOVEMENT_LAMBDA)
 
 
 func _exit_tree():
@@ -137,6 +136,7 @@ func _physics_process(delta):
 		velocity = Vector3()
 	
 	velocity = move_and_slide(velocity, Vector3(0,1,0))
+	player.isMoving = (abs(velocity.length()) > MOVEMENT_LAMBDA)
 	
 	player.rpc_unreliable("network_update", translation, rotation, player.is_crouching, player.isMoving, player.isSprinting)
 
