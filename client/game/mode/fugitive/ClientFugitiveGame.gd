@@ -2,6 +2,15 @@ extends FugitiveGame
 class_name ClientFugitiveGame
 
 
+func _ready():
+	ClientNetwork.connect("lost_connection_to_server", self, "on_disconnect")
+
+
+func on_disconnect():
+	print("ClientFugitiveGame: on_disconnect: MUST BE OVERRIDEN")
+	assert(false)
+
+
 remotesync func on_go_to_lobby():
 	print("CLIENT: on_go_to_lobby()")
 	
