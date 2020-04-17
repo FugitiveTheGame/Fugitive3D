@@ -40,8 +40,10 @@ func _on_UnfreezeArea_body_entered(body):
 
 remotesync func on_freeze():
 	.on_freeze()
-	freeze_sound.play()
-	playerShape.get_frozen_shape().show()
+	
+	if gameStarted:
+		freeze_sound.play()
+		playerShape.get_frozen_shape().show()
 
 
 remotesync func on_unfreeze():
