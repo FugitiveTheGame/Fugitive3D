@@ -15,3 +15,21 @@ margin_right = 230.981
 margin_bottom = 14.5814
 
 [node name="PregameHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="3" instance=ExtResource( 3 )]
+
+[node name="HeightInstructionsLabel" type="Label" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/PregameHud" index="4"]
+margin_right = 40.0
+margin_bottom = 14.0
+text = "Press B to set standing height"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HeightLabel" type="Label" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/PregameHud" index="5"]
+margin_left = 1.08072
+margin_top = 19.453
+margin_right = 192.081
+margin_bottom = 33.453
+text = "Height: 0.0m"
+__meta__ = {
+"_edit_use_anchors_": false
+}

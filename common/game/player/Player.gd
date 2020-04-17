@@ -2,12 +2,14 @@ extends Spatial
 class_name Player
 
 
+const DEFAULT_SPEED_CROUCH := 2.0
 const DEFAULT_SPEED_WALK := 5.0
 const DEFAULT_SPEED_SPRINT := 10.0
 const DEFAULT_STAMINA_MAX := 100.0
 const DEFAULT_STAMINA_SPRINT_RATE := 20.0
 const DEFAULT_STAMINA_REGEN_RATE := 5.0
 
+var speed_crouch := DEFAULT_SPEED_CROUCH
 var speed_walk := DEFAULT_SPEED_WALK
 var speed_sprint := DEFAULT_SPEED_SPRINT
 var stamina_max := DEFAULT_STAMINA_MAX
@@ -20,7 +22,8 @@ var isMoving := false setget set_is_moving
 func set_is_moving(value: bool):
 	isMoving = value
 	
-	if value:
+	# Don't make any noise while crouching
+	if value and not is_crouching:
 		if not walking_sound.playing:
 			walking_sound.play()
 	else:

@@ -12,6 +12,7 @@ export(float) var Sensitivity_Y := 0.005
 export(bool) var Invert_Y_Axis := false
 export(bool) var Exit_On_Escape := true
 export(float) var Maximum_Y_Look := 45
+export(float) var Crouch_Accelaration := 1.0
 export(float) var Walk_Accelaration := 3.0
 export(float) var Sprint_Accelaration := 6.0
 export(float) var Jump_Speed := 10.0
@@ -91,6 +92,9 @@ func _physics_process(delta):
 	if player.is_sprinting():
 		Accelaration = Sprint_Accelaration
 		Maximum_Speed = player.speed_sprint
+	elif player.is_crouching:
+		Accelaration = Crouch_Accelaration
+		Maximum_Speed = player.speed_crouch
 	else:
 		Accelaration = Walk_Accelaration
 		Maximum_Speed = player.speed_walk

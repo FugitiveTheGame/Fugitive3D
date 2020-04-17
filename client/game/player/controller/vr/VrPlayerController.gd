@@ -1,6 +1,6 @@
 extends "res://addons/OQ_Toolkit/OQ_ARVROrigin/scripts/OQ_ARVROrigin.gd"
 
-var standingHeight: float
+var standingHeight: float = -1.0
 const CROUCH_THRESHOLD := 0.75
 
 onready var camera := $OQ_ARVRCamera
@@ -13,16 +13,21 @@ onready var fpsLabel := $OQ_LeftController/VisibilityToggle/HudCanvas.find_node(
 func _ready():
 	player.set_is_local_player()
 	
-	# Record the players height when we start here
-	call_deferred("set_standing_height")
-	
 	# Performance tuning for mobile VR clients
 	if OS.has_feature("mobile"):
 		camera.far = 100.0
 
 
 func set_standing_height():
-	standingHeight = camera.translation.y
+	# Only allow setting standing height during pre-game
+	# Other wise you could cheat during the game
+	if not player.gameStarted:
+		vr.log_info("Standing height set")
+		standingHeight = camera.translation.y
+		
+		hud.find_node("HeightLabel", true, false).text = "Height: %f m" % standingHeight
+	else:
+		vr.log_warning("Cannot set standing height while playing")
 
 
 func _process(delta):
@@ -44,6 +49,8 @@ func _process(delta):
 	
 	if player.is_sprinting():
 		locomotion.move_speed = player.speed_sprint
+	elif player.is_crouching:
+		locomotion.move_speed = player.speed_crouch
 	else:
 		locomotion.move_speed = player.speed_walk
 
