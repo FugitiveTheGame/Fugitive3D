@@ -15,4 +15,15 @@ text = "Start Game"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="LeaveButton" type="Button" parent="." index="3"]
+margin_left = 780.855
+margin_top = 82.9828
+margin_right = 829.855
+margin_bottom = 102.983
+text = "Leave"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="pressed" from="StartButton" to="." method="_on_StartButton_pressed"]
+[connection signal="pressed" from="LeaveButton" to="." method="_on_LeaveButton_pressed"]

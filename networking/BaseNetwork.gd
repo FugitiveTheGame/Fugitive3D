@@ -23,6 +23,7 @@ func reset_network():
 	var peer = get_tree().network_peer
 	if peer != null:
 		peer.close_connection()
+		get_tree().set_network_peer(null)
 	
 	# Cleanup all state related to the game session
 	GameData.reset()

@@ -2,11 +2,13 @@ extends "BaseNetwork.gd"
 
 signal create_player
 signal start_game
+signal lost_connection_to_server
 
 var localPlayerName: String
 
 func join_game(serverIp: String, serverPort: int, playerName: String) -> bool:
 	get_tree().connect('connected_to_server', self, 'on_connected_to_server')
+	get_tree().connect('server_disconnected', self, 'on_disconnected_from_server')
 	
 	self.localPlayerName = playerName
 	
@@ -23,6 +25,12 @@ func join_game(serverIp: String, serverPort: int, playerName: String) -> bool:
 
 func on_connected_to_server():
 	print("Connected to server.")
+
+
+func on_disconnected_from_server():
+	print("Disconnected from server.")
+	reset_network()
+	emit_signal("lost_connection_to_server")
 
 
 func register_player(recipientId: int, playerId: int, playerName: String, playerType: int):
