@@ -21,3 +21,7 @@ func update_shaders():
 	
 	for material in crouchingMaterials:
 		material.set_shader_param("alpha", alpha)
+
+
+func get_frozen_shape() -> Spatial:
+	return $FrozenIce as Spatial

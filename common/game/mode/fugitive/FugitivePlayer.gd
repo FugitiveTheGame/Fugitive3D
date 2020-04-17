@@ -51,6 +51,7 @@ func on_game_state_changed(newState: State, via: Transition):
 			if playerController.has_method("on_state_countdown"):
 				playerController.on_state_countdown()
 		FugitiveStateMachine.STATE_PLAYING_HEADSTART:
+			gameStarted = true
 			on_state_playing_headstart()
 			if playerController.has_method("on_state_headstart"):
 				playerController.on_state_headstart()
@@ -58,8 +59,6 @@ func on_game_state_changed(newState: State, via: Transition):
 			on_state_playing()
 			if playerController.has_method("on_state_playing"):
 				playerController.on_state_playing()
-		FugitiveStateMachine.STATE_PLAYING:
-				gameStarted = true
 		FugitiveStateMachine.STATE_GAME_OVER:
 				gameEnded = true
 
