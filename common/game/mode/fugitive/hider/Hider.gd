@@ -31,19 +31,22 @@ func _on_UnfreezeArea_body_entered(body):
 	print("_on_UnfreezeArea_body_entered")
 	# Server authoratative
 	if get_tree().is_network_server():
-		print("is server")
 		# If we are frozen, and another hider is tagging us, then unfreeze
 		if frozen and body.has_method("get_player") and is_playing():
-			print("is player")
 			var player := body.get_player() as Player
 			if player.playerType == GameData.PlayerType.Hider:
-				print("Unfreeze!")
 				unfreeze()
 
 
 remotesync func on_freeze():
 	.on_freeze()
 	freeze_sound.play()
+	playerShape.get_frozen_shape().show()
+
+
+remotesync func on_unfreeze():
+	.on_unfreeze()
+	playerShape.get_frozen_shape().hide()
 
 
 func on_state_playing_headstart():
