@@ -18,6 +18,10 @@ func on_state_not_ready():
 
 
 func on_state_ready():
+	# Do this automatically id the user hasn't done it manually yet
+	if standingHeight <= 0.0:
+		set_standing_height()
+	
 	pregameHud.show_ready()
 
 
