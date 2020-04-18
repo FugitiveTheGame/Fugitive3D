@@ -4,7 +4,7 @@
 # for when it should fire. This is useful for synchornizing events
 # across multiple clients such as in Multiplayer
 extends Node
-class_name WallClockTimer, 'res://utilities/wallclock_timer/icon.png'
+class_name WallClockTimer, 'icon.png'
 
 signal timeout
 
