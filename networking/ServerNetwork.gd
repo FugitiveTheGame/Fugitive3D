@@ -1,7 +1,7 @@
 extends "BaseNetwork.gd"
 
 const SERVER_ID := 1
-const SERVER_REPOSITORY_URL := "http://localhost:8080"
+const SERVER_REPOSITORY_URL := "http://repository.fugitivethegame.online:8080"
 
 func _player_connected(id):
 	print("Player connected: " + str(id))
