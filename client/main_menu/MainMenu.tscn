@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://client/main_menu/MainMenu.gd" type="Script" id=1]
+[ext_resource path="res://client/main_menu/server_browser/ServerBrowser.tscn" type="PackedScene" id=2]
 
 [node name="MainMenu" type="ReferenceRect"]
 rect_min_size = Vector2( 1024, 600 )
@@ -17,10 +18,10 @@ margin_bottom = 53.0
 text = "Main Menu"
 
 [node name="PlayerNameLabel" type="Label" parent="."]
-margin_left = 193.0
-margin_top = 110.0
-margin_right = 265.0
-margin_bottom = 124.0
+margin_left = 27.0342
+margin_top = 74.6302
+margin_right = 108.034
+margin_bottom = 88.6302
 text = "Player Name"
 
 [node name="PlayerName" type="LineEdit" parent="PlayerNameLabel"]
@@ -35,11 +36,21 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="ManualConnectLabel" type="Label" parent="."]
+margin_left = 13.6038
+margin_top = 326.49
+margin_right = 129.604
+margin_bottom = 340.49
+text = "Manual Connect:w"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="ServerIpLabel" type="Label" parent="."]
-margin_left = 193.0
-margin_top = 179.0
-margin_right = 233.0
-margin_bottom = 193.0
+margin_left = 18.8719
+margin_top = 368.092
+margin_right = 75.8719
+margin_bottom = 382.092
 text = "Server IP"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -57,10 +68,10 @@ __meta__ = {
 }
 
 [node name="ServerPortLabel" type="Label" parent="."]
-margin_left = 447.39
-margin_top = 179.0
-margin_right = 504.39
-margin_bottom = 193.0
+margin_left = 273.262
+margin_top = 368.092
+margin_right = 330.262
+margin_bottom = 399.092
 text = "Port
 "
 __meta__ = {
@@ -79,12 +90,23 @@ __meta__ = {
 }
 
 [node name="ConnectButton" type="Button" parent="."]
-margin_left = 375.0
-margin_top = 268.0
-margin_right = 439.0
-margin_bottom = 288.0
+margin_left = 350.513
+margin_top = 391.794
+margin_right = 414.513
+margin_bottom = 411.794
 text = "Connect"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="ServerBrowser" parent="." instance=ExtResource( 2 )]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -523.0
+margin_top = -327.0
+margin_right = 0.0
+margin_bottom = 0.0
 [connection signal="pressed" from="ConnectButton" to="." method="_on_ConnectButton_pressed"]
+[connection signal="connect_to_server" from="ServerBrowser" to="." method="_on_ServerBrowser_connect_to_server"]

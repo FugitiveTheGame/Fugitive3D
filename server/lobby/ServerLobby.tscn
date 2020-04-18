@@ -1,7 +1,21 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://common/lobby/Lobby.tscn" type="PackedScene" id=1]
 [ext_resource path="res://server/lobby/ServerLobby.gd" type="Script" id=2]
+[ext_resource path="res://addons/LANServerBroadcast/server_advertiser/ServerAdvertiser.gd" type="Script" id=3]
 
 [node name="Lobby" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+
+[node name="ServerAdvertiser" type="Node" parent="." index="2"]
+script = ExtResource( 3 )
+
+[node name="IpRequest" type="HTTPRequest" parent="." index="3"]
+
+[node name="RegisterRequest" type="HTTPRequest" parent="." index="4"]
+
+[node name="RepositoryRegisterTimer" type="Timer" parent="." index="5"]
+wait_time = 30.0
+autostart = true
+[connection signal="request_completed" from="IpRequest" to="." method="_on_IpRequest_request_completed"]
+[connection signal="timeout" from="RepositoryRegisterTimer" to="." method="_on_RepositoryRegisterTimer_timeout"]
