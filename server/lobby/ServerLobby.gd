@@ -4,6 +4,7 @@ onready var advertiser := $ServerAdvertiser as ServerAdvertiser
 var serverPort: int
 var serverName: String
 var externalIp = null
+var private := false
 
 func _enter_tree():
 	serverPort = get_port()
@@ -21,6 +22,11 @@ func _enter_tree():
 func _ready():
 	advertiser.serverInfo["port"] = serverPort
 	advertiser.serverInfo["name"] = serverName
+	private = get_private()
+	
+	# If private, don't advertise to the repository
+	if private:
+		$RepositoryRegisterTimer.stop()
 	
 	fetch_external_ip()
 
@@ -103,6 +109,21 @@ func get_port() -> int:
 					break
 	
 	return port
+
+
+# Parse command line port in the form of:
+# --private
+func get_private() -> bool:
+	var private := false
+	
+	var args := OS.get_cmdline_args()
+	for ii in range(args.size()):
+		var arg = args[ii]
+		if arg.nocasecmp_to("--private") == 0:
+			private = true
+			break
+	
+	return private
 
 
 func _on_RepositoryRegisterTimer_timeout():
