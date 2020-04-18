@@ -9,8 +9,8 @@ func _on_ConnectButton_pressed():
 	var ip := $ServerIpLabel/ServerIp.text as String
 	var portStr := $ServerPortLabel/ServerPort.text as String
 	var port := int(portStr)
-	var playerName := $PlayerNameLabel/PlayerName.text as String
-	connect_to_server(playerName, ip, port)
+	
+	on_connect_request(ip, port)
 
 
 func connect_to_server(playerName: String, serverIp: String, serverPort: int):
@@ -26,3 +26,11 @@ func on_connected_to_server():
 func go_to_lobby():
 	print("go_to_lobby() MUST BE OVERRIDEN")
 
+
+func _on_ServerBrowser_connect_to_server(ip, port):
+	on_connect_request(ip, port)
+
+
+func on_connect_request(ip: String, port: int):
+	var playerName := $PlayerNameLabel/PlayerName.text as String
+	connect_to_server(playerName, ip, port)
