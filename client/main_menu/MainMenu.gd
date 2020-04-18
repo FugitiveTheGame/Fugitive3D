@@ -28,7 +28,7 @@ func go_to_lobby():
 
 
 func _on_ServerBrowser_connect_to_server(ip, port):
-	on_connect_request(ip, port)
+	on_connect_request(ip, int(port))
 
 
 func on_connect_request(ip: String, port: int):

@@ -21,8 +21,9 @@ func _on_ServerRepoRequest_request_completed(result, response_code, headers, bod
 	if response_code == 200:
 		var servers = parse_json(body.get_string_from_utf8())
 		
-		for server in servers:
-			add_server(server, false)
+		if servers != null:
+			for server in servers:
+				add_server(server, false)
 		
 	else:
 		print('Failed to get servers')
@@ -54,7 +55,7 @@ func remove_server(serverIp):
 
 
 # Just re-emit
-func on_connect_request(ip: String, port: int):
+func on_connect_request(ip, port):
 	emit_signal("connect_to_server", ip, port)
 
 
