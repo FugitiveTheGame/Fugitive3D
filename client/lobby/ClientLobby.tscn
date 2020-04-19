@@ -5,6 +5,8 @@
 
 [node name="Lobby" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+startButtonPath = NodePath("StartButton")
+leaveButtonPath = NodePath("LeaveButton")
 
 [node name="StartButton" type="Button" parent="." index="2"]
 margin_left = 772.0

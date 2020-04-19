@@ -10,6 +10,17 @@ const PLAYER_TYPE = "type"
 const PLAYER_HOST = "host"
 
 
+func get_players() -> Array:
+	return players.values()
+
+
+func get_player(playerId: int):
+	if players.has(playerId):
+		return players[playerId]
+	else:
+		return null
+
+
 func create_new_player(playerId: int, playerName: String, playerType: int) -> Dictionary:
 	return {
 		PLAYER_ID: playerId,

@@ -8,17 +8,30 @@ anchor_bottom = 0.069
 margin_right = -3.05176e-05
 margin_bottom = -0.200005
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="NameLabel" type="Label" parent="."]
 margin_top = 20.0
-margin_right = 369.0
+margin_right = 236.0
 margin_bottom = 34.0
 size_flags_horizontal = 3
 text = "Name"
 
 [node name="HostLabel" type="Label" parent="."]
-margin_left = 373.0
+margin_left = 240.0
 margin_top = 20.0
-margin_right = 416.0
+margin_right = 283.0
 margin_bottom = 34.0
 text = "[HOST]"
+
+[node name="TeamButton" type="OptionButton" parent="."]
+margin_left = 287.0
+margin_right = 415.0
+margin_bottom = 54.0
+rect_min_size = Vector2( 128, 0 )
+text = "Hider"
+items = [ "Hider", null, false, 0, null, "Seeker", null, false, 1, null ]
+selected = 0
+[connection signal="item_selected" from="TeamButton" to="." method="_on_TeamButton_item_selected"]
