@@ -4,6 +4,7 @@ class_name Lobby
 export(NodePath) var playerListPath: NodePath
 onready var playerList := get_node(playerListPath) as VBoxContainer
 
+var is_starting := false
 
 func _ready():
 	ClientNetwork.connect("create_player", self, "create_player")
@@ -27,7 +28,7 @@ func create_player(playerId: int):
 	var playerNode = playerListItem.instance()
 	playerNode.set_network_master(playerId)
 	playerNode.set_name(str(playerId))
-	playerNode.populate(player)
+	playerNode.populate(player, is_starting)
 	
 	playerList.add_child(playerNode)
 	
@@ -51,7 +52,7 @@ func update_player(playerId: int):
 	
 	var node := find_player_node(playerId)
 	if node != null:
-		node.populate(player)
+		node.populate(player, is_starting)
 	else:
 		print("update_player() - Failed to get player node")
 	
@@ -66,6 +67,12 @@ func remove_player(playerId: int):
 		print("Lobby: remove_player: failed to find node for player: %d" % playerId)
 	
 	update_ui()
+
+
+func update_all_players():
+	if not GameData.players.empty():
+		for playerId in GameData.players:
+			update_player(playerId)
 
 
 func can_start() -> bool:
@@ -90,3 +97,8 @@ func can_start() -> bool:
 
 func update_ui():
 	pass
+
+
+remotesync func start_timer():
+	is_starting = true
+	update_all_players()

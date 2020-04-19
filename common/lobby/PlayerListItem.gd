@@ -2,7 +2,7 @@ extends Control
 
 var playerInfo = null
 
-func populate(player):
+func populate(player, is_starting: bool):
 	playerInfo = player
 	
 	var playerId = playerInfo[GameData.PLAYER_ID]
@@ -17,7 +17,7 @@ func populate(player):
 		GameData.PlayerType.Seeker:
 			$TeamButton.selected = 1
 	
-	$TeamButton.disabled = not ClientNetwork.is_local_player(playerId)
+	$TeamButton.disabled = not ClientNetwork.is_local_player(playerId) or is_starting
 
 
 func _on_TeamButton_item_selected(id):

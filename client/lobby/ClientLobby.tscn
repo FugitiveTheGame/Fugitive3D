@@ -27,5 +27,20 @@ text = "Leave"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="StartTimer" type="Timer" parent="." index="4"]
+wait_time = 5.0
+
+[node name="StartLabel" type="Label" parent="." index="5"]
+visible = false
+margin_left = 334.629
+margin_top = 34.6688
+margin_right = 440.629
+margin_bottom = 48.6688
+text = "Starting in 0:05"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="pressed" from="StartButton" to="." method="_on_StartButton_pressed"]
 [connection signal="pressed" from="LeaveButton" to="." method="_on_LeaveButton_pressed"]
+[connection signal="timeout" from="StartTimer" to="." method="_on_StartTimer_timeout"]
