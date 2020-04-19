@@ -40,8 +40,6 @@ margin_right = 523.0
 size_flags_horizontal = 3
 size_flags_vertical = 9
 
-[node name="ServerRepoRequest" type="HTTPRequest" parent="."]
-
 [node name="RefreshButton" type="Button" parent="."]
 anchor_left = 1.0
 anchor_right = 1.0
@@ -55,5 +53,5 @@ __meta__ = {
 }
 [connection signal="new_server" from="ServerListener" to="." method="_on_ServerListener_new_server"]
 [connection signal="remove_server" from="ServerListener" to="." method="_on_ServerListener_remove_server"]
-[connection signal="request_completed" from="ServerRepoRequest" to="." method="_on_ServerRepoRequest_request_completed"]
+[connection signal="update_server" from="ServerListener" to="." method="_on_ServerListener_update_server"]
 [connection signal="pressed" from="RefreshButton" to="." method="_on_RefreshButton_pressed"]

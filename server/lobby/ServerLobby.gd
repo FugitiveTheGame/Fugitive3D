@@ -3,8 +3,7 @@ extends "res://common/lobby/Lobby.gd"
 onready var advertiser := $ServerAdvertiser as ServerAdvertiser
 var serverPort: int
 var serverName: String
-var externalIp = null
-var private := false
+
 
 func _enter_tree():
 	serverPort = get_port()
@@ -22,46 +21,8 @@ func _enter_tree():
 func _ready():
 	advertiser.serverInfo["port"] = serverPort
 	advertiser.serverInfo["name"] = serverName
-	private = get_private()
-	
-	# If private, don't advertise to the repository
-	if private:
-		$RepositoryRegisterTimer.stop()
-	
-	fetch_external_ip()
-
-
-func fetch_external_ip():
-	$IpRequest.request("https://api.ipify.org/?format=json")
-
-
-func _on_IpRequest_request_completed(result, response_code, headers, body):
-	if response_code == 200:
-		var json = parse_json(body.get_string_from_utf8())
-		print('External IP: %s' % json.ip)
-		externalIp = json.ip
-		advertiser.serverInfo["ip"] = externalIp
-		
-		register_server()
-	else:
-		print('Failed to get external IP')
-
-
-func register_server():
-	if externalIp != null:
-		var url := ServerNetwork.SERVER_REPOSITORY_URL + "/register"
-		
-		# Marshal the data for transmission
-		# They must all be strings
-		var data = {
-			"ip": advertiser.serverInfo["ip"],
-			"port": str(advertiser.serverInfo["port"]),
-			"name": advertiser.serverInfo["name"],
-		}
-		
-		var body := JSON.print(data)
-		var headers := ["Content-Type: application/json"]
-		$RegisterRequest.request(url, headers, false, HTTPClient.METHOD_POST, body)
+	advertiser.private = get_private()
+	advertiser.serverRepositoryUrl = ServerNetwork.SERVER_REPOSITORY_URL + "/register"
 
 
 func on_start_game():
@@ -124,7 +85,3 @@ func get_private() -> bool:
 			break
 	
 	return private
-
-
-func _on_RepositoryRegisterTimer_timeout():
-	register_server()

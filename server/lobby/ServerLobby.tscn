@@ -9,13 +9,3 @@ script = ExtResource( 2 )
 
 [node name="ServerAdvertiser" type="Node" parent="." index="2"]
 script = ExtResource( 3 )
-
-[node name="IpRequest" type="HTTPRequest" parent="." index="3"]
-
-[node name="RegisterRequest" type="HTTPRequest" parent="." index="4"]
-
-[node name="RepositoryRegisterTimer" type="Timer" parent="." index="5"]
-wait_time = 30.0
-autostart = true
-[connection signal="request_completed" from="IpRequest" to="." method="_on_IpRequest_request_completed"]
-[connection signal="timeout" from="RepositoryRegisterTimer" to="." method="_on_RepositoryRegisterTimer_timeout"]
