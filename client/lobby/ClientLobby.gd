@@ -1,5 +1,12 @@
 extends Lobby
 
+export(NodePath) var startButtonPath: NodePath
+onready var startButton := get_node(startButtonPath) as Button
+
+export(NodePath) var leaveButtonPath: NodePath
+onready var leaveButton := get_node(leaveButtonPath) as Button
+
+
 var is_host := false
 
 func _ready():
@@ -49,3 +56,8 @@ func update_host(playerId: int):
 		$StartButton.show()
 	else:
 		$StartButton.hide()
+
+
+func update_ui():
+	.update_ui()
+	$StartButton.disabled = not can_start()

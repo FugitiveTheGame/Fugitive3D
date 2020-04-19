@@ -1,11 +1,16 @@
 extends Control
 class_name Lobby
 
+export(NodePath) var playerListPath: NodePath
+onready var playerList := get_node(playerListPath) as VBoxContainer
+
 
 func _ready():
 	ClientNetwork.connect("create_player", self, "create_player")
 	ClientNetwork.connect("update_player", self, "update_player")
 	ClientNetwork.connect("remove_player", self, "remove_player")
+	
+	update_ui()
 
 
 func create_player(playerId: int):
@@ -24,14 +29,16 @@ func create_player(playerId: int):
 	playerNode.set_name(str(playerId))
 	playerNode.populate(player)
 	
-	$Players.add_child(playerNode)
+	playerList.add_child(playerNode)
+	
+	update_ui()
 
 
 func find_player_node(playerId: int) -> Control:
 	var playerNode: Control = null
 	
 	var nodeName := str(playerId)
-	for child in $Players.get_children():
+	for child in playerList.get_children():
 		if child.name == nodeName:
 			playerNode = child
 			break
@@ -47,11 +54,39 @@ func update_player(playerId: int):
 		node.populate(player)
 	else:
 		print("update_player() - Failed to get player node")
+	
+	update_ui()
 
 
 func remove_player(playerId: int):
 	var node := find_player_node(playerId)
 	if node != null:
-		$Players.remove_child(node)
+		playerList.remove_child(node)
 	else:
 		print("Lobby: remove_player: failed to find node for player: %d" % playerId)
+	
+	update_ui()
+
+
+func can_start() -> bool:
+	var canStart := false
+	
+	var numSeekers := 0
+	var numHiders := 0
+	
+	var players = GameData.get_players()
+	
+	if not players.empty():
+		for player in players:
+			if player[GameData.PLAYER_TYPE] == GameData.PlayerType.Hider:
+				numHiders += 1
+			elif player[GameData.PLAYER_TYPE] == GameData.PlayerType.Seeker:
+				numSeekers += 1
+	
+	canStart = (numHiders > 0 and numSeekers > 0)
+	
+	return canStart
+
+
+func update_ui():
+	pass

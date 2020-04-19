@@ -63,3 +63,7 @@ func start_game():
 
 remotesync func on_start_game():
 	emit_signal("start_game")
+
+
+func is_local_player(playerId: int) -> bool:
+	return playerId == get_tree().get_network_unique_id()

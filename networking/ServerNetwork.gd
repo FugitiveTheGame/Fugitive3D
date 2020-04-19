@@ -79,3 +79,16 @@ func host_game(port: int = SERVER_PORT) -> bool:
 	else:
 		print("Failed to host game: %d" % result)
 		return false
+
+
+func change_player_type(playerId: int, playerType: int):
+	rpc("on_change_player_type", playerId, playerType)
+
+
+remote func on_change_player_type(playerId: int, playerType: int):
+	var player = GameData.get_player(playerId)
+	if player != null:
+		player[GameData.PLAYER_TYPE] = playerType
+		ClientNetwork.update_player(player)
+	else:
+		print("ERROR: on_change_player_type() player not found for ID: %d" % playerId)

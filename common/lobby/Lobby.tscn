@@ -9,6 +9,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+playerListPath = NodePath("PanelContainer/ScrollContainer/Players")
 
 [node name="Title" type="Label" parent="."]
 margin_right = 40.0
@@ -18,11 +19,28 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Players" type="VBoxContainer" parent="."]
-margin_left = 138.0
-margin_top = 73.0
-margin_right = 666.0
-margin_bottom = 347.0
+[node name="PanelContainer" type="PanelContainer" parent="."]
+margin_left = 69.3792
+margin_top = 68.0187
+margin_right = 767.379
+margin_bottom = 536.019
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 691.0
+margin_bottom = 461.0
+scroll_horizontal_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Players" type="VBoxContainer" parent="PanelContainer/ScrollContainer"]
+margin_right = 684.0
+size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
