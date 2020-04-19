@@ -44,6 +44,8 @@ remote func on_register_self(playerId, playerName):
 			var player = GameData.players[curPlayerId]
 			ClientNetwork.register_player(playerId, player)
 	
+	ClientNetwork.update_game_data()
+	
 	# If this is the first player to connect
 	# make them the host
 	if GameData.players.size() == 1:
@@ -73,6 +75,8 @@ func host_game(port: int = SERVER_PORT) -> bool:
 		get_tree().set_network_peer(peer)
 		
 		get_tree().connect("network_peer_connected", self, "_player_connected")	
+		
+		GameData.general[GameData.GENERAL_SEED] = OS.get_unix_time()
 		
 		print("Server started.")
 		return true

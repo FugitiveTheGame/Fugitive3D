@@ -3,7 +3,6 @@ class_name FugitiveGame
 
 onready var stateMachine := $StateMachine as FugitiveStateMachine
 
-var mapPath: String = "res://common/game/maps/test_map_01/TestMap01.scn"
 var map: FugitiveMap
 var players: Node
 var gameTimer: Timer
@@ -17,14 +16,25 @@ func _ready():
 	print("Entering game")
 	get_tree().paused = true
 	
-	load_map()
+	var mapPath := get_map(GameData.general[GameData.GENERAL_MAP])
+	load_map(mapPath)
 	
 	ClientNetwork.connect("remove_player", self, "remove_player")
 	
 	pre_configure()
 
 
-func load_map():
+func get_map(mapId: int) -> String:
+	var mapPath: String
+	
+	match mapId:
+		0:
+			mapPath = "res://common/game/maps/test_map_01/TestMap01.scn"
+	
+	return mapPath
+
+
+func load_map(mapPath: String):
 	var scene := load(mapPath)
 	map = scene.instance()
 	add_child(map)
@@ -68,6 +78,9 @@ remotesync func on_finish_game():
 # This has to be completed on all clients before the game can start
 # Once completed, notify the server that we are done
 func pre_configure():
+	var sharedSeed = GameData.general[GameData.GENERAL_SEED]
+	seed(sharedSeed)
+	
 	var sortedPlayers = []
 	for playerId in GameData.players:
 		sortedPlayers.push_back(playerId)

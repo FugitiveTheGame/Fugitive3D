@@ -2,6 +2,7 @@ extends "BaseNetwork.gd"
 
 signal create_player(playerId)
 signal update_player(playerId)
+signal update_game_data(generalData)
 signal start_game
 signal lost_connection_to_server
 
@@ -55,6 +56,15 @@ func update_player(playerInfo):
 remotesync func on_update_player(playerInfo):
 	GameData.update_player(playerInfo)
 	emit_signal("update_player", playerInfo[GameData.PLAYER_ID])
+
+
+func update_game_data():
+	rpc("on_update_game_data", GameData.general)
+
+
+remote func on_update_game_data(generalData):
+	GameData.general = generalData
+	emit_signal("update_game_data", GameData.general)
 
 
 func start_game():

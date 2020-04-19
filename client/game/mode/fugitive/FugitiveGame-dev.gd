@@ -5,7 +5,8 @@ var be_seeker := true
 
 func _enter_tree():
 	# Change this to test what ever map you wish
-	mapPath = "res://common/game/maps/test_map_01/TestMap01.scn"
+	GameData.general[GameData.GENERAL_MAP] = 0
+	
 
 	# Start a local server, the whole game expects to be multiplayer	
 	var peer := NetworkedMultiplayerENet.new()
