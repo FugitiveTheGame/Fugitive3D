@@ -6,12 +6,11 @@ var is_lan := false
 var serverInfo = null
 
 
-func populate(info, lan: bool):
+func populate(info):
 	serverInfo = info
-	is_lan = lan
 	
 	$NameLabel.text = "%s - %s" % [serverInfo.name, serverInfo.ip]
-	$LanIndicator.visible = is_lan
+	$LanIndicator.visible = serverInfo.lan
 
 
 func _on_ConnectButton_pressed():

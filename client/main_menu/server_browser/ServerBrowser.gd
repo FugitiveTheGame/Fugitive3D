@@ -9,40 +9,21 @@ var serverListItemScene := preload("res://client/main_menu/server_browser/Server
 
 
 func _ready():
-	request_servers()
-
-
-func request_servers():
-	var url := ServerNetwork.SERVER_REPOSITORY_URL + "/list"
-	$ServerRepoRequest.request(url)
-
-
-func _on_ServerRepoRequest_request_completed(result, response_code, headers, body):
-	if response_code == 200:
-		var servers = parse_json(body.get_string_from_utf8())
-		
-		if servers != null:
-			for server in servers:
-				add_server(server, false)
-		
-	else:
-		print('Failed to get servers')
+	$ServerListener.serverRepositoryUrl = ServerNetwork.SERVER_REPOSITORY_URL + "/list"
+	$ServerListener.request_servers()
 
 
 func _on_ServerListener_new_server(serverInfo):
-	add_server(serverInfo, true)
+	add_server(serverInfo)
 
 
 func _on_ServerListener_remove_server(serverIp):
 	remove_server(serverIp)
 
 
-func add_server(serverInfo, is_lan):
-	# If the server already exists, remove it
-	remove_server(serverInfo.ip)
-	
+func add_server(serverInfo):
 	var serverNode := serverListItemScene.instance()
-	serverNode.populate(serverInfo, is_lan)
+	serverNode.populate(serverInfo)
 	serverNode.connect("connect_to_server", self, "on_connect_request")
 	serverList.add_child(serverNode)
 
@@ -54,10 +35,25 @@ func remove_server(serverIp):
 			break
 
 
+func get_server(serverIp) -> Control:
+	var node = null
+	for serverNode in serverList.get_children():
+		if serverNode.serverInfo.ip == serverIp:
+			node = serverNode
+			break
+	
+	return node
+
+
 # Just re-emit
 func on_connect_request(ip, port):
 	emit_signal("connect_to_server", ip, port)
 
 
 func _on_RefreshButton_pressed():
-	request_servers()
+	$ServerListener.request_servers()
+
+
+func _on_ServerListener_update_server(serverInfo):
+	var serverNode := get_server(serverInfo.ip)
+	serverNode.populate(serverInfo)
