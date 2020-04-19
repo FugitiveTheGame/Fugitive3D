@@ -53,11 +53,12 @@ func update_host(playerId: int):
 		is_host = player[GameData.PLAYER_HOST]
 	
 	if is_host:
-		$StartButton.show()
+		startButton.show()
 	else:
-		$StartButton.hide()
+		startButton.hide()
 
 
 func update_ui():
 	.update_ui()
-	$StartButton.disabled = not can_start()
+	if startButton != null:
+		startButton.disabled = not can_start()

@@ -9,6 +9,9 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+playerNamePath = NodePath("PlayerNameLabel/PlayerName")
+serverIpPath = NodePath("ServerIpLabel/ServerIp")
+serverPortPath = NodePath("ServerPortLabel/ServerPort")
 
 [node name="ScreenTitle" type="Label" parent="."]
 margin_left = 30.0
@@ -23,6 +26,9 @@ margin_top = 74.6302
 margin_right = 108.034
 margin_bottom = 88.6302
 text = "Player Name"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="PlayerName" type="LineEdit" parent="PlayerNameLabel"]
 margin_left = 1.0
