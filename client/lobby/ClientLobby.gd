@@ -18,7 +18,7 @@ func _ready():
 
 
 func _on_StartButton_pressed():
-	ClientNetwork.start_game()
+	rpc("start_timer")
 
 
 func _on_LeaveButton_pressed():
@@ -61,4 +61,21 @@ func update_host(playerId: int):
 func update_ui():
 	.update_ui()
 	if startButton != null:
-		startButton.disabled = not can_start()
+		startButton.disabled = not can_start() or is_starting
+
+
+func _process(delta):
+	if is_starting:
+		$StartLabel.text = TimeUtils.format_seconds_for_display($StartTimer.time_left)
+
+
+remotesync func start_timer():
+	.start_timer()
+	$StartLabel.show()
+	$StartTimer.start()
+
+
+func _on_StartTimer_timeout():
+	# The host will tell all other clients to start the game
+	if is_host:
+		ClientNetwork.start_game()
