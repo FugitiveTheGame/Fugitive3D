@@ -19,6 +19,7 @@ var registerRequest := HTTPRequest.new()
 
 var repositoryRegisterTimer := Timer.new()
 
+
 func _ready():
 	broadcastTimer.wait_time = broadcast_interval
 	broadcastTimer.one_shot = false

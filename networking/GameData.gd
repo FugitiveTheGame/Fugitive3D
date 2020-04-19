@@ -7,15 +7,21 @@ var players = {}
 const PLAYER_ID = "id"
 const PLAYER_NAME = "name"
 const PLAYER_TYPE = "type"
+const PLAYER_HOST = "host"
 
 
 func create_new_player(playerId: int, playerName: String, playerType: int) -> Dictionary:
-	return { PLAYER_ID: playerId, PLAYER_NAME: playerName, PLAYER_TYPE: playerType }
+	return {
+		PLAYER_ID: playerId,
+		PLAYER_NAME: playerName,
+		PLAYER_TYPE: playerType,
+		PLAYER_HOST: false
+	}
 
 
-func add_player(playerId: int, playerName: String, playerType: int) -> bool:
+func add_player(newPlayer: Dictionary) -> bool:
+	var playerId = newPlayer[PLAYER_ID]
 	if not self.players.has(playerId):
-		var newPlayer = create_new_player(playerId, playerName, playerType)
 		self.players[playerId] = newPlayer
 		return true
 	else:
@@ -40,3 +46,8 @@ func get_current_player_type() -> int:
 		return curPlayer[PLAYER_TYPE]
 	else:
 		return PlayerType.Unset
+
+
+func update_player(player):
+	var playerId = player[PLAYER_ID]
+	players[playerId] = player

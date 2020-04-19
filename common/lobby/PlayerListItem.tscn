@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://common/lobby/PlayerListItem.gd" type="Script" id=1]
+
+[node name="PlayerListItem" type="HBoxContainer"]
+anchor_right = 0.325
+anchor_bottom = 0.069
+margin_right = -3.05176e-05
+margin_bottom = -0.200005
+script = ExtResource( 1 )
+
+[node name="NameLabel" type="Label" parent="."]
+margin_top = 20.0
+margin_right = 369.0
+margin_bottom = 34.0
+size_flags_horizontal = 3
+text = "Name"
+
+[node name="HostLabel" type="Label" parent="."]
+margin_left = 373.0
+margin_top = 20.0
+margin_right = 416.0
+margin_bottom = 34.0
+text = "[HOST]"

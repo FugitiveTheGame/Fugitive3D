@@ -1,6 +1,7 @@
 extends "BaseNetwork.gd"
 
-signal create_player
+signal create_player(playerId)
+signal update_player(playerId)
 signal start_game
 signal lost_connection_to_server
 
@@ -33,16 +34,27 @@ func on_disconnected_from_server():
 	emit_signal("lost_connection_to_server")
 
 
-func register_player(recipientId: int, playerId: int, playerName: String, playerType: int):
-	rpc_id(recipientId, "on_register_player", playerId, playerName, playerType)
+func register_player(recipientId: int, player: Dictionary):
+	rpc_id(recipientId, "on_register_player", player)
 
 
-remote func on_register_player(playerId: int, playerName: String, playerType: int):
-	print("on_register_player: %d - %s" % [playerId, playerName] )
+remote func on_register_player(player: Dictionary):
+	var playerId = player[GameData.PLAYER_ID]
+	var playerName = player[GameData.PLAYER_NAME]
 	
-	GameData.add_player(playerId, playerName, playerType)
+	print("on_register_player: %d - %s" % [playerId, playerName] )
+	GameData.add_player(player)
 	emit_signal("create_player", playerId)
 	print("Total players: %d" % GameData.players.size())
+
+
+func update_player(playerInfo):
+	rpc("on_update_player", playerInfo)
+
+
+remotesync func on_update_player(playerInfo):
+	GameData.update_player(playerInfo)
+	emit_signal("update_player", playerInfo[GameData.PLAYER_ID])
 
 
 func start_game():

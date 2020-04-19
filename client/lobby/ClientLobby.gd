@@ -1,5 +1,7 @@
 extends Lobby
 
+var is_host := false
+
 func _ready():
 	ClientNetwork.connect("start_game", self, "on_start_game")
 	ClientNetwork.connect("lost_connection_to_server", self, "on_disconnect")
@@ -26,3 +28,24 @@ func on_start_game():
 func on_disconnect():
 	print("on_disconnect() MUST BE IMPLEMENTED")
 	assert(false)
+
+
+func create_player(playerId: int):
+	.create_player(playerId)
+	update_host(playerId)
+
+
+func update_player(playerId: int):
+	.update_player(playerId)
+	update_host(playerId)
+
+
+func update_host(playerId: int):
+	if playerId == get_tree().get_network_unique_id():
+		var player = GameData.players[playerId]
+		is_host = player[GameData.PLAYER_HOST]
+	
+	if is_host:
+		$StartButton.show()
+	else:
+		$StartButton.hide()
