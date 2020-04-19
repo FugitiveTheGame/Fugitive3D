@@ -4,6 +4,7 @@ class_name Lobby
 export(NodePath) var playerListPath: NodePath
 onready var playerList := get_node(playerListPath) as VBoxContainer
 
+var is_host := false
 var is_starting := false
 
 func _ready():
@@ -11,7 +12,7 @@ func _ready():
 	ClientNetwork.connect("update_player", self, "update_player")
 	ClientNetwork.connect("remove_player", self, "remove_player")
 	
-	update_ui()
+	call_deferred("update_ui")
 
 
 func create_player(playerId: int):
@@ -28,10 +29,11 @@ func create_player(playerId: int):
 	var playerNode = playerListItem.instance()
 	playerNode.set_network_master(playerId)
 	playerNode.set_name(str(playerId))
-	playerNode.populate(player, is_starting)
+	playerNode.populate(player, is_starting, is_host)
 	
 	playerList.add_child(playerNode)
 	
+	update_host(playerId)
 	update_ui()
 
 
@@ -52,10 +54,11 @@ func update_player(playerId: int):
 	
 	var node := find_player_node(playerId)
 	if node != null:
-		node.populate(player, is_starting)
+		node.populate(player, is_starting, is_host)
 	else:
 		print("update_player() - Failed to get player node")
 	
+	update_host(playerId)
 	update_ui()
 
 
@@ -93,6 +96,12 @@ func can_start() -> bool:
 	canStart = (numHiders > 0 and numSeekers > 0)
 	
 	return canStart
+
+
+func update_host(playerId: int):
+	if playerId == get_tree().get_network_unique_id():
+		var player = GameData.players[playerId]
+		is_host = player[GameData.PLAYER_HOST]
 
 
 func update_ui():
