@@ -21,8 +21,8 @@ func _ready():
 		unconfiguredPlayers[playerId] = playerId
 
 
-func load_map():
-	.load_map()
+func load_map(mapPath: String):
+	.load_map(mapPath)
 	map.get_start_timer().connect("timeout", self, "start_timer_timeout")
 	map.get_headstart_timer().connect("timeout", self, "headstart_timer_timeout")
 
