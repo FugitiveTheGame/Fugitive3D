@@ -4,6 +4,7 @@ class_name Lobby
 
 func _ready():
 	ClientNetwork.connect("create_player", self, "create_player")
+	ClientNetwork.connect("update_player", self, "update_player")
 	ClientNetwork.connect("remove_player", self, "remove_player")
 
 
@@ -14,16 +15,16 @@ func create_player(playerId: int):
 	
 	print("Creating player in lobby")
 	
-	var namePlateScene = preload("res://common/lobby/NamePlate.tscn")
-	
-	var namePlateNode = namePlateScene.instance()
-	namePlateNode.set_network_master(playerId)
-	namePlateNode.set_name(str(playerId))
-	
 	var player = GameData.players[playerId]
-	namePlateNode.get_node("Name").text = player[GameData.PLAYER_NAME]
 	
-	$Players.add_child(namePlateNode)
+	var playerListItem = preload("res://common/lobby/PlayerListItem.tscn")
+	
+	var playerNode = playerListItem.instance()
+	playerNode.set_network_master(playerId)
+	playerNode.set_name(str(playerId))
+	playerNode.populate(player)
+	
+	$Players.add_child(playerNode)
 
 
 func find_player_node(playerId: int) -> Control:
@@ -36,6 +37,16 @@ func find_player_node(playerId: int) -> Control:
 			break
 	
 	return playerNode
+
+
+func update_player(playerId: int):
+	var player = GameData.players[playerId]
+	
+	var node := find_player_node(playerId)
+	if node != null:
+		node.populate(player)
+	else:
+		print("update_player() - Failed to get player node")
 
 
 func remove_player(playerId: int):

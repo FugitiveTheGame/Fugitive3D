@@ -9,20 +9,20 @@ func _enter_tree():
 
 	# Start a local server, the whole game expects to be multiplayer	
 	var peer := NetworkedMultiplayerENet.new()
-	var result := peer.create_server(5555, 5)
+	var _result := peer.create_server(5555, 5)
 	peer.refuse_new_connections = true
 	get_tree().set_network_peer(peer)
 	
 	# Add our fake players, the normal spawn system will actually spawn these guys
 	if be_seeker:
-		GameData.add_player(1, "real player", GameData.PlayerType.Seeker)
-		GameData.add_player(10, "dumb donkey 0", GameData.PlayerType.Hider)
+		GameData.add_player(GameData.create_new_player(1, "real player", GameData.PlayerType.Seeker))
+		GameData.add_player(GameData.create_new_player(10, "dumb donkey 0", GameData.PlayerType.Hider))
 	else:
-		GameData.add_player(1, "real player", GameData.PlayerType.Hider)
-		GameData.add_player(10, "dumb donkey 0", GameData.PlayerType.Seeker)
+		GameData.add_player(GameData.create_new_player(1, "real player", GameData.PlayerType.Hider))
+		GameData.add_player(GameData.create_new_player(10, "dumb donkey 0", GameData.PlayerType.Seeker))
 	
 	
-	GameData.add_player(11, "dumb donkey 1", GameData.PlayerType.Hider)
+	GameData.add_player(GameData.create_new_player(11, "dumb donkey 1", GameData.PlayerType.Hider))
 
 
 func _ready():

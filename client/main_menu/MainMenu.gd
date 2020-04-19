@@ -1,8 +1,12 @@
 extends Control
 
 
-func _ready():
+func _enter_tree():
 	get_tree().connect("connected_to_server", self, "on_connected_to_server")
+
+
+func _exit_tree():
+	get_tree().disconnect("connected_to_server", self, "on_connected_to_server")
 
 
 func _on_ConnectButton_pressed():
