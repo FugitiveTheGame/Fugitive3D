@@ -10,6 +10,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 playerListPath = NodePath("PanelContainer/ScrollContainer/Players")
+mapSelectPath = NodePath("MapButton")
 
 [node name="Title" type="Label" parent="."]
 margin_right = 40.0
@@ -44,3 +45,16 @@ size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="MapButton" type="OptionButton" parent="."]
+margin_left = 620.086
+margin_top = 36.8595
+margin_right = 762.086
+margin_bottom = 56.8595
+text = "My Neighborhood"
+items = [ "My Neighborhood", null, false, 0, null ]
+selected = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="item_selected" from="MapButton" to="." method="_on_MapButton_item_selected"]

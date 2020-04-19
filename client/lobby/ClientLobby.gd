@@ -49,7 +49,8 @@ func update_ui():
 
 func _process(delta):
 	if is_starting:
-		$StartLabel.text = TimeUtils.format_seconds_for_display($StartTimer.time_left)
+		var time := TimeUtils.format_seconds_for_display($StartTimer.time_left)
+		$StartLabel.text = "Game Starting: %s" % time
 
 
 remotesync func start_timer():

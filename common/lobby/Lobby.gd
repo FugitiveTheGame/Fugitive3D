@@ -4,6 +4,9 @@ class_name Lobby
 export(NodePath) var playerListPath: NodePath
 onready var playerList := get_node(playerListPath) as VBoxContainer
 
+export(NodePath) var mapSelectPath: NodePath
+onready var mapSelect := get_node(mapSelectPath) as OptionButton
+
 var is_host := false
 var is_starting := false
 
@@ -11,6 +14,7 @@ func _ready():
 	ClientNetwork.connect("create_player", self, "create_player")
 	ClientNetwork.connect("update_player", self, "update_player")
 	ClientNetwork.connect("remove_player", self, "remove_player")
+	ClientNetwork.connect("update_game_data", self, "update_game_data")
 	
 	call_deferred("update_ui")
 
@@ -72,6 +76,12 @@ func remove_player(playerId: int):
 	update_ui()
 
 
+func update_game_data(generalData: Dictionary):
+	var mapId = generalData[GameData.GENERAL_MAP]
+	
+	mapSelect.select(mapId)
+
+
 func update_all_players():
 	if not GameData.players.empty():
 		for playerId in GameData.players:
@@ -105,9 +115,14 @@ func update_host(playerId: int):
 
 
 func update_ui():
-	pass
+	mapSelect.disabled = not is_host
 
 
 remotesync func start_timer():
 	is_starting = true
 	update_all_players()
+
+
+func _on_MapButton_item_selected(id):
+	GameData.general[GameData.GENERAL_MAP] = id
+	ClientNetwork.update_game_data()

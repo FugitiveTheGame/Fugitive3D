@@ -2,12 +2,21 @@ extends Node
 
 enum PlayerType { Hider, Seeker, Random, Server, Unset }
 
-var players = {}
-
 const PLAYER_ID = "id"
 const PLAYER_NAME = "name"
 const PLAYER_TYPE = "type"
 const PLAYER_HOST = "host"
+
+var players = {}
+
+
+const GENERAL_MAP = "map"
+const GENERAL_SEED = "shared_seed"
+
+var general = {
+	GENERAL_MAP : 0,
+	GENERAL_SEED : 0
+}
 
 
 func get_players() -> Array:
