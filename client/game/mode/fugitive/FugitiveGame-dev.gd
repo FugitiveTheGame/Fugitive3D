@@ -7,7 +7,6 @@ func _enter_tree():
 	# Change this to test what ever map you wish
 	GameData.general[GameData.GENERAL_MAP] = 0
 	
-
 	# Start a local server, the whole game expects to be multiplayer	
 	var peer := NetworkedMultiplayerENet.new()
 	var _result := peer.create_server(5555, 5)

@@ -3,7 +3,7 @@ extends KinematicBody
 onready var camera := $Camera as FpsCamera
 onready var player := $Player as Player
 
-func get_player():
+func get_player() -> Player:
 	return player
 
 
@@ -75,11 +75,6 @@ func _process(delta):
 	player.isSprinting = Input.is_action_pressed("flat_player_sprint")
 
 
-func _exit_tree():
-	# Release the mouse if we're leaving the scene
-	self.mouseCaptured = false
-
-
 func _physics_process(delta):
 	velocity.x = 0
 	velocity.z = 0
@@ -136,6 +131,9 @@ func _physics_process(delta):
 		velocity = Vector3()
 	
 	velocity = move_and_slide(velocity, Vector3(0,1,0))
+	
+	# Gravity means that even when we're on the ground, our Y component always
+	# has a large size. So for isMoving we only consider X and Z
 	player.isMoving = (abs(Vector3(velocity.x, 0.0, velocity.z).length()) > MOVEMENT_LAMBDA)
 	
 	player.rpc_unreliable("network_update", translation, rotation, player.is_crouching, player.isMoving, player.isSprinting)
@@ -149,14 +147,17 @@ func _input(event):
 	if event is InputEventMouseMotion:
 		rotate_y(-Sensitivity_X * event.relative.x)
 	else:
-		if event.is_action_pressed("flat_player_crouch", true):
-			if player != null:
-				player.is_crouching = true
-				update_camera_to_head()
-		elif event.is_action_released("flat_player_crouch"):
-			if player != null:
-				player.is_crouching = false
-				update_camera_to_head()
+		if player.car == null:
+			if event.is_action_pressed("flat_player_crouch", true):
+				if player != null:
+					print("Input: crouch")
+					player.is_crouching = true
+					update_camera_to_head()
+			elif event.is_action_released("flat_player_crouch"):
+				if player != null:
+					print("Input: UN crouch")
+					player.is_crouching = false
+					update_camera_to_head()
 
 
 func _notification(what):
