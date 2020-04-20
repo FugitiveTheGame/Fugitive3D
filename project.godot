@@ -69,6 +69,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://common/lobby/Lobby.gd"
 }, {
+"base": "Spatial",
+"class": "MotionSensor",
+"language": "GDScript",
+"path": "res://common/game/mode/fugitive/motion_sensor/MotionSensor.gd"
+}, {
 "base": "RigidBody",
 "class": "OQClass_GrabbableRigidBody",
 "language": "GDScript",
@@ -137,6 +142,7 @@ _global_script_class_icons={
 "Hider": "",
 "Joystick": "",
 "Lobby": "",
+"MotionSensor": "",
 "OQClass_GrabbableRigidBody": "",
 "Player": "",
 "Seeker": "",

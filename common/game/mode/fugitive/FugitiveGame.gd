@@ -89,12 +89,26 @@ func pre_configure():
 	
 	var hiderSpawns = map.get_hider_spawns()
 	assert(not hiderSpawns.empty())
+	# Randomize the spawn locations.
+	# Due to the shared seed this will be the same
+	# across all clients
+	hiderSpawns.shuffle()
 	
 	var seekerSpawns = map.get_seeker_spawns()
 	assert(not seekerSpawns.empty())
+	seekerSpawns.shuffle()
 	
 	for playerId in sortedPlayers:
 		spawn_player(playerId, hiderSpawns, seekerSpawns)
+	
+	# Randomly enable sensors
+	var sensors = get_tree().get_nodes_in_group(Groups.MOTION_SENSORS)
+	for sensor in sensors:
+		# Random chance of being enabled
+		if randi() % 6 == 0:
+			sensor.set_enabled(true)
+		else:
+			sensor.set_enabled(false)
 
 
 # Spawn an individual player for the local client
@@ -214,12 +228,13 @@ func process_hiders():
 		else:
 			hider.current_visibility = 1.0
 			
-		# If the hider is moving at all, make them a little visible
+		# If the hider is moving, make them a little visible
 		# regaurdless of FOV/Distance
 		var percent_visible = hider.current_visibility
 		if hider.is_moving_fast():
 			percent_visible += Seeker.SPRINT_VISIBILITY_PENALTY
-		elif hider.is_moving():
+		# Crouching should not make you visible at all
+		elif hider.is_moving() and not hider.is_crouching:
 			percent_visible += Seeker.MOVEMENT_VISIBILITY_PENALTY
 		
 		hider.current_visibility = clamp(percent_visible, 0.0, 1.0)
