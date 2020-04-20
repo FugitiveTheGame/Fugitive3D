@@ -9,6 +9,8 @@ const PLAYER_HOST = "host"
 
 var players = {}
 
+var currentGame = null
+var currentMap = null
 
 const GENERAL_MAP = "map"
 const GENERAL_SEED = "shared_seed"

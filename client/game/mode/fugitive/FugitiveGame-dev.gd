@@ -21,7 +21,6 @@ func _enter_tree():
 		GameData.add_player(GameData.create_new_player(1, "real player", GameData.PlayerType.Hider))
 		GameData.add_player(GameData.create_new_player(10, "dumb donkey 0", GameData.PlayerType.Seeker))
 	
-	
 	GameData.add_player(GameData.create_new_player(11, "dumb donkey 1", GameData.PlayerType.Hider))
 
 
