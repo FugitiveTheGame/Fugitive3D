@@ -47,7 +47,7 @@ func set_ready():
 
 
 func on_game_state_changed(newState: State, via: Transition):
-	print("Local Client State: %s" % newState.name)
+	#print("Player State: %s" % newState.name)
 	match newState.name:
 		FugitiveStateMachine.STATE_NOT_READY:
 			on_state_not_ready()

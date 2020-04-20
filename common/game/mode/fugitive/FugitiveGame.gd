@@ -4,9 +4,10 @@ class_name FugitiveGame
 onready var stateMachine := $StateMachine as FugitiveStateMachine
 
 var map: FugitiveMap
-var players: Node
+var playersContainer: Node
 var gameTimer: Timer
 var localPlayer: Player
+var players = {}
 
 var gameStarted := false
 var gameOver := false
@@ -37,16 +38,22 @@ func get_map(mapId: int) -> String:
 func load_map(mapPath: String):
 	var scene := load(mapPath)
 	map = scene.instance()
-	add_child(map)
-	players = map.get_players()
+	set_map(map)
+	playersContainer = map.get_players()
 	gameTimer = map.get_game_timer()
 	gameTimer.connect("timeout", self, "game_time_limit_exceeded")
 
 
+func get_player(playerId: int) -> Player:
+	return players[playerId]
+
+
 # If a player has disconnected, remove them from the world
 func remove_player(playerId: int):
-	var playerNode = players.get_node(str(playerId))
+	var playerNode = playersContainer.get_node(str(playerId))
 	playerNode.queue_free()
+	
+	players.erase(playerId)
 
 
 ################################
@@ -153,12 +160,14 @@ func spawn_player(playerId: int, hiderSpawns: Array, seekerSpawns: Array):
 	# Player listens to Game state changes
 	stateMachine.connect("state_change", playerNode, "on_game_state_changed")
 	
+	# Add the player node to our list of players
+	players[playerId] = playerNode
+	
 	# Add the PlayerController to the player's node in the game scene
-	players.add_child(pcNode)
+	playersContainer.add_child(pcNode)
 	
 	# Move to the spawn point
-	pcNode.global_transform.origin = spawnPointNode.global_transform.origin
-	pcNode.global_transform.basis = spawnPointNode.global_transform.basis
+	pcNode.global_transform = spawnPointNode.global_transform
 
 
 remotesync func on_all_clients_configured():

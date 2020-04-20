@@ -73,6 +73,7 @@ height = 0.25
 
 [node name="CarSeat" parent="Seats" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.462427, 0.493155, -0.5432 )
+is_driver_seat = true
 
 [node name="CarSeat2" parent="Seats" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.325505, 0.493155, -0.5432 )
@@ -86,3 +87,17 @@ shape = SubResource( 1 )
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.746939, 0 )
 shape = SubResource( 2 )
+
+[node name="HeadLightLeft" type="SpotLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.450748, 0.450528, -1.0625 )
+light_energy = 3.0
+light_bake_mode = 0
+spot_attenuation = 0.392292
+spot_angle = 15.0
+
+[node name="HeadLightRight" type="SpotLight" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.535184, 0.450528, -1.0625 )
+light_energy = 3.0
+light_bake_mode = 0
+spot_attenuation = 0.378929
+spot_angle = 15.0

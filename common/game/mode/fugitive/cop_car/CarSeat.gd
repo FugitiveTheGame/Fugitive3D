@@ -2,6 +2,8 @@ tool
 extends Spatial
 class_name CarSeat
 
+export(bool) var is_driver_seat := false
+
 onready var position := transform.origin
 var occupant: FugitivePlayer = null
 

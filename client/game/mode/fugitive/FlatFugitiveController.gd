@@ -12,17 +12,22 @@ func _input(event):
 			var cars := get_tree().get_nodes_in_group(Groups.CARS)
 			for car in cars:
 				if car.enterArea.overlaps_body(player.playerBody):
-					# If we entered the car, then stop searching
-					if car.enter_car(player):
-						update_camera_to_head()
-						break
+					car.enter_car(player)
+					break
 		else:
 			player.car.exit_car(player)
-			update_camera_to_head()
 
 
 func _process(delta):
 	allowMovement = not player.frozen and player.car == null
+
+
+func on_car_entered(car):
+	update_camera_to_head()
+
+
+func on_car_exited(car):
+	update_camera_to_head()
 
 
 func on_state_not_ready():
