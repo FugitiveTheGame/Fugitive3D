@@ -1,6 +1,11 @@
 extends ClientFugitiveGame
 
 
+func _exit_tree():
+	# Release the mouse if we're leaving the scene
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+
 func on_disconnect():
 	get_tree().change_scene("res://client/main_menu/flat/FlatMainMenu.tscn")
 

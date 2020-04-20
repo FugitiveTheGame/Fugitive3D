@@ -1,0 +1,88 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://common/game/mode/fugitive/cop_car/CopCar.gd" type="Script" id=1]
+[ext_resource path="res://common/game/mode/fugitive/cop_car/CarSeat.tscn" type="PackedScene" id=2]
+
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 2, 1, 2 )
+
+[sub_resource type="BoxShape" id=2]
+extents = Vector3( 0.818761, 0.727819, 0.968922 )
+
+[node name="CopCar" type="KinematicBody"]
+script = ExtResource( 1 )
+
+[node name="Geometry" type="Spatial" parent="."]
+
+[node name="CSGBox" type="CSGBox" parent="Geometry"]
+width = 1.5
+height = 0.05
+
+[node name="CSGBox4" type="CSGBox" parent="Geometry"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5, 0 )
+width = 1.5
+height = 0.05
+
+[node name="CSGBox2" type="CSGBox" parent="Geometry"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0.125, 0 )
+width = 0.1
+height = 0.25
+
+[node name="CSGBox9" type="CSGBox" parent="Geometry"]
+transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, 0.000872493, 0.348051, -0.947548 )
+width = 0.1
+height = 0.563165
+depth = 1.39116
+
+[node name="CSGBox10" type="CSGBox" parent="Geometry"]
+transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, 0.000872493, 0.549596, 0.955824 )
+width = 0.1
+height = 1.03775
+depth = 1.39116
+
+[node name="CSGBox5" type="CSGBox" parent="Geometry"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0.864818, -0.947 )
+width = 0.1
+height = 1.25
+depth = 0.1
+
+[node name="CSGBox6" type="CSGBox" parent="Geometry"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.754663, 0.864818, -0.947 )
+width = 0.1
+height = 1.25
+depth = 0.1
+
+[node name="CSGBox7" type="CSGBox" parent="Geometry"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.754663, 0.864818, 0.937402 )
+width = 0.1
+height = 1.25
+depth = 0.1
+
+[node name="CSGBox8" type="CSGBox" parent="Geometry"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.719394, 0.864818, 0.937402 )
+width = 0.1
+height = 1.25
+depth = 0.1
+
+[node name="CSGBox3" type="CSGBox" parent="Geometry"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0.125, 0 )
+width = 0.1
+height = 0.25
+
+[node name="Seats" type="Spatial" parent="."]
+
+[node name="CarSeat" parent="Seats" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.462427, 0.493155, -0.5432 )
+
+[node name="CarSeat2" parent="Seats" instance=ExtResource( 2 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.325505, 0.493155, -0.5432 )
+
+[node name="EnterArea" type="Area" parent="."]
+
+[node name="CollisionShape" type="CollisionShape" parent="EnterArea"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.635683, 0 )
+shape = SubResource( 1 )
+
+[node name="CollisionShape" type="CollisionShape" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.746939, 0 )
+shape = SubResource( 2 )

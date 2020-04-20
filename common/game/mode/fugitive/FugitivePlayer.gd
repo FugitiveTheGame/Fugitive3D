@@ -9,6 +9,15 @@ var frozen := false
 var gameStarted := false
 var gameEnded := false
 
+var car = null setget set_car
+func set_car(value):
+	car = value
+	
+	if car != null:
+		self.is_crouching = true
+	else:
+		self.is_crouching = false
+
 
 func is_playing() -> bool:
 	return gameStarted and not gameEnded
