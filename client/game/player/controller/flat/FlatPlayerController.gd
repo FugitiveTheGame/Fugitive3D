@@ -136,7 +136,7 @@ func _physics_process(delta):
 		velocity = Vector3()
 	
 	velocity = move_and_slide(velocity, Vector3(0,1,0))
-	player.isMoving = (abs(velocity.length()) > MOVEMENT_LAMBDA)
+	player.isMoving = (abs(Vector3(velocity.x, 0.0, velocity.z).length()) > MOVEMENT_LAMBDA)
 	
 	player.rpc_unreliable("network_update", translation, rotation, player.is_crouching, player.isMoving, player.isSprinting)
 
