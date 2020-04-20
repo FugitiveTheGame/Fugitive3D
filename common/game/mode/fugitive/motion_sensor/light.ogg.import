@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/light.ogg-9c015586988f9bd1b5621e647df080d2.oggstr"
+
+[deps]
+
+source_file="res://common/game/mode/fugitive/motion_sensor/light.ogg"
+dest_files=[ "res://.import/light.ogg-9c015586988f9bd1b5621e647df080d2.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
