@@ -13,6 +13,8 @@ const ROTATION := 1.0
 var seats := []
 var velocity := Vector3()
 
+var locked := true
+
 
 func _ready():
 	add_to_group(Groups.CARS)
@@ -43,6 +45,13 @@ remotesync func on_enter_car(playerId: int):
 	var seat := get_free_seat()
 	if seat != null:
 		var player = GameData.currentGame.get_player(playerId)
+		
+		# Car starts locked, first cop unlocks it
+		if locked:
+			if player.playerType == GameData.PlayerType.Hider:
+				return
+			else:
+				locked = false
 		
 		# Disable personal colission so you can be inside the car's colission shape
 		player.playerShape.disabled = true
