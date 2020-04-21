@@ -3,7 +3,12 @@ class_name CopCar
 
 onready var enterArea := $EnterArea as Area
 
-const SPEED := 20.0
+const MIN_SPEED := 0.5
+const MAX_SPEED := 20.0
+const ACCELERATION := 35.0
+const BREAK_SPEED := 30.0
+const FRICTION := 10.0
+const ROTATION := 1.0
 
 var seats := []
 var velocity := Vector3()
@@ -31,7 +36,7 @@ func get_free_seat() -> CarSeat:
 
 
 func enter_car(player: FugitivePlayer):
-	rpc("on_enter_car", player.get_network_master())
+	rpc("on_enter_car", player.id)
 
 
 remotesync func on_enter_car(playerId: int):
@@ -50,7 +55,7 @@ remotesync func on_enter_car(playerId: int):
 		seat.occupant = player
 		
 		if seat.is_driver_seat:
-			set_network_master(player.get_network_master())
+			set_network_master(playerId)
 		
 		print("Car entered")
 		
@@ -60,7 +65,7 @@ remotesync func on_enter_car(playerId: int):
 
 
 func exit_car(player: FugitivePlayer):
-	rpc("on_exit_car", player.get_network_master())
+	rpc("on_exit_car", player.id)
 
 
 remotesync func on_exit_car(playerId: int) -> bool:
@@ -72,28 +77,59 @@ remotesync func on_exit_car(playerId: int) -> bool:
 	for s in seats:
 		if s.occupant == player:
 			seat = s
-			seat.occupant = null
 			carLeft = true
 			break
 	
 	if carLeft:
-		player.playerShape.disabled = false
+		print("Car exited")
 		
 		player.car = null
-		
-		if seat.is_driver_seat:
-			set_network_master(ServerNetwork.SERVER_ID)
+		seat.occupant = null
 		
 		remove_child(player.playerController)
 		get_parent().add_child(player.playerController)
 		
+		if seat.is_driver_seat:
+			set_network_master(ServerNetwork.SERVER_ID)
+		
+		player.playerShape.disabled = false
+		
 		player.playerController.transform = transform
-		player.playerController.transform.origin.y += 2.0
-		player.playerController.transform.origin.x += 2.0
+		player.playerController.transform.origin.y += 1.0
+		player.playerController.transform.origin.x += 1.0
 		
 		player.playerController.on_car_exited(self)
 	
 	return carLeft
+
+
+func process_input(forward: bool, backward: bool, left: bool, right: bool, breaking: bool, delta: float):
+	var globalBasis := global_transform.basis
+	
+	var movement_speed := ACCELERATION * delta
+	
+	if forward:
+		velocity.x -= globalBasis.z.x * movement_speed
+		velocity.z -= globalBasis.z.z * movement_speed
+	elif backward:
+		velocity.x += globalBasis.z.x * movement_speed
+		velocity.z += globalBasis.z.z * movement_speed
+	
+	if velocity.length() > MAX_SPEED:
+		velocity = velocity.normalized() * MAX_SPEED
+	
+	if breaking:
+		velocity = velocity - (velocity.normalized() * (BREAK_SPEED * delta))
+	
+	if velocity.length() > MIN_SPEED:
+		var direction := 1.0
+		if backward:
+				direction = -1.0
+		
+		if left:
+			rotate(Vector3(0.0, 1.0, 0.0), ROTATION * direction * delta)
+		elif right:
+			rotate(Vector3(0.0, 1.0, 0.0), -ROTATION * direction * delta)
 
 
 puppet func network_update(networkPosition: Vector3, networkRotation: Vector3):
@@ -101,8 +137,12 @@ puppet func network_update(networkPosition: Vector3, networkRotation: Vector3):
 	rotation = networkRotation
 
 
-func _process(delta):
-	if get_tree().get_network_unique_id() == get_network_master():
+func _physics_process(delta):
+	if is_network_master():
 		velocity = move_and_slide(velocity, Vector3(0,1,0))
+		
+		velocity = velocity - (velocity.normalized() * (FRICTION * delta))
+		if velocity.length() <= MIN_SPEED:
+			velocity = Vector3()
 		
 		rpc_unreliable("network_update", translation, rotation)

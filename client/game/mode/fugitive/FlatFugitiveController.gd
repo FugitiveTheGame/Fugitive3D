@@ -20,6 +20,15 @@ func _input(event):
 
 func _process(delta):
 	allowMovement = not player.frozen and player.car == null
+	
+	if player.car != null:
+		var forward := Input.is_action_pressed("flat_player_up")
+		var backward := Input.is_action_pressed("flat_player_down")
+		var left := Input.is_action_pressed("flat_player_left")
+		var right := Input.is_action_pressed("flat_player_right")
+		var breaking := Input.is_action_pressed("flat_player_jump")
+		
+		player.car.process_input(forward, backward, left, right, breaking, delta)
 
 
 func on_car_entered(car):
