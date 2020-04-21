@@ -79,7 +79,6 @@ is_driver_seat = true
 
 [node name="CarSeat2" parent="Seats" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.325505, 0.658308, -0.5432 )
-is_driver_seat = false
 
 [node name="EnterArea" type="Area" parent="."]
 

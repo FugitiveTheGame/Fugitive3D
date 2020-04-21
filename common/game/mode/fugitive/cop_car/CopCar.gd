@@ -11,6 +11,7 @@ const FRICTION := 10.0
 const ROTATION := 1.0
 
 var seats := []
+var driver_seat: CarSeat
 var velocity := Vector3()
 
 var locked := true
@@ -23,6 +24,9 @@ func _ready():
 	for seat in $Seats.get_children():
 		if seat is CarSeat:
 			seats.append(seat)
+			
+			if seat.is_driver_seat:
+				driver_seat = seat
 
 
 func get_free_seat() -> CarSeat:
@@ -45,12 +49,19 @@ remotesync func on_enter_car(playerId: int):
 	if seat != null:
 		var player = GameData.currentGame.get_player(playerId)
 		
+		var isHider = player.playerType == GameData.PlayerType.Hider
 		# Car starts locked, first cop unlocks it
 		if locked:
-			if player.playerType == GameData.PlayerType.Hider:
+			if isHider:
 				return
 			else:
 				locked = false
+		elif isHider:
+			if driver_seat.occupant != null:
+				if driver_seat.occupant.playerType == GameData.PlayerType.Seeker:
+					# Hider can't get in the car when a Seeker is driving
+					return
+		
 		
 		# Disable personal colission so you can be inside the car's colission shape
 		player.playerShape.disabled = true
