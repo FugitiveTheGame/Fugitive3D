@@ -5,7 +5,10 @@ onready var pregameHud := hud.find_node("PregameHud", true, false) as Control
 const dead_zone := 0.125
 
 
-func _input(event):
+func _process(delta):
+	#######################
+	# Process per-frame input
+	
 	if not player.gameStarted and (vr.button_just_released(vr.BUTTON.LEFT_INDEX_TRIGGER) or vr.button_just_released(vr.BUTTON.RIGHT_INDEX_TRIGGER)):
 		player.set_ready()
 
@@ -18,9 +21,15 @@ func _input(event):
 					break
 		else:
 			player.car.exit_car(player)
-
-
-func _process(delta):
+	
+	if vr.button_just_released(vr.BUTTON.Y):
+		if player.car != null and player.car.is_driver(player.id):
+			player.car.honk_horn()
+	
+	
+	#######################
+	# Car movement input
+	
 	locomotion.allowMovement = not player.frozen and player.car == null
 	
 	if player.car != null:

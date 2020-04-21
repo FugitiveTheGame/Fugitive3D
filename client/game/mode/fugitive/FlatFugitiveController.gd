@@ -16,6 +16,10 @@ func _input(event):
 					break
 		else:
 			player.car.exit_car(player)
+	
+	if event.is_action_released("flat_car_horn"):
+		if player.car != null and player.car.is_driver(player.id):
+			player.car.honk_horn()
 
 
 func _process(delta):

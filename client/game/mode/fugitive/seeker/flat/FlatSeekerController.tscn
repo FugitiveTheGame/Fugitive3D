@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://client/game/mode/fugitive/FlatFugitiveController.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/game/mode/fugitive/seeker/flat/FlatSeekerController.gd" type="Script" id=2]
 [ext_resource path="res://common/game/mode/fugitive/seeker/Seeker.tscn" type="PackedScene" id=3]
 [ext_resource path="res://common/game/mode/fugitive/seeker/SeekerShape.tscn" type="PackedScene" id=4]
 [ext_resource path="res://common/game/mode/fugitive/seeker/Flashlight.tscn" type="PackedScene" id=5]
+[ext_resource path="res://client/game/mode/fugitive/seeker/CarLockHud.tscn" type="PackedScene" id=6]
 
 [node name="PlayerController" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
@@ -19,6 +20,12 @@ playerPath = NodePath("../../../Player")
 [node name="CrouchingHud" parent="HudCanvas/HudContainer" index="3"]
 playerPath = NodePath("../../../Player")
 
+[node name="CarLockHud" parent="HudCanvas/HudContainer" index="4" instance=ExtResource( 6 )]
+margin_left = 18.5061
+margin_top = 734.694
+margin_right = 56.9061
+margin_bottom = 729.894
+
 [node name="Player" parent="." index="2" instance=ExtResource( 3 )]
 shapePath = NodePath("../CollisionShape")
 playerControllerPath = NodePath("..")
@@ -30,3 +37,4 @@ transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 0, 0
 
 [node name="Flashlight" parent="." index="4" instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.25, -0.5 )
+[connection signal="locking_complete" from="HudCanvas/HudContainer/CarLockHud" to="." method="_on_CarLockHud_locking_complete"]
