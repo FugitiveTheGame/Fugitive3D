@@ -6,6 +6,7 @@
 [ext_resource path="res://common/game/mode/fugitive/seeker/Flashlight.tscn" type="PackedScene" id=4]
 
 [node name="PlayerController" type="KinematicBody"]
+collision_mask = 11
 script = ExtResource( 3 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]

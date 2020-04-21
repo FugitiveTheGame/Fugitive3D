@@ -5,7 +5,7 @@
 [ext_resource path="res://common/game/mode/fugitive/hider/HiderShape.tscn" type="PackedScene" id=3]
 
 [node name="PlayerController" type="KinematicBody"]
-collision_mask = 3
+collision_mask = 11
 script = ExtResource( 2 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]

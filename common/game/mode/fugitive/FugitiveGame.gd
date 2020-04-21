@@ -50,7 +50,7 @@ func get_player(playerId: int) -> Player:
 
 # If a player has disconnected, remove them from the world
 func remove_player(playerId: int):
-	var playerNode = playersContainer.get_node(str(playerId))
+	var playerNode = GameData.currentGame.get_player(playerId).playerController
 	playerNode.queue_free()
 	
 	players.erase(playerId)
@@ -156,7 +156,7 @@ func spawn_player(playerId: int, hiderSpawns: Array, seekerSpawns: Array):
 	
 	# Final setup and config for the player
 	var playerNode = pcNode.get_node("Player")
-	playerNode.configure(playerName)
+	playerNode.configure(playerName, playerId)
 	# Player listens to Game state changes
 	stateMachine.connect("state_change", playerNode, "on_game_state_changed")
 	
@@ -231,7 +231,7 @@ func process_hiders():
 	# Process each hider, find if any have been seen
 	for hider in hiders:
 		# Re-hide Hiders every frame
-		if not hider.frozen:
+		if not hider.frozen and hider.car == null:
 			hider.current_visibility = 0.0
 		# Frozen Hiders should always be vizible to Seekers
 		else:

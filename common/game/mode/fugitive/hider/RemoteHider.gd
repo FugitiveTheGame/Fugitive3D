@@ -8,3 +8,11 @@ func _ready():
 
 func get_player():
 	return player
+
+
+func on_car_entered(car):
+	pass
+
+
+func on_car_exited(car):
+	pass

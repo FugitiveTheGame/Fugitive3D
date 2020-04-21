@@ -16,6 +16,8 @@ var stamina_max := DEFAULT_STAMINA_MAX
 var stamina_sprint_rate := DEFAULT_STAMINA_SPRINT_RATE
 var stamina_regen_rate := DEFAULT_STAMINA_REGEN_RATE
 
+var id: int
+
 onready var walking_sound = $WalkingSound
 
 var isMoving := false setget set_is_moving
@@ -74,7 +76,8 @@ func _physics_process(delta):
 		process_stamina(delta)
 
 
-func configure(playerName: String):
+func configure(playerName: String, playerId: int):
+	id = playerId
 	set_player_name(playerName)
 
 

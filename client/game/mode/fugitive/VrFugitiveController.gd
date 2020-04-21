@@ -13,6 +13,14 @@ func _process(delta):
 	locomotion.allowMovement = not player.frozen
 
 
+func on_car_entered(car):
+	pass
+
+
+func on_car_exited(car):
+	pass
+
+
 func on_state_not_ready():
 	pregameHud.show()
 

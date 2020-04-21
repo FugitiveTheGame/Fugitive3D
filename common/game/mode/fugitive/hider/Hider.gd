@@ -28,7 +28,6 @@ func update_visibility(percentVisible: float):
 
 
 func _on_UnfreezeArea_body_entered(body):
-	print("_on_UnfreezeArea_body_entered")
 	# Server authoratative
 	if get_tree().is_network_server():
 		# If we are frozen, and another hider is tagging us, then unfreeze

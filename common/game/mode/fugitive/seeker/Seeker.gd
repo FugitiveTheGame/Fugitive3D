@@ -31,7 +31,7 @@ func _ready():
 # seeker can see them.
 func process_hider(hider):
 	# Distance between Hider and Seeker
-	var distance = playerController.transform.origin.distance_to(hider.playerController.transform.origin)
+	var distance = playerController.global_transform.origin.distance_to(hider.playerController.global_transform.origin)
 	
 	# TODO: CLOSE_PROXIMITY_DISTANCE is a hack, see issue #14
 	if distance < CLOSE_PROXIMITY_DISTANCE:
@@ -87,8 +87,7 @@ func process_hider(hider):
 				# the Hider for gameplay purposes
 				if(fov_visibility > 0.0 and distance <= MAX_DETECT_DISTANCE):
 					# Don't allow capture while in a car, or while in a win zone
-					#if self.car == null and (not is_in_winzone(hider)):
-					if not is_in_winzone(hider) and not hider.frozen:
+					if self.car == null and not is_in_winzone(hider) and not hider.frozen:
 						freeze_hider(hider)
 				
 				# FOV visibility can be faded out if at edge of distance visibility

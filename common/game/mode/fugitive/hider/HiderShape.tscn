@@ -22,7 +22,7 @@ script = ExtResource( 6 )
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 2.68904e-08, -1.16505 )
 
 [node name="Crouching" parent="." index="1" instance=ExtResource( 2 )]
-transform = Transform( -1.62921e-07, 0, -1, -1, -1.62921e-07, 1.62921e-07, -1.62921e-07, 1, 2.65433e-14, 0, 1.95439e-07, -1.19959 )
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, -0.985 )
 visible = false
 
 [node name="FrozenIce" type="CSGSphere" parent="." index="2"]

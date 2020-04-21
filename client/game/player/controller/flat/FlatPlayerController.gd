@@ -150,12 +150,10 @@ func _input(event):
 		if player.car == null:
 			if event.is_action_pressed("flat_player_crouch", true):
 				if player != null:
-					print("Input: crouch")
 					player.is_crouching = true
 					update_camera_to_head()
 			elif event.is_action_released("flat_player_crouch"):
 				if player != null:
-					print("Input: UN crouch")
 					player.is_crouching = false
 					update_camera_to_head()
 
