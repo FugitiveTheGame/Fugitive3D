@@ -30,7 +30,6 @@ func get_free_seat() -> CarSeat:
 	
 	for seat in seats:
 		if seat.is_empty():
-			print("Found empty seat")
 			freeSeat = seat
 			break
 	

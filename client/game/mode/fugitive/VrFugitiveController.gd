@@ -1,24 +1,63 @@
 extends "res://client/game/player/controller/vr/VrPlayerController.gd"
 
-
 onready var pregameHud := hud.find_node("PregameHud", true, false) as Control
+
+const dead_zone := 0.125
 
 
 func _input(event):
 	if not player.gameStarted and (vr.button_just_released(vr.BUTTON.LEFT_INDEX_TRIGGER) or vr.button_just_released(vr.BUTTON.RIGHT_INDEX_TRIGGER)):
 		player.set_ready()
 
+	if vr.button_just_released(vr.BUTTON.LEFT_INDEX_TRIGGER):
+		if player.car == null:
+			var cars := get_tree().get_nodes_in_group(Groups.CARS)
+			for car in cars:
+				if car.enterArea.overlaps_body(player.playerBody):
+					car.enter_car(player)
+					break
+		else:
+			player.car.exit_car(player)
+
 
 func _process(delta):
-	locomotion.allowMovement = not player.frozen
+	locomotion.allowMovement = not player.frozen and player.car == null
+	
+	if player.car != null:
+		var x = -vr.get_controller_axis(vr.AXIS.RIGHT_JOYSTICK_X);
+		var y = vr.get_controller_axis(vr.AXIS.LEFT_JOYSTICK_Y);
+		
+		var forward := false
+		var backward := false
+		
+		if y > dead_zone:
+			forward = true
+		elif y < -dead_zone:
+			backward = true
+		
+		var left := false
+		var right := false
+		
+		if x > dead_zone:
+			left = true
+		elif x < -dead_zone:
+			right = true
+		
+		var breaking := vr.button_pressed(vr.BUTTON.RIGHT_INDEX_TRIGGER) as bool
+		
+		player.car.process_input(forward, backward, left, right, breaking, delta)
 
 
 func on_car_entered(car):
-	pass
+	locomotion.allowTurn = false
+	transform.origin.y -= (standingHeight * 0.50)
+	vr.vrOrigin.is_fixed = true
 
 
 func on_car_exited(car):
-	pass
+	vr.vrOrigin.is_fixed = false
+	transform.origin.y = standingHeight
+	locomotion.allowTurn = true
 
 
 func on_state_not_ready():
