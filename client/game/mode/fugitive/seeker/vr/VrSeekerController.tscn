@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://client/game/mode/fugitive/VrFugitiveController.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/game/mode/fugitive/seeker/vr/VrSeekerController.gd" type="Script" id=2]
 [ext_resource path="res://common/game/mode/fugitive/seeker/Seeker.tscn" type="PackedScene" id=3]
 [ext_resource path="res://common/game/mode/fugitive/seeker/SeekerShape.tscn" type="PackedScene" id=4]
 [ext_resource path="res://common/game/mode/fugitive/seeker/Flashlight.tscn" type="PackedScene" id=5]
+[ext_resource path="res://client/game/mode/fugitive/seeker/CarLockHud.tscn" type="PackedScene" id=6]
 
 [node name="PlayerController" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
@@ -14,6 +15,12 @@ playerPath = NodePath("../../../../../Player")
 
 [node name="CrouchingHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="4"]
 playerPath = NodePath("../../../../../Player")
+
+[node name="CarLockHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="5" instance=ExtResource( 6 )]
+margin_left = 6.3175
+margin_top = 141.693
+margin_right = 180.717
+margin_bottom = 161.917
 
 [node name="RemoteTransform" type="RemoteTransform" parent="OQ_RightController" index="0"]
 remote_path = NodePath("../../Flashlight")

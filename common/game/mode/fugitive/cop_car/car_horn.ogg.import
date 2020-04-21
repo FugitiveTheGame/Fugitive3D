@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/car_horn.ogg-8595365134893dc6c05858f7c007d188.oggstr"
+
+[deps]
+
+source_file="res://common/game/mode/fugitive/cop_car/car_horn.ogg"
+dest_files=[ "res://.import/car_horn.ogg-8595365134893dc6c05858f7c007d188.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

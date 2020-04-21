@@ -21,6 +21,7 @@ var velocity := Vector3()
 var locked := true
 
 onready var headlight_ray_caster := $RayCast as RayCast
+onready var drivingAudio := $DrivingAudio as AudioStreamPlayer3D
 
 
 func _ready():
@@ -85,6 +86,8 @@ remotesync func on_enter_car(playerId: int):
 		print("Car entered")
 		
 		player.playerController.on_car_entered(self)
+		
+		$DoorAudio.play()
 	else:
 		print("No free seats in car")
 
@@ -124,8 +127,33 @@ remotesync func on_exit_car(playerId: int) -> bool:
 		player.playerController.transform.origin.x += 1.0
 		
 		player.playerController.on_car_exited(self)
+		
+		$DoorAudio.play()
 	
 	return carLeft
+
+
+func has_occupants() -> bool:
+	var occupants := 0
+	for seat in seats:
+		if not seat.is_empty():
+			occupants += 1
+	
+	return occupants > 0
+
+
+func is_driver(playerId: int) -> bool:
+	return driver_seat.occupant != null and driver_seat.occupant.id == playerId
+
+
+func lock():
+	if not locked:
+		rpc("on_lock")
+
+
+remotesync func on_lock():
+	locked = true
+	$LockAudio.play()
 
 
 func process_input(forward: bool, backward: bool, left: bool, right: bool, breaking: bool, delta: float):
@@ -157,9 +185,10 @@ func process_input(forward: bool, backward: bool, left: bool, right: bool, break
 			rotate(Vector3(0.0, 1.0, 0.0), -ROTATION * direction * delta)
 
 
-puppet func network_update(networkPosition: Vector3, networkRotation: Vector3):
+puppet func network_update(networkPosition: Vector3, networkRotation: Vector3, networkVelocity: Vector3):
 	translation = networkPosition
 	rotation = networkRotation
+	velocity = networkVelocity
 
 
 func _physics_process(delta):
@@ -170,7 +199,29 @@ func _physics_process(delta):
 		if velocity.length() <= MIN_SPEED:
 			velocity = Vector3()
 		
-		rpc_unreliable("network_update", translation, rotation)
+		rpc_unreliable("network_update", translation, rotation, velocity)
+
+
+func is_moving() -> bool:
+	return velocity.length() > 0.01
+
+
+func honk_horn():
+	rpc("on_honk_horn")
+
+
+remotesync func on_honk_horn():
+	$HornAudio.play()
+
+
+func _process(delta):
+	# Make movement noises if moving
+	if self.is_moving() and not driver_seat.is_empty():
+		if not drivingAudio.playing:
+			drivingAudio.playing = true
+	else:
+		if drivingAudio.playing:
+			drivingAudio.playing = false
 
 
 func process_hider(hider: Hider):

@@ -117,3 +117,7 @@ func on_state_playing():
 	print("Seeker: on_state_playing()")
 	if get_tree().is_network_server():
 		unfreeze()
+
+
+func can_lock_car(car) -> bool:
+	return car != null and not car.locked and not car.has_occupants()
