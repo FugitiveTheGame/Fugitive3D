@@ -1,36 +1,27 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://client/main_menu/vr/VrClientMainMenu.gd" type="Script" id=1]
 [ext_resource path="res://client/main_menu/vr/VrClientMainMenuUi.tscn" type="PackedScene" id=2]
 [ext_resource path="res://client/vr_menu_player/VrMenuPlayer.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_UI2D/OQ_UI2DCanvas.tscn" type="PackedScene" id=4]
-[ext_resource path="res://addons/OQ_Toolkit/OQ_UI2D/OQ_UI2DLogWindow.tscn" type="PackedScene" id=5]
-
-[sub_resource type="PlaneMesh" id=1]
-size = Vector2( 8, 8 )
-
-[sub_resource type="BoxShape" id=2]
-extents = Vector3( 4, 0.01, 4 )
+[ext_resource path="res://addons/OQ_Toolkit/OQ_UI2D/OQ_UI2DKeyboard.tscn" type="PackedScene" id=5]
+[ext_resource path="res://client/main_menu/background/Background.scn" type="PackedScene" id=6]
 
 [node name="VrMainMenu" type="Spatial"]
 script = ExtResource( 1 )
 
-[node name="StaticBody" type="StaticBody" parent="."]
-
-[node name="Floor" type="CSGMesh" parent="StaticBody"]
-mesh = SubResource( 1 )
-
-[node name="CollisionShape" type="CollisionShape" parent="StaticBody"]
-shape = SubResource( 2 )
-
 [node name="MainMenuDisplay" parent="." instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6493, -0.704109 )
+transform = Transform( -0.00598646, 0, -0.999982, 0, 1, 0, 0.999982, 0, -0.00598646, 0.929554, 2.90218, 0.106663 )
 editor_live_update = false
 transparent = false
 
 [node name="MainMenu" parent="MainMenuDisplay" instance=ExtResource( 2 )]
 
 [node name="VrMenuPlayer" parent="." instance=ExtResource( 3 )]
+transform = Transform( -0.00598646, 0, -0.999982, 0, 1, 0, 0.999982, 0, -0.00598646, 0.225457, 1.25288, 0.102448 )
 
-[node name="LogWindow" parent="." instance=ExtResource( 5 )]
-transform = Transform( 0.678621, 0, 0.734488, 0, 1, 0, -0.734488, 0, 0.678621, -0.913237, 1.66262, -0.329523 )
+[node name="Backgroud" parent="." instance=ExtResource( 6 )]
+
+[node name="OQ_UI2DKeyboard" parent="." instance=ExtResource( 5 )]
+transform = Transform( -1.50744e-07, 0.379327, -0.925263, 6.18002e-08, 0.925263, 0.379327, 1, 0, -1.62921e-07, 0.876221, 2.46925, 0 )
+show_text_input = false

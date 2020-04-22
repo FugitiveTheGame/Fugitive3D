@@ -1,14 +1,17 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://addons/OQ_Toolkit/OQ_LeftController.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_ARVRCamera.tscn" type="PackedScene" id=2]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_RightController.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_ARVROrigin.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_Helpers/OQ_VisibilityToggle.tscn" type="PackedScene" id=5]
-[ext_resource path="res://addons/OQ_Toolkit/OQ_UI2D/OQ_UI2DKeyboard.tscn" type="PackedScene" id=6]
+[ext_resource path="res://addons/OQ_Toolkit/OQ_UI2D/OQ_UI2DLogWindow.tscn" type="PackedScene" id=6]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_ARVRController/Feature_UIRayCast.tscn" type="PackedScene" id=7]
+[ext_resource path="res://client/vr_menu_player/VrMenuPlayer.gd" type="Script" id=8]
+[ext_resource path="res://addons/OQ_Toolkit/OQ_UI2D/OQ_UI2DLabel.tscn" type="PackedScene" id=9]
 
 [node name="VrMenuPlayer" type="Spatial"]
+script = ExtResource( 8 )
 
 [node name="OQ_ARVROrigin" parent="." instance=ExtResource( 4 )]
 
@@ -18,9 +21,15 @@
 enable_gesture_to_button = true
 
 [node name="OQ_VisibilityToggle" parent="OQ_ARVROrigin/OQ_LeftController" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.197084, 0 )
+invisible_on_start = true
 
-[node name="OQ_UI2DKeyboard" parent="OQ_ARVROrigin/OQ_LeftController/OQ_VisibilityToggle" instance=ExtResource( 6 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.204014 )
+[node name="OQ_UI2DLogWindow" parent="OQ_ARVROrigin/OQ_LeftController/OQ_VisibilityToggle" instance=ExtResource( 6 )]
+transform = Transform( 0.866025, -0.17101, 0.469846, 0, 0.939693, 0.34202, -0.5, -0.296198, 0.813798, 0, 0, 0 )
+
+[node name="FpsLabel" parent="OQ_ARVROrigin/OQ_LeftController/OQ_VisibilityToggle" instance=ExtResource( 9 )]
+transform = Transform( 0.999147, 0, -0.0412827, 0, 1, 0, 0.0412827, 0, 0.999147, 0.630577, 0, -0.282998 )
+text = "FPS"
 
 [node name="OQ_RightController" parent="OQ_ARVROrigin" instance=ExtResource( 3 )]
 enable_gesture_to_button = true
