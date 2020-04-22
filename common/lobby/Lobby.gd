@@ -37,8 +37,37 @@ func create_player(playerId: int):
 	
 	playerList.add_child(playerNode)
 	
-	update_host(playerId)
+	update_host()
+	update_all_players()
 	update_ui()
+
+
+func update_player(playerId: int):
+	update_host()
+	update_all_players()
+	update_ui()
+
+
+func remove_player(playerId: int):
+	var node := find_player_node(playerId)
+	if node != null:
+		playerList.remove_child(node)
+	else:
+		print("Lobby: remove_player: failed to find node for player: %d" % playerId)
+	
+	update_host()
+	update_all_players()
+	update_ui()
+
+
+func repopulate_player(playerId: int):
+	var player = GameData.players[playerId]
+	
+	var node := find_player_node(playerId)
+	if node != null:
+		node.populate(player, is_starting, is_host)
+	else:
+		print("repopulate_player() - Failed to get player node")
 
 
 func find_player_node(playerId: int) -> Control:
@@ -53,29 +82,6 @@ func find_player_node(playerId: int) -> Control:
 	return playerNode
 
 
-func update_player(playerId: int):
-	var player = GameData.players[playerId]
-	
-	var node := find_player_node(playerId)
-	if node != null:
-		node.populate(player, is_starting, is_host)
-	else:
-		print("update_player() - Failed to get player node")
-	
-	update_host(playerId)
-	update_ui()
-
-
-func remove_player(playerId: int):
-	var node := find_player_node(playerId)
-	if node != null:
-		playerList.remove_child(node)
-	else:
-		print("Lobby: remove_player: failed to find node for player: %d" % playerId)
-	
-	update_ui()
-
-
 func update_game_data(generalData: Dictionary):
 	var mapId = generalData[GameData.GENERAL_MAP]
 	
@@ -85,7 +91,7 @@ func update_game_data(generalData: Dictionary):
 func update_all_players():
 	if not GameData.players.empty():
 		for playerId in GameData.players:
-			update_player(playerId)
+			repopulate_player(playerId)
 
 
 func can_start() -> bool:
@@ -108,19 +114,23 @@ func can_start() -> bool:
 	return canStart
 
 
-func update_host(playerId: int):
-	if playerId == get_tree().get_network_unique_id():
-		var player = GameData.players[playerId]
-		is_host = player[GameData.PLAYER_HOST]
+# Update if this local client is the host
+func update_host():
+	var host := GameData.get_host()
+	if host != null and host[GameData.PLAYER_ID] == get_tree().get_network_unique_id():
+		is_host = true
+	else:
+		is_host = false
 
 
 func update_ui():
-	mapSelect.disabled = not is_host
+	mapSelect.disabled = not is_host or is_starting
 
 
 remotesync func start_timer():
 	is_starting = true
 	update_all_players()
+	update_ui()
 
 
 func _on_MapButton_item_selected(id):

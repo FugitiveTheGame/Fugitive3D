@@ -5,30 +5,18 @@ const SERVER_ID := 1
 const SERVER_REPOSITORY_URL := "http://repository.fugitivethegame.online:8080"
 const MAX_PLAYERS := 15
 
-func _ready():
-	get_tree().connect("network_peer_disconnected", self, "_player_disconnected")
-
 
 func _player_connected(id):
-	print("Player connected: " + str(id))
+	print("SERVER: Player connected: " + str(id))
 
 
 func _player_disconnected(id):
-	if get_tree().is_network_server():
-		return
-	
+	print("SERVER: Player connected: " + str(id))
 	# If it was the host who left, and there are any
 	# players left, pick the first one and make them host
 	if not GameData.players.empty():
-		var noHost := true
-		# Search players to see if there is a host
-		for player in GameData.players.values():
-			if player[GameData.PLAYER_HOST] == true:
-				noHost = false
-				break
-		
 		# No host, make the first player the new host
-		if noHost:
+		if GameData.get_host() == null:
 			var newHost = GameData.players.values().front()
 			make_host(newHost[GameData.PLAYER_ID])
 
@@ -62,14 +50,15 @@ remote func on_register_self(playerId, playerName):
 	
 	ClientNetwork.update_game_data()
 	
-	# If this is the first player to connect
-	# make them the host
-	if GameData.players.size() == 1:
+	
+	# If there is no host, make this player the host
+	if GameData.get_host() == null:
 		make_host(playerId)
 
 
-func make_host(playerId):
-	var playerInfo = GameData.players[playerId]
+func make_host(playerId: int):
+	print("Server: Making %d host" % playerId)
+	var playerInfo = GameData.get_player(playerId)
 	playerInfo[GameData.PLAYER_HOST] = true
 	ClientNetwork.update_player(playerInfo)
 
@@ -90,9 +79,10 @@ func host_game(port: int = SERVER_PORT) -> bool:
 	if result == OK:
 		get_tree().set_network_peer(peer)
 		
-		get_tree().connect("network_peer_connected", self, "_player_connected")	
-		
 		GameData.general[GameData.GENERAL_SEED] = OS.get_unix_time()
+		
+		get_tree().connect("network_peer_disconnected", self, "_player_disconnected")
+		get_tree().connect("network_peer_connected", self, "_player_connected")	
 		
 		print("Server started.")
 		return true

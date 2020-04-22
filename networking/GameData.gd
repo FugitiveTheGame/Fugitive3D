@@ -73,3 +73,14 @@ func get_current_player_type() -> int:
 func update_player(player):
 	var playerId = player[PLAYER_ID]
 	players[playerId] = player
+
+
+func get_host() -> Player:
+	var host = null
+	
+	for player in GameData.players.values():
+		if player[GameData.PLAYER_HOST] == true:
+			host = player
+			break
+	
+	return host

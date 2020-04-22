@@ -34,6 +34,9 @@ func on_disconnected_from_server():
 	reset_network()
 	emit_signal("lost_connection_to_server")
 
+	get_tree().disconnect('connected_to_server', self, 'on_connected_to_server')
+	get_tree().disconnect('server_disconnected', self, 'on_disconnected_from_server')
+
 
 func register_player(recipientId: int, player: Dictionary):
 	rpc_id(recipientId, "on_register_player", player)
