@@ -6,13 +6,13 @@
 [ext_resource path="res://common/game/mode/fugitive/cop_car/car_door.ogg" type="AudioStream" id=4]
 [ext_resource path="res://common/game/mode/fugitive/cop_car/car_horn.ogg" type="AudioStream" id=5]
 [ext_resource path="res://common/game/mode/fugitive/cop_car/car_move.ogg" type="AudioStream" id=6]
-[ext_resource path="res://common/game/mode/fugitive/cop_car/CarModel.tscn" type="PackedScene" id=7]
+[ext_resource path="res://common/game/mode/fugitive/cop_car/cop_car_model.tscn" type="PackedScene" id=7]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 2, 1, 2 )
 
 [sub_resource type="BoxShape" id=2]
-extents = Vector3( 1.021, 1, 1.75 )
+extents = Vector3( 1.54666, 1.19426, 2.67013 )
 
 [node name="CopCar" type="KinematicBody"]
 collision_layer = 8
@@ -24,20 +24,17 @@ script = ExtResource( 1 )
 [node name="Seats" type="Spatial" parent="."]
 
 [node name="CarSeat" parent="Seats" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.462427, 1.06718, -0.5432 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 1.83398, -0.541356 )
 is_driver_seat = true
 
 [node name="CarSeat2" parent="Seats" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.325505, 1.06718, -0.5432 )
-is_driver_seat = false
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 1.83398, -0.541356 )
 
 [node name="CarSeat3" parent="Seats" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.400647, 1.06718, 0.396391 )
-is_driver_seat = false
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 1.83398, 0.707853 )
 
 [node name="CarSeat4" parent="Seats" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.342265, 1.06718, 0.396391 )
-is_driver_seat = false
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 1.83398, 0.707853 )
 
 [node name="EnterArea" type="Area" parent="."]
 
@@ -46,11 +43,11 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.635683, 0 )
 shape = SubResource( 1 )
 
 [node name="CollisionShape" type="CollisionShape" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -0.170192 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.21046, -0.249578 )
 shape = SubResource( 2 )
 
 [node name="HeadLightLeft" type="SpotLight" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.687184, 0.829184, -2.05037 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.052, 1.072, -3.1 )
 light_color = Color( 1, 0.945098, 0.878431, 1 )
 light_energy = 5.0
 light_bake_mode = 0
@@ -60,7 +57,7 @@ spot_attenuation = 1.68179
 spot_angle = 30.0
 
 [node name="HeadLightRight" type="SpotLight" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.654211, 0.833763, -2.05037 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.022, 1.1, -3.1 )
 light_color = Color( 1, 0.945098, 0.878431, 1 )
 light_energy = 5.0
 light_bake_mode = 0
