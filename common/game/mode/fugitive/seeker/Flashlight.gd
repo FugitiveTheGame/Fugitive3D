@@ -21,7 +21,7 @@ puppet func network_update(networkPosition: Vector3, networkRotation: Vector3):
 
 
 func _physics_process(delta):
-	if is_network_master():
+	if get_tree().network_peer != null and is_network_master():
 		rpc_unreliable("network_update", translation, rotation)
 
 
