@@ -85,10 +85,11 @@ func process_hider(hider):
 				#
 				# Some extra game logic for distance, should have to be some what close to "detect"
 				# the Hider for gameplay purposes
-				if(fov_visibility > 0.0 and distance <= MAX_DETECT_DISTANCE):
-					# Don't allow capture while in a car, or while in a win zone
-					if self.car == null and not is_in_winzone(hider) and not hider.frozen:
-						freeze_hider(hider)
+				if get_tree().is_network_server():
+					if fov_visibility > 0.0 and distance <= MAX_DETECT_DISTANCE:
+						# Don't allow capture while in a car, or while in a win zone
+						if self.car == null and hider.car == null and not is_in_winzone(hider) and not hider.frozen:
+							freeze_hider(hider)
 				
 				# FOV visibility can be faded out if at edge of distance visibility
 				var percent_visible: float = fov_visibility * distance_visibility

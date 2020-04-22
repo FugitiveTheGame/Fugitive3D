@@ -38,5 +38,5 @@ func show_headstart_timer():
 
 
 func _process(delta):
-	$StartTimerLabel.text = TimeUtils.format_seconds_for_display(startTimer.time_left)
-	$HeadstartTimerLabel.text = TimeUtils.format_seconds_for_display(headstartTimer.time_left)
+	$StartTimerLabel.text = "Game starting: %s" % TimeUtils.format_seconds_for_display(startTimer.time_left)
+	$HeadstartTimerLabel.text = "Cops released in: %s" % TimeUtils.format_seconds_for_display(headstartTimer.time_left)
