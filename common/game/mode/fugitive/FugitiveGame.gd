@@ -286,7 +286,7 @@ func check_win_conditions():
 					if (not winZone.overlaps_body(hider.playerBody)):
 						allUnfrozenSeekersInWinZone = false
 		
-		if gameStarted and (allHidersFrozen or allUnfrozenSeekersInWinZone):
+		if gameStarted and not gameOver and (allHidersFrozen or allUnfrozenSeekersInWinZone):
 			finish_game()
 	# Debug win condition:
 	# The only player enteres any win zone
