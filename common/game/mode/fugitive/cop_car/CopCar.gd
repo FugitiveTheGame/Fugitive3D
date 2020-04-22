@@ -10,11 +10,18 @@ const BREAK_SPEED := 30.0
 const FRICTION := 10.0
 const ROTATION := 1.0
 
+const CONE_WIDTH = cos(deg2rad(35.0))
+const MAX_VISION_DISTANCE := 50.0
+const MIN_VISION_DISTANCE := 0.0
+
 var seats := []
 var driver_seat: CarSeat
 var velocity := Vector3()
 
 var locked := true
+
+onready var headlight_ray_caster := $RayCast as RayCast
+onready var drivingAudio := $DrivingAudio as AudioStreamPlayer3D
 
 
 func _ready():
@@ -79,6 +86,8 @@ remotesync func on_enter_car(playerId: int):
 		print("Car entered")
 		
 		player.playerController.on_car_entered(self)
+		
+		$DoorAudio.play()
 	else:
 		print("No free seats in car")
 
@@ -118,8 +127,33 @@ remotesync func on_exit_car(playerId: int) -> bool:
 		player.playerController.transform.origin.x += 1.0
 		
 		player.playerController.on_car_exited(self)
+		
+		$DoorAudio.play()
 	
 	return carLeft
+
+
+func has_occupants() -> bool:
+	var occupants := 0
+	for seat in seats:
+		if not seat.is_empty():
+			occupants += 1
+	
+	return occupants > 0
+
+
+func is_driver(playerId: int) -> bool:
+	return driver_seat.occupant != null and driver_seat.occupant.id == playerId
+
+
+func lock():
+	if not locked:
+		rpc("on_lock")
+
+
+remotesync func on_lock():
+	locked = true
+	$LockAudio.play()
 
 
 func process_input(forward: bool, backward: bool, left: bool, right: bool, breaking: bool, delta: float):
@@ -151,9 +185,10 @@ func process_input(forward: bool, backward: bool, left: bool, right: bool, break
 			rotate(Vector3(0.0, 1.0, 0.0), -ROTATION * direction * delta)
 
 
-puppet func network_update(networkPosition: Vector3, networkRotation: Vector3):
+puppet func network_update(networkPosition: Vector3, networkRotation: Vector3, networkVelocity: Vector3):
 	translation = networkPosition
 	rotation = networkRotation
+	velocity = networkVelocity
 
 
 func _physics_process(delta):
@@ -164,4 +199,87 @@ func _physics_process(delta):
 		if velocity.length() <= MIN_SPEED:
 			velocity = Vector3()
 		
-		rpc_unreliable("network_update", translation, rotation)
+		rpc_unreliable("network_update", translation, rotation, velocity)
+
+
+func is_moving() -> bool:
+	return velocity.length() > 0.01
+
+
+func honk_horn():
+	rpc("on_honk_horn")
+
+
+remotesync func on_honk_horn():
+	$HornAudio.play()
+
+
+func _process(delta):
+	# Make movement noises if moving
+	if self.is_moving() and not driver_seat.is_empty():
+		if not drivingAudio.playing:
+			drivingAudio.playing = true
+	else:
+		if drivingAudio.playing:
+			drivingAudio.playing = false
+
+
+func process_hider(hider: Hider):
+	# If the hider is in a car, just skip them
+	if hider.car != null:
+		return
+	
+	# Distance between Hider and Seeker
+	var distance = global_transform.origin.distance_to(hider.playerController.global_transform.origin)
+	
+	# TODO: CLOSE_PROXIMITY_DISTANCE is a hack, see issue #14
+	if distance <=  MAX_VISION_DISTANCE:
+		# Cast a ray between the seeker's flashlight and this hider
+		var curHiderShape = hider.get_current_shape().head
+		var look_vec := headlight_ray_caster.to_local(curHiderShape.global_transform.origin)
+		
+		headlight_ray_caster.cast_to = look_vec
+		headlight_ray_caster.force_raycast_update()
+		
+		# Only if ray is colliding. If it's not, and we try to do logic,
+		# wierd stuff happens
+		if(headlight_ray_caster.is_colliding()):
+			
+			var bodySeen = headlight_ray_caster.get_collider()
+			
+			# If the ray hits a wall or something else first, then this Hider is fully occluded
+			if(bodySeen == hider.playerBody):
+				# Calculate the angle of this ray from the cetner of the Flashlight's FOV
+				var look_angle := Vector3(0.0, 0.0, -1.0).dot(look_vec.normalized())
+				
+				############################################
+				# Begin visibility calculations
+				############################################
+				
+				# At a given distance, fade the hider out
+				var distance_visibility: float
+				
+				# Hider is too far away, make invisible regardless of FOV visibility
+				if distance > MAX_VISION_DISTANCE:
+					distance_visibility = 0.0
+				# Hider is at the edge of distance visibility, calculate how close to the edge they are
+				elif distance > MIN_VISION_DISTANCE:
+					var shiftedDistance = distance - MIN_VISION_DISTANCE
+					distance_visibility = 1.0 - (shiftedDistance / (MAX_VISION_DISTANCE-MIN_VISION_DISTANCE))
+				# Hider is well with-in visible distance, we won't modify the FOV visibility at all
+				else:
+					distance_visibility = 1.0
+				
+				# If hider is in the center of Seeker's FOV, they are fully visible
+				# otherwise, they will gradually fade out the further out to the edges
+				# of the FOV they are. Outside the FOV cone, they are invisible.
+				var rangeShifted = clamp(look_angle - CONE_WIDTH, 0.0, CONE_WIDTH)
+				var rangeMapped = rangeShifted / (1.0 - CONE_WIDTH)
+				var fov_visibility = rangeMapped
+				
+				# FOV visibility can be faded out if at edge of distance visibility
+				var percent_visible: float = fov_visibility * distance_visibility
+				percent_visible = clamp(percent_visible, 0.0, 1.0)
+				
+				# The hider's set visibility method will handle the visible effects of this
+				hider.update_visibility(percent_visible)
