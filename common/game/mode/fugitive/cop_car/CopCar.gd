@@ -210,7 +210,7 @@ func _physics_process(delta):
 
 
 func is_moving() -> bool:
-	return velocity.length() > 0.01
+	return Vector3(velocity.x, 0.0, velocity.y).length() > 0.01
 
 
 func honk_horn():
