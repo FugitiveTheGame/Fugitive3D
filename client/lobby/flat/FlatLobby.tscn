@@ -7,4 +7,4 @@
 script = ExtResource( 2 )
 
 [node name="MapButton" parent="." index="6"]
-items = [ "My Neighborhood", null, false, 0, null, "Item 1", null, false, 1, null ]
+items = [ "My Neighborhood", null, false, 0, null ]
