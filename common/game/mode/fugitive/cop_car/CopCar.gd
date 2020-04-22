@@ -9,6 +9,7 @@ const ACCELERATION := 35.0
 const BREAK_SPEED := 30.0
 const FRICTION := 10.0
 const ROTATION := 1.0
+const GRAVITY := pow(9.8, 2)
 
 const CONE_WIDTH = cos(deg2rad(35.0))
 const MAX_VISION_DISTANCE := 50.0
@@ -198,7 +199,8 @@ puppet func network_update(networkPosition: Vector3, networkRotation: Vector3, n
 
 func _physics_process(delta):
 	if is_network_master():
-		velocity = move_and_slide(velocity, Vector3(0,1,0))
+		velocity.y -= GRAVITY * delta
+		velocity = move_and_slide_with_snap(velocity, Vector3(0,-2,0), Vector3(0,1,0))
 		
 		velocity = velocity - (velocity.normalized() * (FRICTION * delta))
 		if velocity.length() <= MIN_SPEED:
