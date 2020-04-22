@@ -1,7 +1,7 @@
 extends "res://client/game/mode/fugitive/FlatClientFugitiveGame.gd"
 
 # Change this to determine what you will spwan as
-var be_seeker := true
+var be_seeker := false
 
 func _enter_tree():
 	# Change this to test what ever map you wish
@@ -32,6 +32,12 @@ func _ready():
 	# Normally the server listens to these
 	map.get_start_timer().connect("timeout", self, "start_timer_timeout")
 	map.get_headstart_timer().connect("timeout", self, "headstart_timer_timeout")
+	
+	# Unlock all cars for the hider
+	if not be_seeker:
+		var cars = get_tree().get_nodes_in_group(Groups.CARS)
+		for car in cars:
+			car.locked = false
 	
 	# Artificially ready the client
 	call_deferred("dev_ready")

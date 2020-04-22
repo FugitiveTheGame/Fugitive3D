@@ -1,7 +1,33 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://client/game/player/controller/flat/FlatPlayerController.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/game/mode/fugitive/FlatFugitiveController.gd" type="Script" id=2]
+[ext_resource path="res://client/game/mode/fugitive/hud/FrozenHud.tscn" type="PackedScene" id=3]
+[ext_resource path="res://client/game/mode/fugitive/hud/GameTimerHud.tscn" type="PackedScene" id=4]
+[ext_resource path="res://client/game/mode/fugitive/hud/PregameHud.tscn" type="PackedScene" id=5]
 
 [node name="PlayerController" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+
+[node name="FrozenHud" parent="HudCanvas/HudContainer" index="2" instance=ExtResource( 3 )]
+margin_left = 1183.61
+margin_top = 700.647
+margin_right = 1183.69
+margin_bottom = 700.847
+
+[node name="GameTimerReadout" parent="HudCanvas/HudContainer" index="3" instance=ExtResource( 4 )]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+margin_left = -64.0
+margin_bottom = 27.0
+
+[node name="PregameHud" parent="HudCanvas/HudContainer" index="4" instance=ExtResource( 5 )]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -153.0
+margin_top = -87.0
+margin_right = 153.0
+margin_bottom = 87.0

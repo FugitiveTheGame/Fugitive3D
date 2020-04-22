@@ -17,7 +17,10 @@ follow_viewport_enable = true
 [node name="StaminaHud" parent="HudCanvas/HudContainer" index="0"]
 playerPath = NodePath("../../../Player")
 
-[node name="CrouchingHud" parent="HudCanvas/HudContainer" index="3"]
+[node name="CrouchingHud" parent="HudCanvas/HudContainer" index="1"]
+playerPath = NodePath("../../../Player")
+
+[node name="FrozenHud" parent="HudCanvas/HudContainer" index="2"]
 playerPath = NodePath("../../../Player")
 
 [node name="CarLockHud" parent="HudCanvas/HudContainer" index="4" instance=ExtResource( 6 )]
