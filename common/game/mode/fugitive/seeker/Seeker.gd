@@ -36,8 +36,8 @@ func process_hider(hider):
 	# TODO: CLOSE_PROXIMITY_DISTANCE is a hack, see issue #14
 	if distance < CLOSE_PROXIMITY_DISTANCE:
 		hider.update_visibility(1.0)
-	# Quick reject, if too far away, just give up
-	elif distance <=  MAX_VISION_DISTANCE:
+	# Quick reject, if too far away, or flashlight is off, just give up
+	elif distance <=  MAX_VISION_DISTANCE and flash_light.is_on:
 		# Cast a ray between the seeker's flashlight and this hider
 		var curHiderShape = hider.get_current_shape().head
 		var look_vec := flash_light.to_local(curHiderShape.global_transform.origin)

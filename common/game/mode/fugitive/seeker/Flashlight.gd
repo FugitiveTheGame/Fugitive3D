@@ -1,16 +1,28 @@
 extends Spatial
 
-var isOn := false
+var is_on := true
 
-puppet func network_update(networkPosition: Vector3, networkRotation: Vector3, networkOn: bool):
+func toggle_on():
+	set_on(not is_on)
+
+
+func set_on(on: bool):
+	rpc("on_set_on", on)
+
+
+remotesync func on_set_on(on: bool):
+	is_on = on
+	$SpotLight.visible = is_on
+
+
+puppet func network_update(networkPosition: Vector3, networkRotation: Vector3):
 	translation = networkPosition
 	rotation = networkRotation
-	isOn = networkOn
 
 
 func _physics_process(delta):
 	if is_network_master():
-		rpc_unreliable("network_update", translation, rotation, isOn)
+		rpc_unreliable("network_update", translation, rotation)
 
 
 func get_ray_caster():

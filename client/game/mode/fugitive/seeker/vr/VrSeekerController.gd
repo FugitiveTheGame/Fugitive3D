@@ -4,6 +4,9 @@ onready var car_lock_hud := pregameHud.find_node("CarLockHud", true, false)
 
 
 func _process(delta):
+	if vr.button_just_released(vr.BUTTON.Y) and player.car == null:
+		$Flashlight.toggle_on()
+	
 	###########################
 	# Seeker only car controls
 	if vr.button_just_pressed(vr.BUTTON.X):

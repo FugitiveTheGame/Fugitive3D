@@ -11,6 +11,9 @@ func _input(event: InputEvent):
 		var car = get_nearest_car()
 		if car != null:
 			car_lock_hud.stop_locking()
+	
+	if event.is_action_released("flat_seeker_flashlight") and player.car == null:
+		$Flashlight.toggle_on()
 
 
 func get_nearest_car():
