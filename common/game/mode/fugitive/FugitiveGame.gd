@@ -225,6 +225,7 @@ func process_hiders():
 	var seekers = get_tree().get_nodes_in_group(Seeker.GROUP)
 	var hiders = get_tree().get_nodes_in_group(Hider.GROUP)
 	var lights = get_tree().get_nodes_in_group(Groups.LIGHTS)
+	var cars = get_tree().get_nodes_in_group(Groups.CARS)
 	
 	var curPlayerType = GameData.get_current_player_type()
 	
@@ -253,6 +254,9 @@ func process_hiders():
 		
 		for light in lights:
 			light.process_hider(hider)
+		
+		for car in cars:
+			car.process_hider(hider)
 
 
 func check_win_conditions():

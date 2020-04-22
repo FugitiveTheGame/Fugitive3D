@@ -68,8 +68,8 @@ func process_hider(hider):
 					distance_visibility = 0.0
 				# Hider is at the edge of distance visibility, calculate how close to the edge they are
 				elif distance > MIN_VISION_DISTANCE:
-					var x = distance - MIN_VISION_DISTANCE
-					distance_visibility = 1.0 - (x / (MAX_VISION_DISTANCE-MIN_VISION_DISTANCE))
+					var shiftedDistance = distance - MIN_VISION_DISTANCE
+					distance_visibility = 1.0 - (shiftedDistance / (MAX_VISION_DISTANCE-MIN_VISION_DISTANCE))
 				# Hider is well with-in visible distance, we won't modify the FOV visibility at all
 				else:
 					distance_visibility = 1.0
@@ -117,3 +117,7 @@ func on_state_playing():
 	print("Seeker: on_state_playing()")
 	if get_tree().is_network_server():
 		unfreeze()
+
+
+func can_lock_car(car) -> bool:
+	return car != null and not car.locked and not car.has_occupants()
