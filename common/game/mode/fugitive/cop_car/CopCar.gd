@@ -97,7 +97,7 @@ func exit_car(player: FugitivePlayer):
 
 
 remotesync func on_exit_car(playerId: int) -> bool:
-	var carLeft := false
+	var carLeft: bool
 	
 	var player = GameData.currentGame.get_player(playerId)
 	
@@ -105,16 +105,14 @@ remotesync func on_exit_car(playerId: int) -> bool:
 	for s in seats:
 		if s.occupant == player:
 			seat = s
-			carLeft = true
 			break
 	
-	if carLeft:
-		print("Car exited")
-		
+	if seat != null:
 		player.car = null
 		seat.occupant = null
 		
 		remove_child(player.playerController)
+		
 		get_parent().add_child(player.playerController)
 		
 		if seat.is_driver_seat:
@@ -129,6 +127,10 @@ remotesync func on_exit_car(playerId: int) -> bool:
 		player.playerController.on_car_exited(self)
 		
 		$DoorAudio.play()
+		
+		carLeft = true
+	else:
+		carLeft = false
 	
 	return carLeft
 
@@ -146,9 +148,12 @@ func is_driver(playerId: int) -> bool:
 	return driver_seat.occupant != null and driver_seat.occupant.id == playerId
 
 
-func lock():
-	if not locked:
+func lock() -> bool:
+	if not locked and not has_occupants():
 		rpc("on_lock")
+		return true
+	else:
+		return false
 
 
 remotesync func on_lock():
@@ -283,3 +288,21 @@ func process_hider(hider: Hider):
 				
 				# The hider's set visibility method will handle the visible effects of this
 				hider.update_visibility(percent_visible)
+
+
+func _on_EnterArea_body_entered(body):
+	# Server authoritative
+	if get_tree().is_network_server():
+		if has_occupants():
+			# If the player we just collided with is a Seeker
+			var collidedPlayer = body.get_player()
+			if collidedPlayer.playerType == GameData.PlayerType.Seeker:
+				# And the driver is a Hider
+				if driver_seat.occupant != null and driver_seat.occupant.playerType == GameData.PlayerType.Hider:
+					# Then kick everyone out of the car and lock it
+					for seat in seats:
+						if seat.occupant != null:
+							print("Ejecting %d" % seat.occupant.id)
+							exit_car(seat.occupant)
+					
+					lock()
