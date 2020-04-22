@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://client/game/player/controller/vr/VrPlayerController.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/game/mode/fugitive/VrFugitiveController.gd" type="Script" id=2]
 [ext_resource path="res://client/game/mode/fugitive/hud/PregameHud.tscn" type="PackedScene" id=3]
 [ext_resource path="res://client/game/mode/fugitive/hud/GameTimerHud.tscn" type="PackedScene" id=4]
+[ext_resource path="res://client/game/mode/fugitive/hud/FrozenHud.tscn" type="PackedScene" id=5]
 
 [node name="PlayerController" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
@@ -33,3 +34,9 @@ text = "Height: 0.0m"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="FrozenHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="5" instance=ExtResource( 5 )]
+margin_left = 384.605
+margin_top = 174.355
+margin_right = 384.685
+margin_bottom = 174.555

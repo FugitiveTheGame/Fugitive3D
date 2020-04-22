@@ -22,6 +22,9 @@ margin_top = 141.693
 margin_right = 180.717
 margin_bottom = 161.917
 
+[node name="FrozenHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="6"]
+playerPath = NodePath("../../../../../Player")
+
 [node name="RemoteTransform" type="RemoteTransform" parent="OQ_RightController" index="0"]
 remote_path = NodePath("../../Flashlight")
 

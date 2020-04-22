@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://client/game/mode/fugitive/hider/SafeZoneHud.gd" type="Script" id=1]
+
+[node name="SafeZoneHud" type="Control"]
+anchor_right = 0.037
+anchor_bottom = 0.027
+margin_right = 0.639999
+margin_bottom = 0.4
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SafeLabel" type="Label" parent="."]
+margin_right = 40.0
+margin_bottom = 14.0
+text = "Safe!"
