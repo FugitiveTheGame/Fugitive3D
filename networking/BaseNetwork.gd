@@ -2,9 +2,6 @@ extends Node
 
 signal remove_player
 
-const SERVER_PORT := 31000
-const MAX_PLAYERS := 15
-
 func _ready():
 	get_tree().connect("network_peer_disconnected", self, "_player_disconnected")
 

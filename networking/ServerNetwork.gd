@@ -1,20 +1,36 @@
-extends "BaseNetwork.gd"
+extends Node
 
+const SERVER_PORT := 31000
 const SERVER_ID := 1
 const SERVER_REPOSITORY_URL := "http://repository.fugitivethegame.online:8080"
+const MAX_PLAYERS := 15
+
+func _ready():
+	get_tree().connect("network_peer_disconnected", self, "_player_disconnected")
+
 
 func _player_connected(id):
 	print("Player connected: " + str(id))
 
 
 func _player_disconnected(id):
-	._player_disconnected(id)
+	if get_tree().is_network_server():
+		return
 	
-	# If there are any players left, pick the first one
-	# and make them host
+	# If it was the host who left, and there are any
+	# players left, pick the first one and make them host
 	if not GameData.players.empty():
-		var newHost = GameData.players.values().front()
-		make_host(newHost[GameData.PLAYER_ID])
+		var noHost := true
+		# Search players to see if there is a host
+		for player in GameData.players.values():
+			if player[GameData.PLAYER_HOST] == true:
+				noHost = false
+				break
+		
+		# No host, make the first player the new host
+		if noHost:
+			var newHost = GameData.players.values().front()
+			make_host(newHost[GameData.PLAYER_ID])
 
 
 # Called by clients when they connect
@@ -67,7 +83,7 @@ func is_hosting() -> bool:
 
 func host_game(port: int = SERVER_PORT) -> bool:
 	# Clear out any old state
-	reset_network()
+	ClientNetwork.reset_network()
 	
 	var peer = NetworkedMultiplayerENet.new()
 	var result = peer.create_server(port, MAX_PLAYERS)
