@@ -59,3 +59,8 @@ func local_player_ready():
 		
 		# Report that this client is done
 		rpc_id(ServerNetwork.SERVER_ID, "on_client_ready", get_tree().get_network_unique_id())
+
+
+func on_state_playing_headstart(current_state: State, transition: Transition):
+	print("Playing start sound")
+	$StartAudio.play()
