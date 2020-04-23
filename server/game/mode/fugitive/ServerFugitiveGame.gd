@@ -62,12 +62,6 @@ func headstart_timer_timeout():
 	rpc("release_cops")
 
 
-func finish_game():
-	.finish_game()
-	print("SERVER: game is complete!")
-	rpc("on_go_to_lobby")
-
-
 remotesync func on_go_to_lobby():
 	print("SERVER: on_go_to_lobby()")
 	get_tree().change_scene("res://server/lobby/ServerLobby.tscn")

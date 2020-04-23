@@ -69,7 +69,9 @@ func on_game_state_changed(newState: State, via: Transition):
 			if playerController.has_method("on_state_playing"):
 				playerController.on_state_playing()
 		FugitiveStateMachine.STATE_GAME_OVER:
-				gameEnded = true
+			gameEnded = true
+			if playerController.has_method("on_state_game_over"):
+				playerController.on_state_game_over()
 
 
 func on_state_not_ready():

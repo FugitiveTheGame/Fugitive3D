@@ -5,12 +5,14 @@ onready var stateMachine := $StateMachine as FugitiveStateMachine
 
 var map: FugitiveMap
 var playersContainer: Node
-var gameTimer: Timer
 var localPlayer: Player
 var players = {}
 
 var gameStarted := false
-var gameOver := false
+var winningTeam: int
+
+func is_game_over() -> bool:
+	return stateMachine.current_state.name == FugitiveStateMachine.STATE_GAME_OVER
 
 
 func _ready():
@@ -40,8 +42,9 @@ func load_map(mapPath: String):
 	map = scene.instance()
 	set_map(map)
 	playersContainer = map.get_players()
-	gameTimer = map.get_game_timer()
-	gameTimer.connect("timeout", self, "game_time_limit_exceeded")
+
+	var gameTimelimitTimer = map.get_timelimit_timer()
+	gameTimelimitTimer.connect("timeout", self, "game_time_limit_exceeded")
 
 
 func get_player(playerId: int) -> Player:
@@ -63,12 +66,14 @@ func remove_player(playerId: int):
 # This will be overriden by ServerGame.
 # The server will trigger the actual end-game functionality
 # This makes the server authoratative about when the game ends
-func finish_game():
-	rpc("on_finish_game")
+func finish_game(playerType: int):
+	rpc("on_finish_game", playerType)
 
 
-remotesync func on_finish_game():
+remotesync func on_finish_game(playerType: int):
 	var curState := stateMachine.current_state.name
+	
+	winningTeam = playerType
 	
 	# There are only 2 valid states that the game can be finished from
 	if curState == FugitiveStateMachine.STATE_PLAYING_HEADSTART:
@@ -78,6 +83,7 @@ remotesync func on_finish_game():
 	else:
 		print("FATAL! on_finish_game(): cannot finish game, in invalid state: %s " % curState)
 		assert(false)
+
 
 ################################
 # Pre-game configuration
@@ -216,7 +222,7 @@ func create_player_hider_node() -> Node:
 
 
 func _process(delta):
-	if gameStarted and not gameOver:
+	if gameStarted and not is_game_over():
 		process_hiders()
 		check_win_conditions()
 
@@ -286,8 +292,11 @@ func check_win_conditions():
 					if (not winZone.overlaps_body(hider.playerBody)):
 						allUnfrozenSeekersInWinZone = false
 		
-		if gameStarted and not gameOver and (allHidersFrozen or allUnfrozenSeekersInWinZone):
-			finish_game()
+		if gameStarted and not is_game_over():
+			if allHidersFrozen:
+				finish_game(GameData.PlayerType.Seeker)
+			elif allUnfrozenSeekersInWinZone:
+				finish_game(GameData.PlayerType.Hider)
 	# Debug win condition:
 	# The only player enteres any win zone
 	else:
@@ -299,27 +308,37 @@ func check_win_conditions():
 		
 		var body = player.playerBody
 		for winZone in winZones:
-			# Now, check if this hider is in the win zone.
+			# Now, check if anyone is in the win zone.
 			if winZone.overlaps_body(body):
-				finish_game()
+				finish_game(GameData.PlayerType.Hider)
 				break
 
 
 func game_time_limit_exceeded():
 	print("Time ran out!")
-	finish_game()
+	finish_game(GameData.PlayerType.Seeker)
 
 
 func on_state_countdown(current_state: State, transition: Transition):
 	print("Starting countdown")
-	map.get_start_timer().start()
+	map.get_countdown_timer().start()
+
+
+func on_state_playing_headstart(current_state: State, transition: Transition):
+	print("Starting countdown")
+	map.get_headstart_timer().start()
+
+
+func on_state_game_over(current_state: State, transition: Transition):
+	print("game is complete!")
+	$ReturnToLobbyTimer.start()
 
 
 remotesync func begin_game():
 	print("Release the hiders!")
 	stateMachine.transition_by_name(FugitiveStateMachine.TRANS_GAME_START)
 	map.get_headstart_timer().start()
-	gameTimer.start()
+	map.get_timelimit_timer().start()
 	gameStarted = true
 
 
@@ -328,6 +347,18 @@ remotesync func release_cops():
 	stateMachine.transition_by_name(FugitiveStateMachine.TRANS_COPS_RELEASED)
 
 
-func on_state_end_game():
-	self.gameOver = true
-	print("game is complete!")
+# Only the server will call this as it sends all clients back to lobby
+func go_to_lobby():
+	if get_tree().is_network_server():
+		rpc("on_go_to_lobby")
+
+
+remotesync func on_go_to_lobby():
+	print("on_go_to_lobby MUST BE OVERRIDEN")
+	assert(false)
+
+
+func _on_ReturnToLobbyTimer_timeout():
+	print("ReturnToLobbyTimer is up")
+	if get_tree().is_network_server():
+		go_to_lobby()

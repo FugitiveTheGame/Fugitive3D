@@ -1,0 +1,38 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://client/game/mode/fugitive/hud/EndGameHud.gd" type="Script" id=1]
+
+[node name="EndGameHud" type="Control"]
+anchor_right = 0.223
+anchor_bottom = 0.156
+margin_right = 0.559998
+margin_bottom = 0.199997
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HidersLabel" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -39.5
+margin_top = -7.0
+margin_right = 39.5
+margin_bottom = 7.0
+text = "Hiders Won!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SeekersLabel" type="Label" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -43.5
+margin_top = -7.0
+margin_right = 43.5
+margin_bottom = 7.0
+text = "Seekers Won!"

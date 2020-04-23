@@ -1,6 +1,7 @@
 extends "res://client/game/player/controller/vr/VrPlayerController.gd"
 
 onready var pregameHud := hud.find_node("PregameHud", true, false) as Control
+onready var endgameHud := hud.find_node("EndGameHud", true, false) as Control
 
 const dead_zone := 0.125
 
@@ -91,3 +92,7 @@ func on_state_headstart():
 
 func on_state_playing():
 	pregameHud.hide()
+
+
+func on_state_game_over():
+	endgameHud.team_won( GameData.currentGame.winningTeam )

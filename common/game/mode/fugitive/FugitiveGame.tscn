@@ -9,4 +9,9 @@ script = ExtResource( 2 )
 
 [node name="StateMachine" type="Node" parent="." index="0"]
 script = ExtResource( 3 )
-ownerPath = NodePath("..")
+listenerPath = NodePath("..")
+
+[node name="ReturnToLobbyTimer" type="Timer" parent="." index="1"]
+wait_time = 5.0
+one_shot = true
+[connection signal="timeout" from="ReturnToLobbyTimer" to="." method="_on_ReturnToLobbyTimer_timeout"]
