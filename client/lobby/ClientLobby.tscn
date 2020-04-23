@@ -5,33 +5,65 @@
 
 [node name="Lobby" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-startButtonPath = NodePath("StartButton")
-leaveButtonPath = NodePath("LeaveButton")
+startButtonPath = NodePath("PanelContainer/VBoxContainer/StartButton")
+leaveButtonPath = NodePath("PanelContainer/VBoxContainer/LeaveButton")
 
-[node name="StartButton" type="Button" parent="." index="2"]
-margin_left = 772.0
-margin_top = 257.0
-margin_right = 855.0
-margin_bottom = 277.0
-text = "Start Game"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="LeaveButton" type="Button" parent="." index="3"]
-margin_left = 780.855
-margin_top = 82.9828
-margin_right = 829.855
-margin_bottom = 102.983
+[node name="LeaveButton" type="Button" parent="PanelContainer/VBoxContainer" index="0"]
+margin_left = 635.0
+margin_right = 684.0
+margin_bottom = 20.0
+size_flags_horizontal = 8
+size_flags_vertical = 0
 text = "Leave"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="StartTimer" type="Timer" parent="." index="4"]
+[node name="Title" parent="PanelContainer/VBoxContainer" index="1"]
+margin_top = 24.0
+margin_right = 684.0
+margin_bottom = 88.0
+
+[node name="HSplitContainer" parent="PanelContainer/VBoxContainer" index="2"]
+margin_top = 92.0
+margin_right = 684.0
+margin_bottom = 430.0
+
+[node name="VBoxContainer2" parent="PanelContainer/VBoxContainer/HSplitContainer" index="0"]
+margin_right = 336.0
+margin_bottom = 338.0
+
+[node name="Label" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2" index="0"]
+margin_right = 336.0
+
+[node name="Panel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2" index="1"]
+margin_right = 336.0
+margin_bottom = 338.0
+
+[node name="Players" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2/Panel/ScrollContainer" index="0"]
+margin_right = 336.0
+
+[node name="VBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer" index="1"]
+margin_left = 348.0
+margin_right = 684.0
+margin_bottom = 338.0
+
+[node name="MapButton" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="0"]
+items = [ "My Neighborhood", null, false, 0, null ]
+
+[node name="StartButton" type="Button" parent="PanelContainer/VBoxContainer" index="3"]
+margin_top = 434.0
+margin_right = 684.0
+margin_bottom = 454.0
+text = "Start Game"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StartTimer" type="Timer" parent="." index="1"]
 wait_time = 5.0
 
-[node name="StartLabel" type="Label" parent="." index="5"]
+[node name="StartLabel" type="Label" parent="." index="2"]
 visible = false
 margin_left = 334.629
 margin_top = 34.6688
@@ -41,6 +73,6 @@ text = "Starting in 0:05"
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="pressed" from="StartButton" to="." method="_on_StartButton_pressed"]
-[connection signal="pressed" from="LeaveButton" to="." method="_on_LeaveButton_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/LeaveButton" to="." method="_on_LeaveButton_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/StartButton" to="." method="_on_StartButton_pressed"]
 [connection signal="timeout" from="StartTimer" to="." method="_on_StartTimer_timeout"]

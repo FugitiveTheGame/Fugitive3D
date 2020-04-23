@@ -64,9 +64,10 @@ __meta__ = {
 }
 
 [node name="ServerList" type="VBoxContainer" parent="VBoxContainer/Panel/ScrollContainer"]
-margin_right = 509.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 500.0
 size_flags_horizontal = 3
-size_flags_vertical = 9
 [connection signal="new_server" from="ServerListener" to="." method="_on_ServerListener_new_server"]
 [connection signal="remove_server" from="ServerListener" to="." method="_on_ServerListener_remove_server"]
 [connection signal="update_server" from="ServerListener" to="." method="_on_ServerListener_update_server"]
