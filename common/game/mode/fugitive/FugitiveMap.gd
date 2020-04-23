@@ -17,9 +17,9 @@ func get_players():
 	return $Players
 
 
-# Time limit for the playing phases of the gme
-func get_timelimit_timer():
-	return $GameTimer
+# Count down to start when everyone is ready
+func get_countdown_timer():
+	return $StartTimer
 
 
 # Count down for the headstart phase of the game to end
@@ -27,9 +27,9 @@ func get_headstart_timer():
 	return $HeadstartTimer
 
 
-# Count down to start when everyone is ready
-func get_countdown_timer():
-	return $StartTimer
+# Time limit for the playing phases of the gme
+func get_timelimit_timer():
+	return $GameTimer
 
 
 func get_win_zones() -> Array:

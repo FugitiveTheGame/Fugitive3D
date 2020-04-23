@@ -19,7 +19,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HidersLabel" type="Label" parent="Container"]
+[node name="WinnerLabel" type="Label" parent="Container"]
 margin_right = 291.0
 margin_bottom = 52.0
 custom_fonts/font = ExtResource( 2 )
@@ -29,15 +29,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="SeekersLabel" type="Label" parent="Container"]
+[node name="PlayerList" type="VBoxContainer" parent="Container"]
 margin_top = 56.0
 margin_right = 291.0
-margin_bottom = 108.0
-custom_fonts/font = ExtResource( 2 )
-text = "Seekers Won!"
-align = 1
-
-[node name="PlayerList" type="VBoxContainer" parent="Container"]
-margin_top = 112.0
-margin_right = 291.0
-margin_bottom = 112.0
+margin_bottom = 56.0

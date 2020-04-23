@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://common/lobby/Lobby.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/lobby/ClientLobby.gd" type="Script" id=2]
+[ext_resource path="res://fonts/content/TitleFont.tres" type="DynamicFont" id=3]
 
 [node name="Lobby" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
@@ -9,8 +10,8 @@ startButtonPath = NodePath("PanelContainer/VBoxContainer/StartButton")
 leaveButtonPath = NodePath("PanelContainer/VBoxContainer/LeaveButton")
 
 [node name="LeaveButton" type="Button" parent="PanelContainer/VBoxContainer" index="0"]
-margin_left = 635.0
-margin_right = 684.0
+margin_left = 634.0
+margin_right = 683.0
 margin_bottom = 20.0
 size_flags_horizontal = 8
 size_flags_vertical = 0
@@ -21,39 +22,24 @@ __meta__ = {
 
 [node name="Title" parent="PanelContainer/VBoxContainer" index="1"]
 margin_top = 24.0
-margin_right = 684.0
 margin_bottom = 88.0
 
 [node name="HSplitContainer" parent="PanelContainer/VBoxContainer" index="2"]
 margin_top = 92.0
-margin_right = 684.0
 margin_bottom = 430.0
 
 [node name="VBoxContainer2" parent="PanelContainer/VBoxContainer/HSplitContainer" index="0"]
-margin_right = 336.0
 margin_bottom = 338.0
 
-[node name="Label" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2" index="0"]
-margin_right = 336.0
-
-[node name="Panel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2" index="1"]
-margin_right = 336.0
+[node name="Panel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2" index="2"]
 margin_bottom = 338.0
-
-[node name="Players" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2/Panel/ScrollContainer" index="0"]
-margin_right = 336.0
 
 [node name="VBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer" index="1"]
-margin_left = 348.0
-margin_right = 684.0
 margin_bottom = 338.0
-
-[node name="MapButton" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="0"]
-items = [ "My Neighborhood", null, false, 0, null ]
 
 [node name="StartButton" type="Button" parent="PanelContainer/VBoxContainer" index="3"]
 margin_top = 434.0
-margin_right = 684.0
+margin_right = 683.0
 margin_bottom = 454.0
 text = "Start Game"
 __meta__ = {
@@ -64,12 +50,13 @@ __meta__ = {
 wait_time = 5.0
 
 [node name="StartLabel" type="Label" parent="." index="2"]
-visible = false
-margin_left = 334.629
-margin_top = 34.6688
-margin_right = 440.629
-margin_bottom = 48.6688
-text = "Starting in 0:05"
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -229.5
+margin_right = 229.5
+margin_bottom = 52.0
+custom_fonts/font = ExtResource( 3 )
+text = "Game Starting in 0:05"
 __meta__ = {
 "_edit_use_anchors_": false
 }

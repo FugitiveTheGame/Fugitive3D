@@ -30,8 +30,8 @@ func _ready():
 
 
 func _on_ConnectButton_pressed():
-	var ip := $ServerIpLabel/ServerIp.text as String
-	var portStr := $ServerPortLabel/ServerPort.text as String
+	var ip := serverIp.text as String
+	var portStr := serverPort.text as String
 	var port := int(portStr)
 	
 	on_connect_request(ip, port)

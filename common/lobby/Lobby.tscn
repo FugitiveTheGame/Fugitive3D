@@ -43,7 +43,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HSplitContainer" type="HSplitContainer" parent="PanelContainer/VBoxContainer"]
+[node name="HSplitContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
 margin_top = 68.0
 margin_right = 683.0
 margin_bottom = 454.0
@@ -51,25 +51,25 @@ size_flags_horizontal = 5
 size_flags_vertical = 3
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer"]
-margin_right = 335.0
+margin_right = 339.0
 margin_bottom = 386.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ColumnLabel" type="Label" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2"]
-margin_right = 335.0
+margin_right = 339.0
 margin_bottom = 14.0
 text = "Players:"
 align = 1
 
 [node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2"]
 margin_top = 18.0
-margin_right = 335.0
+margin_right = 339.0
 margin_bottom = 22.0
 
 [node name="Panel" type="Panel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2"]
 margin_top = 26.0
-margin_right = 335.0
+margin_right = 339.0
 margin_bottom = 386.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -85,39 +85,39 @@ __meta__ = {
 }
 
 [node name="Players" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2/Panel/ScrollContainer"]
-margin_right = 335.0
+margin_right = 339.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer"]
-margin_left = 347.0
+margin_left = 343.0
 margin_right = 683.0
 margin_bottom = 386.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ColumnLabel" type="Label" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
-margin_right = 336.0
+margin_right = 340.0
 margin_bottom = 14.0
 text = "Options"
 align = 1
 
 [node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
 margin_top = 18.0
-margin_right = 336.0
+margin_right = 340.0
 margin_bottom = 22.0
 
 [node name="MapLabel" type="Label" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
 margin_top = 26.0
-margin_right = 336.0
+margin_right = 340.0
 margin_bottom = 40.0
 text = "Map:"
 
 [node name="MapButton" type="OptionButton" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
 margin_top = 44.0
-margin_right = 336.0
+margin_right = 340.0
 margin_bottom = 64.0
 text = "My Neighborhood"
 items = [ "My Neighborhood", null, false, 0, null ]
