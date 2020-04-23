@@ -1,23 +1,13 @@
 extends Control
 
 func _ready():
-	$Container/HidersLabel.hide()
-	$Container/SeekersLabel.hide()
-	
 	hide()
 
 
 func team_won(winningTeam: int):
-	match winningTeam:
-		GameData.PlayerType.Hider:
-			$Container/HidersLabel.show()
-			$Container/SeekersLabel.hide()
-		GameData.PlayerType.Seeker:
-			$Container/HidersLabel.hide()
-			$Container/SeekersLabel.show()
-		_:
-			print("Invalid winning team: %d" % winningTeam)
-			assert(false)
+	
+	var winningTeamName := GameData.currentGame.get_team_name(winningTeam)
+	$Container/WinnerLabel.text = "%ss won!" % winningTeamName
 	
 	for playerInfo in GameData.get_players():
 		var node := Label.new()

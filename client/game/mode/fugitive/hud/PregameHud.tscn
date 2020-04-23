@@ -2,34 +2,20 @@
 
 [ext_resource path="res://client/game/mode/fugitive/hud/PregameHud.gd" type="Script" id=1]
 
-[node name="PregameHud" type="PanelContainer"]
+[node name="PregameHud" type="VBoxContainer"]
 margin_right = 14.0
 margin_bottom = 14.0
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="Container" type="VBoxContainer" parent="."]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 176.0
-margin_bottom = 103.0
-alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="PlayerClassLabel" type="Label" parent="Container"]
-margin_top = -1.0
+[node name="PlayerClassLabel" type="Label" parent="."]
 margin_right = 169.0
-margin_bottom = 23.0
+margin_bottom = 24.0
 rect_min_size = Vector2( 0, 24 )
 text = "You are a: Hider"
 align = 1
 valign = 1
 
-[node name="NotReadyLabel" type="Label" parent="Container"]
+[node name="NotReadyLabel" type="Label" parent="."]
 margin_top = 28.0
 margin_right = 169.0
 margin_bottom = 42.0
@@ -39,7 +25,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ReadyLabel" type="Label" parent="Container"]
+[node name="ReadyLabel" type="Label" parent="."]
 margin_top = 46.0
 margin_right = 169.0
 margin_bottom = 60.0
@@ -49,7 +35,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="StartTimerLabel" type="Label" parent="Container"]
+[node name="StartTimerLabel" type="Label" parent="."]
 margin_top = 64.0
 margin_right = 169.0
 margin_bottom = 78.0
@@ -59,7 +45,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HeadstartTimerLabel" type="Label" parent="Container"]
+[node name="HeadstartTimerLabel" type="Label" parent="."]
 margin_top = 82.0
 margin_right = 169.0
 margin_bottom = 96.0
