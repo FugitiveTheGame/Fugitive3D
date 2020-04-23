@@ -23,7 +23,7 @@ func _ready():
 
 func load_map(mapPath: String):
 	.load_map(mapPath)
-	map.get_start_timer().connect("timeout", self, "start_timer_timeout")
+	map.get_countdown_timer().connect("timeout", self, "countdown_timer_timeout")
 	map.get_headstart_timer().connect("timeout", self, "headstart_timer_timeout")
 
 
@@ -52,7 +52,7 @@ remote func on_client_ready(playerId: int):
 
 
 # Only the Server listens to the timer
-func start_timer_timeout():
+func countdown_timer_timeout():
 	print("Start timer expired")
 	rpc("begin_game")
 
