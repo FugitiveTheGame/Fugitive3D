@@ -18,6 +18,7 @@ const MIN_VISION_DISTANCE := 0.0
 var seats := []
 var driver_seat: CarSeat
 var velocity := Vector3()
+var isBreaking := false
 
 var locked := true
 
@@ -157,6 +158,23 @@ func lock() -> bool:
 		return false
 
 
+func process_breaking(nowBreaking: bool, delta: float):
+	if nowBreaking:
+		velocity = velocity - (velocity.normalized() * (BREAK_SPEED * delta))
+	
+	# If we're chaning state
+	if nowBreaking != isBreaking:
+		isBreaking = nowBreaking
+		
+		# And the new state is breaking, AND we're moving fast
+		if isBreaking and is_moving_fast():
+			rpc("on_breaking")
+
+
+remotesync func on_breaking():
+	$BreakAudio.play()
+
+
 remotesync func on_lock():
 	locked = true
 	$LockAudio.play()
@@ -167,18 +185,17 @@ func process_input(forward: bool, backward: bool, left: bool, right: bool, break
 	
 	var movement_speed := ACCELERATION * delta
 	
-	if forward:
+	if forward and not breaking:
 		velocity.x -= globalBasis.z.x * movement_speed
 		velocity.z -= globalBasis.z.z * movement_speed
-	elif backward:
+	elif backward and not breaking:
 		velocity.x += globalBasis.z.x * movement_speed
 		velocity.z += globalBasis.z.z * movement_speed
 	
 	if velocity.length() > MAX_SPEED:
 		velocity = velocity.normalized() * MAX_SPEED
 	
-	if breaking:
-		velocity = velocity - (velocity.normalized() * (BREAK_SPEED * delta))
+	process_breaking(breaking, delta)
 	
 	if velocity.length() > MIN_SPEED:
 		var direction := 1.0
@@ -211,6 +228,10 @@ func _physics_process(delta):
 
 func is_moving() -> bool:
 	return Vector3(velocity.x, 0.0, velocity.z).length() > 1.0
+
+
+func is_moving_fast() -> bool:
+	return Vector3(velocity.x, 0.0, velocity.z).length() > (MAX_SPEED * 0.90)
 
 
 func honk_horn():
