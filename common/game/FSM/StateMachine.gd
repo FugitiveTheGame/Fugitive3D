@@ -3,12 +3,16 @@ class_name StateMachine
 
 signal state_change(new_state, transition)
 
-export(NodePath) var ownerPath: NodePath
-onready var listener := get_node(ownerPath)
+export(NodePath) var listenerPath: NodePath
+var listener: Node
 
 var current_state: State = null
 var states := {}
 var transitions := {}
+
+
+func _enter_tree():
+	listener = get_node(listenerPath)
 
 
 func create_state(name: String) -> State:
@@ -52,11 +56,11 @@ func do_transition(transition: Transition):
 	var transitionName = "on_transiton_%s" % transition.name
 	var stateName = "on_state_%s" % current_state.name
 	
-	if owner.has_method(transitionName):
-		owner.call(transitionName, current_state, transition)
+	if listener.has_method(transitionName):
+		listener.call(transitionName, current_state, transition)
 	
-	if owner.has_method(stateName):
-		owner.call(stateName, current_state, transition)
+	if listener.has_method(stateName):
+		listener.call(stateName, current_state, transition)
 
 
 func is_current_state(name: String) -> bool:

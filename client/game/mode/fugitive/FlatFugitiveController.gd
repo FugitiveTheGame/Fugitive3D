@@ -61,3 +61,7 @@ func on_state_headstart():
 
 func on_state_playing():
 	$HudCanvas/HudContainer/PregameHud.hide()
+
+
+func on_state_game_over():
+	$HudCanvas/HudContainer/EndGameHud.team_won( GameData.currentGame.winningTeam )

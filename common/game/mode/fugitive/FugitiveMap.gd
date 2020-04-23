@@ -17,19 +17,18 @@ func get_players():
 	return $Players
 
 
-func get_game_timer():
+# Time limit for the playing phases of the gme
+func get_timelimit_timer():
 	return $GameTimer
 
 
-func start_game_timer():
-	$GameTimer.start()
-
-
+# Count down for the headstart phase of the game to end
 func get_headstart_timer():
 	return $HeadstartTimer
 
 
-func get_start_timer():
+# Count down to start when everyone is ready
+func get_countdown_timer():
 	return $StartTimer
 
 
