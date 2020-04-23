@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/car_braking.ogg-9c7a21c4e0de4b7e32fdc72ef3ff7500.oggstr"
+
+[deps]
+
+source_file="res://common/game/mode/fugitive/cop_car/car_braking.ogg"
+dest_files=[ "res://.import/car_braking.ogg-9c7a21c4e0de4b7e32fdc72ef3ff7500.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
