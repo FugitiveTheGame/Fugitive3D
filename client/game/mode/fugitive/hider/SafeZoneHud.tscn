@@ -1,18 +1,31 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://client/game/mode/fugitive/hider/SafeZoneHud.gd" type="Script" id=1]
+[ext_resource path="res://fonts/content/TitleFont.tres" type="DynamicFont" id=2]
 
 [node name="SafeZoneHud" type="Control"]
-anchor_right = 0.037
-anchor_bottom = 0.027
-margin_right = 0.639999
-margin_bottom = 0.4
+anchor_right = 0.1
+anchor_bottom = 0.08
+margin_bottom = -7.62939e-06
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="SafeLabel" type="Label" parent="."]
-margin_right = 40.0
-margin_bottom = 14.0
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -54.0
+margin_top = -26.0
+margin_right = 54.0
+margin_bottom = 26.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+custom_fonts/font = ExtResource( 2 )
 text = "Safe!"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}

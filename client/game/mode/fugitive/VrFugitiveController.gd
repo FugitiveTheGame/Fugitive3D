@@ -2,6 +2,7 @@ extends "res://client/game/player/controller/vr/VrPlayerController.gd"
 
 onready var pregameHud := hud.find_node("PregameHud", true, false) as Control
 onready var endgameHud := hud.find_node("EndGameHud", true, false) as Control
+onready var playerHeightHud := hud.find_node("HeightContainer", true, false) as Control
 
 const dead_zone := 0.125
 
@@ -87,6 +88,7 @@ func on_state_countdown():
 
 
 func on_state_headstart():
+	playerHeightHud.hide()
 	pregameHud.show_headstart_timer()
 
 

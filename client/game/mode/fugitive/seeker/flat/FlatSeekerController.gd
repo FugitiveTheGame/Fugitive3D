@@ -1,6 +1,7 @@
 extends "res://client/game/mode/fugitive/FlatFugitiveController.gd"
 
-onready var car_lock_hud := $HudCanvas/HudContainer/CarLockHud
+export(NodePath) var car_lock_hud_path: NodePath
+onready var car_lock_hud := get_node(car_lock_hud_path)
 
 func _input(event: InputEvent):
 	if event.is_action_pressed("flat_seeker_lock"):
@@ -14,6 +15,12 @@ func _input(event: InputEvent):
 	
 	if event.is_action_released("flat_seeker_flashlight") and player.car == null:
 		$Flashlight.toggle_on()
+
+
+func _process(delta):
+	# Not allow to move while locking
+	if player.is_moving() and car_lock_hud.is_locking():
+		car_lock_hud.stop_locking()
 
 
 func get_nearest_car():

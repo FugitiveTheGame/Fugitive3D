@@ -1,32 +1,40 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://client/game/mode/fugitive/seeker/CarLockHud.gd" type="Script" id=1]
+[ext_resource path="res://client/game/mode/fugitive/seeker/ic_locking.png" type="Texture" id=2]
 
 [node name="CarLockHud" type="Control"]
-margin_top = 36.0
-margin_right = 256.0
-margin_bottom = 36.0
+anchor_right = 0.2
+anchor_bottom = 0.06
+margin_bottom = 3.8147e-06
+rect_min_size = Vector2( 256, 48 )
 script = ExtResource( 1 )
-
-[node name="Container" type="VBoxContainer" parent="."]
-anchor_right = 0.17
-anchor_bottom = 0.046
-margin_right = 38.4
-margin_bottom = -4.8
-rect_min_size = Vector2( 256, 32 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="Container"]
-margin_right = 256.0
-margin_bottom = 14.0
-text = "Locking..."
+[node name="Container" type="HBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = -3.8147e-06
+rect_min_size = Vector2( 256, 32 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="Container"]
+margin_right = 48.0
+margin_bottom = 48.0
+texture = ExtResource( 2 )
 
 [node name="ProgressBar" type="ProgressBar" parent="Container"]
-margin_top = 18.0
+margin_left = 52.0
 margin_right = 256.0
-margin_bottom = 32.0
+margin_bottom = 48.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="CarLockTimer" type="Timer" parent="Container"]
 wait_time = 2.0

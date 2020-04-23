@@ -9,7 +9,7 @@ const PLAYER_HOST = "host"
 
 var players = {}
 
-var currentGame = null
+var currentGame: GameMode = null
 var currentMap = null
 
 const GENERAL_MAP = "map"

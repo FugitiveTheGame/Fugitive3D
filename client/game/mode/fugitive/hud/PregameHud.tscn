@@ -2,52 +2,69 @@
 
 [ext_resource path="res://client/game/mode/fugitive/hud/PregameHud.gd" type="Script" id=1]
 
-[node name="PregameHud" type="Control"]
-anchor_right = 0.239
-anchor_bottom = 0.217
-margin_right = 0.0799866
-margin_bottom = 0.399994
+[node name="PregameHud" type="PanelContainer"]
+margin_right = 14.0
+margin_bottom = 14.0
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="NotReadyLabel" type="Label" parent="."]
-margin_left = 75.9648
-margin_top = 30.2097
-margin_right = 233.965
-margin_bottom = 44.2097
+[node name="Container" type="VBoxContainer" parent="."]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 176.0
+margin_bottom = 103.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerClassLabel" type="Label" parent="Container"]
+margin_top = -1.0
+margin_right = 169.0
+margin_bottom = 23.0
+rect_min_size = Vector2( 0, 24 )
+text = "You are a: Hider"
+align = 1
+valign = 1
+
+[node name="NotReadyLabel" type="Label" parent="Container"]
+margin_top = 28.0
+margin_right = 169.0
+margin_bottom = 42.0
 text = "Press JUMP to ready up"
+align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ReadyLabel" type="Label" parent="."]
-margin_left = 58.6018
-margin_top = 71.9507
-margin_right = 227.602
-margin_bottom = 85.9507
+[node name="ReadyLabel" type="Label" parent="Container"]
+margin_top = 46.0
+margin_right = 169.0
+margin_bottom = 60.0
 text = "Waiting for other players..."
+align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="StartTimerLabel" type="Label" parent="."]
-margin_left = 89.6623
-margin_top = 47.4683
-margin_right = 129.662
-margin_bottom = 61.4683
+[node name="StartTimerLabel" type="Label" parent="Container"]
+margin_top = 64.0
+margin_right = 169.0
+margin_bottom = 78.0
 text = "Game starts in: 00:00"
+align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="HeadstartTimerLabel" type="Label" parent="."]
-margin_left = 87.9043
-margin_top = 70.3234
-margin_right = 225.904
-margin_bottom = 84.3234
+[node name="HeadstartTimerLabel" type="Label" parent="Container"]
+margin_top = 82.0
+margin_right = 169.0
+margin_bottom = 96.0
 text = "Game starts in: 00:00"
+align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }

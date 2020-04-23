@@ -10,30 +10,29 @@
 [node name="PlayerController" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
-[node name="FrozenHud" parent="HudCanvas/HudContainer" index="2" instance=ExtResource( 3 )]
-margin_left = 1183.61
-margin_top = 700.647
-margin_right = 1183.69
-margin_bottom = 700.847
+[node name="CrouchingHud" parent="HudCanvas/HudContainer/IndicatorsContainer" index="0"]
+margin_top = 102.0
+margin_bottom = 150.0
 
-[node name="GameTimerReadout" parent="HudCanvas/HudContainer" index="3" instance=ExtResource( 4 )]
-anchor_left = 1.0
-anchor_right = 1.0
+[node name="FrozenHud" parent="HudCanvas/HudContainer/IndicatorsContainer" index="1" instance=ExtResource( 3 )]
+anchor_right = 0.0
 anchor_bottom = 0.0
-margin_left = -64.0
-margin_bottom = 27.0
+margin_top = 154.0
+margin_right = 48.0
+margin_bottom = 154.0
 
-[node name="PregameHud" parent="HudCanvas/HudContainer" index="4" instance=ExtResource( 5 )]
+[node name="PregameHud" parent="HudCanvas/HudContainer" index="2" instance=ExtResource( 5 )]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -153.0
-margin_top = -87.0
-margin_right = 153.0
-margin_bottom = 87.0
+margin_left = -84.5
+margin_top = -52.5
+margin_right = 84.5
+margin_bottom = 52.5
 
-[node name="EndGameHud" parent="HudCanvas/HudContainer" index="5" instance=ExtResource( 6 )]
+[node name="EndGameHud" parent="HudCanvas/HudContainer" index="3" instance=ExtResource( 6 )]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -42,3 +41,10 @@ margin_left = -143.0
 margin_top = -62.5
 margin_right = 143.0
 margin_bottom = 62.5
+
+[node name="GameTimerReadout" parent="HudCanvas/HudContainer" index="4" instance=ExtResource( 4 )]
+anchor_left = 1.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+margin_left = -64.0
+margin_bottom = 64.0

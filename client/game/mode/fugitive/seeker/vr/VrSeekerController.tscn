@@ -10,20 +10,21 @@
 [node name="PlayerController" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
-[node name="StaminaHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="0"]
-playerPath = NodePath("../../../../../Player")
+[node name="CarLockHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/BarsContainer" index="0" instance=ExtResource( 6 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 28.0
+margin_right = 380.0
+margin_bottom = 76.0
 
-[node name="CrouchingHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="4"]
-playerPath = NodePath("../../../../../Player")
+[node name="StaminaHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/BarsContainer" index="1"]
+playerPath = NodePath("../../../../../../Player")
 
-[node name="CarLockHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="5" instance=ExtResource( 6 )]
-margin_left = 6.3175
-margin_top = 141.693
-margin_right = 180.717
-margin_bottom = 161.917
+[node name="CrouchingHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/IndicatorsContainer" index="0"]
+playerPath = NodePath("../../../../../../Player")
 
-[node name="FrozenHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="6"]
-playerPath = NodePath("../../../../../Player")
+[node name="FrozenHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/IndicatorsContainer" index="1"]
+playerPath = NodePath("../../../../../../Player")
 
 [node name="RemoteTransform" type="RemoteTransform" parent="OQ_RightController" index="0"]
 remote_path = NodePath("../../Flashlight")
