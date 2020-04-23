@@ -128,6 +128,13 @@ func pre_configure():
 func spawn_player(playerId: int, hiderSpawns: Array, seekerSpawns: Array):
 	print("Creating player game object")
 	
+	var localPlayerId := get_tree().get_network_unique_id()
+	var localPlayerType: int
+	if GameData.players.has(localPlayerId):
+		localPlayerType = GameData.players[localPlayerId][GameData.PLAYER_TYPE]
+	else:
+		localPlayerType = GameData.PlayerType.Unset
+	
 	# Extract the player data
 	var player = GameData.players[playerId]
 	var playerName := player[GameData.PLAYER_NAME] as String
@@ -160,17 +167,17 @@ func spawn_player(playerId: int, hiderSpawns: Array, seekerSpawns: Array):
 	pcNode.set_network_master(playerId)
 	pcNode.set_name(str(playerId))
 	
+	# Add the PlayerController to the player's node in the game scene
+	playersContainer.add_child(pcNode)
+	
 	# Final setup and config for the player
 	var playerNode = pcNode.get_node("Player")
-	playerNode.configure(playerName, playerId)
+	playerNode.configure(playerName, playerId, localPlayerType)
 	# Player listens to Game state changes
 	stateMachine.connect("state_change", playerNode, "on_game_state_changed")
 	
 	# Add the player node to our list of players
 	players[playerId] = playerNode
-	
-	# Add the PlayerController to the player's node in the game scene
-	playersContainer.add_child(pcNode)
 	
 	# Move to the spawn point
 	pcNode.global_transform = spawnPointNode.global_transform

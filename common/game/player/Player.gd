@@ -17,6 +17,9 @@ var stamina_sprint_rate := DEFAULT_STAMINA_SPRINT_RATE
 var stamina_regen_rate := DEFAULT_STAMINA_REGEN_RATE
 
 var id: int
+# This is useful so players on opposing teams from the local player
+#  can be configured differently
+var localPlayerType: int
 
 onready var walking_sound = $WalkingSound
 
@@ -76,9 +79,9 @@ func _physics_process(delta):
 		process_stamina(delta)
 
 
-func configure(playerName: String, playerId: int):
-	id = playerId
-	set_player_name(playerName)
+func configure(_playerName: String, _playerId: int, _localPlayerType: int):
+	id = _playerId
+	localPlayerType = _localPlayerType
 
 
 func set_not_local_player():
@@ -89,11 +92,6 @@ func set_is_local_player():
 	print("set_is_local_player()")
 	add_to_group(Groups.LOCAL_PLAYER)
 	hide_avatar()
-
-
-func set_player_name(playerName: String):
-	#$NameLabel.text = playerName
-	pass
 
 
 func hide_avatar():
