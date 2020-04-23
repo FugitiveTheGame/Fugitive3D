@@ -21,7 +21,7 @@ func _enter_tree():
 func _ready():
 	advertiser.serverInfo["port"] = serverPort
 	advertiser.serverInfo["name"] = serverName
-	advertiser.private = get_private()
+	advertiser.private = not get_public()
 	advertiser.serverRepositoryUrl = ServerNetwork.SERVER_REPOSITORY_URL + "/register"
 
 
@@ -74,15 +74,15 @@ func get_port() -> int:
 
 
 # Parse command line port in the form of:
-# --private
-func get_private() -> bool:
-	var private := false
+# --public
+func get_public() -> bool:
+	var public := false
 	
 	var args := OS.get_cmdline_args()
 	for ii in range(args.size()):
 		var arg = args[ii]
-		if arg.nocasecmp_to("--private") == 0:
-			private = true
+		if arg.nocasecmp_to("--public") == 0:
+			public = true
 			break
 	
-	return private
+	return public
