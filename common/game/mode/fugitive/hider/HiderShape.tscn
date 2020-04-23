@@ -35,6 +35,11 @@ material = SubResource( 2 )
 [node name="PlayerNameLabel" parent="." index="3" instance=ExtResource( 4 )]
 transform = Transform( -1, 3.25841e-07, 5.30863e-14, 0, -1.62921e-07, 1, 3.25841e-07, 1, 1.62921e-07, 0, -2.56075e-07, 1.57178 )
 text = "Player Name"
+margin = 16
 billboard = true
+depth_test = true
+resize_mode = 0
 font_size_multiplier = 4.0
+font_color = Color( 1, 1, 1, 1 )
+background_color = Color( 0, 0, 0, 1 )
 transparent = true

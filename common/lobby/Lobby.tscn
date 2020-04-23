@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://common/lobby/Lobby.gd" type="Script" id=1]
+[ext_resource path="res://fonts/content/TitleFont.tres" type="DynamicFont" id=2]
 
 [node name="Lobby" type="Control"]
 anchor_right = 1.0
@@ -9,52 +10,119 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-playerListPath = NodePath("PanelContainer/ScrollContainer/Players")
-mapSelectPath = NodePath("MapButton")
-
-[node name="Title" type="Label" parent="."]
-margin_right = 40.0
-margin_bottom = 14.0
-text = "Lobby"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+playerListPath = NodePath("PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2/Panel/ScrollContainer/Players")
+mapSelectPath = NodePath("PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/MapButton")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
-margin_left = 69.3792
-margin_top = 68.0187
-margin_right = 767.379
-margin_bottom = 536.019
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -349.0
+margin_top = -234.0
+margin_right = 349.0
+margin_bottom = 234.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 691.0
 margin_bottom = 461.0
+
+[node name="Title" type="Label" parent="PanelContainer/VBoxContainer"]
+margin_right = 683.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 0, 64 )
+custom_fonts/font = ExtResource( 2 )
+text = "Lobby"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HSplitContainer" type="HSplitContainer" parent="PanelContainer/VBoxContainer"]
+margin_top = 68.0
+margin_right = 683.0
+margin_bottom = 454.0
+size_flags_horizontal = 5
+size_flags_vertical = 3
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer"]
+margin_right = 335.0
+margin_bottom = 386.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ColumnLabel" type="Label" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2"]
+margin_right = 335.0
+margin_bottom = 14.0
+text = "Players:"
+align = 1
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2"]
+margin_top = 18.0
+margin_right = 335.0
+margin_bottom = 22.0
+
+[node name="Panel" type="Panel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2"]
+margin_top = 26.0
+margin_right = 335.0
+margin_bottom = 386.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 scroll_horizontal_enabled = false
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Players" type="VBoxContainer" parent="PanelContainer/ScrollContainer"]
-margin_right = 684.0
+[node name="Players" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2/Panel/ScrollContainer"]
+margin_right = 335.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MapButton" type="OptionButton" parent="."]
-margin_left = 620.086
-margin_top = 36.8595
-margin_right = 762.086
-margin_bottom = 56.8595
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer"]
+margin_left = 347.0
+margin_right = 683.0
+margin_bottom = 386.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ColumnLabel" type="Label" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
+margin_right = 336.0
+margin_bottom = 14.0
+text = "Options"
+align = 1
+
+[node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
+margin_top = 18.0
+margin_right = 336.0
+margin_bottom = 22.0
+
+[node name="MapLabel" type="Label" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
+margin_top = 26.0
+margin_right = 336.0
+margin_bottom = 40.0
+text = "Map:"
+
+[node name="MapButton" type="OptionButton" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
+margin_top = 44.0
+margin_right = 336.0
+margin_bottom = 64.0
 text = "My Neighborhood"
 items = [ "My Neighborhood", null, false, 0, null ]
 selected = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="item_selected" from="MapButton" to="." method="_on_MapButton_item_selected"]
+[connection signal="item_selected" from="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/MapButton" to="." method="_on_MapButton_item_selected"]
