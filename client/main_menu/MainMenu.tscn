@@ -1,71 +1,111 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://client/main_menu/MainMenu.gd" type="Script" id=1]
 [ext_resource path="res://client/main_menu/server_browser/ServerBrowser.tscn" type="PackedScene" id=2]
+[ext_resource path="res://fonts/content/TitleFont.tres" type="DynamicFont" id=3]
 
 [node name="MainMenu" type="ReferenceRect"]
+margin_left = 0.418121
+margin_top = -0.418152
+margin_right = 1024.42
+margin_bottom = 599.582
 rect_min_size = Vector2( 1024, 600 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-playerNamePath = NodePath("PlayerNameLabel/PlayerName")
-serverIpPath = NodePath("ServerIpLabel/ServerIp")
-serverPortPath = NodePath("ServerPortLabel/ServerPort")
+playerNamePath = NodePath("UsernamePanel/VBoxContainer/PlayerName")
+serverIpPath = NodePath("ManualContainer/VBoxContainer/HBoxContainer/ServerIp")
+serverPortPath = NodePath("ManualContainer/VBoxContainer/HBoxContainer/ServerPort")
 
 [node name="ScreenTitle" type="Label" parent="."]
-margin_left = 30.0
-margin_top = 39.0
-margin_right = 101.0
-margin_bottom = 53.0
-text = "Main Menu"
+anchor_left = 0.5
+anchor_right = 0.5
+margin_left = -129.0
+margin_right = 129.0
+margin_bottom = 52.0
+custom_fonts/font = ExtResource( 3 )
+text = "Fugitive 3D!"
 
-[node name="PlayerNameLabel" type="Label" parent="."]
-margin_left = 27.0342
-margin_top = 74.6302
-margin_right = 108.034
-margin_bottom = 88.6302
-text = "Player Name"
+[node name="UsernamePanel" type="PanelContainer" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -524.418
+margin_top = -389.582
+margin_right = -285.418
+margin_bottom = -329.582
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PlayerName" type="LineEdit" parent="PlayerNameLabel"]
-margin_left = 1.0
-margin_top = 22.0
-margin_right = 242.0
-margin_bottom = 46.0
-text = "A Player"
+[node name="VBoxContainer" type="VBoxContainer" parent="UsernamePanel"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 232.0
+margin_bottom = 49.0
+size_flags_horizontal = 3
+size_flags_vertical = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerNameLabel" type="Label" parent="UsernamePanel/VBoxContainer"]
+margin_right = 224.0
+margin_bottom = 14.0
+text = "Player Name:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerName" type="LineEdit" parent="UsernamePanel/VBoxContainer"]
+margin_top = 18.0
+margin_right = 224.0
+margin_bottom = 42.0
+placeholder_text = "Enter Name"
 caret_blink = true
 caret_blink_speed = 0.5
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ManualConnectLabel" type="Label" parent="."]
-margin_left = 13.6038
-margin_top = 326.49
-margin_right = 129.604
-margin_bottom = 340.49
-text = "Manual Connect:w"
+[node name="Node" type="Node" parent="UsernamePanel/VBoxContainer/PlayerName"]
+
+[node name="ManualContainer" type="PanelContainer" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 9.58188
+margin_top = -69.5818
+margin_right = 281.582
+margin_bottom = -13.5818
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ServerIpLabel" type="Label" parent="."]
-margin_left = 18.8719
-margin_top = 368.092
-margin_right = 75.8719
-margin_bottom = 382.092
-text = "Server IP"
+[node name="VBoxContainer" type="VBoxContainer" parent="ManualContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 265.0
+margin_bottom = 49.0
+
+[node name="ManualConnectLabel" type="Label" parent="ManualContainer/VBoxContainer"]
+margin_right = 258.0
+margin_bottom = 14.0
+text = "Direct Connect:"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ServerIp" type="LineEdit" parent="ServerIpLabel"]
-margin_top = 21.0
-margin_right = 243.0
-margin_bottom = 45.0
+[node name="HBoxContainer" type="HBoxContainer" parent="ManualContainer/VBoxContainer"]
+margin_top = 18.0
+margin_right = 258.0
+margin_bottom = 42.0
+
+[node name="ServerIp" type="LineEdit" parent="ManualContainer/VBoxContainer/HBoxContainer"]
+margin_right = 128.0
+margin_bottom = 24.0
+rect_min_size = Vector2( 128, 0 )
 text = "127.0.0.1"
 caret_blink = true
 caret_blink_speed = 0.5
@@ -73,21 +113,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ServerPortLabel" type="Label" parent="."]
-margin_left = 273.262
-margin_top = 368.092
-margin_right = 330.262
-margin_bottom = 399.092
-text = "Port
-"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="ServerPort" type="LineEdit" parent="ServerPortLabel"]
-margin_top = 21.0
-margin_right = 58.0
-margin_bottom = 45.0
+[node name="ServerPort" type="LineEdit" parent="ManualContainer/VBoxContainer/HBoxContainer"]
+margin_left = 132.0
+margin_right = 190.0
+margin_bottom = 24.0
 text = "31000"
 caret_blink = true
 caret_blink_speed = 0.5
@@ -95,11 +124,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ConnectButton" type="Button" parent="."]
-margin_left = 350.513
-margin_top = 391.794
-margin_right = 414.513
-margin_bottom = 411.794
+[node name="ConnectButton" type="Button" parent="ManualContainer/VBoxContainer/HBoxContainer"]
+margin_left = 194.0
+margin_right = 258.0
+margin_bottom = 20.0
+size_flags_horizontal = 0
+size_flags_vertical = 0
 text = "Connect"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -112,7 +142,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = -523.0
 margin_top = -327.0
-margin_right = 0.0
-margin_bottom = 0.0
-[connection signal="pressed" from="ConnectButton" to="." method="_on_ConnectButton_pressed"]
+margin_right = -16.0
+margin_bottom = -16.0
+[connection signal="pressed" from="ManualContainer/VBoxContainer/HBoxContainer/ConnectButton" to="." method="_on_ConnectButton_pressed"]
 [connection signal="connect_to_server" from="ServerBrowser" to="." method="_on_ServerBrowser_connect_to_server"]

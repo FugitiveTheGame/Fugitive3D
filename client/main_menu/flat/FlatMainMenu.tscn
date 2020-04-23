@@ -7,6 +7,10 @@
 [node name="MainMenu" instance=ExtResource( 1 )]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 0.0
+margin_bottom = 0.0
 script = ExtResource( 2 )
 
 [node name="ViewportContainer" type="ViewportContainer" parent="." index="0"]
@@ -28,3 +32,9 @@ transform = Transform( -0.237642, 0.304248, -0.922475, 0.016146, 0.950786, 0.309
 current = true
 
 [node name="Backgroud" parent="ViewportContainer/Viewport" index="1" instance=ExtResource( 3 )]
+
+[node name="PlayerNameLabel" parent="UsernamePanel/VBoxContainer" index="0"]
+margin_right = 225.0
+
+[node name="PlayerName" parent="UsernamePanel/VBoxContainer" index="1"]
+margin_right = 225.0

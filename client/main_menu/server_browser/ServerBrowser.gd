@@ -1,4 +1,4 @@
-extends Panel
+extends PanelContainer
 
 signal connect_to_server(ip, port)
 
