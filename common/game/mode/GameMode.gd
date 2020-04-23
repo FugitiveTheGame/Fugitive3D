@@ -21,3 +21,9 @@ func _enter_tree():
 func _exit_tree():
 	GameData.currentGame = null
 	GameData.currentMap = null
+
+
+func get_team_name(teamid: int) -> String:
+	print("get_team_name() MUST BE OVERRIDEN")
+	assert(false)
+	return "null"

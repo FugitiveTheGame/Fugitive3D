@@ -5,8 +5,10 @@
 [node name="GameTimerReadout" type="Label"]
 anchor_right = 0.05
 anchor_bottom = 0.034
-margin_bottom = -0.200001
+margin_bottom = 36.8
 text = "00:00"
+align = 1
+valign = 1
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false

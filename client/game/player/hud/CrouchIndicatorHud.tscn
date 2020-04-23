@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://client/game/player/hud/CrouchIndicatorHud.gd" type="Script" id=1]
+[ext_resource path="res://client/game/player/hud/ic_crouching.png" type="Texture" id=2]
+
+[node name="CrouchingHud" type="Control"]
+anchor_right = 0.037
+anchor_bottom = 0.06
+margin_right = 0.640003
+margin_bottom = 3.8147e-06
+rect_min_size = Vector2( 48, 48 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Indicator" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -32.0
+margin_bottom = -20.0
+texture = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

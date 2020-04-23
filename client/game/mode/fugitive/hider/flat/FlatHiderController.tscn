@@ -10,34 +10,40 @@
 [node name="PlayerController" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
-[node name="StaminaHud" parent="HudCanvas/HudContainer" index="0"]
-playerPath = NodePath("../../../Player")
+[node name="VisibilityHud" parent="HudCanvas/HudContainer/BarsContainer" index="0" instance=ExtResource( 5 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 28.0
+margin_right = 512.0
+margin_bottom = 76.0
+playerPath = NodePath("../../../../Player")
 
-[node name="GameTimerReadout" parent="HudCanvas/HudContainer" index="2"]
+[node name="StaminaHud" parent="HudCanvas/HudContainer/BarsContainer" index="1"]
+playerPath = NodePath("../../../../Player")
+
+[node name="IndicatorsContainer" parent="HudCanvas/HudContainer" index="1"]
 margin_left = -128.0
+grow_horizontal = 0
+
+[node name="CrouchingHud" parent="HudCanvas/HudContainer/IndicatorsContainer" index="0"]
+margin_right = 128.0
+playerPath = NodePath("../../../../Player")
+
+[node name="FrozenHud" parent="HudCanvas/HudContainer/IndicatorsContainer" index="1"]
+margin_right = 128.0
+playerPath = NodePath("../../../../Player")
+
+[node name="SafeZoneHud" parent="HudCanvas/HudContainer" index="2" instance=ExtResource( 6 )]
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.0
+margin_left = -64.0
+margin_right = 64.0
 margin_bottom = 64.0
-align = 1
-valign = 1
-
-[node name="VisibilityHud" parent="HudCanvas/HudContainer" index="3" instance=ExtResource( 5 )]
-margin_left = 11.1067
-margin_top = 615.628
-margin_right = 11.0267
-margin_bottom = 616.028
 playerPath = NodePath("../../../Player")
 
-[node name="CrouchingHud" parent="HudCanvas/HudContainer" index="4"]
-playerPath = NodePath("../../../Player")
-
-[node name="SafeZoneHud" parent="HudCanvas/HudContainer" index="5" instance=ExtResource( 6 )]
-margin_left = 1181.43
-margin_top = 763.008
-margin_right = 1182.07
-margin_bottom = 763.408
-playerPath = NodePath("../../../Player")
-
-[node name="FrozenHud" parent="HudCanvas/HudContainer" index="6"]
-playerPath = NodePath("../../../Player")
+[node name="GameTimerReadout" parent="HudCanvas/HudContainer" index="5"]
+margin_left = -128.0
 
 [node name="Player" parent="." index="2" instance=ExtResource( 3 )]
 shapePath = NodePath("../CollisionShape")

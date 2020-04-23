@@ -15,6 +15,19 @@ func is_game_over() -> bool:
 	return stateMachine.current_state.name == FugitiveStateMachine.STATE_GAME_OVER
 
 
+func get_team_name(teamid: int) -> String:
+	var team: String
+	match teamid:
+		GameData.PlayerType.Hider:
+			team = "Fugitive"
+		GameData.PlayerType.Seeker:
+			team = "Cop"
+		_:
+			team = "---"
+	
+	return team
+
+
 func _ready():
 	print("Entering game")
 	get_tree().paused = true

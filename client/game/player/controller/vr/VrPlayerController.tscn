@@ -10,7 +10,7 @@
 [ext_resource path="res://addons/OQ_Toolkit/OQ_UI2D/OQ_UI2DCanvas.tscn" type="PackedScene" id=8]
 [ext_resource path="res://client/game/player/hud/StaminaHud.tscn" type="PackedScene" id=9]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_Helpers/OQ_VisibilityToggle.tscn" type="PackedScene" id=10]
-[ext_resource path="res://client/game/mode/fugitive/hud/CrouchIndicatorHud.tscn" type="PackedScene" id=11]
+[ext_resource path="res://client/game/player/hud/CrouchIndicatorHud.tscn" type="PackedScene" id=11]
 
 [node name="PlayerController" type="ARVROrigin"]
 script = ExtResource( 1 )
@@ -30,35 +30,56 @@ editor_live_update = false
 transparent = true
 
 [node name="HudContainer" type="Control" parent="OQ_LeftController/VisibilityToggle/HudCanvas"]
-margin_right = 480.0
+margin_right = 512.0
 margin_bottom = 256.0
 rect_min_size = Vector2( 480, 256 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="StaminaHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" instance=ExtResource( 9 )]
-margin_left = 5.88074
-margin_top = 97.7675
-margin_right = 5.68073
-margin_bottom = 97.9675
-
 [node name="FpsLabel" type="Label" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer"]
-margin_left = 210.972
-margin_top = 99.9728
-margin_right = 250.972
-margin_bottom = 113.973
+margin_right = 64.0
+margin_bottom = 32.0
 text = "00 fps"
+align = 1
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
-[node name="CrouchingHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" instance=ExtResource( 11 )]
+[node name="BarsContainer" type="VBoxContainer" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer"]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_top = -128.0
+margin_right = 380.0
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="StaminaHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/BarsContainer" instance=ExtResource( 9 )]
+margin_top = 80.0
+margin_right = 380.0
+margin_bottom = 128.0
+
+[node name="IndicatorsContainer" type="VBoxContainer" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer"]
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -96.0
-margin_top = -64.0
-margin_right = 0.0
-margin_bottom = 0.0
+margin_left = -48.0
+margin_top = -256.0
+alignment = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="CrouchingHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/IndicatorsContainer" instance=ExtResource( 11 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_top = 208.0
+margin_right = 48.0
+margin_bottom = 256.0
 
 [node name="OQ_RightController" parent="." instance=ExtResource( 4 )]
 

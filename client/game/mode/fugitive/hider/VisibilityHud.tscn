@@ -1,25 +1,28 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://client/game/mode/fugitive/hider/VisibilityHud.gd" type="Script" id=1]
+[ext_resource path="res://client/game/mode/fugitive/hider/ic_visibility.png" type="Texture" id=2]
 
-
-[node name="VisibilityHud" type="Control"]
+[node name="VisibilityHud" type="HBoxContainer"]
 anchor_right = 0.161
 anchor_bottom = 0.067
-margin_right = -0.0800171
-margin_bottom = 0.399998
+margin_right = 305.92
+margin_bottom = -5.6
+rect_min_size = Vector2( 256, 48 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Label" type="Label" parent="."]
-margin_right = 40.0
-margin_bottom = 14.0
-text = "Visibility"
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_right = 48.0
+margin_bottom = 48.0
+texture = ExtResource( 2 )
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
-margin_left = 2.0
-margin_top = 21.0
-margin_right = 187.0
-margin_bottom = 35.0
+margin_left = 52.0
+margin_right = 512.0
+margin_bottom = 48.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+percent_visible = false

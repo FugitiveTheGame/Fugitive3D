@@ -1,27 +1,29 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://client/game/player/hud/StaminaHud.gd" type="Script" id=1]
+[ext_resource path="res://client/game/player/hud/ic_stamina.png" type="Texture" id=2]
 
-[node name="StaminaHud" type="Control"]
-anchor_right = 0.09
-anchor_bottom = 0.066
-margin_right = -0.200005
-margin_bottom = 0.200001
+[node name="StaminaHud" type="HBoxContainer"]
+margin_right = 512.0
+margin_bottom = 48.0
+rect_min_size = Vector2( 256, 48 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="TestLabel" type="Label" parent="."]
-margin_right = 40.0
-margin_bottom = 14.0
-text = "Stamina"
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_right = 48.0
+margin_bottom = 48.0
+texture = ExtResource( 2 )
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
-margin_left = 1.0
-margin_top = 21.0
-margin_right = 152.0
-margin_bottom = 35.0
+margin_left = 52.0
+margin_right = 512.0
+margin_bottom = 48.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+percent_visible = false
 __meta__ = {
 "_edit_use_anchors_": false
 }

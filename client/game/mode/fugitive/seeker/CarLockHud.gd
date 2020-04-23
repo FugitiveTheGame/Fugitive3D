@@ -14,6 +14,9 @@ func stop_locking():
 	car_lock_timer.stop()
 
 
+func is_locking() -> bool:
+	return not car_lock_timer.is_stopped()
+
 func _process(delta):
 	if not car_lock_timer.is_stopped():
 		if not container.visible:

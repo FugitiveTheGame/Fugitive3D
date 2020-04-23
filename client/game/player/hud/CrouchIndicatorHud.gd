@@ -7,7 +7,7 @@ onready var indicator := $Indicator
 
 
 func _process(delta):
-	if player.is_crouching:
+	if player.is_crouching and player.car == null:
 		if not indicator.visible:
 			indicator.show()
 	else:
