@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://common/game/mode/fugitive/cop_car/CopCar.gd" type="Script" id=1]
 [ext_resource path="res://common/game/mode/fugitive/cop_car/CarSeat.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://common/game/mode/fugitive/cop_car/car_horn.ogg" type="AudioStream" id=5]
 [ext_resource path="res://common/game/mode/fugitive/cop_car/car_move.ogg" type="AudioStream" id=6]
 [ext_resource path="res://common/game/mode/fugitive/cop_car/cop_car_model.tscn" type="PackedScene" id=7]
+[ext_resource path="res://common/game/mode/fugitive/cop_car/PoliceLight.gd" type="Script" id=8]
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 2.5, 1, 3.5 )
@@ -21,6 +22,21 @@ script = ExtResource( 1 )
 
 [node name="cop_car" parent="." instance=ExtResource( 7 )]
 
+[node name="OmniLight" type="OmniLight" parent="cop_car"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.051643, 1.02856, -3.07575 )
+light_color = Color( 1, 0.945098, 0.878431, 1 )
+light_energy = 3.0
+
+[node name="HeadLightLeft" type="SpotLight" parent="cop_car"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0493479, 1.072, -3.1 )
+light_color = Color( 1, 0.945098, 0.878431, 1 )
+light_energy = 5.0
+light_bake_mode = 0
+shadow_enabled = true
+spot_range = 30.0
+spot_attenuation = 1.68179
+spot_angle = 30.0
+
 [node name="Seats" type="Spatial" parent="."]
 
 [node name="CarSeat" parent="Seats" instance=ExtResource( 2 )]
@@ -29,15 +45,12 @@ is_driver_seat = true
 
 [node name="CarSeat2" parent="Seats" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 1.83398, -0.541356 )
-is_driver_seat = false
 
 [node name="CarSeat3" parent="Seats" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 1.83398, 0.707853 )
-is_driver_seat = false
 
 [node name="CarSeat4" parent="Seats" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 1.83398, 0.707853 )
-is_driver_seat = false
 
 [node name="EnterArea" type="Area" parent="."]
 
@@ -48,26 +61,6 @@ shape = SubResource( 1 )
 [node name="CollisionShape" type="CollisionShape" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.21046, -0.249578 )
 shape = SubResource( 2 )
-
-[node name="HeadLightLeft" type="SpotLight" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.052, 1.072, -3.1 )
-light_color = Color( 1, 0.945098, 0.878431, 1 )
-light_energy = 5.0
-light_bake_mode = 0
-shadow_enabled = true
-spot_range = 30.0
-spot_attenuation = 1.68179
-spot_angle = 30.0
-
-[node name="HeadLightRight" type="SpotLight" parent="."]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.022, 1.1, -3.1 )
-light_color = Color( 1, 0.945098, 0.878431, 1 )
-light_energy = 5.0
-light_bake_mode = 0
-shadow_enabled = true
-spot_range = 30.0
-spot_attenuation = 1.68179
-spot_angle = 30.0
 
 [node name="RayCast" type="RayCast" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0564995, 0.898347, -2.9179 )
@@ -88,4 +81,28 @@ stream = ExtResource( 4 )
 
 [node name="HornAudio" type="AudioStreamPlayer3D" parent="."]
 stream = ExtResource( 5 )
+
+[node name="PoliceLight" type="Spatial" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.36854, 0 )
+script = ExtResource( 8 )
+
+[node name="Timer" type="Timer" parent="PoliceLight"]
+wait_time = 0.5
+autostart = true
+
+[node name="RedLight" type="OmniLight" parent="PoliceLight"]
+light_color = Color( 0.956863, 0.0627451, 0.0627451, 1 )
+light_energy = 5.0
+light_bake_mode = 0
+omni_range = 8.0
+omni_shadow_mode = 0
+
+[node name="BlueLight" type="OmniLight" parent="PoliceLight"]
+visible = false
+light_color = Color( 0.180392, 0.211765, 1, 1 )
+light_energy = 5.0
+light_bake_mode = 0
+omni_range = 8.0
+omni_shadow_mode = 0
 [connection signal="body_entered" from="EnterArea" to="." method="_on_EnterArea_body_entered"]
+[connection signal="timeout" from="PoliceLight/Timer" to="PoliceLight" method="_on_Timer_timeout"]
