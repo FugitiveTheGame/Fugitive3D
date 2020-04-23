@@ -193,7 +193,6 @@ gdscript/warnings/return_value_discarded=false
 window/size/width=1280
 window/size/height=800
 window/dpi/allow_hidpi=true
-window/stretch/mode="viewport"
 window/stretch/aspect="expand"
 
 [editor_plugins]
