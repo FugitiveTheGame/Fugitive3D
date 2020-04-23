@@ -24,6 +24,12 @@ func _ready():
 	speed_walk = DEFAULT_SPEED_WALK * 1.5
 	speed_sprint = DEFAULT_SPEED_SPRINT * 1.1
 	add_to_group(GROUP)
+	
+	# Only the server listens for detections
+	if get_tree().is_network_server():
+		# SeekerShape has a special DetectionArea node
+		# Listen to it for detection logic
+		playerShape.get_node("DetectionArea").connect("body_entered", self, "body_entered_detection_radius")
 
 
 # Detect if a particular hider has been seen by the seeker
@@ -81,22 +87,25 @@ func process_hider(hider):
 				var rangeMapped = rangeShifted / (1.0 - CONE_WIDTH)
 				var fov_visibility = rangeMapped
 				
-				# To be detected, the Hider must be inside the Seeker's flashlight FOV cone.
-				#
-				# Some extra game logic for distance, should have to be some what close to "detect"
-				# the Hider for gameplay purposes
-				if get_tree().is_network_server():
-					if fov_visibility > 0.0 and distance <= MAX_DETECT_DISTANCE:
-						# Don't allow capture while in a car, or while in a win zone
-						if self.car == null and hider.car == null and not is_in_winzone(hider) and not hider.frozen:
-							freeze_hider(hider)
-				
 				# FOV visibility can be faded out if at edge of distance visibility
 				var percent_visible: float = fov_visibility * distance_visibility
 				percent_visible = clamp(percent_visible, 0.0, 1.0)
 				
 				# The hider's set visibility method will handle the visible effects of this
 				hider.update_visibility(percent_visible)
+
+
+# Hider detection
+func body_entered_detection_radius(body: Node):
+	if body.has_method("get_player"):
+		var player = body.get_player()
+		if player.playerType == GameData.PlayerType.Hider:
+			var hider := player as Hider
+			# 1) Neither Hider nor Seeker may be in a car
+			# 2) Hider must not be in a win zone
+			# 3) Hider must not be frozen
+			if self.car == null and hider.car == null and not is_in_winzone(hider) and not hider.frozen:
+				freeze_hider(hider)
 
 
 func is_in_winzone(hider) -> bool:

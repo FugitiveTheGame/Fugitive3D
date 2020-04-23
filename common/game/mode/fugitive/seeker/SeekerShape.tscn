@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://common/game/player/PlayerShape.tscn" type="PackedScene" id=1]
 [ext_resource path="res://common/game/mode/fugitive/seeker/assets/body_crouching/seeker_crouching_body.tscn" type="PackedScene" id=2]
@@ -7,6 +7,8 @@
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.303884
 height = 1.5
+
+[sub_resource type="CylinderShape" id=2]
 
 [node name="CollisionShape" instance=ExtResource( 1 )]
 transform = Transform( 1, -0.000139626, 0, -2.2748e-11, -1.62921e-07, 1, -0.000139626, -1, -1.62921e-07, 0, 0, 0 )
@@ -18,3 +20,9 @@ transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, -
 [node name="Crouching" parent="." index="1" instance=ExtResource( 2 )]
 transform = Transform( -1.62923e-07, 0, -1, -1, -1.62921e-07, 1.62923e-07, -1.62921e-07, 1, 2.65447e-14, 2.24072e-11, 1.6048e-07, -0.985017 )
 visible = false
+
+[node name="DetectionArea" type="Area" parent="." index="2"]
+
+[node name="CollisionShape" type="CollisionShape" parent="DetectionArea" index="0"]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0 )
+shape = SubResource( 2 )
