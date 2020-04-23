@@ -1,7 +1,7 @@
 extends Control
 
 export(NodePath) var playerNamePath: NodePath
-onready var playerName := get_node(playerNamePath) as LineEdit
+onready var playerNameInput := get_node(playerNamePath) as LineEdit
 
 export(NodePath) var serverIpPath: NodePath
 onready var serverIp := get_node(serverIpPath) as LineEdit
@@ -17,14 +17,14 @@ func _enter_tree():
 func _exit_tree():
 	get_tree().disconnect("connected_to_server", self, "on_connected_to_server")
 	
-	UserData.data.user_name = playerName.text
+	UserData.data.user_name = playerNameInput.text
 	UserData.data.last_ip = serverIp.text
 	UserData.data.last_port = serverPort.text
 	UserData.save_data()
 
 
 func _ready():
-	playerName.text = UserData.data.user_name
+	playerNameInput.text = UserData.data.user_name
 	serverIp.text = UserData.data.last_ip
 	serverPort.text = str(UserData.data.last_port)
 
@@ -38,8 +38,9 @@ func _on_ConnectButton_pressed():
 
 
 func connect_to_server(playerName: String, serverIp: String, serverPort: int):
-	vr.log_info("connect_to_server")
-	ClientNetwork.join_game(serverIp, serverPort, playerName)
+	if playerName.strip_edges().length() > 0:
+		vr.log_info("connect_to_server")
+		ClientNetwork.join_game(serverIp, serverPort, playerName)
 
 
 func on_connected_to_server():
@@ -56,5 +57,5 @@ func _on_ServerBrowser_connect_to_server(ip, port):
 
 
 func on_connect_request(ip: String, port: int):
-	var playerName := $PlayerNameLabel/PlayerName.text as String
+	var playerName := playerNameInput.text as String
 	connect_to_server(playerName, ip, port)
