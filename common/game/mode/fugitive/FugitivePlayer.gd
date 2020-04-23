@@ -19,6 +19,24 @@ func set_car(value):
 		self.is_crouching = false
 
 
+func configure(_playerName: String, _playerId: int, _localPlayerType: int):
+	.configure(_playerName, _playerId, _localPlayerType)
+	set_player_name(_playerName)
+	update_player_name_state()
+
+
+func set_player_name(playerName: String):
+	playerShape.get_name_label().set_label_text(playerName)
+
+
+func update_player_name_state():
+	# Always team mate names
+	if localPlayerType == playerType or frozen:
+		playerShape.get_name_label().show()
+	else:
+		playerShape.get_name_label().hide()
+
+
 func is_playing() -> bool:
 	return gameStarted and not gameEnded
 
@@ -30,6 +48,7 @@ func freeze():
 remotesync func on_freeze():
 	print("Player frozen: %d" % get_network_master())
 	frozen = true
+	update_player_name_state()
 
 
 func unfreeze():
@@ -39,6 +58,7 @@ func unfreeze():
 remotesync func on_unfreeze():
 	print("Player unfrozen: %d" % get_network_master())
 	frozen = false
+	update_player_name_state()
 
 
 func set_ready():

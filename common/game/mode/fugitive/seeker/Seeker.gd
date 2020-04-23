@@ -100,12 +100,11 @@ func body_entered_detection_radius(body: Node):
 	if body.has_method("get_player"):
 		var player = body.get_player()
 		if player.playerType == GameData.PlayerType.Hider:
-			var hider := player as Hider
 			# 1) Neither Hider nor Seeker may be in a car
 			# 2) Hider must not be in a win zone
 			# 3) Hider must not be frozen
-			if self.car == null and hider.car == null and not is_in_winzone(hider) and not hider.frozen:
-				freeze_hider(hider)
+			if self.car == null and player.car == null and not is_in_winzone(player) and not player.frozen:
+				freeze_hider(player)
 
 
 func is_in_winzone(hider) -> bool:
