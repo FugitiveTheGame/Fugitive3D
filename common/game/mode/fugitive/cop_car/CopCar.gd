@@ -315,7 +315,7 @@ func process_hider(hider: Hider):
 
 func _on_EnterArea_body_entered(body):
 	# Server authoritative
-	if get_tree().is_network_server():
+	if get_tree().network_peer != null and get_tree().is_network_server():
 		if has_occupants():
 			# If the player we just collided with is a Seeker
 			var collidedPlayer = body.get_player()
