@@ -1,5 +1,7 @@
 extends Control
 
+const MIN_NAME_LENGTH := 3
+
 export(NodePath) var playerNamePath: NodePath
 onready var playerNameInput := get_node(playerNamePath) as LineEdit
 
@@ -38,9 +40,13 @@ func _on_ConnectButton_pressed():
 
 
 func connect_to_server(playerName: String, serverIp: String, serverPort: int):
-	if playerName.strip_edges().length() > 0:
-		vr.log_info("connect_to_server")
-		ClientNetwork.join_game(serverIp, serverPort, playerName)
+	if playerName.strip_edges().length() < MIN_NAME_LENGTH:
+		$UserNameErrorDialog.popup_centered()
+		
+		return
+	
+	vr.log_info("connect_to_server")
+	ClientNetwork.join_game(serverIp, serverPort, playerName.strip_edges())
 
 
 func on_connected_to_server():
