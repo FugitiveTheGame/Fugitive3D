@@ -10,6 +10,9 @@
 [node name="PlayerController" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
+[node name="HudCanvas" parent="OQ_LeftController/VisibilityToggle" index="0"]
+transform = Transform( 0.896695, -0.0624614, 0.43822, 0, 0.989994, 0.141108, -0.442649, -0.126531, 0.887723, 0, 0.0652056, 0 )
+
 [node name="CarLockHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/BarsContainer" index="0" instance=ExtResource( 6 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
@@ -44,3 +47,4 @@ flash_light_path = NodePath("../Flashlight")
 
 [node name="Flashlight" parent="." index="7" instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.5, -0.5 )
+[connection signal="locking_complete" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/BarsContainer/CarLockHud" to="." method="_on_CarLockHud_locking_complete"]
