@@ -1,6 +1,6 @@
 extends "res://client/game/mode/fugitive/VrFugitiveController.gd"
 
-onready var car_lock_hud := pregameHud.find_node("CarLockHud", true, false)
+onready var car_lock_hud := hud.find_node("CarLockHud", true, false)
 
 
 func _process(delta):
