@@ -74,11 +74,6 @@ margin_bottom = 52.0
 
 [node name="EndGameHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="6" instance=ExtResource( 6 )]
 visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -145.0
-margin_top = -116.0
-margin_right = 146.0
-margin_bottom = 73.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = 0.0
