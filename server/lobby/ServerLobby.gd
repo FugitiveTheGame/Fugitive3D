@@ -17,8 +17,6 @@ func _enter_tree():
 	
 		# Allow new connections when we arrive back in the lobby
 	get_tree().network_peer.refuse_new_connections = false
-	
-	ClientNetwork.connect("start_game", self, "on_start_game")
 
 
 func _exit_tree():

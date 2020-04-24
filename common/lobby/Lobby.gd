@@ -16,6 +16,9 @@ func _ready():
 	ClientNetwork.connect("remove_player", self, "remove_player")
 	ClientNetwork.connect("update_game_data", self, "update_game_data")
 	
+	ClientNetwork.connect("start_lobby_countdown", self, "on_start_lobby_countdown")
+	ClientNetwork.connect("start_game", self, "on_start_game")
+	
 	call_deferred("update_ui")
 
 
@@ -114,6 +117,11 @@ func can_start() -> bool:
 	return canStart
 
 
+func on_start_game():
+	print("on_start_game() MUST BE IMPLEMENTED")
+	assert(false)
+
+
 # Update if this local client is the host
 func update_host():
 	var host := GameData.get_host()
@@ -127,7 +135,7 @@ func update_ui():
 	mapSelect.disabled = not is_host or is_starting
 
 
-remotesync func start_timer():
+func on_start_lobby_countdown():
 	is_starting = true
 	update_all_players()
 	update_ui()

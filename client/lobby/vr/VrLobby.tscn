@@ -5,7 +5,7 @@
 [ext_resource path="res://addons/OQ_Toolkit/OQ_UI2D/OQ_UI2DKeyboard.tscn" type="PackedScene" id=3]
 [ext_resource path="res://client/vr_menu_player/VrMenuPlayer.tscn" type="PackedScene" id=4]
 
-[sub_resource type="ProceduralSky" id=2]
+[sub_resource type="ProceduralSky" id=1]
 sky_top_color = Color( 0.00784314, 0.141176, 0.215686, 1 )
 sky_horizon_color = Color( 0, 0.00784314, 0.0156863, 1 )
 ground_bottom_color = Color( 0.109804, 0.0862745, 0.121569, 1 )
@@ -16,19 +16,19 @@ sun_angle_min = 0.0
 sun_angle_max = 360.0
 sun_energy = 0.0
 
-[sub_resource type="Environment" id=1]
+[sub_resource type="Environment" id=2]
 background_mode = 2
-background_sky = SubResource( 2 )
+background_sky = SubResource( 1 )
 
 [node name="VrMobileLobby" type="Spatial"]
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource( 1 )
+environment = SubResource( 2 )
 
 [node name="LobbyMenuDisplay" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.57066, -0.706083 )
 editor_live_update = false
-transparent = false
+transparent = true
 
 [node name="Lobby" parent="LobbyMenuDisplay" instance=ExtResource( 1 )]
 
