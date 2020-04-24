@@ -4,6 +4,7 @@ signal create_player(playerId)
 signal update_player(playerId)
 signal update_game_data(generalData)
 signal start_game
+signal start_lobby_countdown
 signal lost_connection_to_server
 
 var localPlayerName: String
@@ -68,6 +69,14 @@ func update_game_data():
 remote func on_update_game_data(generalData):
 	GameData.general = generalData
 	emit_signal("update_game_data", GameData.general)
+
+
+func start_lobby_countdown():
+	rpc("on_start_lobby_countdown")
+
+
+remotesync func on_start_lobby_countdown():
+	emit_signal("start_lobby_countdown")
 
 
 func start_game():

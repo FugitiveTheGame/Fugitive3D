@@ -8,7 +8,6 @@ onready var leaveButton := get_node(leaveButtonPath) as Button
 
 
 func _ready():
-	ClientNetwork.connect("start_game", self, "on_start_game")
 	ClientNetwork.connect("lost_connection_to_server", self, "on_disconnect")
 	
 	# Tell the server about you
@@ -18,18 +17,13 @@ func _ready():
 
 
 func _on_StartButton_pressed():
-	rpc("start_timer")
+	ClientNetwork.start_lobby_countdown()
 
 
 func _on_LeaveButton_pressed():
 	# Disconnect from the server
 	ClientNetwork.reset_network()
 	on_disconnect()
-
-
-func on_start_game():
-	print("on_start_game() MUST BE IMPLEMENTED")
-	assert(false)
 
 
 func on_disconnect():
@@ -55,8 +49,8 @@ func _process(delta):
 		$StartLabel.text = "Game Starting: %s" % time
 
 
-remotesync func start_timer():
-	.start_timer()
+func on_start_lobby_countdown():
+	.on_start_lobby_countdown()
 	$StartLabel.show()
 	$StartTimer.start()
 
