@@ -6,10 +6,10 @@ export(NodePath) var playerNamePath: NodePath
 onready var playerNameInput := get_node(playerNamePath) as LineEdit
 
 export(NodePath) var serverIpPath: NodePath
-onready var serverIp := get_node(serverIpPath) as LineEdit
+onready var serverIpInput := get_node(serverIpPath) as LineEdit
 
 export(NodePath) var serverPortPath: NodePath
-onready var serverPort := get_node(serverPortPath) as LineEdit
+onready var serverPortInput := get_node(serverPortPath) as LineEdit
 
 
 func _enter_tree():
@@ -20,20 +20,20 @@ func _exit_tree():
 	get_tree().disconnect("connected_to_server", self, "on_connected_to_server")
 	
 	UserData.data.user_name = playerNameInput.text
-	UserData.data.last_ip = serverIp.text
-	UserData.data.last_port = serverPort.text
+	UserData.data.last_ip = serverIpInput.text
+	UserData.data.last_port = serverPortInput.text
 	UserData.save_data()
 
 
 func _ready():
 	playerNameInput.text = UserData.data.user_name
-	serverIp.text = UserData.data.last_ip
-	serverPort.text = str(UserData.data.last_port)
+	serverIpInput.text = UserData.data.last_ip
+	serverPortInput.text = str(UserData.data.last_port)
 
 
 func _on_ConnectButton_pressed():
-	var ip := serverIp.text as String
-	var portStr := serverPort.text as String
+	var ip := serverIpInput.text as String
+	var portStr := serverPortInput.text as String
 	var port := int(portStr)
 	
 	on_connect_request(ip, port)
