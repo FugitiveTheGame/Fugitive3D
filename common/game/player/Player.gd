@@ -89,6 +89,7 @@ func set_not_local_player():
 
 
 func set_is_local_player():
+	walking_sound.unit_db = -15.0
 	print("set_is_local_player()")
 	add_to_group(Groups.LOCAL_PLAYER)
 	hide_avatar()
