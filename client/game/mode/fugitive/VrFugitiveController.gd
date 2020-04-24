@@ -7,14 +7,14 @@ onready var playerHeightHud := hud.find_node("HeightContainer", true, false) as 
 const dead_zone := 0.125
 
 
-func _process(delta):
+func _physics_process(delta):
 	#######################
 	# Process per-frame input
 	
 	if not player.gameStarted and (vr.button_just_released(vr.BUTTON.LEFT_INDEX_TRIGGER) or vr.button_just_released(vr.BUTTON.RIGHT_INDEX_TRIGGER)):
 		player.set_ready()
 
-	if vr.button_just_released(vr.BUTTON.LEFT_INDEX_TRIGGER):
+	if vr.button_just_released(vr.BUTTON.B):
 		if player.car == null:
 			var cars := get_tree().get_nodes_in_group(Groups.CARS)
 			for car in cars:
@@ -27,8 +27,9 @@ func _process(delta):
 	if vr.button_just_released(vr.BUTTON.Y):
 		if player.car != null and player.car.is_driver(player.id):
 			player.car.honk_horn()
-	
-	
+
+
+func _process(delta):
 	#######################
 	# Car movement input
 	
@@ -61,7 +62,7 @@ func _process(delta):
 
 func on_car_entered(car):
 	locomotion.allowTurn = false
-	transform.origin.y -= (standingHeight * 0.50)
+	transform.origin.y -= (standingHeight * 0.65)
 	vr.vrOrigin.is_fixed = true
 
 
