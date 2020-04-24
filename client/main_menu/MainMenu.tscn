@@ -26,6 +26,9 @@ margin_right = 129.0
 margin_bottom = 52.0
 custom_fonts/font = ExtResource( 3 )
 text = "Fugitive 3D!"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="UsernamePanel" type="PanelContainer" parent="."]
 anchor_left = 1.0
@@ -52,7 +55,7 @@ __meta__ = {
 }
 
 [node name="PlayerNameLabel" type="Label" parent="UsernamePanel/VBoxContainer"]
-margin_right = 224.0
+margin_right = 225.0
 margin_bottom = 14.0
 text = "Player Name:"
 __meta__ = {
@@ -61,16 +64,15 @@ __meta__ = {
 
 [node name="PlayerName" type="LineEdit" parent="UsernamePanel/VBoxContainer"]
 margin_top = 18.0
-margin_right = 224.0
+margin_right = 225.0
 margin_bottom = 42.0
+max_length = 16
 placeholder_text = "Enter Name"
 caret_blink = true
 caret_blink_speed = 0.5
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Node" type="Node" parent="UsernamePanel/VBoxContainer/PlayerName"]
 
 [node name="ManualContainer" type="PanelContainer" parent="."]
 anchor_top = 1.0
@@ -144,5 +146,15 @@ margin_left = -523.0
 margin_top = -327.0
 margin_right = -16.0
 margin_bottom = -16.0
+
+[node name="UserNameErrorDialog" type="AcceptDialog" parent="."]
+margin_right = 256.0
+margin_bottom = 75.0
+popup_exclusive = true
+dialog_text = "Player Name must be at least 3 charcters long."
+dialog_autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="pressed" from="ManualContainer/VBoxContainer/HBoxContainer/ConnectButton" to="." method="_on_ConnectButton_pressed"]
 [connection signal="connect_to_server" from="ServerBrowser" to="." method="_on_ServerBrowser_connect_to_server"]
