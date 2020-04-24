@@ -17,6 +17,10 @@ func _process(delta):
 		var car = get_nearest_car()
 		if car != null:
 			car_lock_hud.stop_locking()
+	
+	# Not allow to move while locking
+	if player.is_moving() and car_lock_hud.is_locking():
+		car_lock_hud.stop_locking()
 
 
 func get_nearest_car():
