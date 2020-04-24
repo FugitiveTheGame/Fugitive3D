@@ -21,8 +21,10 @@ func _enter_tree():
 func _ready():
 	advertiser.serverInfo["port"] = serverPort
 	advertiser.serverInfo["name"] = serverName
-	advertiser.private = not get_public()
 	advertiser.serverRepositoryUrl = ServerNetwork.SERVER_REPOSITORY_URL + "/register"
+	
+	if get_public():
+		advertiser.start_advertising_publicly()
 
 
 func on_start_game():
@@ -79,8 +81,7 @@ func get_public() -> bool:
 	var public := false
 	
 	var args := OS.get_cmdline_args()
-	for ii in range(args.size()):
-		var arg = args[ii]
+	for arg in args:
 		if arg.nocasecmp_to("--public") == 0:
 			public = true
 			break

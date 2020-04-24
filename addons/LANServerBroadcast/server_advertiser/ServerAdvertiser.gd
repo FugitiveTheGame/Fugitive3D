@@ -11,8 +11,8 @@ var socketUDP: PacketPeerUDP
 var broadcastTimer := Timer.new()
 var broadcastPort := DEFAULT_PORT
 var externalIp = null
-var private := false
 var serverRepositoryUrl: String
+var public := false
 
 var ipRequest := HTTPRequest.new()
 var registerRequest := HTTPRequest.new()
@@ -38,15 +38,18 @@ func _ready():
 		socketUDP.set_broadcast_enabled(true)
 		socketUDP.set_dest_address('255.255.255.255', broadcastPort)
 		
-		# If private, don't advertise to the repository
-		if not private:
-			repositoryRegisterTimer.wait_time = 30.0
-			add_child(repositoryRegisterTimer)
-			repositoryRegisterTimer.connect("timeout", self, "_on_RepositoryRegisterTimer_timeout")
-			repositoryRegisterTimer.start()
-		
 		fetch_external_ip()
 
+
+# By default we only advertise on LAN
+# Calling this will start advertising on WAN
+func start_advertising_publicly():
+	public = true
+	
+	repositoryRegisterTimer.wait_time = 30.0
+	add_child(repositoryRegisterTimer)
+	repositoryRegisterTimer.connect("timeout", self, "_on_RepositoryRegisterTimer_timeout")
+	repositoryRegisterTimer.start()
 
 func broadcast():
 	#print('Broadcasting game...')
@@ -72,7 +75,8 @@ func _on_IpRequest_request_completed(result, response_code, headers, body):
 		externalIp = json.ip
 		serverInfo["ip"] = externalIp
 		
-		register_server()
+		if public:
+			register_server()
 	else:
 		print('Failed to get external IP')
 
