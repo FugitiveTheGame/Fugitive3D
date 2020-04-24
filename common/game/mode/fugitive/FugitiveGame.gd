@@ -317,6 +317,10 @@ func check_win_conditions():
 				finish_game(GameData.PlayerType.Seeker)
 			elif allUnfrozenSeekersInWinZone:
 				finish_game(GameData.PlayerType.Hider)
+			elif seekers.empty():
+				finish_game(GameData.PlayerType.Hider)
+			elif hiders.empty():
+				finish_game(GameData.PlayerType.Seeker)
 	# Debug win condition:
 	# The only player enteres any win zone
 	else:
