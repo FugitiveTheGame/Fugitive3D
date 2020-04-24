@@ -224,6 +224,9 @@ func _physics_process(delta):
 			velocity = Vector3()
 		
 		rpc_unreliable("network_update", translation, rotation, velocity)
+	else:
+		# Client side prediction
+		velocity = move_and_slide_with_snap(velocity, Vector3(0,-2,0), Vector3(0,1,0))
 
 
 func is_moving() -> bool:
