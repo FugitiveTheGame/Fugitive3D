@@ -294,48 +294,28 @@ func check_win_conditions():
 	var seekers = get_tree().get_nodes_in_group(Seeker.GROUP)
 	var winZones := map.get_win_zones()
 	
-	# We are debugging if there is exactly 1 player
-	var isDebugging = (hiders.empty() and seekers.size() == 1) or (seekers.empty() and hiders.size() == 1)
-	
-	# Normal win condition:
 	# Either all hiders are frozen OR
 	# all non-frozen hiders are in a winzone
-	if not isDebugging:
-		var allHidersFrozen := true
-		var allUnfrozenSeekersInWinZone := true
+	var allHidersFrozen := true
+	var allUnfrozenSeekersInWinZone := true
+
+	for hider in hiders:
+		if (not hider.frozen):
+			allHidersFrozen = false
+			for winZone in winZones:
+				# Now, check if this hider is in the win zone.
+				if (not winZone.overlaps_body(hider.playerBody)):
+					allUnfrozenSeekersInWinZone = false
 	
-		for hider in hiders:
-			if (not hider.frozen):
-				allHidersFrozen = false
-				for winZone in winZones:
-					# Now, check if this hider is in the win zone.
-					if (not winZone.overlaps_body(hider.playerBody)):
-						allUnfrozenSeekersInWinZone = false
-		
-		if gameStarted and not is_game_over():
-			if allHidersFrozen:
-				finish_game(GameData.PlayerType.Seeker)
-			elif allUnfrozenSeekersInWinZone:
-				finish_game(GameData.PlayerType.Hider)
-			elif seekers.empty():
-				finish_game(GameData.PlayerType.Hider)
-			elif hiders.empty():
-				finish_game(GameData.PlayerType.Seeker)
-	# Debug win condition:
-	# The only player enteres any win zone
-	else:
-		var player
-		if not hiders.empty():
-			player = hiders[0]
-		else:
-			player = seekers[0]
-		
-		var body = player.playerBody
-		for winZone in winZones:
-			# Now, check if anyone is in the win zone.
-			if winZone.overlaps_body(body):
-				finish_game(GameData.PlayerType.Hider)
-				break
+	if gameStarted and not is_game_over():
+		if allHidersFrozen:
+			finish_game(GameData.PlayerType.Seeker)
+		elif allUnfrozenSeekersInWinZone:
+			finish_game(GameData.PlayerType.Hider)
+		elif seekers.empty():
+			finish_game(GameData.PlayerType.Hider)
+		elif hiders.empty():
+			finish_game(GameData.PlayerType.Seeker)
 
 
 func game_time_limit_exceeded():
