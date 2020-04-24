@@ -34,12 +34,14 @@ func go_to_mobile_vr():
 
 func prepare_pc_vr():
 	vr.initialize()
+	vr.scene_switch_root = self
 
 
 func prepare_mobile_vr():
 	print("Configuring for Mobile VR")
 	
 	vr.initialize()
+	vr.scene_switch_root = self
 	
 	var ovrPerformance = preload("res://addons/godot_ovrmobile/OvrPerformance.gdns").new()
 	

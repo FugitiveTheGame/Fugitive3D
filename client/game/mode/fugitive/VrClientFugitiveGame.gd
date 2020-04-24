@@ -2,7 +2,7 @@ extends ClientFugitiveGame
 
 
 func on_disconnect():
-	get_tree().change_scene("res://client/main_menu/vr/VrClientMainMenu.tscn")
+	vr.switch_scene("res://client/main_menu/vr/VrClientMainMenu.tscn")
 
 
 func create_player_seeker_node() -> Node:
