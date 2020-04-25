@@ -125,7 +125,9 @@ func _physics_process(delta):
 	
 	var snap := Vector3(0.0, -2.0, 0.0)
 	if is_on_floor():
-		if Input.is_action_just_pressed("flat_player_jump"):
+		if Input.is_action_just_pressed("flat_player_jump") and player.stamina >= player.JUMP_STAMINA_COST:
+			player.stamina -= player.JUMP_STAMINA_COST
+			
 			velocity.y = Jump_Speed
 			# No snap vector when jumping
 			snap = Vector3()
