@@ -17,6 +17,7 @@ var public := false
 
 var ipRequest := HTTPRequest.new()
 var registerRequest := HTTPRequest.new()
+var removeRequest := HTTPRequest.new()
 
 var repositoryRegisterTimer := Timer.new()
 
@@ -63,6 +64,8 @@ func _exit_tree():
 	broadcastTimer.stop()
 	if socketUDP != null:
 		socketUDP.close()
+	
+	remove_from_repository()
 
 
 func fetch_external_ip():
@@ -102,3 +105,15 @@ func register_server():
 
 func _on_RepositoryRegisterTimer_timeout():
 	register_server()
+
+
+func remove_from_repository():
+	if public:
+		var data = {
+			"ip": serverInfo["ip"],
+		}
+		
+		var body := JSON.print(data)
+		var headers := ["Content-Type: application/json"]
+		var url := serverRepositoryUrl + "/remove"
+		removeRequest.request(url, headers, false, HTTPClient.METHOD_POST, body)
