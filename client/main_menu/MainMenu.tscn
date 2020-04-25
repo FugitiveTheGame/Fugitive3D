@@ -35,19 +35,19 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -524.418
-margin_top = -389.582
-margin_right = -285.418
-margin_bottom = -329.582
+margin_left = -524.42
+margin_top = -439.582
+margin_right = -285.42
+margin_bottom = -333.582
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="UsernamePanel"]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 232.0
-margin_bottom = 49.0
+margin_left = 14.0
+margin_top = 14.0
+margin_right = 225.0
+margin_bottom = 92.0
 size_flags_horizontal = 3
 size_flags_vertical = 2
 __meta__ = {
@@ -55,17 +55,17 @@ __meta__ = {
 }
 
 [node name="PlayerNameLabel" type="Label" parent="UsernamePanel/VBoxContainer"]
-margin_right = 225.0
-margin_bottom = 14.0
+margin_right = 211.0
+margin_bottom = 25.0
 text = "Player Name:"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="PlayerName" type="LineEdit" parent="UsernamePanel/VBoxContainer"]
-margin_top = 18.0
-margin_right = 225.0
-margin_bottom = 42.0
+margin_top = 33.0
+margin_right = 211.0
+margin_bottom = 78.0
 max_length = 16
 placeholder_text = "Enter Name"
 caret_blink = true
@@ -78,35 +78,35 @@ __meta__ = {
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 9.58188
-margin_top = -69.5818
-margin_right = 281.582
-margin_bottom = -13.5818
+margin_top = -119.582
+margin_right = 493.582
+margin_bottom = -13.582
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ManualContainer"]
-margin_left = 7.0
-margin_top = 7.0
-margin_right = 265.0
-margin_bottom = 49.0
+margin_left = 14.0
+margin_top = 14.0
+margin_right = 470.0
+margin_bottom = 92.0
 
 [node name="ManualConnectLabel" type="Label" parent="ManualContainer/VBoxContainer"]
-margin_right = 258.0
-margin_bottom = 14.0
+margin_right = 456.0
+margin_bottom = 25.0
 text = "Direct Connect:"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ManualContainer/VBoxContainer"]
-margin_top = 18.0
-margin_right = 258.0
-margin_bottom = 42.0
+margin_top = 33.0
+margin_right = 456.0
+margin_bottom = 78.0
 
 [node name="ServerIp" type="LineEdit" parent="ManualContainer/VBoxContainer/HBoxContainer"]
-margin_right = 128.0
-margin_bottom = 24.0
+margin_right = 164.0
+margin_bottom = 45.0
 rect_min_size = Vector2( 128, 0 )
 text = "127.0.0.1"
 caret_blink = true
@@ -116,9 +116,9 @@ __meta__ = {
 }
 
 [node name="ServerPort" type="LineEdit" parent="ManualContainer/VBoxContainer/HBoxContainer"]
-margin_left = 132.0
-margin_right = 190.0
-margin_bottom = 24.0
+margin_left = 172.0
+margin_right = 336.0
+margin_bottom = 45.0
 text = "31000"
 caret_blink = true
 caret_blink_speed = 0.5
@@ -127,9 +127,9 @@ __meta__ = {
 }
 
 [node name="ConnectButton" type="Button" parent="ManualContainer/VBoxContainer/HBoxContainer"]
-margin_left = 194.0
-margin_right = 258.0
-margin_bottom = 20.0
+margin_left = 344.0
+margin_right = 456.0
+margin_bottom = 37.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 text = "Connect"

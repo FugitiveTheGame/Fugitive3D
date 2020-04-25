@@ -9,7 +9,7 @@ var serverInfo = null
 func populate(info):
 	serverInfo = info
 	
-	$NameLabel.text = "%s - %s" % [serverInfo.name, serverInfo.ip]
+	$NameLabel.text = "%s" % [serverInfo.name]
 	$LanIndicator.visible = serverInfo.lan
 
 

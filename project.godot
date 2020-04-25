@@ -204,6 +204,10 @@ enabled=PoolStringArray( "Fugitive3D", "LANServerBroadcast" )
 singletons=[ "res://addons/godot-oculus/godot_oculus.gdnlib", "res://addons/godot-openvr/godot_openvr.gdnlib", "res://addons/godot_ovrmobile/godot_ovrmobile.gdnlib" ]
 singletons_disabled=[ "res://addons/godot-oculus/godot_oculus.gdnlib" ]
 
+[gui]
+
+theme/use_hidpi=true
+
 [input]
 
 flat_player_up={
