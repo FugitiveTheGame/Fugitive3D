@@ -286,4 +286,5 @@ limits/message_queue/max_size_kb=2048
 [rendering]
 
 threads/thread_model=2
+environment/default_clear_color=Color( 0.117647, 0.101961, 0.188235, 1 )
 environment/default_environment="res://default_env.tres"
