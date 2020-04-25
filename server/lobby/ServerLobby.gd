@@ -27,7 +27,7 @@ func _exit_tree():
 func _ready():
 	advertiser.serverInfo["port"] = serverPort
 	advertiser.serverInfo["name"] = serverName
-	advertiser.serverRepositoryUrl = ServerNetwork.SERVER_REPOSITORY_URL + "/register"
+	advertiser.serverRepositoryUrl = ServerNetwork.SERVER_REPOSITORY_URL
 	
 	if get_public():
 		advertiser.start_advertising_publicly()

@@ -97,7 +97,8 @@ func _exit_tree():
 
 
 func request_servers():
-	serverRepoRequest.request(serverRepositoryUrl)
+	var endpointUrl = serverRepositoryUrl + "/list"
+	serverRepoRequest.request(endpointUrl)
 
 
 func _on_ServerRepoRequest_request_completed(result, response_code, headers, body):
