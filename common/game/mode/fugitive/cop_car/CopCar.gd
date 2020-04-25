@@ -83,7 +83,7 @@ remotesync func on_enter_car(playerId: int):
 		seat.occupant = player
 		
 		if seat.is_driver_seat:
-			set_network_master(playerId)
+			set_network_master(playerId, false)
 		
 		print("Car entered")
 		
@@ -118,7 +118,7 @@ remotesync func on_exit_car(playerId: int) -> bool:
 		get_parent().add_child(player.playerController)
 		
 		if seat.is_driver_seat:
-			set_network_master(ServerNetwork.SERVER_ID)
+			set_network_master(ServerNetwork.SERVER_ID, false)
 		
 		player.playerShape.disabled = false
 		
