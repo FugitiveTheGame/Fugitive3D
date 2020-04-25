@@ -2,6 +2,7 @@ extends Node
 class_name ServerAdvertiser, 'res://addons/LANServerBroadcast/server_advertiser/ServerAdvertiser.png'
 
 const DEFAULT_PORT := 32000
+const REPOSITORY_ADVERTISE_INTERVAL := 30.0
 
 # How often to broadcast out to the network that this host is active
 export (float) var broadcast_interval: float = 1.0
@@ -46,7 +47,7 @@ func start_advertising_publicly():
 	
 	fetch_external_ip()
 	
-	repositoryRegisterTimer.wait_time = 30.0
+	repositoryRegisterTimer.wait_time = REPOSITORY_ADVERTISE_INTERVAL
 	add_child(repositoryRegisterTimer)
 	repositoryRegisterTimer.connect("timeout", self, "_on_RepositoryRegisterTimer_timeout")
 	repositoryRegisterTimer.start()
