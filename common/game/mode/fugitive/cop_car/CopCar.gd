@@ -22,6 +22,8 @@ var isBreaking := false
 
 var locked := true
 
+var mutex := Mutex.new()
+
 onready var headlight_ray_caster := $RayCast as RayCast
 onready var drivingAudio := $DrivingAudio as AudioStreamPlayer3D
 
@@ -60,6 +62,8 @@ remotesync func on_request_enter_car(playerId: int):
 	if not get_tree().is_network_server():
 		return
 	
+	mutex.lock()
+	
 	print("on_request_enter_car")
 	
 	var seatIndex := get_free_seat()
@@ -84,10 +88,13 @@ remotesync func on_request_enter_car(playerId: int):
 		rpc("on_car_entered", playerId, seatIndex)
 	else:
 		print("No free seats in car")
+	
+	mutex.unlock()
 
 
 # Then it tells all clients what player is entering what seat in the car
 remotesync func on_car_entered(playerId: int, seatIndex: int):
+	mutex.lock()
 	var player = GameData.currentGame.get_player(playerId)
 	var seat = seats[seatIndex]
 		
@@ -117,6 +124,7 @@ remotesync func on_car_entered(playerId: int, seatIndex: int):
 	player.playerController.on_car_entered(self)
 	
 	$DoorAudio.play()
+	mutex.unlock()
 
 
 func request_exit_car(player: FugitivePlayer):
@@ -127,15 +135,18 @@ remotesync func on_request_exit_car(playerId: int):
 	if not get_tree().is_network_server():
 		return
 	
+	mutex.lock()
 	var player = GameData.currentGame.get_player(playerId)
 	
 	# Server validates that this is ok, then tells all clients what to do
 	var seatIndex := find_occupants_seat(player)
 	if seatIndex > -1:
 		rpc("on_exit_car", player.id, seatIndex)
+	mutex.unlock()
 
 
 remotesync func on_exit_car(playerId: int, seatIndex: int):
+	mutex.lock()
 	var player = GameData.currentGame.get_player(playerId)
 	
 	var seat = seats[seatIndex]
@@ -163,6 +174,7 @@ remotesync func on_exit_car(playerId: int, seatIndex: int):
 		print("Car exited")
 	else:
 		print("ERROR: Failed to exit car. Player: %d seat: %d" % [playerId, seatIndex])
+	mutex.unlock()
 
 
 func find_occupants_seat(player: FugitivePlayer) -> int:
