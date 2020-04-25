@@ -9,7 +9,7 @@ var serverListItemScene := preload("res://client/main_menu/server_browser/Server
 
 
 func _ready():
-	$ServerListener.serverRepositoryUrl = ServerNetwork.SERVER_REPOSITORY_URL + "/list"
+	$ServerListener.serverRepositoryUrl = ServerNetwork.SERVER_REPOSITORY_URL
 	$ServerListener.request_servers()
 
 

@@ -37,14 +37,14 @@ func _ready():
 		socketUDP = PacketPeerUDP.new()
 		socketUDP.set_broadcast_enabled(true)
 		socketUDP.set_dest_address('255.255.255.255', broadcastPort)
-		
-		fetch_external_ip()
 
 
 # By default we only advertise on LAN
 # Calling this will start advertising on WAN
 func start_advertising_publicly():
 	public = true
+	
+	fetch_external_ip()
 	
 	repositoryRegisterTimer.wait_time = 30.0
 	add_child(repositoryRegisterTimer)
@@ -65,7 +65,8 @@ func _exit_tree():
 
 
 func fetch_external_ip():
-	ipRequest.request("https://api.ipify.org/?format=json")
+	var endpointUrl := serverRepositoryUrl + "/getip"
+	ipRequest.request(endpointUrl)
 
 
 func _on_IpRequest_request_completed(result, response_code, headers, body):
@@ -83,7 +84,7 @@ func _on_IpRequest_request_completed(result, response_code, headers, body):
 
 func register_server():
 	if externalIp != null:
-		var url := serverRepositoryUrl
+		var url := serverRepositoryUrl + "/register"
 		
 		# Marshal the data for transmission
 		# They must all be strings
