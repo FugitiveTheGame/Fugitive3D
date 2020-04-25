@@ -19,10 +19,10 @@ func _physics_process(delta):
 			var cars := get_tree().get_nodes_in_group(Groups.CARS)
 			for car in cars:
 				if car.enterArea.overlaps_body(player.playerBody):
-					car.enter_car(player)
+					car.request_enter_car(player)
 					break
 		else:
-			player.car.exit_car(player)
+			player.car.request_exit_car(player)
 	
 	if vr.button_just_released(vr.BUTTON.Y):
 		if player.car != null and player.car.is_driver(player.id):
