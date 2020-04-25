@@ -22,6 +22,7 @@ func _enter_tree():
 func _exit_tree():
 	# Don't allow new connections if we're in-game
 	get_tree().network_peer.refuse_new_connections = true
+	advertiser.remove_from_repository()
 
 
 func _ready():
@@ -93,3 +94,12 @@ func get_public() -> bool:
 			break
 	
 	return public
+
+func on_start_lobby_countdown():
+	.on_start_lobby_countdown()
+	
+	# Don't allow any more connections now that we're in the terminal count
+	get_tree().network_peer.refuse_new_connections = true
+	
+	# Make sure we don't show up in the repository while we're playing
+	advertiser.remove_from_repository()
