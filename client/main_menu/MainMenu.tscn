@@ -90,7 +90,7 @@ __meta__ = {
 margin_left = 14.0
 margin_top = 14.0
 margin_right = 470.0
-margin_bottom = 137.0
+margin_bottom = 144.0
 
 [node name="ManualConnectLabel" type="Label" parent="ManualContainer/VBoxContainer"]
 margin_right = 456.0
@@ -103,14 +103,15 @@ __meta__ = {
 [node name="HBoxContainer" type="HBoxContainer" parent="ManualContainer/VBoxContainer"]
 margin_top = 33.0
 margin_right = 456.0
-margin_bottom = 78.0
+margin_bottom = 85.0
 size_flags_horizontal = 3
 
 [node name="ServerIp" type="LineEdit" parent="ManualContainer/VBoxContainer/HBoxContainer"]
 margin_right = 284.0
-margin_bottom = 45.0
+margin_bottom = 52.0
 size_flags_horizontal = 3
 max_length = 128
+clear_button_enabled = true
 placeholder_text = "server address"
 caret_blink = true
 caret_blink_speed = 0.5
@@ -121,13 +122,14 @@ __meta__ = {
 [node name="ServerPort" type="LineEdit" parent="ManualContainer/VBoxContainer/HBoxContainer"]
 margin_left = 292.0
 margin_right = 456.0
-margin_bottom = 45.0
+margin_bottom = 52.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 size_flags_stretch_ratio = 0.0
 text = "31000"
 align = 1
 max_length = 5
+clear_button_enabled = true
 placeholder_text = "31000"
 caret_blink = true
 caret_blink_speed = 0.5
@@ -136,9 +138,9 @@ __meta__ = {
 }
 
 [node name="ConnectButton" type="Button" parent="ManualContainer/VBoxContainer"]
-margin_top = 86.0
+margin_top = 93.0
 margin_right = 456.0
-margin_bottom = 123.0
+margin_bottom = 130.0
 size_flags_vertical = 0
 text = "Connect"
 __meta__ = {
