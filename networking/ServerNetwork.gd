@@ -2,8 +2,16 @@ extends Node
 
 const SERVER_PORT := 31000
 const SERVER_ID := 1
-const SERVER_REPOSITORY_URL := "http://repository.fugitivethegame.online:8080"
+var SERVER_REPOSITORY_URL: String
 const MAX_PLAYERS := 15
+
+# Set to true to point at a locally running instance of the ServerRepository
+var debug_local := false
+func _init():
+	if debug_local:
+		SERVER_REPOSITORY_URL = "http://127.0.0.1:8080"
+	else:
+		SERVER_REPOSITORY_URL = "http://repository.fugitivethegame.online"
 
 
 func _player_connected(id):
