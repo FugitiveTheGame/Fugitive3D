@@ -10,12 +10,21 @@
 [node name="PlayerController" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
+[node name="OQ_ARVRCamera" parent="." index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.08044, 0 )
+
+[node name="OQ_LeftController" parent="." index="1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, -0.122007, -0.5 )
+
+[node name="HudCanvas" parent="OQ_LeftController/VisibilityToggle" index="0"]
+editor_live_update = false
+
 [node name="VisibilityHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/BarsContainer" index="0" instance=ExtResource( 5 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 28.0
+margin_top = 24.0
 margin_right = 380.0
-margin_bottom = 76.0
+margin_bottom = 72.0
 playerPath = NodePath("../../../../../../Player")
 
 [node name="StaminaHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/BarsContainer" index="1"]
@@ -36,15 +45,16 @@ margin_right = 60.5
 margin_bottom = 49.0
 playerPath = NodePath("../../../../../Player")
 
+[node name="OQ_RightController" parent="." index="2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, -0.122007, -0.5 )
+
 [node name="Feature_PlayerCollision" parent="." index="4"]
 collision_mask = 7
 playerPath = NodePath("../Player")
 
 [node name="CollisionShape" parent="Feature_PlayerCollision" index="0" instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 1, 0 )
 
 [node name="Player" parent="." index="6" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0 )
 shapePath = NodePath("../Feature_PlayerCollision/CollisionShape")
 playerControllerPath = NodePath("..")
 playerBodyPath = NodePath("../Feature_PlayerCollision")
