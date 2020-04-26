@@ -31,6 +31,7 @@ func _ready():
 	ipRequest.connect("request_completed", self, "_on_IpRequest_request_completed")
 	
 	add_child(registerRequest)
+	add_child(removeRequest)
 	
 	if get_tree().is_network_server():
 		add_child(broadcastTimer)
