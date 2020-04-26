@@ -123,19 +123,16 @@ func _physics_process(delta):
 		velocity.x = 0
 		velocity.z = 0
 	
-	var snap := Vector3(0.0, -2.0, 0.0)
 	if is_on_floor():
 		if Input.is_action_just_pressed("flat_player_jump") and player.stamina >= player.JUMP_STAMINA_COST:
 			player.stamina -= player.JUMP_STAMINA_COST
 			
 			velocity.y = Jump_Speed
-			# No snap vector when jumping
-			snap = Vector3()
 	
 	if not allowMovement:
 		velocity = Vector3()
 	
-	velocity = move_and_slide_with_snap(velocity, snap, Vector3(0.0, 1.0, 0.0))
+	velocity = move_and_slide(velocity, Vector3(0.0, 1.0, 0.0))
 	
 	# Gravity means that even when we're on the ground, our Y component always
 	# has a large size. So for isMoving we only consider X and Z
