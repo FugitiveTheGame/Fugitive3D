@@ -110,3 +110,32 @@ remote func on_change_player_type(playerId: int, playerType: int):
 		ClientNetwork.update_player(player)
 	else:
 		print("ERROR: on_change_player_type() player not found for ID: %d" % playerId)
+
+
+func randomize_teams():
+	rpc("on_randomize_teams")
+
+
+remotesync func on_randomize_teams():
+	if not get_tree().is_network_server():
+		return
+	
+	var playerIds = GameData.players.keys()
+	
+	var numSeekers := 0
+	
+	var numPlayers = playerIds.size()
+	if numPlayers < 2:
+		numSeekers = 1
+	elif numPlayers < 6:
+		numSeekers = 2
+	else:
+		numSeekers = 3
+	
+	playerIds.shuffle()
+	for playerId in playerIds:
+		if numSeekers > 0:
+			numSeekers -= 1
+			change_player_type(playerId, GameData.PlayerType.Seeker)
+		else:
+			change_player_type(playerId, GameData.PlayerType.Hider)
