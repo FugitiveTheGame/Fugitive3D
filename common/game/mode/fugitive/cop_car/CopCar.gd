@@ -266,7 +266,7 @@ func process_input(forward: bool, backward: bool, left: bool, right: bool, break
 	if velocity.length() > MIN_SPEED:
 		var direction := 1.0
 		if backward:
-				direction = -1.0
+			direction = -1.0
 		
 		if left:
 			rotate(Vector3(0.0, 1.0, 0.0), ROTATION * direction * delta)
@@ -283,25 +283,28 @@ puppet func network_update(networkPosition: Vector3, networkRotation: Vector3, n
 func _physics_process(delta):
 	if get_tree().network_peer != null and is_network_master():
 		velocity.y -= GRAVITY * delta
-		#velocity = move_and_slide_with_snap(velocity, Vector3(0,-2,0), Vector3(0,1,0))
-		velocity = move_and_slide(velocity, Vector3(0,1,0))
+		velocity = move_and_slide_with_snap(velocity, Vector3(0,-2,0), Vector3(0,1,0))
 		
 		velocity = velocity - (velocity.normalized() * (FRICTION * delta))
-		if velocity.length() <= MIN_SPEED:
+		if get_movment_speed() <= MIN_SPEED:
 			velocity = Vector3()
 		
 		rpc_unreliable("network_update", translation, rotation, velocity)
-	#else:
-	#	# Client side prediction
-	#	velocity = move_and_slide_with_snap(velocity, Vector3(0,-2,0), Vector3(0,1,0))
+	else:
+		# Client side prediction
+		velocity = move_and_slide_with_snap(velocity, Vector3(0,-2,0), Vector3(0,1,0))
+
+
+func get_movment_speed() -> float:
+	return Vector3(velocity.x, 0.0, velocity.z).length()
 
 
 func is_moving() -> bool:
-	return Vector3(velocity.x, 0.0, velocity.z).length() > 1.0
+	return get_movment_speed() > MIN_SPEED
 
 
 func is_moving_fast() -> bool:
-	return Vector3(velocity.x, 0.0, velocity.z).length() > (MAX_SPEED * 0.90)
+	return get_movment_speed() > (MAX_SPEED * 0.90)
 
 
 func honk_horn():

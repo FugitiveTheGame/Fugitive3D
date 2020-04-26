@@ -35,7 +35,7 @@ func _process(delta):
 	
 	locomotion.allowMovement = not player.frozen and player.car == null
 	
-	if player.car != null and player.car.driver_seat.occupant.id == player.id:
+	if player.car != null and player.car.is_driver(player.id):
 		var x = -vr.get_controller_axis(vr.AXIS.RIGHT_JOYSTICK_X);
 		var y = vr.get_controller_axis(vr.AXIS.LEFT_JOYSTICK_Y);
 		
