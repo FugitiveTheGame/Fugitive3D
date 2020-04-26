@@ -52,6 +52,9 @@ func _process(delta):
 
 func on_start_lobby_countdown():
 	.on_start_lobby_countdown()
+	
+	randomButton.disabled = true
+	
 	$StartLabel.show()
 	$StartTimer.start()
 
