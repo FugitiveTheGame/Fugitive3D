@@ -30,3 +30,5 @@ func team_won(winningTeam: int):
 			$Container/PlayerList.add_child(node)
 	
 	show()
+	
+	$GameOverAudio.play()

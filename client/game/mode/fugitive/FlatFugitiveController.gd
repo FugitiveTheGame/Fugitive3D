@@ -61,7 +61,7 @@ func on_state_headstart():
 
 
 func on_state_playing():
-	$HudCanvas/HudContainer/PregameHud.hide()
+	$HudCanvas/HudContainer/PregameHud.start_play_phase()
 
 
 func on_state_game_over():

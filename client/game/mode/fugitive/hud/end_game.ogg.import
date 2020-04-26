@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/end_game.ogg-5b259b48e7725f9800ce4e4af57faa16.oggstr"
+
+[deps]
+
+source_file="res://client/game/mode/fugitive/hud/end_game.ogg"
+dest_files=[ "res://.import/end_game.ogg-5b259b48e7725f9800ce4e4af57faa16.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0
