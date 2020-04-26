@@ -25,7 +25,8 @@ func _input(event):
 func _process(delta):
 	allowMovement = not player.frozen and player.car == null
 	
-	if player.car != null:
+	# Only allow the driver to control the car
+	if player.car != null and player.car.driver_seat.occupant.id == player.id:
 		var forward := Input.is_action_pressed("flat_player_up")
 		var backward := Input.is_action_pressed("flat_player_down")
 		var left := Input.is_action_pressed("flat_player_left")
