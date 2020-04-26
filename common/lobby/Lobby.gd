@@ -98,11 +98,13 @@ func update_all_players():
 		
 		# Ensure clients are in the same order for everyone
 		var playerIds = GameData.players.keys()
-		playerIds.sort()
-		for ii in range(playerIds.size()):
-			var playerId = playerIds[ii]
-			var node := find_player_node(playerId)
-			node.get_parent().move_child(node, ii)
+		if playerIds.size() == playerList.get_children().size():
+			playerIds.sort()
+			for ii in range(playerIds.size()):
+				var playerId = playerIds[ii]
+				var node := find_player_node(playerId)
+				if node != null:
+					node.get_parent().move_child(node, ii)
 
 
 func can_start() -> bool:
