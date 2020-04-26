@@ -97,17 +97,18 @@ func process_hider(hider):
 
 # Hider detection
 func body_entered_detection_radius(body: Node):
-	if body.has_method("get_player"):
-		var player = body.get_player()
-		if player.playerType == GameData.PlayerType.Hider:
-			# 1) Neither Hider nor Seeker may be in a car
-			# 2) Hider must not be in a win zone
-			# 3) Hider must not be frozen
-			if self.car == null and player.car == null and not is_in_winzone(player) and not player.frozen:
-				freeze_hider(player)
+	if gameStarted and not gameEnded:
+		if body.has_method("get_player"):
+			var player = body.get_player()
+			if player.playerType == GameData.PlayerType.Hider:
+				# 1) Neither Hider nor Seeker may be in a car
+				# 2) Hider must not be in a win zone
+				# 3) Hider must not be frozen
+				if self.car == null and player.car == null and not is_in_winzone(player.playerBody) and not player.frozen:
+					freeze_hider(player)
 
 
-func is_in_winzone(hider) -> bool:
+func is_in_winzone(hider: KinematicBody) -> bool:
 	for zone in win_zones:
 		if zone.overlaps_body(hider):
 			return true
