@@ -283,7 +283,8 @@ puppet func network_update(networkPosition: Vector3, networkRotation: Vector3, n
 func _physics_process(delta):
 	if get_tree().network_peer != null and is_network_master():
 		velocity.y -= GRAVITY * delta
-		velocity = move_and_slide_with_snap(velocity, Vector3(0,-2,0), Vector3(0,1,0))
+		#velocity = move_and_slide_with_snap(velocity, Vector3(0,-2,0), Vector3(0,1,0))
+		velocity = move_and_slide(velocity, Vector3(0,1,0))
 		
 		velocity = velocity - (velocity.normalized() * (FRICTION * delta))
 		if velocity.length() <= MIN_SPEED:
