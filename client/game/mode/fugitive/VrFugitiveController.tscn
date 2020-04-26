@@ -10,6 +10,12 @@
 [node name="PlayerController" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
+[node name="OQ_ARVRCamera" parent="." index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.716302, 0 )
+
+[node name="OQ_LeftController" parent="." index="1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0.216302, -0.5 )
+
 [node name="IndicatorsContainer" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="2"]
 alignment = 1
 
@@ -84,3 +90,9 @@ align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="OQ_RightController" parent="." index="2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0.216302, -0.5 )
+
+[node name="Feature_PlayerCollision" parent="." index="4"]
+collision_mask = 15

@@ -42,19 +42,19 @@ spot_angle = 30.0
 [node name="Seats" type="Spatial" parent="."]
 
 [node name="CarSeat" parent="Seats" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 1.83398, -0.541356 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0.719833, -0.541356 )
 is_driver_seat = true
 
 [node name="CarSeat2" parent="Seats" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 1.83398, -0.541356 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0.719833, -0.541356 )
 is_driver_seat = false
 
 [node name="CarSeat3" parent="Seats" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 1.83398, 0.707853 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0.719833, 0.707853 )
 is_driver_seat = false
 
 [node name="CarSeat4" parent="Seats" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 1.83398, 0.707853 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0.719833, 0.707853 )
 is_driver_seat = false
 
 [node name="EnterArea" type="Area" parent="."]
