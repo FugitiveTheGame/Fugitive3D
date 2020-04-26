@@ -14,7 +14,7 @@ func _physics_process(delta):
 	if not player.gameStarted and (vr.button_just_released(vr.BUTTON.LEFT_INDEX_TRIGGER) or vr.button_just_released(vr.BUTTON.RIGHT_INDEX_TRIGGER)):
 		player.set_ready()
 
-	if vr.button_just_released(vr.BUTTON.B):
+	if vr.button_just_released(vr.BUTTON.A):
 		if player.car == null:
 			var cars := get_tree().get_nodes_in_group(Groups.CARS)
 			for car in cars:
