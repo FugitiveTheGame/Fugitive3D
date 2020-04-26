@@ -52,6 +52,14 @@ func get_free_seat() -> int:
 	return freeSeat
 
 
+func car_enter_failed():
+	rpc("on_car_enter_failed")
+
+
+remotesync func on_car_enter_failed():
+	$DoorLockedAudio.play()
+
+
 # Clients locally request to enter
 func request_enter_car(player: FugitivePlayer):
 	rpc_id(ServerNetwork.SERVER_ID, "on_request_enter_car", player.id)
@@ -75,6 +83,7 @@ remotesync func on_request_enter_car(playerId: int):
 		# Car starts locked, first cop unlocks it
 		if locked:
 			if isHider:
+				car_enter_failed()
 				return
 			else:
 				locked = false
@@ -82,12 +91,14 @@ remotesync func on_request_enter_car(playerId: int):
 			if driver_seat.occupant != null:
 				if driver_seat.occupant.playerType == GameData.PlayerType.Seeker:
 					# Hider can't get in the car when a Seeker is driving
+					car_enter_failed()
 					return
 		
 		print("Server: it's okay to enter the car")
 		rpc("on_car_entered", playerId, seatIndex)
 	else:
 		print("No free seats in car")
+		car_enter_failed()
 	
 	mutex.unlock()
 

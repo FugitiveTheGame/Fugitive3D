@@ -1,12 +1,17 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://common/game/mode/fugitive/FugitiveGame.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/game/mode/fugitive/ClientFugitiveGame.gd" type="Script" id=2]
-[ext_resource path="res://common/game/mode/fugitive/seeker_release.ogg" type="AudioStream" id=3]
+[ext_resource path="res://client/game/mode/fugitive/seeker_release.ogg" type="AudioStream" id=3]
+[ext_resource path="res://client/game/mode/fugitive/pregame-countdown.ogg" type="AudioStream" id=4]
 
 [node name="Game" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
 [node name="StartAudio" type="AudioStreamPlayer" parent="." index="1"]
 stream = ExtResource( 3 )
+volume_db = -10.0
+
+[node name="PregameCountdownAudio" type="AudioStreamPlayer" parent="." index="2"]
+stream = ExtResource( 4 )
 volume_db = -10.0

@@ -94,7 +94,7 @@ func on_state_headstart():
 
 
 func on_state_playing():
-	pregameHud.hide()
+	pregameHud.start_play_phase()
 
 
 func on_state_game_over():

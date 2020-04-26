@@ -13,9 +13,9 @@ script = ExtResource( 2 )
 [node name="VisibilityHud" parent="HudCanvas/HudContainer/BarsContainer" index="0" instance=ExtResource( 5 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 28.0
+margin_top = 24.0
 margin_right = 512.0
-margin_bottom = 76.0
+margin_bottom = 72.0
 playerPath = NodePath("../../../../Player")
 
 [node name="StaminaHud" parent="HudCanvas/HudContainer/BarsContainer" index="1"]
@@ -26,11 +26,15 @@ margin_left = -128.0
 grow_horizontal = 0
 
 [node name="CrouchingHud" parent="HudCanvas/HudContainer/IndicatorsContainer" index="0"]
+margin_top = 100.0
 margin_right = 128.0
+margin_bottom = 148.0
 playerPath = NodePath("../../../../Player")
 
 [node name="FrozenHud" parent="HudCanvas/HudContainer/IndicatorsContainer" index="1"]
+margin_top = 156.0
 margin_right = 128.0
+margin_bottom = 156.0
 playerPath = NodePath("../../../../Player")
 
 [node name="SafeZoneHud" parent="HudCanvas/HudContainer" index="2" instance=ExtResource( 6 )]

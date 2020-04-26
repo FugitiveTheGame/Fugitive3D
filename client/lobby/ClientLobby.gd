@@ -57,6 +57,7 @@ func on_start_lobby_countdown():
 	
 	$StartLabel.show()
 	$StartTimer.start()
+	$CountDownAudio.play()
 
 
 func _on_StartTimer_timeout():
