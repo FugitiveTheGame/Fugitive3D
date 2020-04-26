@@ -6,6 +6,10 @@ onready var player := get_node(playerPath) as Hider
 onready var label := $SafeLabel as Label
 
 
+func _ready():
+	label.hide()
+
+
 # If we are in a winzone, show the indicator
 func _physics_process(delta):
 	var isInWinZone := false
