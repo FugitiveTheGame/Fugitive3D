@@ -389,6 +389,12 @@ func _on_EnterArea_body_entered(body):
 			# If the player we just collided with is a Seeker
 			var collidedPlayer = body.get_player()
 			if collidedPlayer.playerType == GameData.PlayerType.Seeker:
-				# And the driver is a Hider
-				if driver_seat.occupant != null and driver_seat.occupant.playerType == GameData.PlayerType.Hider:
+				var hasHiders := false
+				for seat in seats:
+					if seat.occupant != null and driver_seat.occupant.playerType == GameData.PlayerType.Hider:
+						hasHiders = true
+						break
+				
+				# If the car has ANY hiders in it, eject everyone
+				if hasHiders:
 					eject_all_occupants()
