@@ -22,8 +22,11 @@ __Controls:__
 - Real Crouch - Crouch
 - Real Jump - Jump
 - X (hold) - Cops Lock car
-- B - Get in or out of car
+- B - Toggle HUD (_Better FPS on Quest with HUD off_)
 - Y - Toggle flashlight
+- Y - Honk Horn
+- A - Get in or out of car
+- Right Trigger - Break Car
 
 
 ## Server:
