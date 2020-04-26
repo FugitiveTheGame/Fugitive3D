@@ -79,9 +79,9 @@ __meta__ = {
 anchor_top = 1.0
 anchor_bottom = 1.0
 margin_left = 9.58188
-margin_top = -159.582
+margin_top = -169.582
 margin_right = 493.582
-margin_bottom = -8.58197
+margin_bottom = -11.5819
 __meta__ = {
 "_edit_use_anchors_": false
 }
