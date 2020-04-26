@@ -111,6 +111,7 @@ func remove_from_repository():
 	if public:
 		var data = {
 			"ip": serverInfo["ip"],
+			"port": serverInfo["port"]
 		}
 		
 		var body := JSON.print(data)
