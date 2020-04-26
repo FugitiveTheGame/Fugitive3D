@@ -117,4 +117,4 @@ func remove_from_repository():
 		var body := JSON.print(data)
 		var headers := ["Content-Type: application/json"]
 		var url := serverRepositoryUrl + "/remove"
-		removeRequest.request(url, headers, false, HTTPClient.METHOD_POST, body)
+		removeRequest.request(url, headers, false, HTTPClient.METHOD_DELETE, body)
