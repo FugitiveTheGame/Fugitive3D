@@ -62,7 +62,7 @@ func _process(delta):
 
 func on_car_entered(car):
 	locomotion.allowTurn = false
-	transform.origin.y -= (standingHeight * 0.65)
+	transform.origin.y -= (standingHeight * 0.45)
 	vr.vrOrigin.is_fixed = true
 
 

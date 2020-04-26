@@ -23,7 +23,7 @@ func set_standing_height():
 	# Other wise you could cheat during the game
 	if not player.gameStarted:
 		vr.log_info("Standing height set")
-		standingHeight = camera.translation.y
+		standingHeight = vr.get_current_player_height()
 		
 		hud.find_node("HeightLabel", true, false).text = "Height: %f m" % standingHeight
 	else:

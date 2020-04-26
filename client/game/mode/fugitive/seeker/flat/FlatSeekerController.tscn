@@ -12,15 +12,18 @@ script = ExtResource( 2 )
 HeldObjectPath = NodePath("Flashlight")
 car_lock_hud_path = NodePath("HudCanvas/HudContainer/BarsContainer/CarLockHud")
 
+[node name="Camera" parent="." index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.36891, 0 )
+
 [node name="HudCanvas" parent="." index="1"]
 follow_viewport_enable = true
 
 [node name="CarLockHud" parent="HudCanvas/HudContainer/BarsContainer" index="0" instance=ExtResource( 6 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 28.0
+margin_top = 24.0
 margin_right = 512.0
-margin_bottom = 76.0
+margin_bottom = 72.0
 
 [node name="StaminaHud" parent="HudCanvas/HudContainer/BarsContainer" index="1"]
 playerPath = NodePath("../../../../Player")
@@ -31,15 +34,24 @@ playerPath = NodePath("../../../../Player")
 [node name="FrozenHud" parent="HudCanvas/HudContainer/IndicatorsContainer" index="1"]
 playerPath = NodePath("../../../../Player")
 
+[node name="PregameHud" parent="HudCanvas/HudContainer" index="2"]
+anchor_top = 0.0
+anchor_bottom = 0.0
+margin_left = -150.0
+margin_top = 10.0
+margin_right = 137.0
+margin_bottom = 167.0
+
 [node name="Player" parent="." index="2" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0 )
 shapePath = NodePath("../CollisionShape")
 playerControllerPath = NodePath("..")
 playerBodyPath = NodePath("..")
 flash_light_path = NodePath("../Flashlight")
 
 [node name="CollisionShape" parent="." index="3" instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 0, 0 )
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 1.3, 0 )
 
 [node name="Flashlight" parent="." index="4" instance=ExtResource( 5 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.25, -0.5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.3, -0.5 )
 [connection signal="locking_complete" from="HudCanvas/HudContainer/BarsContainer/CarLockHud" to="." method="_on_CarLockHud_locking_complete"]
