@@ -6,6 +6,9 @@ onready var startButton := get_node(startButtonPath) as Button
 export(NodePath) var leaveButtonPath: NodePath
 onready var leaveButton := get_node(leaveButtonPath) as Button
 
+export(NodePath) var randomButtonPath: NodePath
+onready var randomButton := get_node(randomButtonPath) as Button
+
 
 func _ready():
 	ClientNetwork.connect("lost_connection_to_server", self, "on_disconnect")
@@ -34,10 +37,8 @@ func on_disconnect():
 func update_ui():
 	.update_ui()
 	
-	if is_host:
-		startButton.show()
-	else:
-		startButton.hide()
+	randomButton.disabled = not is_host
+	startButton.visible = is_host
 	
 	if startButton != null:
 		startButton.disabled = not can_start() or is_starting
@@ -59,3 +60,7 @@ func _on_StartTimer_timeout():
 	# The host will tell all other clients to start the game
 	if is_host:
 		ClientNetwork.start_game()
+
+
+func _on_RandomButton_pressed():
+	ServerNetwork.randomize_teams()
