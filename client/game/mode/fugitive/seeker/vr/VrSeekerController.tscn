@@ -16,18 +16,32 @@ transform = Transform( 0.896695, -0.0624614, 0.43822, 0, 0.989994, 0.141108, -0.
 [node name="CarLockHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/BarsContainer" index="0" instance=ExtResource( 6 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 28.0
+margin_top = 24.0
 margin_right = 380.0
-margin_bottom = 76.0
+margin_bottom = 72.0
 
 [node name="StaminaHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/BarsContainer" index="1"]
 playerPath = NodePath("../../../../../../Player")
 
 [node name="CrouchingHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/IndicatorsContainer" index="0"]
+margin_top = 100.0
+margin_bottom = 148.0
 playerPath = NodePath("../../../../../../Player")
 
 [node name="FrozenHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/IndicatorsContainer" index="1"]
+margin_top = 156.0
+margin_bottom = 156.0
 playerPath = NodePath("../../../../../../Player")
+
+[node name="HeightInstructionsLabel" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/HeightContainer" index="0"]
+margin_top = 16.0
+margin_right = 319.0
+margin_bottom = 41.0
+
+[node name="HeightLabel" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/HeightContainer" index="1"]
+margin_top = 49.0
+margin_right = 319.0
+margin_bottom = 74.0
 
 [node name="RemoteTransform" type="RemoteTransform" parent="OQ_RightController" index="0"]
 remote_path = NodePath("../../Flashlight")

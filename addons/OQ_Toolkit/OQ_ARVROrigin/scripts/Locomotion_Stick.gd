@@ -17,6 +17,9 @@ onready var movement_vignette_rect = $MovementVignette_ColorRect;
 export(vr.AXIS) var move_left_right = vr.AXIS.LEFT_JOYSTICK_X;
 export(vr.AXIS) var move_forward_back = vr.AXIS.LEFT_JOYSTICK_Y;
 
+export(NodePath) var hand_for_movment_path: NodePath
+onready var hand_for_movment := get_node(hand_for_movment_path) as ARVRController
+
 
 export(vr.LocomotionStickTurnType) var turn_type = vr.LocomotionStickTurnType.CLICK
 export var smooth_turn_speed := 90.0;
@@ -64,9 +67,17 @@ func move(dt):
 		return;
 		
 	if (enable_vignette) : movement_vignette_rect.visible = true;
-		
-	var view_dir = -vr.vrCamera.global_transform.basis.z;
-	var strafe_dir = vr.vrCamera.global_transform.basis.x;
+	
+	var view_dir: Vector3
+	var strafe_dir: Vector3
+	
+	# Use head if no hand was provided
+	if hand_for_movment == null:
+		view_dir = -vr.vrCamera.global_transform.basis.z;
+		strafe_dir = vr.vrCamera.global_transform.basis.x;
+	else:
+		view_dir = -hand_for_movment.global_transform.basis.z;
+		strafe_dir = hand_for_movment.global_transform.basis.x;
 	
 	view_dir.y = 0.0;
 	strafe_dir.y = 0.0;
