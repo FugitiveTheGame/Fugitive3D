@@ -6,6 +6,11 @@ func _exit_tree():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
 
+remotesync func on_go_to_lobby():
+	print("CLIENT: on_go_to_lobby()")
+	get_tree().change_scene("res://client/lobby/flat/FlatLobby.tscn")
+
+
 func on_disconnect():
 	get_tree().change_scene("res://client/main_menu/flat/FlatMainMenu.tscn")
 

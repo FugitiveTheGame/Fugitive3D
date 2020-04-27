@@ -90,3 +90,8 @@ func _on_ServerBrowser_connect_to_server(ip: String, port: int):
 func on_connect_request(ip: String, port: int):
 	var playerName := playerNameInput.text as String
 	connect_to_server(playerName, ip, port)
+
+
+func _on_ExitButton_pressed():
+	print("Closing game")
+	get_tree().quit()

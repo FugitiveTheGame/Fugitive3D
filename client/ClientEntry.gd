@@ -25,14 +25,12 @@ func go_to_flat():
 func go_to_pc_vr():
 	prepare_pc_vr()
 	
-	vr.scene_switch_root = self
 	vr.switch_scene("res://client/main_menu/vr/VrClientMainMenu.tscn")
 
 
 func go_to_mobile_vr():
 	prepare_mobile_vr()
 	
-	vr.scene_switch_root = self
 	vr.switch_scene("res://client/main_menu/vr/VrClientMainMenu.tscn")
 
 

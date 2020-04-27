@@ -7,8 +7,12 @@
 script = ExtResource( 2 )
 
 [node name="DebugButton" type="Button" parent="." index="5"]
-margin_right = 92.0
-margin_bottom = 37.0
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -104.42
+margin_top = 40.4182
+margin_right = -12.42
+margin_bottom = 77.4182
 text = "debug"
 __meta__ = {
 "_edit_use_anchors_": false

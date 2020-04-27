@@ -1,7 +1,9 @@
 extends ClientFugitiveGame
 
-func _ready():
-	vr.scene_switch_root = self
+
+remotesync func on_go_to_lobby():
+	print("CLIENT: on_go_to_lobby()")
+	vr.switch_scene("res://client/lobby/vr/VrLobby.tscn")
 
 
 func on_disconnect():
