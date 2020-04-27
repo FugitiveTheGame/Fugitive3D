@@ -1,5 +1,7 @@
 extends KinematicBody
 
+signal return_to_main_menu
+
 onready var camera := $Camera as FpsCamera
 onready var player := $Player as Player
 
@@ -10,7 +12,6 @@ func get_player() -> Player:
 export(float) var Sensitivity_X := 0.01
 export(float) var Sensitivity_Y := 0.005
 export(bool) var Invert_Y_Axis := false
-export(bool) var Exit_On_Escape := true
 export(float) var Maximum_Y_Look := 45
 export(float) var Crouch_Accelaration := 1.0
 export(float) var Walk_Accelaration := 3.0
@@ -33,15 +34,15 @@ func held_object_set(value: Spatial):
 func held_object_get() -> Spatial:
 	return heldObject
 
-var mouseCaptured: bool setget mouse_captured_set, mouse_captured_get
-func mouse_captured_set(value: bool):
-	mouseCaptured = value
-	if mouseCaptured:
-		Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-	else:
-		Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-func mouse_captured_get() -> bool:
-	return mouseCaptured
+func mouse_captured() -> bool:
+	return Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED
+
+func capture_mouse():
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+func release_mouse():
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
 
 var velocity := Vector3(0,0,0)
 var forward_velocity := 0.0
@@ -54,22 +55,14 @@ func _ready():
 	self.heldObject = get_node_or_null(HeldObjectPath)
 	
 	if not OS.has_touchscreen_ui_hint():
-		self.mouseCaptured = true
+		capture_mouse()
+	
 	self.camera.current = CameraIsCurrentOnStart
 	forward_velocity = Movement_Speed
 	update_camera_to_head()
 
 
 func _process(delta):
-	########################################
-	# Allow local user to exit the program
-	if Exit_On_Escape:
-		if Input.is_key_pressed(KEY_ESCAPE):
-			get_tree().quit()
-	else:
-		if Input.is_key_pressed(KEY_ESCAPE):
-			self.mouseCaptured = false
-	
 	########################################
 	# Handle input for gameplay purposes
 	player.isSprinting = Input.is_action_pressed("flat_player_sprint")
@@ -143,8 +136,11 @@ func _physics_process(delta):
 
 func _input(event):
 	# Don't process input if we aren't capturing the mouse
-	if not self.mouseCaptured:
+	if not mouse_captured():
 		return
+	
+	if event.is_action_released("flat_player_exit"):
+		$HudCanvas/HudContainer/ExitGameHud.show_dialog()
 	
 	if event is InputEventMouseMotion:
 		rotate_y(-Sensitivity_X * event.relative.x)
@@ -163,9 +159,9 @@ func _input(event):
 func _notification(what):
 	if is_inside_tree():
 		if what == MainLoop.NOTIFICATION_WM_FOCUS_IN:
-			self.mouseCaptured = true
+			capture_mouse()
 		elif what == MainLoop.NOTIFICATION_WM_FOCUS_OUT:
-			self.mouseCaptured = false
+			release_mouse()
 
 
 func update_camera_to_head():
@@ -174,3 +170,15 @@ func update_camera_to_head():
 	var local = to_local(global)
 	
 	camera.translation.y = local.y
+
+
+func _on_ExitGameHud_return_to_main_menu():
+	emit_signal("return_to_main_menu")
+
+
+func _on_ExitGameHud_on_exit_dialog_show():
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+
+func _on_ExitGameHud_on_exit_dialog_hide():
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
