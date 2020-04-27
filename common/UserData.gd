@@ -1,11 +1,12 @@
 extends Node
 
-const GAME_VERSION := '1.0'
+const GAME_VERSION := 0
 const USER_DATA_VERSION := 0
 
 var file_name := 'user://user_data.json'
 
 var data = get_default_data()
+
 
 static func get_default_data():
 	var default = {
