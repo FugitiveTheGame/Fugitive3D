@@ -41,6 +41,11 @@ func show_headstart_timer():
 	$HeadstartTimerLabel.show()
 
 
+func start_play_phase():
+	$CopsReleasedAudio.play()
+	hide()
+
+
 func _process(delta):
 	$StartTimerLabel.text = "Game starting: %s" % TimeUtils.format_seconds_for_display(startTimer.time_left)
 	$HeadstartTimerLabel.text = "Cops released in: %s" % TimeUtils.format_seconds_for_display(headstartTimer.time_left)

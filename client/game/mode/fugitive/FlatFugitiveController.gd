@@ -12,10 +12,10 @@ func _input(event):
 			var cars := get_tree().get_nodes_in_group(Groups.CARS)
 			for car in cars:
 				if car.enterArea.overlaps_body(player.playerBody):
-					car.enter_car(player)
+					car.request_enter_car(player)
 					break
 		else:
-			player.car.exit_car(player)
+			player.car.request_exit_car(player)
 	
 	if event.is_action_released("flat_car_horn"):
 		if player.car != null and player.car.is_driver(player.id):
@@ -25,7 +25,8 @@ func _input(event):
 func _process(delta):
 	allowMovement = not player.frozen and player.car == null
 	
-	if player.car != null:
+	# Only allow the driver to control the car
+	if player.car != null and player.car.is_driver(player.id):
 		var forward := Input.is_action_pressed("flat_player_up")
 		var backward := Input.is_action_pressed("flat_player_down")
 		var left := Input.is_action_pressed("flat_player_left")
@@ -60,7 +61,7 @@ func on_state_headstart():
 
 
 func on_state_playing():
-	$HudCanvas/HudContainer/PregameHud.hide()
+	$HudCanvas/HudContainer/PregameHud.start_play_phase()
 
 
 func on_state_game_over():

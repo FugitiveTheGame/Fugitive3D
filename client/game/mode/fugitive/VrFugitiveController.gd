@@ -14,17 +14,17 @@ func _physics_process(delta):
 	if not player.gameStarted and (vr.button_just_released(vr.BUTTON.LEFT_INDEX_TRIGGER) or vr.button_just_released(vr.BUTTON.RIGHT_INDEX_TRIGGER)):
 		player.set_ready()
 
-	if vr.button_just_released(vr.BUTTON.B):
+	if debounced_button_just_released(vr.BUTTON.A):
 		if player.car == null:
 			var cars := get_tree().get_nodes_in_group(Groups.CARS)
 			for car in cars:
 				if car.enterArea.overlaps_body(player.playerBody):
-					car.enter_car(player)
+					car.request_enter_car(player)
 					break
 		else:
-			player.car.exit_car(player)
+			player.car.request_exit_car(player)
 	
-	if vr.button_just_released(vr.BUTTON.Y):
+	if debounced_button_just_released(vr.BUTTON.LEFT_INDEX_TRIGGER):
 		if player.car != null and player.car.is_driver(player.id):
 			player.car.honk_horn()
 
@@ -35,7 +35,7 @@ func _process(delta):
 	
 	locomotion.allowMovement = not player.frozen and player.car == null
 	
-	if player.car != null:
+	if player.car != null and player.car.is_driver(player.id):
 		var x = -vr.get_controller_axis(vr.AXIS.RIGHT_JOYSTICK_X);
 		var y = vr.get_controller_axis(vr.AXIS.LEFT_JOYSTICK_Y);
 		
@@ -62,7 +62,7 @@ func _process(delta):
 
 func on_car_entered(car):
 	locomotion.allowTurn = false
-	transform.origin.y -= (standingHeight * 0.65)
+	transform.origin.y -= (standingHeight * 0.45)
 	vr.vrOrigin.is_fixed = true
 
 
@@ -94,7 +94,7 @@ func on_state_headstart():
 
 
 func on_state_playing():
-	pregameHud.hide()
+	pregameHud.start_play_phase()
 
 
 func on_state_game_over():

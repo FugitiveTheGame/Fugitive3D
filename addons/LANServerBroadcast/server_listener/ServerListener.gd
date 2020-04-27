@@ -5,6 +5,8 @@ signal new_server
 signal update_server
 signal remove_server
 
+const REPOSITORY_REFRESH_INTERVAL := 10.0
+
 var cleanUpTimer := Timer.new()
 var socketUDP := PacketPeerUDP.new()
 var listenPort := ServerAdvertiser.DEFAULT_PORT
@@ -30,7 +32,7 @@ func _init():
 func _ready():
 	knownServers.clear()
 	
-	serverRepoRequestTimer.wait_time = 10.0
+	serverRepoRequestTimer.wait_time = REPOSITORY_REFRESH_INTERVAL
 	serverRepoRequestTimer.one_shot = false
 	add_child(serverRepoRequestTimer)
 	serverRepoRequestTimer.connect("timeout", self, "request_servers")
@@ -97,7 +99,8 @@ func _exit_tree():
 
 
 func request_servers():
-	serverRepoRequest.request(serverRepositoryUrl)
+	var endpointUrl = serverRepositoryUrl + "/list"
+	serverRepoRequest.request(endpointUrl)
 
 
 func _on_ServerRepoRequest_request_completed(result, response_code, headers, body):

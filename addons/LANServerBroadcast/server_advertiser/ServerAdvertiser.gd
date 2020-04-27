@@ -2,6 +2,7 @@ extends Node
 class_name ServerAdvertiser, 'res://addons/LANServerBroadcast/server_advertiser/ServerAdvertiser.png'
 
 const DEFAULT_PORT := 32000
+const REPOSITORY_ADVERTISE_INTERVAL := 30.0
 
 # How often to broadcast out to the network that this host is active
 export (float) var broadcast_interval: float = 1.0
@@ -16,6 +17,7 @@ var public := false
 
 var ipRequest := HTTPRequest.new()
 var registerRequest := HTTPRequest.new()
+var removeRequest := HTTPRequest.new()
 
 var repositoryRegisterTimer := Timer.new()
 
@@ -29,6 +31,7 @@ func _ready():
 	ipRequest.connect("request_completed", self, "_on_IpRequest_request_completed")
 	
 	add_child(registerRequest)
+	add_child(removeRequest)
 	
 	if get_tree().is_network_server():
 		add_child(broadcastTimer)
@@ -37,8 +40,6 @@ func _ready():
 		socketUDP = PacketPeerUDP.new()
 		socketUDP.set_broadcast_enabled(true)
 		socketUDP.set_dest_address('255.255.255.255', broadcastPort)
-		
-		fetch_external_ip()
 
 
 # By default we only advertise on LAN
@@ -46,7 +47,9 @@ func _ready():
 func start_advertising_publicly():
 	public = true
 	
-	repositoryRegisterTimer.wait_time = 30.0
+	fetch_external_ip()
+	
+	repositoryRegisterTimer.wait_time = REPOSITORY_ADVERTISE_INTERVAL
 	add_child(repositoryRegisterTimer)
 	repositoryRegisterTimer.connect("timeout", self, "_on_RepositoryRegisterTimer_timeout")
 	repositoryRegisterTimer.start()
@@ -62,14 +65,17 @@ func _exit_tree():
 	broadcastTimer.stop()
 	if socketUDP != null:
 		socketUDP.close()
+	
+	remove_from_repository()
 
 
 func fetch_external_ip():
-	ipRequest.request("https://api.ipify.org/?format=json")
+	var endpointUrl := serverRepositoryUrl + "/getip"
+	ipRequest.request(endpointUrl)
 
 
 func _on_IpRequest_request_completed(result, response_code, headers, body):
-	if response_code == 200:
+	if response_code >= 200 and response_code < 300:
 		var json = parse_json(body.get_string_from_utf8())
 		print('External IP: %s' % json.ip)
 		externalIp = json.ip
@@ -83,7 +89,7 @@ func _on_IpRequest_request_completed(result, response_code, headers, body):
 
 func register_server():
 	if externalIp != null:
-		var url := serverRepositoryUrl
+		var url := serverRepositoryUrl + "/register"
 		
 		# Marshal the data for transmission
 		# They must all be strings
@@ -100,3 +106,16 @@ func register_server():
 
 func _on_RepositoryRegisterTimer_timeout():
 	register_server()
+
+
+func remove_from_repository():
+	if public:
+		var data = {
+			"ip": serverInfo["ip"],
+			"port": str(serverInfo["port"])
+		}
+		
+		var body := JSON.print(data)
+		var headers := ["Content-Type: application/json"]
+		var url := serverRepositoryUrl + "/remove"
+		removeRequest.request(url, headers, false, HTTPClient.METHOD_DELETE, body)

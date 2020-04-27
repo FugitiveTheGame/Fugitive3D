@@ -95,6 +95,16 @@ func update_all_players():
 	if not GameData.players.empty():
 		for playerId in GameData.players:
 			repopulate_player(playerId)
+		
+		# Ensure clients are in the same order for everyone
+		var playerIds = GameData.players.keys()
+		if playerIds.size() == playerList.get_children().size():
+			playerIds.sort()
+			for ii in range(playerIds.size()):
+				var playerId = playerIds[ii]
+				var node := find_player_node(playerId)
+				if node != null:
+					node.get_parent().move_child(node, ii)
 
 
 func can_start() -> bool:

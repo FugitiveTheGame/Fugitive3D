@@ -8,6 +8,7 @@ const DEFAULT_SPEED_SPRINT := 10.0
 const DEFAULT_STAMINA_MAX := 100.0
 const DEFAULT_STAMINA_SPRINT_RATE := 20.0
 const DEFAULT_STAMINA_REGEN_RATE := 5.0
+const JUMP_STAMINA_COST := DEFAULT_STAMINA_MAX / 4.0
 
 var speed_crouch := DEFAULT_SPEED_CROUCH
 var speed_walk := DEFAULT_SPEED_WALK
@@ -45,7 +46,11 @@ func set_is_sprinting(value: bool):
 		walking_sound.pitch_scale = 1.0
 
 
-var stamina := stamina_max
+var stamina := stamina_max setget set_stamina
+func set_stamina(value: float):
+	stamina = value
+	stamina = clamp(stamina, 0, DEFAULT_STAMINA_MAX)
+
 
 var show_avatar := true
 var is_crouching := false setget set_is_crouching

@@ -2,9 +2,32 @@
 It's Fugitive, with more Ds.
 
 ## Clients:
-**Flat:** This is the normal 3D client
+#### Flat:
+_This is the normal 3D client_
 
-**VR:** This client should run on both Oculus Quest as well as PC VR
+__Controls:__
+- WASD - Movement
+- Ctrl - Crouch
+- Space - Jump
+- Q (hold) - Cops Lock car
+- E - Get in or out of car
+- F - Toggle flashlight
+
+
+#### VR:
+_This client should run on both Oculus Quest as well as PC VR_
+
+__Controls:__
+- Left Stick - Movement
+- Real Crouch - Crouch
+- Real Jump - Jump
+- X (hold) - Cops Lock car
+- Y - Toggle HUD (_Better FPS on Quest with HUD off_)
+- B - Toggle flashlight
+- Left Trigger - Honk Horn
+- A - Get in or out of car
+- Right Trigger - Break Car
+
 
 ## Server:
 Download the Server [from here](https://godotengine.org/download/server)
@@ -33,6 +56,11 @@ To change the port that the server binds to, add this argument: `--port xxxxx`
 
 Personally I've created a shell script that contains that line called `run.sh` in that directory to make it quicker.
 
+## Server Arguments:
+`--port xxxxx` The port to bind to, default is `31000`
+`--name "My Server"` The name to show in the server browser
+`--public` advertises to the public Server Repository.
+
 ## Quick Dev
 To truly test things out, you need to run the server, spin up and connect multiple clients. It can all be done on one box, but it makes itteration times quite slow.
 
@@ -45,3 +73,12 @@ You can just edit `Game-dev.gd` to change which map it loads, but it can't load 
 ### Setting up a map for local testing
 1. Open `Game-dev.gd` and change the map path to the map you wish to load.
 2. Run the `Game-dev.tsch` scene directly ( **F6** )
+
+## Local testing with real clients
+There are scripts in `extras/scripts` to accelerate this:
+- `build_and_run_all.bat` will re-export both FlatClient and Server for Windows, then run the server, and then run 3 clients, all of whom will auto-connect to the server, each with unique names.
+- `run_all.bat` will just run 3 clients, all of whom will auto-connect to the server, each with unique names.
+- `run_client.bat` will run a single client, accepting 2 parameters:
+	1) Player Name
+	2) IP address to connect to
+- `run_server.bat` will run a windows server

@@ -10,15 +10,21 @@
 [node name="PlayerController" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
+[node name="OQ_ARVRCamera" parent="." index="0"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0 )
+
+[node name="OQ_LeftController" parent="." index="1"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 1.3, -0.5 )
+
 [node name="HudCanvas" parent="OQ_LeftController/VisibilityToggle" index="0"]
 transform = Transform( 0.896695, -0.0624614, 0.43822, 0, 0.989994, 0.141108, -0.442649, -0.126531, 0.887723, 0, 0.0652056, 0 )
 
 [node name="CarLockHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/BarsContainer" index="0" instance=ExtResource( 6 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 28.0
+margin_top = 24.0
 margin_right = 380.0
-margin_bottom = 76.0
+margin_bottom = 72.0
 
 [node name="StaminaHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/BarsContainer" index="1"]
 playerPath = NodePath("../../../../../../Player")
@@ -29,22 +35,33 @@ playerPath = NodePath("../../../../../../Player")
 [node name="FrozenHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/IndicatorsContainer" index="1"]
 playerPath = NodePath("../../../../../../Player")
 
+[node name="OQ_RightController" parent="." index="2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.3, -0.5 )
+
 [node name="RemoteTransform" type="RemoteTransform" parent="OQ_RightController" index="0"]
 remote_path = NodePath("../../Flashlight")
 
+[node name="Feature_Falling" parent="." index="3"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0 )
+
 [node name="Feature_PlayerCollision" parent="." index="4"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0 )
 collision_mask = 7
 playerPath = NodePath("../Player")
 
 [node name="CollisionShape" parent="Feature_PlayerCollision" index="0" instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 1, 0 )
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 0, 0 )
+
+[node name="Locomotion_Stick" parent="." index="5"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0 )
 
 [node name="Player" parent="." index="6" instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0 )
 shapePath = NodePath("../Feature_PlayerCollision/CollisionShape")
 playerControllerPath = NodePath("..")
 playerBodyPath = NodePath("../Feature_PlayerCollision")
 flash_light_path = NodePath("../Flashlight")
 
 [node name="Flashlight" parent="." index="7" instance=ExtResource( 5 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.5, -0.5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.3, -0.5 )
 [connection signal="locking_complete" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/BarsContainer/CarLockHud" to="." method="_on_CarLockHud_locking_complete"]
