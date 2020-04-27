@@ -95,7 +95,7 @@ func register_server():
 		# They must all be strings
 		var data = {
 			"ip": serverInfo["ip"],
-			"port": str(serverInfo["port"]),
+			"port": serverInfo["port"],
 			"name": serverInfo["name"],
 		}
 		
@@ -112,7 +112,7 @@ func remove_from_repository():
 	if public:
 		var data = {
 			"ip": serverInfo["ip"],
-			"port": str(serverInfo["port"])
+			"port": serverInfo["port"]
 		}
 		
 		var body := JSON.print(data)

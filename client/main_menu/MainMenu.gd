@@ -78,8 +78,8 @@ func go_to_lobby():
 	print("go_to_lobby() MUST BE OVERRIDEN")
 
 
-func _on_ServerBrowser_connect_to_server(ip, port):
-	on_connect_request(ip, int(port))
+func _on_ServerBrowser_connect_to_server(ip: String, port: int):
+	on_connect_request(ip, port)
 
 
 func on_connect_request(ip: String, port: int):
