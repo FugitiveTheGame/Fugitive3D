@@ -22,9 +22,8 @@ func _on_ServerListener_remove_server(serverIp):
 
 
 func add_server(serverInfo):
-	var serverVersion := serverInfo["game_version"] as int
-	if serverVersion != UserData.GAME_VERSION:
-		print("Warning: Server is wrong version (%d), throwing it away" % serverVersion)
+	if not serverInfo.has("game_version") or (serverInfo["game_version"] as int) != UserData.GAME_VERSION:
+		print("Warning: Server is wrong version, throwing it away")
 	else:
 		var serverNode := serverListItemScene.instance()
 		serverNode.populate(serverInfo)

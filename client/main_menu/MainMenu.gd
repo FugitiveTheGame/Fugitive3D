@@ -11,6 +11,9 @@ onready var serverIpInput := get_node(serverIpPath) as LineEdit
 export(NodePath) var serverPortPath: NodePath
 onready var serverPortInput := get_node(serverPortPath) as LineEdit
 
+export(NodePath) var versionLabelPath: NodePath
+onready var versionLabel := get_node(versionLabelPath) as Label
+
 
 func _enter_tree():
 	get_tree().connect("connected_to_server", self, "on_connected_to_server")
@@ -26,6 +29,8 @@ func _exit_tree():
 
 
 func _ready():
+	versionLabel.text = "v%d" % UserData.GAME_VERSION
+	
 	playerNameInput.text = UserData.data.user_name
 	serverIpInput.text = UserData.data.last_ip
 	serverPortInput.text = str(UserData.data.last_port)
