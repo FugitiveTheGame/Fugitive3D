@@ -16,16 +16,18 @@
 script = ExtResource( 1 )
 
 [node name="OQ_ARVRCamera" parent="." instance=ExtResource( 6 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 current = true
 far = 300.0
 
 [node name="OQ_LeftController" parent="." instance=ExtResource( 3 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, -0.375232, -0.5 )
 
 [node name="VisibilityToggle" parent="OQ_LeftController" instance=ExtResource( 10 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0 )
 
 [node name="HudCanvas" parent="OQ_LeftController/VisibilityToggle" instance=ExtResource( 8 )]
-transform = Transform( 0.896695, -0.0624615, 0.43822, 0, 0.989994, 0.141109, -0.442649, -0.126531, 0.887723, 0, 0.0652056, 0 )
+transform = Transform( 0.896695, -0.0624615, 0.43822, 0, 0.989994, 0.141109, -0.442649, -0.126531, 0.887723, 0, 0, 0 )
 editor_live_update = false
 transparent = true
 
@@ -82,11 +84,14 @@ margin_right = 48.0
 margin_bottom = 256.0
 
 [node name="OQ_RightController" parent="." instance=ExtResource( 4 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, -0.375232, -0.5 )
 
 [node name="Feature_Falling" parent="." instance=ExtResource( 7 )]
 
 [node name="Feature_PlayerCollision" type="KinematicBody" parent="."]
 collision_mask = 11
 script = ExtResource( 2 )
+capsule_radius = 0.3
 
 [node name="Locomotion_Stick" parent="." instance=ExtResource( 5 )]
+hand_for_movment_path = NodePath("../OQ_LeftController")

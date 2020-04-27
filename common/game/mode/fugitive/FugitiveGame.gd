@@ -88,8 +88,15 @@ remotesync func on_finish_game(playerType: int):
 	
 	winningTeam = playerType
 	
-	# There are only 2 valid states that the game can be finished from
-	if curState == FugitiveStateMachine.STATE_PLAYING_HEADSTART:
+	if curState == FugitiveStateMachine.STATE_CONFIGURING:
+		stateMachine.transition_by_name(FugitiveStateMachine.TRANS_END_GAME_ABORT_4)
+	elif curState == FugitiveStateMachine.STATE_NOT_READY:
+		stateMachine.transition_by_name(FugitiveStateMachine.TRANS_END_GAME_ABORT_3)
+	elif curState == FugitiveStateMachine.STATE_READY:
+		stateMachine.transition_by_name(FugitiveStateMachine.TRANS_END_GAME_ABORT_2)
+	elif curState == FugitiveStateMachine.STATE_COUNTDOWN:
+		stateMachine.transition_by_name(FugitiveStateMachine.TRANS_END_GAME_ABORT_1)
+	elif curState == FugitiveStateMachine.STATE_PLAYING_HEADSTART:
 		stateMachine.transition_by_name(FugitiveStateMachine.TRANS_END_GAME_EARLY)
 	elif curState == FugitiveStateMachine.STATE_PLAYING:
 		stateMachine.transition_by_name(FugitiveStateMachine.TRANS_END_GAME)

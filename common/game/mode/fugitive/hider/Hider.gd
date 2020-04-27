@@ -6,6 +6,9 @@ const GROUP := "hider"
 var current_visibility := 1.0 setget set_current_visibility
 
 onready var freeze_sound := $FreezeSound as AudioStreamPlayer3D
+onready var unfreeze_sound := $UnfreezeSound as AudioStreamPlayer3D
+var initialFreeze := true
+
 
 func _ready():
 	playerType = GameData.PlayerType.Hider
@@ -48,6 +51,11 @@ remotesync func on_freeze():
 remotesync func on_unfreeze():
 	.on_unfreeze()
 	playerShape.get_frozen_shape().hide()
+	
+	if gameStarted and not initialFreeze:
+		unfreeze_sound.play()
+	else:
+		initialFreeze = false
 
 
 func on_state_playing_headstart():

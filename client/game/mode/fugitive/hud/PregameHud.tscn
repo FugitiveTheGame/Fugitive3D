@@ -1,24 +1,28 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://client/game/mode/fugitive/hud/PregameHud.gd" type="Script" id=1]
+[ext_resource path="res://client/game/mode/fugitive/hud/cops_released.ogg" type="AudioStream" id=2]
 
 [node name="PregameHud" type="VBoxContainer"]
 margin_right = 14.0
 margin_bottom = 14.0
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="PlayerClassLabel" type="Label" parent="."]
-margin_right = 169.0
-margin_bottom = 24.0
+margin_right = 287.0
+margin_bottom = 25.0
 rect_min_size = Vector2( 0, 24 )
 text = "You are a: Hider"
 align = 1
 valign = 1
 
 [node name="NotReadyLabel" type="Label" parent="."]
-margin_top = 28.0
-margin_right = 169.0
-margin_bottom = 42.0
+margin_top = 33.0
+margin_right = 287.0
+margin_bottom = 58.0
 text = "Press JUMP to ready up"
 align = 1
 __meta__ = {
@@ -26,9 +30,9 @@ __meta__ = {
 }
 
 [node name="ReadyLabel" type="Label" parent="."]
-margin_top = 46.0
-margin_right = 169.0
-margin_bottom = 60.0
+margin_top = 66.0
+margin_right = 287.0
+margin_bottom = 91.0
 text = "Waiting for other players..."
 align = 1
 __meta__ = {
@@ -36,9 +40,9 @@ __meta__ = {
 }
 
 [node name="StartTimerLabel" type="Label" parent="."]
-margin_top = 64.0
-margin_right = 169.0
-margin_bottom = 78.0
+margin_top = 99.0
+margin_right = 287.0
+margin_bottom = 124.0
 text = "Game starts in: 00:00"
 align = 1
 __meta__ = {
@@ -46,11 +50,15 @@ __meta__ = {
 }
 
 [node name="HeadstartTimerLabel" type="Label" parent="."]
-margin_top = 82.0
-margin_right = 169.0
-margin_bottom = 96.0
+margin_top = 132.0
+margin_right = 287.0
+margin_bottom = 157.0
 text = "Game starts in: 00:00"
 align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="CopsReleasedAudio" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 2 )
+volume_db = -10.0

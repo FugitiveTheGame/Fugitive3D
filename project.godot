@@ -204,6 +204,10 @@ enabled=PoolStringArray( "Fugitive3D", "LANServerBroadcast" )
 singletons=[ "res://addons/godot-oculus/godot_oculus.gdnlib", "res://addons/godot-openvr/godot_openvr.gdnlib", "res://addons/godot_ovrmobile/godot_ovrmobile.gdnlib" ]
 singletons_disabled=[ "res://addons/godot-oculus/godot_oculus.gdnlib" ]
 
+[gui]
+
+theme/use_hidpi=true
+
 [input]
 
 flat_player_up={
@@ -286,4 +290,5 @@ limits/message_queue/max_size_kb=2048
 [rendering]
 
 threads/thread_model=2
+environment/default_clear_color=Color( 0.117647, 0.101961, 0.188235, 1 )
 environment/default_environment="res://default_env.tres"

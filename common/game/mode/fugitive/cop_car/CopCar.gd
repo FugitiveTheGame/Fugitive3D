@@ -22,6 +22,8 @@ var isBreaking := false
 
 var locked := true
 
+var mutex := Mutex.new()
+
 onready var headlight_ray_caster := $RayCast as RayCast
 onready var drivingAudio := $DrivingAudio as AudioStreamPlayer3D
 
@@ -38,30 +40,50 @@ func _ready():
 				driver_seat = seat
 
 
-func get_free_seat() -> CarSeat:
-	var freeSeat: CarSeat = null
+func get_free_seat() -> int:
+	var freeSeat: int = -1
 	
-	for seat in seats:
+	for ii in range(seats.size()):
+		var seat = seats[ii]
 		if seat.is_empty():
-			freeSeat = seat
+			freeSeat = ii
 			break
 	
 	return freeSeat
 
 
-func enter_car(player: FugitivePlayer):
-	rpc("on_enter_car", player.id)
+func car_enter_failed():
+	rpc("on_car_enter_failed")
 
 
-remotesync func on_enter_car(playerId: int):
-	var seat := get_free_seat()
-	if seat != null:
+remotesync func on_car_enter_failed():
+	$DoorLockedAudio.play()
+
+
+# Clients locally request to enter
+func request_enter_car(player: FugitivePlayer):
+	rpc_id(ServerNetwork.SERVER_ID, "on_request_enter_car", player.id)
+
+
+# The servers decides if user can enter, and what seat they will enter into
+remotesync func on_request_enter_car(playerId: int):
+	if not get_tree().is_network_server():
+		return
+	
+	mutex.lock()
+	
+	print("on_request_enter_car")
+	
+	var seatIndex := get_free_seat()
+	if seatIndex > -1:
+		var seat = seats[seatIndex]
 		var player = GameData.currentGame.get_player(playerId)
 		
 		var isHider = player.playerType == GameData.PlayerType.Hider
 		# Car starts locked, first cop unlocks it
 		if locked:
 			if isHider:
+				car_enter_failed()
 				return
 			else:
 				locked = false
@@ -69,45 +91,76 @@ remotesync func on_enter_car(playerId: int):
 			if driver_seat.occupant != null:
 				if driver_seat.occupant.playerType == GameData.PlayerType.Seeker:
 					# Hider can't get in the car when a Seeker is driving
+					car_enter_failed()
 					return
 		
-		
-		# Disable personal colission so you can be inside the car's colission shape
-		player.playerShape.disabled = true
-		
-		get_parent().remove_child(player.playerController)
-		add_child(player.playerController)
-		player.playerController.transform = seat.transform
-		
-		player.car = self
-		seat.occupant = player
-		
-		if seat.is_driver_seat:
-			set_network_master(playerId)
-		
-		print("Car entered")
-		
-		player.playerController.on_car_entered(self)
-		
-		$DoorAudio.play()
+		print("Server: it's okay to enter the car")
+		rpc("on_car_entered", playerId, seatIndex)
 	else:
 		print("No free seats in car")
-
-
-func exit_car(player: FugitivePlayer):
-	rpc("on_exit_car", player.id)
-
-
-remotesync func on_exit_car(playerId: int) -> bool:
-	var carLeft: bool
+		car_enter_failed()
 	
+	mutex.unlock()
+
+
+# Then it tells all clients what player is entering what seat in the car
+remotesync func on_car_entered(playerId: int, seatIndex: int):
+	mutex.lock()
+	var player = GameData.currentGame.get_player(playerId)
+	var seat = seats[seatIndex]
+		
+	var isHider = player.playerType == GameData.PlayerType.Hider
+	# Car starts locked, first cop unlocks it
+	if locked:
+		if isHider:
+			return
+		else:
+			locked = false
+		
+	# Disable personal colission so you can be inside the car's colission shape
+	player.playerShape.disabled = true
+	
+	get_parent().remove_child(player.playerController)
+	add_child(player.playerController)
+	player.playerController.transform = seat.transform
+	
+	player.car = self
+	seat.occupant = player
+	
+	if seat.is_driver_seat:
+		set_network_master(playerId, false)
+	
+	print("Car entered")
+	
+	player.playerController.on_car_entered(self)
+	
+	$DoorAudio.play()
+	mutex.unlock()
+
+
+func request_exit_car(player: FugitivePlayer):
+	rpc_id(ServerNetwork.SERVER_ID, "on_request_exit_car", player.id)
+
+
+remotesync func on_request_exit_car(playerId: int):
+	if not get_tree().is_network_server():
+		return
+	
+	mutex.lock()
 	var player = GameData.currentGame.get_player(playerId)
 	
-	var seat = null
-	for s in seats:
-		if s.occupant == player:
-			seat = s
-			break
+	# Server validates that this is ok, then tells all clients what to do
+	var seatIndex := find_occupants_seat(player)
+	if seatIndex > -1:
+		rpc("on_exit_car", player.id, seatIndex)
+	mutex.unlock()
+
+
+remotesync func on_exit_car(playerId: int, seatIndex: int):
+	mutex.lock()
+	var player = GameData.currentGame.get_player(playerId)
+	
+	var seat = seats[seatIndex]
 	
 	if seat != null:
 		player.car = null
@@ -118,23 +171,48 @@ remotesync func on_exit_car(playerId: int) -> bool:
 		get_parent().add_child(player.playerController)
 		
 		if seat.is_driver_seat:
-			set_network_master(ServerNetwork.SERVER_ID)
+			set_network_master(ServerNetwork.SERVER_ID, false)
 		
 		player.playerShape.disabled = false
 		
 		player.playerController.transform = transform
 		player.playerController.transform.origin.y += 1.0
 		player.playerController.transform.origin.x += 1.0
+		player.playerController.transform.origin.z += 1.0
 		
 		player.playerController.on_car_exited(self)
 		
 		$DoorAudio.play()
-		
-		carLeft = true
+		print("Car exited")
 	else:
-		carLeft = false
+		print("ERROR: Failed to exit car. Player: %d seat: %d" % [playerId, seatIndex])
+	mutex.unlock()
+
+
+func find_occupants_seat(player: FugitivePlayer) -> int:
+	var seatIndex := -1
+	for ii in range(seats.size()):
+		var seat = seats[ii]
+		if seat.occupant == player:
+			seatIndex = ii
+			break
+	return seatIndex
+
+
+func eject_all_occupants():
+	rpc("on_eject_all_occupants")
+
+
+# Then kick everyone out of the car and lock it
+remotesync func on_eject_all_occupants():
+	for seatIndex in range(seats.size()):
+		var seat = seats[seatIndex]
+		if seat.occupant != null:
+			print("Ejecting %d" % seat.occupant.id)
+			# Do this locally, don't call exit_car()
+			on_exit_car(seat.occupant.id, seatIndex)
 	
-	return carLeft
+	lock()
 
 
 func has_occupants() -> bool:
@@ -200,7 +278,7 @@ func process_input(forward: bool, backward: bool, left: bool, right: bool, break
 	if velocity.length() > MIN_SPEED:
 		var direction := 1.0
 		if backward:
-				direction = -1.0
+			direction = -1.0
 		
 		if left:
 			rotate(Vector3(0.0, 1.0, 0.0), ROTATION * direction * delta)
@@ -220,8 +298,6 @@ func _physics_process(delta):
 		velocity = move_and_slide_with_snap(velocity, Vector3(0,-2,0), Vector3(0,1,0))
 		
 		velocity = velocity - (velocity.normalized() * (FRICTION * delta))
-		if velocity.length() <= MIN_SPEED:
-			velocity = Vector3()
 		
 		rpc_unreliable("network_update", translation, rotation, velocity)
 	else:
@@ -229,12 +305,16 @@ func _physics_process(delta):
 		velocity = move_and_slide_with_snap(velocity, Vector3(0,-2,0), Vector3(0,1,0))
 
 
+func get_movment_speed() -> float:
+	return Vector3(velocity.x, 0.0, velocity.z).length()
+
+
 func is_moving() -> bool:
-	return Vector3(velocity.x, 0.0, velocity.z).length() > 1.0
+	return get_movment_speed() > MIN_SPEED
 
 
 func is_moving_fast() -> bool:
-	return Vector3(velocity.x, 0.0, velocity.z).length() > (MAX_SPEED * 0.90)
+	return get_movment_speed() > (MAX_SPEED * 0.90)
 
 
 func honk_horn():
@@ -323,12 +403,12 @@ func _on_EnterArea_body_entered(body):
 			# If the player we just collided with is a Seeker
 			var collidedPlayer = body.get_player()
 			if collidedPlayer.playerType == GameData.PlayerType.Seeker:
-				# And the driver is a Hider
-				if driver_seat.occupant != null and driver_seat.occupant.playerType == GameData.PlayerType.Hider:
-					# Then kick everyone out of the car and lock it
-					for seat in seats:
-						if seat.occupant != null:
-							print("Ejecting %d" % seat.occupant.id)
-							exit_car(seat.occupant)
-					
-					lock()
+				var hasHiders := false
+				for seat in seats:
+					if seat.occupant != null and driver_seat.occupant.playerType == GameData.PlayerType.Hider:
+						hasHiders = true
+						break
+				
+				# If the car has ANY hiders in it, eject everyone
+				if hasHiders:
+					eject_all_occupants()

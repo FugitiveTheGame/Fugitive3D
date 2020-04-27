@@ -29,6 +29,26 @@ func _ready():
 	playerNameInput.text = UserData.data.user_name
 	serverIpInput.text = UserData.data.last_ip
 	serverPortInput.text = str(UserData.data.last_port)
+	
+	var args := OS.get_cmdline_args()
+	print("Command Line args: %d" % [args.size()])
+	if (args.size() > 0):
+		for arg in args:
+			print("    : %s" % arg)
+			var keyValuePair = arg.split("=")
+			
+			match keyValuePair[0]:
+				"--name":
+					playerNameInput.text = keyValuePair[1]
+					# Also override the default file save path so each test user has its own settings.
+					UserData.file_name = 'user://user_data-%s.json' % playerNameInput.text
+				"--ip":
+					serverIpInput.text = keyValuePair[1]
+				_:
+					print("UNKNOWN ARGUMENT %s" % keyValuePair[0])
+	
+	if (args.size() > 0):
+		connect_to_server(playerNameInput.text, serverIpInput.text, int(serverPortInput.text))
 
 
 func _on_ConnectButton_pressed():
