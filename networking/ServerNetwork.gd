@@ -3,7 +3,7 @@ extends Node
 const SERVER_PORT := 31000
 const SERVER_ID := 1
 var SERVER_REPOSITORY_URL: String
-const MAX_PLAYERS := 15
+const MAX_PLAYERS := 10
 
 # Set to true to point at a locally running instance of the ServerRepository
 const debug_local := false
