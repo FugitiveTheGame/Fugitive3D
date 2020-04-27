@@ -43,6 +43,7 @@ func pre_configure():
 	localPlayer = get_tree().get_nodes_in_group(Groups.LOCAL_PLAYER)[0] as Player
 	# Game listens to player in order to change state
 	localPlayer.connect("local_player_ready", self, "local_player_ready")
+	localPlayer.playerController.connect("return_to_main_menu", self, "on_return_to_main_menu")
 	
 	print("Sending client configured")
 	if not get_tree().is_network_server():
@@ -69,3 +70,14 @@ func on_state_countdown(current_state: State, transition: Transition):
 func on_state_playing_headstart(current_state: State, transition: Transition):
 	print("Playing start sound")
 	$StartAudio.play()
+
+
+# User request to leave the game
+func on_return_to_main_menu():
+	ClientNetwork.reset_network()
+	call_deferred("goto_main_menu")
+
+
+func goto_main_menu():
+	print("goto_main_menu() MUST BE OVERIDDEN")
+	assert(false)

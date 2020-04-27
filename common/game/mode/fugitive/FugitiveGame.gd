@@ -12,7 +12,7 @@ var gameStarted := false
 var winningTeam: int
 
 func is_game_over() -> bool:
-	return stateMachine.current_state.name == FugitiveStateMachine.STATE_GAME_OVER
+	return stateMachine == null or stateMachine.current_state.name == FugitiveStateMachine.STATE_GAME_OVER
 
 
 func get_team_name(teamid: int) -> String:

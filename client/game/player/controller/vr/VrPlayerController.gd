@@ -1,13 +1,18 @@
 extends "res://addons/OQ_Toolkit/OQ_ARVROrigin/scripts/OQ_ARVROrigin.gd"
 
+signal return_to_main_menu
+
 var standingHeight: float = -1.0
 const CROUCH_THRESHOLD := 0.75
 
 onready var camera := $OQ_ARVRCamera
 onready var player := $Player as Player
 onready var locomotion := $Locomotion_Stick
+onready var hudVisibilityToggle := $OQ_LeftController/VisibilityToggle
 onready var hud := $OQ_LeftController/VisibilityToggle/HudCanvas.find_node("HudContainer", true, false) as Control
 onready var fpsLabel := $OQ_LeftController/VisibilityToggle/HudCanvas.find_node("FpsLabel", true, false) as Label
+onready var uiRaycast := $OQ_RightController/Feature_UIRayCast
+onready var exitGameHud := hud.find_node("ExitGameHud", true, false)
 
 const DEBOUNCE_THRESHOLD_MS := 100
 var debounceBookKeeping = {}
@@ -71,6 +76,10 @@ func _process(delta):
 	if debounced_button_just_released(vr.BUTTON.B):
 		set_standing_height()
 	
+	if debounced_button_just_released(vr.BUTTON.ENTER):
+		hudVisibilityToggle.visible = true
+		exitGameHud.show_dialog()
+	
 	player.isSprinting = vr.button_pressed(vr.BUTTON.A)
 	player.isMoving = locomotion.is_moving
 	
@@ -93,3 +102,15 @@ func _physics_process(delta):
 	
 	var fps := Engine.get_frames_per_second()
 	fpsLabel.text = ("%d fps" % fps)
+
+
+func _on_ExitGameHud_return_to_main_menu():
+	emit_signal("return_to_main_menu")
+
+
+func _on_ExitGameHud_on_exit_dialog_show():
+	uiRaycast.show()
+
+
+func _on_ExitGameHud_on_exit_dialog_hide():
+	uiRaycast.hide()

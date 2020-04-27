@@ -24,7 +24,7 @@ func _ready():
 
 func _input(event):
 	# Don't process input if we aren't capturing the mouse
-	if not fpsController.mouseCaptured:
+	if not fpsController.mouse_captured():
 		return
 	
 	if event is InputEventMouseMotion:
