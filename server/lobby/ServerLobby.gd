@@ -28,6 +28,7 @@ func _exit_tree():
 func _ready():
 	advertiser.serverInfo["port"] = serverPort
 	advertiser.serverInfo["name"] = serverName
+	advertiser.serverInfo["game_version"] = UserData.GAME_VERSION
 	advertiser.serverRepositoryUrl = ServerNetwork.SERVER_REPOSITORY_URL
 	
 	if get_public():

@@ -22,10 +22,14 @@ func _on_ServerListener_remove_server(serverIp):
 
 
 func add_server(serverInfo):
-	var serverNode := serverListItemScene.instance()
-	serverNode.populate(serverInfo)
-	serverNode.connect("connect_to_server", self, "on_connect_request")
-	serverList.add_child(serverNode)
+	var serverVersion := serverInfo["game_version"] as int
+	if serverVersion != UserData.GAME_VERSION:
+		print("Warning: Server is wrong version (%d), throwing it away" % serverVersion)
+	else:
+		var serverNode := serverListItemScene.instance()
+		serverNode.populate(serverInfo)
+		serverNode.connect("connect_to_server", self, "on_connect_request")
+		serverList.add_child(serverNode)
 
 
 func remove_server(serverIp):
@@ -56,4 +60,5 @@ func _on_RefreshButton_pressed():
 
 func _on_ServerListener_update_server(serverInfo):
 	var serverNode := get_server(serverInfo.ip)
-	serverNode.populate(serverInfo)
+	if serverNode != null:
+		serverNode.populate(serverInfo)
