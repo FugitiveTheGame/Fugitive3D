@@ -9,6 +9,7 @@ func _enter_tree():
 	
 	# Silence the start sound
 	(GameData.currentGame.get_node("StartAudio") as AudioStreamPlayer).volume_db = -100.0
+	(GameData.currentGame.get_node("PregameCountdownAudio") as AudioStreamPlayer).volume_db = -100.0
 	
 	# Start a local server, the whole game expects to be multiplayer	
 	var peer := NetworkedMultiplayerENet.new()
