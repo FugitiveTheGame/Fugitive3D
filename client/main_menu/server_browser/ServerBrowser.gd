@@ -46,7 +46,7 @@ func get_server(serverIp) -> Control:
 
 
 # Just re-emit
-func on_connect_request(ip, port):
+func on_connect_request(ip: String, port: int):
 	emit_signal("connect_to_server", ip, port)
 
 
