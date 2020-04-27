@@ -24,24 +24,26 @@ func go_to_flat():
 
 func go_to_pc_vr():
 	prepare_pc_vr()
-	get_tree().change_scene("res://client/main_menu/vr/VrClientMainMenu.tscn")
+	
+	vr.scene_switch_root = self
+	vr.switch_scene("res://client/main_menu/vr/VrClientMainMenu.tscn")
 
 
 func go_to_mobile_vr():
 	prepare_mobile_vr()
-	get_tree().change_scene("res://client/main_menu/vr/VrClientMainMenu.tscn")
+	
+	vr.scene_switch_root = self
+	vr.switch_scene("res://client/main_menu/vr/VrClientMainMenu.tscn")
 
 
 func prepare_pc_vr():
 	vr.initialize()
-	vr.scene_switch_root = self
 
 
 func prepare_mobile_vr():
 	print("Configuring for Mobile VR")
 	
 	vr.initialize()
-	vr.scene_switch_root = self
 	
 	var ovrPerformance = preload("res://addons/godot_ovrmobile/OvrPerformance.gdns").new()
 	

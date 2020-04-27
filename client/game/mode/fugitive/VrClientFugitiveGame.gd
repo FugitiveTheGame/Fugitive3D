@@ -1,5 +1,8 @@
 extends ClientFugitiveGame
 
+func _ready():
+	vr.scene_switch_root = self
+
 
 func on_disconnect():
 	vr.switch_scene("res://client/main_menu/vr/VrClientMainMenu.tscn")
