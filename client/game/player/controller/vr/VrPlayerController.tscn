@@ -91,6 +91,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, -0.375232, -0.5 )
 [node name="Feature_PlayerCollision" type="KinematicBody" parent="."]
 collision_mask = 11
 script = ExtResource( 2 )
+capsule_radius = 0.3
 
 [node name="Locomotion_Stick" parent="." instance=ExtResource( 5 )]
 hand_for_movment_path = NodePath("../OQ_LeftController")
