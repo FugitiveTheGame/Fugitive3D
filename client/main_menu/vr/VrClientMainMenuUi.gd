@@ -1,5 +1,9 @@
 extends "res://client/main_menu/MainMenu.gd"
 
+func _ready():
+	$DebugButton.visible = OS.is_debug_build()
+
+
 func go_to_lobby():
 	vr.switch_scene("res://client/lobby/vr/VrLobby.tscn")
 

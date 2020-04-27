@@ -11,31 +11,6 @@ func on_disconnect():
 	assert(false)
 
 
-remotesync func on_go_to_lobby():
-	print("CLIENT: on_go_to_lobby()")
-	
-	if OS.has_feature("client_flat"):
-		go_to_flat_lobby()
-	elif OS.has_feature("client_vr_desktop"):
-		go_to_pc_vr_lobby()
-	elif OS.has_feature("client_vr_mobile"):
-		go_to_mobile_vr_lobby()
-	else:
-		go_to_flat_lobby()
-
-
-func go_to_flat_lobby():
-	get_tree().change_scene("res://client/lobby/flat/FlatLobby.tscn")
-
-
-func go_to_pc_vr_lobby():
-	get_tree().change_scene("res://client/lobby/vr/VrLobby.tscn")
-
-
-func go_to_mobile_vr_lobby():
-	get_tree().change_scene("res://client/lobby/vr/VrLobby.tscn")
-
-
 func pre_configure():
 	.pre_configure()
 	
@@ -45,11 +20,13 @@ func pre_configure():
 	localPlayer.connect("local_player_ready", self, "local_player_ready")
 	localPlayer.playerController.connect("return_to_main_menu", self, "on_return_to_main_menu")
 	
-	print("Sending client configured")
+	
 	if not get_tree().is_network_server():
+		print("Sending client configured")
 		rpc_id(ServerNetwork.SERVER_ID, "on_client_configured", get_tree().get_network_unique_id())
 	# This is a special case to help development testing
 	else:
+		print("DEV: forcing on_all_clients_configured")
 		on_all_clients_configured()
 
 
