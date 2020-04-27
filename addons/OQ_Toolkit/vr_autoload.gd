@@ -553,7 +553,7 @@ var _switch_performed := false;
 
 var switch_scene_in_progress := false;
 
-func switch_scene(scene_path, fade_time = 0.1, wait_time = 0.0):
+func switch_scene(scene_path, fade_time = 1.0, wait_time = 0.0):
 	if (wait_time > 0.0 && _active_scene_path != null):
 		yield(get_tree().create_timer(wait_time), "timeout")
 
@@ -578,7 +578,7 @@ func _check_for_scene_switch_and_fade(dt):
 	switch_scene_in_progress = false;
 	if (_target_scene_path != null && !_switch_performed):
 		if (_scene_switch_fade_out_time < _scene_switch_fade_out_duration):
-			var c = 1.0 - _scene_switch_fade_out_time / _scene_switch_fade_out_duration;
+			var c = 1.0 - min(1.0, _scene_switch_fade_out_time / (_scene_switch_fade_out_duration*0.9));
 			set_default_layer_color_scale(Color(c, c, c, c));
 			_scene_switch_fade_out_time += dt;
 			switch_scene_in_progress = true;

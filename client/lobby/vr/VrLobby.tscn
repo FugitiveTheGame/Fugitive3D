@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://client/lobby/vr/VrLobbyUi.tscn" type="PackedScene" id=1]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_UI2D/OQ_UI2DCanvas.tscn" type="PackedScene" id=2]
+[ext_resource path="res://client/lobby/vr/VrLobby.gd" type="Script" id=3]
 [ext_resource path="res://client/vr_menu_player/VrMenuPlayer.tscn" type="PackedScene" id=4]
 
 [sub_resource type="ProceduralSky" id=1]
@@ -20,12 +21,14 @@ background_mode = 2
 background_sky = SubResource( 1 )
 
 [node name="VrMobileLobby" type="Spatial"]
+script = ExtResource( 3 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource( 2 )
 
 [node name="LobbyMenuDisplay" parent="." instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.57066, -0.706083 )
+editor_live_update = false
 transparent = true
 
 [node name="Lobby" parent="LobbyMenuDisplay" instance=ExtResource( 1 )]
