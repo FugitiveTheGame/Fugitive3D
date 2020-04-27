@@ -21,7 +21,7 @@ func _physics_process(delta):
 			isInWinZone = true
 			break
 	
-	if isInWinZone:
+	if isInWinZone and not GameData.currentGame.is_game_over():
 		if not label.visible:
 			label.show()
 	else:
