@@ -59,7 +59,7 @@ size_flags_vertical = 3
 [node name="ColumnLabel" type="Label" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2"]
 margin_right = 542.0
 margin_bottom = 25.0
-text = "Players:"
+text = "Players"
 align = 1
 
 [node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2"]

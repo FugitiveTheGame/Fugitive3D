@@ -68,7 +68,7 @@ func _process(delta):
 		player.is_crouching = false
 	
 	# Handle VR controller input
-	if vr.debounced_button_just_released(vr.BUTTON.B):
+	if debounced_button_just_released(vr.BUTTON.B):
 		set_standing_height()
 	
 	player.isSprinting = vr.button_pressed(vr.BUTTON.A)
