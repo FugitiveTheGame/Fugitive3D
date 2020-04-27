@@ -17,6 +17,7 @@ __meta__ = {
 playerNamePath = NodePath("UsernamePanel/VBoxContainer/PlayerName")
 serverIpPath = NodePath("ManualContainer/VBoxContainer/HBoxContainer/ServerIp")
 serverPortPath = NodePath("ManualContainer/VBoxContainer/HBoxContainer/ServerPort")
+versionLabelPath = NodePath("VersionLabel")
 
 [node name="ScreenTitle" type="Label" parent="."]
 anchor_left = 0.5
@@ -166,5 +167,15 @@ dialog_autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="VersionLabel" type="Label" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -54.002
+margin_right = -0.00195313
+margin_bottom = 40.0
+text = "v0"
+align = 1
+valign = 1
 [connection signal="pressed" from="ManualContainer/VBoxContainer/ConnectButton" to="." method="_on_ConnectButton_pressed"]
 [connection signal="connect_to_server" from="ServerBrowser" to="." method="_on_ServerBrowser_connect_to_server"]
