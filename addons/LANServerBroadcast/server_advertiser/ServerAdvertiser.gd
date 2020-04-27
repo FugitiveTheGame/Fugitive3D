@@ -91,15 +91,7 @@ func register_server():
 	if externalIp != null:
 		var url := serverRepositoryUrl + "/register"
 		
-		# Marshal the data for transmission
-		# They must all be strings
-		var data = {
-			"ip": serverInfo["ip"],
-			"port": serverInfo["port"],
-			"name": serverInfo["name"],
-		}
-		
-		var body := JSON.print(data)
+		var body := JSON.print(serverInfo)
 		var headers := ["Content-Type: application/json"]
 		registerRequest.request(url, headers, false, HTTPClient.METHOD_POST, body)
 
