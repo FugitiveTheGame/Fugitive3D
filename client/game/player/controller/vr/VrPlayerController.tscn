@@ -25,7 +25,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, -0.375232, -0.5 )
 
 [node name="VisibilityToggle" parent="OQ_LeftController" instance=ExtResource( 10 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0 )
-toggle_button = 17
 
 [node name="HudCanvas" parent="OQ_LeftController/VisibilityToggle" instance=ExtResource( 8 )]
 transform = Transform( 0.896695, -0.0624615, 0.43822, 0, 0.989994, 0.141109, -0.442649, -0.126531, 0.887723, 0, 0, 0 )
