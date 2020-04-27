@@ -14,7 +14,7 @@ func _physics_process(delta):
 	if not player.gameStarted and (vr.button_just_released(vr.BUTTON.LEFT_INDEX_TRIGGER) or vr.button_just_released(vr.BUTTON.RIGHT_INDEX_TRIGGER)):
 		player.set_ready()
 
-	if vr.button_just_released(vr.BUTTON.A):
+	if debounced_button_just_released(vr.BUTTON.A):
 		if player.car == null:
 			var cars := get_tree().get_nodes_in_group(Groups.CARS)
 			for car in cars:
@@ -24,7 +24,7 @@ func _physics_process(delta):
 		else:
 			player.car.request_exit_car(player)
 	
-	if vr.button_just_released(vr.BUTTON.Y):
+	if debounced_button_just_released(vr.BUTTON.LEFT_INDEX_TRIGGER):
 		if player.car != null and player.car.is_driver(player.id):
 			player.car.honk_horn()
 

@@ -9,6 +9,33 @@ onready var locomotion := $Locomotion_Stick
 onready var hud := $OQ_LeftController/VisibilityToggle/HudCanvas.find_node("HudContainer", true, false) as Control
 onready var fpsLabel := $OQ_LeftController/VisibilityToggle/HudCanvas.find_node("FpsLabel", true, false) as Label
 
+const DEBOUNCE_THRESHOLD_MS := 100
+var debounceBookKeeping = {}
+func debounced_button_just_released(button_id) -> bool:
+	var debouncedReleased: bool
+	
+	var justReleased = vr.button_just_released(button_id)
+	if justReleased:
+		if debounceBookKeeping.has(button_id):
+			var lastPressed = debounceBookKeeping[button_id] as int
+			var delta = OS.get_system_time_msecs() - lastPressed
+			# Debounce and throw away this release
+			if delta < DEBOUNCE_THRESHOLD_MS:
+				debouncedReleased = false
+				print("Debounced")
+			else:
+				debounceBookKeeping[button_id] = OS.get_system_time_msecs()
+				debouncedReleased = true
+				print("new justRelease")
+		else:
+			debounceBookKeeping[button_id] = OS.get_system_time_msecs()
+			debouncedReleased = true
+			print("first justRelease")
+	else:
+		debouncedReleased = false
+	
+	return debouncedReleased
+
 
 func _ready():
 	player.set_is_local_player()
@@ -41,7 +68,7 @@ func _process(delta):
 		player.is_crouching = false
 	
 	# Handle VR controller input
-	if vr.button_just_released(vr.BUTTON.B):
+	if vr.debounced_button_just_released(vr.BUTTON.B):
 		set_standing_height()
 	
 	player.isSprinting = vr.button_pressed(vr.BUTTON.A)

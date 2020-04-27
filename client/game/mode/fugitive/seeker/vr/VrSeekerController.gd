@@ -4,7 +4,7 @@ onready var car_lock_hud := hud.find_node("CarLockHud", true, false)
 
 
 func _process(delta):
-	if vr.button_just_released(vr.BUTTON.Y) and player.car == null:
+	if debounced_button_just_released(vr.BUTTON.B) and player.car == null:
 		$Flashlight.toggle_on()
 	
 	###########################
