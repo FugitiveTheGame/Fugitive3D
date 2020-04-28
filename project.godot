@@ -197,8 +197,8 @@ gdscript/warnings/return_value_discarded=false
 
 [display]
 
-window/size/width=1280
-window/size/height=800
+window/size/width=1600
+window/size/height=900
 window/dpi/allow_hidpi=true
 window/stretch/aspect="expand"
 

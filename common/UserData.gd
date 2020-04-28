@@ -1,7 +1,7 @@
 extends Node
 
 const GAME_VERSION := 0
-const USER_DATA_VERSION := 0
+const USER_DATA_VERSION := 1
 
 var file_name := 'user://user_data.json'
 
@@ -14,6 +14,7 @@ static func get_default_data():
 		user_name = 'A Player',
 		last_ip = '127.0.0.1',
 		last_port = ServerNetwork.SERVER_PORT,
+		full_screen = true
 	}
 	
 	return default
