@@ -661,6 +661,7 @@ func initialize():
 			get_viewport().arvr = true;
 			Engine.target_fps = 80 # TODO: this is headset dependent (RiftS == 80)=> figure out how to get this info at runtime
 			OS.vsync_enabled = false;
+			get_viewport().keep_3d_linear = true
 			inVR = true;
 			log_info("  Success initializing Oculus Interface.");
 	elif arvr_open_vr_interface:
@@ -669,6 +670,7 @@ func initialize():
 			get_viewport().arvr = true;
 			Engine.target_fps = 90 # TODO: this is headset dependent => figure out how to get this info at runtime
 			OS.vsync_enabled = false;
+			get_viewport().keep_3d_linear = true
 			inVR = true;
 			log_info("  Success initializing OpenVR Interface.");
 	else:
