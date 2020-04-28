@@ -1,7 +1,8 @@
 extends "res://client/lobby/ClientLobby.gd"
 
 func on_start_game():
-	get_tree().change_scene("res://client/game/mode/fugitive/FlatClientFugitiveGame.tscn")
+	var mapId = GameData.general[GameData.GENERAL_MAP]
+	get_tree().change_scene(Maps.get_game_scene(mapId, Maps.TYPE_FLAT))
 
 
 func on_disconnect():

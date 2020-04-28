@@ -54,6 +54,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://common/game/mode/fugitive/FugitiveStateMachine.gd"
 }, {
+"base": "Object",
+"class": "FugitiveTeamResolver",
+"language": "GDScript",
+"path": "res://common/game/mode/fugitive/FugitiveTeamResolver.gd"
+}, {
 "base": "Spatial",
 "class": "GameMode",
 "language": "GDScript",
@@ -149,6 +154,7 @@ _global_script_class_icons={
 "FugitiveMap": "",
 "FugitivePlayer": "",
 "FugitiveStateMachine": "",
+"FugitiveTeamResolver": "",
 "GameMode": "",
 "Groups": "",
 "Hider": "",
@@ -182,6 +188,7 @@ ServerNetwork="*res://networking/ServerNetwork.gd"
 GameData="*res://networking/GameData.gd"
 vr="*res://addons/OQ_Toolkit/vr_autoload.gd"
 UserData="*res://common/UserData.gd"
+Maps="*res://common/game/maps/MapDirectory.gd"
 
 [debug]
 

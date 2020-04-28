@@ -5,38 +5,3 @@
 
 [node name="Lobby" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-
-[node name="LeaveButton" parent="PanelContainer/VBoxContainer" index="0"]
-margin_left = 635.0
-margin_right = 684.0
-
-[node name="Title" parent="PanelContainer/VBoxContainer" index="1"]
-margin_right = 684.0
-
-[node name="HSplitContainer" parent="PanelContainer/VBoxContainer" index="2"]
-margin_right = 684.0
-
-[node name="VBoxContainer2" parent="PanelContainer/VBoxContainer/HSplitContainer" index="0"]
-margin_right = 340.0
-
-[node name="ColumnLabel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2" index="0"]
-margin_right = 340.0
-
-[node name="HSeparator" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2" index="1"]
-margin_right = 340.0
-
-[node name="Panel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2" index="2"]
-margin_right = 340.0
-
-[node name="Players" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2/Panel/ScrollContainer" index="0"]
-margin_right = 340.0
-
-[node name="VBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer" index="1"]
-margin_left = 344.0
-margin_right = 684.0
-
-[node name="MapButton" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="3"]
-items = [ "My Neighborhood", null, false, 0, null ]
-
-[node name="StartButton" parent="PanelContainer/VBoxContainer" index="3"]
-margin_right = 684.0

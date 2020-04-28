@@ -2,7 +2,10 @@ extends Control
 
 var playerInfo = null
 
-func populate(player, is_starting: bool, is_host: bool):
+onready var teamButton := $TeamButton as OptionButton
+var curTeamResolver = null
+
+func populate(player, is_starting: bool, is_host: bool, game_mode: Dictionary):
 	playerInfo = player
 	
 	var playerId = playerInfo[GameData.PLAYER_ID]
@@ -10,26 +13,23 @@ func populate(player, is_starting: bool, is_host: bool):
 	$NameLabel.text = playerInfo[GameData.PLAYER_NAME]
 	$HostLabel.visible = playerInfo[GameData.PLAYER_HOST]
 	
+	curTeamResolver = game_mode[Maps.MODE_TEAM_RESOLVER]
+	
+	teamButton.clear()
+	print("teams: %d" % curTeamResolver.get_num_teams())
+	for ii in curTeamResolver.get_num_teams():
+		var teamname = curTeamResolver.get_team_name(ii)
+		print("name: %s" % teamname)
+		teamButton.add_item(teamname, ii)
+	
 	var playerType = playerInfo[GameData.PLAYER_TYPE]
-	match playerType:
-		GameData.PlayerType.Hider:
-			$TeamButton.selected = 0
-		GameData.PlayerType.Seeker:
-			$TeamButton.selected = 1
+	teamButton.selected = playerType
 	
 	if (is_host or ClientNetwork.is_local_player(playerId)) and not is_starting:
-		$TeamButton.disabled = false
+		teamButton.disabled = false
 	else:
-		$TeamButton.disabled = true
+		teamButton.disabled = true
 
 
 func _on_TeamButton_item_selected(id):
-	var newType: int
-	
-	match id:
-		0:
-			newType = GameData.PlayerType.Hider
-		1:
-			newType = GameData.PlayerType.Seeker
-	
-	ServerNetwork.change_player_type(playerInfo[GameData.PLAYER_ID], newType)
+	ServerNetwork.change_player_type(playerInfo[GameData.PLAYER_ID], id)

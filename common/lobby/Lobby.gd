@@ -10,6 +10,7 @@ onready var mapSelect := get_node(mapSelectPath) as OptionButton
 var is_host := false
 var is_starting := false
 
+
 func _ready():
 	ClientNetwork.connect("create_player", self, "create_player")
 	ClientNetwork.connect("update_player", self, "update_player")
@@ -19,7 +20,15 @@ func _ready():
 	ClientNetwork.connect("start_lobby_countdown", self, "on_start_lobby_countdown")
 	ClientNetwork.connect("start_game", self, "on_start_game")
 	
+	populate_map_list()
+	
 	call_deferred("update_ui")
+
+
+func populate_map_list():
+	for map in Maps.directory:
+		self.maps.push_back(map)
+		mapSelect.add_item(map[Maps.MAP_NAME])
 
 
 func create_player(playerId: int):
@@ -30,15 +39,16 @@ func create_player(playerId: int):
 	print("Creating player in lobby")
 	
 	var player = GameData.players[playerId]
+	var mode = Maps.get_mode_for_map(GameData.general[GameData.GENERAL_MAP])
 	
 	var playerListItem = preload("res://common/lobby/PlayerListItem.tscn")
 	
 	var playerNode = playerListItem.instance()
 	playerNode.set_network_master(playerId)
 	playerNode.set_name(str(playerId))
-	playerNode.populate(player, is_starting, is_host)
-	
 	playerList.add_child(playerNode)
+	
+	playerNode.populate(player, is_starting, is_host, mode)
 	
 	update_host()
 	update_all_players()
@@ -65,10 +75,11 @@ func remove_player(playerId: int):
 
 func repopulate_player(playerId: int):
 	var player = GameData.players[playerId]
+	var mode = Maps.get_mode_for_map(GameData.general[GameData.GENERAL_MAP])
 	
 	var node := find_player_node(playerId)
 	if node != null:
-		node.populate(player, is_starting, is_host)
+		node.populate(player, is_starting, is_host, mode)
 	else:
 		print("repopulate_player() - Failed to get player node")
 

@@ -21,7 +21,8 @@ func _enter_tree():
 
 func _exit_tree():
 	# Don't allow new connections if we're in-game
-	get_tree().network_peer.refuse_new_connections = true
+	if get_tree().network_peer != null:
+		get_tree().network_peer.refuse_new_connections = true
 	advertiser.remove_from_repository()
 
 
@@ -36,7 +37,8 @@ func _ready():
 
 
 func on_start_game():
-	get_tree().change_scene("res://server/game/mode/fugitive/ServerFugitiveGame.tscn")
+	var mapId = GameData.general[GameData.GENERAL_MAP]
+	get_tree().change_scene(Maps.get_game_scene(mapId, Maps.TYPE_SERVER))
 
 
 # Parse command line server name in the form of:

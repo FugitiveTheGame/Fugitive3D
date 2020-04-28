@@ -1,17 +1,36 @@
 extends Spatial
 class_name GameMode
 
+var localPlayer: Player
+var players = {}
+
 
 func get_player(playerId: int) -> Player:
-	print("GameMode: get_player() MUST BE OVERRIDDEN")
-	assert("false")
-	return null
+	return players[playerId]
 
 
-func set_map(map: Node):
-	add_child(map)
+func _ready():
+	print("Entering game")
+	get_tree().paused = true
 	
+	load_map()
+	
+	ClientNetwork.connect("remove_player", self, "remove_player")
+	
+	call_deferred("pre_configure")
+
+
+func load_map():
+	var mapData = Maps.directory[GameData.general[GameData.GENERAL_MAP]]
+	var mapPath = mapData[Maps.MAP_PATH]
+	var scene := load(mapPath)
+	var map = scene.instance()
+	add_child(map)
 	GameData.currentMap = map
+
+
+func pre_configure():
+	pass
 
 
 func _enter_tree():

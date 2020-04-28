@@ -1,0 +1,27 @@
+{
+	"maps" : [
+		{
+			"path": "res://common/game/maps/test_map_01/TestMap01.scn",
+			"mode": "fugitive",
+			"size": "Medium",
+			"name": "My Neighborhood",
+			"description": "A well balanced map based off my childhood neighborhood where the real life version of this game was invented.",
+			"team_sizes": [
+				6,
+				8
+			]
+		}
+	],
+	"modes" : {
+		"fugitive": {
+			"name" : "fugitive",
+			"base_script" : "res://common/game/mode/fugitive/FugitiveGame.gd",
+			"game_scene" : {
+				"server" : "res://server/game/mode/fugitive/ServerFugitiveGame.tscn",
+				"flat" : "res://client/game/mode/fugitive/FlatClientFugitiveGame.tscn",
+				"vr" : "res://client/game/mode/fugitive/VrClientFugitiveGame.tscn"
+			},
+			"team_resolver": "res://common/game/mode/fugitive/FugitiveTeamResolver.gd"
+		}
+	}
+}

@@ -13,17 +13,17 @@ __meta__ = {
 }
 
 [node name="NameLabel" type="Label" parent="."]
-margin_top = 20.0
-margin_right = 236.0
-margin_bottom = 34.0
+margin_top = 14.0
+margin_right = 196.0
+margin_bottom = 39.0
 size_flags_horizontal = 3
 text = "Name"
 
 [node name="HostLabel" type="Label" parent="."]
-margin_left = 240.0
-margin_top = 20.0
-margin_right = 283.0
-margin_bottom = 34.0
+margin_left = 204.0
+margin_top = 14.0
+margin_right = 279.0
+margin_bottom = 39.0
 text = "[HOST]"
 
 [node name="TeamButton" type="OptionButton" parent="."]
@@ -31,7 +31,6 @@ margin_left = 287.0
 margin_right = 415.0
 margin_bottom = 54.0
 rect_min_size = Vector2( 128, 0 )
-text = "Hider"
-items = [ "Hider", null, false, 0, null, "Seeker", null, false, 1, null ]
+text = "Team"
 selected = 0
 [connection signal="item_selected" from="TeamButton" to="." method="_on_TeamButton_item_selected"]

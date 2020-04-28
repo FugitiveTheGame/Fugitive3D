@@ -40,8 +40,8 @@ func _ready():
 	ClientNetwork.connect("remove_player", self, "server_remove_player")
 
 
-func load_map(mapPath: String):
-	.load_map(mapPath)
+func load_map():
+	.load_map()
 	map.get_countdown_timer().connect("timeout", self, "countdown_timer_timeout")
 	map.get_headstart_timer().connect("timeout", self, "headstart_timer_timeout")
 

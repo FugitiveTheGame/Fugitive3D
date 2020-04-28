@@ -40,7 +40,7 @@ margin_bottom = 450.0
 margin_bottom = 450.0
 
 [node name="MapButton" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="3"]
-items = [ "My Neighborhood", null, false, 0, null ]
+selected = -1
 
 [node name="Spacer" type="Control" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="4"]
 margin_top = 127.0
