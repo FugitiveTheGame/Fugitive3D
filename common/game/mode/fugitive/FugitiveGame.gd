@@ -116,7 +116,7 @@ func spawn_player(playerId: int, hiderSpawns: Array, seekerSpawns: Array):
 	if GameData.players.has(localPlayerId):
 		localPlayerType = GameData.players[localPlayerId][GameData.PLAYER_TYPE]
 	else:
-		localPlayerType = GameData.PlayerType.Unset
+		localPlayerType = FugitiveTeamResolver.PlayerType.Unset
 	
 	# Extract the player data
 	var player = GameData.players[playerId]
@@ -126,24 +126,23 @@ func spawn_player(playerId: int, hiderSpawns: Array, seekerSpawns: Array):
 	# This is the node for the PlayerController
 	var pcNode: Node
 	var spawnPointNode: Spatial
-	var spawnPoint: Vector3
 	
 	# Create the player controller for the local player
 	if get_tree().get_network_unique_id() == playerId:
 		match playerType:
-			GameData.PlayerType.Seeker:
+			FugitiveTeamResolver.PlayerType.Seeker:
 				pcNode = create_player_seeker_node()
 				spawnPointNode = seekerSpawns.pop_front()
-			GameData.PlayerType.Hider:
+			FugitiveTeamResolver.PlayerType.Hider:
 				pcNode = create_player_hider_node()
 				spawnPointNode = hiderSpawns.pop_front()
 	# Create the player controller for all remote players
 	else:
 		match playerType:
-			GameData.PlayerType.Seeker:
+			FugitiveTeamResolver.PlayerType.Seeker:
 				pcNode = create_remote_seeker_node()
 				spawnPointNode = seekerSpawns.pop_front()
-			GameData.PlayerType.Hider:
+			FugitiveTeamResolver.PlayerType.Hider:
 				pcNode = create_remote_hider_node()
 				spawnPointNode = hiderSpawns.pop_front()
 	
@@ -279,18 +278,18 @@ func check_win_conditions():
 	
 	if gameStarted and not is_game_over():
 		if allHidersFrozen:
-			finish_game(GameData.PlayerType.Seeker)
+			finish_game(FugitiveTeamResolver.PlayerType.Seeker)
 		elif allUnfrozenSeekersInWinZone:
-			finish_game(GameData.PlayerType.Hider)
+			finish_game(FugitiveTeamResolver.PlayerType.Hider)
 		elif seekers.empty():
-			finish_game(GameData.PlayerType.Hider)
+			finish_game(FugitiveTeamResolver.PlayerType.Hider)
 		elif hiders.empty():
-			finish_game(GameData.PlayerType.Seeker)
+			finish_game(FugitiveTeamResolver.PlayerType.Seeker)
 
 
 func game_time_limit_exceeded():
 	print("Time ran out!")
-	finish_game(GameData.PlayerType.Seeker)
+	finish_game(FugitiveTeamResolver.PlayerType.Seeker)
 
 
 func on_state_countdown(current_state: State, transition: Transition):

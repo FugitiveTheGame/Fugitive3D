@@ -1,7 +1,5 @@
 extends Node
 
-enum PlayerType { Hider, Seeker, Random, Server, Unset }
-
 const PLAYER_ID = "id"
 const PLAYER_NAME = "name"
 const PLAYER_TYPE = "type"
@@ -67,7 +65,7 @@ func get_current_player_type() -> int:
 	if curPlayer != null:
 		return curPlayer[PLAYER_TYPE]
 	else:
-		return PlayerType.Unset
+		return -1
 
 
 func update_player(player):

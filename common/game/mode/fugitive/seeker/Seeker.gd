@@ -19,7 +19,7 @@ onready var win_zones := get_tree().get_nodes_in_group(Groups.WIN_ZONE)
 
 
 func _ready():
-	playerType = GameData.PlayerType.Seeker
+	playerType = FugitiveTeamResolver.PlayerType.Seeker
 	# Seeker should walk and sprint slightly faster than the Hider
 	speed_walk = DEFAULT_SPEED_WALK * 1.5
 	speed_sprint = DEFAULT_SPEED_SPRINT * 1.1
@@ -100,7 +100,7 @@ func body_entered_detection_radius(body: Node):
 	if gameStarted and not gameEnded:
 		if body.has_method("get_player"):
 			var player = body.get_player()
-			if player.playerType == GameData.PlayerType.Hider:
+			if player.playerType == FugitiveTeamResolver.PlayerType.Hider:
 				# 1) Neither Hider nor Seeker may be in a car
 				# 2) Hider must not be in a win zone
 				# 3) Hider must not be frozen

@@ -13,24 +13,23 @@ __meta__ = {
 }
 
 [node name="NameLabel" type="Label" parent="."]
-margin_top = 14.0
-margin_right = 196.0
-margin_bottom = 39.0
+margin_top = 19.0
+margin_right = 128.0
+margin_bottom = 44.0
 size_flags_horizontal = 3
 text = "Name"
 
 [node name="HostLabel" type="Label" parent="."]
-margin_left = 204.0
-margin_top = 14.0
-margin_right = 279.0
-margin_bottom = 39.0
+margin_left = 136.0
+margin_top = 19.0
+margin_right = 211.0
+margin_bottom = 44.0
 text = "[HOST]"
 
 [node name="TeamButton" type="OptionButton" parent="."]
-margin_left = 287.0
+margin_left = 219.0
 margin_right = 415.0
-margin_bottom = 54.0
-rect_min_size = Vector2( 128, 0 )
+margin_bottom = 64.0
+rect_min_size = Vector2( 196, 0 )
 text = "Team"
-selected = 0
 [connection signal="item_selected" from="TeamButton" to="." method="_on_TeamButton_item_selected"]

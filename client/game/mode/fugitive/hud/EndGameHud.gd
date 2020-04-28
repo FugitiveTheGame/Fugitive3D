@@ -6,13 +6,13 @@ func _ready():
 
 func team_won(winningTeam: int):
 	
-	var winningTeamName := GameData.currentGame.get_team_name(winningTeam)
+	var winningTeamName = GameData.currentGame.get_team_name(winningTeam)
 	$Container/WinnerLabel.text = "%ss won!" % winningTeamName
 	
 	for playerInfo in GameData.get_players():
 		var node := Label.new()
 		var playerType := playerInfo[GameData.PLAYER_TYPE] as int
-		var team := GameData.currentGame.get_team_name(playerType)
+		var team = GameData.currentGame.get_team_name(playerType)
 		
 		var playerObj := GameData.currentGame.get_player(playerInfo[GameData.PLAYER_ID]) as FugitivePlayer
 		if playerObj != null:
@@ -22,7 +22,7 @@ func team_won(winningTeam: int):
 			else:
 				frozen = "ESCAPED!"
 			
-			if playerType == GameData.PlayerType.Hider:
+			if playerType == FugitiveTeamResolver.PlayerType.Hider:
 				node.text = "[%s] %s - %s" % [team, playerInfo[GameData.PLAYER_NAME], frozen]
 			else:
 				node.text = "[%s] %s" % [team, playerInfo[GameData.PLAYER_NAME]]

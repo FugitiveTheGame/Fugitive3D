@@ -19,13 +19,13 @@ func _enter_tree():
 	
 	# Add our fake players, the normal spawn system will actually spawn these guys
 	if be_seeker:
-		GameData.add_player(GameData.create_new_player(1, "real player", GameData.PlayerType.Seeker))
-		GameData.add_player(GameData.create_new_player(10, "dumb donkey 0", GameData.PlayerType.Hider))
+		GameData.add_player(GameData.create_new_player(1, "real player", FugitiveTeamResolver.PlayerType.Seeker))
+		GameData.add_player(GameData.create_new_player(10, "dumb donkey 0", FugitiveTeamResolver.PlayerType.Hider))
 	else:
-		GameData.add_player(GameData.create_new_player(1, "real player", GameData.PlayerType.Hider))
-		GameData.add_player(GameData.create_new_player(10, "dumb donkey 0", GameData.PlayerType.Seeker))
+		GameData.add_player(GameData.create_new_player(1, "real player", FugitiveTeamResolver.PlayerType.Hider))
+		GameData.add_player(GameData.create_new_player(10, "dumb donkey 0", FugitiveTeamResolver.PlayerType.Seeker))
 	
-	GameData.add_player(GameData.create_new_player(11, "dumb donkey 1", GameData.PlayerType.Hider))
+	GameData.add_player(GameData.create_new_player(11, "dumb donkey 1", FugitiveTeamResolver.PlayerType.Hider))
 
 
 func _ready():

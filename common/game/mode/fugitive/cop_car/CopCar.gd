@@ -79,7 +79,7 @@ remotesync func on_request_enter_car(playerId: int):
 		var seat = seats[seatIndex]
 		var player = GameData.currentGame.get_player(playerId)
 		
-		var isHider = player.playerType == GameData.PlayerType.Hider
+		var isHider = player.playerType == FugitiveTeamResolver.PlayerType.Hider
 		# Car starts locked, first cop unlocks it
 		if locked:
 			if isHider:
@@ -89,7 +89,7 @@ remotesync func on_request_enter_car(playerId: int):
 				locked = false
 		elif isHider:
 			if driver_seat.occupant != null:
-				if driver_seat.occupant.playerType == GameData.PlayerType.Seeker:
+				if driver_seat.occupant.playerType == FugitiveTeamResolver.PlayerType.Seeker:
 					# Hider can't get in the car when a Seeker is driving
 					car_enter_failed()
 					return
