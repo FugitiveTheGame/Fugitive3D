@@ -7,6 +7,9 @@ onready var playerList := get_node(playerListPath) as VBoxContainer
 export(NodePath) var mapSelectPath: NodePath
 onready var mapSelect := get_node(mapSelectPath) as OptionButton
 
+export(NodePath) var mapDescriptionPath: NodePath
+onready var mapDescription := get_node(mapDescriptionPath) as RichTextLabel
+
 var is_host := false
 var is_starting := false
 
@@ -27,7 +30,6 @@ func _ready():
 
 func populate_map_list():
 	for map in Maps.directory:
-		self.maps.push_back(map)
 		mapSelect.add_item(map[Maps.MAP_NAME])
 
 
@@ -100,6 +102,27 @@ func update_game_data(generalData: Dictionary):
 	var mapId = generalData[GameData.GENERAL_MAP]
 	
 	mapSelect.select(mapId)
+	update_map_description(mapId)
+
+
+func update_map_description(mapId: int):
+	var resolver = Maps.get_team_resolver(mapId)
+	var mapData = Maps.directory[mapId]
+	
+	var description := ""
+	description += "Mode: %s |" % mapData[Maps.MAP_MODE]
+	description += "Size: %s\n" % mapData[Maps.MAP_SIZE]
+	
+	description += "\nTeam Sizes:\n"
+	
+	var teamSizes = mapData[Maps.MAP_TEAM_SIZES]
+	for teamId in teamSizes.size():
+		var teamSize = teamSizes[teamId]
+		description += "%s: %d\n" % [resolver.get_team_name(teamId), teamSize]
+	
+	description += "\nDescription:\n%s\n" % mapData[Maps.MAP_DESCRIPTION]
+	
+	mapDescription.text = description
 
 
 func update_all_players():
@@ -164,4 +187,5 @@ func on_start_lobby_countdown():
 
 func _on_MapButton_item_selected(id):
 	GameData.general[GameData.GENERAL_MAP] = id
+	update_map_description(id)
 	ClientNetwork.update_game_data()

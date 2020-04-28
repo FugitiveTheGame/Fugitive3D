@@ -5,8 +5,11 @@ const TYPE_VR := "vr"
 const TYPE_SERVER := "server"
 
 const MAP_NAME := "name"
+const MAP_DESCRIPTION := "description"
 const MAP_MODE := "mode"
+const MAP_SIZE := "size"
 const MAP_PATH := "path"
+const MAP_TEAM_SIZES := "team_sizes"
 
 const MODE_NAME := "name"
 const MODE_TEAM_RESOLVER_PATH := "team_resolver"
@@ -43,6 +46,11 @@ func get_mode_for_map(mapId: int):
 func get_game_scene(mapId: int, type: String) -> String:
 	var mode = get_mode_for_map(mapId)
 	return mode.game_scene[type]
+
+
+func get_team_resolver(mapId: int):
+	var mode = get_mode_for_map(mapId)
+	return mode[MODE_TEAM_RESOLVER]
 
 
 func get_team_name(mapId: int, teamId: int) -> String:
