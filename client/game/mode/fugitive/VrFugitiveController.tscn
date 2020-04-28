@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://client/game/player/controller/vr/VrPlayerController.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/game/mode/fugitive/VrFugitiveController.gd" type="Script" id=2]
@@ -6,12 +6,18 @@
 [ext_resource path="res://client/game/mode/fugitive/hud/GameTimerHud.tscn" type="PackedScene" id=4]
 [ext_resource path="res://client/game/mode/fugitive/hud/FrozenHud.tscn" type="PackedScene" id=5]
 [ext_resource path="res://client/game/mode/fugitive/hud/EndGameHud.tscn" type="PackedScene" id=6]
+[ext_resource path="res://common/game/mode/fugitive/hider/assets/ice_crystal.glb" type="PackedScene" id=7]
 
 [node name="PlayerController" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
 [node name="OQ_ARVRCamera" parent="." index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.716302, 0 )
+
+[node name="ShaderCache" parent="OQ_ARVRCamera" index="0"]
+visible = false
+
+[node name="ice_crystal" parent="OQ_ARVRCamera/ShaderCache" index="1" instance=ExtResource( 7 )]
 
 [node name="OQ_LeftController" parent="." index="1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0.216302, -0.5 )

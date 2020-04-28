@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://client/game/player/controller/vr/VrPlayerController.gd" type="Script" id=1]
 [ext_resource path="res://client/game/player/controller/vr/Feature_PlayerCollision.gd" type="Script" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://client/game/player/hud/CrouchIndicatorHud.tscn" type="PackedScene" id=11]
 [ext_resource path="res://client/game/mode/fugitive/hud/ExitGameHud.tscn" type="PackedScene" id=12]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_ARVRController/Feature_UIRayCast.tscn" type="PackedScene" id=13]
+[ext_resource path="res://client/vr_utils/VrShaderCache.tscn" type="PackedScene" id=14]
 
 [node name="PlayerController" type="ARVROrigin"]
 script = ExtResource( 1 )
@@ -21,6 +22,8 @@ script = ExtResource( 1 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 current = true
 far = 300.0
+
+[node name="ShaderCache" parent="OQ_ARVRCamera" instance=ExtResource( 14 )]
 
 [node name="OQ_LeftController" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, -0.375232, -0.5 )
