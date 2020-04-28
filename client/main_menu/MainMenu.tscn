@@ -178,15 +178,22 @@ text = "v0"
 align = 1
 valign = 1
 
-[node name="ExitButton" type="Button" parent="."]
+[node name="OptionsContainer" type="VBoxContainer" parent="."]
 margin_left = 9.58188
 margin_top = 10.4182
-margin_right = 143.582
-margin_bottom = 47.4182
+margin_right = 169.582
+margin_bottom = 330.418
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ExitButton" type="Button" parent="OptionsContainer"]
+margin_right = 160.0
+margin_bottom = 37.0
 text = "Exit Game"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 [connection signal="pressed" from="ManualContainer/VBoxContainer/ConnectButton" to="." method="_on_ConnectButton_pressed"]
 [connection signal="connect_to_server" from="ServerBrowser" to="." method="_on_ServerBrowser_connect_to_server"]
-[connection signal="pressed" from="ExitButton" to="." method="_on_ExitButton_pressed"]
+[connection signal="pressed" from="OptionsContainer/ExitButton" to="." method="_on_ExitButton_pressed"]
