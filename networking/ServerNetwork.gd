@@ -122,20 +122,26 @@ remotesync func on_randomize_teams():
 	
 	var playerIds = GameData.players.keys()
 	
-	var numSeekers := 0
+	var mapId = GameData.general[GameData.GENERAL_MAP]
+	var mode = Maps.get_mode_for_map(mapId)
+	var map = Maps.directory[mapId]
 	
-	var numPlayers = playerIds.size()
-	if numPlayers < 2:
-		numSeekers = 1
-	elif numPlayers < 6:
-		numSeekers = 2
-	else:
-		numSeekers = 3
+	var teamResolver = mode[Maps.MODE_TEAM_RESOLVER]
 	
+	# Array containing the number of players for each team.
+	var teamLayout = teamResolver.get_random_team_layout(mapId, playerIds.size())
+	
+	# Randomize the order of the player ids
 	playerIds.shuffle()
-	for playerId in playerIds:
-		if numSeekers > 0:
-			numSeekers -= 1
-			change_player_type(playerId, GameData.PlayerType.Seeker)
-		else:
-			change_player_type(playerId, GameData.PlayerType.Hider)
+	
+	var teamId := 0
+	while not teamLayout.empty() and not playerIds.empty():
+		var teamCount = teamLayout.pop_front()
+	
+		while teamCount > 0 and not playerIds.empty():
+			teamCount -= 1
+			
+			var playerId = playerIds.pop_front()
+			change_player_type(playerId, teamId)
+		
+		teamId += 1

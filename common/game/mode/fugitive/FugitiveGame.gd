@@ -5,8 +5,7 @@ onready var stateMachine := $StateMachine as FugitiveStateMachine
 
 var map: FugitiveMap
 var playersContainer: Node
-var localPlayer: Player
-var players = {}
+
 
 var gameStarted := false
 var winningTeam: int
@@ -15,53 +14,15 @@ func is_game_over() -> bool:
 	return stateMachine == null or stateMachine.current_state.name == FugitiveStateMachine.STATE_GAME_OVER
 
 
-func get_team_name(teamid: int) -> String:
-	var team: String
-	match teamid:
-		GameData.PlayerType.Hider:
-			team = "Fugitive"
-		GameData.PlayerType.Seeker:
-			team = "Cop"
-		_:
-			team = "---"
+func load_map():
+	.load_map()
 	
-	return team
-
-
-func _ready():
-	print("Entering game")
-	get_tree().paused = true
+	map = GameData.currentMap
 	
-	var mapPath := get_map(GameData.general[GameData.GENERAL_MAP])
-	load_map(mapPath)
-	
-	ClientNetwork.connect("remove_player", self, "remove_player")
-	
-	pre_configure()
-
-
-func get_map(mapId: int) -> String:
-	var mapPath: String
-	
-	match mapId:
-		0:
-			mapPath = "res://common/game/maps/test_map_01/TestMap01.scn"
-	
-	return mapPath
-
-
-func load_map(mapPath: String):
-	var scene := load(mapPath)
-	map = scene.instance()
-	set_map(map)
 	playersContainer = map.get_players()
-
+	
 	var gameTimelimitTimer = map.get_timelimit_timer()
 	gameTimelimitTimer.connect("timeout", self, "game_time_limit_exceeded")
-
-
-func get_player(playerId: int) -> Player:
-	return players[playerId]
 
 
 # If a player has disconnected, remove them from the world
@@ -111,6 +72,8 @@ remotesync func on_finish_game(playerType: int):
 # This has to be completed on all clients before the game can start
 # Once completed, notify the server that we are done
 func pre_configure():
+	.pre_configure()
+	
 	var sharedSeed = GameData.general[GameData.GENERAL_SEED]
 	seed(sharedSeed)
 	
@@ -373,3 +336,7 @@ func _on_ReturnToLobbyTimer_timeout():
 	print("ReturnToLobbyTimer is up")
 	if get_tree().is_network_server():
 		go_to_lobby()
+
+
+func get_team_name(teamId: int) -> String:
+	return Maps.get_team_name(GameData.general[GameData.GENERAL_MAP], teamId)

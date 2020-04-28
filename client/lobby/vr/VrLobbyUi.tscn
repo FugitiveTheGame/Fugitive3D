@@ -67,7 +67,6 @@ margin_right = 494.0
 
 [node name="MapButton" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="3"]
 margin_right = 494.0
-items = [ "My Neighborhood", null, false, 0, null ]
 
 [node name="Spacer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="4"]
 margin_right = 494.0

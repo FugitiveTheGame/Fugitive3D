@@ -119,8 +119,7 @@ text = "Map:"
 margin_top = 82.0
 margin_right = 542.0
 margin_bottom = 119.0
-text = "My Neighborhood"
-items = [ "My Neighborhood", null, false, 0, null ]
+text = "Select Map"
 selected = 0
 __meta__ = {
 "_edit_use_anchors_": false
