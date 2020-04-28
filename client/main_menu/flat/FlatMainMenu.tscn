@@ -42,7 +42,6 @@ margin_bottom = 82.0
 text = "Settings"
 
 [node name="SettingsDialog" type="WindowDialog" parent="." index="8"]
-visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
