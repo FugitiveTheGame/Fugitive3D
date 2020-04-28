@@ -35,7 +35,11 @@ func _ready():
 	for modeName in modes:
 		var mode = modes[modeName]
 		mode[MODE_TEAM_RESOLVER] = load(mode[MODE_TEAM_RESOLVER_PATH]).new()
-	
+
+
+func get_team_sizes_for_map(mapId: int) -> Array:
+	var map = directory[mapId]
+	return map[MAP_TEAM_SIZES]
 
 
 func get_mode_for_map(mapId: int):

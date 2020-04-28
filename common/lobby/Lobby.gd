@@ -149,14 +149,27 @@ func can_start() -> bool:
 	
 	var players = GameData.get_players()
 	
+	var mapid = GameData.general[GameData.GENERAL_MAP]
+	var teamSizes := Maps.get_team_sizes_for_map(mapid)
+	var actualTeamSizes = []
+	for ii in teamSizes.size():
+		actualTeamSizes.push_back(0)
+	
 	if not players.empty():
 		for player in players:
-			if player[GameData.PLAYER_TYPE] == GameData.PlayerType.Hider:
-				numHiders += 1
-			elif player[GameData.PLAYER_TYPE] == GameData.PlayerType.Seeker:
-				numSeekers += 1
+			var playerteam = player[GameData.PLAYER_TYPE]
+			actualTeamSizes[playerteam] += 1
 	
-	canStart = (numHiders > 0 and numSeekers > 0)
+	var teamSizesAreValid = true
+	for ii in teamSizes.size():
+		var maxSize = teamSizes[ii]
+		var actualSize = actualTeamSizes[ii]
+		
+		if actualSize <= 0 or actualSize > maxSize:
+			teamSizesAreValid = false
+			break
+	
+	canStart = teamSizesAreValid
 	
 	return canStart
 

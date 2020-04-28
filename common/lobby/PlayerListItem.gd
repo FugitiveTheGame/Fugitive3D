@@ -16,10 +16,9 @@ func populate(player, is_starting: bool, is_host: bool, game_mode: Dictionary):
 	curTeamResolver = game_mode[Maps.MODE_TEAM_RESOLVER]
 	
 	teamButton.clear()
-	print("teams: %d" % curTeamResolver.get_num_teams())
+	
 	for ii in curTeamResolver.get_num_teams():
 		var teamname = curTeamResolver.get_team_name(ii)
-		print("name: %s" % teamname)
 		teamButton.add_item(teamname, ii)
 	
 	var playerType = playerInfo[GameData.PLAYER_TYPE]

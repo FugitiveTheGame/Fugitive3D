@@ -1,6 +1,8 @@
 extends Object
 class_name FugitiveTeamResolver
 
+enum PlayerType { Hider, Seeker, Unset }
+
 const NUM_TEAMS := 2
 
 static func get_num_teams() -> int:
@@ -9,9 +11,9 @@ static func get_num_teams() -> int:
 static func get_team_name(teamId: int) -> String:
 	var teamName: String
 	match teamId:
-		GameData.PlayerType.Hider:
+		PlayerType.Hider:
 			teamName = "Fugitive"
-		GameData.PlayerType.Seeker:
+		PlayerType.Seeker:
 			teamName = "Cop"
 		_:
 			teamName = "---"

@@ -11,7 +11,7 @@ var initialFreeze := true
 
 
 func _ready():
-	playerType = GameData.PlayerType.Hider
+	playerType = FugitiveTeamResolver.PlayerType.Hider
 	add_to_group(GROUP)
 
 
@@ -19,7 +19,7 @@ func set_current_visibility(percentVisible: float):
 	current_visibility = percentVisible
 	
 	# If we are a Seeker, use visibility to fade hider out
-	if GameData.get_current_player_type() == GameData.PlayerType.Seeker:
+	if GameData.get_current_player_type() == FugitiveTeamResolver.PlayerType.Seeker:
 		playerShape.alpha = percentVisible
 
 
@@ -36,7 +36,7 @@ func _on_UnfreezeArea_body_entered(body):
 		# If we are frozen, and another hider is tagging us, then unfreeze
 		if frozen and body.has_method("get_player") and is_playing():
 			var player := body.get_player() as Player
-			if player.playerType == GameData.PlayerType.Hider:
+			if player.playerType == FugitiveTeamResolver.PlayerType.Hider:
 				unfreeze()
 
 

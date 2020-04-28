@@ -130,9 +130,4 @@ margin_top = 127.0
 margin_right = 542.0
 margin_bottom = 383.0
 rect_min_size = Vector2( 0, 256 )
-
-[node name="GridContainer" type="GridContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
-margin_top = 391.0
-margin_right = 542.0
-margin_bottom = 391.0
 [connection signal="item_selected" from="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/MapButton" to="." method="_on_MapButton_item_selected"]
