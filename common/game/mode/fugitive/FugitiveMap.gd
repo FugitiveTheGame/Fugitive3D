@@ -1,4 +1,4 @@
-extends Spatial
+extends "res://common/game/base_maps/BaseMap.gd"
 class_name FugitiveMap
 
 onready var winZones := get_tree().get_nodes_in_group(Groups.WIN_ZONE)
