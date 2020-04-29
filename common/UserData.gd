@@ -1,7 +1,7 @@
 extends Node
 
 const GAME_VERSION := 0
-const USER_DATA_VERSION := 2
+const USER_DATA_VERSION := 3
 
 var file_name := 'user://user_data.json'
 
@@ -17,7 +17,8 @@ static func get_default_data():
 		full_screen = true,
 		flat_mouse_sensetivity = 1.0,
 		vr_movement_orientation = 0, # HEAD
-		vr_movement_vignetting = false
+		vr_movement_vignetting = false,
+		vr_movement_hand = 0 # Left
 	}
 	
 	return default
