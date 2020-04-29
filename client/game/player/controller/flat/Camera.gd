@@ -6,6 +6,7 @@ onready var fpsController: Spatial = get_parent()
 var sensitivity_y := 0.0
 var inversion_mult := 1.0
 var max_y := 89.0
+var mouseLookSensetivityModifier := 1.0
 
 var heldObject: Spatial
 
@@ -20,6 +21,8 @@ func initialize_components():
 
 func _ready():
 	self.initialize_components()
+	
+	mouseLookSensetivityModifier = UserData.data.flat_mouse_sensetivity
 
 
 func _input(event):
@@ -28,7 +31,7 @@ func _input(event):
 		return
 	
 	if event is InputEventMouseMotion:
-		var rotateBy = inversion_mult * sensitivity_y * event.relative.y
+		var rotateBy = inversion_mult * sensitivity_y * mouseLookSensetivityModifier * event.relative.y
 		
 		if rotateBy >= 0 and self.rotation_degrees.x >= max_y:
 			return
