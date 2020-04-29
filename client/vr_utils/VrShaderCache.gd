@@ -1,7 +1,9 @@
 extends Spatial
 
 func _ready():
-	show()
+	#show()
+	# disable this for the moment as it does not appear to be working
+	pass
 
 
 func _on_HideTimer_timeout():
