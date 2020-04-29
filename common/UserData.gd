@@ -16,6 +16,8 @@ static func get_default_data():
 		last_port = ServerNetwork.SERVER_PORT,
 		full_screen = true,
 		flat_mouse_sensetivity = 1.0,
+		vr_movement_orientation = 0, # HEAD
+		vr_movement_vignetting = false
 	}
 	
 	return default
