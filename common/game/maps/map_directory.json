@@ -3,12 +3,23 @@
 		{
 			"path": "res://common/game/maps/my_neighborhood/MyNeighborhood.scn",
 			"mode": "fugitive",
-			"size": "Medium",
+			"size": "Large",
 			"name": "My Neighborhood",
 			"description": "A well balanced map based off my childhood neighborhood where the real life version of this game was invented.",
 			"team_sizes": [
 				6,
 				8
+			]
+		},
+		{
+			"path": "res://common/game/maps/suburbia/Suburbia.scn",
+			"mode": "fugitive",
+			"size": "Medium",
+			"name": "My Neighborhood",
+			"description": "A well balanced map based off my childhood neighborhood where the real life version of this game was invented.",
+			"team_sizes": [
+				1,
+				1
 			]
 		}
 	],
