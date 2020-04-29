@@ -15,8 +15,8 @@
 			"path": "res://common/game/maps/suburbia/Suburbia.scn",
 			"mode": "fugitive",
 			"size": "Medium",
-			"name": "My Neighborhood",
-			"description": "A well balanced map based off my childhood neighborhood where the real life version of this game was invented.",
+			"name": "Suburbia",
+			"description": "A small suburban town. Two streets runing parallel with backyards connecting them.",
 			"team_sizes": [
 				1,
 				1
