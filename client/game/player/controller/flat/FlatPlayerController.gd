@@ -20,6 +20,8 @@ export(float) var Jump_Speed := 10.0
 export(float) var Gravity := pow(9.8, 2)
 export(bool) var CameraIsCurrentOnStart: bool = true
 
+var mouseLookSensetivityModifier := 1.0
+
 # Our velocity vector never seems to be exactly zero.
 # So any velocity under this threshold will be considered no moving
 const MOVEMENT_LAMBDA := 0.01
@@ -60,6 +62,8 @@ func _ready():
 	self.camera.current = CameraIsCurrentOnStart
 	forward_velocity = Movement_Speed
 	update_camera_to_head()
+	
+	mouseLookSensetivityModifier = UserData.data.flat_mouse_sensetivity
 
 
 func _process(delta):
@@ -143,7 +147,7 @@ func _input(event):
 		$HudCanvas/HudContainer/ExitGameHud.show_dialog()
 	
 	if event is InputEventMouseMotion:
-		rotate_y(-Sensitivity_X * event.relative.x)
+		rotate_y(-Sensitivity_X * mouseLookSensetivityModifier * event.relative.x)
 	else:
 		if player.car == null:
 			if event.is_action_pressed("flat_player_crouch", true):
