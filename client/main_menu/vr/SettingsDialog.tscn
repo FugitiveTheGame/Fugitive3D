@@ -3,6 +3,7 @@
 [ext_resource path="res://client/main_menu/vr/SettingsDialog.gd" type="Script" id=1]
 
 [node name="SettingsDialog" type="WindowDialog"]
+visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -17,6 +18,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 movementOrientationOptionsPath = NodePath("VBoxContainer/MovementOrientationOptions")
+movementHandOptionsPath = NodePath("VBoxContainer/MovementHandOptions")
 movementVignettingCheckboxPath = NodePath("VBoxContainer/VignettingCheckBox")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -37,19 +39,33 @@ margin_bottom = 48.0
 text = "Movement Vignetting"
 
 [node name="MovementOrientationLabel" type="Label" parent="VBoxContainer"]
-margin_top = 56.0
 margin_right = 414.0
-margin_bottom = 81.0
+margin_bottom = 25.0
 text = "Movement Relative To:"
 
 [node name="MovementOrientationOptions" type="OptionButton" parent="VBoxContainer"]
-margin_top = 89.0
+margin_top = 33.0
 margin_right = 414.0
-margin_bottom = 126.0
+margin_bottom = 70.0
 text = "Head"
 items = [ "Head", null, false, 0, null, "Left Hand", null, false, 1, null, "Right Hand", null, false, 2, null ]
+selected = 0
+
+[node name="MovementHandLabel" type="Label" parent="VBoxContainer"]
+margin_top = 78.0
+margin_right = 414.0
+margin_bottom = 103.0
+text = "Dominant hand:"
+
+[node name="MovementHandOptions" type="OptionButton" parent="VBoxContainer"]
+margin_top = 111.0
+margin_right = 414.0
+margin_bottom = 148.0
+text = "Move Left / Turn Right"
+items = [ "Move Left / Turn Right", null, false, 0, null, "Move Right / Turn Left", null, false, 1, null ]
 selected = 0
 [connection signal="about_to_show" from="." to="." method="_on_SettingsDialog_about_to_show"]
 [connection signal="popup_hide" from="." to="." method="_on_SettingsDialog_popup_hide"]
 [connection signal="toggled" from="VBoxContainer/VignettingCheckBox" to="." method="_on_VignettingCheckBox_toggled"]
 [connection signal="item_selected" from="VBoxContainer/MovementOrientationOptions" to="." method="_on_MovementOrientationOptions_item_selected"]
+[connection signal="item_selected" from="VBoxContainer/MovementHandOptions" to="." method="_on_MovementHandOptions_item_selected"]
