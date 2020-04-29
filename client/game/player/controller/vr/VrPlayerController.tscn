@@ -24,6 +24,7 @@ current = true
 far = 300.0
 
 [node name="ShaderCache" parent="OQ_ARVRCamera" instance=ExtResource( 14 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.180837, -0.697663 )
 
 [node name="OQ_LeftController" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, -0.375232, -0.5 )
