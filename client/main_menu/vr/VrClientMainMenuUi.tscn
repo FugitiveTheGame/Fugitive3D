@@ -2,10 +2,11 @@
 
 [ext_resource path="res://client/main_menu/MainMenu.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/main_menu/vr/VrClientMainMenuUi.gd" type="Script" id=2]
-[ext_resource path="res://client/main_menu/vr/SettingsDialog.gd" type="Script" id=3]
+[ext_resource path="res://client/main_menu/vr/SettingsDialog.tscn" type="PackedScene" id=3]
 
 [node name="MainMenu" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+settingsDialogPath = NodePath("SettingsDialog")
 
 [node name="DebugButton" type="Button" parent="." index="5"]
 anchor_left = 1.0
@@ -25,52 +26,6 @@ margin_right = 160.0
 margin_bottom = 82.0
 text = "Settings"
 
-[node name="SettingsDialog" type="WindowDialog" parent="." index="8"]
-visible = true
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -223.0
-margin_top = -120.0
-margin_right = 223.0
-margin_bottom = 120.0
-window_title = "VR Settings"
-script = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VBoxContainer" type="VBoxContainer" parent="SettingsDialog" index="1"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 16.0
-margin_top = 16.0
-margin_right = -16.0
-margin_bottom = -16.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VignettingCheckBox" type="CheckBox" parent="SettingsDialog/VBoxContainer" index="0"]
-margin_right = 414.0
-margin_bottom = 48.0
-text = "Movement Vignetting"
-
-[node name="MovementOrientationLabel" type="Label" parent="SettingsDialog/VBoxContainer" index="1"]
-margin_top = 56.0
-margin_right = 414.0
-margin_bottom = 81.0
-text = "Movement Relative To:"
-
-[node name="MovementOrientationOptions" type="OptionButton" parent="SettingsDialog/VBoxContainer" index="2"]
-margin_top = 89.0
-margin_right = 414.0
-margin_bottom = 126.0
-text = "Head"
-items = [ "Head", null, false, 0, null, "Left Hand", null, false, 1, null, "Right Hand", null, false, 2, null ]
-selected = 0
+[node name="SettingsDialog" parent="." index="8" instance=ExtResource( 3 )]
 [connection signal="pressed" from="DebugButton" to="." method="_on_DebugButton_pressed"]
 [connection signal="pressed" from="OptionsContainer/SettingsButton" to="." method="_on_SettingsButton_pressed"]
-[connection signal="toggled" from="SettingsDialog/VBoxContainer/VignettingCheckBox" to="SettingsDialog" method="_on_VignettingCheckBox_toggled"]
-[connection signal="item_selected" from="SettingsDialog/VBoxContainer/MovementOrientationOptions" to="SettingsDialog" method="_on_MovementOrientationOptions_item_selected"]

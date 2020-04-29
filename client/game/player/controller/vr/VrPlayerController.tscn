@@ -109,7 +109,6 @@ script = ExtResource( 2 )
 capsule_radius = 0.3
 
 [node name="Locomotion_Stick" parent="." instance=ExtResource( 5 )]
-hand_for_movment_path = NodePath("../OQ_LeftController")
 [connection signal="on_exit_dialog_hide" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/ExitGameHud" to="." method="_on_ExitGameHud_on_exit_dialog_hide"]
 [connection signal="on_exit_dialog_show" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/ExitGameHud" to="." method="_on_ExitGameHud_on_exit_dialog_show"]
 [connection signal="return_to_main_menu" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/ExitGameHud" to="." method="_on_ExitGameHud_return_to_main_menu"]
