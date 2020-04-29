@@ -1,0 +1,55 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://client/main_menu/vr/SettingsDialog.gd" type="Script" id=1]
+
+[node name="SettingsDialog" type="WindowDialog"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -223.0
+margin_top = -120.0
+margin_right = 223.0
+margin_bottom = 120.0
+window_title = "VR Settings"
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+movementOrientationOptionsPath = NodePath("VBoxContainer/MovementOrientationOptions")
+movementVignettingCheckboxPath = NodePath("VBoxContainer/VignettingCheckBox")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 16.0
+margin_top = 16.0
+margin_right = -16.0
+margin_bottom = -16.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VignettingCheckBox" type="CheckBox" parent="VBoxContainer"]
+visible = false
+margin_right = 414.0
+margin_bottom = 48.0
+text = "Movement Vignetting"
+
+[node name="MovementOrientationLabel" type="Label" parent="VBoxContainer"]
+margin_top = 56.0
+margin_right = 414.0
+margin_bottom = 81.0
+text = "Movement Relative To:"
+
+[node name="MovementOrientationOptions" type="OptionButton" parent="VBoxContainer"]
+margin_top = 89.0
+margin_right = 414.0
+margin_bottom = 126.0
+text = "Head"
+items = [ "Head", null, false, 0, null, "Left Hand", null, false, 1, null, "Right Hand", null, false, 2, null ]
+selected = 0
+[connection signal="about_to_show" from="." to="." method="_on_SettingsDialog_about_to_show"]
+[connection signal="popup_hide" from="." to="." method="_on_SettingsDialog_popup_hide"]
+[connection signal="toggled" from="VBoxContainer/VignettingCheckBox" to="." method="_on_VignettingCheckBox_toggled"]
+[connection signal="item_selected" from="VBoxContainer/MovementOrientationOptions" to="." method="_on_MovementOrientationOptions_item_selected"]
