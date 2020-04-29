@@ -9,6 +9,8 @@ const MIN_VISION_DISTANCE := 3.0
 
 onready var rayCaster := $RayCast
 
+
+export(bool) var always_on := false
 var is_turned_on := true setget set_enabled
 
 
@@ -16,8 +18,11 @@ func _ready():
 	add_to_group(Groups.MOTION_SENSORS)
 	
 	# Start off
-	set_enabled(true)
-	$OmniLight.hide()
+	if not always_on:
+		set_enabled(true)
+		$OmniLight.hide()
+	else:
+		$MotionSensorArea.monitoring = false
 
 
 func set_enabled(isOn: bool):
