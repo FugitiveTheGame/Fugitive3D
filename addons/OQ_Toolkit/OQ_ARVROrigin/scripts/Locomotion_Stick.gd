@@ -17,14 +17,13 @@ onready var movement_vignette_rect = $MovementVignette_ColorRect;
 export(vr.AXIS) var move_left_right = vr.AXIS.LEFT_JOYSTICK_X;
 export(vr.AXIS) var move_forward_back = vr.AXIS.LEFT_JOYSTICK_Y;
 
-export(NodePath) var hand_for_movment_path: NodePath
-onready var hand_for_movment := get_node(hand_for_movment_path) as ARVRController
-
-
 export(vr.LocomotionStickTurnType) var turn_type = vr.LocomotionStickTurnType.CLICK
 export var smooth_turn_speed := 90.0;
 export var click_turn_angle := 45.0; 
 export(vr.AXIS) var turn_left_right = vr.AXIS.RIGHT_JOYSTICK_X;
+
+enum MovementOrientation { HEAD, HAND_LEFT, HAND_RIGHT }
+export(MovementOrientation) var movmenet_orientation := MovementOrientation.HEAD
 
 
 # this is a basic solution to get some control over movement into the
@@ -72,12 +71,16 @@ func move(dt):
 	var strafe_dir: Vector3
 	
 	# Use head if no hand was provided
-	if hand_for_movment == null:
-		view_dir = -vr.vrCamera.global_transform.basis.z;
-		strafe_dir = vr.vrCamera.global_transform.basis.x;
-	else:
-		view_dir = -hand_for_movment.global_transform.basis.z;
-		strafe_dir = hand_for_movment.global_transform.basis.x;
+	match movmenet_orientation:
+		MovementOrientation.HEAD:
+			view_dir = -vr.vrCamera.global_transform.basis.z;
+			strafe_dir = vr.vrCamera.global_transform.basis.x;
+		MovementOrientation.HAND_RIGHT:
+			view_dir = -vr.rightController.global_transform.basis.z;
+			strafe_dir = vr.rightController.global_transform.basis.x;
+		MovementOrientation.HAND_LEFT:
+			view_dir = -vr.leftController.global_transform.basis.z;
+			strafe_dir = vr.leftController.global_transform.basis.x;
 	
 	view_dir.y = 0.0;
 	strafe_dir.y = 0.0;
