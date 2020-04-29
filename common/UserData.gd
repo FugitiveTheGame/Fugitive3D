@@ -11,7 +11,7 @@ var data = get_default_data()
 static func get_default_data():
 	var default = {
 		version = USER_DATA_VERSION,
-		user_name = 'A Player',
+		user_name = '',
 		last_ip = '127.0.0.1',
 		last_port = ServerNetwork.SERVER_PORT,
 		full_screen = true,
