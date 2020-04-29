@@ -5,7 +5,7 @@ var be_seeker := true
 
 func _enter_tree():
 	# Change this to test what ever map you wish
-	GameData.general[GameData.GENERAL_MAP] = 0
+	GameData.general[GameData.GENERAL_MAP] = 1
 	
 	# Silence the start sound
 	(GameData.currentGame.get_node("StartAudio") as AudioStreamPlayer).volume_db = -100.0
