@@ -1,6 +1,5 @@
 extends Control
 
-var captured_finger_id := -1
 
 onready var baseLeft := $BaseLeft as TextureRect
 onready var baseRight := $BaseRight as TextureRect

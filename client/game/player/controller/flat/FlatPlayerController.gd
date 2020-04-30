@@ -42,6 +42,13 @@ func held_object_set(value: Spatial):
 func held_object_get() -> Spatial:
 	return heldObject
 
+export(NodePath) var crouch_button_path: NodePath
+onready var crouch_button := get_node(crouch_button_path) as TouchScreenButton
+
+export(NodePath) var sprint_button_path: NodePath
+onready var sprint_button := get_node(sprint_button_path) as TouchScreenButton
+
+
 func mouse_captured() -> bool:
 	return Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED
 
@@ -79,8 +86,6 @@ func _process(delta):
 	
 	if virtual_joysticks.right_output.x != 0.0:
 		rotate_y(-Sensitivity_X * mouseLookSensetivityModifier * virtual_joysticks.right_output.x * joystickMultiplier)
-	
-	
 
 
 func _physics_process(delta):
@@ -178,6 +183,8 @@ func _notification(what):
 			capture_mouse()
 		elif what == MainLoop.NOTIFICATION_WM_FOCUS_OUT:
 			release_mouse()
+		elif what == MainLoop.NOTIFICATION_WM_GO_BACK_REQUEST: 
+			$HudCanvas/HudContainer/ExitGameHud.show_dialog()
 
 
 func update_camera_to_head():

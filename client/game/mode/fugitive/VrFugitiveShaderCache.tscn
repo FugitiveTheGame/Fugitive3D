@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://addons/godot-oculus/scenes/oculus_shader_cache.tscn" type="PackedScene" id=1]
+[ext_resource path="res://client/game/mode/fugitive/FugitiveShaderCache.tscn" type="PackedScene" id=2]
+
+[node name="ShaderCache" instance=ExtResource( 2 )]
+
+[node name="ovr_shader_cache" parent="." index="1" instance=ExtResource( 1 )]
