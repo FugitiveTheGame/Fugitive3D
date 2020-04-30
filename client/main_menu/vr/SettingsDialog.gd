@@ -10,6 +10,12 @@ export(NodePath) var movementVignettingCheckboxPath: NodePath
 onready var movementVignettingCheckbox := get_node(movementVignettingCheckboxPath) as CheckBox
 
 
+func _ready():
+	# $TODO: https://github.com/GodotVR/godot_oculus_mobile/issues/72
+	# Once that issue is fixed, then this can work on the Quest
+	movementVignettingCheckbox.visible = not OS.has_feature("mobile")
+
+
 func load_data():
 	movementVignettingCheckbox.pressed = UserData.data.vr_movement_vignetting
 	movementOrientationOptions.selected = UserData.data.vr_movement_orientation
