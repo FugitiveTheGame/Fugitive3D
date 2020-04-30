@@ -7,7 +7,7 @@ godot.windows.opt.tools.64.exe --export-debug "Client Flat - Windows Desktop" ex
 
 :: Build the server
 taskkill /IM "Server.exe" /F
-godot.windows.opt.tools.64.exe --export-debug "Server - Windows Desktop" export/server/Server.exe
+godot.windows.opt.tools.64.exe --export-debug "Server - Windows Desktop" export/server/windows/Server.exe
 
 :: Run a server with connected clients
 cd extras/scripts

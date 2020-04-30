@@ -1,3 +1,3 @@
-cd ..\..\export\server\
+cd ..\..\export\server\windows\
 start Server.exe
 exit
