@@ -43,8 +43,8 @@ margin_right = 137.0
 margin_bottom = 167.0
 
 [node name="VirtualJoysticks" parent="HudCanvas" index="1"]
-margin_top = -450.0
-margin_bottom = -180.0
+anchor_right = 0.994
+margin_right = 9.59998
 
 [node name="Player" parent="." index="2" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0 )

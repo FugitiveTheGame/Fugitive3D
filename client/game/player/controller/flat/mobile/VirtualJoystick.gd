@@ -39,6 +39,9 @@ func get_min_size(rect: Vector2) -> float:
 
 
 func _gui_input(event):
+	handle_left(event)
+	handle_right(event)
+	
 	if event is InputEventScreenDrag:
 		if event.index == left_finger_index:
 			left_output = update_stick(stickLeft, baseLeft, left_move_radius, left_initial_position, event.position)
@@ -72,41 +75,59 @@ func update_stick(stick: TextureRect, base: TextureRect, radius: float, centerPo
 
 
 func _unhandled_input(event):
-	if event is InputEventScreenTouch:
-		if not event.pressed:
-			if event.index == left_finger_index:
-				release_left()
-			elif event.index == right_finger_index:
-				release_right()
+	handle_left(event)
+	handle_right(event)
 
 
 func _on_BaseLeft_gui_input(event):
-	if event is InputEventScreenTouch:
-		if event.pressed:
-			if left_finger_index == -1 and baseLeft.get_rect().has_point(event.position):
-				left_finger_index = event.index
-		else:
-			release_left()
-			if left_finger_index != -1:
-				left_finger_index = -1
+	handle_left(event)
 
 
 func _on_BaseRight_gui_input(event):
+	handle_right(event)
+
+
+func handle_left(event: InputEvent):
 	if event is InputEventScreenTouch:
 		if event.pressed:
-			if right_finger_index == -1:
-				right_finger_index = event.index
-		else:
+			if baseLeft.get_rect().has_point(event.position):
+				if left_finger_index == -1:
+					left_finger_index = event.index
+					print("capture LEFT")
+		elif event.index == left_finger_index:
+			release_left()
+	elif event is InputEventScreenDrag:
+		if left_finger_index == -1 and baseLeft.get_rect().has_point(event.position):
+			left_finger_index = event.index
+			print("capture LEFT")
+
+
+func handle_right(event: InputEvent):
+	if event is InputEventScreenTouch:
+		if event.pressed:
+			if baseRight.get_rect().has_point(event.position):
+				if right_finger_index == -1:
+					right_finger_index = event.index
+					print("capture RIGHT")
+		elif event.index == right_finger_index:
 			release_right()
-			if right_finger_index != -1:
-				right_finger_index = -1
+	elif event is InputEventScreenDrag:
+		if right_finger_index == -1 and baseRight.get_rect().has_point(event.position):
+			right_finger_index = event.index
+			print("capture RIGHT")
 
 
 func release_left():
-	left_output = Vector2()
-	stickLeft.rect_position = left_initial_position
+	if left_finger_index > -1:
+		print("release LEFT")
+		left_finger_index = -1
+		left_output = Vector2()
+		stickLeft.rect_position = left_initial_position
 
 
 func release_right():
-	right_output = Vector2()
-	stickRight.rect_position = right_initial_position
+	if right_finger_index > -1:
+		print("release RIGHT")
+		right_finger_index = -1
+		right_output = Vector2()
+		stickRight.rect_position = right_initial_position
