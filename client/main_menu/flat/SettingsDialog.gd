@@ -11,7 +11,12 @@ export(NodePath) var mouseSensetivitySliderPath: NodePath
 onready var mouseSensetivitySlider := get_node(mouseSensetivitySliderPath) as HSlider
 
 
-const MOUSE_SENSETIVITY_CONTENT := "Mouse Sensitivity: %1.1f"
+const MOUSE_SENSETIVITY_CONTENT := "Look Sensitivity: %1.1f"
+
+
+func _ready():
+	fullscreenCheckbox.visible = not OS.has_touchscreen_ui_hint()
+
 
 func load_data():
 	fullscreenCheckbox.pressed = UserData.data.full_screen

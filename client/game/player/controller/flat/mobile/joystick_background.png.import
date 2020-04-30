@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/joystick_background.png-8b6777a99eeec9d8c87ddfa479e1e144.stex"
+path="res://.import/joystick_background.png-c33084c32776ad55c6fb2c8e8c1477c5.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/Joystick/joystick_background.png"
-dest_files=[ "res://.import/joystick_background.png-8b6777a99eeec9d8c87ddfa479e1e144.stex" ]
+source_file="res://client/game/player/controller/flat/mobile/joystick_background.png"
+dest_files=[ "res://.import/joystick_background.png-c33084c32776ad55c6fb2c8e8c1477c5.stex" ]
 
 [params]
 

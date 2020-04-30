@@ -1,0 +1,72 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://client/game/player/controller/flat/mobile/joystick_background_cross.png" type="Texture" id=1]
+[ext_resource path="res://client/game/player/controller/flat/mobile/joystick_background.png" type="Texture" id=2]
+[ext_resource path="res://client/game/player/controller/flat/mobile/VirtualJoystick.gd" type="Script" id=3]
+[ext_resource path="res://client/game/player/controller/flat/mobile/joystick_circle.png" type="Texture" id=4]
+
+[node name="VirtualJoystick" type="Control"]
+anchor_left = -0.018
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 28.8
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BaseLeft" type="TextureRect" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 80.0
+margin_top = -360.0
+margin_right = 336.0
+margin_bottom = -104.0
+texture = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Stick" type="TextureRect" parent="BaseLeft"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -64.0
+margin_top = -64.0002
+margin_right = 64.0
+margin_bottom = 64.0002
+texture = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BaseRight" type="TextureRect" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -340.0
+margin_top = -360.0
+margin_right = -84.0
+margin_bottom = -104.0
+texture = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Stick" type="TextureRect" parent="BaseRight"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -64.0
+margin_top = -64.0002
+margin_right = 64.0
+margin_bottom = 64.0002
+texture = ExtResource( 4 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="gui_input" from="BaseLeft" to="." method="_on_BaseLeft_gui_input"]
+[connection signal="gui_input" from="BaseRight" to="." method="_on_BaseRight_gui_input"]

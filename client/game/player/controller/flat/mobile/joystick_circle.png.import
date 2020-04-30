@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/joystick_circle.png-492d8d957f5fb57519bbc9af640796f0.stex"
+path="res://.import/joystick_circle.png-da08af010fd3135a34b19a9d5e6b1d4a.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://addons/Joystick/joystick_circle.png"
-dest_files=[ "res://.import/joystick_circle.png-492d8d957f5fb57519bbc9af640796f0.stex" ]
+source_file="res://client/game/player/controller/flat/mobile/joystick_circle.png"
+dest_files=[ "res://.import/joystick_circle.png-da08af010fd3135a34b19a9d5e6b1d4a.stex" ]
 
 [params]
 

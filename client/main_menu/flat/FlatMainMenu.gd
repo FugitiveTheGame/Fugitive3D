@@ -3,9 +3,21 @@ extends "res://client/main_menu/MainMenu.gd"
 export(NodePath) var settingsWindowPath: NodePath
 onready var settingsWindow := get_node(settingsWindowPath) as WindowDialog
 
+export(NodePath) var debugButtonPath: NodePath
+onready var debugButton := get_node(debugButtonPath) as Button
+
+
+func _ready():
+	debugButton.visible = OS.is_debug_build()
+
+
 func go_to_lobby():
 	get_tree().change_scene("res://client/lobby/flat/FlatLobby.tscn")
 
 
 func _on_SettingsButton_pressed():
 	settingsWindow.popup_centered()
+
+
+func _on_DebugButton_pressed():
+	get_tree().change_scene("res://client/game/mode/fugitive/FugitiveGame-dev.tscn")

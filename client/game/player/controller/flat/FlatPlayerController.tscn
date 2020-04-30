@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://client/game/player/hud/StaminaHud.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/game/player/controller/flat/Camera.gd" type="Script" id=2]
 [ext_resource path="res://client/game/player/controller/flat/FlatPlayerController.gd" type="Script" id=3]
 [ext_resource path="res://client/game/mode/fugitive/hud/ExitGameHud.tscn" type="PackedScene" id=4]
+[ext_resource path="res://client/game/player/controller/flat/mobile/VirtualJoystick.tscn" type="PackedScene" id=5]
 [ext_resource path="res://client/game/player/hud/CrouchIndicatorHud.tscn" type="PackedScene" id=6]
 
 [node name="PlayerController" type="KinematicBody"]
@@ -70,6 +71,13 @@ margin_right = 179.12
 margin_bottom = 64.1
 size_flags_horizontal = 0
 size_flags_vertical = 0
+
+[node name="VirtualJoysticks" parent="HudCanvas" instance=ExtResource( 5 )]
+anchor_left = 0.0
+anchor_top = 1.0
+margin_left = 0.0
+margin_top = -590.0
+margin_bottom = -99.9999
 [connection signal="on_exit_dialog_hide" from="HudCanvas/HudContainer/ExitGameHud" to="." method="_on_ExitGameHud_on_exit_dialog_hide"]
 [connection signal="on_exit_dialog_show" from="HudCanvas/HudContainer/ExitGameHud" to="." method="_on_ExitGameHud_on_exit_dialog_show"]
 [connection signal="return_to_main_menu" from="HudCanvas/HudContainer/ExitGameHud" to="." method="_on_ExitGameHud_return_to_main_menu"]
