@@ -16,3 +16,8 @@ func on_car_entered(car):
 
 func on_car_exited(car):
 	pass
+
+
+func _process(delta):
+	# Client side prediction
+	player.velocity = move_and_slide(player.velocity, Vector3(0.0, 1.0, 0.0))

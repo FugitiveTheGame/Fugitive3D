@@ -58,9 +58,6 @@ func capture_mouse():
 func release_mouse():
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 
-
-var velocity := Vector3(0,0,0)
-var forward_velocity := 0.0
 var Movement_Speed := 0.0
 
 
@@ -73,7 +70,6 @@ func _ready():
 		capture_mouse()
 	
 	self.camera.current = CameraIsCurrentOnStart
-	forward_velocity = Movement_Speed
 	update_camera_to_head()
 	
 	mouseLookSensetivityModifier = UserData.data.flat_mouse_sensetivity
@@ -89,9 +85,9 @@ func _process(delta):
 
 
 func _physics_process(delta):
-	velocity.x = 0
-	velocity.z = 0
-	velocity.y -= Gravity * delta
+	player.velocity.x = 0
+	player.velocity.z = 0
+	player.velocity.y -= Gravity * delta
 	
 	var Accelaration: float
 	var Maximum_Speed: float
@@ -110,52 +106,52 @@ func _physics_process(delta):
 		Movement_Speed += Accelaration
 		if Movement_Speed > Maximum_Speed:
 			Movement_Speed = Maximum_Speed
-		velocity.x += -global_transform.basis.z.x * Movement_Speed
-		velocity.z += -global_transform.basis.z.z * Movement_Speed
+		player.velocity.x += -global_transform.basis.z.x * Movement_Speed
+		player.velocity.z += -global_transform.basis.z.z * Movement_Speed
 	elif Input.is_action_pressed("flat_player_down") or virtual_joysticks.left_output.y < 0.0:
 		Movement_Speed += Accelaration
 		if Movement_Speed > Maximum_Speed:
 			Movement_Speed = Maximum_Speed
-		velocity.x += global_transform.basis.z.x * Movement_Speed
-		velocity.z += global_transform.basis.z.z * Movement_Speed
+		player.velocity.x += global_transform.basis.z.x * Movement_Speed
+		player.velocity.z += global_transform.basis.z.z * Movement_Speed
 	
 	if Input.is_action_pressed("flat_player_left") or virtual_joysticks.left_output.x < 0.0:
 		Movement_Speed += Accelaration
 		if Movement_Speed > Maximum_Speed:
 			Movement_Speed = Maximum_Speed
-		velocity.x += -global_transform.basis.x.x * Movement_Speed
-		velocity.z += -global_transform.basis.x.z * Movement_Speed
+		player.velocity.x += -global_transform.basis.x.x * Movement_Speed
+		player.velocity.z += -global_transform.basis.x.z * Movement_Speed
 	elif Input.is_action_pressed("flat_player_right") or virtual_joysticks.left_output.x > 0.0:
 		Movement_Speed += Accelaration
 		if Movement_Speed > Maximum_Speed:
 			Movement_Speed = Maximum_Speed
-		velocity.x += global_transform.basis.x.x * Movement_Speed
-		velocity.z += global_transform.basis.x.z * Movement_Speed
+		player.velocity.x += global_transform.basis.x.x * Movement_Speed
+		player.velocity.z += global_transform.basis.x.z * Movement_Speed
 	
 	if OS.has_touchscreen_ui_hint():
 		if virtual_joysticks.left_output.y == 0.0 and virtual_joysticks.left_output.x == 0.0:
-			velocity.x = 0
-			velocity.z = 0
+			player.velocity.x = 0
+			player.velocity.z = 0
 	else:
 		if not(Input.is_action_pressed("flat_player_up") or Input.is_action_pressed("flat_player_down") or Input.is_action_pressed("flat_player_left") or Input.is_action_pressed("flat_player_right")):
-			velocity.x = 0
-			velocity.z = 0
+			player.velocity.x = 0
+			player.velocity.z = 0
 	
 	if is_on_floor():
 		if Input.is_action_just_pressed("flat_player_jump") and player.stamina >= player.JUMP_STAMINA_COST:
 			player.stamina -= player.JUMP_STAMINA_COST
-			velocity.y = Jump_Speed
+			player.velocity.y = Jump_Speed
 	
 	if not allowMovement:
-		velocity = Vector3()
+		player.velocity = Vector3()
 	
-	velocity = move_and_slide(velocity, Vector3(0.0, 1.0, 0.0))
+	player.velocity = move_and_slide(player.velocity, Vector3(0.0, 1.0, 0.0))
 	
 	# Gravity means that even when we're on the ground, our Y component always
 	# has a large size. So for isMoving we only consider X and Z
-	player.isMoving = (abs(Vector3(velocity.x, 0.0, velocity.z).length()) > MOVEMENT_LAMBDA)
+	player.isMoving = (Vector3(player.velocity.x, 0.0, player.velocity.z).length() > MOVEMENT_LAMBDA)
 	
-	player.rpc_unreliable("network_update", translation, rotation, player.is_crouching, player.isMoving, player.isSprinting)
+	player.rpc_unreliable("network_update", translation, rotation, player.velocity, player.is_crouching, player.isMoving, player.isSprinting)
 
 
 func _input(event):
