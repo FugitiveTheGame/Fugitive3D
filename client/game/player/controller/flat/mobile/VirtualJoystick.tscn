@@ -6,10 +6,10 @@
 [ext_resource path="res://client/game/player/controller/flat/mobile/joystick_circle.png" type="Texture" id=4]
 
 [node name="VirtualJoystick" type="Control"]
-anchor_left = -0.018
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 28.8
+anchor_right = 0.994
+anchor_bottom = 0.289
+margin_right = 9.59998
+margin_bottom = -0.100006
 script = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -18,10 +18,10 @@ __meta__ = {
 [node name="BaseLeft" type="TextureRect" parent="."]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_left = 80.0
-margin_top = -360.0
-margin_right = 336.0
-margin_bottom = -104.0
+margin_left = 100.0
+margin_top = -260.0
+margin_right = 356.0
+margin_bottom = -4.0
 texture = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -46,10 +46,10 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -340.0
-margin_top = -360.0
-margin_right = -84.0
-margin_bottom = -104.0
+margin_left = -320.0
+margin_top = -260.0
+margin_right = -64.0
+margin_bottom = -4.0
 texture = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false

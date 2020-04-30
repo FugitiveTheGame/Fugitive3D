@@ -83,7 +83,7 @@ func _unhandled_input(event):
 func _on_BaseLeft_gui_input(event):
 	if event is InputEventScreenTouch:
 		if event.pressed:
-			if left_finger_index == -1:
+			if left_finger_index == -1 and baseLeft.get_rect().has_point(event.position):
 				left_finger_index = event.index
 		else:
 			release_left()

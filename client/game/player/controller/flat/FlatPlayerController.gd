@@ -31,6 +31,9 @@ var allowMovement := true
 onready var virtual_joysticks := $HudCanvas/VirtualJoysticks
 const joystickMultiplier := 6.0
 
+onready var touch_sprint_button := $HudCanvas/SprintButton
+
+
 export(NodePath) var HeldObjectPath: NodePath
 var heldObject: Spatial setget held_object_set, held_object_get
 func held_object_set(value: Spatial):
@@ -76,6 +79,8 @@ func _process(delta):
 	
 	if virtual_joysticks.right_output.x != 0.0:
 		rotate_y(-Sensitivity_X * mouseLookSensetivityModifier * virtual_joysticks.right_output.x * joystickMultiplier)
+	
+	
 
 
 func _physics_process(delta):
@@ -149,18 +154,15 @@ func _physics_process(delta):
 
 
 func _input(event):
-	# Don't process input if we aren't capturing the mouse
-	if not mouse_captured():
-		return
-	
 	if event.is_action_released("flat_player_exit"):
 		$HudCanvas/HudContainer/ExitGameHud.show_dialog()
 	
-	if event is InputEventMouseMotion:
+	# Don't process input if we aren't capturing the mouse
+	if event is InputEventMouseMotion and mouse_captured():
 		rotate_y(-Sensitivity_X * mouseLookSensetivityModifier * event.relative.x)
 	else:
 		if player.car == null:
-			if event.is_action_pressed("flat_player_crouch", true):
+			if event.is_action_pressed("flat_player_crouch"):
 				if player != null:
 					player.is_crouching = true
 					update_camera_to_head()
@@ -196,3 +198,9 @@ func _on_ExitGameHud_on_exit_dialog_show():
 
 func _on_ExitGameHud_on_exit_dialog_hide():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+
+func _on_CrouchButton_released():
+	if player.car == null:
+		player.is_crouching = not player.is_crouching
+		update_camera_to_head()
