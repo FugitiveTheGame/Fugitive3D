@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://client/vr_utils/VrShaderCache.gd" type="Script" id=1]
+[ext_resource path="res://client/utils/ShaderCache.gd" type="Script" id=1]
 
 [node name="ShaderCache" type="Spatial"]
 script = ExtResource( 1 )

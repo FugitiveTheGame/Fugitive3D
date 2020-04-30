@@ -2,6 +2,13 @@ extends "res://client/game/player/controller/flat/FlatPlayerController.gd"
 
 onready var hud := $HudCanvas/HudContainer/PregameHud
 
+export(NodePath) var use_button_path: NodePath
+onready var use_button := get_node(use_button_path) as TouchScreenButton
+
+export(NodePath) var car_horn_button_path: NodePath
+onready var car_horn_button := get_node(car_horn_button_path) as TouchScreenButton
+
+
 func _input(event):
 	if not player.gameStarted and event.is_action_released("flat_player_jump"):
 		player.set_ready()
@@ -27,13 +34,47 @@ func _process(delta):
 	
 	# Only allow the driver to control the car
 	if player.car != null and player.car.is_driver(player.id):
-		var forward := Input.is_action_pressed("flat_player_up")
-		var backward := Input.is_action_pressed("flat_player_down")
-		var left := Input.is_action_pressed("flat_player_left")
-		var right := Input.is_action_pressed("flat_player_right")
+		var forward := Input.is_action_pressed("flat_player_up") or (virtual_joysticks.left_output.y > 0.0) as bool
+		var backward := Input.is_action_pressed("flat_player_down") or (virtual_joysticks.left_output.y < 0.0) as bool
+		var left := Input.is_action_pressed("flat_player_left") or (virtual_joysticks.left_output.x < 0.0) as bool
+		var right := Input.is_action_pressed("flat_player_right") or (virtual_joysticks.left_output.x > 0.0) as bool
 		var breaking := Input.is_action_pressed("flat_player_jump")
 		
 		player.car.process_input(forward, backward, left, right, breaking, delta)
+		
+	if OS.has_touchscreen_ui_hint():
+		if player.car != null:
+			use_button.show()
+			
+			crouch_button.hide()
+			sprint_button.hide()
+			
+			if player.car.is_driver(player.id):
+				car_horn_button.show()
+			else:
+				car_horn_button.hide()
+		else:
+			car_horn_button.hide()
+			
+			crouch_button.show()
+			sprint_button.show()
+			
+			if get_nearest_car() != null:
+				use_button.show()
+			else:
+				use_button.hide()
+
+
+func get_nearest_car():
+	var closestCar = null
+	
+	var cars = get_tree().get_nodes_in_group(Groups.CARS)
+	for car in cars:
+		if car.enterArea.overlaps_body(player.playerBody):
+			closestCar = car
+			break
+	
+	return closestCar
 
 
 func on_car_entered(car):

@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://client/game/player/controller/flat/FlatPlayerController.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/game/mode/fugitive/FlatFugitiveController.gd" type="Script" id=2]
@@ -6,9 +6,19 @@
 [ext_resource path="res://client/game/mode/fugitive/hud/GameTimerHud.tscn" type="PackedScene" id=4]
 [ext_resource path="res://client/game/mode/fugitive/hud/PregameHud.tscn" type="PackedScene" id=5]
 [ext_resource path="res://client/game/mode/fugitive/hud/EndGameHud.tscn" type="PackedScene" id=6]
+[ext_resource path="res://client/game/player/controller/flat/mobile/button_use_pressed.png" type="Texture" id=7]
+[ext_resource path="res://client/game/player/controller/flat/mobile/button_use_normal.png" type="Texture" id=8]
+[ext_resource path="res://client/game/player/controller/flat/mobile/button_horn_pressed.png" type="Texture" id=9]
+[ext_resource path="res://client/game/player/controller/flat/mobile/button_horn_normal.png" type="Texture" id=10]
+[ext_resource path="res://client/game/mode/fugitive/FugitiveShaderCache.tscn" type="PackedScene" id=11]
 
 [node name="PlayerController" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+use_button_path = NodePath("HudCanvas/UseButton")
+car_horn_button_path = NodePath("HudCanvas/HornButton")
+
+[node name="ShaderCache" parent="Camera" index="0" instance=ExtResource( 11 )]
+transform = Transform( 0.001, 0, 0, 0, 0.001, 0, 0, 0, 0.001, 0, -0.47944, -1.4271 )
 
 [node name="CrouchingHud" parent="HudCanvas/HudContainer/IndicatorsContainer" index="0"]
 margin_top = 100.0
@@ -48,3 +58,20 @@ anchor_right = 1.0
 anchor_bottom = 0.0
 margin_left = -64.0
 margin_bottom = 64.0
+
+[node name="VirtualJoysticks" parent="HudCanvas" index="1"]
+visible = false
+
+[node name="UseButton" type="TouchScreenButton" parent="HudCanvas" index="4"]
+position = Vector2( 1120, 820 )
+normal = ExtResource( 8 )
+pressed = ExtResource( 7 )
+action = "flat_player_use"
+visibility_mode = 1
+
+[node name="HornButton" type="TouchScreenButton" parent="HudCanvas" index="5"]
+position = Vector2( 1010, 820 )
+normal = ExtResource( 10 )
+pressed = ExtResource( 9 )
+action = "flat_car_horn"
+visibility_mode = 1

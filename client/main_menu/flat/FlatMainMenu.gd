@@ -21,3 +21,11 @@ func _on_SettingsButton_pressed():
 
 func _on_DebugButton_pressed():
 	get_tree().change_scene("res://client/game/mode/fugitive/FugitiveGame-dev.tscn")
+
+
+# Allow back to exit on mobile
+func _notification(what):
+	if is_inside_tree():
+		if what == MainLoop.NOTIFICATION_WM_GO_BACK_REQUEST: 
+			print("Closing game")
+			get_tree().quit()

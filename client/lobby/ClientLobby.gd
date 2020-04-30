@@ -24,6 +24,11 @@ func _on_StartButton_pressed():
 
 
 func _on_LeaveButton_pressed():
+	leave_lobby()
+
+
+func leave_lobby():
+	print("Leaving lobby")
 	# Disconnect from the server
 	ClientNetwork.reset_network()
 	on_disconnect()
@@ -68,3 +73,10 @@ func _on_StartTimer_timeout():
 
 func _on_RandomButton_pressed():
 	ServerNetwork.randomize_teams()
+
+
+# Allow back to leave the lobby on mobile
+func _notification(what):
+	if is_inside_tree():
+		if what == MainLoop.NOTIFICATION_WM_GO_BACK_REQUEST: 
+			leave_lobby()
