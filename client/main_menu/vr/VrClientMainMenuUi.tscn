@@ -7,18 +7,7 @@
 [node name="MainMenu" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 settingsDialogPath = NodePath("SettingsDialog")
-
-[node name="DebugButton" type="Button" parent="." index="5"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -104.42
-margin_top = 40.4182
-margin_right = -12.42
-margin_bottom = 77.4182
-text = "debug"
-__meta__ = {
-"_edit_use_anchors_": false
-}
+debugButtonPath = NodePath("OptionsContainer/DebugButton")
 
 [node name="SettingsButton" type="Button" parent="OptionsContainer" index="1"]
 margin_top = 45.0
@@ -26,6 +15,15 @@ margin_right = 160.0
 margin_bottom = 82.0
 text = "Settings"
 
-[node name="SettingsDialog" parent="." index="8" instance=ExtResource( 3 )]
-[connection signal="pressed" from="DebugButton" to="." method="_on_DebugButton_pressed"]
+[node name="DebugButton" type="Button" parent="OptionsContainer" index="2"]
+margin_top = 90.0
+margin_right = 160.0
+margin_bottom = 127.0
+text = "debug"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="SettingsDialog" parent="." index="7" instance=ExtResource( 3 )]
 [connection signal="pressed" from="OptionsContainer/SettingsButton" to="." method="_on_SettingsButton_pressed"]
+[connection signal="pressed" from="OptionsContainer/DebugButton" to="." method="_on_DebugButton_pressed"]
