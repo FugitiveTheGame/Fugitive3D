@@ -85,7 +85,7 @@ func host_game(port: int = SERVER_PORT) -> bool:
 	ClientNetwork.reset_network()
 	
 	var peer = NetworkedMultiplayerENet.new()
-	peer.compression_mode = NetworkedMultiplayerENet.CompressionMode.COMPRESS_ZSTD
+	peer.compression_mode = 4
 	var result = peer.create_server(port, MAX_PLAYERS)
 	if result == OK:
 		get_tree().set_network_peer(peer)
