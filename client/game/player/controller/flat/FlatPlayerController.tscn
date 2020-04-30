@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://client/game/player/hud/StaminaHud.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/game/player/controller/flat/Camera.gd" type="Script" id=2]
@@ -6,6 +6,10 @@
 [ext_resource path="res://client/game/mode/fugitive/hud/ExitGameHud.tscn" type="PackedScene" id=4]
 [ext_resource path="res://client/game/player/controller/flat/mobile/VirtualJoystick.tscn" type="PackedScene" id=5]
 [ext_resource path="res://client/game/player/hud/CrouchIndicatorHud.tscn" type="PackedScene" id=6]
+[ext_resource path="res://client/game/player/controller/flat/mobile/button_sprint_normal.png" type="Texture" id=7]
+[ext_resource path="res://client/game/player/controller/flat/mobile/button_crouch_pressed.png" type="Texture" id=8]
+[ext_resource path="res://client/game/player/controller/flat/mobile/button_sprint_pressed.png" type="Texture" id=9]
+[ext_resource path="res://client/game/player/controller/flat/mobile/button_crouch_normal.png" type="Texture" id=10]
 
 [node name="PlayerController" type="KinematicBody"]
 collision_mask = 11
@@ -73,11 +77,24 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="VirtualJoysticks" parent="HudCanvas" instance=ExtResource( 5 )]
-anchor_left = 0.0
 anchor_top = 1.0
-margin_left = 0.0
-margin_top = -590.0
-margin_bottom = -99.9999
+anchor_bottom = 1.0
+margin_top = -440.0
+margin_bottom = -169.0
+
+[node name="CrouchButton" type="TouchScreenButton" parent="HudCanvas"]
+position = Vector2( 1390, 820 )
+normal = ExtResource( 10 )
+pressed = ExtResource( 8 )
+visibility_mode = 1
+
+[node name="SprintButton" type="TouchScreenButton" parent="HudCanvas"]
+position = Vector2( 1230, 820 )
+normal = ExtResource( 7 )
+pressed = ExtResource( 9 )
+action = "flat_player_sprint"
+visibility_mode = 1
 [connection signal="on_exit_dialog_hide" from="HudCanvas/HudContainer/ExitGameHud" to="." method="_on_ExitGameHud_on_exit_dialog_hide"]
 [connection signal="on_exit_dialog_show" from="HudCanvas/HudContainer/ExitGameHud" to="." method="_on_ExitGameHud_on_exit_dialog_show"]
 [connection signal="return_to_main_menu" from="HudCanvas/HudContainer/ExitGameHud" to="." method="_on_ExitGameHud_return_to_main_menu"]
+[connection signal="released" from="HudCanvas/CrouchButton" to="." method="_on_CrouchButton_released"]

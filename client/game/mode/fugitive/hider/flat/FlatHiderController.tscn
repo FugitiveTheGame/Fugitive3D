@@ -56,6 +56,9 @@ margin_bottom = 167.0
 [node name="GameTimerReadout" parent="HudCanvas/HudContainer" index="5"]
 margin_left = -128.0
 
+[node name="CrouchButton" parent="HudCanvas" index="2"]
+action = "flat_player_crouch"
+
 [node name="Player" parent="." index="2" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0 )
 shapePath = NodePath("../CollisionShape")
