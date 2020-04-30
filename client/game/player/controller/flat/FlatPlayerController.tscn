@@ -77,10 +77,12 @@ size_flags_horizontal = 0
 size_flags_vertical = 0
 
 [node name="VirtualJoysticks" parent="HudCanvas" instance=ExtResource( 5 )]
-anchor_top = 1.0
-anchor_bottom = 1.0
-margin_top = -440.0
-margin_bottom = -169.0
+anchor_top = 0.178
+anchor_right = 1.0
+anchor_bottom = 0.633
+margin_top = -0.199997
+margin_right = 0.0
+margin_bottom = 0.299988
 
 [node name="CrouchButton" type="TouchScreenButton" parent="HudCanvas"]
 position = Vector2( 1390, 820 )
