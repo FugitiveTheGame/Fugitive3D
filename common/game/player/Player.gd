@@ -17,6 +17,9 @@ var stamina_max := DEFAULT_STAMINA_MAX
 var stamina_sprint_rate := DEFAULT_STAMINA_SPRINT_RATE
 var stamina_regen_rate := DEFAULT_STAMINA_REGEN_RATE
 
+# Use for clientside prediction
+var velocity := Vector3()
+
 var id: int
 # This is useful so players on opposing teams from the local player
 #  can be configured differently
@@ -71,12 +74,13 @@ onready var playerShape := get_node(shapePath) as Spatial
 onready var playerBody := get_node(playerBodyPath) as KinematicBody
 
 
-puppet func network_update(networkPosition: Vector3, networkRotation: Vector3, networkCrouching: bool, networkMoving: bool, networkSprinting):
+puppet func network_update(networkPosition: Vector3, networkRotation: Vector3, networkVelocity: Vector3, networkCrouching: bool, networkMoving: bool, networkSprinting):
 	playerController.translation = networkPosition
 	playerController.rotation = networkRotation
 	self.is_crouching = networkCrouching
 	self.isMoving = networkMoving
 	self.isSprinting = networkSprinting
+	self.velocity = networkVelocity
 
 
 func _physics_process(delta):
