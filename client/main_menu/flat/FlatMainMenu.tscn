@@ -25,7 +25,7 @@ __meta__ = {
 }
 
 [node name="Viewport" type="Viewport" parent="ViewportContainer" index="0"]
-size = Vector2( 1600, 900 )
+size = Vector2( 1280, 720 )
 handle_input_locally = false
 render_target_update_mode = 3
 gui_disable_input = true
@@ -35,6 +35,10 @@ transform = Transform( -0.237642, 0.304248, -0.922475, 0.016146, 0.950786, 0.309
 current = true
 
 [node name="Backgroud" parent="ViewportContainer/Viewport" index="1" instance=ExtResource( 3 )]
+
+[node name="ServerBrowser" parent="." index="4"]
+grow_horizontal = 0
+grow_vertical = 0
 
 [node name="SettingsButton" type="Button" parent="OptionsContainer" index="1"]
 margin_top = 45.0

@@ -19,11 +19,15 @@ func _ready():
 
 
 func go_to_flat():
-	# Handle initial fullscreen setting
-	var fullscreen = UserData.data.full_screen
-	if fullscreen != OS.window_fullscreen:
-		Utils.set_window_to_screen_size()
-		OS.window_fullscreen = UserData.data.full_screen
+	# Handle desktop window settings
+	if not OS.has_feature("mobile"):
+		var fullscreen = UserData.data.full_screen
+		# Non-fullscreen desktop should be larger than the default resolution we see on mobile
+		if not fullscreen:
+			OS.window_size = Vector2(1600, 900)
+		
+		if fullscreen != OS.window_fullscreen:
+			OS.window_fullscreen = UserData.data.full_screen
 	
 	get_tree().change_scene("res://client/main_menu/flat/FlatMainMenu.tscn")
 
