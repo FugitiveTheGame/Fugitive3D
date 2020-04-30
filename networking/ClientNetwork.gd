@@ -89,3 +89,7 @@ remotesync func on_start_game():
 
 func is_local_player(playerId: int) -> bool:
 	return playerId == get_tree().get_network_unique_id()
+
+
+func force_disconnect(playerId: int):
+	rpc_id(playerId, "on_disconnected_from_server")

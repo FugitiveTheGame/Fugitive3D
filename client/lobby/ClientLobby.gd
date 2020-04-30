@@ -14,7 +14,7 @@ func _ready():
 	ClientNetwork.connect("lost_connection_to_server", self, "on_disconnect")
 	
 	# Tell the server about you
-	ServerNetwork.register_self(get_tree().get_network_unique_id(), ClientNetwork.localPlayerName)
+	ServerNetwork.register_self(get_tree().get_network_unique_id(), ClientNetwork.localPlayerName, UserData.GAME_VERSION)
 	
 	$StartLabel.hide()
 
