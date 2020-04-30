@@ -15,7 +15,7 @@ export(bool) var Invert_Y_Axis := false
 export(float) var Maximum_Y_Look := 45
 export(float) var Crouch_Accelaration := 1.0
 export(float) var Walk_Accelaration := 3.0
-export(float) var Sprint_Accelaration := 6.0
+export(float) var Sprint_Accelaration := 5.0
 export(float) var Jump_Speed := 10.0
 export(float) var Gravity := pow(9.8, 2)
 export(bool) var CameraIsCurrentOnStart: bool = true
@@ -27,6 +27,9 @@ var mouseLookSensetivityModifier := 1.0
 const MOVEMENT_LAMBDA := 0.01
 
 var allowMovement := true
+
+onready var virtual_joysticks := $HudCanvas/VirtualJoysticks
+const joystickMultiplier := 6.0
 
 export(NodePath) var HeldObjectPath: NodePath
 var heldObject: Spatial setget held_object_set, held_object_get
@@ -70,13 +73,16 @@ func _process(delta):
 	########################################
 	# Handle input for gameplay purposes
 	player.isSprinting = Input.is_action_pressed("flat_player_sprint")
+	
+	if virtual_joysticks.right_output.x != 0.0:
+		rotate_y(-Sensitivity_X * mouseLookSensetivityModifier * virtual_joysticks.right_output.x * joystickMultiplier)
 
 
 func _physics_process(delta):
 	velocity.x = 0
 	velocity.z = 0
 	velocity.y -= Gravity * delta
-
+	
 	var Accelaration: float
 	var Maximum_Speed: float
 	
@@ -90,40 +96,44 @@ func _physics_process(delta):
 		Accelaration = Walk_Accelaration
 		Maximum_Speed = player.speed_walk
 	
-	if Input.is_action_pressed("flat_player_up"):
+	if Input.is_action_pressed("flat_player_up") or virtual_joysticks.left_output.y > 0.0:
 		Movement_Speed += Accelaration
 		if Movement_Speed > Maximum_Speed:
 			Movement_Speed = Maximum_Speed
 		velocity.x += -global_transform.basis.z.x * Movement_Speed
 		velocity.z += -global_transform.basis.z.z * Movement_Speed
-	elif Input.is_action_pressed("flat_player_down"):
+	elif Input.is_action_pressed("flat_player_down") or virtual_joysticks.left_output.y < 0.0:
 		Movement_Speed += Accelaration
 		if Movement_Speed > Maximum_Speed:
 			Movement_Speed = Maximum_Speed
 		velocity.x += global_transform.basis.z.x * Movement_Speed
 		velocity.z += global_transform.basis.z.z * Movement_Speed
 	
-	if Input.is_action_pressed("flat_player_left"):
+	if Input.is_action_pressed("flat_player_left") or virtual_joysticks.left_output.x < 0.0:
 		Movement_Speed += Accelaration
 		if Movement_Speed > Maximum_Speed:
 			Movement_Speed = Maximum_Speed
 		velocity.x += -global_transform.basis.x.x * Movement_Speed
 		velocity.z += -global_transform.basis.x.z * Movement_Speed
-	elif Input.is_action_pressed("flat_player_right"):
+	elif Input.is_action_pressed("flat_player_right") or virtual_joysticks.left_output.x > 0.0:
 		Movement_Speed += Accelaration
 		if Movement_Speed > Maximum_Speed:
 			Movement_Speed = Maximum_Speed
 		velocity.x += global_transform.basis.x.x * Movement_Speed
 		velocity.z += global_transform.basis.x.z * Movement_Speed
-		
-	if not(Input.is_action_pressed("flat_player_up") or Input.is_action_pressed("flat_player_down") or Input.is_action_pressed("flat_player_left") or Input.is_action_pressed("flat_player_right")):
-		velocity.x = 0
-		velocity.z = 0
+	
+	if OS.has_touchscreen_ui_hint():
+		if virtual_joysticks.left_output.y == 0.0 and virtual_joysticks.left_output.x == 0.0:
+			velocity.x = 0
+			velocity.z = 0
+	else:
+		if not(Input.is_action_pressed("flat_player_up") or Input.is_action_pressed("flat_player_down") or Input.is_action_pressed("flat_player_left") or Input.is_action_pressed("flat_player_right")):
+			velocity.x = 0
+			velocity.z = 0
 	
 	if is_on_floor():
 		if Input.is_action_just_pressed("flat_player_jump") and player.stamina >= player.JUMP_STAMINA_COST:
 			player.stamina -= player.JUMP_STAMINA_COST
-			
 			velocity.y = Jump_Speed
 	
 	if not allowMovement:

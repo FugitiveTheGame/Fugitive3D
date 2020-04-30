@@ -14,6 +14,7 @@ margin_right = 0.0
 margin_bottom = 0.0
 script = ExtResource( 2 )
 settingsWindowPath = NodePath("SettingsDialog")
+debugButtonPath = NodePath("OptionsContainer/DebugButton")
 
 [node name="ViewportContainer" type="ViewportContainer" parent="." index="0"]
 anchor_right = 1.0
@@ -41,5 +42,12 @@ margin_right = 160.0
 margin_bottom = 82.0
 text = "Settings"
 
+[node name="DebugButton" type="Button" parent="OptionsContainer" index="2"]
+margin_top = 90.0
+margin_right = 160.0
+margin_bottom = 127.0
+text = "debug"
+
 [node name="SettingsDialog" parent="." index="8" instance=ExtResource( 4 )]
 [connection signal="pressed" from="OptionsContainer/SettingsButton" to="." method="_on_SettingsButton_pressed"]
+[connection signal="pressed" from="OptionsContainer/DebugButton" to="." method="_on_DebugButton_pressed"]

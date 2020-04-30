@@ -75,11 +75,6 @@ _global_script_classes=[ {
 "path": "res://common/game/mode/fugitive/hider/Hider.gd"
 }, {
 "base": "Control",
-"class": "Joystick",
-"language": "GDScript",
-"path": "res://addons/Joystick/Joystick.gd"
-}, {
-"base": "Control",
 "class": "Lobby",
 "language": "GDScript",
 "path": "res://common/lobby/Lobby.gd"
@@ -140,6 +135,11 @@ _global_script_classes=[ {
 "path": "res://common/game/FSM/Transition.gd"
 }, {
 "base": "Node",
+"class": "Utils",
+"language": "GDScript",
+"path": "res://common/Utils.gd"
+}, {
+"base": "Node",
 "class": "WallClockTimer",
 "language": "GDScript",
 "path": "res://addons/WallclockTimer/WallClockTimer.gd"
@@ -158,7 +158,6 @@ _global_script_class_icons={
 "GameMode": "",
 "Groups": "",
 "Hider": "",
-"Joystick": "",
 "Lobby": "",
 "MotionSensor": "",
 "OQClass_GrabbableRigidBody": "",
@@ -171,6 +170,7 @@ _global_script_class_icons={
 "StreetLight": "",
 "TimeUtils": "",
 "Transition": "",
+"Utils": "",
 "WallClockTimer": "res://addons/WallclockTimer/icon.png"
 }
 
@@ -200,7 +200,8 @@ gdscript/warnings/return_value_discarded=false
 window/size/width=1600
 window/size/height=900
 window/dpi/allow_hidpi=true
-window/stretch/aspect="expand"
+window/stretch/mode="2d"
+window/stretch/aspect="keep_height"
 
 [editor_plugins]
 
