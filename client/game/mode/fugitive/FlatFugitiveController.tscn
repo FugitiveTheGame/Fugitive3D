@@ -14,8 +14,8 @@
 
 [node name="PlayerController" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-use_button_path = NodePath("HudCanvas/UseButton")
-car_horn_button_path = NodePath("HudCanvas/HornButton")
+use_button_path = NodePath("HudCanvas/HudContainer/UseButton")
+car_horn_button_path = NodePath("HudCanvas/HudContainer/HornButton")
 
 [node name="ShaderCache" parent="Camera" index="0" instance=ExtResource( 11 )]
 transform = Transform( 0.001, 0, 0, 0, 0.001, 0, 0, 0, 0.001, 0, -0.47944, -1.4271 )
@@ -59,19 +59,19 @@ anchor_bottom = 0.0
 margin_left = -64.0
 margin_bottom = 64.0
 
-[node name="VirtualJoysticks" parent="HudCanvas" index="1"]
-visible = false
-
-[node name="UseButton" type="TouchScreenButton" parent="HudCanvas" index="4"]
-position = Vector2( 1120, 820 )
+[node name="UseButton" type="TouchScreenButton" parent="HudCanvas/HudContainer" index="9"]
+position = Vector2( 800, 650 )
 normal = ExtResource( 8 )
 pressed = ExtResource( 7 )
 action = "flat_player_use"
 visibility_mode = 1
 
-[node name="HornButton" type="TouchScreenButton" parent="HudCanvas" index="5"]
-position = Vector2( 1010, 820 )
+[node name="HornButton" type="TouchScreenButton" parent="HudCanvas/HudContainer" index="10"]
+position = Vector2( 710, 650 )
 normal = ExtResource( 10 )
 pressed = ExtResource( 9 )
 action = "flat_car_horn"
 visibility_mode = 1
+
+[node name="VirtualJoysticks" parent="HudCanvas" index="1"]
+visible = false

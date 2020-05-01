@@ -13,7 +13,7 @@
 script = ExtResource( 2 )
 HeldObjectPath = NodePath("Flashlight")
 car_lock_hud_path = NodePath("HudCanvas/HudContainer/BarsContainer/CarLockHud")
-car_lock_button_path = NodePath("HudCanvas/LockButton")
+car_lock_button_path = NodePath("HudCanvas/HudContainer/LockButton")
 
 [node name="Camera" parent="." index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.36891, 0 )
@@ -45,22 +45,16 @@ margin_top = 10.0
 margin_right = 137.0
 margin_bottom = 167.0
 
-[node name="VirtualJoysticks" parent="HudCanvas" index="1"]
-anchor_right = 0.994
-margin_right = 9.59998
-
-[node name="CrouchButton" parent="HudCanvas" index="2"]
-position = Vector2( 1390, 820 )
-
-[node name="SprintButton" parent="HudCanvas" index="3"]
-position = Vector2( 1230, 820 )
-
-[node name="LockButton" type="TouchScreenButton" parent="HudCanvas" index="7"]
-position = Vector2( 890, 820 )
+[node name="LockButton" type="TouchScreenButton" parent="HudCanvas/HudContainer" index="11"]
+position = Vector2( 620, 650 )
 normal = ExtResource( 7 )
 pressed = ExtResource( 8 )
 action = "flat_seeker_lock"
 visibility_mode = 1
+
+[node name="VirtualJoysticks" parent="HudCanvas" index="1"]
+anchor_right = 0.994
+margin_right = 9.59998
 
 [node name="Player" parent="." index="2" instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0 )
