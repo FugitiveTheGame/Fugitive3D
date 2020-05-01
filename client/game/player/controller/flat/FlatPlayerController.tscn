@@ -16,8 +16,8 @@
 [node name="PlayerController" type="KinematicBody"]
 collision_mask = 11
 script = ExtResource( 3 )
-crouch_button_path = NodePath("HudCanvas/CrouchButton")
-sprint_button_path = NodePath("HudCanvas/SprintButton")
+crouch_button_path = NodePath("HudCanvas/HudContainer/CrouchButton")
+sprint_button_path = NodePath("HudCanvas/HudContainer/SprintButton")
 
 [node name="Camera" type="Camera" parent="."]
 far = 300.0
@@ -80,6 +80,26 @@ margin_bottom = 64.1
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
+[node name="JumpButton" type="TouchScreenButton" parent="HudCanvas/HudContainer"]
+position = Vector2( 1206, 650 )
+normal = ExtResource( 11 )
+pressed = ExtResource( 12 )
+action = "flat_player_jump"
+visibility_mode = 1
+
+[node name="CrouchButton" type="TouchScreenButton" parent="HudCanvas/HudContainer"]
+position = Vector2( 1050, 650 )
+normal = ExtResource( 10 )
+pressed = ExtResource( 8 )
+visibility_mode = 1
+
+[node name="SprintButton" type="TouchScreenButton" parent="HudCanvas/HudContainer"]
+position = Vector2( 890, 650 )
+normal = ExtResource( 7 )
+pressed = ExtResource( 9 )
+action = "flat_player_sprint"
+visibility_mode = 1
+
 [node name="VirtualJoysticks" parent="HudCanvas" instance=ExtResource( 5 )]
 anchor_top = 0.178
 anchor_right = 1.0
@@ -87,27 +107,7 @@ anchor_bottom = 0.633
 margin_top = -0.199997
 margin_right = 0.0
 margin_bottom = 0.299988
-
-[node name="CrouchButton" type="TouchScreenButton" parent="HudCanvas"]
-position = Vector2( 1380, 820 )
-normal = ExtResource( 10 )
-pressed = ExtResource( 8 )
-visibility_mode = 1
-
-[node name="SprintButton" type="TouchScreenButton" parent="HudCanvas"]
-position = Vector2( 1220, 820 )
-normal = ExtResource( 7 )
-pressed = ExtResource( 9 )
-action = "flat_player_sprint"
-visibility_mode = 1
-
-[node name="JumpButton" type="TouchScreenButton" parent="HudCanvas"]
-position = Vector2( 1536, 820 )
-normal = ExtResource( 11 )
-pressed = ExtResource( 12 )
-action = "flat_player_jump"
-visibility_mode = 1
 [connection signal="on_exit_dialog_hide" from="HudCanvas/HudContainer/ExitGameHud" to="." method="_on_ExitGameHud_on_exit_dialog_hide"]
 [connection signal="on_exit_dialog_show" from="HudCanvas/HudContainer/ExitGameHud" to="." method="_on_ExitGameHud_on_exit_dialog_show"]
 [connection signal="return_to_main_menu" from="HudCanvas/HudContainer/ExitGameHud" to="." method="_on_ExitGameHud_return_to_main_menu"]
-[connection signal="released" from="HudCanvas/CrouchButton" to="." method="_on_CrouchButton_released"]
+[connection signal="released" from="HudCanvas/HudContainer/CrouchButton" to="." method="_on_CrouchButton_released"]
