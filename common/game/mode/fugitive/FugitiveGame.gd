@@ -221,6 +221,7 @@ func process_hiders():
 	var hiders = get_tree().get_nodes_in_group(Hider.GROUP)
 	var lights = get_tree().get_nodes_in_group(Groups.LIGHTS)
 	var cars = get_tree().get_nodes_in_group(Groups.CARS)
+	var winZones := map.get_win_zones()
 	
 	var curPlayerType = GameData.get_current_player_type()
 	
@@ -252,7 +253,11 @@ func process_hiders():
 		
 		for car in cars:
 			car.process_hider(hider)
-
+			
+		for winZone in winZones:
+			# Now, check if this hider is in the win zone.
+			if (winZone.overlaps_body(hider.playerBody)):
+				hider.set_current_visibility(1.0);
 
 func check_win_conditions():
 	# Only the server will end the game
