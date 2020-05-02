@@ -16,6 +16,28 @@ func _ready():
 		#go_to_pc_vr()
 		#go_to_mobile_vr()
 		go_to_flat()
+	
+	var playerName = UserData.data.user_name
+	var serverIp = UserData.data.last_ip
+	var serverPort = int(UserData.data.last_port)
+	
+	var args := OS.get_cmdline_args()
+	print("Command Line args: %d" % [args.size()])
+	if (args.size() > 0):
+		for arg in args:
+			print("    : %s" % arg)
+			var keyValuePair = arg.split("=")
+			
+			match keyValuePair[0]:
+				"--name":
+					playerName = keyValuePair[1]
+					# Also override the default file save path so each test user has its own settings.
+					UserData.file_name = 'user://user_data-%s.json' % playerName
+				"--ip":
+					serverIp = keyValuePair[1]
+				_:
+					print("UNKNOWN ARGUMENT %s" % keyValuePair[0])
+		ClientNetwork.join_game(serverIp, serverPort, playerName.strip_edges())
 
 
 func go_to_flat():
