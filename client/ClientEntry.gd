@@ -16,12 +16,6 @@ func _ready():
 		#go_to_pc_vr()
 		#go_to_mobile_vr()
 		go_to_flat()
-	
-	# Note that this one time handling of command line arguments is intentionally
-	# happening after the MainMenu for a given client is initialized: those scenes have
-	# handlers for join that need to be ready in order for the game to process the join command
-	# correctly.
-	handle_commandline_args()
 
 
 func handle_commandline_args():
@@ -52,14 +46,16 @@ func go_to_flat():
 	# Handle desktop window settings
 	if not OS.has_feature("mobile"):
 		var fullscreen = UserData.data.full_screen
-		# Non-fullscreen desktop should be larger than the default resolution we see on mobile
-		if not fullscreen:
-			OS.window_size = Vector2(1600, 900)
-		
 		if fullscreen != OS.window_fullscreen:
-			OS.window_fullscreen = UserData.data.full_screen
+			OS.window_fullscreen = fullscreen
 	
 	get_tree().change_scene("res://client/main_menu/flat/FlatMainMenu.tscn")
+	
+	# Note that this one time handling of command line arguments is intentionally
+	# happening after the MainMenu for a given client is initialized: those scenes have
+	# handlers for join that need to be ready in order for the game to process the join command
+	# correctly.
+	handle_commandline_args()
 
 
 func go_to_pc_vr():
