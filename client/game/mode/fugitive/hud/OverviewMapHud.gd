@@ -118,13 +118,14 @@ func _draw():
 			draw_rect(rect, Color.white)
 			draw_set_transform(Vector2(), 0.0, Vector2(1.0, 1.0))
 
+
 func get_map_rotation(globalTransform: Transform) -> float:
 	return (globalTransform.basis.get_euler().y + deg2rad(180)) * -1.0
 
 
 func _on_Map_draw():
 	# First draw the eblows
-	var elbowRadius := floor(road_width/2.0) - 1.0
+	var elbowRadius := floor(road_width/2.0) - 1.0 # -1 so the elbows don't peak past the roads
 	for road in roads:
 		var fromCoord = null
 		for node in road.get_children():
@@ -185,7 +186,7 @@ func _on_Map_draw():
 		else:
 			namePos -= Vector2(textSize.x/2.0, textSize.y)
 			pass
-		#Vector2(-(textSize.x/2.0), -(textSize.y/2.0))
+		
 		mapBackground.draw_set_transform(namePos, rotation, Vector2(1.0, 1.0))
 		mapBackground.draw_string(font, Vector2(), road.street_name)
 		mapBackground.draw_set_transform(Vector2(), 0.0, Vector2(1.0, 1.0))
