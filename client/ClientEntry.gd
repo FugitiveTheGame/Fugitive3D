@@ -17,6 +17,10 @@ func _ready():
 		#go_to_mobile_vr()
 		go_to_flat()
 	
+	handle_commandline_args()
+
+
+func handle_commandline_args():
 	var playerName = UserData.data.user_name
 	var serverIp = UserData.data.last_ip
 	var serverPort = int(UserData.data.last_port)
