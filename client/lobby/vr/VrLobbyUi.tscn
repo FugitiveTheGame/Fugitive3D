@@ -4,8 +4,6 @@
 [ext_resource path="res://client/lobby/vr/VrLobbyUi.gd" type="Script" id=2]
 
 [node name="Lobby" instance=ExtResource( 1 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
 rect_min_size = Vector2( 1024, 600 )
 script = ExtResource( 2 )
 
@@ -20,61 +18,64 @@ margin_right = 0.0
 margin_bottom = 0.0
 
 [node name="VBoxContainer" parent="PanelContainer" index="0"]
-margin_right = 1010.0
-margin_bottom = 586.0
+margin_right = 1266.0
+margin_bottom = 706.0
 
 [node name="LeaveButton" parent="PanelContainer/VBoxContainer" index="0"]
-margin_left = 909.0
-margin_right = 996.0
+margin_left = 1165.0
+margin_right = 1252.0
 
 [node name="Title" parent="PanelContainer/VBoxContainer" index="1"]
-margin_right = 996.0
+margin_right = 1252.0
 
 [node name="HSplitContainer" parent="PanelContainer/VBoxContainer" index="2"]
-margin_right = 996.0
-margin_bottom = 527.0
+margin_right = 1252.0
+margin_bottom = 647.0
 
 [node name="VBoxContainer2" parent="PanelContainer/VBoxContainer/HSplitContainer" index="0"]
-margin_right = 494.0
-margin_bottom = 410.0
+margin_right = 622.0
+margin_bottom = 530.0
 
 [node name="ColumnLabel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2" index="0"]
-margin_right = 494.0
+margin_right = 622.0
 
 [node name="HSeparator" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2" index="1"]
-margin_right = 494.0
+margin_right = 622.0
 
 [node name="Panel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2" index="2"]
-margin_right = 494.0
-margin_bottom = 410.0
+margin_right = 622.0
+margin_bottom = 530.0
 
 [node name="Players" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2/Panel/ScrollContainer" index="0"]
-margin_right = 494.0
+margin_right = 622.0
 
 [node name="VBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer" index="1"]
-margin_left = 502.0
-margin_right = 996.0
-margin_bottom = 410.0
+margin_left = 630.0
+margin_right = 1252.0
+margin_bottom = 530.0
 
 [node name="ColumnLabel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="0"]
-margin_right = 494.0
+margin_right = 622.0
 
 [node name="HSeparator" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="1"]
-margin_right = 494.0
+margin_right = 622.0
 
 [node name="MapLabel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="2"]
-margin_right = 494.0
+margin_right = 622.0
 
 [node name="MapButton" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="3"]
-margin_right = 494.0
+margin_right = 622.0
 
-[node name="Spacer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="4"]
-margin_right = 494.0
+[node name="MapDescription" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="4"]
+margin_right = 622.0
 
-[node name="RandomButton" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="5"]
-margin_right = 494.0
+[node name="Spacer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="5"]
+margin_right = 622.0
+
+[node name="RandomButton" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="6"]
+margin_right = 622.0
 
 [node name="StartButton" parent="PanelContainer/VBoxContainer" index="3"]
-margin_top = 535.0
-margin_right = 996.0
-margin_bottom = 572.0
+margin_top = 655.0
+margin_right = 1252.0
+margin_bottom = 692.0
