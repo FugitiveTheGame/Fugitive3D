@@ -92,3 +92,7 @@ func headstart_timer_timeout():
 remotesync func on_go_to_lobby():
 	print("SERVER: on_go_to_lobby()")
 	get_tree().change_scene("res://server/lobby/ServerLobby.tscn")
+
+
+func _on_FpsTimer_timeout():
+	print("%d fps" % Engine.get_frames_per_second())
