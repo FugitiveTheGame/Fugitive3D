@@ -40,27 +40,27 @@ func on_disconnected_from_server():
 	get_tree().disconnect('server_disconnected', self, 'on_disconnected_from_server')
 
 
-func register_player(recipientId: int, player: Dictionary):
-	rpc_id(recipientId, "on_register_player", player)
-
+func register_player(recipientId: int, player: PlayerData):
+	rpc_id(recipientId, "on_register_player", player.player_data_dictionary)
+	
+func register_player_from_raw_data(recipientId: int, playerDataDictionary: Dictionary):
+	rpc_id(recipientId, "on_register_player", playerDataDictionary)
 
 remote func on_register_player(player: Dictionary):
-	var playerId = player[GameData.PLAYER_ID]
-	var playerName = player[GameData.PLAYER_NAME]
+	var playerId = player.id
+	var playerName = player.name
 	
 	print("on_register_player: %d - %s" % [playerId, playerName] )
-	GameData.add_player(player)
+	GameData.add_player_from_raw_data(player)
 	emit_signal("create_player", playerId)
 	print("Total players: %d" % GameData.players.size())
 
+func update_player(playerData: PlayerData):
+	rpc("on_update_player", playerData.player_data_dictionary)
 
-func update_player(playerInfo):
-	rpc("on_update_player", playerInfo)
-
-
-remotesync func on_update_player(playerInfo):
-	GameData.update_player(playerInfo)
-	emit_signal("update_player", playerInfo[GameData.PLAYER_ID])
+remotesync func on_update_player(playerInfoDictionary: Dictionary):
+	GameData.update_player_from_raw_data(playerInfoDictionary)
+	emit_signal("update_player", playerInfoDictionary.id)
 
 
 func update_game_data():

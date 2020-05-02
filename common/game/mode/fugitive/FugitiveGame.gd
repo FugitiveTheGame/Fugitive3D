@@ -114,14 +114,14 @@ func spawn_player(playerId: int, hiderSpawns: Array, seekerSpawns: Array):
 	var localPlayerId := get_tree().get_network_unique_id()
 	var localPlayerType: int
 	if GameData.players.has(localPlayerId):
-		localPlayerType = GameData.players[localPlayerId][GameData.PLAYER_TYPE]
+		localPlayerType = GameData.get_player(localPlayerId).get_type()
 	else:
 		localPlayerType = FugitiveTeamResolver.PlayerType.Unset
 	
 	# Extract the player data
-	var player = GameData.players[playerId]
-	var playerName := player[GameData.PLAYER_NAME] as String
-	var playerType := player[GameData.PLAYER_TYPE] as int
+	var player := GameData.get_player(playerId)
+	var playerName := player.get_name()
+	var playerType := player.get_type()
 	
 	# This is the node for the PlayerController
 	var pcNode: Node

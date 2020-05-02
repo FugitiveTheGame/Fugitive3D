@@ -34,13 +34,13 @@ func populate_map_list():
 
 
 func create_player(playerId: int):
-	var existingPlayer := find_player_node(playerId)
-	if existingPlayer != null:
+	var existingPlayerNode := find_player_node(playerId)
+	if existingPlayerNode != null:
 		return
 	
 	print("Creating player in lobby")
 	
-	var player = GameData.players[playerId]
+	var player := GameData.get_player(playerId)
 	var mode = Maps.get_mode_for_map(GameData.general[GameData.GENERAL_MAP])
 	
 	var playerListItem = preload("res://common/lobby/PlayerListItem.tscn")
@@ -76,7 +76,7 @@ func remove_player(playerId: int):
 
 
 func repopulate_player(playerId: int):
-	var player = GameData.players[playerId]
+	var player := GameData.get_player(playerId)
 	var mode = Maps.get_mode_for_map(GameData.general[GameData.GENERAL_MAP])
 	
 	var node := find_player_node(playerId)
@@ -157,7 +157,7 @@ func can_start() -> bool:
 	
 	if not players.empty():
 		for player in players:
-			var playerteam = player[GameData.PLAYER_TYPE]
+			var playerteam = player.get_type()
 			actualTeamSizes[playerteam] += 1
 	
 	var teamSizesAreValid = true
@@ -181,8 +181,8 @@ func on_start_game():
 
 # Update if this local client is the host
 func update_host():
-	var host := GameData.get_host()
-	if host != null and host[GameData.PLAYER_ID] == get_tree().get_network_unique_id():
+	var host := GameData.get_host() as PlayerData
+	if host != null and host.get_id() == get_tree().get_network_unique_id():
 		is_host = true
 	else:
 		is_host = false
