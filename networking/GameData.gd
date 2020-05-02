@@ -36,7 +36,7 @@ func create_new_player_raw_data(playerId: int, playerName: String, playerType: i
 func add_player_from_raw_data(newPlayerDictionary: Dictionary) -> bool:
 	var playerId = newPlayerDictionary.id
 	if not self.players.has(playerId):
-		var newPlayer := load("res://networking/PlayerData.gd").new() as PlayerData
+		var newPlayer := preload("res://networking/PlayerData.gd").new() as PlayerData
 		newPlayer.load(newPlayerDictionary)
 		
 		self.players[playerId] = newPlayer
