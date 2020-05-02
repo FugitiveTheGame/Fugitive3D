@@ -114,12 +114,12 @@ func spawn_player(playerId: int, hiderSpawns: Array, seekerSpawns: Array):
 	var localPlayerId := get_tree().get_network_unique_id()
 	var localPlayerType: int
 	if GameData.players.has(localPlayerId):
-		localPlayerType = GameData.players[localPlayerId].get_type()
+		localPlayerType = GameData.get_player(localPlayerId).get_type()
 	else:
 		localPlayerType = FugitiveTeamResolver.PlayerType.Unset
 	
 	# Extract the player data
-	var player := GameData.players[playerId] as PlayerData
+	var player := GameData.get_player(playerId)
 	var playerName := player.get_name()
 	var playerType := player.get_type()
 	

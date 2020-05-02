@@ -40,7 +40,7 @@ func create_player(playerId: int):
 	
 	print("Creating player in lobby")
 	
-	var player := GameData.players[playerId] as PlayerData
+	var player := GameData.get_player(playerId)
 	var mode = Maps.get_mode_for_map(GameData.general[GameData.GENERAL_MAP])
 	
 	var playerListItem = preload("res://common/lobby/PlayerListItem.tscn")
@@ -76,7 +76,7 @@ func remove_player(playerId: int):
 
 
 func repopulate_player(playerId: int):
-	var player := GameData.players[playerId] as PlayerData
+	var player := GameData.get_player(playerId)
 	var mode = Maps.get_mode_for_map(GameData.general[GameData.GENERAL_MAP])
 	
 	var node := find_player_node(playerId)
