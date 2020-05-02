@@ -26,6 +26,7 @@ func _enter_tree():
 		GameData.add_player(GameData.create_new_player(10, "dumb donkey 0", FugitiveTeamResolver.PlayerType.Seeker))
 	
 	GameData.add_player(GameData.create_new_player(11, "dumb donkey 1", FugitiveTeamResolver.PlayerType.Hider))
+	GameData.add_player(GameData.create_new_player(12, "dumb donkey 2", FugitiveTeamResolver.PlayerType.Seeker))
 
 
 func _ready():
