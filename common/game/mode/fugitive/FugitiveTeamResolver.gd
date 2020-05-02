@@ -24,13 +24,13 @@ static func get_team_name(teamId: int) -> String:
 static func get_random_team_layout(mapId: int, numPlayers: int) -> Array:
 	var teams = []
 	if numPlayers < 3:
-		teams.push_back(1) # Seekers
 		teams.push_back(numPlayers-1) # Hiders
+		teams.push_back(1) # Seekers
 	elif numPlayers < 6:
-		teams.push_back(2) # Seekers
 		teams.push_back(numPlayers-2) # Hiders
+		teams.push_back(2) # Seekers
 	else:
-		teams.push_back(3) # Seekers
 		teams.push_back(numPlayers-3) # Hiders
+		teams.push_back(3) # Seekers
 	
 	return teams
