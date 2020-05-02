@@ -67,7 +67,7 @@ func get_name() -> String:
 # Parse command line port in the form of:
 # --port xxxxx
 func get_port() -> int:
-	var port := ServerNetwork.SERVER_PORT
+	var port = ServerNetwork.SERVER_PORT
 	
 	var args := OS.get_cmdline_args()
 	for ii in range(args.size()):

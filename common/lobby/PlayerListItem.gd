@@ -1,17 +1,16 @@
 extends Control
 
-var playerInfo = null
+var playerInfo: PlayerData = null
 
 onready var teamButton := $TeamButton as OptionButton
 var curTeamResolver = null
 
-func populate(player, is_starting: bool, is_host: bool, game_mode: Dictionary):
+func populate(player: PlayerData, is_starting: bool, is_host: bool, game_mode: Dictionary):
 	playerInfo = player
+	var playerId = player.get_id()
 	
-	var playerId = playerInfo[GameData.PLAYER_ID]
-	
-	$NameLabel.text = playerInfo[GameData.PLAYER_NAME]
-	$HostLabel.visible = playerInfo[GameData.PLAYER_HOST]
+	$NameLabel.text = player.get_name()
+	$HostLabel.visible = player.get_is_host()
 	
 	curTeamResolver = game_mode[Maps.MODE_TEAM_RESOLVER]
 	
@@ -21,7 +20,7 @@ func populate(player, is_starting: bool, is_host: bool, game_mode: Dictionary):
 		var teamname = curTeamResolver.get_team_name(ii)
 		teamButton.add_item(teamname, ii)
 	
-	var playerType = playerInfo[GameData.PLAYER_TYPE]
+	var playerType := player.get_type()
 	teamButton.selected = playerType
 	
 	if (is_host or ClientNetwork.is_local_player(playerId)) and not is_starting:
@@ -31,4 +30,4 @@ func populate(player, is_starting: bool, is_host: bool, game_mode: Dictionary):
 
 
 func _on_TeamButton_item_selected(id):
-	ServerNetwork.change_player_type(playerInfo[GameData.PLAYER_ID], id)
+	ServerNetwork.change_player_type(playerInfo.get_id(), id)

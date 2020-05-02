@@ -17,6 +17,10 @@ func _ready():
 		#go_to_mobile_vr()
 		go_to_flat()
 	
+	# Note that this one time handling of command line arguments is intentionally
+	# happening after the MainMenu for a given client is initialized: those scenes have
+	# handlers for join that need to be ready in order for the game to process the join command
+	# correctly.
 	handle_commandline_args()
 
 
