@@ -256,8 +256,8 @@ func process_hiders():
 			
 		for winZone in winZones:
 			# Now, check if this hider is in the win zone.
-			if (winZone.overlaps_body(hider.playerBody)):
-				hider.set_current_visibility(1.0);
+			if winZone.overlaps_body(hider.playerBody):
+				hider.set_current_visibility(1.0)
 
 func check_win_conditions():
 	# Only the server will end the game
