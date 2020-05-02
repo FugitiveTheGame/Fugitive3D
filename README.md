@@ -12,21 +12,29 @@ __Controls:__
 - Q (hold) - Cops Lock car
 - E - Get in or out of car
 - F - Toggle flashlight
+- M (hold) - Map
 
 
 #### VR:
 _This client should run on both Oculus Quest as well as PC VR_
 
 __Controls:__
+On Foot:
 - Left Stick - Movement
 - Real Crouch - Crouch
-- Real Jump - Jump
-- X (hold) - Cops Lock car
-- Y - Toggle HUD (_Better FPS on Quest with HUD off_)
+- [Not in VR] - Jump
+- A - Sprint
 - B - Toggle flashlight
+- X (hold) - Cops Lock car
+- Left Stick In - Map
+- Y - Toggle HUD (_Better FPS on Quest with HUD off_)
+
+In Car:
+- Left Stick - Movement
 - Left Trigger - Honk Horn
 - A - Get in or out of car
 - Right Trigger - Break Car
+
 
 
 ## Server:

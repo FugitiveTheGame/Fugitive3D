@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://client/game/player/controller/vr/VrPlayerController.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/game/mode/fugitive/VrFugitiveController.gd" type="Script" id=2]
@@ -7,7 +7,7 @@
 [ext_resource path="res://client/game/mode/fugitive/hud/FrozenHud.tscn" type="PackedScene" id=5]
 [ext_resource path="res://client/game/mode/fugitive/hud/EndGameHud.tscn" type="PackedScene" id=6]
 [ext_resource path="res://client/game/mode/fugitive/VrFugitiveShaderCache.tscn" type="PackedScene" id=7]
-
+[ext_resource path="res://client/game/mode/fugitive/hud/OverviewMapHud.tscn" type="PackedScene" id=8]
 
 [node name="PlayerController" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
@@ -98,6 +98,16 @@ align = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="OverviewMapHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="8" instance=ExtResource( 8 )]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -128.0
+margin_top = -128.0
+margin_right = 128.0
+margin_bottom = 128.0
 
 [node name="OQ_RightController" parent="." index="2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0.216302, -0.5 )
