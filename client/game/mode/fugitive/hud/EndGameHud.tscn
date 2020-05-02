@@ -7,15 +7,20 @@
 [node name="EndGameHud" type="Panel"]
 anchor_right = 0.4
 anchor_bottom = 0.32
-margin_bottom = -3.05176e-05
+margin_bottom = 25.6
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+playerListPath = NodePath("Container/ScrollContainer/PlayerList")
 
 [node name="Container" type="VBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = 16.0
+margin_top = 16.0
+margin_right = -16.0
+margin_bottom = -16.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -23,7 +28,7 @@ __meta__ = {
 }
 
 [node name="WinnerLabel" type="Label" parent="Container"]
-margin_right = 512.0
+margin_right = 480.0
 margin_bottom = 52.0
 custom_fonts/font = ExtResource( 2 )
 text = "Hiders Won!"
@@ -32,10 +37,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="PlayerList" type="VBoxContainer" parent="Container"]
+[node name="ScrollContainer" type="ScrollContainer" parent="Container"]
 margin_top = 60.0
-margin_right = 512.0
-margin_bottom = 60.0
+margin_right = 480.0
+margin_bottom = 224.0
+size_flags_vertical = 3
+scroll_horizontal_enabled = false
+
+[node name="PlayerList" type="VBoxContainer" parent="Container/ScrollContainer"]
+margin_right = 480.0
+size_flags_horizontal = 3
 
 [node name="GameOverAudio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )

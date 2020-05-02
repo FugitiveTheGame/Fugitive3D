@@ -1,4 +1,8 @@
-extends Control
+extends Panel
+
+export(NodePath) var playerListPath: NodePath
+onready var playerList := get_node(playerListPath) as VBoxContainer
+
 
 func _ready():
 	hide()
@@ -27,7 +31,7 @@ func team_won(winningTeam: int):
 			else:
 				node.text = "[%s] %s" % [team, playerInfo.get_name()]
 			
-			$Container/PlayerList.add_child(node)
+			playerList.add_child(node)
 	
 	show()
 	
