@@ -26,7 +26,7 @@ func _player_disconnected(id):
 		# No host, make the first player the new host
 		if GameData.get_host() == null:
 			var newHost = GameData.players.values().front()
-			make_host(newHost[GameData.PLAYER_ID])
+			make_host(newHost.get_id())
 
 
 # Called by clients when they connect
@@ -43,23 +43,22 @@ remote func on_register_self(playerId: int, playerName: String, gameVersion: int
 	
 	# Default to team 0
 	var playerType := 0
-	var playerData = GameData.create_new_player(playerId, playerName, playerType)
+	var playerData = GameData.create_new_player_raw_data(playerId, playerName, playerType)
 	
 	# Register this client with the server
 	ClientNetwork.on_register_player(playerData)
 	
 	# Register the new player with all existing clients
 	for curPlayerId in GameData.players:
-		ClientNetwork.register_player(curPlayerId, playerData)
+		ClientNetwork.register_player_from_raw_data(curPlayerId, playerData)
 	
 	# Catch the new player up on who is already here
 	for curPlayerId in GameData.players:
 		if curPlayerId != playerId:
-			var player = GameData.players[curPlayerId]
+			var player := GameData.get_player(curPlayerId)
 			ClientNetwork.register_player(playerId, player)
 	
 	ClientNetwork.update_game_data()
-	
 	
 	# If there is no host, make this player the host
 	if GameData.get_host() == null:
@@ -68,10 +67,9 @@ remote func on_register_self(playerId: int, playerName: String, gameVersion: int
 
 func make_host(playerId: int):
 	print("Server: Making %d host" % playerId)
-	var playerInfo = GameData.get_player(playerId)
-	playerInfo[GameData.PLAYER_HOST] = true
+	var playerInfo := GameData.get_player(playerId) as PlayerData
+	playerInfo.set_is_host(true)
 	ClientNetwork.update_player(playerInfo)
-
 
 func is_hosting() -> bool:
 	if get_tree().network_peer != null and get_tree().network_peer.get_connection_status() != 0: # NetworkedMultiplayerPeer.ConnectionStatus.CONNECTION_DISCONNECTED
@@ -107,9 +105,9 @@ func change_player_type(playerId: int, playerType: int):
 
 
 remote func on_change_player_type(playerId: int, playerType: int):
-	var player = GameData.get_player(playerId)
+	var player = GameData.get_player(playerId) as PlayerData
 	if player != null:
-		player[GameData.PLAYER_TYPE] = playerType
+		player.set_type(playerType)
 		ClientNetwork.update_player(player)
 	else:
 		print("ERROR: on_change_player_type() player not found for ID: %d" % playerId)
