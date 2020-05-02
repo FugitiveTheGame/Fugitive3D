@@ -7,8 +7,8 @@
 			"name": "My Neighborhood",
 			"description": "A well balanced map based off my childhood neighborhood where the real life version of this game was invented.",
 			"team_sizes": [
-				6,
-				8
+				8,
+				6
 			]
 		},
 		{
@@ -18,8 +18,8 @@
 			"name": "Suburbia",
 			"description": "A small suburban town. Two streets runing parallel with backyards connecting them.",
 			"team_sizes": [
-				6,
-				9
+				9,
+				6
 			]
 		}
 	],
