@@ -3,6 +3,7 @@ extends "res://client/game/player/controller/vr/VrPlayerController.gd"
 onready var pregameHud := hud.find_node("PregameHud", true, false) as Control
 onready var endgameHud := hud.find_node("EndGameHud", true, false) as Control
 onready var playerHeightHud := hud.find_node("HeightContainer", true, false) as Control
+onready var overviewMapHud := hud.find_node("OverviewMapHud", true, false) as Control
 
 const dead_zone := 0.125
 
@@ -13,6 +14,8 @@ func _physics_process(delta):
 	
 	if not player.gameStarted and (vr.button_just_released(vr.BUTTON.LEFT_INDEX_TRIGGER) or vr.button_just_released(vr.BUTTON.RIGHT_INDEX_TRIGGER)):
 		player.set_ready()
+	 
+	overviewMapHud.visible = vr.button_pressed(vr.BUTTON.LEFT_THUMBSTICK)
 
 	if debounced_button_just_released(vr.BUTTON.A):
 		if player.car == null:
