@@ -35,7 +35,7 @@ transparent = true
 
 [node name="HudContainer" type="Control" parent="OQ_LeftController/VisibilityToggle/HudCanvas"]
 margin_right = 512.0
-margin_bottom = 256.0
+margin_bottom = 512.0
 rect_min_size = Vector2( 480, 256 )
 __meta__ = {
 "_edit_use_anchors_": false
