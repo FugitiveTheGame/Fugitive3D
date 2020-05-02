@@ -1,6 +1,7 @@
 extends "res://client/game/player/controller/flat/FlatPlayerController.gd"
 
 onready var hud := $HudCanvas/HudContainer/PregameHud
+onready var overviewMapHud := $HudCanvas/HudContainer/OverviewMapHud
 
 export(NodePath) var use_button_path: NodePath
 onready var use_button := get_node(use_button_path) as TouchScreenButton
@@ -31,6 +32,8 @@ func _input(event):
 
 func _process(delta):
 	allowMovement = not player.frozen and player.car == null
+	
+	overviewMapHud.visible = Input.is_action_pressed("flat_fugitive_map")
 	
 	# Only allow the driver to control the car
 	if player.car != null and player.car.is_driver(player.id):

@@ -4,6 +4,8 @@ class_name FugitiveMap
 onready var winZones := get_tree().get_nodes_in_group(Groups.WIN_ZONE)
 onready var players := $Players
 
+onready var roads := $Roads.get_children()
+
 
 func get_hider_spawns() -> Array:
 	return $HiderSpawns.get_children()

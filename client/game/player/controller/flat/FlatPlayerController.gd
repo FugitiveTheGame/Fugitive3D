@@ -31,8 +31,6 @@ var allowMovement := true
 onready var virtual_joysticks := $HudCanvas/VirtualJoysticks
 const joystickMultiplier := 6.0
 
-onready var touch_sprint_button := $HudCanvas/SprintButton
-
 
 export(NodePath) var HeldObjectPath: NodePath
 var heldObject: Spatial setget held_object_set, held_object_get
