@@ -1,37 +1,40 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
+[ext_resource path="res://common/game/base_maps/BaseMap.tscn" type="PackedScene" id=1]
 [ext_resource path="res://common/game/mode/fugitive/FugitiveMap.gd" type="Script" id=2]
 
-[node name="Game" type="Spatial"]
+[node name="Game" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." index="0"]
 
-[node name="Players" type="Spatial" parent="."]
+[node name="Players" type="Spatial" parent="." index="1"]
 
-[node name="Lights" type="Spatial" parent="."]
+[node name="Lights" type="Spatial" parent="." index="2"]
 
-[node name="WinArea" type="Area" parent="." groups=[
+[node name="WinArea" type="Area" parent="." index="3" groups=[
 "win_zone",
 ]]
 
-[node name="HiderSpawns" type="Spatial" parent="."]
+[node name="HiderSpawns" type="Spatial" parent="." index="4"]
 
-[node name="SeekerSpawns" type="Spatial" parent="."]
+[node name="SeekerSpawns" type="Spatial" parent="." index="5"]
 
-[node name="GameTimer" type="Timer" parent="." groups=[
+[node name="Roads" type="Spatial" parent="." index="6"]
+
+[node name="GameTimer" type="Timer" parent="." index="7" groups=[
 "game_timer",
 ]]
 wait_time = 600.0
 one_shot = true
 
-[node name="StartTimer" type="Timer" parent="." groups=[
+[node name="StartTimer" type="Timer" parent="." index="8" groups=[
 "start_timer",
 ]]
 wait_time = 5.0
 one_shot = true
 
-[node name="HeadstartTimer" type="Timer" parent="." groups=[
+[node name="HeadstartTimer" type="Timer" parent="." index="9" groups=[
 "headstart_timer",
 ]]
 wait_time = 15.0

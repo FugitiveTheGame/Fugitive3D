@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://client/game/mode/fugitive/hud/OverviewMapHud.gd" type="Script" id=1]
+[ext_resource path="res://fonts/content/ContentFont.tres" type="DynamicFont" id=2]
+
+[node name="OverviewMapHud" type="TextureRect"]
+anchor_right = 0.4
+anchor_bottom = 0.711
+margin_bottom = 0.0799866
+rect_min_size = Vector2( 512, 512 )
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+font = ExtResource( 2 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.654902, 0.639216, 0.639216, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
