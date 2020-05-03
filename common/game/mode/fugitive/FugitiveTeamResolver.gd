@@ -26,7 +26,7 @@ static func get_random_team_layout(mapId: int, numPlayers: int) -> Array:
 	if numPlayers < 3:
 		teams.push_back(numPlayers-1) # Hiders
 		teams.push_back(1) # Seekers
-	elif numPlayers < 6:
+	elif numPlayers < 8:
 		teams.push_back(numPlayers-2) # Hiders
 		teams.push_back(2) # Seekers
 	else:
