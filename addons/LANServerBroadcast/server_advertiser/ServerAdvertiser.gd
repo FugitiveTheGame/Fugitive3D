@@ -4,6 +4,8 @@ class_name ServerAdvertiser, 'res://addons/LANServerBroadcast/server_advertiser/
 const DEFAULT_PORT := 32000
 const REPOSITORY_ADVERTISE_INTERVAL := 30.0
 
+const SERVER_ID_FORMAT := "%s:%d"
+
 # How often to broadcast out to the network that this host is active
 export (float) var broadcast_interval: float = 1.0
 var serverInfo := {"name": "LAN Game", "port": 0}
@@ -70,7 +72,7 @@ func _exit_tree():
 
 
 func fetch_external_ip():
-	var endpointUrl := serverRepositoryUrl + "/getip"
+	var endpointUrl := serverRepositoryUrl + "/reflection/ip"
 	ipRequest.request(endpointUrl)
 
 
@@ -89,11 +91,12 @@ func _on_IpRequest_request_completed(result, response_code, headers, body):
 
 func register_server():
 	if externalIp != null:
-		var url := serverRepositoryUrl + "/register"
+		var serverID := SERVER_ID_FORMAT % [serverInfo["ip"], serverInfo["port"]]
+		var url := serverRepositoryUrl + "/servers/" + serverID
 		
 		var body := JSON.print(serverInfo)
 		var headers := ["Content-Type: application/json"]
-		registerRequest.request(url, headers, false, HTTPClient.METHOD_POST, body)
+		registerRequest.request(url, headers, false, HTTPClient.METHOD_PUT, body)
 
 
 func _on_RepositoryRegisterTimer_timeout():
@@ -102,12 +105,7 @@ func _on_RepositoryRegisterTimer_timeout():
 
 func remove_from_repository():
 	if public:
-		var data = {
-			"ip": serverInfo["ip"],
-			"port": serverInfo["port"]
-		}
+		var serverID := SERVER_ID_FORMAT % [serverInfo["ip"], serverInfo["port"]]
+		var url := serverRepositoryUrl + "/servers/" + serverID
 		
-		var body := JSON.print(data)
-		var headers := ["Content-Type: application/json"]
-		var url := serverRepositoryUrl + "/remove"
-		removeRequest.request(url, headers, false, HTTPClient.METHOD_DELETE, body)
+		removeRequest.request(url, [], false, HTTPClient.METHOD_DELETE)
