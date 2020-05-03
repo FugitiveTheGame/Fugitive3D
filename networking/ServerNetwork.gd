@@ -67,9 +67,17 @@ remote func on_register_self(playerId: int, platformType: int, playerName: Strin
 
 func make_host(playerId: int):
 	print("Server: Making %d host" % playerId)
+	# If we have an existing host, make them no longer the host
+	var curHost := GameData.get_host() as PlayerData
+	if curHost != null:
+		curHost.set_is_host(false)
+		ClientNetwork.update_player(curHost)
+	
+	# Set the new player as host
 	var playerInfo := GameData.get_player(playerId) as PlayerData
 	playerInfo.set_is_host(true)
 	ClientNetwork.update_player(playerInfo)
+
 
 func is_hosting() -> bool:
 	if get_tree().network_peer != null and get_tree().network_peer.get_connection_status() != 0: # NetworkedMultiplayerPeer.ConnectionStatus.CONNECTION_DISCONNECTED

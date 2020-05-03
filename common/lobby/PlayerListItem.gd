@@ -1,9 +1,17 @@
 extends Control
 
+signal make_host(playerId)
+signal kick_player(playerId)
+
 var playerInfo: PlayerData = null
 
 onready var teamButton := $TeamButton as OptionButton
 var curTeamResolver = null
+
+
+func _ready():
+	$HostMenuButton.get_popup().connect("id_pressed", self, "on_id_pressed")
+
 
 func populate(player: PlayerData, is_starting: bool, is_host: bool, game_mode: Dictionary):
 	playerInfo = player
@@ -34,7 +42,18 @@ func populate(player: PlayerData, is_starting: bool, is_host: bool, game_mode: D
 		teamButton.disabled = false
 	else:
 		teamButton.disabled = true
+	
+	$HostMenuButton.visible = is_host
+	$HostMenuButton.disabled = playerId == GameData.get_current_player_id()
 
 
 func _on_TeamButton_item_selected(id):
 	ServerNetwork.change_player_type(playerInfo.get_id(), id)
+
+
+func on_id_pressed(id):
+	match id:
+		0:
+			emit_signal("make_host", playerInfo.get_id())
+		1:
+			emit_signal("kick_player", playerInfo.get_id())

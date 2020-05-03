@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://common/lobby/PlayerListItem.gd" type="Script" id=1]
 [ext_resource path="res://common/lobby/client_type_pc.png" type="Texture" id=2]
 [ext_resource path="res://common/lobby/host.png" type="Texture" id=3]
+[ext_resource path="res://common/lobby/menu.png" type="Texture" id=4]
 
 [node name="PlayerListItem" type="HBoxContainer"]
 anchor_right = 0.326
@@ -25,23 +26,30 @@ stretch_mode = 4
 [node name="NameLabel" type="Label" parent="."]
 margin_left = 40.0
 margin_top = 18.0
-margin_right = 277.0
+margin_right = 213.0
 margin_bottom = 43.0
 size_flags_horizontal = 3
 text = "Name"
 valign = 1
 
 [node name="HostIndicator" type="TextureRect" parent="."]
-margin_left = 285.0
-margin_right = 317.0
+margin_left = 221.0
+margin_right = 253.0
 margin_bottom = 62.0
 texture = ExtResource( 3 )
 stretch_mode = 4
 
 [node name="TeamButton" type="OptionButton" parent="."]
-margin_left = 325.0
-margin_right = 521.0
+margin_left = 261.0
+margin_right = 457.0
 margin_bottom = 62.0
 rect_min_size = Vector2( 196, 0 )
 text = "Team"
+
+[node name="HostMenuButton" type="MenuButton" parent="."]
+margin_left = 465.0
+margin_right = 521.0
+margin_bottom = 62.0
+icon = ExtResource( 4 )
+items = [ "Make Host", null, 0, false, false, 0, 0, null, "", false, "Kick", null, 0, false, false, 1, 0, null, "", false ]
 [connection signal="item_selected" from="TeamButton" to="." method="_on_TeamButton_item_selected"]
