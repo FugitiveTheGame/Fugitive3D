@@ -8,6 +8,10 @@ onready var overviewMapHud := hud.find_node("OverviewMapHud", true, false) as Co
 const dead_zone := 0.125
 
 
+func _ready():
+	uiRaycast.connect("visibility_changed", self, "on_ui_raycast_visibility_changed")
+
+
 func _physics_process(delta):
 	#######################
 	# Process per-frame input
@@ -102,3 +106,11 @@ func on_state_playing():
 
 func on_state_game_over():
 	endgameHud.team_won( GameData.currentGame.winningTeam )
+	# Show the ui raycast for interacting with the end-game menu
+	uiRaycast.show()
+
+
+func on_ui_raycast_visibility_changed():
+	# In the end-game state, we always want the raycast shown
+	if not uiRaycast.visible and player.gameEnded:
+		uiRaycast.show()
