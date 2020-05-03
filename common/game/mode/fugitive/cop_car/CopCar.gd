@@ -277,7 +277,9 @@ func process_input(forward: bool, backward: bool, left: bool, right: bool, break
 	
 	if velocity.length() > MIN_SPEED:
 		var direction := 1.0
-		if backward:
+		
+		var angle := (-transform.basis.z).dot(velocity.normalized())
+		if sign(angle) < 0.0:
 			direction = -1.0
 		
 		if left:
