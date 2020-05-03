@@ -4,10 +4,11 @@ class_name CopCar
 onready var enterArea := $EnterArea as Area
 
 const MIN_SPEED := 0.5
-const MAX_SPEED := 20.0
+const MAX_SPEED := 25.0
 const ACCELERATION := 35.0
-const BREAK_SPEED := 30.0
+const BREAK_SPEED := 20.0
 const FRICTION := 10.0
+const FRICTION_BREAKING := 2.5
 const ROTATION := 1.0
 const GRAVITY := pow(9.8, 2)
 
@@ -299,8 +300,18 @@ func _physics_process(delta):
 		velocity.y -= GRAVITY * delta
 		velocity = move_and_slide_with_snap(velocity, Vector3(0,-2,0), Vector3(0,1,0))
 		
-		velocity = velocity - (velocity.normalized() * (FRICTION * delta))
-		
+		# Apply friction to counter sideways drift
+		if not isBreaking:
+			# Apply friction in oposition to sideways dift until it is zero'd out
+			var dir := velocity.normalized()
+			var cosAngle := acos((-transform.basis.z).dot(dir))
+			dir.rotated(Vector3(0.0, 1.0, 0.0), -(cosAngle*3.0))
+			velocity -= dir * (FRICTION * delta)
+		# When breaking, apply friction head on, no bias against sliding
+		else:
+			# FRICTION_BREAKING: Apply less fricton when breaking to allow power sliding
+			velocity = velocity - (velocity.normalized() * (FRICTION_BREAKING * delta))
+
 		rpc_unreliable("network_update", translation, rotation, velocity)
 	else:
 		# Client side prediction
