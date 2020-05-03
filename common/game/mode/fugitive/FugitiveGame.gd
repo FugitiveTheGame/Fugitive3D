@@ -41,6 +41,17 @@ func remove_player(playerId: int):
 # The server will trigger the actual end-game functionality
 # This makes the server authoratative about when the game ends
 func finish_game(playerType: int):
+	var hiders = get_tree().get_nodes_in_group(Hider.GROUP)
+	var winZones := map.get_win_zones()
+	
+	for hider in hiders:
+		if (not hider.frozen):
+			for winZone in winZones:
+				# If a hider is unfrozen and in any win zone, give them an "escaped" counter.
+				if (winZone.overlaps_body(hider.playerBody)):
+					FugitivePlayerDataUtility.increment_stat_for_player_id(hider.id, "hider_escaped")
+					break
+
 	rpc("on_finish_game", playerType)
 
 
@@ -271,7 +282,7 @@ func check_win_conditions():
 	# Either all hiders are frozen OR
 	# all non-frozen hiders are in a winzone
 	var allHidersFrozen := true
-	var allUnfrozenSeekersInWinZone := true
+	var allUnfrozenHidersInWinZone := true
 
 	for hider in hiders:
 		if (not hider.frozen):
@@ -279,12 +290,12 @@ func check_win_conditions():
 			for winZone in winZones:
 				# Now, check if this hider is in the win zone.
 				if (not winZone.overlaps_body(hider.playerBody)):
-					allUnfrozenSeekersInWinZone = false
+					allUnfrozenHidersInWinZone = false
 	
 	if gameStarted and not is_game_over():
 		if allHidersFrozen:
 			finish_game(FugitiveTeamResolver.PlayerType.Seeker)
-		elif allUnfrozenSeekersInWinZone:
+		elif allUnfrozenHidersInWinZone:
 			finish_game(FugitiveTeamResolver.PlayerType.Hider)
 		elif seekers.empty():
 			finish_game(FugitiveTeamResolver.PlayerType.Hider)

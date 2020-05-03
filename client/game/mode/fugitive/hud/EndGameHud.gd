@@ -30,6 +30,11 @@ func team_won(winningTeam: int):
 				node.text = "[%s] %s - %s" % [team, playerInfo.get_name(), frozen]
 			else:
 				node.text = "[%s] %s" % [team, playerInfo.get_name()]
+				
+			var playerStats = FugitivePlayerDataUtility.get_stats(playerInfoData)
+			print("Player stat count: %d" % playerStats.size())
+			for stat in playerStats.keys():
+				node.text += "\n\t%s: %d" % [stat, playerStats[stat]]
 			
 			playerList.add_child(node)
 	

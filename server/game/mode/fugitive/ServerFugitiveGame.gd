@@ -44,7 +44,8 @@ func load_map():
 	.load_map()
 	map.get_countdown_timer().connect("timeout", self, "countdown_timer_timeout")
 	map.get_headstart_timer().connect("timeout", self, "headstart_timer_timeout")
-
+	# Get and update stats
+	FugitivePlayerDataUtility.reset_stats()
 
 remote func on_client_configured(playerId: int):
 	print("client configured: %s" % playerId)
