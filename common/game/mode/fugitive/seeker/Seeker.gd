@@ -121,6 +121,8 @@ func freeze_hider(hider):
 	# Only the server is actually making this decision
 	if get_tree().is_network_server():
 		hider.freeze()
+		FugitivePlayerDataUtility.increment_stat_for_player_id(id, "seeker_frozen")
+		FugitivePlayerDataUtility.increment_stat_for_player_id(hider.id, "hider_frozen")
 
 
 func on_state_playing():
