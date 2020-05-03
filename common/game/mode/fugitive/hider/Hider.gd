@@ -38,6 +38,8 @@ func _on_UnfreezeArea_body_entered(body):
 			var player := body.get_player() as Player
 			if player.playerType == FugitiveTeamResolver.PlayerType.Hider:
 				unfreeze()
+				# Also grant that rescuing player a "hider_unfrozen" stat
+				FugitivePlayerDataUtility.increment_stat_for_player_id(player.id, "hider_unfrozen")
 
 
 remotesync func on_freeze():

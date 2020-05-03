@@ -196,6 +196,7 @@ GameData="*res://networking/GameData.gd"
 vr="*res://addons/OQ_Toolkit/vr_autoload.gd"
 UserData="*res://common/UserData.gd"
 Maps="*res://common/game/maps/MapDirectory.gd"
+FugitivePlayerDataUtility="*res://common/game/mode/fugitive/networking/FugitivePlayerDataUtility.gd"
 
 [debug]
 
