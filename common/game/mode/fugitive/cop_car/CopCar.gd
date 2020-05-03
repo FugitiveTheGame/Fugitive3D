@@ -271,12 +271,13 @@ func process_input(forward: bool, backward: bool, left: bool, right: bool, break
 		velocity.x += globalBasis.z.x * movement_speed
 		velocity.z += globalBasis.z.z * movement_speed
 	
-	if velocity.length() > MAX_SPEED:
+	var movementSpeed := get_movment_speed()
+	if movementSpeed > MAX_SPEED:
 		velocity = velocity.normalized() * MAX_SPEED
 	
 	process_breaking(breaking, delta)
 	
-	if velocity.length() > MIN_SPEED:
+	if movementSpeed > MIN_SPEED:
 		var direction := 1.0
 		
 		var angle := (-transform.basis.z).dot(velocity.normalized())
@@ -284,7 +285,7 @@ func process_input(forward: bool, backward: bool, left: bool, right: bool, break
 			direction = -1.0
 		
 		# Turning speed is a function of speed
-		var rotationSpeed := ROTATION * (velocity.length() / MAX_SPEED)
+		var rotationSpeed := ROTATION * (movementSpeed / MAX_SPEED)
 		
 		if left:
 			rotate(Vector3(0.0, 1.0, 0.0), rotationSpeed * direction * delta)
