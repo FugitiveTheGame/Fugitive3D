@@ -30,11 +30,11 @@ func _player_disconnected(id):
 
 
 # Called by clients when they connect
-func register_self(playerId: int, playerName: String, gameVersion: int):
-	rpc_id(SERVER_ID, "on_register_self", playerId, playerName, gameVersion)
+func register_self(playerId: int, platformType: int, playerName: String, gameVersion: int):
+	rpc_id(SERVER_ID, "on_register_self", playerId, platformType, playerName, gameVersion)
 
 
-remote func on_register_self(playerId: int, playerName: String, gameVersion: int):
+remote func on_register_self(playerId: int, platformType: int, playerName: String, gameVersion: int):
 	# Enforce same game_version
 	if gameVersion != UserData.GAME_VERSION:
 		print("Player connected with bad game version %d. Dissconnecting them." % playerId)
@@ -43,7 +43,7 @@ remote func on_register_self(playerId: int, playerName: String, gameVersion: int
 	
 	# Default to team 0
 	var playerType := 0
-	var playerData = GameData.create_new_player_raw_data(playerId, playerName, playerType)
+	var playerData = GameData.create_new_player_raw_data(playerId, platformType, playerName, playerType)
 	
 	# Register this client with the server
 	ClientNetwork.on_register_player(playerData)
