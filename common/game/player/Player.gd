@@ -20,7 +20,9 @@ var stamina_regen_rate := DEFAULT_STAMINA_REGEN_RATE
 # Use for clientside prediction
 var velocity := Vector3()
 
+# The player ID that this player object represents
 var id: int
+
 # This is useful so players on opposing teams from the local player
 #  can be configured differently
 var localPlayerType: int
