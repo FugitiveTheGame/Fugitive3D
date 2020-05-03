@@ -48,6 +48,8 @@ func _ready():
 	# Performance tuning for mobile VR clients
 	if OS.has_feature("mobile"):
 		camera.far = 100.0
+	
+	fpsLabel.visible = OS.is_debug_build()
 
 
 func set_standing_height():
@@ -100,8 +102,9 @@ func _physics_process(delta):
 	
 	player.rpc_unreliable("network_update", totalTranslation, totalRotation, Vector3(), player.is_crouching, player.isMoving, player.isSprinting)
 	
-	var fps := Engine.get_frames_per_second()
-	fpsLabel.text = ("%d fps" % fps)
+	if fpsLabel.visible:
+		var fps := Engine.get_frames_per_second()
+		fpsLabel.text = ("%d fps" % fps)
 
 
 func _on_ExitGameHud_return_to_main_menu():
