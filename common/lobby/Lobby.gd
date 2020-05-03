@@ -50,6 +50,9 @@ func create_player(playerId: int):
 	playerNode.set_name(str(playerId))
 	playerList.add_child(playerNode)
 	
+	playerNode.connect("make_host", self, "on_make_host")
+	playerNode.connect("kick_player", self, "on_kick_player")
+	
 	playerNode.populate(player, is_starting, is_host, mode)
 	
 	update_host()
@@ -202,3 +205,11 @@ func _on_MapButton_item_selected(id):
 	GameData.general[GameData.GENERAL_MAP] = id
 	update_map_description(id)
 	ClientNetwork.update_game_data()
+
+
+func on_make_host(playerId: int):
+	ServerNetwork.make_host(playerId)
+
+
+func on_kick_player(playerId: int):
+	pass
