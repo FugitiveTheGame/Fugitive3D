@@ -212,4 +212,4 @@ func on_make_host(playerId: int):
 
 
 func on_kick_player(playerId: int):
-	pass
+	ServerNetwork.kick_player(playerId)

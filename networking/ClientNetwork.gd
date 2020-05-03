@@ -42,9 +42,11 @@ func on_disconnected_from_server():
 
 func register_player(recipientId: int, player: PlayerData):
 	rpc_id(recipientId, "on_register_player", player.player_data_dictionary)
-	
+
+
 func register_player_from_raw_data(recipientId: int, playerDataDictionary: Dictionary):
 	rpc_id(recipientId, "on_register_player", playerDataDictionary)
+
 
 remote func on_register_player(player: Dictionary):
 	var playerId = player.id
@@ -55,8 +57,10 @@ remote func on_register_player(player: Dictionary):
 	emit_signal("create_player", playerId)
 	print("Total players: %d" % GameData.players.size())
 
+
 func update_player(playerData: PlayerData):
 	rpc("on_update_player", playerData.player_data_dictionary)
+
 
 remotesync func on_update_player(playerInfoDictionary: Dictionary):
 	GameData.update_player_from_raw_data(playerInfoDictionary)
@@ -92,5 +96,11 @@ func is_local_player(playerId: int) -> bool:
 	return playerId == get_tree().get_network_unique_id()
 
 
+
 func force_disconnect(playerId: int):
-	rpc_id(playerId, "on_disconnected_from_server")
+	rpc_id(playerId, "on_force_disconnect")
+
+
+remote func on_force_disconnect():
+	print("Force disconnect from server")
+	on_disconnected_from_server()

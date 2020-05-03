@@ -5,6 +5,7 @@ const SERVER_ID := 1
 var SERVER_REPOSITORY_URL: String
 const MAX_PLAYERS := 10
 
+
 # Set to true to point at a locally running instance of the ServerRepository
 const debug_local := false
 func _init():
@@ -123,6 +124,14 @@ remote func on_change_player_type(playerId: int, playerType: int):
 
 func randomize_teams():
 	rpc("on_randomize_teams")
+
+
+func kick_player(playerId: int):
+	rpc_id(SERVER_ID, "on_kick_player", playerId)
+
+
+remote func on_kick_player(playerId: int):
+	ClientNetwork.force_disconnect(playerId)
 
 
 remotesync func on_randomize_teams():
