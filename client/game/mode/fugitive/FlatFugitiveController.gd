@@ -110,3 +110,11 @@ func on_state_playing():
 
 func on_state_game_over():
 	$HudCanvas/HudContainer/EndGameHud.team_won( GameData.currentGame.winningTeam )
+	release_mouse()
+
+
+func _notification(what):
+	# We don't want the mouse captured in the end-game state
+	# If they alt-tab out and back in, we need to re-release it
+	if what == MainLoop.NOTIFICATION_WM_FOCUS_IN and player.gameEnded:
+		call_deferred("release_mouse")
