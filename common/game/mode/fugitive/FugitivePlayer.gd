@@ -62,7 +62,8 @@ remotesync func on_unfreeze():
 
 
 func set_ready():
-	print("abrown: Player reporting ready")
+	print("Player reporting ready")
+	$AutoReadyTimer.stop()
 	emit_signal("local_player_ready")
 
 
@@ -96,6 +97,11 @@ func on_game_state_changed(newState: State, via: Transition):
 
 func on_state_not_ready():
 	freeze()
+	
+	# If this is the local player, start the auto-ready timer
+	if id == GameData.get_current_player().id:
+		$AutoReadyTimer.start()
+	
 	print("Local Client State: Not Ready")
 
 
@@ -106,3 +112,8 @@ func on_state_playing_headstart():
 func on_state_playing():
 	print("FugPlay: on_state_playing()")
 	pass
+
+
+func _on_AutoReadyTimer_timeout():
+	print("Forcing player ready")
+	set_ready()

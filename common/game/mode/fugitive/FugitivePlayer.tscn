@@ -5,3 +5,8 @@
 
 [node name="Player" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+
+[node name="AutoReadyTimer" type="Timer" parent="." index="1"]
+wait_time = 15.0
+one_shot = true
+[connection signal="timeout" from="AutoReadyTimer" to="." method="_on_AutoReadyTimer_timeout"]
