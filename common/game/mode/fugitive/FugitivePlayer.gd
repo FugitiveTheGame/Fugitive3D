@@ -99,7 +99,7 @@ func on_state_not_ready():
 	freeze()
 	
 	# If this is the local player, start the auto-ready timer
-	if id == GameData.get_current_player().id:
+	if id == GameData.get_current_player_id():
 		$AutoReadyTimer.start()
 	
 	print("Local Client State: Not Ready")

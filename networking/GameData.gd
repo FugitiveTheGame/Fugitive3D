@@ -66,6 +66,14 @@ func get_current_player_type() -> int:
 		return -1
 
 
+func get_current_player_id() -> int:
+	var curPlayer := get_current_player()
+	if curPlayer != null:
+		return curPlayer.get_id()
+	else:
+		return -1
+
+
 func update_player_from_raw_data(player_data_dictionary: Dictionary):
 	var playerId = player_data_dictionary.id
 	get_player(playerId).load(player_data_dictionary)
