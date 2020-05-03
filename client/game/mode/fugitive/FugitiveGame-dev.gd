@@ -20,14 +20,14 @@ func _enter_tree():
 	
 	# Add our fake players, the normal spawn system will actually spawn these guys
 	if be_seeker:
-		GameData.add_player_from_raw_data(GameData.create_new_player_raw_data(1, PlatformTypeUtils.PLATFORM_TYPE_FLAT, "real player", FugitiveTeamResolver.PlayerType.Seeker))
-		GameData.add_player_from_raw_data(GameData.create_new_player_raw_data(10, PlatformTypeUtils.PLATFORM_TYPE_FLAT, "dumb donkey 0", FugitiveTeamResolver.PlayerType.Hider))
+		GameData.add_player_from_raw_data(GameData.create_new_player_raw_data(1, PlatformTypeUtils.PlatformType.FlatDesktop, "real player", FugitiveTeamResolver.PlayerType.Seeker))
+		GameData.add_player_from_raw_data(GameData.create_new_player_raw_data(10, PlatformTypeUtils.PlatformType.FlatDesktop, "dumb donkey 0", FugitiveTeamResolver.PlayerType.Hider))
 	else:
-		GameData.add_player_from_raw_data(GameData.create_new_player_raw_data(1, PlatformTypeUtils.PLATFORM_TYPE_FLAT, "real player", FugitiveTeamResolver.PlayerType.Hider))
-		GameData.add_player_from_raw_data(GameData.create_new_player_raw_data(10, PlatformTypeUtils.PLATFORM_TYPE_FLAT, "dumb donkey 0", FugitiveTeamResolver.PlayerType.Seeker))
+		GameData.add_player_from_raw_data(GameData.create_new_player_raw_data(1, PlatformTypeUtils.PlatformType.FlatDesktop, "real player", FugitiveTeamResolver.PlayerType.Hider))
+		GameData.add_player_from_raw_data(GameData.create_new_player_raw_data(10, PlatformTypeUtils.PlatformType.FlatDesktop, "dumb donkey 0", FugitiveTeamResolver.PlayerType.Seeker))
 	
-	GameData.add_player_from_raw_data(GameData.create_new_player_raw_data(11, PlatformTypeUtils.PLATFORM_TYPE_FLAT, "dumb donkey 1", FugitiveTeamResolver.PlayerType.Hider))
-	GameData.add_player_from_raw_data(GameData.create_new_player_raw_data(12, PlatformTypeUtils.PLATFORM_TYPE_FLAT, "dumb donkey 2", FugitiveTeamResolver.PlayerType.Seeker))
+	GameData.add_player_from_raw_data(GameData.create_new_player_raw_data(11, PlatformTypeUtils.PlatformType.FlatDesktop, "dumb donkey 1", FugitiveTeamResolver.PlayerType.Hider))
+	GameData.add_player_from_raw_data(GameData.create_new_player_raw_data(12, PlatformTypeUtils.PlatformType.FlatDesktop, "dumb donkey 2", FugitiveTeamResolver.PlayerType.Seeker))
 
 
 func _ready():

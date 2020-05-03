@@ -1,35 +1,47 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://common/lobby/PlayerListItem.gd" type="Script" id=1]
+[ext_resource path="res://common/lobby/client_type_pc.png" type="Texture" id=2]
+[ext_resource path="res://common/lobby/host.png" type="Texture" id=3]
 
 [node name="PlayerListItem" type="HBoxContainer"]
-anchor_right = 0.325
+anchor_right = 0.326
 anchor_bottom = 0.069
-margin_right = -3.05176e-05
-margin_bottom = -0.200005
+margin_right = -0.600037
+margin_bottom = -0.100006
+rect_clip_content = true
+size_flags_horizontal = 3
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="PlatformIndicator" type="TextureRect" parent="."]
+margin_right = 32.0
+margin_bottom = 62.0
+texture = ExtResource( 2 )
+stretch_mode = 4
+
 [node name="NameLabel" type="Label" parent="."]
-margin_top = 19.0
-margin_right = 128.0
-margin_bottom = 44.0
+margin_left = 40.0
+margin_top = 18.0
+margin_right = 277.0
+margin_bottom = 43.0
 size_flags_horizontal = 3
 text = "Name"
+valign = 1
 
-[node name="HostLabel" type="Label" parent="."]
-margin_left = 136.0
-margin_top = 19.0
-margin_right = 211.0
-margin_bottom = 44.0
-text = "[HOST]"
+[node name="HostIndicator" type="TextureRect" parent="."]
+margin_left = 285.0
+margin_right = 317.0
+margin_bottom = 62.0
+texture = ExtResource( 3 )
+stretch_mode = 4
 
 [node name="TeamButton" type="OptionButton" parent="."]
-margin_left = 219.0
-margin_right = 415.0
-margin_bottom = 64.0
+margin_left = 325.0
+margin_right = 521.0
+margin_bottom = 62.0
 rect_min_size = Vector2( 196, 0 )
 text = "Team"
 [connection signal="item_selected" from="TeamButton" to="." method="_on_TeamButton_item_selected"]

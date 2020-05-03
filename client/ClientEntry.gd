@@ -5,13 +5,16 @@ func _ready():
 	var clientType := PlatformTypeUtils.get_platform_type()
 	
 	match clientType:
-		PlatformTypeUtils.PLATFORM_TYPE_FLAT:
+		PlatformTypeUtils.PlatformType.FlatDesktop:
 			print("Client is Flat")
 			go_to_flat()
-		PlatformTypeUtils.PLATFORM_TYPE_VR_DESKTOP:
+		PlatformTypeUtils.PlatformType.FlatMobile:
+			print("Client is Flat Mobile")
+			go_to_flat()
+		PlatformTypeUtils.PlatformType.VrDesktop:
 			print("Client is PC VR")
 			go_to_pc_vr()
-		PlatformTypeUtils.PLATFORM_TYPE_VR_MOBILE:
+		PlatformTypeUtils.PlatformType.VrMobile:
 			print("Client is Mobile VR")
 			go_to_mobile_vr()
 

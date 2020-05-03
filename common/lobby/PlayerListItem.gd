@@ -9,8 +9,15 @@ func populate(player: PlayerData, is_starting: bool, is_host: bool, game_mode: D
 	playerInfo = player
 	var playerId = player.get_id()
 	
-	$NameLabel.text = "%s (%s)" % [player.get_name(), PlatformTypeUtils.print_platform_type(player.get_platform_type())]
-	$HostLabel.visible = player.get_is_host()
+	$NameLabel.text = player.get_name()
+	$HostIndicator.visible = player.get_is_host()
+	
+	var image = Image.new()
+	var iconPath := PlatformTypeUtils.platform_type_icon(player.get_platform_type())
+	image.load(iconPath)
+	var texture = ImageTexture.new()
+	texture.create_from_image(image)
+	$PlatformIndicator.texture = texture
 	
 	curTeamResolver = game_mode[Maps.MODE_TEAM_RESOLVER]
 	
