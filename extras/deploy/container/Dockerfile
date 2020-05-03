@@ -7,8 +7,8 @@ COPY ./run.sh /root
 
 WORKDIR /root
 
-# Expose 3000 TCP/UDP outside the container.
-EXPOSE 3000/tcp
-EXPOSE 3000/udp
+# Expose 31000 TCP/UDP outside the container.
+EXPOSE 31000/tcp
+EXPOSE 31000/udp
 
 CMD "/root/run.sh"

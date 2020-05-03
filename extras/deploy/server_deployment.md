@@ -119,18 +119,18 @@ Once you have the droplet created, use your emailed one time password (or SSH ke
 
 1. Copy all four needed files into the current directory in the droplet. You will probably be sitting in `/root`, running as the root user.
 2. Run the container build using the command noted in the above build section.
-3. Punch some holes in the firewall on the droplet to allow port 3000.
+3. Punch some holes in the firewall on the droplet to allow port 31000.
 
    ```
-	ufw allow 3000/tcp
-	ufw allow 3000/udp
+	ufw allow 31000/tcp
+	ufw allow 31000/udp
    ```
    
 4. Execute the container in any of the modes listed above. You probably want daemon mode.
 5. Note the public IP of the droplet. This should be listed in the digitalocean dashboard or in the droplet as the address of interface `eth0`. Try connecting your client to that server IP now.
 
-If you want to see traffic coming into the server on port 3000, you can use tcpdump.
+If you want to see traffic coming into the server on port 31000, you can use tcpdump.
 
-	tcpdump -vvni eth0 port 3000
+	tcpdump -vvni eth0 port 31000
 
 To shut down the container, you just issue `docker stop <container ID or name>`. You should be able to destroy the droplet too, as long as you have the binary and .pck files saved somewhere else.
