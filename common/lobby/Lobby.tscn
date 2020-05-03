@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://common/lobby/Lobby.gd" type="Script" id=1]
 [ext_resource path="res://fonts/content/TitleFont.tres" type="DynamicFont" id=2]
+[ext_resource path="res://fonts/content/ImportantContentFont.tres" type="DynamicFont" id=3]
+[ext_resource path="res://fonts/content/ContentFont.tres" type="DynamicFont" id=4]
 
 [node name="Lobby" type="Control"]
 anchor_right = 1.0
@@ -12,7 +14,10 @@ __meta__ = {
 }
 playerListPath = NodePath("PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2/Panel/ScrollContainer/Players")
 mapSelectPath = NodePath("PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/MapButton")
-mapDescriptionPath = NodePath("PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/MapDescription")
+mapDescriptionPath = NodePath("PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/MapPanel/ScrollContainer/Margin/MapDescription")
+modeValuePath = NodePath("PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/DetailsContainer/ModelValue")
+sizeValuePath = NodePath("PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/DetailsContainer/SizeValue")
+teamsContainerPath = NodePath("PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/TeamsContainer")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 anchor_left = 0.5
@@ -78,6 +83,10 @@ size_flags_vertical = 3
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2/Panel"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_left = 16.0
+margin_top = 16.0
+margin_right = -16.0
+margin_bottom = -16.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
@@ -86,7 +95,7 @@ __meta__ = {
 }
 
 [node name="Players" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2/Panel/ScrollContainer"]
-margin_right = 702.0
+margin_right = 670.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
@@ -113,21 +122,118 @@ margin_bottom = 41.0
 [node name="MapLabel" type="Label" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
 margin_top = 49.0
 margin_right = 702.0
-margin_bottom = 74.0
+margin_bottom = 79.0
+custom_fonts/font = ExtResource( 3 )
 text = "Map:"
 
 [node name="MapButton" type="OptionButton" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
-margin_top = 82.0
+margin_top = 87.0
 margin_right = 702.0
-margin_bottom = 119.0
+margin_bottom = 124.0
 text = "Select Map"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="MapDescription" type="RichTextLabel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
-margin_top = 127.0
+[node name="DetailsContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
+margin_top = 132.0
 margin_right = 702.0
-margin_bottom = 383.0
+margin_bottom = 162.0
+alignment = 1
+
+[node name="ModelLabel" type="Label" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/DetailsContainer"]
+margin_left = 159.0
+margin_right = 236.0
+margin_bottom = 30.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 3 )
+text = "Mode:"
+
+[node name="ModelValue" type="Label" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/DetailsContainer"]
+margin_left = 244.0
+margin_right = 333.0
+margin_bottom = 30.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 4 )
+text = "fugitive"
+align = 1
+valign = 1
+
+[node name="Spacer" type="Control" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/DetailsContainer"]
+margin_left = 341.0
+margin_right = 405.0
+margin_bottom = 30.0
+rect_min_size = Vector2( 64, 0 )
+
+[node name="SizeLabel" type="Label" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/DetailsContainer"]
+margin_left = 413.0
+margin_right = 475.0
+margin_bottom = 30.0
+size_flags_vertical = 1
+custom_fonts/font = ExtResource( 3 )
+text = "Size: "
+valign = 1
+
+[node name="SizeValue" type="Label" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/DetailsContainer"]
+margin_left = 483.0
+margin_right = 542.0
+margin_bottom = 30.0
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 4 )
+text = "small"
+valign = 1
+
+[node name="TeamsLabel" type="Label" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
+margin_top = 170.0
+margin_right = 702.0
+margin_bottom = 200.0
+custom_fonts/font = ExtResource( 3 )
+text = "Max Team Sizes:"
+
+[node name="TeamsContainer" type="GridContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
+margin_top = 208.0
+margin_right = 702.0
+margin_bottom = 208.0
+columns = 6
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="DescriptionLabel" type="Label" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
+margin_top = 216.0
+margin_right = 702.0
+margin_bottom = 246.0
+custom_fonts/font = ExtResource( 3 )
+text = "Map Description:"
+
+[node name="MapPanel" type="Panel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
+margin_top = 254.0
+margin_right = 702.0
+margin_bottom = 620.0
+size_flags_vertical = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/MapPanel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+scroll_horizontal_enabled = false
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Margin" type="Control" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/MapPanel/ScrollContainer"]
+margin_right = 702.0
+size_flags_horizontal = 3
+
+[node name="MapDescription" type="Label" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/MapPanel/ScrollContainer/Margin"]
+margin_left = 16.0
+margin_top = 16.0
+margin_right = 686.0
+margin_bottom = 256.0
 rect_min_size = Vector2( 0, 256 )
+size_flags_horizontal = 3
+size_flags_vertical = 1
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="item_selected" from="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/MapButton" to="." method="_on_MapButton_item_selected"]
