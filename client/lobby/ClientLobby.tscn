@@ -11,6 +11,9 @@ startButtonPath = NodePath("PanelContainer/VBoxContainer/StartButton")
 leaveButtonPath = NodePath("PanelContainer/VBoxContainer/LeaveButton")
 randomButtonPath = NodePath("PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/RandomButton")
 
+[node name="VBoxContainer" parent="PanelContainer" index="0"]
+margin_bottom = 735.0
+
 [node name="LeaveButton" type="Button" parent="PanelContainer/VBoxContainer" index="0"]
 margin_left = 1325.0
 margin_right = 1412.0
@@ -28,33 +31,49 @@ margin_bottom = 109.0
 
 [node name="HSplitContainer" parent="PanelContainer/VBoxContainer" index="2"]
 margin_top = 117.0
-margin_bottom = 647.0
+margin_bottom = 676.0
 
 [node name="VBoxContainer2" parent="PanelContainer/VBoxContainer/HSplitContainer" index="0"]
-margin_bottom = 530.0
+margin_bottom = 559.0
 
 [node name="Panel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2" index="2"]
-margin_bottom = 530.0
+margin_bottom = 559.0
 
 [node name="VBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer" index="1"]
-margin_bottom = 530.0
+margin_bottom = 559.0
 
 [node name="Spacer" type="Control" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="5"]
-margin_top = 391.0
+margin_top = 160.0
 margin_right = 702.0
-margin_bottom = 407.0
+margin_bottom = 176.0
 rect_min_size = Vector2( 0, 16 )
 
-[node name="RandomButton" type="Button" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="6"]
-margin_top = 415.0
+[node name="TeamsLabel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="6"]
+margin_top = 184.0
+margin_bottom = 209.0
+
+[node name="TeamsContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="7"]
+margin_top = 217.0
+margin_bottom = 217.0
+
+[node name="DescriptionLabel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="8"]
+margin_top = 225.0
+margin_bottom = 250.0
+
+[node name="MapDescription" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="9"]
+margin_top = 258.0
+margin_bottom = 514.0
+
+[node name="RandomButton" type="Button" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="10"]
+margin_top = 522.0
 margin_right = 702.0
-margin_bottom = 452.0
+margin_bottom = 559.0
 text = "Randomize Teams"
 
 [node name="StartButton" type="Button" parent="PanelContainer/VBoxContainer" index="3"]
-margin_top = 655.0
+margin_top = 684.0
 margin_right = 1412.0
-margin_bottom = 692.0
+margin_bottom = 721.0
 text = "Start Game"
 __meta__ = {
 "_edit_use_anchors_": false

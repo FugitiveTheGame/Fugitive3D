@@ -8,7 +8,17 @@ export(NodePath) var mapSelectPath: NodePath
 onready var mapSelect := get_node(mapSelectPath) as OptionButton
 
 export(NodePath) var mapDescriptionPath: NodePath
-onready var mapDescription := get_node(mapDescriptionPath) as RichTextLabel
+onready var mapDescription := get_node(mapDescriptionPath) as Label
+
+export(NodePath) var modeValuePath: NodePath
+onready var modeValue := get_node(modeValuePath) as Label
+
+export(NodePath) var sizeValuePath: NodePath
+onready var sizeValue := get_node(sizeValuePath) as Label
+
+export(NodePath) var teamsContainerPath: NodePath
+onready var teamsContainer := get_node(teamsContainerPath) as GridContainer
+
 
 var is_host := false
 var is_starting := false
@@ -112,20 +122,27 @@ func update_map_description(mapId: int):
 	var resolver = Maps.get_team_resolver(mapId)
 	var mapData = Maps.directory[mapId]
 	
-	var description := ""
-	description += "Mode: %s |" % mapData[Maps.MAP_MODE]
-	description += "Size: %s\n" % mapData[Maps.MAP_SIZE]
-	
-	description += "\nTeam Sizes:\n"
+	modeValue.text = mapData[Maps.MAP_MODE]
+	sizeValue.text = mapData[Maps.MAP_SIZE]
 	
 	var teamSizes = mapData[Maps.MAP_TEAM_SIZES]
+	
+	# Remove all existing children
+	for child in teamsContainer.get_children():
+		child.queue_free()
+	
 	for teamId in teamSizes.size():
+		var label := Label.new()
 		var teamSize = teamSizes[teamId]
-		description += "%s: %d\n" % [resolver.get_team_name(teamId), teamSize]
+		label.text = "%s: %d\n" % [resolver.get_team_name(teamId), teamSize]
+		teamsContainer.add_child(label)
+		
+		var spacer := Control.new()
+		spacer.rect_min_size.x = 64.0
+		teamsContainer.add_child(spacer)
+		
 	
-	description += "\nDescription:\n%s\n" % mapData[Maps.MAP_DESCRIPTION]
-	
-	mapDescription.text = description
+	mapDescription.text = mapData[Maps.MAP_DESCRIPTION]
 
 
 func update_all_players():
