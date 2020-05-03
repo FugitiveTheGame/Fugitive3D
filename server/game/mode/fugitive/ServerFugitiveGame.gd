@@ -41,7 +41,7 @@ func _ready():
 
 
 func load_map():
-	.load_map()	
+	.load_map()
 	map.get_countdown_timer().connect("timeout", self, "countdown_timer_timeout")
 	map.get_headstart_timer().connect("timeout", self, "headstart_timer_timeout")
 	# Get and update stats

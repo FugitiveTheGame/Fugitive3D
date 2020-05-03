@@ -1,4 +1,5 @@
 extends Node
+class_name PlatformTypeUtils
 
 const PLATFORM_TYPE_FLAT := 0
 const PLATFORM_TYPE_VR_DESKTOP := 1
