@@ -19,13 +19,13 @@ func _enter_tree():
 	
 	# Add our fake players, the normal spawn system will actually spawn these guys
 	if be_seeker:
-		GameData.add_player_from_raw_data(GameData.create_new_player_raw_data(1, "real player", FugitiveTeamResolver.PlayerType.Seeker))
-		GameData.add_player_from_raw_data(GameData.create_new_player_raw_data(10, "dumb donkey 0", FugitiveTeamResolver.PlayerType.Hider))
+		GameData.add_player_from_raw_data(GameData.create_new_player_raw_data(1, PlatformTypeUtils.PLATFORM_TYPE_FLAT, "real player", FugitiveTeamResolver.PlayerType.Seeker))
+		GameData.add_player_from_raw_data(GameData.create_new_player_raw_data(10, PlatformTypeUtils.PLATFORM_TYPE_FLAT, "dumb donkey 0", FugitiveTeamResolver.PlayerType.Hider))
 	else:
-		GameData.add_player_from_raw_data(GameData.create_new_player_raw_data(1, "real player", FugitiveTeamResolver.PlayerType.Hider))
-		GameData.add_player_from_raw_data(GameData.create_new_player_raw_data(10, "dumb donkey 0", FugitiveTeamResolver.PlayerType.Seeker))
+		GameData.add_player_from_raw_data(GameData.create_new_player_raw_data(1, PlatformTypeUtils.PLATFORM_TYPE_FLAT, "real player", FugitiveTeamResolver.PlayerType.Hider))
+		GameData.add_player_from_raw_data(GameData.create_new_player_raw_data(10, PlatformTypeUtils.PLATFORM_TYPE_FLAT, "dumb donkey 0", FugitiveTeamResolver.PlayerType.Seeker))
 	
-	GameData.add_player_from_raw_data(GameData.create_new_player_raw_data(11, "dumb donkey 1", FugitiveTeamResolver.PlayerType.Hider))
+	GameData.add_player_from_raw_data(GameData.create_new_player_raw_data(11, PlatformTypeUtils.PLATFORM_TYPE_FLAT, "dumb donkey 1", FugitiveTeamResolver.PlayerType.Hider))
 
 
 func _ready():
