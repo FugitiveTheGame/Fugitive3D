@@ -55,7 +55,7 @@ remote func on_register_self(playerId: int, playerName: String, gameVersion: int
 	# Catch the new player up on who is already here
 	for curPlayerId in GameData.players:
 		if curPlayerId != playerId:
-			var player := GameData.get_player(curPlayerId)
+			var player = GameData.get_player(curPlayerId)
 			ClientNetwork.register_player(playerId, player)
 	
 	ClientNetwork.update_game_data()
