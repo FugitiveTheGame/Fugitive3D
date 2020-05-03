@@ -25,12 +25,13 @@ func get_player(playerId: int) -> PlayerData:
 		return null
 
 
-func create_new_player_raw_data(playerId: int, playerName: String, playerType: int) -> Dictionary:
+func create_new_player_raw_data(playerId: int, platformType: int, playerName: String, playerType: int) -> Dictionary:
 	return {
 		id = playerId,
 		name = playerName,
 		type = playerType,
-		is_host = false
+		is_host = false,
+		platform_type = platformType
 	}
 
 func add_player_from_raw_data(newPlayerDictionary: Dictionary) -> bool:
