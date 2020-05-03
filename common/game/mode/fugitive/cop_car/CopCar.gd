@@ -9,7 +9,7 @@ const ACCELERATION := 35.0
 const BREAK_SPEED := 20.0
 const FRICTION := 10.0
 const FRICTION_BREAKING := 2.5
-const ROTATION := 1.0
+const ROTATION := 2.0
 const GRAVITY := pow(9.8, 2)
 
 const CONE_WIDTH = cos(deg2rad(35.0))
@@ -283,10 +283,13 @@ func process_input(forward: bool, backward: bool, left: bool, right: bool, break
 		if sign(angle) < 0.0:
 			direction = -1.0
 		
+		# Turning speed is a function of speed
+		var rotationSpeed := ROTATION * (velocity.length() / MAX_SPEED)
+		
 		if left:
-			rotate(Vector3(0.0, 1.0, 0.0), ROTATION * direction * delta)
+			rotate(Vector3(0.0, 1.0, 0.0), rotationSpeed * direction * delta)
 		elif right:
-			rotate(Vector3(0.0, 1.0, 0.0), -ROTATION * direction * delta)
+			rotate(Vector3(0.0, 1.0, 0.0), -rotationSpeed * direction * delta)
 
 
 puppet func network_update(networkPosition: Vector3, networkRotation: Vector3, networkVelocity: Vector3):
