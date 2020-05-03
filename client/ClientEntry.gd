@@ -2,21 +2,18 @@ extends Node
 
 # Go to the proper entry for this client
 func _ready():
-	if OS.has_feature("client_flat"):
-		print("Client is Flat")
-		go_to_flat()
-	elif OS.has_feature("client_vr_desktop"):
-		print("Client is PC VR")
-		go_to_pc_vr()
-	elif OS.has_feature("client_vr_mobile"):
-		print("Client is Mobile VR")
-		go_to_mobile_vr()
-	# Devel branch
-	else:
-		#go_to_pc_vr()
-		#go_to_mobile_vr()
-		go_to_flat()
-
+	var clientType := PlatformTypeUtils.get_platform_type()
+	
+	match clientType:
+		PlatformTypeUtils.PLATFORM_TYPE_FLAT:
+			print("Client is Flat")
+			go_to_flat()
+		PlatformTypeUtils.PLATFORM_TYPE_VR_DESKTOP:
+			print("Client is PC VR")
+			go_to_pc_vr()
+		PlatformTypeUtils.PLATFORM_TYPE_VR_MOBILE:
+			print("Client is Mobile VR")
+			go_to_mobile_vr()
 
 func handle_commandline_args():
 	var playerName = UserData.data.user_name

@@ -13,8 +13,10 @@ onready var randomButton := get_node(randomButtonPath) as Button
 func _ready():
 	ClientNetwork.connect("lost_connection_to_server", self, "on_disconnect")
 	
+	var clientType := PlatformTypeUtils.get_platform_type()
+	
 	# Tell the server about you
-	ServerNetwork.register_self(get_tree().get_network_unique_id(), ClientNetwork.localPlayerName, UserData.GAME_VERSION)
+	ServerNetwork.register_self(get_tree().get_network_unique_id(), clientType, ClientNetwork.localPlayerName, UserData.GAME_VERSION)
 	
 	$StartLabel.hide()
 

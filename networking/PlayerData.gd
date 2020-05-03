@@ -32,3 +32,9 @@ func get_is_host() -> bool:
 	
 func set_is_host(is_host: bool):
 	player_data_dictionary.is_host = is_host
+
+func get_platform_type() -> int:
+	return player_data_dictionary.platform_type
+	
+func set_platform_type(platform_type: int):
+	player_data_dictionary.platform_type = platform_type
