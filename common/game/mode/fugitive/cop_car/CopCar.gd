@@ -316,7 +316,8 @@ func _physics_process(delta):
 			# FRICTION_BREAKING: Apply less fricton when breaking to allow power sliding
 			velocity = velocity - (velocity.normalized() * (FRICTION_BREAKING * delta))
 
-		rpc_unreliable("network_update", translation, rotation, velocity)
+		if not GameData.currentGame.is_game_over():
+			rpc_unreliable("network_update", translation, rotation, velocity)
 	else:
 		# Client side prediction
 		velocity = move_and_slide_with_snap(velocity, Vector3(0,-2,0), Vector3(0,1,0))

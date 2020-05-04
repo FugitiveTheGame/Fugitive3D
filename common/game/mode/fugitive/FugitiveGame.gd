@@ -320,7 +320,6 @@ func on_state_playing_headstart(current_state: State, transition: Transition):
 
 func on_state_game_over(current_state: State, transition: Transition):
 	print("game is complete!")
-	$ReturnToLobbyTimer.start()
 
 
 remotesync func begin_game():
@@ -336,22 +335,31 @@ remotesync func release_cops():
 	stateMachine.transition_by_name(FugitiveStateMachine.TRANS_COPS_RELEASED)
 
 
-# Only the server will call this as it sends all clients back to lobby
-func go_to_lobby():
-	if get_tree().is_network_server():
-		rpc("on_go_to_lobby")
-
-
 remotesync func on_go_to_lobby():
 	print("on_go_to_lobby MUST BE OVERRIDEN")
 	assert(false)
 
 
+func start_lobby_timer():
+	rpc("on_start_lobby_timer")
+
+
+remote func on_start_lobby_timer():
+	$ReturnToLobbyTimer.start()
+
+
 func _on_ReturnToLobbyTimer_timeout():
 	print("ReturnToLobbyTimer is up")
-	if get_tree().is_network_server():
-		go_to_lobby()
+	on_go_to_lobby()
 
+
+func go_to_lobby():
+	# When the host goes to the lobby, everyone else has a timer start
+	# which will force them back to the lobby
+	if GameData.get_current_player().get_is_host():
+		start_lobby_timer()
+	
+	on_go_to_lobby()
 
 func get_team_name(teamId: int) -> String:
 	return Maps.get_team_name(GameData.general[GameData.GENERAL_MAP], teamId)

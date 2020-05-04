@@ -29,6 +29,7 @@ func create_new_player_raw_data(playerId: int, platformType: int, playerName: St
 	return {
 		id = playerId,
 		name = playerName,
+		lobby_ready = true,
 		type = playerType,
 		is_host = false,
 		platform_type = platformType

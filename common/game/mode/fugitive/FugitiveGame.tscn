@@ -12,6 +12,6 @@ script = ExtResource( 3 )
 listenerPath = NodePath("..")
 
 [node name="ReturnToLobbyTimer" type="Timer" parent="." index="1"]
-wait_time = 5.0
+wait_time = 15.0
 one_shot = true
 [connection signal="timeout" from="ReturnToLobbyTimer" to="." method="_on_ReturnToLobbyTimer_timeout"]

@@ -42,28 +42,35 @@ remote func on_register_self(playerId: int, platformType: int, playerName: Strin
 		ClientNetwork.force_disconnect(playerId)
 		return
 	
-	# Default to team 0
-	var playerType := 0
-	var playerData = GameData.create_new_player_raw_data(playerId, platformType, playerName, playerType)
-	
-	# Register this client with the server
-	ClientNetwork.on_register_player(playerData)
-	
-	# Register the new player with all existing clients
-	for curPlayerId in GameData.players:
-		ClientNetwork.register_player_from_raw_data(curPlayerId, playerData)
-	
-	# Catch the new player up on who is already here
-	for curPlayerId in GameData.players:
-		if curPlayerId != playerId:
-			var player = GameData.get_player(curPlayerId)
-			ClientNetwork.register_player(playerId, player)
-	
-	ClientNetwork.update_game_data()
-	
-	# If there is no host, make this player the host
-	if GameData.get_host() == null:
-		make_host(playerId)
+	var existingPlayer = GameData.get_player(playerId)
+	# Ready up an existing plauyer
+	if existingPlayer != null:
+		existingPlayer.set_lobby_ready(true)
+		ClientNetwork.update_player(existingPlayer)
+	# Register a totally new player
+	else:
+		# Default to team 0
+		var playerType := 0
+		var playerData = GameData.create_new_player_raw_data(playerId, platformType, playerName, playerType)
+		
+		# Register this client with the server
+		ClientNetwork.on_register_player(playerData)
+		
+		# Register the new player with all existing clients
+		for curPlayerId in GameData.players:
+			ClientNetwork.register_player_from_raw_data(curPlayerId, playerData)
+		
+		# Catch the new player up on who is already here
+		for curPlayerId in GameData.players:
+			if curPlayerId != playerId:
+				var player = GameData.get_player(curPlayerId)
+				ClientNetwork.register_player(playerId, player)
+		
+		ClientNetwork.update_game_data()
+		
+		# If there is no host, make this player the host
+		if GameData.get_host() == null:
+			make_host(playerId)
 
 
 func make_host(playerId: int):

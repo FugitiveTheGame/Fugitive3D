@@ -41,3 +41,7 @@ func team_won(winningTeam: int):
 	show()
 	
 	$GameOverAudio.play()
+
+
+func _on_ToLobbyButton_pressed():
+	GameData.currentGame.go_to_lobby()
