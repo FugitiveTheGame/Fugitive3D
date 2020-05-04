@@ -7,7 +7,7 @@ const MAX_PLAYERS := 10
 
 
 # Set to true to point at a locally running instance of the ServerRepository
-const debug_local := false
+const debug_local := true
 func _init():
 	if debug_local:
 		SERVER_REPOSITORY_URL = "http://127.0.0.1:8080"

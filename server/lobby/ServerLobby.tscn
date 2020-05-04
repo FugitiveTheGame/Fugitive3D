@@ -7,5 +7,5 @@
 [node name="Lobby" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
-[node name="ServerAdvertiser" type="Node" parent="." index="2"]
+[node name="ServerAdvertiser" type="Node" parent="." index="1"]
 script = ExtResource( 3 )

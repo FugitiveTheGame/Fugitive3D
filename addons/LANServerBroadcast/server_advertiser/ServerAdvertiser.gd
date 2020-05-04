@@ -22,6 +22,8 @@ var registerRequest := HTTPRequest.new()
 var removeRequest := HTTPRequest.new()
 
 var repositoryRegisterTimer := Timer.new()
+var no_lan := false
+var initial_registration := true
 
 
 func _ready():
@@ -33,9 +35,10 @@ func _ready():
 	ipRequest.connect("request_completed", self, "_on_IpRequest_request_completed")
 	
 	add_child(registerRequest)
+	registerRequest.connect("request_completed", self, "_on_RegisterRequest_request_completed")
 	add_child(removeRequest)
 	
-	if get_tree().is_network_server():
+	if get_tree().network_peer != null and get_tree().is_network_server() and not no_lan:
 		add_child(broadcastTimer)
 		broadcastTimer.connect("timeout", self, "broadcast") 
 		
@@ -89,6 +92,11 @@ func _on_IpRequest_request_completed(result, response_code, headers, body):
 		print('Failed to get external IP')
 
 
+func _on_RegisterRequest_request_completed(result, response_code, headers, body):
+	if response_code >= 200 and response_code < 300:
+		initial_registration = false
+
+
 func register_server():
 	if externalIp != null:
 		var serverID := SERVER_ID_FORMAT % [serverInfo["ip"], serverInfo["port"]]
@@ -96,7 +104,10 @@ func register_server():
 		
 		var body := JSON.print(serverInfo)
 		var headers := ["Content-Type: application/json"]
-		registerRequest.request(url, headers, false, HTTPClient.METHOD_PUT, body)
+		if initial_registration:
+			registerRequest.request(url, headers, false, HTTPClient.METHOD_POST, body)
+		else:
+			registerRequest.request(url, headers, false, HTTPClient.METHOD_PUT, body)
 
 
 func _on_RepositoryRegisterTimer_timeout():

@@ -1,6 +1,60 @@
 extends Node
 
+var socketUDP: PacketPeerUDP = null
+
 # Do any server specific setup here
 # Then open a lobby and start listening for users
 func _ready():
+	# If we are going to be public, handle the initial registration
+	if ServerUtils.get_public() or true:
+		register_publicly()
+	# If we're not registering publicly, just continue
+	else:
+		go_to_lobby()
+
+
+func go_to_lobby():
 	get_tree().change_scene("res://server/lobby/ServerLobby.tscn")
+
+
+func register_publicly():
+	socketUDP = PacketPeerUDP.new()
+	var listenPort := ServerUtils.get_port()
+	
+	if socketUDP.listen(listenPort) == OK:
+		print("Repository regitration: listening on port: " + str(listenPort))
+		
+		var advertiser = ServerAdvertiser.new()
+		advertiser.no_lan = true
+		ServerUtils.configure_advertiser(advertiser, ServerUtils.get_name(), listenPort)
+		advertiser.public = true
+		add_child(advertiser)
+		# This will get the IP, then proceed to register
+		advertiser.fetch_external_ip()
+		
+		# Wait for the repository to ping us
+		if socketUDP.wait() == OK:
+			var array_bytes := socketUDP.get_packet()
+			var message = array_bytes.get_string_from_ascii()
+			if message == "ping":
+				var response := "pong"
+				# Send 3 response packets
+				for ii in 3:
+					socketUDP.put_packet(response.to_ascii())
+				
+				print("Public Repository Registration Complete!")
+				go_to_lobby()
+			else:
+				print("Public Repository Registration Failed: Bad message from Server Repository.")
+				get_tree().quit()
+		else:
+			print("Public Repository Registration Failed: No ping received from Repositoru.")
+			get_tree().quit()
+	else:
+		print("Repository regitration: Error listening on port: " + str(listenPort))
+		get_tree().quit()
+
+
+func _exit_tree():
+	if socketUDP != null:
+		socketUDP.close()
