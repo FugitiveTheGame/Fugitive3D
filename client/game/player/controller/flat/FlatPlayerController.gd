@@ -149,7 +149,8 @@ func _physics_process(delta):
 	# has a large size. So for isMoving we only consider X and Z
 	player.isMoving = (Vector3(player.velocity.x, 0.0, player.velocity.z).length() > MOVEMENT_LAMBDA)
 	
-	player.rpc_unreliable("network_update", translation, rotation, player.velocity, player.is_crouching, player.isMoving, player.isSprinting)
+	if not player.gameEnded:
+		player.rpc_unreliable("network_update", translation, rotation, player.velocity, player.is_crouching, player.isMoving, player.isSprinting)
 
 
 func _input(event):

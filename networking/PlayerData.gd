@@ -20,8 +20,16 @@ func get_name() -> String:
 	return player_data_dictionary.name
 
 
-func set_name(name: String):
-	player_data_dictionary.name = name
+func set_name(_name: String):
+	player_data_dictionary.name = _name
+
+
+func get_lobby_ready() -> bool:
+	return player_data_dictionary.lobby_ready
+
+
+func set_lobby_ready(lobby_ready: bool):
+	player_data_dictionary.lobby_ready = lobby_ready
 
 
 func get_type() -> int:

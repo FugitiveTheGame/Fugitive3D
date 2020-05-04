@@ -90,6 +90,12 @@ func headstart_timer_timeout():
 	rpc("release_cops")
 
 
+# Only the server will call this as it sends all clients back to lobby
+func send_all_to_lobby():
+	if get_tree().is_network_server():
+		rpc("on_go_to_lobby")
+
+
 remotesync func on_go_to_lobby():
 	print("SERVER: on_go_to_lobby()")
 	get_tree().change_scene("res://server/lobby/ServerLobby.tscn")

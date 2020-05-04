@@ -17,6 +17,8 @@ func populate(player: PlayerData, is_starting: bool, is_host: bool, game_mode: D
 	playerInfo = player
 	var playerId = player.get_id()
 	
+	var lobbyReady := player.get_lobby_ready()
+	
 	$NameLabel.text = player.get_name()
 	$HostIndicator.visible = player.get_is_host()
 	
@@ -34,13 +36,19 @@ func populate(player: PlayerData, is_starting: bool, is_host: bool, game_mode: D
 	var playerType := player.get_type()
 	teamButton.selected = playerType
 	
-	if (is_host or ClientNetwork.is_local_player(playerId)) and not is_starting:
+	if (is_host or ClientNetwork.is_local_player(playerId)) and not is_starting and lobbyReady:
 		teamButton.disabled = false
 	else:
 		teamButton.disabled = true
 	
 	$HostMenuButton.visible = is_host
-	$HostMenuButton.disabled = playerId == GameData.get_current_player_id()
+	$HostMenuButton.disabled = playerId == GameData.get_current_player_id() or not lobbyReady
+	
+	# Indicate when a player hasn't returned from the last game yet
+	if lobbyReady:
+		modulate = Color.white
+	else:
+		modulate = Color.darkgray
 
 
 func _on_TeamButton_item_selected(id):

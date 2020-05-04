@@ -100,7 +100,8 @@ func _physics_process(delta):
 	var totalRotation = rotation
 	totalRotation.y += camera.rotation.y
 	
-	player.rpc_unreliable("network_update", totalTranslation, totalRotation, Vector3(), player.is_crouching, player.isMoving, player.isSprinting)
+	if not player.gameEnded:
+		player.rpc_unreliable("network_update", totalTranslation, totalRotation, Vector3(), player.is_crouching, player.isMoving, player.isSprinting)
 	
 	if fpsLabel.visible:
 		var fps := Engine.get_frames_per_second()

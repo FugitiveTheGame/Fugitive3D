@@ -6,6 +6,9 @@
 [node name="Game" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
+[node name="ReturnToLobbyTimer" parent="." index="1"]
+wait_time = 15.0
+
 [node name="FpsTimer" type="Timer" parent="." index="2"]
 autostart = true
 [connection signal="timeout" from="FpsTimer" to="." method="_on_FpsTimer_timeout"]

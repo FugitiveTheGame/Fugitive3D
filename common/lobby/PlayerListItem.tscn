@@ -19,7 +19,7 @@ __meta__ = {
 
 [node name="PlatformIndicator" type="TextureRect" parent="."]
 margin_right = 32.0
-margin_bottom = 62.0
+margin_bottom = 61.0
 texture = ExtResource( 2 )
 stretch_mode = 4
 
@@ -35,21 +35,21 @@ valign = 1
 [node name="HostIndicator" type="TextureRect" parent="."]
 margin_left = 221.0
 margin_right = 253.0
-margin_bottom = 62.0
+margin_bottom = 61.0
 texture = ExtResource( 3 )
 stretch_mode = 4
 
 [node name="TeamButton" type="OptionButton" parent="."]
 margin_left = 261.0
 margin_right = 457.0
-margin_bottom = 62.0
+margin_bottom = 61.0
 rect_min_size = Vector2( 196, 0 )
 text = "Team"
 
 [node name="HostMenuButton" type="MenuButton" parent="."]
 margin_left = 465.0
 margin_right = 521.0
-margin_bottom = 62.0
+margin_bottom = 61.0
 icon = ExtResource( 4 )
 items = [ "Make Host", null, 0, false, false, 0, 0, null, "", false, "Kick", null, 0, false, false, 1, 0, null, "", false ]
 [connection signal="item_selected" from="TeamButton" to="." method="_on_TeamButton_item_selected"]

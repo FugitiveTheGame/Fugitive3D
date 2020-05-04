@@ -35,6 +35,12 @@ func _ready():
 	
 	populate_map_list()
 	
+	# If we already have players, such as when returing from a game
+	# then we need to create UI for them
+	if not GameData.players.empty():
+		for playerId in GameData.players:
+			create_player_ui(playerId)
+	
 	call_deferred("update_ui")
 
 
@@ -43,7 +49,7 @@ func populate_map_list():
 		mapSelect.add_item(map[Maps.MAP_NAME])
 
 
-func create_player(playerId: int):
+func create_player_ui(playerId: int):
 	var existingPlayerNode := find_player_node(playerId)
 	if existingPlayerNode != null:
 		return
@@ -64,6 +70,9 @@ func create_player(playerId: int):
 	playerNode.connect("kick_player", self, "on_kick_player")
 	
 	playerNode.populate(player, is_starting, is_host, mode)
+
+func create_player(playerId: int):
+	create_player_ui(playerId)
 	
 	update_host()
 	update_all_players()
@@ -189,7 +198,13 @@ func can_start() -> bool:
 			teamSizesAreValid = false
 			break
 	
-	canStart = teamSizesAreValid
+	var allAreReady := true
+	for player in players:
+		if not player.get_lobby_ready():
+			allAreReady = false
+			break
+	
+	canStart = teamSizesAreValid and allAreReady
 	
 	return canStart
 

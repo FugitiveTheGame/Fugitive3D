@@ -89,6 +89,10 @@ func start_game():
 
 
 remotesync func on_start_game():
+	# Unready all players when we start the game
+	for player in GameData.get_players():
+		player.set_lobby_ready(false)
+	
 	emit_signal("start_game")
 
 
