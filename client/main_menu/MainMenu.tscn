@@ -4,11 +4,9 @@
 [ext_resource path="res://client/main_menu/server_browser/ServerBrowser.tscn" type="PackedScene" id=2]
 [ext_resource path="res://fonts/content/TitleFont.tres" type="DynamicFont" id=3]
 
-[node name="MainMenu" type="ReferenceRect"]
-margin_left = 0.418121
-margin_top = -0.418152
-margin_right = 1024.42
-margin_bottom = 599.582
+[node name="MainMenu" type="Control"]
+margin_right = 1024.0
+margin_bottom = 600.0
 rect_min_size = Vector2( 1024, 600 )
 script = ExtResource( 1 )
 __meta__ = {
@@ -18,6 +16,8 @@ playerNamePath = NodePath("UsernamePanel/VBoxContainer/PlayerName")
 serverIpPath = NodePath("ManualContainer/VBoxContainer/HBoxContainer/ServerIp")
 serverPortPath = NodePath("ManualContainer/VBoxContainer/HBoxContainer/ServerPort")
 versionLabelPath = NodePath("VersionLabel")
+joiningDialogPath = NodePath("JoiningDialog")
+joinFailedDialogPath = NodePath("JoinFailedDialog")
 
 [node name="ScreenTitle" type="Label" parent="."]
 anchor_left = 0.5
@@ -194,6 +194,58 @@ text = "Exit Game"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="JoiningDialog" type="WindowDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -130.5
+margin_top = -55.0
+margin_right = 130.5
+margin_bottom = 55.0
+popup_exclusive = true
+window_title = "Joining"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="JoiningDialog"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 16.0
+margin_top = 16.0
+margin_right = -16.0
+margin_bottom = -16.0
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="JoiningDialog/VBoxContainer"]
+margin_top = 4.0
+margin_right = 229.0
+margin_bottom = 29.0
+text = "Please wait..."
+
+[node name="CancelButton" type="Button" parent="JoiningDialog/VBoxContainer"]
+margin_top = 37.0
+margin_right = 229.0
+margin_bottom = 74.0
+text = "Cancel"
+
+[node name="JoinFailedDialog" type="AcceptDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -125.5
+margin_top = -55.0
+margin_right = 125.5
+margin_bottom = 55.0
+window_title = "Failed"
+dialog_text = "Failed to join server."
 [connection signal="pressed" from="ManualContainer/VBoxContainer/ConnectButton" to="." method="_on_ConnectButton_pressed"]
 [connection signal="connect_to_server" from="ServerBrowser" to="." method="_on_ServerBrowser_connect_to_server"]
 [connection signal="pressed" from="OptionsContainer/ExitButton" to="." method="_on_ExitButton_pressed"]
+[connection signal="pressed" from="JoiningDialog/VBoxContainer/CancelButton" to="." method="_on_CancelButton_pressed"]
