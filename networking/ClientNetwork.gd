@@ -9,10 +9,12 @@ signal lost_connection_to_server
 
 var localPlayerName: String
 
-func join_game(serverIp: String, serverPort: int, playerName: String) -> bool:
+func _ready():
 	get_tree().connect('connected_to_server', self, 'on_connected_to_server')
 	get_tree().connect('server_disconnected', self, 'on_disconnected_from_server')
-	
+	get_tree().connect('connection_failed', self, 'on_connection_failed')
+
+func join_game(serverIp: String, serverPort: int, playerName: String) -> bool:
 	self.localPlayerName = playerName
 	
 	var peer := NetworkedMultiplayerENet.new()
@@ -31,13 +33,15 @@ func on_connected_to_server():
 	print("Connected to server.")
 
 
+func on_connection_failed():
+	print("Connection to server failed.")
+	reset_network()
+
+
 func on_disconnected_from_server():
 	print("Disconnected from server.")
 	reset_network()
 	emit_signal("lost_connection_to_server")
-
-	get_tree().disconnect('connected_to_server', self, 'on_connected_to_server')
-	get_tree().disconnect('server_disconnected', self, 'on_disconnected_from_server')
 
 
 func register_player(recipientId: int, player: PlayerData):
@@ -98,7 +102,6 @@ remotesync func on_start_game():
 
 func is_local_player(playerId: int) -> bool:
 	return playerId == get_tree().get_network_unique_id()
-
 
 
 func force_disconnect(playerId: int):

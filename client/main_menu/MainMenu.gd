@@ -14,13 +14,23 @@ onready var serverPortInput := get_node(serverPortPath) as LineEdit
 export(NodePath) var versionLabelPath: NodePath
 onready var versionLabel := get_node(versionLabelPath) as Label
 
+export (NodePath) var joiningDialogPath: NodePath
+onready var joiningDialog := get_node(joiningDialogPath)
+
+export (NodePath) var joinFailedDialogPath: NodePath
+onready var joinFailedDialog := get_node(joinFailedDialogPath)
+
 
 func _enter_tree():
 	get_tree().connect("connected_to_server", self, "on_connected_to_server")
+	get_tree().connect("connection_failed", self, "on_connection_failed")
 
 
 func _exit_tree():
 	get_tree().disconnect("connected_to_server", self, "on_connected_to_server")
+	get_tree().disconnect("connection_failed", self, "on_connection_failed")
+	
+	joiningDialog.hide()
 	
 	UserData.data.user_name = playerNameInput.text
 	UserData.data.last_ip = serverIpInput.text
@@ -47,16 +57,23 @@ func _on_ConnectButton_pressed():
 func connect_to_server(playerName: String, serverIp: String, serverPort: int):
 	if playerName.strip_edges().length() < MIN_NAME_LENGTH:
 		$UserNameErrorDialog.popup_centered()
-		
 		return
 	
 	vr.log_info("connect_to_server")
-	ClientNetwork.join_game(serverIp, serverPort, playerName.strip_edges())
+	if ClientNetwork.join_game(serverIp, serverPort, playerName.strip_edges()):
+		joiningDialog.show()
+	else:
+		joinFailedDialog.show()
 
 
 func on_connected_to_server():
 	vr.log_info("on_connected_to_server")
 	go_to_lobby()
+
+
+func on_connection_failed():
+	joiningDialog.hide()
+	joinFailedDialog.show()
 
 
 func go_to_lobby():
@@ -75,3 +92,8 @@ func on_connect_request(ip: String, port: int):
 func _on_ExitButton_pressed():
 	print("Closing game")
 	get_tree().quit()
+
+
+func _on_CancelButton_pressed():
+	ClientNetwork.reset_network()
+	joinFailedDialog.hide()
