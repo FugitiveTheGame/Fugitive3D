@@ -23,6 +23,7 @@ var removeRequest := HTTPRequest.new()
 
 var repositoryRegisterTimer := Timer.new()
 var no_lan := false
+var autoremove := true
 var initial_registration := true
 
 
@@ -36,6 +37,7 @@ func _ready():
 	
 	add_child(registerRequest)
 	registerRequest.connect("request_completed", self, "_on_RegisterRequest_request_completed")
+	
 	add_child(removeRequest)
 	
 	if get_tree().network_peer != null and get_tree().is_network_server() and not no_lan:
@@ -52,12 +54,17 @@ func _ready():
 func start_advertising_publicly():
 	public = true
 	
-	fetch_external_ip()
+	if externalIp == null:
+		fetch_external_ip()
+	else:
+		register_server()
 	
+	# Setup the heat beat
 	repositoryRegisterTimer.wait_time = REPOSITORY_ADVERTISE_INTERVAL
 	add_child(repositoryRegisterTimer)
 	repositoryRegisterTimer.connect("timeout", self, "_on_RepositoryRegisterTimer_timeout")
 	repositoryRegisterTimer.start()
+
 
 func broadcast():
 	#print('Broadcasting game...')
@@ -76,6 +83,7 @@ func _exit_tree():
 
 func fetch_external_ip():
 	var endpointUrl := serverRepositoryUrl + "/reflection/ip"
+	print("fetch_external_ip")
 	ipRequest.request(endpointUrl)
 
 
@@ -92,11 +100,6 @@ func _on_IpRequest_request_completed(result, response_code, headers, body):
 		print('Failed to get external IP')
 
 
-func _on_RegisterRequest_request_completed(result, response_code, headers, body):
-	if response_code >= 200 and response_code < 300:
-		initial_registration = false
-
-
 func register_server():
 	if externalIp != null:
 		var serverID := SERVER_ID_FORMAT % [serverInfo["ip"], serverInfo["port"]]
@@ -110,12 +113,17 @@ func register_server():
 			registerRequest.request(url, headers, false, HTTPClient.METHOD_PUT, body)
 
 
+func _on_RegisterRequest_request_completed(result, response_code, headers, body):
+	if response_code >= 200 and response_code < 300:
+		initial_registration = false
+
+
 func _on_RepositoryRegisterTimer_timeout():
 	register_server()
 
 
 func remove_from_repository():
-	if public:
+	if public and autoremove:
 		var serverID := SERVER_ID_FORMAT % [serverInfo["ip"], serverInfo["port"]]
 		var url := serverRepositoryUrl + "/servers/" + serverID
 		

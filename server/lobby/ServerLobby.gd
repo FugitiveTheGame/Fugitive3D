@@ -9,8 +9,6 @@ func _enter_tree():
 	serverPort = ServerUtils.get_port()
 	serverName = ServerUtils.get_name()
 	
-	advertiser.initial_registration = false
-	
 	if not ServerNetwork.is_hosting():
 		if not ServerNetwork.host_game(serverPort):
 			print("Failed to start server, shutting down.")
@@ -30,6 +28,8 @@ func _exit_tree():
 
 func _ready():
 	ServerUtils.configure_advertiser(advertiser, serverName, serverPort)
+	
+	advertiser.initial_registration = false
 	
 	if ServerUtils.get_public():
 		advertiser.start_advertising_publicly()

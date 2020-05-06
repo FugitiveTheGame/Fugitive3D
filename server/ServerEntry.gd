@@ -2,12 +2,17 @@ extends Node
 
 var socketUDP: PacketPeerUDP = null
 
+var registerThread: Thread = null
+var fetchThread: Thread = null
+
 # Do any server specific setup here
 # Then open a lobby and start listening for users
 func _ready():
 	# If we are going to be public, handle the initial registration
 	if ServerUtils.get_public() or true:
-		register_publicly()
+		# Third argument is optional userdata, it can be any variable.
+		registerThread = Thread.new()
+		registerThread.start(self, "run_register_publicly")
 	# If we're not registering publicly, just continue
 	else:
 		go_to_lobby()
@@ -15,6 +20,14 @@ func _ready():
 
 func go_to_lobby():
 	get_tree().change_scene("res://server/lobby/ServerLobby.tscn")
+
+
+func run_register_publicly(userdata):
+	register_publicly()
+
+
+func run_fetch_external_ip(advertiser):
+	advertiser.fetch_external_ip()
 
 
 func register_publicly():
@@ -28,15 +41,23 @@ func register_publicly():
 		advertiser.no_lan = true
 		ServerUtils.configure_advertiser(advertiser, ServerUtils.get_name(), listenPort)
 		advertiser.public = true
+		advertiser.autoremove = false
 		add_child(advertiser)
-		# This will get the IP, then proceed to register
-		advertiser.fetch_external_ip()
+		# This will get the IP, then proceed to register the server
+		# As part of registration, the repository will connect to us on
+		# UDP to confirm our ports are open
+		fetchThread = Thread.new()
+		fetchThread.start(self, "run_fetch_external_ip", advertiser)
 		
 		# Wait for the repository to ping us
 		if socketUDP.wait() == OK:
 			var array_bytes := socketUDP.get_packet()
 			var message = array_bytes.get_string_from_ascii()
 			if message == "ping":
+				var ip := socketUDP.get_packet_ip()
+				var port := socketUDP.get_packet_port()
+				socketUDP.set_dest_address(ip, port)
+				
 				var response := "pong"
 				# Send 3 response packets
 				for ii in 3:
@@ -58,3 +79,9 @@ func register_publicly():
 func _exit_tree():
 	if socketUDP != null:
 		socketUDP.close()
+	
+	if fetchThread != null:
+		fetchThread.wait_to_finish()
+	
+	if registerThread != null:
+		registerThread.wait_to_finish()
