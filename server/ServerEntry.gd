@@ -9,7 +9,7 @@ var fetchThread: Thread = null
 # Then open a lobby and start listening for users
 func _ready():
 	# If we are going to be public, handle the initial registration
-	if ServerUtils.get_public() or true:
+	if ServerUtils.get_public():
 		# Third argument is optional userdata, it can be any variable.
 		registerThread = Thread.new()
 		registerThread.start(self, "run_register_publicly")
