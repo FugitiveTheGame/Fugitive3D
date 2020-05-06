@@ -1,6 +1,9 @@
 extends Node
 class_name ServerAdvertiser, 'res://addons/LANServerBroadcast/server_advertiser/ServerAdvertiser.png'
 
+signal register_failed
+signal register_succeeded
+
 const DEFAULT_PORT := 32000
 const REPOSITORY_ADVERTISE_INTERVAL := 30.0
 
@@ -116,9 +119,11 @@ func register_server():
 func _on_RegisterRequest_request_completed(result, response_code, headers, body):
 	if response_code >= 200 and response_code < 300:
 		initial_registration = false
+		emit_signal("register_succeeded")
 	else:
-		var message := body.get_string_from_ascii() as String
+		var message := body.get_string_from_utf8() as String
 		print("Server registration failed with code: %d and message: %s" % [response_code, message])
+		emit_signal("register_failed")
 
 
 func _on_RepositoryRegisterTimer_timeout():

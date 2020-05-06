@@ -39,10 +39,12 @@ func register_publicly():
 		
 		var advertiser = ServerAdvertiser.new()
 		advertiser.no_lan = true
-		ServerUtils.configure_advertiser(advertiser, ServerUtils.get_name(), listenPort)
 		advertiser.public = true
 		advertiser.autoremove = false
+		ServerUtils.configure_advertiser(advertiser, ServerUtils.get_name(), listenPort)
 		add_child(advertiser)
+		advertiser.connect("register_succeeded", self, "on_register_succeeded")
+		advertiser.connect("register_failed", self, "on_register_failed")
 		# This will get the IP, then proceed to register the server
 		# As part of registration, the repository will connect to us on
 		# UDP to confirm our ports are open
@@ -63,8 +65,7 @@ func register_publicly():
 				for ii in 3:
 					socketUDP.put_packet(response.to_ascii())
 				
-				print("Public Repository Registration Complete!")
-				go_to_lobby()
+				print("Port check request received. Response sent.")
 			else:
 				print("Public Repository Registration Failed: Bad message from Server Repository.")
 				print("Do you have the latest version? Current Version: %d" % UserData.GAME_VERSION)
@@ -76,6 +77,15 @@ func register_publicly():
 	else:
 		print("Repository regitration: Error listening on port: " + str(listenPort))
 		get_tree().quit()
+
+
+func on_register_succeeded():
+	print("Public Repository Registration Complete!")
+	go_to_lobby()
+
+
+func on_register_failed():
+	get_tree().quit()
 
 
 func _exit_tree():
