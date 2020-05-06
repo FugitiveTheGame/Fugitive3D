@@ -116,6 +116,9 @@ func register_server():
 func _on_RegisterRequest_request_completed(result, response_code, headers, body):
 	if response_code >= 200 and response_code < 300:
 		initial_registration = false
+	else:
+		var message := body.get_string_from_ascii() as String
+		print("Server registration failed with code: %d and message: %s" % [response_code, message])
 
 
 func _on_RepositoryRegisterTimer_timeout():

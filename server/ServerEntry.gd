@@ -67,9 +67,11 @@ func register_publicly():
 				go_to_lobby()
 			else:
 				print("Public Repository Registration Failed: Bad message from Server Repository.")
+				print("Do you have the latest version? Current Version: %d" % UserData.GAME_VERSION)
 				get_tree().quit()
 		else:
-			print("Public Repository Registration Failed: No ping received from Repositoru.")
+			print("Public Repository Registration Failed: No ping received from Repository.")
+			print("Are your ports forwarded correctly? UDP & TCP Port: %d" % listenPort)
 			get_tree().quit()
 	else:
 		print("Repository regitration: Error listening on port: " + str(listenPort))
