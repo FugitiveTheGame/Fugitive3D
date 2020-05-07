@@ -25,15 +25,15 @@ var registerRequest := HTTPRequest.new()
 var removeRequest := HTTPRequest.new()
 
 var repositoryRegisterTimer := Timer.new()
-var no_lan := false
 var autoremove := true
 var initial_registration := true
 
 
 func _ready():
+	add_child(broadcastTimer)
+	broadcastTimer.connect("timeout", self, "broadcast") 
 	broadcastTimer.wait_time = broadcast_interval
 	broadcastTimer.one_shot = false
-	broadcastTimer.autostart = true
 	
 	add_child(ipRequest)
 	ipRequest.connect("request_completed", self, "_on_IpRequest_request_completed")
@@ -42,14 +42,15 @@ func _ready():
 	registerRequest.connect("request_completed", self, "_on_RegisterRequest_request_completed")
 	
 	add_child(removeRequest)
+
+
+func start_advertising_lan():
+	print("Starting LAN broadcast")
+	broadcastTimer.start()
 	
-	if get_tree().network_peer != null and get_tree().is_network_server() and not no_lan:
-		add_child(broadcastTimer)
-		broadcastTimer.connect("timeout", self, "broadcast") 
-		
-		socketUDP = PacketPeerUDP.new()
-		socketUDP.set_broadcast_enabled(true)
-		socketUDP.set_dest_address('255.255.255.255', broadcastPort)
+	socketUDP = PacketPeerUDP.new()
+	socketUDP.set_broadcast_enabled(true)
+	socketUDP.set_dest_address('255.255.255.255', broadcastPort)
 
 
 # By default we only advertise on LAN
