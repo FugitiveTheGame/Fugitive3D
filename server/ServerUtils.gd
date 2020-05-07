@@ -65,3 +65,17 @@ static func get_public() -> bool:
 			break
 	
 	return public
+
+
+# Parse command line server name in the form of:
+# --nolan
+static func get_no_lan() -> bool:
+	var no_lan := false
+	
+	var args := OS.get_cmdline_args()
+	for arg in args:
+		if arg.nocasecmp_to("--nolan") == 0:
+			no_lan = true
+			break
+	
+	return no_lan

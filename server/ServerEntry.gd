@@ -38,7 +38,6 @@ func register_publicly():
 		print("Repository regitration: listening on port: " + str(listenPort))
 		
 		var advertiser = ServerAdvertiser.new()
-		advertiser.no_lan = true
 		advertiser.public = true
 		advertiser.autoremove = false
 		ServerUtils.configure_advertiser(advertiser, ServerUtils.get_name(), listenPort)
