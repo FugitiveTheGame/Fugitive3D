@@ -1,0 +1,7 @@
+- Left Joystick - Movement
+- Right Joystick - Look
+- Onscreen - Crouch
+- Onscreen - Jump
+- Onscreen - Cops Lock car
+- Onscreen - Get in or out of car
+- Onscreen - Map

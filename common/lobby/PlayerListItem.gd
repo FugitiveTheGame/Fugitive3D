@@ -1,16 +1,16 @@
-extends Control
+extends VBoxContainer
 
 signal make_host(playerId)
 signal kick_player(playerId)
 
 var playerInfo: PlayerData = null
 
-onready var teamButton := $TeamButton as OptionButton
+onready var teamButton := $Controls/TeamButton as OptionButton
 var curTeamResolver = null
 
 
 func _ready():
-	$HostMenuButton.get_popup().connect("id_pressed", self, "on_id_pressed")
+	$Controls/HostMenuButton.get_popup().connect("id_pressed", self, "on_id_pressed")
 
 
 func populate(player: PlayerData, is_starting: bool, is_host: bool, game_mode: Dictionary):
@@ -19,11 +19,11 @@ func populate(player: PlayerData, is_starting: bool, is_host: bool, game_mode: D
 	
 	var lobbyReady := player.get_lobby_ready()
 	
-	$NameLabel.text = player.get_name()
-	$HostIndicator.visible = player.get_is_host()
+	$Controls/NameLabel.text = player.get_name()
+	$Controls/HostIndicator.visible = player.get_is_host()
 	
 	var iconPath := PlatformTypeUtils.platform_type_icon(player.get_platform_type())
-	$PlatformIndicator.texture = load(iconPath)
+	$Controls/PlatformIndicator.texture = load(iconPath)
 	
 	curTeamResolver = game_mode[Maps.MODE_TEAM_RESOLVER]
 	
@@ -41,8 +41,21 @@ func populate(player: PlayerData, is_starting: bool, is_host: bool, game_mode: D
 	else:
 		teamButton.disabled = true
 	
-	$HostMenuButton.visible = is_host
-	$HostMenuButton.disabled = playerId == GameData.get_current_player_id() or not lobbyReady
+	$Controls/HostMenuButton.visible = is_host
+	$Controls/HostMenuButton.disabled = playerId == GameData.get_current_player_id() or not lobbyReady
+	
+	var playerInfoData := GameData.get_player(playerId)
+	var playerStats = FugitivePlayerDataUtility.get_stats(playerInfoData)
+	print("Player stat count: %d" % playerStats.size())
+	
+	var score := FugitivePlayerDataUtility.calculate_score(playerInfoData)
+	var games := FugitivePlayerDataUtility.get_stat(playerInfoData, FugitivePlayerDataUtility.STAT_GAMES)
+	var stats := "Score: %d    |    Games: %d" % [score, games]
+	
+	if stats.empty():
+		$StatsLabel.text = "No games played yet"
+	else:
+		$StatsLabel.text = stats
 	
 	# Indicate when a player hasn't returned from the last game yet
 	if lobbyReady:

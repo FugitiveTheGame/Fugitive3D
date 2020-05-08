@@ -41,18 +41,7 @@ func remove_player(playerId: int):
 # The server will trigger the actual end-game functionality
 # This makes the server authoratative about when the game ends
 func finish_game(playerType: int):
-	var hiders = get_tree().get_nodes_in_group(Hider.GROUP)
-	var winZones := map.get_win_zones()
-	
-	for hider in hiders:
-		if (not hider.frozen):
-			for winZone in winZones:
-				# If a hider is unfrozen and in any win zone, give them an "escaped" counter.
-				if (winZone.overlaps_body(hider.playerBody)):
-					FugitivePlayerDataUtility.increment_stat_for_player_id(hider.id, "hider_escaped")
-					break
-
-	rpc("on_finish_game", playerType)
+	print("finish_game")
 
 
 remotesync func on_finish_game(playerType: int):
@@ -331,8 +320,11 @@ remotesync func begin_game():
 
 
 remotesync func release_cops():
-	print("Release the cops!")
-	stateMachine.transition_by_name(FugitiveStateMachine.TRANS_COPS_RELEASED)
+	if stateMachine.current_state.name == FugitiveStateMachine.STATE_PLAYING_HEADSTART:
+		print("Release the cops!")
+		stateMachine.transition_by_name(FugitiveStateMachine.TRANS_COPS_RELEASED)
+	else:
+		print("Ignoring TRANS_COPS_RELEASED")
 
 
 remotesync func on_go_to_lobby():

@@ -17,6 +17,7 @@ const MODE_TEAM_RESOLVER := "team_resolver_object"
 const MODE_RULES := "rules"
 const MODE_CONTROLS := "controls"
 const MODE_CONTROLS_FLAT := "flat"
+const MODE_CONTROLS_FLAT_MOBILE := "flat_mobile"
 const MODE_CONTROLS_VR := "vr"
 
 var directory = []

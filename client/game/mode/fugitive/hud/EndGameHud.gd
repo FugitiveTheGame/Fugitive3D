@@ -33,8 +33,10 @@ func team_won(winningTeam: int):
 				
 			var playerStats = FugitivePlayerDataUtility.get_stats(playerInfoData)
 			print("Player stat count: %d" % playerStats.size())
-			for stat in playerStats.keys():
-				node.text += "\n\t%s: %d" % [stat, playerStats[stat]]
+			for statKey in playerStats.keys():
+				var statName := FugitivePlayerDataUtility.get_stat_name(statKey)
+				var stat := FugitivePlayerDataUtility.get_stat(playerInfoData, statKey)
+				node.text += "\n\t%s: %d" % [statName, stat]
 			
 			playerList.add_child(node)
 	

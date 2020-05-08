@@ -40,7 +40,7 @@ __meta__ = {
 [node name="ScrollContainer" type="ScrollContainer" parent="Container"]
 margin_top = 60.0
 margin_right = 608.0
-margin_bottom = 403.0
+margin_bottom = 402.0
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
 
@@ -49,9 +49,9 @@ margin_right = 608.0
 size_flags_horizontal = 3
 
 [node name="ToLobbyButton" type="Button" parent="Container"]
-margin_top = 411.0
+margin_top = 410.0
 margin_right = 608.0
-margin_bottom = 448.0
+margin_bottom = 447.0
 text = "Return to Lobby"
 
 [node name="GameOverAudio" type="AudioStreamPlayer" parent="."]
