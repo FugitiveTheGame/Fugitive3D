@@ -14,6 +14,10 @@ const MAP_TEAM_SIZES := "team_sizes"
 const MODE_NAME := "name"
 const MODE_TEAM_RESOLVER_PATH := "team_resolver"
 const MODE_TEAM_RESOLVER := "team_resolver_object"
+const MODE_RULES := "rules"
+const MODE_CONTROLS := "controls"
+const MODE_CONTROLS_FLAT := "flat"
+const MODE_CONTROLS_VR := "vr"
 
 var directory = []
 var modes = {}
@@ -42,7 +46,7 @@ func get_team_sizes_for_map(mapId: int) -> Array:
 	return map[MAP_TEAM_SIZES]
 
 
-func get_mode_for_map(mapId: int):
+func get_mode_for_map(mapId: int) -> Dictionary:
 	var map = directory[mapId]
 	return self.modes[map[MAP_MODE]]
 

@@ -16,8 +16,8 @@ onready var modeValue := get_node(modeValuePath) as Label
 export(NodePath) var sizeValuePath: NodePath
 onready var sizeValue := get_node(sizeValuePath) as Label
 
-export(NodePath) var teamsContainerPath: NodePath
-onready var teamsContainer := get_node(teamsContainerPath) as GridContainer
+export(NodePath) var teamsListPath: NodePath
+onready var teamsList := get_node(teamsListPath) as Control
 
 
 var is_host := false
@@ -137,18 +137,18 @@ func update_map_description(mapId: int):
 	var teamSizes = mapData[Maps.MAP_TEAM_SIZES]
 	
 	# Remove all existing children
-	for child in teamsContainer.get_children():
+	for child in teamsList.get_children():
 		child.queue_free()
 	
 	for teamId in teamSizes.size():
 		var label := Label.new()
 		var teamSize = teamSizes[teamId]
 		label.text = "%s: %d\n" % [resolver.get_team_name(teamId), teamSize]
-		teamsContainer.add_child(label)
+		teamsList.add_child(label)
 		
 		var spacer := Control.new()
 		spacer.rect_min_size.x = 64.0
-		teamsContainer.add_child(spacer)
+		teamsList.add_child(spacer)
 		
 	
 	mapDescription.text = mapData[Maps.MAP_DESCRIPTION]

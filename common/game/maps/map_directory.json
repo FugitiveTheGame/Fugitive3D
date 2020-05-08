@@ -32,7 +32,12 @@
 				"flat" : "res://client/game/mode/fugitive/FlatClientFugitiveGame.tscn",
 				"vr" : "res://client/game/mode/fugitive/VrClientFugitiveGame.tscn"
 			},
-			"team_resolver": "res://common/game/mode/fugitive/FugitiveTeamResolver.gd"
+			"team_resolver": "res://common/game/mode/fugitive/FugitiveTeamResolver.gd",
+			"rules": "res://common/game/mode/fugitive/rules.bb",
+			"controls" : {
+				"flat": "res://common/game/mode/fugitive/controls_flat.bb",
+				"vr": "res://common/game/mode/fugitive/controls_vr.bb"
+			}
 		}
 	}
 }

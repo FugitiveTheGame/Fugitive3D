@@ -2,6 +2,7 @@ extends Node
 class_name PlatformTypeUtils
 
 enum PlatformType { FlatDesktop, FlatMobile, VrDesktop, VrMobile, Unset }
+enum PlatformCategory { Flat, Vr, Unset }
 
 static func get_platform_type() -> int:
 	var type: int
@@ -18,6 +19,25 @@ static func get_platform_type() -> int:
 		type = PlatformType.FlatDesktop
 	
 	return type
+
+
+static func get_platform_category() -> int:
+	var category: int
+	
+	match get_platform_type():
+		PlatformType.FlatDesktop:
+			category = PlatformCategory.Flat
+		PlatformType.FlatMobile:
+			category = PlatformCategory.Flat
+		PlatformType.VrDesktop:
+			category = PlatformCategory.Vr
+		PlatformType.VrMobile:
+			category = PlatformCategory.Vr
+		_:
+			category = PlatformCategory.Unset
+	
+	return category
+
 
 static func print_platform_type(platformType: int) -> String:
 	match platformType:
