@@ -37,15 +37,13 @@ func transition_by_name(name: String) -> bool:
 
 
 func transition(transition: Transition) -> bool:
-	assert(transition.from == current_state)
-	
 	if transition.from == current_state:
 		#call_deferred("do_transition", transition)
 		do_transition(transition)
 		return true
 	else:
-		
 		print("Invalid transition for current state! Current State: %s Transition: %s" % [current_state.name, transition.name])
+		assert(transition.from == current_state)
 		return false
 
 

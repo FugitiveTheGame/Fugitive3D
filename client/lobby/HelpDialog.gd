@@ -18,7 +18,10 @@ func load_data():
 	var platformCategory := PlatformTypeUtils.get_platform_category()
 	match platformCategory:
 		PlatformTypeUtils.PlatformCategory.Flat:
-			controlsPath = controlsObj[Maps.MODE_CONTROLS_FLAT]
+			if PlatformTypeUtils.get_platform_type() == PlatformTypeUtils.PlatformType.FlatMobile:
+				controlsPath = controlsObj[Maps.MODE_CONTROLS_FLAT_MOBILE]
+			else:
+				controlsPath = controlsObj[Maps.MODE_CONTROLS_FLAT]
 		PlatformTypeUtils.PlatformCategory.Vr:
 			controlsPath = controlsObj[Maps.MODE_CONTROLS_VR]
 	

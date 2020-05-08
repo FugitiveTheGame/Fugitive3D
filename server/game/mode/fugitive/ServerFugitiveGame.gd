@@ -45,7 +45,8 @@ func load_map():
 	map.get_countdown_timer().connect("timeout", self, "countdown_timer_timeout")
 	map.get_headstart_timer().connect("timeout", self, "headstart_timer_timeout")
 	# Get and update stats
-	FugitivePlayerDataUtility.reset_stats()
+	# $ TODO ALEX: This needs to some how not clear the game-over-game stats
+	# FugitivePlayerDataUtility.reset_stats()
 
 remote func on_client_configured(playerId: int):
 	print("client configured: %s" % playerId)
@@ -103,3 +104,33 @@ remotesync func on_go_to_lobby():
 
 func _on_FpsTimer_timeout():
 	print("%d fps" % Engine.get_frames_per_second())
+
+
+func finish_game(playerType: int):
+	.finish_game(playerType)
+	
+	##########################
+	# Calculate end-game stats
+	##########################
+	var hiders = get_tree().get_nodes_in_group(Hider.GROUP)
+	var winZones := map.get_win_zones()
+	
+	for hider in hiders:
+		if not hider.frozen:
+			for winZone in winZones:
+				# If a hider is unfrozen and in any win zone, give them an "escaped" counter.
+				if (winZone.overlaps_body(hider.playerBody)):					
+					FugitivePlayerDataUtility.increment_stat_for_player_id(hider.id, FugitivePlayerDataUtility.STAT_HIDER_ESCAPED)
+					break
+	
+	for player in GameData.get_players():
+		var playerId = player.get_id()
+		# All players get credit for playing the game
+		FugitivePlayerDataUtility.increment_stat_for_player_id(playerId, FugitivePlayerDataUtility.STAT_GAMES)
+		
+		# If this player was on the winning team, give them a win
+		if player.get_type() == playerType:
+			FugitivePlayerDataUtility.increment_stat_for_player_id(playerId, FugitivePlayerDataUtility.STAT_WINS)
+
+	
+	rpc("on_finish_game", playerType)

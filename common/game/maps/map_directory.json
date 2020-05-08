@@ -36,6 +36,7 @@
 			"rules": "res://common/game/mode/fugitive/rules.bb",
 			"controls" : {
 				"flat": "res://common/game/mode/fugitive/controls_flat.bb",
+				"flat_mobile": "res://common/game/mode/fugitive/controls_flat_mobile.bb",
 				"vr": "res://common/game/mode/fugitive/controls_vr.bb"
 			}
 		}
