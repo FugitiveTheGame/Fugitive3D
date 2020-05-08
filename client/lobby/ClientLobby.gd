@@ -82,3 +82,7 @@ func _notification(what):
 	if is_inside_tree():
 		if what == MainLoop.NOTIFICATION_WM_GO_BACK_REQUEST: 
 			leave_lobby()
+
+
+func _on_HelpButton_pressed():
+	$HelpDialog.popup_centered()

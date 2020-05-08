@@ -1,0 +1,7 @@
+- WASD - Movement
+- Ctrl - Crouch
+- Space - Jump
+- Q (hold) - Cops Lock car
+- E - Get in or out of car
+- F - Toggle flashlight
+- M (hold) - Map
