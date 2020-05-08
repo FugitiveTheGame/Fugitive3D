@@ -143,12 +143,8 @@ func update_map_description(mapId: int):
 	for teamId in teamSizes.size():
 		var label := Label.new()
 		var teamSize = teamSizes[teamId]
-		label.text = "%s: %d\n" % [resolver.get_team_name(teamId), teamSize]
+		label.text = "%s: %d" % [resolver.get_team_name(teamId), teamSize]
 		teamsList.add_child(label)
-		
-		var spacer := Control.new()
-		spacer.rect_min_size.x = 64.0
-		teamsList.add_child(spacer)
 		
 	
 	mapDescription.text = mapData[Maps.MAP_DESCRIPTION]
