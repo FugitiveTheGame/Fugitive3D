@@ -1,7 +1,7 @@
 extends Node
 
 # Change this when debugging from the editor
-var debug_is_server := false
+var debug_is_server := true
 
 
 # Entry point for the whole app

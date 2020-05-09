@@ -97,7 +97,7 @@ func _draw():
 	var globalTransform := localPlayer.global_transform
 	var playerPos := globalTransform.origin
 	var playerCoord = to_map_coord(playerPos)
-	var angle = get_map_rotation(globalTransform)
+	var angle = Utils.get_map_rotation(globalTransform)
 	
 	draw_set_transform(playerCoord, angle, Vector2(1.0, 1.0))
 	draw_colored_polygon(playerShape, Color.red)
@@ -110,18 +110,13 @@ func _draw():
 			var carTransform = car.global_transform
 			var carPos = carTransform.origin
 			var carCoord = to_map_coord(carPos)
-			var carAngle = get_map_rotation(carTransform)
+			var carAngle = Utils.get_map_rotation(carTransform)
 			
 			var carSize := Vector2(10.0, 20.0)
 			var rect := Rect2(Vector2(-(carSize.x/2.0), -(carSize.y/2.0)), carSize)
 			draw_set_transform(carCoord, carAngle, Vector2(1.0, 1.0))
 			draw_rect(rect, Color.white)
 			draw_set_transform(Vector2(), 0.0, Vector2(1.0, 1.0))
-
-
-func get_map_rotation(globalTransform: Transform) -> float:
-	return (globalTransform.basis.get_euler().y + deg2rad(180)) * -1.0
-
 
 func _on_Map_draw():
 	# First draw the eblows

@@ -28,6 +28,14 @@ func configure(_playerName: String, _playerId: int, _localPlayerType: int):
 func set_player_name(playerName: String):
 	playerShape.get_name_label().set_label_text(playerName)
 
+func get_history_heartbeat() -> FugitiveHistoryPlayerEntry:
+	var newEntry := load("res://common/game/mode/fugitive/history/FugitiveHistoryPlayerEntry.gd").new() as FugitiveHistoryPlayerEntry
+	newEntry.position = global_transform.origin
+	newEntry.orientation = Utils.get_map_rotation(global_transform)
+	newEntry.isCrouching = is_crouching
+	newEntry.playerType = playerType
+	newEntry.frozen = frozen
+	return newEntry
 
 func update_player_name_state():
 	# Always team mate names

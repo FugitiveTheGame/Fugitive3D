@@ -40,6 +40,12 @@ func _ready():
 			if seat.is_driver_seat:
 				driver_seat = seat
 
+func get_history_heartbeat() -> FugitiveHistoryCarEntry:
+	var newEntry := load("res://common/game/mode/fugitive/history/FugitiveHistoryCarEntry.gd").new() as FugitiveHistoryCarEntry
+	newEntry.position = global_transform.origin
+	newEntry.orientation = Utils.get_map_rotation(global_transform)
+	newEntry.isLocked = locked
+	return newEntry
 
 func get_free_seat() -> int:
 	var freeSeat: int = -1
