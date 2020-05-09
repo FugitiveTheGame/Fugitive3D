@@ -29,8 +29,8 @@ func set_player_name(playerName: String):
 	playerShape.get_name_label().set_label_text(playerName)
 
 func get_history_heartbeat() -> FugitiveHistoryPlayerEntry:
-	var newEntry := load("res://common/game/mode/fugitive/history/FugitiveHistoryPlayerEntry.gd").new() as FugitiveHistoryPlayerEntry
-	newEntry.position = global_transform.origin
+	var newEntry := FugitiveHistoryPlayerEntry.new()
+	newEntry.position = Vector2(global_transform.origin.x, global_transform.origin.z)
 	newEntry.orientation = Utils.get_map_rotation(global_transform)
 	newEntry.isCrouching = is_crouching
 	newEntry.playerType = playerType

@@ -116,10 +116,10 @@ func _process(delta):
 	if stateMachine.current_state.name == FugitiveStateMachine.STATE_PLAYING_HEADSTART or stateMachine.current_state.name == FugitiveStateMachine.STATE_PLAYING:
 		if lastProcessedSeconds + delta >= 1.0:
 			lastProcessedSeconds = 0
-			var newHistoryHeartbeat := load("res://common/game/mode/fugitive/history/FugitiveHistoryHeartbeat.gd").new() as FugitiveHistoryHeartbeat
+			var newHistoryHeartbeat :=  FugitiveHistoryHeartbeat.new()
 			
-			for player in GameData.currentGame.players:
-				var playerObj := GameData.currentGame.players[player] as Player
+			for playerId in GameData.currentGame.players:
+				var playerObj := GameData.currentGame.get_player(playerId) as FugitivePlayer
 				newHistoryHeartbeat.pointsOfInterest.append(playerObj.get_history_heartbeat())
 			
 			var cars := get_tree().get_nodes_in_group(Groups.CARS)
