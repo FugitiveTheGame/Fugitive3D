@@ -24,8 +24,6 @@ transform = Transform( 0.001, 0, 0, 0, 0.001, 0, 0, 0, 0.001, 0, -0.271089, -1.2
 
 [node name="ovr_shader_cache" parent="OQ_ARVROrigin/OQ_ARVRCamera/ShaderCache" instance=ExtResource( 11 )]
 
-[node name="Feature_UIRayCast" parent="OQ_ARVROrigin/OQ_ARVRCamera/ShaderCache" instance=ExtResource( 7 )]
-
 [node name="OQ_LeftController" parent="OQ_ARVROrigin" instance=ExtResource( 1 )]
 enable_gesture_to_button = true
 
