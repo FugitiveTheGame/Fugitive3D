@@ -70,4 +70,4 @@ align = 1
 margin_top = 85.0
 margin_right = 414.0
 margin_bottom = 93.0
-[connection signal="item_selected" from="Controls/TeamButton" to="Controls" method="_on_TeamButton_item_selected"]
+[connection signal="item_selected" from="Controls/TeamButton" to="." method="_on_TeamButton_item_selected"]
