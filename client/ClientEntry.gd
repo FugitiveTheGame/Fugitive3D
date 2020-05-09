@@ -2,8 +2,10 @@ extends Node
 
 # Go to the proper entry for this client
 func _ready():
-	var clientType := PlatformTypeUtils.get_platform_type()
+	init_analytics()
+	#GameAnalytics.design_event("start")
 	
+	var clientType := PlatformTypeUtils.get_platform_type()
 	match clientType:
 		PlatformTypeUtils.PlatformType.FlatDesktop:
 			print("Client is Flat")
@@ -17,6 +19,7 @@ func _ready():
 		PlatformTypeUtils.PlatformType.VrMobile:
 			print("Client is Mobile VR")
 			go_to_mobile_vr()
+
 
 func handle_commandline_args():
 	var playerName = UserData.data.user_name
@@ -96,4 +99,23 @@ func prepare_mobile_vr():
 	#var ovr_types = preload("res://addons/godot_ovrmobile/OvrVrApiTypes.gd").new();
 	
 	#print("  vrapi_get_property_int(VRAPI_FOVEATION_LEVEL) = ", ovr_vr_api_proxy.vrapi_get_property_int(ovr_types.OvrProperty.VRAPI_FOVEATION_LEVEL));
+
+
+func init_analytics():
+	var file = File.new()
+	if file.open('res://keys.json', File.READ) != 0:
+		print("Error keys opening file")
+		return
 	
+	var serialized = file.get_as_text()
+	var keys = JSON.parse(serialized).result
+	file.close()
+	
+	var gaKeys = keys["game_analytics"]
+	
+	# configure the keys
+	GameAnalytics.game_key = gaKeys["game_key"]
+	GameAnalytics.secret_key = gaKeys["secret_key"]
+	
+	# Start the session
+	GameAnalytics.start_session()

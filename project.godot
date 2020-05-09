@@ -214,6 +214,7 @@ GameData="*res://networking/GameData.gd"
 vr="*res://addons/OQ_Toolkit/vr_autoload.gd"
 UserData="*res://common/UserData.gd"
 Maps="*res://common/game/maps/MapDirectory.gd"
+GameAnalytics="*res://addons/Godot-GameAnalytics/GameAnalytics.gd"
 
 [debug]
 
@@ -232,7 +233,7 @@ window/size/height.mobile=720
 
 [editor_plugins]
 
-enabled=PoolStringArray( "Fugitive3D", "LANServerBroadcast" )
+enabled=PoolStringArray( "Fugitive3D", "Godot-GameAnalytics", "LANServerBroadcast" )
 
 [gdnative]
 
