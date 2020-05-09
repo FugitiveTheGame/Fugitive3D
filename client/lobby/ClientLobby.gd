@@ -22,6 +22,7 @@ func _ready():
 
 
 func _on_StartButton_pressed():
+	GameAnalytics.design_event("lobby_start_game_pressed")
 	ClientNetwork.start_lobby_countdown()
 
 
@@ -31,6 +32,7 @@ func _on_LeaveButton_pressed():
 
 func leave_lobby():
 	print("Leaving lobby")
+	GameAnalytics.design_event("lobby_manual_leave")
 	# Disconnect from the server
 	ClientNetwork.reset_network()
 	on_disconnect()
@@ -74,6 +76,7 @@ func _on_StartTimer_timeout():
 
 
 func _on_RandomButton_pressed():
+	GameAnalytics.design_event("lobby_randomize_teams")
 	ServerNetwork.randomize_teams()
 
 
@@ -85,4 +88,5 @@ func _notification(what):
 
 
 func _on_HelpButton_pressed():
+	GameAnalytics.design_event("lobby_help_shown")
 	$HelpDialog.popup_centered()

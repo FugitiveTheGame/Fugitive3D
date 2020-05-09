@@ -28,6 +28,8 @@ func pre_configure():
 	else:
 		print("DEV: forcing on_all_clients_configured")
 		on_all_clients_configured()
+	
+	GameAnalytics.design_event("start_game")
 
 
 func local_player_ready():
@@ -52,9 +54,15 @@ func on_state_playing_headstart(current_state: State, transition: Transition):
 # User request to leave the game
 func on_return_to_main_menu():
 	ClientNetwork.reset_network()
+	GameAnalytics.design_event("quit_mid_game")
 	call_deferred("goto_main_menu")
 
 
 func goto_main_menu():
 	print("goto_main_menu() MUST BE OVERIDDEN")
 	assert(false)
+
+
+func finish_game(playerType: int):
+	.finish_game(playerType)
+	GameAnalytics.design_event("game_complete")

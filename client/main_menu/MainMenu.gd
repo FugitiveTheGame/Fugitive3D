@@ -51,27 +51,33 @@ func _on_ConnectButton_pressed():
 	var portStr := serverPortInput.text as String
 	var port := int(portStr)
 	
+	GameAnalytics.design_event("manual_connect_request")
+	
 	on_connect_request(ip, port)
 
 
 func connect_to_server(playerName: String, serverIp: String, serverPort: int):
 	if playerName.strip_edges().length() < MIN_NAME_LENGTH:
 		$UserNameErrorDialog.popup_centered()
+		GameAnalytics.error_event(GameAnalytics.ErrorSeverity.INFO, "Bad user name length")
 		return
 	
 	vr.log_info("connect_to_server")
 	if ClientNetwork.join_game(serverIp, serverPort, playerName.strip_edges()):
 		joiningDialog.show()
 	else:
+		GameAnalytics.error_event(GameAnalytics.ErrorSeverity.WARNING, "Failed to start connection")
 		joinFailedDialog.show()
 
 
 func on_connected_to_server():
 	vr.log_info("on_connected_to_server")
+	GameAnalytics.design_event("joining_lobby")
 	go_to_lobby()
 
 
 func on_connection_failed():
+	GameAnalytics.error_event(GameAnalytics.ErrorSeverity.WARNING, "Failed to connect to server")
 	joiningDialog.hide()
 	joinFailedDialog.show()
 
@@ -81,6 +87,7 @@ func go_to_lobby():
 
 
 func _on_ServerBrowser_connect_to_server(ip: String, port: int):
+	GameAnalytics.design_event("server_browser_connect_request")
 	on_connect_request(ip, port)
 
 
@@ -91,9 +98,11 @@ func on_connect_request(ip: String, port: int):
 
 func _on_ExitButton_pressed():
 	print("Closing game")
+	GameAnalytics.design_event("explicit_exit_game")
 	get_tree().quit()
 
 
 func _on_CancelButton_pressed():
 	ClientNetwork.reset_network()
-	joinFailedDialog.hide()
+	GameAnalytics.design_event("cancel_join_request")
+	joiningDialog.hide()

@@ -54,6 +54,7 @@ func on_connect_request(ip: String, port: int):
 
 
 func _on_RefreshButton_pressed():
+	GameAnalytics.design_event("server_browser_manual_refresh")
 	$ServerListener.request_servers()
 
 
