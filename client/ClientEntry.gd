@@ -85,19 +85,14 @@ func prepare_mobile_vr():
 	
 	# enable the extra latency mode: this gives some performance headroom at the cost
 	# of one more frame of latency
-	ovrPerformance.set_extra_latency_mode(1)
+	vr.set_extra_latency_mode(1)
 	
 	# set fixed foveation level
 	# for details see https://developer.oculus.com/documentation/quest/latest/concepts/mobile-ffr/
-	ovrPerformance.set_foveation_level(4)
+	vr.set_foveation_level(vr.FoveatedRenderingLevel.HighTop)
 	
 	# This will dynamically change the foveation level up to the previous level
-	ovrPerformance.set_enable_dynamic_foveation(true)
-	
-	#var ovr_vr_api_proxy = preload("res://addons/godot_ovrmobile/OvrVrApiProxy.gdns").new();
-	#var ovr_types = preload("res://addons/godot_ovrmobile/OvrVrApiTypes.gd").new();
-	
-	#print("  vrapi_get_property_int(VRAPI_FOVEATION_LEVEL) = ", ovr_vr_api_proxy.vrapi_get_property_int(ovr_types.OvrProperty.VRAPI_FOVEATION_LEVEL));
+	vr.set_enable_dynamic_foveation(1)
 
 
 func init_analytics():
