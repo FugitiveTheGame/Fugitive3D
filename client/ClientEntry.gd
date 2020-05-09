@@ -3,7 +3,6 @@ extends Node
 # Go to the proper entry for this client
 func _ready():
 	init_analytics()
-	#GameAnalytics.design_event("start")
 	
 	var clientType := PlatformTypeUtils.get_platform_type()
 	match clientType:

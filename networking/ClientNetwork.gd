@@ -14,6 +14,7 @@ func _ready():
 	get_tree().connect('server_disconnected', self, 'on_disconnected_from_server')
 	get_tree().connect('connection_failed', self, 'on_connection_failed')
 
+
 func join_game(serverIp: String, serverPort: int, playerName: String) -> bool:
 	self.localPlayerName = playerName
 	
@@ -41,6 +42,7 @@ func on_connection_failed():
 func on_disconnected_from_server():
 	print("Disconnected from server.")
 	reset_network()
+	GameAnalytics.error_event(GameAnalytics.ErrorSeverity.ERROR, "Lost connection to server")
 	emit_signal("lost_connection_to_server")
 
 

@@ -3,6 +3,7 @@ extends Spatial
 var is_on := true
 
 func toggle_on():
+	GameAnalytics.design_event("toggle_flashlight")
 	set_on(not is_on)
 
 

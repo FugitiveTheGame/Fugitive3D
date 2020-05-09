@@ -3,7 +3,7 @@ extends Node
 # Cross-platform. Should work in every platform supported by Godot
 # Adapted from REST_v2_example.py by Cristiano Reis Monteiro <cristianomonteiro@gmail.com> Abr/2018
 
-var DEVELOPMENT = false
+var DEVELOPMENT = OS.is_debug_build()
 
 const MAX_ERROR_MSG_LENGTH = 8192
 
