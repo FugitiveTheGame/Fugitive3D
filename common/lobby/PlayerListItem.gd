@@ -46,8 +46,7 @@ func populate(player: PlayerData, is_starting: bool, is_host: bool, game_mode: D
 	
 	var playerInfoData := GameData.get_player(playerId)
 	var playerStats = FugitivePlayerDataUtility.get_stats(playerInfoData)
-	print("Player stat count: %d" % playerStats.size())
-	
+
 	var score := FugitivePlayerDataUtility.calculate_score(playerInfoData)
 	var games := FugitivePlayerDataUtility.get_stat(playerInfoData, FugitivePlayerDataUtility.STAT_GAMES)
 	var stats := "Score: %d    |    Games: %d" % [score, games]
