@@ -42,7 +42,7 @@ func populate(player: PlayerData, is_starting: bool, is_host: bool, game_mode: D
 		teamButton.disabled = true
 	
 	$Controls/HostMenuButton.visible = is_host
-	$Controls/HostMenuButton.disabled = playerId == GameData.get_current_player_id() or not lobbyReady
+	$Controls/HostMenuButton.disabled = (playerId == GameData.get_current_player_id() or not lobbyReady or is_starting)
 	
 	var playerInfoData := GameData.get_player(playerId)
 	var playerStats = FugitivePlayerDataUtility.get_stats(playerInfoData)
