@@ -1,5 +1,6 @@
 extends FugitiveGame
 
+onready var advertiser := $ServerAdvertiser as ServerAdvertiser
 
 var configuredPlayers := {}
 var readyPlayers := {}
@@ -38,6 +39,8 @@ func server_remove_player(playerId: int):
 
 func _ready():
 	ClientNetwork.connect("remove_player", self, "server_remove_player")
+	
+	ServerUtils.normal_start(advertiser, false)
 
 
 func load_map():

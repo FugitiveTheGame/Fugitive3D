@@ -38,8 +38,7 @@ func register_publicly():
 		print("Repository regitration: listening on port: " + str(listenPort))
 		
 		var advertiser = ServerAdvertiser.new()
-		advertiser.autoremove = false
-		ServerUtils.configure_advertiser(advertiser, ServerUtils.get_name(), listenPort, ServerUtils.get_public())
+		ServerUtils.configure_advertiser(advertiser, ServerUtils.get_name(), listenPort, ServerUtils.get_public(), false)
 		add_child(advertiser)
 		advertiser.connect("register_succeeded", self, "on_register_succeeded")
 		advertiser.connect("register_failed", self, "on_register_failed")
