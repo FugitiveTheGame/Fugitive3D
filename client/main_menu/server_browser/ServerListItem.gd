@@ -11,6 +11,14 @@ func populate(info):
 	
 	$NameLabel.text = "%s" % [serverInfo.name]
 	$LanIndicator.visible = serverInfo.lan
+	
+	if serverInfo.is_joinable:
+		$ConnectButton.show()
+		$NotJoinableLabel.hide()
+	else:
+		$ConnectButton.show()
+		$NotJoinableLabel.hide()
+
 
 
 func _on_ConnectButton_pressed():

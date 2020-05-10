@@ -3,8 +3,8 @@
 [ext_resource path="res://client/main_menu/server_browser/ServerListItem.gd" type="Script" id=1]
 
 [node name="ServerItem" type="HBoxContainer"]
-margin_right = 178.0
-margin_bottom = 20.0
+margin_right = 423.0
+margin_bottom = 37.0
 rect_min_size = Vector2( 0, 24 )
 size_flags_horizontal = 3
 script = ExtResource( 1 )
@@ -13,27 +13,34 @@ __meta__ = {
 }
 
 [node name="NameLabel" type="Label" parent="."]
-margin_top = 5.0
-margin_right = 80.0
-margin_bottom = 19.0
+margin_top = 6.0
+margin_right = 139.0
+margin_bottom = 31.0
 size_flags_horizontal = 3
 text = "Server name"
 
 [node name="LanIndicator" type="Label" parent="."]
-margin_left = 84.0
-margin_top = 5.0
-margin_right = 110.0
-margin_bottom = 19.0
+margin_left = 147.0
+margin_top = 6.0
+margin_right = 192.0
+margin_bottom = 31.0
 text = "LAN"
 __meta__ = {
 "_edit_use_anchors_": true
 }
 
 [node name="ConnectButton" type="Button" parent="."]
-margin_left = 114.0
-margin_top = 2.0
-margin_right = 178.0
-margin_bottom = 22.0
+margin_left = 200.0
+margin_right = 312.0
+margin_bottom = 37.0
 size_flags_vertical = 4
 text = "Connect"
+
+[node name="NotJoinableLabel" type="Label" parent="."]
+margin_left = 320.0
+margin_top = 6.0
+margin_right = 435.0
+margin_bottom = 31.0
+text = "[IN-GAME]"
+uppercase = true
 [connection signal="pressed" from="ConnectButton" to="." method="_on_ConnectButton_pressed"]
