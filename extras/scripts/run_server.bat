@@ -1,3 +1,3 @@
 cd ..\..\export\server\windows\
-start Server.exe
+start Fugitive3D_Server_Windows.exe
 exit
