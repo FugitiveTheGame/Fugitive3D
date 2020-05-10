@@ -20,6 +20,9 @@ onready var joiningDialog := get_node(joiningDialogPath)
 export (NodePath) var joinFailedDialogPath: NodePath
 onready var joinFailedDialog := get_node(joinFailedDialogPath)
 
+export (NodePath) var badInputDialogPath: NodePath
+onready var badInputDialog := get_node(badInputDialogPath)
+
 
 func _enter_tree():
 	get_tree().connect("connected_to_server", self, "on_connected_to_server")
@@ -47,13 +50,29 @@ func _ready():
 
 
 func _on_ConnectButton_pressed():
-	var ip := serverIpInput.text as String
+	var ip := (serverIpInput.text as String).strip_edges()
+	
 	var portStr := serverPortInput.text as String
 	var port := int(portStr)
 	
-	GameAnalytics.design_event("manual_connect_request")
+	if validate_manual_connect(ip, port):
+		GameAnalytics.design_event("manual_connect_request")
+		on_connect_request(ip, port)
+	else:
+		GameAnalytics.error_event(GameAnalytics.ErrorSeverity.WARNING, "Manual connect with bad data")
+		badInputDialog.show()
+
+
+func validate_manual_connect(ip: String, port: int) -> bool:
+	var valid := true
 	
-	on_connect_request(ip, port)
+	if ip.empty():
+		valid = false
+	
+	if port <= 0 or port > 65535:
+		valid = false
+	
+	return valid
 
 
 func connect_to_server(playerName: String, serverIp: String, serverPort: int):
