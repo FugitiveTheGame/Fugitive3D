@@ -28,7 +28,7 @@ func _exit_tree():
 
 
 func _ready():
-	ServerUtils.configure_advertiser(advertiser, serverName, serverPort)
+	ServerUtils.configure_advertiser(advertiser, serverName, serverPort, ServerUtils.get_public())
 	advertiser.initial_registration = false
 	
 	if not ServerUtils.get_no_lan():
