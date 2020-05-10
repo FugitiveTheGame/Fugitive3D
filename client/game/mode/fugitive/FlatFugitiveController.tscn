@@ -11,9 +11,11 @@
 [ext_resource path="res://client/game/player/controller/flat/mobile/button_horn_pressed.png" type="Texture" id=9]
 [ext_resource path="res://client/game/player/controller/flat/mobile/button_horn_normal.png" type="Texture" id=10]
 [ext_resource path="res://client/game/mode/fugitive/FugitiveShaderCache.tscn" type="PackedScene" id=11]
-[ext_resource path="res://client/game/mode/fugitive/hud/OverviewMapHud.tscn" type="PackedScene" id=12]
+[ext_resource path="res://client/game/mode/fugitive/hud/mapview/OverviewMapHud.tscn" type="PackedScene" id=12]
 [ext_resource path="res://client/game/player/controller/flat/mobile/button_map_normal.png" type="Texture" id=13]
 [ext_resource path="res://client/game/player/controller/flat/mobile/button_map_pressed.png" type="Texture" id=14]
+
+
 
 [node name="PlayerController" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
