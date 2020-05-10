@@ -2,11 +2,12 @@ extends Object
 class_name ServerUtils
 
 
-static func configure_advertiser(advertiser: ServerAdvertiser, _name, _port):
+static func configure_advertiser(advertiser: ServerAdvertiser, _name, _port, _public):
 	advertiser.serverInfo["port"] = _port
 	advertiser.serverInfo["name"] = _name
 	advertiser.serverInfo["game_version"] = UserData.GAME_VERSION
 	advertiser.serverRepositoryUrl = ServerNetwork.SERVER_REPOSITORY_URL
+	advertiser.public = _public
 
 
 # Parse command line server name in the form of:
