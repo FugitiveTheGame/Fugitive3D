@@ -71,6 +71,7 @@ func create_player_ui(playerId: int):
 	
 	playerNode.populate(player, is_starting, is_host, mode)
 
+
 func create_player(playerId: int):
 	create_player_ui(playerId)
 	
@@ -121,10 +122,7 @@ func find_player_node(playerId: int) -> Control:
 
 
 func update_game_data(generalData: Dictionary):
-	var mapId = generalData[GameData.GENERAL_MAP]
-	
-	mapSelect.select(mapId)
-	update_map_description(mapId)
+	update_ui()
 
 
 func update_map_description(mapId: int):
@@ -218,6 +216,11 @@ func update_host():
 
 func update_ui():
 	mapSelect.disabled = not is_host or is_starting
+	
+	var mapId = GameData.general[GameData.GENERAL_MAP]
+	
+	mapSelect.select(mapId)
+	update_map_description(mapId)
 
 
 func on_start_lobby_countdown():
