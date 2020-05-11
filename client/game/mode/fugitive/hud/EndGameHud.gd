@@ -1,4 +1,4 @@
-extends Panel
+extends PanelContainer
 
 export(NodePath) var playerListPath: NodePath
 onready var playerList := get_node(playerListPath) as VBoxContainer
