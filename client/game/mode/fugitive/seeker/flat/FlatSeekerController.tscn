@@ -45,8 +45,8 @@ margin_top = 10.0
 margin_right = 137.0
 margin_bottom = 167.0
 
-[node name="LockButton" type="TouchScreenButton" parent="HudCanvas/HudContainer" index="11"]
-position = Vector2( 620, 650 )
+[node name="LockButton" type="TouchScreenButton" parent="HudCanvas/HudContainer" index="12"]
+position = Vector2( 496, 648 )
 normal = ExtResource( 7 )
 pressed = ExtResource( 8 )
 action = "flat_seeker_lock"
