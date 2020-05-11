@@ -15,8 +15,6 @@ export(NodePath) var flash_light_path: NodePath
 onready var flash_light := get_node(flash_light_path) as Spatial
 onready var seeker_ray_caster := flash_light.get_ray_caster() as RayCast
 
-onready var win_zones := get_tree().get_nodes_in_group(Groups.WIN_ZONE)
-
 
 func _ready():
 	playerType = FugitiveTeamResolver.PlayerType.Seeker
@@ -104,15 +102,8 @@ func body_entered_detection_radius(body: Node):
 				# 1) Neither Hider nor Seeker may be in a car
 				# 2) Hider must not be in a win zone
 				# 3) Hider must not be frozen
-				if self.car == null and player.car == null and not is_in_winzone(player.playerBody) and not player.frozen:
+				if self.car == null and player.car == null and not player.is_in_winzone() and not player.frozen:
 					freeze_hider(player)
-
-
-func is_in_winzone(hider: KinematicBody) -> bool:
-	for zone in win_zones:
-		if zone.overlaps_body(hider):
-			return true
-	return false
 
 
 func freeze_hider(hider):
