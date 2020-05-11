@@ -59,7 +59,7 @@ func register_publicly():
 				
 				var response := "pong"
 				# Send 3 response packets
-				for ii in 3:
+				for ii in 10:
 					socketUDP.put_packet(response.to_ascii())
 				
 				print("Port check request received. Response sent.")
@@ -82,6 +82,7 @@ func on_register_succeeded():
 
 
 func on_register_failed():
+	print("Public Repository Registration Faiuled. Exiting.")
 	get_tree().quit()
 
 
