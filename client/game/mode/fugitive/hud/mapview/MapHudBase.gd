@@ -31,7 +31,7 @@ func _ready():
 	playerShape = _build_triangle(playerSize)
 	playerOutlineShape = _build_triangle(playerOutlineSize)
 	
-	initialize_map_background()
+	update_map_background()
 
 func _build_triangle(triangle_size: float) -> PoolVector2Array:
 	var half_size := triangle_size/2.0
@@ -41,10 +41,11 @@ func _build_triangle(triangle_size: float) -> PoolVector2Array:
 	new_points.append(Vector2(0.0, triangle_size))
 	return new_points
 
-func initialize_map_background():
+func update_map_background():
 	var imageTexture = ImageTexture.new()
 	var image = Image.new()
-	var curSize := get_rect().size
+	
+	var curSize := rect_size
 	image.create(curSize.x, curSize.y, false, Image.FORMAT_RGBA8)
 	image.fill(Color(0.1, 0.9, 0.1, 0.5))
 	imageTexture.create_from_image(image)
@@ -154,3 +155,6 @@ func _on_Map_draw():
 		mapBackground.draw_string(streetNameFont, Vector2(), road.street_name)
 		mapBackground.draw_set_transform(Vector2(), 0.0, Vector2(1.0, 1.0))
 
+
+func _on_MapHud_resized():
+	update_map_background()

@@ -29,7 +29,7 @@ replayLegendPath = NodePath("Container/PanelContainer/TabContainer/Replay/Replay
 margin_left = 14.0
 margin_top = 14.0
 margin_right = 498.0
-margin_bottom = 539.0
+margin_bottom = 498.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -50,7 +50,7 @@ __meta__ = {
 [node name="PanelContainer" type="PanelContainer" parent="Container"]
 margin_top = 60.0
 margin_right = 484.0
-margin_bottom = 480.0
+margin_bottom = 439.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -58,13 +58,12 @@ size_flags_vertical = 3
 margin_left = 14.0
 margin_top = 14.0
 margin_right = 470.0
-margin_bottom = 406.0
+margin_bottom = 365.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 tab_align = 0
 
 [node name="Stats" type="ScrollContainer" parent="Container/PanelContainer/TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 8.0
@@ -80,6 +79,7 @@ margin_right = 440.0
 size_flags_horizontal = 3
 
 [node name="Replay" type="MarginContainer" parent="Container/PanelContainer/TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 8.0
@@ -153,14 +153,15 @@ __meta__ = {
 }
 
 [node name="ToLobbyButton" type="Button" parent="Container"]
-margin_top = 488.0
+margin_top = 447.0
 margin_right = 484.0
-margin_bottom = 525.0
+margin_bottom = 484.0
 text = "Return to Lobby"
 
 [node name="GameOverAudio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
 volume_db = -10.0
+[connection signal="visibility_changed" from="Container/PanelContainer/TabContainer/Replay/ReplayLayout/LeftReplayPanel/HistoryMapHud" to="Container/PanelContainer/TabContainer/Replay/ReplayLayout/LeftReplayPanel/HistoryMapHud" method="_on_MapHud_visibility_changed"]
 [connection signal="value_changed" from="Container/PanelContainer/TabContainer/Replay/ReplayLayout/LeftReplayPanel/Scrub" to="." method="_on_Scrub_value_changed"]
 [connection signal="value_changed" from="Container/PanelContainer/TabContainer/Replay/ReplayLayout/RightReplayPanel/Speed" to="." method="_on_Speed_value_changed"]
 [connection signal="pressed" from="Container/PanelContainer/TabContainer/Replay/ReplayLayout/RightReplayPanel/Play" to="." method="_on_ButtonHistoryPlay_pressed"]

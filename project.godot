@@ -253,15 +253,19 @@ gdscript/warnings/return_value_discarded=false
 
 [display]
 
-window/size/width=1600
-window/size/height=900
+window/size/width=1280
+window/size/height=720
 window/dpi/allow_hidpi=true
 window/stretch/mode="viewport"
 window/stretch/aspect="expand"
-window/size/width.mobile=1280
-window/size/height.mobile=720
 window/stretch/mode.mobile="2d"
 window/stretch/aspect.mobile="keep_height"
+window/size/width.Windows=1600
+window/size/height.Windows=900
+window/size/width.OSX=1600
+window/size/height.OSX=900
+window/size/width.X11=1600
+window/size/height.X11=900
 
 [editor_plugins]
 
