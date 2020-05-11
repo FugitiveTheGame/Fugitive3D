@@ -16,8 +16,8 @@ func populate(info):
 		$ConnectButton.show()
 		$NotJoinableLabel.hide()
 	else:
-		$ConnectButton.show()
-		$NotJoinableLabel.hide()
+		$ConnectButton.hide()
+		$NotJoinableLabel.show()
 
 
 
