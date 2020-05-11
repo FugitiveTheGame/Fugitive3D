@@ -96,7 +96,6 @@ anchor_bottom = 0.0
 margin_right = 278.0
 margin_bottom = 250.0
 rect_min_size = Vector2( 250, 250 )
-font = null
 
 [node name="LabelHistory" type="Label" parent="Container/PanelContainer/TabContainer/Replay/ReplayLayout/LeftReplayPanel"]
 margin_top = 258.0

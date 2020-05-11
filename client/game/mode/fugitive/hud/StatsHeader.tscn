@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://fonts/content/ImportantContentFont.tres" type="DynamicFont" id=1]
+[ext_resource path="res://client/game/mode/fugitive/hud/StatsHeader.gd" type="Script" id=2]
+
+[node name="StatsHeader" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="."]
+margin_top = -1.0
+margin_right = 1600.0
+margin_bottom = 47.0
+rect_min_size = Vector2( 0, 48 )
+custom_fonts/font = ExtResource( 1 )
+text = "Header"
+valign = 2
+
+[node name="HSeparator" type="HSeparator" parent="."]
+margin_top = 56.0
+margin_right = 1600.0
+margin_bottom = 64.0
