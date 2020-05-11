@@ -35,9 +35,9 @@ func get_history_heartbeat() -> Dictionary:
 	newEntry.position = Vector2(global_transform.origin.x, global_transform.origin.z)
 	newEntry.orientation = Utils.get_map_rotation(global_transform)
 	newEntry.isCrouching = is_crouching
-	newEntry.playerType = playerType
+	newEntry.id = id
 	newEntry.frozen = frozen
-	newEntry.entryType = "PLAYER"
+	newEntry.entryType = FugitiveEnums.EntityType.Player
 	return newEntry
 
 func update_player_name_state():
