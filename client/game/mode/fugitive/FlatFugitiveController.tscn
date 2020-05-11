@@ -44,7 +44,17 @@ margin_top = -52.5
 margin_right = 84.5
 margin_bottom = 52.5
 
-[node name="EndGameHud" parent="HudCanvas/HudContainer" index="3" instance=ExtResource( 6 )]
+[node name="OverviewMapHud" parent="HudCanvas/HudContainer" index="3" instance=ExtResource( 12 )]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -320.0
+margin_top = -319.99
+margin_right = 320.0
+margin_bottom = 319.99
+
+[node name="EndGameHud" parent="HudCanvas/HudContainer" index="4" instance=ExtResource( 6 )]
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -54,44 +64,33 @@ margin_top = -321.351
 margin_right = 331.66
 margin_bottom = 275.649
 
-[node name="GameTimerReadout" parent="HudCanvas/HudContainer" index="4" instance=ExtResource( 4 )]
+[node name="GameTimerReadout" parent="HudCanvas/HudContainer" index="5" instance=ExtResource( 4 )]
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 0.0
 margin_left = -64.0
 margin_bottom = 64.0
 
-[node name="UseButton" type="TouchScreenButton" parent="HudCanvas/HudContainer" index="9"]
+[node name="UseButton" type="TouchScreenButton" parent="HudCanvas/HudContainer" index="10"]
 position = Vector2( 800, 650 )
 normal = ExtResource( 8 )
 pressed = ExtResource( 7 )
 action = "flat_player_use"
 visibility_mode = 1
 
-[node name="HornButton" type="TouchScreenButton" parent="HudCanvas/HudContainer" index="10"]
+[node name="HornButton" type="TouchScreenButton" parent="HudCanvas/HudContainer" index="11"]
 position = Vector2( 710, 650 )
 normal = ExtResource( 10 )
 pressed = ExtResource( 9 )
 action = "flat_car_horn"
 visibility_mode = 1
 
-[node name="MapButton" type="TouchScreenButton" parent="HudCanvas/HudContainer" index="11"]
+[node name="MapButton" type="TouchScreenButton" parent="HudCanvas/HudContainer" index="12"]
 position = Vector2( 600, 648 )
 normal = ExtResource( 13 )
 pressed = ExtResource( 14 )
 action = "flat_fugitive_map"
 visibility_mode = 1
-
-[node name="OverviewMapHud" parent="HudCanvas/HudContainer" index="12" instance=ExtResource( 12 )]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -256.0
-margin_top = -256.0
-margin_right = 256.0
-margin_bottom = 256.0
-font = null
 
 [node name="VirtualJoysticks" parent="HudCanvas" index="1"]
 visible = false
