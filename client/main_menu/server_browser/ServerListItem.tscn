@@ -18,6 +18,7 @@ margin_right = 139.0
 margin_bottom = 31.0
 size_flags_horizontal = 3
 text = "Server name"
+clip_text = true
 
 [node name="LanIndicator" type="Label" parent="."]
 margin_left = 147.0
@@ -41,6 +42,10 @@ margin_left = 320.0
 margin_top = 6.0
 margin_right = 435.0
 margin_bottom = 31.0
+custom_colors/font_color = Color( 0.678431, 0.580392, 0.580392, 1 )
+custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
+custom_constants/shadow_offset_x = 1
+custom_constants/shadow_offset_y = 1
 text = "[IN-GAME]"
 uppercase = true
 [connection signal="pressed" from="ConnectButton" to="." method="_on_ConnectButton_pressed"]
