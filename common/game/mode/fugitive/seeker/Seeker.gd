@@ -113,7 +113,7 @@ func freeze_hider(hider):
 	if get_tree().is_network_server():
 		hider.freeze()
 		
-		FugitivePlayerDataUtility.increment_stat_for_player_id(id, FugitivePlayerDataUtility.STAT_SEEKER_FROZEN)
+		FugitivePlayerDataUtility.increment_stat_for_player_id(id, FugitivePlayerDataUtility.STAT_SEEKER_FREEZES)
 		FugitivePlayerDataUtility.increment_stat_for_player_id(hider.id, FugitivePlayerDataUtility.STAT_HIDER_FROZEN)
 
 
