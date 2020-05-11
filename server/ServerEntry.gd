@@ -86,6 +86,11 @@ func on_register_failed():
 	if socketUDP != null:
 		socketUDP.close()
 	
+	# This thread is waiting on a packet that will never arrive
+	# just throw  the reference away as we are quitting the process
+	# now anyway
+	registerThread = null
+	
 	get_tree().quit()
 
 
