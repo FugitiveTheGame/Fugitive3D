@@ -25,7 +25,6 @@ var registerRequest := HTTPRequest.new()
 var removeRequest := HTTPRequest.new()
 
 var repositoryRegisterTimer := Timer.new()
-var autoremove := true
 var initial_registration := true
 
 
@@ -81,8 +80,6 @@ func _exit_tree():
 	broadcastTimer.stop()
 	if socketUDP != null:
 		socketUDP.close()
-	
-	remove_from_repository()
 
 
 func fetch_external_ip():
@@ -112,8 +109,10 @@ func register_server():
 		var body := JSON.print(serverInfo)
 		var headers := ["Content-Type: application/json"]
 		if initial_registration:
+			print("initial registration: %s" % url)
 			registerRequest.request(url, headers, false, HTTPClient.METHOD_POST, body)
 		else:
+			print("updating registration")
 			registerRequest.request(url, headers, false, HTTPClient.METHOD_PUT, body)
 
 
@@ -132,7 +131,7 @@ func _on_RepositoryRegisterTimer_timeout():
 
 
 func remove_from_repository():
-	if public and autoremove:
+	if public:
 		var serverID := SERVER_ID_FORMAT % [serverInfo["ip"], serverInfo["port"]]
 		var url := serverRepositoryUrl + "/servers/" + serverID
 		

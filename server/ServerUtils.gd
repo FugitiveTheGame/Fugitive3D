@@ -1,10 +1,28 @@
 extends Object
 class_name ServerUtils
 
+static func normal_start(advertiser: ServerAdvertiser, joinable: bool):
+	var public := get_public()
+	
+	configure_advertiser(advertiser, get_name(), get_port(), public, joinable)
+	advertiser.initial_registration = false
+	
+	if not get_no_lan():
+		advertiser.start_advertising_lan()
+	
+	if public:
+		advertiser.start_advertising_publicly()
 
-static func configure_advertiser(advertiser: ServerAdvertiser, _name, _port, _public):
+
+static func update_joinable(advertiser: ServerAdvertiser, _joinable: bool):
+	advertiser.serverInfo["is_joinable"] = _joinable
+	advertiser.register_server()
+
+
+static func configure_advertiser(advertiser: ServerAdvertiser, _name: String, _port: int, _public: bool, _joinable: bool):
 	advertiser.serverInfo["port"] = _port
 	advertiser.serverInfo["name"] = _name
+	advertiser.serverInfo["is_joinable"] = _joinable
 	advertiser.serverInfo["game_version"] = UserData.GAME_VERSION
 	advertiser.serverRepositoryUrl = ServerNetwork.SERVER_REPOSITORY_URL
 	advertiser.public = _public
