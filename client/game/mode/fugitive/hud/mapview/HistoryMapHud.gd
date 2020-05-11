@@ -2,10 +2,40 @@ extends "res://client/game/mode/fugitive/hud/mapview/MapHudBase.gd"
 class_name HistoryMapHud
 onready var fugitiveGame := GameData.currentGame as FugitiveGame
 
+var PlayerLegendEntryTemplate = preload("res://client/game/mode/fugitive/hud/PlayerLegendEntry.tscn")
+
 var currentIndex := 0
 var timeSinceFrameChange := 0.0
 var framesPerSecond := 1.0
 var isPlaying := false
+
+var playerColors := [ 
+	Color.red,
+	Color.blue,
+	Color.yellow,
+	Color.green,
+	Color.brown,
+	Color.purple,
+	Color.orange,
+	Color.pink,
+	Color.magenta,
+	Color.gold,
+	Color.gray,
+	Color.cyan,
+	Color.lavender,
+	Color.white,
+	Color.plum,
+	Color.beige
+]
+
+var currentPlayerColorDictionary = {}
+
+func _ready():
+	var playerIndex := 0
+	currentPlayerColorDictionary = {}
+	for player in GameData.get_players():
+		currentPlayerColorDictionary[player.get_id()] = playerColors[playerIndex]
+		playerIndex += 1
 
 func getMaxFrameIndex() -> int:
 	return fugitiveGame.history.stateHistoryArray.size() - 1
@@ -30,6 +60,17 @@ func setIndex(index : int):
 func getIndex() -> int:
 	return currentIndex
 
+func loadReplayLegend(replayLegend: VBoxContainer):
+	for node in replayLegend.get_children():
+		replayLegend.remove_child(node)
+		node.free()
+	
+	for playerId in currentPlayerColorDictionary:
+		var playerData = GameData.players[playerId] as PlayerData
+		var newEntry = PlayerLegendEntryTemplate.instance()
+		newEntry.initialize(playerData, currentPlayerColorDictionary[playerId])
+		replayLegend.add_child(newEntry)
+
 func _draw():
 	if currentIndex < fugitiveGame.history.stateHistoryArray.size():
 		var heartbeat := fugitiveGame.history.stateHistoryArray[currentIndex] as Array
@@ -38,21 +79,26 @@ func _draw():
 			var entry := point as Dictionary
 			
 			match entry.entryType:
-				"PLAYER":
-					var playerColor := Color.magenta
-					match entry.playerType:
+				FugitiveEnums.EntityType.Player:
+					var teamColor := Color.magenta
+					
+					var playerData = GameData.get_player(entry.id) as PlayerData
+					
+					match playerData.get_type():
 						FugitiveTeamResolver.PlayerType.Hider:
-							playerColor = Color.orange
+							teamColor = Color.orange
 							
 							if (entry.frozen):
-								playerColor = Color.cyan
+								teamColor = Color.cyan
 						FugitiveTeamResolver.PlayerType.Seeker:
-							playerColor = Color.blue
-							
+							teamColor = Color.blue
+				
+					draw_set_transform(to_map_coord_vector2(entry.position), entry.orientation, Vector2(1.2, 1.2))
+					draw_colored_polygon(playerShape, teamColor)
 					draw_set_transform(to_map_coord_vector2(entry.position), entry.orientation, Vector2(1.0, 1.0))
-					draw_colored_polygon(playerShape, playerColor)
+					draw_colored_polygon(playerShape, currentPlayerColorDictionary[entry.id])
 					draw_set_transform(Vector2(), 0.0, Vector2(1.0, 1.0))
-				"CAR":
+				FugitiveEnums.EntityType.Car:
 					var carSize := Vector2(10.0, 20.0)
 					var rect := Rect2(Vector2(-(carSize.x/2.0), -(carSize.y/2.0)), carSize)
 					draw_set_transform(to_map_coord_vector2(entry.position), entry.orientation, Vector2(1.0, 1.0))

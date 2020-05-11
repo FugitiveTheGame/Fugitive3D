@@ -45,7 +45,7 @@ func get_history_heartbeat() -> Dictionary:
 	newEntry.position = Vector2(global_transform.origin.x, global_transform.origin.z)
 	newEntry.orientation = Utils.get_map_rotation(global_transform)
 	newEntry.isLocked = locked
-	newEntry.entryType = "CAR"
+	newEntry.entryType = FugitiveEnums.EntityType.Car
 	return newEntry
 
 func get_free_seat() -> int:
