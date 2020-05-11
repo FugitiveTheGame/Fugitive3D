@@ -49,13 +49,13 @@ func _draw():
 						FugitiveTeamResolver.PlayerType.Seeker:
 							playerColor = Color.blue
 							
-					draw_set_transform(entry.position, entry.orientation, Vector2(1.0, 1.0))
+					draw_set_transform(to_map_coord_vector2(entry.position), entry.orientation, Vector2(1.0, 1.0))
 					draw_colored_polygon(playerShape, Color.blue)
 					draw_set_transform(Vector2(), 0.0, Vector2(1.0, 1.0))
 				"CAR":
 					var carSize := Vector2(10.0, 20.0)
 					var rect := Rect2(Vector2(-(carSize.x/2.0), -(carSize.y/2.0)), carSize)
-					draw_set_transform(entry.position, entry.orientation, Vector2(1.0, 1.0))
+					draw_set_transform(to_map_coord_vector2(entry.position), entry.orientation, Vector2(1.0, 1.0))
 					draw_rect(rect, Color.white)
 					draw_set_transform(Vector2(), 0.0, Vector2(1.0, 1.0))
 				_:

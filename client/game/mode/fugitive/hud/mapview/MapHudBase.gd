@@ -55,10 +55,13 @@ func to_map_scale(globalCoord: Vector3) -> Vector2:
 
 
 func to_map_coord(globalCoord: Vector3) -> Vector2:
+	return to_map_coord_vector2(Vector2(globalCoord.x, globalCoord.z))
+
+func to_map_coord_vector2(globalCoord: Vector2) -> Vector2:
 	var marginFactor := 0.05
 	var margin := rect_size * marginFactor
 	
-	var mapScale := (Vector2(globalCoord.x, globalCoord.z) - mapStart) / mapSize
+	var mapScale := (globalCoord - mapStart) / mapSize
 	
 	var marginReduction := 1.0 - (marginFactor * 2.0)
 	var mapCoord := ((rect_size * marginReduction) * mapScale) + margin

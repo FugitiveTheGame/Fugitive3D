@@ -64,14 +64,14 @@ func team_won(winningTeam: int):
 
 func _process(delta):
 	replayScrubSlider.value = replayHud.getIndex()
-	replayLabelSpeed.text = "History: %fs" % replayScrubSlider.value
+	replayLabelHistory.text = "History: %fs" % replayScrubSlider.value
 
 func _on_ToLobbyButton_pressed():
 	GameData.currentGame.go_to_lobby()
 
 func _on_Scrub_value_changed(value):
 	replayHud.setIndex(round(value))
-	replayLabelSpeed.text = "History: %fs" % value
+	replayLabelHistory.text = "History: %fs" % value
 
 func _on_Speed_value_changed(value):
 	replayHud.setFrameSpeed(value)
