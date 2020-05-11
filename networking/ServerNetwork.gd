@@ -149,7 +149,6 @@ remotesync func on_randomize_teams():
 	
 	var mapId = GameData.general[GameData.GENERAL_MAP]
 	var mode = Maps.get_mode_for_map(mapId)
-	var map = Maps.directory[mapId]
 	
 	var teamResolver = mode[Maps.MODE_TEAM_RESOLVER]
 	

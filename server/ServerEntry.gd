@@ -35,7 +35,7 @@ func register_publicly():
 	var listenPort := ServerUtils.get_port()
 	
 	if socketUDP.listen(listenPort) == OK:
-		print("Repository regitration: listening on port: " + str(listenPort))
+		print("Repository registration: listening on port: " + str(listenPort))
 		
 		var advertiser = ServerAdvertiser.new()
 		ServerUtils.configure_advertiser(advertiser, ServerUtils.get_name(), listenPort, ServerUtils.get_public(), false)
@@ -82,7 +82,7 @@ func on_register_succeeded():
 
 
 func on_register_failed():
-	print("Public Repository Registration Faiuled. Exiting.")
+	print("Public Repository Registration Failure. Exiting.")
 	if socketUDP != null:
 		socketUDP.close()
 	
