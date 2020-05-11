@@ -121,7 +121,9 @@ text = "Speed:"
 margin_top = 33.0
 margin_right = 182.0
 margin_bottom = 65.0
+min_value = 1.0
 max_value = 50.0
+value = 1.0
 
 [node name="Play" type="Button" parent="Container/PanelContainer/TabContainer/Replay/ReplayLayout/RightReplayPanel"]
 margin_top = 73.0
