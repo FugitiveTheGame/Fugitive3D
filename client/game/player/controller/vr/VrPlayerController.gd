@@ -82,7 +82,7 @@ func _process(delta):
 		hudVisibilityToggle.visible = true
 		exitGameHud.show_dialog()
 	
-	player.isSprinting = vr.button_pressed(vr.BUTTON.A)
+	player.sprint = vr.button_pressed(vr.BUTTON.A)
 	player.isMoving = locomotion.is_moving
 	
 	if player.is_sprinting():
@@ -101,7 +101,7 @@ func _physics_process(delta):
 	totalRotation.y += camera.rotation.y
 	
 	if not player.gameEnded:
-		player.rpc_unreliable("network_update", totalTranslation, totalRotation, Vector3(), player.is_crouching, player.isMoving, player.isSprinting)
+		player.rpc_unreliable("network_update", totalTranslation, totalRotation, Vector3(), player.is_crouching, player.isMoving, player.sprint)
 	
 	if fpsLabel.visible:
 		var fps := Engine.get_frames_per_second()
