@@ -42,8 +42,8 @@ static func calculate_score(playerData: PlayerData) -> int:
 		score += get_stat(playerData, STAT_HIDER_UNFREEZER)
 		score += get_stat(playerData, STAT_HIDER_UNFROZEN)
 		score += get_stat(playerData, STAT_SEEKER_FROZEN)
-		score += get_stat(playerData, STAT_HIDER_ESCAPED) * 3
-		score += get_stat(playerData, STAT_WINS) * 2
+		score += get_stat(playerData, STAT_HIDER_ESCAPED) * escape_multiplier
+		score += get_stat(playerData, STAT_WINS) * win_multiplier
 	
 	return score
 

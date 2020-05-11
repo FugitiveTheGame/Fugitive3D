@@ -169,9 +169,6 @@ func update_all_players():
 func can_start() -> bool:
 	var canStart := false
 	
-	var numSeekers := 0
-	var numHiders := 0
-	
 	var players = GameData.get_players()
 	
 	var mapid = GameData.general[GameData.GENERAL_MAP]
