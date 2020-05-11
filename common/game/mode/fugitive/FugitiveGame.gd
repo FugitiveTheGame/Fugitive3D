@@ -51,6 +51,7 @@ func remove_player(playerId: int):
 func finish_game(playerType: int):
 	print("finish_game")
 
+
 remotesync func on_finish_game(playerType: int):
 	var curState := stateMachine.current_state.name
 	
