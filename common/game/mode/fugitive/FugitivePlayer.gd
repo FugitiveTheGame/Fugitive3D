@@ -9,6 +9,8 @@ var frozen := false
 var gameStarted := false
 var gameEnded := false
 
+onready var win_zones := get_tree().get_nodes_in_group(Groups.WIN_ZONE)
+
 var car = null setget set_car
 func set_car(value):
 	car = value
@@ -31,10 +33,31 @@ func set_player_name(playerName: String):
 
 func update_player_name_state():
 	# Always team mate names
-	if localPlayerType == playerType or frozen:
-		playerShape.get_name_label().show()
+	var show: bool
+	# Always show for frozen players
+	if frozen:
+		show = true
+	# Always show for team mates
+	if localPlayerType == playerType:
+		show = true
+	# Player is on other team, and is Hider
+	elif playerType == FugitiveTeamResolver.PlayerType.Hider:
+		# Any Hider in a winzone has their name shown
+		if is_in_winzone():
+			show = true
+		else:
+			show = false
+	# Player is on other team, and is Hider
+	elif playerType == FugitiveTeamResolver.PlayerType.Seeker:
+		# If local player is a Hider, and in a winzone, see all names
+		if GameData.get_current_player().is_in_winzone():
+			show = true
+		else:
+			show = false
 	else:
-		playerShape.get_name_label().hide()
+		show = false
+	
+	playerShape.get_name_label().visible = show
 
 
 func is_playing() -> bool:
@@ -117,3 +140,10 @@ func on_state_playing():
 func _on_AutoReadyTimer_timeout():
 	print("Forcing player ready")
 	set_ready()
+
+
+func is_in_winzone() -> bool:
+	for zone in win_zones:
+		if zone.overlaps_body(playerBody):
+			return true
+	return false
