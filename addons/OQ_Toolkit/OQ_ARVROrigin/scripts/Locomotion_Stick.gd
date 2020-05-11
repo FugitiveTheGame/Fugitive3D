@@ -72,15 +72,17 @@ func move(dt):
 	
 	# Use head if no hand was provided
 	match movmenet_orientation:
-		MovementOrientation.HEAD:
-			view_dir = -vr.vrCamera.global_transform.basis.z;
-			strafe_dir = vr.vrCamera.global_transform.basis.x;
 		MovementOrientation.HAND_RIGHT:
 			view_dir = -vr.rightController.global_transform.basis.z;
 			strafe_dir = vr.rightController.global_transform.basis.x;
 		MovementOrientation.HAND_LEFT:
 			view_dir = -vr.leftController.global_transform.basis.z;
 			strafe_dir = vr.leftController.global_transform.basis.x;
+		MovementOrientation.HEAD:
+			continue
+		_:
+			view_dir = -vr.vrCamera.global_transform.basis.z;
+			strafe_dir = vr.vrCamera.global_transform.basis.x;
 	
 	view_dir.y = 0.0;
 	strafe_dir.y = 0.0;
