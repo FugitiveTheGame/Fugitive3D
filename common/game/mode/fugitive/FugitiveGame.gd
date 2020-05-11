@@ -10,6 +10,11 @@ var playersContainer: Node
 var gameStarted := false
 var winningTeam: int
 
+
+func current_state() -> String:
+	return stateMachine.current_state.name
+
+
 func is_game_over() -> bool:
 	return stateMachine == null or stateMachine.current_state.name == FugitiveStateMachine.STATE_GAME_OVER
 
@@ -223,8 +228,6 @@ func process_hiders():
 	var cars = get_tree().get_nodes_in_group(Groups.CARS)
 	var winZones := map.get_win_zones()
 	
-	var curPlayerType = GameData.get_current_player_type()
-	
 	# Process each hider, find if any have been seen
 	for hider in hiders:
 		# Re-hide Hiders every frame
@@ -303,8 +306,7 @@ func on_state_countdown(current_state: State, transition: Transition):
 
 
 func on_state_playing_headstart(current_state: State, transition: Transition):
-	print("Starting countdown")
-	map.get_headstart_timer().start()
+	pass
 
 
 func on_state_game_over(current_state: State, transition: Transition):

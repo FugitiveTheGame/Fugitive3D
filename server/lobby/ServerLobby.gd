@@ -45,3 +45,8 @@ func on_start_lobby_countdown():
 	
 	# Make sure we aren't joinable
 	ServerUtils.update_joinable(advertiser, false)
+	
+	# We must ensure that the server loads before everyone else,
+	# So while the cliets are counting down, send the server to the game
+	# so it can get configured in time
+	ClientNetwork.on_start_game()
