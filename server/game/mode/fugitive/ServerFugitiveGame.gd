@@ -61,6 +61,7 @@ func load_map():
 	.load_map()
 	map.get_countdown_timer().connect("timeout", self, "countdown_timer_timeout")
 	map.get_headstart_timer().connect("timeout", self, "headstart_timer_timeout")
+	
 	# Get and update stats
 	# $ TODO ALEX: This needs to some how not clear the game-over-game stats
 	# FugitivePlayerDataUtility.reset_stats()
@@ -132,6 +133,27 @@ remotesync func on_go_to_lobby():
 func _on_FpsTimer_timeout():
 	print("%d fps" % Engine.get_frames_per_second())
 
+var lastProcessedSeconds := 0.0
+
+func _process(delta):
+	if stateMachine.current_state.name == FugitiveStateMachine.STATE_PLAYING_HEADSTART or stateMachine.current_state.name == FugitiveStateMachine.STATE_PLAYING:
+		if lastProcessedSeconds + delta >= 1.0:
+			lastProcessedSeconds = 0
+			var newHistoryHeartbeat := []
+			
+			for playerId in GameData.currentGame.players:
+				var playerObj := GameData.currentGame.get_player(playerId) as FugitivePlayer
+				newHistoryHeartbeat.append(playerObj.get_history_heartbeat())
+			
+			var cars := get_tree().get_nodes_in_group(Groups.CARS)
+			for car in cars:
+				newHistoryHeartbeat.append(car.get_history_heartbeat())
+			
+			print("HEARTBEAT: Processed %d entries" % newHistoryHeartbeat.size())
+			
+			history.rpc_unreliable("on_history_heartbeat", newHistoryHeartbeat)
+		else:
+			lastProcessedSeconds += delta
 
 func finish_game(playerType: int):
 	.finish_game(playerType)

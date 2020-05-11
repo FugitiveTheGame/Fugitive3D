@@ -7,6 +7,9 @@ anchor_right = 0.232
 anchor_bottom = 0.2
 margin_right = 0.039978
 script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="ExitGameDialog" type="ConfirmationDialog" parent="."]
 visible = true

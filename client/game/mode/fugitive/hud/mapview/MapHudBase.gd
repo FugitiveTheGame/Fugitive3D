@@ -55,10 +55,13 @@ func to_map_scale(globalCoord: Vector3) -> Vector2:
 
 
 func to_map_coord(globalCoord: Vector3) -> Vector2:
+	return to_map_coord_vector2(Vector2(globalCoord.x, globalCoord.z))
+
+func to_map_coord_vector2(globalCoord: Vector2) -> Vector2:
 	var marginFactor := 0.05
 	var margin := rect_size * marginFactor
 	
-	var mapScale := (Vector2(globalCoord.x, globalCoord.z) - mapStart) / mapSize
+	var mapScale := (globalCoord - mapStart) / mapSize
 	
 	var marginReduction := 1.0 - (marginFactor * 2.0)
 	var mapCoord := ((rect_size * marginReduction) * mapScale) + margin
@@ -75,53 +78,6 @@ func aabb_from_shape(colShape: CollisionShape) -> AABB:
 	newBB.size = extents * 2.0
 	
 	return newBB
-
-
-func _draw():
-	var localPlayer := GameData.currentGame.localPlayer as FugitivePlayer
-	
-	# Draw this players team members
-	var remotePlayers = null
-	if localPlayer.playerType == FugitiveTeamResolver.PlayerType.Hider:
-		remotePlayers = get_tree().get_nodes_in_group(Hider.GROUP)
-	else:
-		remotePlayers = get_tree().get_nodes_in_group(Seeker.GROUP)
-	
-	for remotePlayer in remotePlayers:
-		if remotePlayer.id != localPlayer.id:
-			var remotePos = remotePlayer.global_transform.origin
-			var remoteCoord = to_map_coord(remotePos)
-			draw_circle(remoteCoord, 10.0, Color.blue)
-	
-	# Draw the local player
-	var globalTransform := localPlayer.global_transform
-	var playerPos := globalTransform.origin
-	var playerCoord = to_map_coord(playerPos)
-	var angle = get_map_rotation(globalTransform)
-	
-	draw_set_transform(playerCoord, angle, Vector2(1.0, 1.0))
-	draw_colored_polygon(playerShape, Color.red)
-	draw_set_transform(Vector2(), 0.0, Vector2(1.0, 1.0))
-	
-	# Draw the cop cars if you are a cop
-	if localPlayer.playerType == FugitiveTeamResolver.PlayerType.Seeker:
-		var cars = get_tree().get_nodes_in_group(Groups.CARS)
-		for car in cars:
-			var carTransform = car.global_transform
-			var carPos = carTransform.origin
-			var carCoord = to_map_coord(carPos)
-			var carAngle = get_map_rotation(carTransform)
-			
-			var carSize := Vector2(10.0, 20.0)
-			var rect := Rect2(Vector2(-(carSize.x/2.0), -(carSize.y/2.0)), carSize)
-			draw_set_transform(carCoord, carAngle, Vector2(1.0, 1.0))
-			draw_rect(rect, Color.white)
-			draw_set_transform(Vector2(), 0.0, Vector2(1.0, 1.0))
-
-
-func get_map_rotation(globalTransform: Transform) -> float:
-	return (globalTransform.basis.get_euler().y + deg2rad(180)) * -1.0
-
 
 func _on_Map_draw():
 	# First draw the eblows
@@ -176,7 +132,12 @@ func _on_Map_draw():
 	for road in roads:
 		var namePos := to_map_coord(road.global_transform.origin)
 		
-		var textSize := font.get_string_size(road.street_name)
+		var currentFont := font as Font
+		
+		if currentFont == null:
+			currentFont = Label.new().get_font("")
+			
+		var textSize := currentFont.get_string_size(road.street_name)
 		
 		var size = road.get_node("CollisionShape").shape.extents
 		var rotation := 0.0
