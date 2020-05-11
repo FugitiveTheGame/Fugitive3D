@@ -124,6 +124,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://networking/PlayerData.gd"
 }, {
+"base": "HBoxContainer",
+"class": "PlayerLegendEntry",
+"language": "GDScript",
+"path": "res://client/game/mode/fugitive/hud/PlayerLegendEntry.gd"
+}, {
 "base": "Spatial",
 "class": "Seeker",
 "language": "GDScript",
@@ -208,6 +213,7 @@ _global_script_class_icons={
 "PlatformTypeUtils": "",
 "Player": "",
 "PlayerData": "",
+"PlayerLegendEntry": "",
 "Seeker": "",
 "ServerAdvertiser": "res://addons/LANServerBroadcast/server_advertiser/ServerAdvertiser.png",
 "ServerFugitiveGame": "",

@@ -2,6 +2,8 @@ extends "res://client/game/mode/fugitive/hud/mapview/MapHudBase.gd"
 class_name HistoryMapHud
 onready var fugitiveGame := GameData.currentGame as FugitiveGame
 
+var PlayerLegendEntryTemplate = preload("res://client/game/mode/fugitive/hud/PlayerLegendEntry.tscn")
+
 var currentIndex := 0
 var timeSinceFrameChange := 0.0
 var framesPerSecond := 1.0
@@ -57,6 +59,17 @@ func setIndex(index : int):
 
 func getIndex() -> int:
 	return currentIndex
+
+func loadReplayLegend(replayLegend: VBoxContainer):
+	for node in replayLegend.get_children():
+		replayLegend.remove_child(node)
+		node.free()
+	
+	for playerId in currentPlayerColorDictionary:
+		var playerData = GameData.players[playerId] as PlayerData
+		var newEntry = PlayerLegendEntryTemplate.instance()
+		newEntry.initialize(playerData, currentPlayerColorDictionary[playerId])
+		replayLegend.add_child(newEntry)
 
 func _draw():
 	if currentIndex < fugitiveGame.history.stateHistoryArray.size():

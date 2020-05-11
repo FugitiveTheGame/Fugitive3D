@@ -21,6 +21,8 @@ onready var replayLabelSpeed := get_node(replayLabelSpeedPath) as Label
 export(NodePath) var replayHudPath: NodePath
 onready var replayHud := get_node(replayHudPath) as HistoryMapHud
 
+export(NodePath) var replayLegendPath: NodePath
+onready var replayLegend := get_node(replayLegendPath) as VBoxContainer
 
 func _ready():
 	hide()
@@ -68,6 +70,7 @@ func team_won(winningTeam: int):
 	replayScrubSlider.max_value = replayHud.getMaxFrameIndex()
 	replaySpeedSlider.value = 1
 	replayHud.setFrameSpeed(1.0)
+	replayHud.loadReplayLegend(replayLegend)
 	
 	show()
 	
