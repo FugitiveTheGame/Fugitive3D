@@ -10,6 +10,11 @@ export(NodePath) var car_horn_button_path: NodePath
 onready var car_horn_button := get_node(car_horn_button_path) as TouchScreenButton
 
 
+# Allow child classes to override this functionality
+func show_map(show: bool):
+	overviewMapHud.visible = show
+
+
 func _input(event):
 	if not player.gameStarted and event.is_action_released("flat_player_jump"):
 		player.set_ready()
@@ -33,7 +38,7 @@ func _input(event):
 func _process(delta):
 	allowMovement = not player.frozen and player.car == null
 	
-	overviewMapHud.visible = Input.is_action_pressed("flat_fugitive_map")
+	show_map( Input.is_action_pressed("flat_fugitive_map") )
 	
 	# Only allow the driver to control the car
 	if player.car != null and player.car.is_driver(player.id):
