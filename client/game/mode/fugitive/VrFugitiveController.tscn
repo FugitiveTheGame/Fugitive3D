@@ -52,13 +52,7 @@ margin_left = -143.5
 margin_right = 143.5
 margin_bottom = 157.0
 
-[node name="EndGameHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="5" instance=ExtResource( 6 )]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_bottom = 0.0
-
-[node name="HeightContainer" type="PanelContainer" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="6"]
+[node name="HeightContainer" type="PanelContainer" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="5"]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -96,7 +90,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="OverviewMapHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="8" instance=ExtResource( 8 )]
+[node name="OverviewMapHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="6" instance=ExtResource( 8 )]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_bottom = 0.0
+
+[node name="ExitGameHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="7"]
+visible = false
+
+[node name="EndGameHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="8" instance=ExtResource( 6 )]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = 0.0
