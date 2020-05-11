@@ -42,11 +42,11 @@ func team_won(winningTeam: int):
 			else:
 				node.text = "[%s] %s" % [team, playerInfo.get_name()]
 				
-			var playerStats = FugitivePlayerDataUtility.get_stats(playerInfoData)
+			var playerStats = FugitivePlayerDataUtility.get_match_stats(playerInfoData)
 			print("Player stat count: %d" % playerStats.size())
 			for statKey in playerStats.keys():
 				var statName := FugitivePlayerDataUtility.get_stat_name(statKey)
-				var stat := FugitivePlayerDataUtility.get_stat(playerInfoData, statKey)
+				var stat := FugitivePlayerDataUtility.get_match_stat(playerInfoData, statKey)
 				node.text += "\n\t%s: %d" % [statName, stat]
 			
 			playerList.add_child(node)

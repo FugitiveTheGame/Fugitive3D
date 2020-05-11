@@ -38,7 +38,7 @@ func create_new_player_raw_data(playerId: int, platformType: int, playerName: St
 func add_player_from_raw_data(newPlayerDictionary: Dictionary) -> bool:
 	var playerId = newPlayerDictionary.id
 	if not self.players.has(playerId):
-		var newPlayer := preload("res://networking/PlayerData.gd").new() as PlayerData
+		var newPlayer := PlayerData.new()
 		newPlayer.load(newPlayerDictionary)
 		
 		self.players[playerId] = newPlayer
