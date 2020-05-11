@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://common/game/mode/fugitive/street_light/StreetLight.gd" type="Script" id=1]
-[ext_resource path="res://common/game/mode/fugitive/street_light/street_light.glb" type="PackedScene" id=2]
+[ext_resource path="res://common/game/mode/fugitive/street_light/street_light_model.tscn" type="PackedScene" id=2]
 
 [node name="StreetLight" type="Spatial" groups=[
 "lights",
