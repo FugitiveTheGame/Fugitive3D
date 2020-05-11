@@ -34,6 +34,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://client/game/player/controller/flat/Camera.gd"
 }, {
+"base": "Node",
+"class": "FugitiveEnums",
+"language": "GDScript",
+"path": "res://common/game/mode/fugitive/FugitiveEnums.gd"
+}, {
 "base": "GameMode",
 "class": "FugitiveGame",
 "language": "GDScript",
@@ -185,6 +190,7 @@ _global_script_class_icons={
 "CopCar": "",
 "Feature_RigidBodyGrab": "",
 "FpsCamera": "",
+"FugitiveEnums": "",
 "FugitiveGame": "",
 "FugitiveHistoryCollection": "",
 "FugitiveMap": "",
