@@ -12,4 +12,5 @@ autostart = true
 
 [node name="ServerAdvertiser" type="Node" parent="." index="3"]
 script = ExtResource( 3 )
+[connection signal="state_change" from="StateMachine" to="." method="_on_StateMachine_state_change"]
 [connection signal="timeout" from="FpsTimer" to="." method="_on_FpsTimer_timeout"]

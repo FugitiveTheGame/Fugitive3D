@@ -90,12 +90,17 @@ remotesync func on_start_lobby_countdown():
 	emit_signal("start_lobby_countdown")
 
 
+# Only the host should call this
 func start_game():
-	rpc("on_start_game")
+	# The server will take care of it's self, tell all other players to start
+	for playerId in GameData.players:
+		if playerId != ServerNetwork.SERVER_ID:
+			rpc_id(playerId, "on_start_game")
 
 
 remotesync func on_start_game():
 	# Unready all players when we start the game
+	print("Unready all lobby players")
 	for player in GameData.get_players():
 		player.set_lobby_ready(false)
 	
