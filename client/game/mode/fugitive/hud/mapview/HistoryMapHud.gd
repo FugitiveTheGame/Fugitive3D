@@ -31,6 +31,8 @@ var playerColors := [
 var currentPlayerColorDictionary = {}
 
 func _ready():
+	drawStreetNames = false
+	
 	var playerIndex := 0
 	currentPlayerColorDictionary = {}
 	for player in GameData.get_players():
