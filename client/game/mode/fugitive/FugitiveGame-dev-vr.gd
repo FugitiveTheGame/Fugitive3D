@@ -3,9 +3,12 @@ extends "res://client/game/mode/fugitive/VrClientFugitiveGame.gd"
 # Change this to determine what you will spwan as
 var be_seeker := true
 
+
 func _enter_tree():
 	# Change this to test what ever map you wish
 	GameData.general[GameData.GENERAL_MAP] = 0
+	
+	GameAnalytics.DEVELOPMENT = true
 	
 	# Silence the start sound
 	(GameData.currentGame.get_node("StartAudio") as AudioStreamPlayer).volume_db = -100.0
@@ -63,3 +66,8 @@ func start_timer_timeout():
 # Emulating what the server would normmally do here
 func headstart_timer_timeout():
 	release_cops()
+
+
+# Emulating what the server would normmally do here
+func finish_game(playerType: int):
+	on_finish_game(playerType)

@@ -6,6 +6,7 @@ onready var stateMachine := $StateMachine as FugitiveStateMachine
 var map: FugitiveMap
 var playersContainer: Node
 
+onready var history:= $FugitiveHistoryCollection as FugitiveHistoryCollection
 
 var gameStarted := false
 var winningTeam: int
@@ -28,7 +29,9 @@ func load_map():
 	
 	var gameTimelimitTimer = map.get_timelimit_timer()
 	gameTimelimitTimer.connect("timeout", self, "game_time_limit_exceeded")
-
+	
+	if history != null:
+		history.reset()
 
 # If a player has disconnected, remove them from the world
 func remove_player(playerId: int):

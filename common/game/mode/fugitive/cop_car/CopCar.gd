@@ -40,6 +40,13 @@ func _ready():
 			if seat.is_driver_seat:
 				driver_seat = seat
 
+func get_history_heartbeat() -> Dictionary:
+	var newEntry := {}
+	newEntry.position = Vector2(global_transform.origin.x, global_transform.origin.z)
+	newEntry.orientation = Utils.get_map_rotation(global_transform)
+	newEntry.isLocked = locked
+	newEntry.entryType = "CAR"
+	return newEntry
 
 func get_free_seat() -> int:
 	var freeSeat: int = -1

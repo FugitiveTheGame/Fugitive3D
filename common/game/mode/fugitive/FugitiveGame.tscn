@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://common/game/mode/GameMode.tscn" type="PackedScene" id=1]
 [ext_resource path="res://common/game/mode/fugitive/FugitiveGame.gd" type="Script" id=2]
 [ext_resource path="res://common/game/mode/fugitive/FugitiveStateMachine.gd" type="Script" id=3]
+[ext_resource path="res://common/game/mode/fugitive/history/FugitiveHistoryCollection.gd" type="Script" id=4]
 
 [node name="Game" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
@@ -14,4 +15,7 @@ listenerPath = NodePath("..")
 [node name="ReturnToLobbyTimer" type="Timer" parent="." index="1"]
 wait_time = 15.0
 one_shot = true
+
+[node name="FugitiveHistoryCollection" type="Node" parent="." index="2"]
+script = ExtResource( 4 )
 [connection signal="timeout" from="ReturnToLobbyTimer" to="." method="_on_ReturnToLobbyTimer_timeout"]

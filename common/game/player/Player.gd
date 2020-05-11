@@ -64,7 +64,6 @@ func set_is_crouching(value: bool):
 		if show_avatar:
 			playerShape.set_crouching(value)
 
-
 export(NodePath) var shapePath: NodePath
 export(NodePath) var playerControllerPath: NodePath
 export(NodePath) var playerBodyPath: NodePath
@@ -81,7 +80,6 @@ puppet func network_update(networkPosition: Vector3, networkRotation: Vector3, n
 	self.isMoving = networkMoving
 	self.isSprinting = networkSprinting
 	self.velocity = networkVelocity
-
 
 func _physics_process(delta):
 	if is_network_master():
