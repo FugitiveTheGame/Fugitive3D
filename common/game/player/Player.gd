@@ -28,6 +28,11 @@ var id: int
 var localPlayerType: int
 
 onready var walking_sound = $WalkingSound
+onready var jumping_sound = $JumpingSound
+onready var no_stamina_sound = $NoStaminaSound
+
+
+var minimum_stamina_recovered := true
 
 var isMoving := false setget set_is_moving
 func set_is_moving(value: bool):
@@ -42,14 +47,7 @@ func set_is_moving(value: bool):
 			walking_sound.stop()
 
 
-var isSprinting := false setget set_is_sprinting
-func set_is_sprinting(value: bool):
-	isSprinting = value
-	if value:
-		walking_sound.pitch_scale = 2.0
-	else:
-		walking_sound.pitch_scale = 1.0
-
+var sprint := false
 
 var stamina := stamina_max setget set_stamina
 func set_stamina(value: float):
@@ -86,6 +84,11 @@ puppet func network_update(networkPosition: Vector3, networkRotation: Vector3, n
 func _physics_process(delta):
 	if is_network_master():
 		process_stamina(delta)
+	
+	if is_sprinting():
+		walking_sound.pitch_scale = 2.0
+	else:
+		walking_sound.pitch_scale = 1.0
 
 
 func configure(_playerName: String, _playerId: int, _localPlayerType: int):
@@ -118,7 +121,7 @@ func get_current_shape() -> Spatial:
 
 
 func is_sprinting() -> bool:
-	return isSprinting and stamina > 0.0 and not is_crouching
+	return sprint and stamina > 0.0 and not is_crouching
 
 
 func is_moving():
@@ -134,4 +137,27 @@ func process_stamina(delta: float):
 		stamina -= (stamina_sprint_rate * delta)
 	elif not is_moving():
 		stamina += (stamina_sprint_rate * delta)
+	
+	if stamina <= 0.0 and minimum_stamina_recovered:
+		out_of_stamina()
+	if stamina >= 0.25:
+		minimum_stamina_recovered = true
+	
 	stamina = clamp(stamina, 0.0, stamina_max)
+
+
+func jump():
+	rpc("on_jump")
+
+
+remotesync func on_jump():
+	jumping_sound.play()
+
+
+func out_of_stamina():
+	minimum_stamina_recovered = false
+	rpc("on_out_of_stamina")
+
+
+remotesync func on_out_of_stamina():
+	no_stamina_sound.play()

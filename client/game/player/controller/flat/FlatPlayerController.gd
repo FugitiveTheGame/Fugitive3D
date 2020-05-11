@@ -76,7 +76,7 @@ func _ready():
 func _process(delta):
 	########################################
 	# Handle input for gameplay purposes
-	player.isSprinting = Input.is_action_pressed("flat_player_sprint")
+	player.sprint = Input.is_action_pressed("flat_player_sprint")
 	
 	if virtual_joysticks.right_output.x != 0.0:
 		rotate_y(-Sensitivity_X * mouseLookSensetivityModifier * virtual_joysticks.right_output.x * joystickMultiplier)
@@ -136,9 +136,15 @@ func _physics_process(delta):
 			player.velocity.z = 0
 	
 	if is_on_floor():
-		if Input.is_action_just_pressed("flat_player_jump") and player.stamina >= player.JUMP_STAMINA_COST:
-			player.stamina -= player.JUMP_STAMINA_COST
-			player.velocity.y = Jump_Speed
+		if Input.is_action_just_pressed("flat_player_jump"):
+			if player.stamina >= player.JUMP_STAMINA_COST:
+				player.stamina -= player.JUMP_STAMINA_COST
+				player.velocity.y = Jump_Speed
+				
+				player.jump()
+			else:
+				player.out_of_stamina()
+			
 	
 	if not allowMovement:
 		player.velocity = Vector3()
@@ -150,7 +156,7 @@ func _physics_process(delta):
 	player.isMoving = (Vector3(player.velocity.x, 0.0, player.velocity.z).length() > MOVEMENT_LAMBDA)
 	
 	if not player.gameEnded:
-		player.rpc_unreliable("network_update", translation, rotation, player.velocity, player.is_crouching, player.isMoving, player.isSprinting)
+		player.rpc_unreliable("network_update", translation, rotation, player.velocity, player.is_crouching, player.isMoving, player.sprint)
 
 
 func _input(event):
