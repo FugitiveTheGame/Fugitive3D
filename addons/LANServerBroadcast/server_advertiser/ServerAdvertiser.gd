@@ -109,7 +109,7 @@ func register_server():
 		var body := JSON.print(serverInfo)
 		var headers := ["Content-Type: application/json"]
 		if initial_registration:
-			print("initial registration: %s" % url)
+			print("initial registration")
 			registerRequest.request(url, headers, false, HTTPClient.METHOD_POST, body)
 		else:
 			print("updating registration")
