@@ -16,6 +16,7 @@ const playerSize := 20.0
 var playerOutlineShape := PoolVector2Array()
 const playerOutlineSize := 23.0
 
+var drawStreetNames := true
 
 func _ready():
 	var bb := AABB()
@@ -137,23 +138,24 @@ func _on_Map_draw():
 		mapBackground.draw_rect(rect, Color(0.0, 0.0, 1.0, 0.75))
 	
 	# Finally draw road names
-	for road in roads:
-		var namePos := to_map_coord(road.global_transform.origin)
+	if drawStreetNames:
+		for road in roads:
+			var namePos := to_map_coord(road.global_transform.origin)
+				
+			var textSize = streetNameFont.get_string_size(road.street_name)
 			
-		var textSize = streetNameFont.get_string_size(road.street_name)
-		
-		var size = road.get_node("CollisionShape").shape.extents
-		var rotation := 0.0
-		if size.x < size.z:
-			rotation = deg2rad(-90.0)
-			namePos -= Vector2(textSize.x/8.0, -textSize.y*2.0)
-		else:
-			namePos -= Vector2(textSize.x/2.0, textSize.y)
-			pass
-		
-		mapBackground.draw_set_transform(namePos, rotation, Vector2(1.0, 1.0))
-		mapBackground.draw_string(streetNameFont, Vector2(), road.street_name)
-		mapBackground.draw_set_transform(Vector2(), 0.0, Vector2(1.0, 1.0))
+			var size = road.get_node("CollisionShape").shape.extents
+			var rotation := 0.0
+			if size.x < size.z:
+				rotation = deg2rad(-90.0)
+				namePos -= Vector2(textSize.x/8.0, -textSize.y*2.0)
+			else:
+				namePos -= Vector2(textSize.x/2.0, textSize.y)
+				pass
+			
+			mapBackground.draw_set_transform(namePos, rotation, Vector2(1.0, 1.0))
+			mapBackground.draw_string(streetNameFont, Vector2(), road.street_name)
+			mapBackground.draw_set_transform(Vector2(), 0.0, Vector2(1.0, 1.0))
 
 
 func _on_MapHud_resized():
