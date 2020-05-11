@@ -13,6 +13,8 @@ var mapDrawn := false
 onready var roads = GameData.currentMap.roads
 var playerShape := PoolVector2Array()
 const playerSize := 20.0
+var playerOutlineShape := PoolVector2Array()
+const playerOutlineSize := 23.0
 
 
 func _ready():
@@ -26,13 +28,18 @@ func _ready():
 	mapStart = Vector2(bb.position.x, bb.position.z)
 	mapSize = Vector2(bb.size.x, bb.size.z)
 	
-	var halfSize := playerSize/2.0
-	playerShape.append(Vector2(-halfSize, -halfSize))
-	playerShape.append(Vector2(halfSize, -halfSize))
-	playerShape.append(Vector2(0.0, playerSize))
+	playerShape = _build_triangle(playerSize)
+	playerOutlineShape = _build_triangle(playerOutlineSize)
 	
 	update_map_background()
 
+func _build_triangle(triangle_size: float) -> PoolVector2Array:
+	var half_size := triangle_size/2.0
+	var new_points := PoolVector2Array()
+	new_points.append(Vector2(-half_size, -half_size))
+	new_points.append(Vector2(half_size, -half_size))
+	new_points.append(Vector2(0.0, triangle_size))
+	return new_points
 
 func update_map_background():
 	var imageTexture = ImageTexture.new()

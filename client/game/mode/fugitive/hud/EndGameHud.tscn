@@ -23,6 +23,7 @@ replayPlayButtonPath = NodePath("Container/PanelContainer/TabContainer/Replay/Re
 replayLabelHistoryPath = NodePath("Container/PanelContainer/TabContainer/Replay/ReplayLayout/LeftReplayPanel/LabelHistory")
 replayLabelSpeedPath = NodePath("Container/PanelContainer/TabContainer/Replay/ReplayLayout/RightReplayPanel/LabelSpeed")
 replayHudPath = NodePath("Container/PanelContainer/TabContainer/Replay/ReplayLayout/LeftReplayPanel/HistoryMapHud")
+replayLegendPath = NodePath("Container/PanelContainer/TabContainer/Replay/ReplayLayout/RightReplayPanel/ReplayLegend")
 
 [node name="Container" type="VBoxContainer" parent="."]
 margin_left = 14.0
@@ -63,6 +64,7 @@ size_flags_vertical = 3
 tab_align = 0
 
 [node name="Stats" type="ScrollContainer" parent="Container/PanelContainer/TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 8.0
@@ -78,7 +80,6 @@ margin_right = 440.0
 size_flags_horizontal = 3
 
 [node name="Replay" type="MarginContainer" parent="Container/PanelContainer/TabContainer"]
-visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 8.0
@@ -142,6 +143,14 @@ margin_top = 73.0
 margin_right = 182.0
 margin_bottom = 110.0
 text = "Play"
+
+[node name="ReplayLegend" type="VBoxContainer" parent="Container/PanelContainer/TabContainer/Replay/ReplayLayout/RightReplayPanel"]
+margin_top = 118.0
+margin_right = 278.0
+margin_bottom = 118.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
 
 [node name="ToLobbyButton" type="Button" parent="Container"]
 margin_top = 447.0

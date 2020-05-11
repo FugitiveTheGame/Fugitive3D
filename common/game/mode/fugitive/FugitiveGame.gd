@@ -11,7 +11,6 @@ onready var history:= $FugitiveHistoryCollection as FugitiveHistoryCollection
 var gameStarted := false
 var winningTeam: int
 
-
 func current_state() -> String:
 	return stateMachine.current_state.name
 
