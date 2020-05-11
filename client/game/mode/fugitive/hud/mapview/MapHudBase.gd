@@ -129,7 +129,12 @@ func _on_Map_draw():
 	for road in roads:
 		var namePos := to_map_coord(road.global_transform.origin)
 		
-		var textSize := font.get_string_size(road.street_name)
+		var currentFont := font as Font
+		
+		if currentFont == null:
+			currentFont = Label.new().get_font("")
+			
+		var textSize := currentFont.get_string_size(road.street_name)
 		
 		var size = road.get_node("CollisionShape").shape.extents
 		var rotation := 0.0

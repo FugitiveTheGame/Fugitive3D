@@ -39,25 +39,10 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://common/game/mode/fugitive/FugitiveGame.gd"
 }, {
-"base": "FugitiveHistoryEntry",
-"class": "FugitiveHistoryCarEntry",
-"language": "GDScript",
-"path": "res://common/game/mode/fugitive/history/FugitiveHistoryCarEntry.gd"
-}, {
 "base": "Node",
-"class": "FugitiveHistoryEntry",
+"class": "FugitiveHistoryCollection",
 "language": "GDScript",
-"path": "res://common/game/mode/fugitive/history/FugitiveHistoryEntry.gd"
-}, {
-"base": "Object",
-"class": "FugitiveHistoryHeartbeat",
-"language": "GDScript",
-"path": "res://common/game/mode/fugitive/history/FugitiveHistoryHeartbeat.gd"
-}, {
-"base": "FugitiveHistoryEntry",
-"class": "FugitiveHistoryPlayerEntry",
-"language": "GDScript",
-"path": "res://common/game/mode/fugitive/history/FugitiveHistoryPlayerEntry.gd"
+"path": "res://common/game/mode/fugitive/history/FugitiveHistoryCollection.gd"
 }, {
 "base": "Spatial",
 "class": "FugitiveMap",
@@ -98,6 +83,11 @@ _global_script_classes=[ {
 "class": "Hider",
 "language": "GDScript",
 "path": "res://common/game/mode/fugitive/hider/Hider.gd"
+}, {
+"base": "Control",
+"class": "HistoryMapHud",
+"language": "GDScript",
+"path": "res://client/game/mode/fugitive/hud/mapview/HistoryMapHud.gd"
 }, {
 "base": "Control",
 "class": "Lobby",
@@ -196,10 +186,7 @@ _global_script_class_icons={
 "Feature_RigidBodyGrab": "",
 "FpsCamera": "",
 "FugitiveGame": "",
-"FugitiveHistoryCarEntry": "",
-"FugitiveHistoryEntry": "",
-"FugitiveHistoryHeartbeat": "",
-"FugitiveHistoryPlayerEntry": "",
+"FugitiveHistoryCollection": "",
 "FugitiveMap": "",
 "FugitivePlayer": "",
 "FugitivePlayerDataUtility": "",
@@ -208,6 +195,7 @@ _global_script_class_icons={
 "GameMode": "",
 "Groups": "",
 "Hider": "",
+"HistoryMapHud": "",
 "Lobby": "",
 "MotionSensor": "",
 "OQClass_GrabbableRigidBody": "",
@@ -256,12 +244,10 @@ gdscript/warnings/return_value_discarded=false
 window/size/width=1600
 window/size/height=900
 window/dpi/allow_hidpi=true
-window/stretch/mode="viewport"
-window/stretch/aspect="expand"
+window/stretch/mode="2d"
+window/stretch/aspect="keep_height"
 window/size/width.mobile=1280
 window/size/height.mobile=720
-window/stretch/mode.mobile="2d"
-window/stretch/aspect.mobile="keep_height"
 
 [editor_plugins]
 

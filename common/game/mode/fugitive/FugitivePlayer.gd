@@ -28,13 +28,14 @@ func configure(_playerName: String, _playerId: int, _localPlayerType: int):
 func set_player_name(playerName: String):
 	playerShape.get_name_label().set_label_text(playerName)
 
-func get_history_heartbeat() -> FugitiveHistoryPlayerEntry:
-	var newEntry := FugitiveHistoryPlayerEntry.new()
+func get_history_heartbeat() -> Dictionary:
+	var newEntry := {}
 	newEntry.position = Vector2(global_transform.origin.x, global_transform.origin.z)
 	newEntry.orientation = Utils.get_map_rotation(global_transform)
 	newEntry.isCrouching = is_crouching
 	newEntry.playerType = playerType
 	newEntry.frozen = frozen
+	newEntry.entryType = "PLAYER"
 	return newEntry
 
 func update_player_name_state():
