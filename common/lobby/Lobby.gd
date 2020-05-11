@@ -24,7 +24,7 @@ var is_host := false
 var is_starting := false
 
 
-func _ready():
+func _enter_tree():
 	ClientNetwork.connect("create_player", self, "create_player")
 	ClientNetwork.connect("update_player", self, "update_player")
 	ClientNetwork.connect("remove_player", self, "remove_player")
@@ -32,7 +32,19 @@ func _ready():
 	
 	ClientNetwork.connect("start_lobby_countdown", self, "on_start_lobby_countdown")
 	ClientNetwork.connect("start_game", self, "on_start_game")
+
+
+func _exit_tree():
+	ClientNetwork.disconnect("create_player", self, "create_player")
+	ClientNetwork.disconnect("update_player", self, "update_player")
+	ClientNetwork.disconnect("remove_player", self, "remove_player")
+	ClientNetwork.disconnect("update_game_data", self, "update_game_data")
 	
+	ClientNetwork.disconnect("start_lobby_countdown", self, "on_start_lobby_countdown")
+	ClientNetwork.disconnect("start_game", self, "on_start_game")
+
+
+func _ready():
 	populate_map_list()
 	
 	# If we already have players, such as when returing from a game

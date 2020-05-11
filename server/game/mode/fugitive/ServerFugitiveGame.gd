@@ -1,9 +1,29 @@
 extends FugitiveGame
+class_name ServerFugitiveGame
 
 onready var advertiser := $ServerAdvertiser as ServerAdvertiser
 
 var configuredPlayers := {}
 var readyPlayers := {}
+
+
+func _enter_tree():
+	ClientNetwork.connect("remove_player", self, "server_remove_player")
+
+
+func _exit_tree():
+	ClientNetwork.disconnect("remove_player", self, "server_remove_player")
+
+
+func _ready():
+	ServerUtils.normal_start(advertiser, false)
+
+
+func pre_configure():
+	.pre_configure()
+	
+	print("Server configuration complete")
+
 
 func unconfigured_players() -> int:
 	var count := 0
@@ -37,12 +57,6 @@ func server_remove_player(playerId: int):
 			check_all_ready()
 
 
-func _ready():
-	ClientNetwork.connect("remove_player", self, "server_remove_player")
-	
-	ServerUtils.normal_start(advertiser, false)
-
-
 func load_map():
 	.load_map()
 	map.get_countdown_timer().connect("timeout", self, "countdown_timer_timeout")
@@ -55,17 +69,22 @@ func load_map():
 	# $ TODO ALEX: This needs to some how not clear the game-over-game stats
 	# FugitivePlayerDataUtility.reset_stats()
 
+
 remote func on_client_configured(playerId: int):
 	print("client configured: %s" % playerId)
 	configuredPlayers[playerId] = true
 	
 	check_all_configured()
 
+
 func check_all_configured():
 	# All clients are done, unpause the game
 	if unconfigured_players() == 0:
-		print("Waiting for players to ready up...")
-		rpc("on_all_clients_configured")
+		if current_state() == FugitiveStateMachine.STATE_CONFIGURING:
+			print("All players report configured.")
+			rpc("on_all_clients_configured")
+		else:
+			print("Discarding client configuration status, everyone is already past configuration")
 	else:
 		print("Still waiting on %d players" % unconfigured_players())
 
@@ -102,6 +121,11 @@ func headstart_timer_timeout():
 func send_all_to_lobby():
 	if get_tree().is_network_server():
 		rpc("on_go_to_lobby")
+
+
+# Server goes back to the lobby as soon as the host does
+remote func on_start_lobby_timer():
+	on_go_to_lobby()
 
 
 remotesync func on_go_to_lobby():
@@ -160,6 +184,9 @@ func finish_game(playerType: int):
 		# If this player was on the winning team, give them a win
 		if player.get_type() == playerType:
 			FugitivePlayerDataUtility.increment_stat_for_player_id(playerId, FugitivePlayerDataUtility.STAT_WINS)
-
 	
 	rpc("on_finish_game", playerType)
+
+
+func _on_StateMachine_state_change(new_state, transition):
+	print("new state: %s via: %s" % [new_state.name, transition.name])

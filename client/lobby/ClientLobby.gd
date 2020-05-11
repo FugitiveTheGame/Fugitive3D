@@ -10,9 +10,15 @@ export(NodePath) var randomButtonPath: NodePath
 onready var randomButton := get_node(randomButtonPath) as Button
 
 
-func _ready():
+func _enter_tree():
 	ClientNetwork.connect("lost_connection_to_server", self, "on_disconnect")
-	
+
+
+func _exit_tree():
+	ClientNetwork.disconnect("lost_connection_to_server", self, "on_disconnect")
+
+
+func _ready():
 	var clientType := PlatformTypeUtils.get_platform_type()
 	
 	# Tell the server about you
