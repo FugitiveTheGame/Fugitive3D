@@ -39,6 +39,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://common/game/mode/fugitive/FugitiveGame.gd"
 }, {
+"base": "Node",
+"class": "FugitiveHistoryCollection",
+"language": "GDScript",
+"path": "res://common/game/mode/fugitive/history/FugitiveHistoryCollection.gd"
+}, {
 "base": "Spatial",
 "class": "FugitiveMap",
 "language": "GDScript",
@@ -78,6 +83,11 @@ _global_script_classes=[ {
 "class": "Hider",
 "language": "GDScript",
 "path": "res://common/game/mode/fugitive/hider/Hider.gd"
+}, {
+"base": "Control",
+"class": "HistoryMapHud",
+"language": "GDScript",
+"path": "res://client/game/mode/fugitive/hud/mapview/HistoryMapHud.gd"
 }, {
 "base": "Control",
 "class": "Lobby",
@@ -176,6 +186,7 @@ _global_script_class_icons={
 "Feature_RigidBodyGrab": "",
 "FpsCamera": "",
 "FugitiveGame": "",
+"FugitiveHistoryCollection": "",
 "FugitiveMap": "",
 "FugitivePlayer": "",
 "FugitivePlayerDataUtility": "",
@@ -184,6 +195,7 @@ _global_script_class_icons={
 "GameMode": "",
 "Groups": "",
 "Hider": "",
+"HistoryMapHud": "",
 "Lobby": "",
 "MotionSensor": "",
 "OQClass_GrabbableRigidBody": "",

@@ -1,18 +1,18 @@
 [gd_scene load_steps=3 format=2]
 
-[ext_resource path="res://client/game/mode/fugitive/hud/OverviewMapHud.gd" type="Script" id=1]
-[ext_resource path="res://fonts/content/ContentFont.tres" type="DynamicFont" id=2]
+[ext_resource path="res://fonts/content/ContentFont.tres" type="DynamicFont" id=1]
+[ext_resource path="res://client/game/mode/fugitive/hud/mapview/MapHudBase.gd" type="Script" id=2]
 
-[node name="OverviewMapHud" type="Control"]
+[node name="MapHud" type="Control"]
 anchor_right = 0.4
 anchor_bottom = 0.711
 margin_bottom = 0.0799866
 rect_min_size = Vector2( 128, 128 )
-script = ExtResource( 1 )
+script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-font = ExtResource( 2 )
+font = ExtResource( 1 )
 
 [node name="Map" type="TextureRect" parent="."]
 show_behind_parent = true

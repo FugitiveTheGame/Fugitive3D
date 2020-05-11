@@ -5,3 +5,4 @@
 
 [node name="Game" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+[connection signal="timeout" from="ReturnToLobbyTimer" to="." method="_on_ReturnToLobbyTimer_timeout"]
