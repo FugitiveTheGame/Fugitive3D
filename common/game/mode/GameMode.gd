@@ -8,6 +8,11 @@ var players = {}
 func get_player(playerId: int) -> Player:
 	return players[playerId]
 
+func _enter_tree():
+	ClientNetwork.connect("remove_player", self, "remove_player")
+	
+	GameData.currentGame = self
+
 
 func _ready():
 	print("Entering game")
@@ -15,9 +20,14 @@ func _ready():
 	
 	load_map()
 	
-	ClientNetwork.connect("remove_player", self, "remove_player")
-	
 	call_deferred("pre_configure")
+
+
+func _exit_tree():
+	ClientNetwork.disconnect("remove_player", self, "remove_player")
+	
+	GameData.currentGame = null
+	GameData.currentMap = null
 
 
 func load_map():
@@ -31,15 +41,6 @@ func load_map():
 
 func pre_configure():
 	pass
-
-
-func _enter_tree():
-	GameData.currentGame = self
-
-
-func _exit_tree():
-	GameData.currentGame = null
-	GameData.currentMap = null
 
 
 func get_team_name(teamid: int) -> String:

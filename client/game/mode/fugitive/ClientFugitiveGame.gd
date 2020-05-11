@@ -2,8 +2,12 @@ extends FugitiveGame
 class_name ClientFugitiveGame
 
 
-func _ready():
+func _enter_tree():
 	ClientNetwork.connect("lost_connection_to_server", self, "on_disconnect")
+
+
+func _exit_tree():
+	ClientNetwork.disconnect("lost_connection_to_server", self, "on_disconnect")
 
 
 func on_disconnect():
