@@ -9,8 +9,6 @@
 
 [node name="PlayerController" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-crouch_button_path = NodePath("")
-sprint_button_path = NodePath("")
 
 [node name="Camera" parent="." index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.28414, 0 )
