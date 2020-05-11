@@ -78,7 +78,7 @@ puppet func network_update(networkPosition: Vector3, networkRotation: Vector3, n
 	playerController.rotation = networkRotation
 	self.is_crouching = networkCrouching
 	self.isMoving = networkMoving
-	self.sprinting = networkSprinting
+	self.sprint = networkSprinting
 	self.velocity = networkVelocity
 
 func _physics_process(delta):
