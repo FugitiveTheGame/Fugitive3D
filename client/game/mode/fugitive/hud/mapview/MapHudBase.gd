@@ -31,13 +31,14 @@ func _ready():
 	playerShape.append(Vector2(halfSize, -halfSize))
 	playerShape.append(Vector2(0.0, playerSize))
 	
-	initialize_map_background()
+	update_map_background()
 
 
-func initialize_map_background():
+func update_map_background():
 	var imageTexture = ImageTexture.new()
 	var image = Image.new()
-	var curSize := get_rect().size
+	
+	var curSize := rect_size
 	image.create(curSize.x, curSize.y, false, Image.FORMAT_RGBA8)
 	image.fill(Color(0.1, 0.9, 0.1, 0.5))
 	imageTexture.create_from_image(image)
@@ -147,3 +148,6 @@ func _on_Map_draw():
 		mapBackground.draw_string(streetNameFont, Vector2(), road.street_name)
 		mapBackground.draw_set_transform(Vector2(), 0.0, Vector2(1.0, 1.0))
 
+
+func _on_MapHud_resized():
+	update_map_background()
