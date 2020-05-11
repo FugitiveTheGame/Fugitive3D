@@ -1,14 +1,15 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://common/game/mode/fugitive/FugitiveGame.tscn" type="PackedScene" id=1]
 [ext_resource path="res://server/game/mode/fugitive/ServerFugitiveGame.gd" type="Script" id=2]
+[ext_resource path="res://addons/LANServerBroadcast/server_advertiser/ServerAdvertiser.gd" type="Script" id=3]
 
 [node name="Game" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
-[node name="ReturnToLobbyTimer" parent="." index="1"]
-wait_time = 15.0
-
 [node name="FpsTimer" type="Timer" parent="." index="2"]
 autostart = true
+
+[node name="ServerAdvertiser" type="Node" parent="." index="3"]
+script = ExtResource( 3 )
 [connection signal="timeout" from="FpsTimer" to="." method="_on_FpsTimer_timeout"]

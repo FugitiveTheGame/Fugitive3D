@@ -24,18 +24,12 @@ func _exit_tree():
 	# Don't allow new connections if we're in-game
 	if get_tree().network_peer != null:
 		get_tree().network_peer.refuse_new_connections = true
-	advertiser.remove_from_repository()
+	
+	ServerUtils.update_joinable(advertiser, false)
 
 
 func _ready():
-	ServerUtils.configure_advertiser(advertiser, serverName, serverPort, ServerUtils.get_public())
-	advertiser.initial_registration = false
-	
-	if not ServerUtils.get_no_lan():
-		advertiser.start_advertising_lan()
-	
-	if ServerUtils.get_public():
-		advertiser.start_advertising_publicly()
+	ServerUtils.normal_start(advertiser, true)
 
 
 func on_start_game():
@@ -49,5 +43,5 @@ func on_start_lobby_countdown():
 	# Don't allow any more connections now that we're in the terminal count
 	get_tree().network_peer.refuse_new_connections = true
 	
-	# Make sure we don't show up in the repository while we're playing
-	advertiser.remove_from_repository()
+	# Make sure we aren't joinable
+	ServerUtils.update_joinable(advertiser, false)
