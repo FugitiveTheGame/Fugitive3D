@@ -83,7 +83,6 @@ remotesync func on_request_enter_car(playerId: int):
 	
 	var seatIndex := get_free_seat()
 	if seatIndex > -1:
-		var seat = seats[seatIndex]
 		var player = GameData.currentGame.get_player(playerId)
 		
 		var isHider = player.playerType == FugitiveTeamResolver.PlayerType.Hider
@@ -123,7 +122,7 @@ remotesync func on_car_entered(playerId: int, seatIndex: int):
 			return
 		else:
 			locked = false
-		
+	
 	# Disable personal colission so you can be inside the car's colission shape
 	player.playerShape.disabled = true
 	

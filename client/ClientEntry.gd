@@ -81,8 +81,6 @@ func prepare_mobile_vr():
 	
 	vr.initialize()
 	
-	var ovrPerformance = preload("res://addons/godot_ovrmobile/OvrPerformance.gdns").new()
-	
 	# enable the extra latency mode: this gives some performance headroom at the cost
 	# of one more frame of latency
 	vr.set_extra_latency_mode(1)
