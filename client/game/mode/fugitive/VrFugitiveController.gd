@@ -8,6 +8,11 @@ onready var overviewMapHud := hud.find_node("OverviewMapHud", true, false) as Co
 const dead_zone := 0.125
 
 
+# Allow child classes to override this functionality
+func show_map(show: bool):
+	overviewMapHud.visible = show
+
+
 func _ready():
 	uiRaycast.connect("visibility_changed", self, "on_ui_raycast_visibility_changed")
 
@@ -19,7 +24,7 @@ func _physics_process(delta):
 	if not player.gameStarted and (vr.button_just_released(vr.BUTTON.LEFT_INDEX_TRIGGER) or vr.button_just_released(vr.BUTTON.RIGHT_INDEX_TRIGGER)):
 		player.set_ready()
 	 
-	overviewMapHud.visible = vr.button_pressed(vr.BUTTON.LEFT_THUMBSTICK)
+	show_map( vr.button_pressed(vr.BUTTON.LEFT_THUMBSTICK) )
 
 	if debounced_button_just_released(vr.BUTTON.A):
 		if player.car == null:
