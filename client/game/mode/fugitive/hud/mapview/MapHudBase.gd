@@ -2,7 +2,7 @@ extends Control
 
 onready var mapBackground := $Map as TextureRect
 
-export(Font) var font: Font
+export(DynamicFont) var streetNameFont
 
 const road_width := 20.0
 
@@ -13,6 +13,7 @@ var mapDrawn := false
 onready var roads = GameData.currentMap.roads
 var playerShape := PoolVector2Array()
 const playerSize := 20.0
+
 
 func _ready():
 	var bb := AABB()
@@ -83,7 +84,6 @@ func _on_Map_draw():
 	# First draw the eblows
 	var elbowRadius := floor(road_width/2.0) - 1.0 # -1 so the elbows don't peak past the roads
 	for road in roads:
-		var fromCoord = null
 		for node in road.get_children():
 			if node is Position3D:
 				var pos = node.global_transform.origin
@@ -131,13 +131,8 @@ func _on_Map_draw():
 	# Finally draw road names
 	for road in roads:
 		var namePos := to_map_coord(road.global_transform.origin)
-		
-		var currentFont := font as Font
-		
-		if currentFont == null:
-			currentFont = Label.new().get_font("")
 			
-		var textSize := currentFont.get_string_size(road.street_name)
+		var textSize = streetNameFont.get_string_size(road.street_name)
 		
 		var size = road.get_node("CollisionShape").shape.extents
 		var rotation := 0.0
@@ -149,6 +144,6 @@ func _on_Map_draw():
 			pass
 		
 		mapBackground.draw_set_transform(namePos, rotation, Vector2(1.0, 1.0))
-		mapBackground.draw_string(font, Vector2(), road.street_name)
+		mapBackground.draw_string(streetNameFont, Vector2(), road.street_name)
 		mapBackground.draw_set_transform(Vector2(), 0.0, Vector2(1.0, 1.0))
 
