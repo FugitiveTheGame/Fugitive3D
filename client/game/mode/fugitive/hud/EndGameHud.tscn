@@ -5,10 +5,13 @@
 [ext_resource path="res://client/game/mode/fugitive/hud/end_game.ogg" type="AudioStream" id=3]
 [ext_resource path="res://client/game/mode/fugitive/hud/mapview/HistoryMapHud.tscn" type="PackedScene" id=4]
 
-[node name="EndGameHud" type="Panel"]
-anchor_right = 0.4
-anchor_bottom = 0.533
-margin_bottom = 109.3
+[node name="EndGameHud" type="PanelContainer"]
+self_modulate = Color( 0.592157, 0.592157, 0.592157, 1 )
+anchor_right = 0.32
+anchor_bottom = 0.569
+margin_right = -6.10352e-05
+margin_bottom = -0.0999756
+rect_min_size = Vector2( 512, 512 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -23,12 +26,10 @@ replayHudPath = NodePath("Container/PanelContainer/TabContainer/Replay/ReplayLay
 replayLegendPath = NodePath("Container/PanelContainer/TabContainer/Replay/ReplayLayout/RightReplayPanel/ReplayLegend")
 
 [node name="Container" type="VBoxContainer" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 16.0
-margin_top = 16.0
-margin_right = -16.0
-margin_bottom = -16.0
+margin_left = 14.0
+margin_top = 14.0
+margin_right = 498.0
+margin_bottom = 539.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -36,8 +37,9 @@ __meta__ = {
 }
 
 [node name="WinnerLabel" type="Label" parent="Container"]
-margin_right = 608.0
+margin_right = 484.0
 margin_bottom = 52.0
+size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 2 )
 text = "Hiders Won!"
 align = 1
@@ -47,15 +49,18 @@ __meta__ = {
 
 [node name="PanelContainer" type="PanelContainer" parent="Container"]
 margin_top = 60.0
-margin_right = 608.0
-margin_bottom = 510.0
-rect_min_size = Vector2( 608, 450 )
+margin_right = 484.0
+margin_bottom = 480.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="TabContainer" type="TabContainer" parent="Container/PanelContainer"]
 margin_left = 14.0
 margin_top = 14.0
-margin_right = 594.0
-margin_bottom = 436.0
+margin_right = 470.0
+margin_bottom = 406.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 tab_align = 0
 
 [node name="Stats" type="ScrollContainer" parent="Container/PanelContainer/TabContainer"]
@@ -66,11 +71,12 @@ margin_left = 8.0
 margin_top = 61.0
 margin_right = -8.0
 margin_bottom = -8.0
+size_flags_horizontal = 3
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
 
 [node name="PlayerList" type="VBoxContainer" parent="Container/PanelContainer/TabContainer/Stats"]
-margin_right = 564.0
+margin_right = 440.0
 size_flags_horizontal = 3
 
 [node name="Replay" type="MarginContainer" parent="Container/PanelContainer/TabContainer"]
@@ -80,27 +86,29 @@ margin_left = 8.0
 margin_top = 61.0
 margin_right = -8.0
 margin_bottom = -8.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="ReplayLayout" type="HBoxContainer" parent="Container/PanelContainer/TabContainer/Replay"]
-margin_right = 564.0
-margin_bottom = 353.0
+margin_right = 440.0
+margin_bottom = 323.0
 
 [node name="LeftReplayPanel" type="VBoxContainer" parent="Container/PanelContainer/TabContainer/Replay/ReplayLayout"]
-margin_right = 278.0
-margin_bottom = 353.0
+margin_right = 250.0
+margin_bottom = 323.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="HistoryMapHud" parent="Container/PanelContainer/TabContainer/Replay/ReplayLayout/LeftReplayPanel" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 278.0
+margin_right = 250.0
 margin_bottom = 250.0
 rect_min_size = Vector2( 250, 250 )
 
 [node name="LabelHistory" type="Label" parent="Container/PanelContainer/TabContainer/Replay/ReplayLayout/LeftReplayPanel"]
 margin_top = 258.0
-margin_right = 278.0
+margin_right = 250.0
 margin_bottom = 283.0
 text = "Hi	story:"
 __meta__ = {
@@ -109,30 +117,30 @@ __meta__ = {
 
 [node name="Scrub" type="HSlider" parent="Container/PanelContainer/TabContainer/Replay/ReplayLayout/LeftReplayPanel"]
 margin_top = 291.0
-margin_right = 278.0
+margin_right = 250.0
 margin_bottom = 323.0
 
 [node name="RightReplayPanel" type="VBoxContainer" parent="Container/PanelContainer/TabContainer/Replay/ReplayLayout"]
-margin_left = 286.0
-margin_right = 564.0
-margin_bottom = 353.0
+margin_left = 258.0
+margin_right = 440.0
+margin_bottom = 323.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="LabelSpeed" type="Label" parent="Container/PanelContainer/TabContainer/Replay/ReplayLayout/RightReplayPanel"]
-margin_right = 278.0
+margin_right = 182.0
 margin_bottom = 25.0
 text = "Speed:"
 
 [node name="Speed" type="HSlider" parent="Container/PanelContainer/TabContainer/Replay/ReplayLayout/RightReplayPanel"]
 margin_top = 33.0
-margin_right = 278.0
+margin_right = 182.0
 margin_bottom = 65.0
 max_value = 50.0
 
 [node name="Play" type="Button" parent="Container/PanelContainer/TabContainer/Replay/ReplayLayout/RightReplayPanel"]
 margin_top = 73.0
-margin_right = 278.0
+margin_right = 182.0
 margin_bottom = 110.0
 text = "Play"
 
@@ -145,9 +153,9 @@ __meta__ = {
 }
 
 [node name="ToLobbyButton" type="Button" parent="Container"]
-margin_top = 518.0
-margin_right = 608.0
-margin_bottom = 555.0
+margin_top = 488.0
+margin_right = 484.0
+margin_bottom = 525.0
 text = "Return to Lobby"
 
 [node name="GameOverAudio" type="AudioStreamPlayer" parent="."]
