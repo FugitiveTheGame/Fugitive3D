@@ -9,8 +9,6 @@
 [ext_resource path="res://client/game/mode/fugitive/VrFugitiveShaderCache.tscn" type="PackedScene" id=7]
 [ext_resource path="res://client/game/mode/fugitive/hud/mapview/OverviewMapHud.tscn" type="PackedScene" id=8]
 
-
-
 [node name="PlayerController" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 

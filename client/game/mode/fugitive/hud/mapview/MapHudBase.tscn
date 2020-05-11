@@ -21,4 +21,5 @@ anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+[connection signal="resized" from="." to="." method="_on_MapHud_resized"]
 [connection signal="draw" from="Map" to="." method="_on_Map_draw"]
