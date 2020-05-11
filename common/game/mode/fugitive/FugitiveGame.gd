@@ -32,6 +32,8 @@ func load_map():
 	
 	if history != null:
 		history.reset()
+	
+	FugitivePlayerDataUtility.reset_stats()
 
 # If a player has disconnected, remove them from the world
 func remove_player(playerId: int):

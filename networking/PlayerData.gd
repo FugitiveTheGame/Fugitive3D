@@ -3,7 +3,6 @@ class_name PlayerData
 
 var player_data_dictionary: Dictionary
 
-
 func load(new_player_data_dictionary: Dictionary):
 	player_data_dictionary = new_player_data_dictionary
 
