@@ -83,6 +83,9 @@ func on_register_succeeded():
 
 func on_register_failed():
 	print("Public Repository Registration Faiuled. Exiting.")
+	if socketUDP != null:
+		socketUDP.close()
+	
 	get_tree().quit()
 
 

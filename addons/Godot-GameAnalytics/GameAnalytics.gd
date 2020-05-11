@@ -126,15 +126,16 @@ func start_session():
 
 
 func stop_session():
-	log_info("Stopped session with id: " + str(state_config['session_id']))
-
 	if state_config.has('session_start') and state_config['session_start'] is int:
+		log_info("Stopped session with id: " + str(state_config['session_id']))
+		
 		var client_ts = OS.get_unix_time_from_datetime(OS.get_datetime())
 		queue_event({
 			'category': 'session_end',
 			'length': client_ts - state_config['session_start']
 		})
 		_submit_events()
+	
 	state_config['session_id'] = null
 	state_config['session_start'] = null
 
