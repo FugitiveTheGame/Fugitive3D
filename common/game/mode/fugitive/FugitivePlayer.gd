@@ -58,8 +58,9 @@ func update_player_name_state():
 			show = false
 	# Player is on other team, and is Hider
 	elif playerType == FugitiveTeamResolver.PlayerType.Seeker:
+		var localPlayer = GameData.currentGame.localPlayer
 		# If local player is a Hider, and in a winzone, see all names
-		if GameData.get_current_player().is_in_winzone():
+		if localPlayer != null and localPlayer.is_in_winzone():
 			show = true
 		else:
 			show = false

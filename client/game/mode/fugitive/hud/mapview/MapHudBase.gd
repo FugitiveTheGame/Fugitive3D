@@ -84,7 +84,6 @@ func _on_Map_draw():
 	# First draw the eblows
 	var elbowRadius := floor(road_width/2.0) - 1.0 # -1 so the elbows don't peak past the roads
 	for road in roads:
-		var fromCoord = null
 		for node in road.get_children():
 			if node is Position3D:
 				var pos = node.global_transform.origin
