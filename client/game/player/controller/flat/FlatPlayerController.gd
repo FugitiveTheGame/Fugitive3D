@@ -156,7 +156,7 @@ func _physics_process(delta):
 	player.isMoving = (Vector3(player.velocity.x, 0.0, player.velocity.z).length() > MOVEMENT_LAMBDA)
 	
 	if not player.gameEnded:
-		player.rpc_unreliable("network_update", translation, rotation, player.velocity, player.is_crouching, player.isMoving, player.sprint)
+		player.rpc_unreliable("network_update", translation, rotation, player.velocity, player.is_crouching, player.isMoving, player.sprint, player.stamina)
 
 
 func _input(event):

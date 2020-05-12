@@ -2,6 +2,10 @@ extends "res://client/game/mode/fugitive/hud/mapview/MapHudBase.gd"
 class_name HistoryMapHud
 onready var fugitiveGame := GameData.currentGame as FugitiveGame
 
+export(NodePath) var replayLegendPath: NodePath
+onready var replayLegend := get_node(replayLegendPath) as VBoxContainer
+
+
 var PlayerLegendEntryTemplate = preload("res://client/game/mode/fugitive/hud/PlayerLegendEntry.tscn")
 
 var currentIndex := 0
@@ -39,39 +43,71 @@ func _ready():
 		currentPlayerColorDictionary[player.get_id()] = playerColors[playerIndex]
 		playerIndex += 1
 
+
 func getMaxFrameIndex() -> int:
 	return fugitiveGame.history.stateHistoryArray.size() - 1
+
 
 func getFrameSpeed() -> float:
 	return framesPerSecond
 
+
 func setFrameSpeed(speed : float):
 	framesPerSecond = speed
 
+
 func stop():
 	isPlaying = false
+
 
 func togglePlay() -> bool:
 	isPlaying = !isPlaying
 	return isPlaying
 
+
 func setIndex(index : int):
 	if index < fugitiveGame.history.stateHistoryArray.size():
 		currentIndex = index
+		call_deferred("updateLedgend")
+
 
 func getIndex() -> int:
 	return currentIndex
 
-func loadReplayLegend(replayLegend: VBoxContainer):
+
+func loadReplayLegend():
 	for node in replayLegend.get_children():
-		replayLegend.remove_child(node)
-		node.free()
+		node.queue_free()
 	
 	for playerId in currentPlayerColorDictionary:
 		var playerData = GameData.players[playerId] as PlayerData
 		var newEntry = PlayerLegendEntryTemplate.instance()
 		newEntry.initialize(playerData, currentPlayerColorDictionary[playerId])
 		replayLegend.add_child(newEntry)
+
+
+func updateLedgend():
+	if currentIndex < fugitiveGame.history.stateHistoryArray.size():
+		var heartbeat := fugitiveGame.history.stateHistoryArray[currentIndex] as Dictionary
+		
+		for playerId in fugitiveGame.history.player_summaries.keys():
+			var data = heartbeat[playerId]
+			
+			var node := find_ledgend_item(playerId)
+			if node != null:
+				node.populate(data)
+
+
+func find_ledgend_item(playerId) -> Control:
+	var node: Control = null
+	
+	for ledgendItem in replayLegend.get_children():
+		if ledgendItem.playerDataChosen.get_id() == playerId:
+			node = ledgendItem
+			break
+	
+	return node
+
 
 func _draw():
 	if currentIndex < fugitiveGame.history.stateHistoryArray.size():
@@ -122,6 +158,7 @@ func _draw():
 				_:
 					print("ERROR: Unrecognized history entry %s" % entry.entryType)
 
+
 # Go to the next frame if it's playing
 func _process(delta):
 	if (isPlaying
@@ -129,5 +166,7 @@ func _process(delta):
 		and currentIndex < fugitiveGame.history.stateHistoryArray.size() - 1):
 		currentIndex += 1
 		timeSinceFrameChange = 0
+		
+		updateLedgend()
 	else:
 		timeSinceFrameChange += delta
