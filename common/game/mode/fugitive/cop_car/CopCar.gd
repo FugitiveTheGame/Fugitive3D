@@ -40,6 +40,7 @@ func _ready():
 			if seat.is_driver_seat:
 				driver_seat = seat
 
+
 func get_history_heartbeat() -> Dictionary:
 	var newEntry := {}
 	newEntry.position = Vector2(global_transform.origin.x, global_transform.origin.z)
@@ -49,10 +50,11 @@ func get_history_heartbeat() -> Dictionary:
 	newEntry.id = name
 	return newEntry
 
+
 func get_free_seat() -> int:
 	var freeSeat: int = -1
 	
-	for ii in range(seats.size()):
+	for ii in seats.size():
 		var seat = seats[ii]
 		if seat.is_empty():
 			freeSeat = ii
@@ -128,12 +130,12 @@ remotesync func on_car_entered(playerId: int, seatIndex: int):
 	# Disable personal colission so you can be inside the car's colission shape
 	player.playerShape.disabled = true
 	
-	get_parent().remove_child(player.playerController)
-	add_child(player.playerController)
-	player.playerController.transform = seat.transform
-	
+	# Put the player "in" the car
 	player.car = self
 	seat.occupant = player
+	
+	# Make the player look in the direction as the car when they get in
+	player.playerBody.transform.basis = transform.basis
 	
 	if seat.is_driver_seat:
 		set_network_master(playerId, false)
@@ -173,10 +175,6 @@ remotesync func on_exit_car(playerId: int, seatIndex: int):
 	if seat != null:
 		player.car = null
 		seat.occupant = null
-		
-		remove_child(player.playerController)
-		
-		get_parent().add_child(player.playerController)
 		
 		if seat.is_driver_seat:
 			set_network_master(ServerNetwork.SERVER_ID, false)
@@ -295,9 +293,19 @@ func process_input(forward: bool, backward: bool, left: bool, right: bool, break
 		var rotationSpeed := ROTATION * (movementSpeed / MAX_SPEED)
 		
 		if left:
-			rotate(Vector3(0.0, 1.0, 0.0), rotationSpeed * direction * delta)
+			var rotAngle := rotationSpeed * direction * delta
+			# Rotate the car
+			rotate_y(rotAngle)
+			# Rotate all occuapnts with the car
+			for seat in seats:
+				seat.rotate_occupant(rotAngle)
 		elif right:
-			rotate(Vector3(0.0, 1.0, 0.0), -rotationSpeed * direction * delta)
+			var rotAngle := -rotationSpeed * direction * delta
+			# Rotate the car
+			rotate_y(rotAngle)
+			# Rotate all occuapnts with the car
+			for seat in seats:
+				seat.rotate_occupant(rotAngle)
 
 
 puppet func network_update(networkPosition: Vector3, networkRotation: Vector3, networkVelocity: Vector3):
