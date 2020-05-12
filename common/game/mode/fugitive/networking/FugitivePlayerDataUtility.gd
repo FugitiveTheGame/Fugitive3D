@@ -52,7 +52,7 @@ static func get_overall_stats(playerData: PlayerData) -> Dictionary:
 
 
 static func increment_stat_for_player_id(playerId: int, identifier: String, step: int = 1):
-	print("STATS - Incrementing %s for player %s" % [identifier, playerId])
+	#print("STATS - Incrementing %s for player %s" % [identifier, playerId])
 	increment_stat(GameData.get_player(playerId), identifier, step)
 
 
@@ -69,7 +69,7 @@ static func increment_stat(playerData: PlayerData, identifier: String, step: int
 	var overallStats = _get_stats_bucket(playerData, OVERALL_STATS)
 	
 	if not stats.has(identifier):
-		print("STATS - New stat %s for player %s" % [identifier, playerData.get_id()])
+		#print("STATS - New stat %s for player %s" % [identifier, playerData.get_id()])
 		stats[identifier] = 0
 	stats[identifier] += step
 	
@@ -77,7 +77,7 @@ static func increment_stat(playerData: PlayerData, identifier: String, step: int
 		overallStats[identifier] = 0
 	overallStats[identifier] += step
 	
-	print("STATS - Incrementing stat %s for player %s.  New value: %d" % [identifier, playerData.get_id(), stats[identifier]])
+	#print("STATS - Incrementing stat %s for player %s.  New value: %d" % [identifier, playerData.get_id(), stats[identifier]])
 	ClientNetwork.update_player(playerData)
 
 
@@ -87,7 +87,7 @@ static func reset_stats():
 
 
 static func reset_stats_for_player(playerData: PlayerData):
-	print("STATS - Resetting stats for player %s" % playerData.get_id())
+	#print("STATS - Resetting stats for player %s" % playerData.get_id())
 	playerData.player_data_dictionary[STATS] = {}
 	ClientNetwork.update_player(playerData)
 
@@ -112,7 +112,7 @@ static func _calculate_score_from_bucket(playerData: PlayerData, bucketName: Str
 	
 static func _get_stats_bucket(playerData: PlayerData, bucketName: String) -> Dictionary:
 	if not playerData.player_data_dictionary.has(bucketName):
-		print("STATS - No %s stats for player %s" % [bucketName, playerData.get_id()])
+		#print("STATS - No %s stats for player %s" % [bucketName, playerData.get_id()])
 		playerData.player_data_dictionary[bucketName] = {}
 	
 	return playerData.player_data_dictionary[bucketName]
