@@ -37,4 +37,3 @@ func populate(data):
 	frozenControl.visible = data.frozen
 	crouchControl.visible = data.isCrouching
 	staminaBar.value = data.stamina
-	print(data.stamina)

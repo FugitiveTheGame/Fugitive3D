@@ -24,6 +24,7 @@ replayLabelHistoryPath = NodePath("Container/PanelContainer/TabContainer/Replay/
 replayLabelSpeedPath = NodePath("Container/PanelContainer/TabContainer/Replay/ReplayLayout/RightReplayPanel/LabelSpeed")
 replayHudPath = NodePath("Container/PanelContainer/TabContainer/Replay/ReplayLayout/LeftReplayPanel/HistoryMapHud")
 replayLegendPath = NodePath("Container/PanelContainer/TabContainer/Replay/ReplayLayout/RightReplayPanel/ScrollContainer/ReplayLegend")
+autostartReplayTimerPath = NodePath("Container/PanelContainer/TabContainer/Replay/ReplayLayout/StartReplayTimer")
 
 [node name="Container" type="VBoxContainer" parent="."]
 margin_left = 14.0
@@ -146,6 +147,10 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="StartReplayTimer" type="Timer" parent="Container/PanelContainer/TabContainer/Replay/ReplayLayout"]
+wait_time = 1.5
+one_shot = true
+
 [node name="Stats" type="ScrollContainer" parent="Container/PanelContainer/TabContainer"]
 visible = false
 anchor_right = 1.0
@@ -174,4 +179,5 @@ volume_db = -10.0
 [connection signal="value_changed" from="Container/PanelContainer/TabContainer/Replay/ReplayLayout/LeftReplayPanel/Scrub" to="." method="_on_Scrub_value_changed"]
 [connection signal="value_changed" from="Container/PanelContainer/TabContainer/Replay/ReplayLayout/RightReplayPanel/Speed" to="." method="_on_Speed_value_changed"]
 [connection signal="pressed" from="Container/PanelContainer/TabContainer/Replay/ReplayLayout/RightReplayPanel/Play" to="." method="_on_ButtonHistoryPlay_pressed"]
+[connection signal="timeout" from="Container/PanelContainer/TabContainer/Replay/ReplayLayout/StartReplayTimer" to="." method="_on_StartReplayTimer_timeout"]
 [connection signal="pressed" from="Container/ToLobbyButton" to="." method="_on_ToLobbyButton_pressed"]

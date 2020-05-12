@@ -24,6 +24,10 @@ onready var replayHud := get_node(replayHudPath) as HistoryMapHud
 export(NodePath) var replayLegendPath: NodePath
 onready var replayLegend := get_node(replayLegendPath) as VBoxContainer
 
+export(NodePath) var autostartReplayTimerPath: NodePath
+onready var autostartReplayTimer := get_node(autostartReplayTimerPath) as Timer
+
+
 func _ready():
 	hide()
 
@@ -77,6 +81,8 @@ func team_won(winningTeam: int):
 	show()
 	
 	$GameOverAudio.play()
+	
+	autostartReplayTimer.start()
 
 
 func _process(delta):
@@ -92,17 +98,30 @@ func _on_Scrub_value_changed(value):
 	replayHud.setIndex(int(round(value)))
 	_update_history_label(value)
 
+
 func _on_Speed_value_changed(value):
 	replayHud.setFrameSpeed(value)
 	_update_speed_label(value)
 
+
 func _update_speed_label(value):
 	replayLabelSpeed.text = "Speed: %dx" % int(value)
+
 
 func _update_history_label(value):
 	replayLabelHistory.text = "History: %s" % TimeUtils.format_seconds_for_display(value)
 
+
 func _on_ButtonHistoryPlay_pressed():
+	toggle_history_playing()
+
+
+func _on_StartReplayTimer_timeout():
+	if not replayHud.isPlaying:
+		toggle_history_playing()
+
+
+func toggle_history_playing():
 	if replayHud.togglePlay():
 		replayPlayButton.text = "Pause"
 	else:
