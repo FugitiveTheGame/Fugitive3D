@@ -33,7 +33,7 @@ func _ready():
 	crouchControl.hide()
 
 
-func populate(data):
+func populate(data, nextData, weight):
 	frozenControl.visible = data.frozen
 	crouchControl.visible = data.isCrouching
-	staminaBar.value = data.stamina
+	staminaBar.value = lerp(data.stamina, nextData.stamina, weight)
