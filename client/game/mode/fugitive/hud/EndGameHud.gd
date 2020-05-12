@@ -78,11 +78,10 @@ func team_won(winningTeam: int):
 	_update_history_label(0.0)
 	replayHud.loadReplayLegend()
 	
-	show()
-	
 	$GameOverAudio.play()
 	
-	autostartReplayTimer.start()
+	# Give everyone a moment to realize that the game was just finished
+	$DelayShowTimer.start()
 
 
 func _process(delta):
@@ -126,3 +125,9 @@ func toggle_history_playing():
 		replayPlayButton.text = "Pause"
 	else:
 		replayPlayButton.text = "Play"
+
+
+func _on_DelayShowTimer_timeout():
+	# Shortly after showing the UI, start the replay
+	autostartReplayTimer.start()
+	show()
