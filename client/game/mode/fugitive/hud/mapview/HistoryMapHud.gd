@@ -13,6 +13,8 @@ var timeSinceFrameChange := 0.0
 var framesPerSecond := 1.0
 var isPlaying := false
 
+const maxTrailSize := 40
+
 var playerColors := [ 
 	Color.red,
 	Color.blue,
@@ -148,6 +150,7 @@ func _draw():
 					
 					var playerData = fugitiveGame.history.player_summaries[entityId] as PlayerData
 					
+					# Outer color for the player triangle
 					match playerData.get_type():
 						FugitiveTeamResolver.PlayerType.Hider:
 							teamColor = Color.orange
@@ -156,7 +159,25 @@ func _draw():
 								teamColor = Color.cyan
 						FugitiveTeamResolver.PlayerType.Seeker:
 							teamColor = Color.blue
-				
+					
+					# Calculate trail length
+					var trailSize: int
+					if currentIndex <= maxTrailSize:
+						trailSize = currentIndex -1
+					else:
+						trailSize = maxTrailSize
+					
+					draw_set_transform(Vector2(), 0.0, Vector2(1.0, 1.0))
+					# Draw the trail behind the player
+					var trailColor := Color((currentPlayerColorDictionary[entityId] as Color).to_rgba32())
+					for ii in trailSize:
+						var oldHeartbeat := fugitiveGame.history.stateHistoryArray[currentIndex-ii] as Dictionary
+						var oldEntry := oldHeartbeat[entityId] as Dictionary
+						var oldCoord := to_map_coord_vector2(oldEntry.position)
+						trailColor.a = 1.0 - (float(ii) / float(maxTrailSize))
+						draw_circle(oldCoord, 3.0, trailColor)
+					
+					# Draw this players triangle
 					draw_set_transform(to_map_coord_vector2(interpolatedPosition), interpolatedAngle, Vector2(1.2, 1.2))
 					draw_colored_polygon(playerShape, teamColor)
 					draw_set_transform(to_map_coord_vector2(interpolatedPosition), interpolatedAngle, Vector2(1.0, 1.0))
