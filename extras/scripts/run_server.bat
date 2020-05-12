@@ -1,3 +1,3 @@
 cd ..\..\export\server\windows\
-start Fugitive3D_Server_Windows.exe --public --name "Alex Dev Server"
+start Fugitive3D_Server_Windows.exe --name "Dev Server"
 exit

@@ -1,32 +1,73 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://fonts/content/ContentFont.tres" type="DynamicFont" id=1]
 [ext_resource path="res://client/game/mode/fugitive/hud/PlayerLegendEntry.gd" type="Script" id=2]
+[ext_resource path="res://client/game/mode/fugitive/hud/ic_frozen.png" type="Texture" id=3]
+[ext_resource path="res://client/game/player/hud/ic_crouching.png" type="Texture" id=4]
 
-[node name="PlayerLegendEntry" type="HBoxContainer"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_right = 4.31702
-margin_bottom = -840.0
+[node name="PlayerLegendEntry" type="VBoxContainer"]
+anchor_right = 0.405
+anchor_bottom = 0.083
+margin_right = 0.599976
+margin_bottom = 11.24
 size_flags_horizontal = 3
 script = ExtResource( 2 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-colorPath = NodePath("ColorDisplay")
-labelPath = NodePath("NameDisplay")
+colorPath = NodePath("Container/ColorDisplay")
+labelPath = NodePath("Container/NameDisplay")
+crouchPath = NodePath("Container/CrouchIcon")
+frozenPath = NodePath("Container/FrozenIcon")
+staminaBarPath = NodePath("StaminaBar")
 
-[node name="ColorDisplay" type="ColorRect" parent="."]
+[node name="Container" type="HBoxContainer" parent="."]
+margin_right = 519.0
+margin_bottom = 32.0
+size_flags_horizontal = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ColorDisplay" type="ColorRect" parent="Container"]
 margin_right = 32.0
 margin_bottom = 32.0
 rect_min_size = Vector2( 32, 32 )
 size_flags_vertical = 0
 
-[node name="NameDisplay" type="Label" parent="."]
+[node name="NameDisplay" type="Label" parent="Container"]
 margin_left = 40.0
-margin_right = 1604.0
+margin_right = 439.0
 margin_bottom = 28.0
 size_flags_horizontal = 3
 size_flags_vertical = 0
 custom_fonts/font = ExtResource( 1 )
 text = "test	"
+clip_text = true
+
+[node name="CrouchIcon" type="TextureRect" parent="Container"]
+margin_left = 447.0
+margin_right = 479.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 32, 32 )
+texture = ExtResource( 4 )
+expand = true
+
+[node name="FrozenIcon" type="TextureRect" parent="Container"]
+margin_left = 487.0
+margin_right = 519.0
+margin_bottom = 32.0
+rect_min_size = Vector2( 32, 32 )
+texture = ExtResource( 3 )
+expand = true
+
+[node name="StaminaBar" type="ProgressBar" parent="."]
+margin_top = 40.0
+margin_right = 519.0
+margin_bottom = 56.0
+rect_min_size = Vector2( 24, 16 )
+size_flags_horizontal = 3
+size_flags_vertical = 1
+step = 1.0
+value = 100.0
+percent_visible = false
