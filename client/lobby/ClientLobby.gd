@@ -52,7 +52,7 @@ func on_disconnect():
 func update_ui():
 	.update_ui()
 	
-	randomButton.disabled = not is_host
+	randomButton.disabled = not is_host or is_starting
 	startButton.visible = is_host
 	
 	if startButton != null:
