@@ -75,16 +75,29 @@ func loadReplayLegend(replayLegend: VBoxContainer):
 
 func _draw():
 	if currentIndex < fugitiveGame.history.stateHistoryArray.size():
-		var heartbeat := fugitiveGame.history.stateHistoryArray[currentIndex] as Array
+		var heartbeat := fugitiveGame.history.stateHistoryArray[currentIndex] as Dictionary
+		var nextHeartbeat := heartbeat
 		
-		for point in heartbeat:
-			var entry := point as Dictionary
+		if (currentIndex + 1) < fugitiveGame.history.stateHistoryArray.size():
+			nextHeartbeat = fugitiveGame.history.stateHistoryArray[currentIndex + 1] as Dictionary
+			
+		for entityId in heartbeat:
+			var entry := heartbeat[entityId] as Dictionary
+			
+			var interpolatedPosition := entry.position as Vector2
+			var interpolatedAngle := entry.orientation as float
+			
+			if nextHeartbeat.has(entityId):
+				var nextEntry = nextHeartbeat[entityId] as Dictionary
+				var percentage_to_next_frame = min(timeSinceFrameChange / (1.0 / framesPerSecond), 1.0)
+				interpolatedPosition = lerp(entry.position, nextEntry.position, percentage_to_next_frame)
+				interpolatedAngle = lerp_angle(entry.orientation, nextEntry.orientation, percentage_to_next_frame)
 			
 			match entry.entryType:
 				FugitiveEnums.EntityType.Player:
 					var teamColor := Color.magenta
 					
-					var playerData = GameData.get_player(entry.id) as PlayerData
+					var playerData = fugitiveGame.history.player_summaries[entityId] as PlayerData
 					
 					match playerData.get_type():
 						FugitiveTeamResolver.PlayerType.Hider:
@@ -95,15 +108,15 @@ func _draw():
 						FugitiveTeamResolver.PlayerType.Seeker:
 							teamColor = Color.blue
 				
-					draw_set_transform(to_map_coord_vector2(entry.position), entry.orientation, Vector2(1.2, 1.2))
+					draw_set_transform(to_map_coord_vector2(interpolatedPosition), interpolatedAngle, Vector2(1.2, 1.2))
 					draw_colored_polygon(playerShape, teamColor)
-					draw_set_transform(to_map_coord_vector2(entry.position), entry.orientation, Vector2(1.0, 1.0))
-					draw_colored_polygon(playerShape, currentPlayerColorDictionary[entry.id])
+					draw_set_transform(to_map_coord_vector2(interpolatedPosition), interpolatedAngle, Vector2(1.0, 1.0))
+					draw_colored_polygon(playerShape, currentPlayerColorDictionary[entityId])
 					draw_set_transform(Vector2(), 0.0, Vector2(1.0, 1.0))
 				FugitiveEnums.EntityType.Car:
 					var carSize := Vector2(10.0, 20.0)
 					var rect := Rect2(Vector2(-(carSize.x/2.0), -(carSize.y/2.0)), carSize)
-					draw_set_transform(to_map_coord_vector2(entry.position), entry.orientation, Vector2(1.0, 1.0))
+					draw_set_transform(to_map_coord_vector2(interpolatedPosition), interpolatedAngle, Vector2(1.0, 1.0))
 					draw_rect(rect, Color.white)
 					draw_set_transform(Vector2(), 0.0, Vector2(1.0, 1.0))
 				_:

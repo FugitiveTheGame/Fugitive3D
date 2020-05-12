@@ -86,6 +86,8 @@ func pre_configure():
 	var sharedSeed = GameData.general[GameData.GENERAL_SEED]
 	seed(sharedSeed)
 	
+	history.loadPlayers(GameData.players)
+	
 	var sortedPlayers = []
 	for playerId in GameData.players:
 		sortedPlayers.push_back(playerId)
