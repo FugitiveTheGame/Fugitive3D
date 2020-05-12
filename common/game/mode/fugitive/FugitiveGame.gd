@@ -36,8 +36,14 @@ func load_map():
 
 # If a player has disconnected, remove them from the world
 func remove_player(playerId: int):
-	var playerNode = GameData.currentGame.get_player(playerId).playerController
-	playerNode.queue_free()
+	var player := GameData.currentGame.get_player(playerId)
+	if player != null:
+		var playerNode = player.playerController
+		playerNode.queue_free()
+	
+	var cars = get_tree().get_nodes_in_group(Groups.CARS)
+	for car in cars:
+		car.remove_player(playerId)
 	
 	players.erase(playerId)
 

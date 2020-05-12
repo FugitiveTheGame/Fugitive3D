@@ -19,6 +19,7 @@ versionLabelPath = NodePath("VersionLabel")
 joiningDialogPath = NodePath("JoiningDialog")
 joinFailedDialogPath = NodePath("JoinFailedDialog")
 badInputDialogPath = NodePath("BadInfoDialog")
+lostConnectionDialogPath = NodePath("ConnectionLostDialog")
 
 [node name="ScreenTitle" type="Label" parent="."]
 anchor_left = 0.5
@@ -92,7 +93,7 @@ __meta__ = {
 margin_left = 14.0
 margin_top = 14.0
 margin_right = 470.0
-margin_bottom = 155.0
+margin_bottom = 144.0
 
 [node name="ManualConnectLabel" type="Label" parent="ManualContainer/VBoxContainer"]
 margin_right = 456.0
@@ -105,12 +106,12 @@ __meta__ = {
 [node name="HBoxContainer" type="HBoxContainer" parent="ManualContainer/VBoxContainer"]
 margin_top = 33.0
 margin_right = 456.0
-margin_bottom = 85.0
+margin_bottom = 78.0
 size_flags_horizontal = 3
 
 [node name="ServerIp" type="LineEdit" parent="ManualContainer/VBoxContainer/HBoxContainer"]
 margin_right = 284.0
-margin_bottom = 52.0
+margin_bottom = 45.0
 size_flags_horizontal = 3
 max_length = 128
 clear_button_enabled = true
@@ -124,7 +125,7 @@ __meta__ = {
 [node name="ServerPort" type="LineEdit" parent="ManualContainer/VBoxContainer/HBoxContainer"]
 margin_left = 292.0
 margin_right = 456.0
-margin_bottom = 52.0
+margin_bottom = 45.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 size_flags_stretch_ratio = 0.0
@@ -139,9 +140,9 @@ __meta__ = {
 }
 
 [node name="ConnectButton" type="Button" parent="ManualContainer/VBoxContainer"]
-margin_top = 93.0
+margin_top = 86.0
 margin_right = 456.0
-margin_bottom = 130.0
+margin_bottom = 123.0
 size_flags_vertical = 0
 text = "Connect"
 __meta__ = {
@@ -261,6 +262,18 @@ dialog_autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="ConnectionLostDialog" type="AcceptDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -190.0
+margin_top = -55.0
+margin_right = 190.0
+margin_bottom = 55.0
+window_title = "Connection Lost"
+dialog_autowrap = true
 [connection signal="pressed" from="ManualContainer/VBoxContainer/ConnectButton" to="." method="_on_ConnectButton_pressed"]
 [connection signal="connect_to_server" from="ServerBrowser" to="." method="_on_ServerBrowser_connect_to_server"]
 [connection signal="pressed" from="OptionsContainer/ExitButton" to="." method="_on_ExitButton_pressed"]
