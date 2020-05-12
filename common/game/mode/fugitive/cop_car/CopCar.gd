@@ -137,9 +137,6 @@ remotesync func on_car_entered(playerId: int, seatIndex: int):
 	# Make the player look in the direction as the car when they get in
 	player.playerBody.transform.basis = transform.basis
 	
-	if seat.is_driver_seat:
-		set_network_master(playerId, false)
-	
 	print("Car entered")
 	
 	player.playerController.on_car_entered(self)
@@ -175,9 +172,6 @@ remotesync func on_exit_car(playerId: int, seatIndex: int):
 	if seat != null:
 		player.car = null
 		seat.occupant = null
-		
-		if seat.is_driver_seat:
-			set_network_master(ServerNetwork.SERVER_ID, false)
 		
 		player.playerShape.disabled = false
 		
@@ -308,14 +302,17 @@ func process_input(forward: bool, backward: bool, left: bool, right: bool, break
 				seat.rotate_occupant(rotAngle)
 
 
-puppet func network_update(networkPosition: Vector3, networkRotation: Vector3, networkVelocity: Vector3):
+remote func network_update(networkPosition: Vector3, networkRotation: Vector3, networkVelocity: Vector3):
 	translation = networkPosition
 	rotation = networkRotation
 	velocity = networkVelocity
 
 
 func _physics_process(delta):
-	if get_tree().network_peer != null and is_network_master():
+	var localPlayerIsDriver := (not driver_seat.is_empty() and driver_seat.occupant.id == GameData.get_current_player_id()) as bool
+	
+	# Local player will drive the simulation OR if no driver, then server will do it
+	if localPlayerIsDriver or (driver_seat.is_empty() and get_tree().is_network_server()):
 		velocity.y -= GRAVITY * delta
 		velocity = move_and_slide_with_snap(velocity, Vector3(0,-2,0), Vector3(0,1,0))
 		

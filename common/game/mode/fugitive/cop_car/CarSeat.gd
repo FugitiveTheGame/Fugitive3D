@@ -21,9 +21,15 @@ func is_empty() -> bool:
 
 func _process(delta):
 	if occupant != null:
-		occupant.playerBody.global_transform.origin = global_transform.origin
+		if is_instance_valid(occupant):
+			occupant.playerBody.global_transform.origin = global_transform.origin
+		else:
+			occupant = null
 
 
 func rotate_occupant(angle: float):
 	if occupant != null:
-		occupant.playerBody.rotate_y(angle)
+		if is_instance_valid(occupant):
+			occupant.playerBody.rotate_y(angle)
+		else:
+			occupant = null
