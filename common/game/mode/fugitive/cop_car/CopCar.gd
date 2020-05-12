@@ -307,7 +307,7 @@ func _physics_process(delta):
 	var localPlayerIsDriver := (not driver_seat.is_empty() and driver_seat.occupant.id == GameData.get_current_player_id()) as bool
 	
 	# Local player will drive the simulation OR if no driver, then server will do it
-	if localPlayerIsDriver or (driver_seat.is_empty() and get_tree().is_network_server()):
+	if localPlayerIsDriver or (driver_seat.is_empty() and get_tree().network_peer != null and get_tree().is_network_server()):
 		velocity.y -= GRAVITY * delta
 		velocity = move_and_slide_with_snap(velocity, Vector3(0,-2,0), Vector3(0,1,0))
 		
@@ -438,3 +438,12 @@ func _on_EnterArea_body_entered(body):
 				# If the car has ANY hiders in it, eject everyone
 				if hasHiders:
 					eject_all_occupants()
+
+
+func remove_player(playerId: int):
+	# Remove this player from the seat they are sitting in
+	# If they are in any seat
+	for seat in seats:
+		if not seat.is_empty() and seat.occupant.id == playerId:
+			seat.occupant = null
+			break

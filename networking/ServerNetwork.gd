@@ -5,6 +5,8 @@ const SERVER_ID := 1
 var SERVER_REPOSITORY_URL: String
 const MAX_PLAYERS := 10
 
+var is_joinable := false
+
 
 # Set to true to point at a locally running instance of the ServerRepository
 const debug_local := false
@@ -35,7 +37,8 @@ func _player_disconnected(id):
 		# No host, make the first player the new host
 		if GameData.get_host() == null:
 			var newHost = GameData.players.values().front()
-			make_host(newHost.get_id())
+			if newHost != null:
+				make_host(newHost.get_id())
 
 
 # Called by clients when they connect
@@ -47,7 +50,12 @@ remote func on_register_self(playerId: int, platformType: int, playerName: Strin
 	# Enforce same game_version
 	if gameVersion != UserData.GAME_VERSION:
 		print("Player connected with bad game version %d. Dissconnecting them." % playerId)
-		ClientNetwork.force_disconnect(playerId)
+		ClientNetwork.force_disconnect(playerId, "Bad game version %d Server was %d" % [gameVersion, UserData.GAME_VERSION])
+		return
+	
+	if not is_joinable:
+		print("Player connection Refused, not currently joinable.")
+		ClientNetwork.force_disconnect(playerId, "Server is not currently joinable. Please try again shortly.")
 		return
 	
 	var existingPlayer = GameData.get_player(playerId)
@@ -149,7 +157,7 @@ func kick_player(playerId: int):
 
 
 remote func on_kick_player(playerId: int):
-	ClientNetwork.force_disconnect(playerId)
+	ClientNetwork.force_disconnect(playerId, "You have been kicked from the server")
 
 
 remotesync func on_randomize_teams():

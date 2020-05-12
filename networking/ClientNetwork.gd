@@ -8,6 +8,7 @@ signal start_lobby_countdown
 signal lost_connection_to_server
 
 var localPlayerName: String
+var disconnectReason = null
 
 func _enter_tree():
 	get_tree().connect('connected_to_server', self, 'on_connected_to_server')
@@ -47,8 +48,13 @@ func on_connection_failed():
 
 func on_disconnected_from_server():
 	print("Disconnected from server.")
+	handle_disconnect_from_server()
+
+
+func handle_disconnect_from_server(message := "Connection lost"):
+	disconnectReason = message
 	reset_network()
-	GameAnalytics.error_event(GameAnalytics.ErrorSeverity.ERROR, "Lost connection to server")
+	GameAnalytics.error_event(GameAnalytics.ErrorSeverity.ERROR, "Lost connection to server: %s" % message)
 	emit_signal("lost_connection_to_server")
 
 
@@ -117,10 +123,20 @@ func is_local_player(playerId: int) -> bool:
 	return playerId == get_tree().get_network_unique_id()
 
 
-func force_disconnect(playerId: int):
-	rpc_id(playerId, "on_force_disconnect")
+func force_disconnect(playerId: int, message: String):
+	rpc_id(playerId, "on_force_disconnect", message)
 
 
-remote func on_force_disconnect():
-	print("Force disconnect from server")
-	on_disconnected_from_server()
+remote func on_force_disconnect(message: String):
+	print("Force disconnect from server: %s" % message)
+	handle_disconnect_from_server(message)
+
+
+func has_disconnect_reason() -> bool:
+	return disconnectReason != null and not disconnectReason.empty()
+
+
+func consume_disconnect_reason() -> String:
+	var message = str(disconnectReason)
+	disconnectReason = null
+	return message

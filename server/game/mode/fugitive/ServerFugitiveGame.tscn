@@ -8,7 +8,6 @@
 script = ExtResource( 2 )
 
 [node name="FpsTimer" type="Timer" parent="." index="2"]
-autostart = true
 
 [node name="ServerAdvertiser" type="Node" parent="." index="3"]
 script = ExtResource( 3 )

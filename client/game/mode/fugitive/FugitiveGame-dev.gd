@@ -17,7 +17,7 @@ func _enter_tree():
 	# Start a local server, the whole game expects to be multiplayer	
 	var peer := NetworkedMultiplayerENet.new()
 	var _result := peer.create_server(5555, 5)
-	peer.refuse_new_connections = true
+	ServerNetwork.is_joinable = false
 	get_tree().set_network_peer(peer)
 	
 	# Add our fake players, the normal spawn system will actually spawn these guys
