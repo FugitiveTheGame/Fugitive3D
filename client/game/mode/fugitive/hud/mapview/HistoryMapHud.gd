@@ -91,21 +91,24 @@ func updateLedgend():
 		var heartbeat := fugitiveGame.history.stateHistoryArray[currentIndex] as Dictionary
 		
 		for playerId in fugitiveGame.history.player_summaries.keys():
-			var data = heartbeat[playerId]
-			
-			var nextData
-			if (currentIndex + 1) < fugitiveGame.history.stateHistoryArray.size():
-				var nextHeartbeat = fugitiveGame.history.stateHistoryArray[currentIndex + 1] as Dictionary
-				nextData = nextHeartbeat[playerId]
-			else:
-				nextData = data
-			
-			var percentage_to_next_frame = min(timeSinceFrameChange / (1.0 / framesPerSecond), 1.0)
-			
-			var node := find_ledgend_item(playerId)
-			if node != null:
+			if heartbeat.has(playerId):
+				var data = heartbeat[playerId]
 				
-				node.populate(data, nextData, percentage_to_next_frame)
+				var nextData
+				if (currentIndex + 1) < fugitiveGame.history.stateHistoryArray.size():
+					var nextHeartbeat = fugitiveGame.history.stateHistoryArray[currentIndex + 1] as Dictionary
+					if nextHeartbeat.has(playerId):
+						nextData = nextHeartbeat[playerId]
+					else:
+						nextData = data
+				else:
+					nextData = data
+				
+				var percentage_to_next_frame = min(timeSinceFrameChange / (1.0 / framesPerSecond), 1.0)
+				
+				var node := find_ledgend_item(playerId)
+				if node != null:
+					node.populate(data, nextData, percentage_to_next_frame)
 
 
 func find_ledgend_item(playerId) -> Control:
