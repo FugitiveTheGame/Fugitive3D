@@ -72,7 +72,7 @@ func team_won(winningTeam: int):
 	replayHud.setFrameSpeed(4.0)
 	_update_speed_label(4.0)
 	_update_history_label(0.0)
-	replayHud.loadReplayLegend(replayLegend)
+	replayHud.loadReplayLegend()
 	
 	show()
 	

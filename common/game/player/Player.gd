@@ -73,13 +73,15 @@ onready var playerShape := get_node(shapePath) as Spatial
 onready var playerBody := get_node(playerBodyPath) as KinematicBody
 
 
-puppet func network_update(networkPosition: Vector3, networkRotation: Vector3, networkVelocity: Vector3, networkCrouching: bool, networkMoving: bool, networkSprinting):
+puppet func network_update(networkPosition: Vector3, networkRotation: Vector3, networkVelocity: Vector3, networkCrouching: bool, networkMoving: bool, networkSprinting, networkStamina: float):
 	playerController.translation = networkPosition
 	playerController.rotation = networkRotation
 	self.is_crouching = networkCrouching
 	self.isMoving = networkMoving
 	self.sprint = networkSprinting
 	self.velocity = networkVelocity
+	self.stamina = networkStamina
+
 
 func _physics_process(delta):
 	if is_network_master():
