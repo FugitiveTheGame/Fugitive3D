@@ -283,23 +283,18 @@ func process_input(forward: bool, backward: bool, left: bool, right: bool, break
 		if sign(angle) < 0.0:
 			direction = -1.0
 		
-		# Turning speed is a function of speed
-		var rotationSpeed := ROTATION * (movementSpeed / MAX_SPEED)
-		
-		if left:
+		# If driver is trying to turn
+		if right or left:
+			# Turning speed is a function of speed
+			var rotationSpeed := ROTATION * (movementSpeed / MAX_SPEED)
 			var rotAngle := rotationSpeed * direction * delta
+			if right:
+				rotAngle *= -1.0
+			
 			# Rotate the car
 			rotate_y(rotAngle)
-			# Rotate all occuapnts with the car
-			for seat in seats:
-				seat.rotate_occupant(rotAngle)
-		elif right:
-			var rotAngle := -rotationSpeed * direction * delta
-			# Rotate the car
-			rotate_y(rotAngle)
-			# Rotate all occuapnts with the car
-			for seat in seats:
-				seat.rotate_occupant(rotAngle)
+			# Rotate the driver
+			driver_seat.rotate_occupant(rotAngle)
 
 
 remote func network_update(networkPosition: Vector3, networkRotation: Vector3, networkVelocity: Vector3):
