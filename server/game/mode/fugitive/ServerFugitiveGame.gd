@@ -139,21 +139,8 @@ func _process(delta):
 	if stateMachine.current_state.name == FugitiveStateMachine.STATE_PLAYING_HEADSTART or stateMachine.current_state.name == FugitiveStateMachine.STATE_PLAYING:
 		if lastProcessedSeconds + delta >= 1.0:
 			lastProcessedSeconds = 0
-			var newHistoryHeartbeat := {}
 			
-			for playerId in GameData.currentGame.players:
-				var playerObj := GameData.currentGame.get_player(playerId) as FugitivePlayer
-				var playerHeartbeat = playerObj.get_history_heartbeat()
-				newHistoryHeartbeat[playerHeartbeat.id] = playerHeartbeat
-			
-			var cars := get_tree().get_nodes_in_group(Groups.CARS)
-			for car in cars:
-				var carHeartbeat = car.get_history_heartbeat()
-				newHistoryHeartbeat[carHeartbeat.id] = carHeartbeat
-			
-			print("HEARTBEAT: Processed %d entries" % newHistoryHeartbeat.size())
-			
-			history.rpc_unreliable("on_history_heartbeat", newHistoryHeartbeat)
+			_send_heartbeat()
 		else:
 			lastProcessedSeconds += delta
 
@@ -183,8 +170,27 @@ func finish_game(playerType: int):
 		if player.get_type() == playerType:
 			FugitivePlayerDataUtility.increment_stat_for_player_id(playerId, FugitivePlayerDataUtility.STAT_WINS)
 	
+	# Send one last heartbeat when the game is finished.
+	_send_heartbeat()
+	
 	rpc("on_finish_game", playerType)
 
+func _send_heartbeat():
+	var newHistoryHeartbeat := {}
+	
+	for playerId in GameData.currentGame.players:
+		var playerObj := GameData.currentGame.get_player(playerId) as FugitivePlayer
+		var playerHeartbeat = playerObj.get_history_heartbeat()
+		newHistoryHeartbeat[playerHeartbeat.id] = playerHeartbeat
+	
+	var cars := get_tree().get_nodes_in_group(Groups.CARS)
+	for car in cars:
+		var carHeartbeat = car.get_history_heartbeat()
+		newHistoryHeartbeat[carHeartbeat.id] = carHeartbeat
+	
+	print("HEARTBEAT: Processed %d entries" % newHistoryHeartbeat.size())
+	
+	history.rpc_unreliable("on_history_heartbeat", newHistoryHeartbeat)
 
 func _on_StateMachine_state_change(new_state, transition):
 	print("new state: %s via: %s" % [new_state.name, transition.name])
