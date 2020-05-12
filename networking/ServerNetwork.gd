@@ -15,6 +15,14 @@ func _init():
 		SERVER_REPOSITORY_URL = "http://repository.fugitivethegame.online"
 
 
+func _exit_tree():
+	if get_tree().is_connected("network_peer_disconnected", self, "_player_disconnected"):
+		get_tree().disconnect("network_peer_disconnected", self, "_player_disconnected")
+	
+	if get_tree().is_connected("network_peer_connected", self, "_player_connected"):
+		get_tree().disconnect("network_peer_connected", self, "_player_connected")	
+
+
 func _player_connected(id):
 	print("SERVER: Player connected: " + str(id))
 
@@ -106,8 +114,11 @@ func host_game(port: int = SERVER_PORT) -> bool:
 		
 		GameData.general[GameData.GENERAL_SEED] = OS.get_unix_time()
 		
-		get_tree().connect("network_peer_disconnected", self, "_player_disconnected")
-		get_tree().connect("network_peer_connected", self, "_player_connected")	
+		if not get_tree().is_connected("network_peer_disconnected", self, "_player_disconnected"):
+			get_tree().connect("network_peer_disconnected", self, "_player_disconnected")
+		
+		if not get_tree().is_connected("network_peer_connected", self, "_player_connected"):
+			get_tree().connect("network_peer_connected", self, "_player_connected")	
 		
 		print("Server started.")
 		return true

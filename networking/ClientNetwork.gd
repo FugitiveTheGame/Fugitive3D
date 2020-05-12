@@ -9,10 +9,16 @@ signal lost_connection_to_server
 
 var localPlayerName: String
 
-func _ready():
+func _enter_tree():
 	get_tree().connect('connected_to_server', self, 'on_connected_to_server')
 	get_tree().connect('server_disconnected', self, 'on_disconnected_from_server')
 	get_tree().connect('connection_failed', self, 'on_connection_failed')
+
+
+func _exit_tree():
+	get_tree().disconnect('connected_to_server', self, 'on_connected_to_server')
+	get_tree().disconnect('server_disconnected', self, 'on_disconnected_from_server')
+	get_tree().disconnect('connection_failed', self, 'on_connection_failed')
 
 
 func join_game(serverIp: String, serverPort: int, playerName: String) -> bool:
