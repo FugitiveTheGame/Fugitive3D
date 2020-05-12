@@ -15,6 +15,7 @@ script = ExtResource( 2 )
 [node name="WinArea" type="Area" parent="." index="3" groups=[
 "win_zone",
 ]]
+collision_layer = 0
 
 [node name="HiderSpawns" type="Spatial" parent="." index="4"]
 

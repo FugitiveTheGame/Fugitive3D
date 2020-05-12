@@ -176,8 +176,13 @@ text = "Return to Lobby"
 [node name="GameOverAudio" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
 volume_db = -10.0
+
+[node name="DelayShowTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
 [connection signal="value_changed" from="Container/PanelContainer/TabContainer/Replay/ReplayLayout/LeftReplayPanel/Scrub" to="." method="_on_Scrub_value_changed"]
 [connection signal="value_changed" from="Container/PanelContainer/TabContainer/Replay/ReplayLayout/RightReplayPanel/Speed" to="." method="_on_Speed_value_changed"]
 [connection signal="pressed" from="Container/PanelContainer/TabContainer/Replay/ReplayLayout/RightReplayPanel/Play" to="." method="_on_ButtonHistoryPlay_pressed"]
 [connection signal="timeout" from="Container/PanelContainer/TabContainer/Replay/ReplayLayout/StartReplayTimer" to="." method="_on_StartReplayTimer_timeout"]
 [connection signal="pressed" from="Container/ToLobbyButton" to="." method="_on_ToLobbyButton_pressed"]
+[connection signal="timeout" from="DelayShowTimer" to="." method="_on_DelayShowTimer_timeout"]

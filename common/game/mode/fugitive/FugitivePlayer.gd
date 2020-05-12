@@ -21,6 +21,13 @@ func set_car(value):
 		self.is_crouching = false
 
 
+func _ready():
+	# Listen to the winzone
+	for zone in win_zones:
+		zone.connect("body_entered", self, "on_enter_winzone")
+		zone.connect("body_exited", self, "on_exit_winzone")
+
+
 func configure(_playerName: String, _playerId: int, _localPlayerType: int):
 	.configure(_playerName, _playerId, _localPlayerType)
 	set_player_name(_playerName)
@@ -41,32 +48,40 @@ func get_history_heartbeat() -> Dictionary:
 	newEntry.entryType = FugitiveEnums.EntityType.Player
 	return newEntry
 
+
 func update_player_name_state():
 	# Always team mate names
 	var show: bool
+	
+	var localPlayer := GameData.currentGame.localPlayer
+	var localPlayerInWinzone := (localPlayer != null and localPlayer.is_in_winzone()) as bool
+	var localPlayerIsHider := (localPlayerType == FugitiveTeamResolver.PlayerType.Hider) as bool
+	
 	# Always show for frozen players
 	if frozen:
 		show = true
-	# Always show for team mates
-	if localPlayerType == playerType:
+	# Always show in pre-game and end-game
+	elif not gameStarted or gameEnded:
 		show = true
-	# Player is on other team, and is Hider
-	elif playerType == FugitiveTeamResolver.PlayerType.Hider:
-		# Any Hider in a winzone has their name shown
-		if is_in_winzone():
-			show = true
-		else:
-			show = false
-	# Player is on other team, and is Hider
-	elif playerType == FugitiveTeamResolver.PlayerType.Seeker:
-		var localPlayer = GameData.currentGame.localPlayer
-		# If local player is a Hider, and in a winzone, see all names
-		if localPlayer != null and localPlayer.is_in_winzone():
-			show = true
-		else:
-			show = false
+	# Always show for team mates
+	elif localPlayerType == playerType:
+		show = true
+	# Local player is on other team from this player
 	else:
-		show = false
+		# Local player is hider, this player is seeker
+		if localPlayerIsHider:
+			# If hider is in winzone, show seeker names
+			if localPlayerInWinzone:
+				show = true
+			else:
+				show = false
+		# Local player is seeker, this player is hider
+		else:
+			# Any Hider in a winzone has their name shown to seekers
+			if is_in_winzone():
+				show = true
+			else:
+				show = false
 	
 	playerShape.get_name_label().visible = show
 
@@ -158,3 +173,16 @@ func is_in_winzone() -> bool:
 		if zone.overlaps_body(playerBody):
 			return true
 	return false
+
+
+func on_enter_winzone(body):
+	if body is KinematicBody:
+		# When anyone enters a winzone, everyone should update their name visibility
+		update_player_name_state()
+
+
+func on_exit_winzone(body):
+	if body is KinematicBody:
+		# When anyone enters a winzone, everyone should update their name visibility
+		# Must defer this call so that checks about the winzone have time to update
+		call_deferred("update_player_name_state")
