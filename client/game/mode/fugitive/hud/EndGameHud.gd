@@ -68,8 +68,10 @@ func team_won(winningTeam: int):
 	replayHud.setIndex(0)
 	replayScrubSlider.value = 0
 	replayScrubSlider.max_value = replayHud.getMaxFrameIndex()
-	replaySpeedSlider.value = 1
-	replayHud.setFrameSpeed(1.0)
+	replaySpeedSlider.value = 4
+	replayHud.setFrameSpeed(4.0)
+	_update_speed_label(4.0)
+	_update_history_label(0.0)
 	replayHud.loadReplayLegend(replayLegend)
 	
 	show()
@@ -79,7 +81,7 @@ func team_won(winningTeam: int):
 
 func _process(delta):
 	replayScrubSlider.value = replayHud.getIndex()
-	replayLabelHistory.text = "History: %s" % TimeUtils.format_seconds_for_display(replayScrubSlider.value)
+	_update_history_label(replayScrubSlider.value)
 
 
 func _on_ToLobbyButton_pressed():
@@ -88,13 +90,17 @@ func _on_ToLobbyButton_pressed():
 
 func _on_Scrub_value_changed(value):
 	replayHud.setIndex(int(round(value)))
-	replayLabelHistory.text = "History: %s" % TimeUtils.format_seconds_for_display(value)
-
+	_update_history_label(value)
 
 func _on_Speed_value_changed(value):
 	replayHud.setFrameSpeed(value)
+	_update_speed_label(value)
+
+func _update_speed_label(value):
 	replayLabelSpeed.text = "Speed: %dx" % int(value)
 
+func _update_history_label(value):
+	replayLabelHistory.text = "History: %s" % TimeUtils.format_seconds_for_display(value)
 
 func _on_ButtonHistoryPlay_pressed():
 	if replayHud.togglePlay():

@@ -139,15 +139,17 @@ func _process(delta):
 	if stateMachine.current_state.name == FugitiveStateMachine.STATE_PLAYING_HEADSTART or stateMachine.current_state.name == FugitiveStateMachine.STATE_PLAYING:
 		if lastProcessedSeconds + delta >= 1.0:
 			lastProcessedSeconds = 0
-			var newHistoryHeartbeat := []
+			var newHistoryHeartbeat := {}
 			
 			for playerId in GameData.currentGame.players:
 				var playerObj := GameData.currentGame.get_player(playerId) as FugitivePlayer
-				newHistoryHeartbeat.append(playerObj.get_history_heartbeat())
+				var playerHeartbeat = playerObj.get_history_heartbeat()
+				newHistoryHeartbeat[playerHeartbeat.id] = playerHeartbeat
 			
 			var cars := get_tree().get_nodes_in_group(Groups.CARS)
 			for car in cars:
-				newHistoryHeartbeat.append(car.get_history_heartbeat())
+				var carHeartbeat = car.get_history_heartbeat()
+				newHistoryHeartbeat[carHeartbeat.id] = carHeartbeat
 			
 			print("HEARTBEAT: Processed %d entries" % newHistoryHeartbeat.size())
 			
