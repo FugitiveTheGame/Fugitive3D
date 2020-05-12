@@ -188,7 +188,7 @@ func _send_heartbeat():
 		var carHeartbeat = car.get_history_heartbeat()
 		newHistoryHeartbeat[carHeartbeat.id] = carHeartbeat
 	
-	print("HEARTBEAT: Processed %d entries" % newHistoryHeartbeat.size())
+	#print("HEARTBEAT: Processed %d entries" % newHistoryHeartbeat.size())
 	
 	history.rpc_unreliable("on_history_heartbeat", newHistoryHeartbeat)
 

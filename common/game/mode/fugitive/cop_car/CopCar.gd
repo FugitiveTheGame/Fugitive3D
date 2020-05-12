@@ -431,7 +431,7 @@ func _on_EnterArea_body_entered(body):
 			if collidedPlayer.playerType == FugitiveTeamResolver.PlayerType.Seeker:
 				var hasHiders := false
 				for seat in seats:
-					if seat.occupant != null and driver_seat.occupant.playerType == FugitiveTeamResolver.PlayerType.Hider:
+					if seat.occupant != null and seat.occupant.playerType == FugitiveTeamResolver.PlayerType.Hider:
 						hasHiders = true
 						break
 				
