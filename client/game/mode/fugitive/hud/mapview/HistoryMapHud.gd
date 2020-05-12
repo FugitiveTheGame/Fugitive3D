@@ -80,7 +80,7 @@ func loadReplayLegend():
 		node.queue_free()
 	
 	for playerId in currentPlayerColorDictionary:
-		var playerData = GameData.players[playerId] as PlayerData
+		var playerData = fugitiveGame.history.player_summaries[playerId] as PlayerData
 		var newEntry = PlayerLegendEntryTemplate.instance()
 		newEntry.initialize(playerData, currentPlayerColorDictionary[playerId])
 		replayLegend.add_child(newEntry)
