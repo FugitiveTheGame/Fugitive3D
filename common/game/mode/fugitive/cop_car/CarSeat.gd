@@ -17,3 +17,13 @@ func _ready():
 
 func is_empty() -> bool:
 	return occupant == null
+
+
+func _process(delta):
+	if occupant != null:
+		occupant.playerBody.global_transform.origin = global_transform.origin
+
+
+func rotate_occupant(angle: float):
+	if occupant != null:
+		occupant.playerBody.rotate_y(angle)
