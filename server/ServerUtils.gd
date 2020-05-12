@@ -98,3 +98,17 @@ static func get_no_lan() -> bool:
 			break
 	
 	return no_lan
+
+
+# Parse command line server name in the form of:
+# --fps
+static func get_fps() -> bool:
+	var fps := false
+	
+	var args := OS.get_cmdline_args()
+	for arg in args:
+		if arg.nocasecmp_to("--fps") == 0:
+			fps = true
+			break
+	
+	return fps

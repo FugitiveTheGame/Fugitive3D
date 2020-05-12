@@ -16,6 +16,9 @@ func _exit_tree():
 
 
 func _ready():
+	if ServerUtils.get_fps():
+		$FpsTimer.start()
+	
 	ServerUtils.normal_start(advertiser, false)
 
 

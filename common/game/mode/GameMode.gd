@@ -6,7 +6,11 @@ var players = {}
 
 
 func get_player(playerId: int) -> Player:
-	return players[playerId]
+	if players.has(playerId):
+		return players[playerId]
+	else:
+		return null
+
 
 func _enter_tree():
 	ClientNetwork.connect("remove_player", self, "remove_player")

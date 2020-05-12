@@ -15,13 +15,16 @@ export(NodePath) var versionLabelPath: NodePath
 onready var versionLabel := get_node(versionLabelPath) as Label
 
 export (NodePath) var joiningDialogPath: NodePath
-onready var joiningDialog := get_node(joiningDialogPath)
+onready var joiningDialog := get_node(joiningDialogPath) as WindowDialog
 
 export (NodePath) var joinFailedDialogPath: NodePath
-onready var joinFailedDialog := get_node(joinFailedDialogPath)
+onready var joinFailedDialog := get_node(joinFailedDialogPath) as AcceptDialog
 
 export (NodePath) var badInputDialogPath: NodePath
-onready var badInputDialog := get_node(badInputDialogPath)
+onready var badInputDialog := get_node(badInputDialogPath) as AcceptDialog
+
+export (NodePath) var lostConnectionDialogPath: NodePath
+onready var lostConnectionDialog := get_node(lostConnectionDialogPath) as AcceptDialog
 
 
 func _enter_tree():
@@ -47,6 +50,10 @@ func _ready():
 	playerNameInput.text = UserData.data.user_name
 	serverIpInput.text = UserData.data.last_ip
 	serverPortInput.text = str(UserData.data.last_port)
+	
+	if ClientNetwork.has_disconnect_reason():
+		lostConnectionDialog.dialog_text = ClientNetwork.consume_disconnect_reason()
+		lostConnectionDialog.popup_centered()
 
 
 func _on_ConnectButton_pressed():
@@ -60,7 +67,7 @@ func _on_ConnectButton_pressed():
 		on_connect_request(ip, port)
 	else:
 		GameAnalytics.error_event(GameAnalytics.ErrorSeverity.WARNING, "Manual connect with bad data")
-		badInputDialog.show()
+		badInputDialog.popup_centered()
 
 
 func validate_manual_connect(ip: String, port: int) -> bool:
@@ -83,10 +90,10 @@ func connect_to_server(playerName: String, serverIp: String, serverPort: int):
 	
 	vr.log_info("connect_to_server")
 	if ClientNetwork.join_game(serverIp, serverPort, playerName.strip_edges()):
-		joiningDialog.show()
+		joiningDialog.popup_centered()
 	else:
 		GameAnalytics.error_event(GameAnalytics.ErrorSeverity.WARNING, "Failed to start connection")
-		joinFailedDialog.show()
+		joinFailedDialog.popup_centered()
 
 
 func on_connected_to_server():
@@ -98,7 +105,7 @@ func on_connected_to_server():
 func on_connection_failed():
 	GameAnalytics.error_event(GameAnalytics.ErrorSeverity.WARNING, "Failed to connect to server")
 	joiningDialog.hide()
-	joinFailedDialog.show()
+	joinFailedDialog.popup_centered()
 
 
 func go_to_lobby():
