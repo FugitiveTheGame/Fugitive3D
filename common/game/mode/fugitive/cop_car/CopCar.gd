@@ -32,7 +32,7 @@ onready var drivingAudio := $DrivingAudio as AudioStreamPlayer3D
 func _ready():
 	add_to_group(Groups.CARS)
 	
-	if OS.has_feature("mobile"):
+	if Utils.renderer_is_gles2():
 		$cop_car/OmniLight.hide()
 		$cop_car/HeadLightLeft.hide()
 		$cop_car/gles2Headlight1.show()
