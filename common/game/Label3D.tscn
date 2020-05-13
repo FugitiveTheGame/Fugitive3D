@@ -1,15 +1,11 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=2 format=2]
 
 [ext_resource path="res://common/game/Label3D.gd" type="Script" id=1]
-
-[sub_resource type="ViewportTexture" id=1]
-viewport_path = NodePath("Viewport")
 
 [node name="Label3D" type="Sprite3D"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -3.63004e-11, -2.59983e-07, 1.59576 )
 billboard = 1
 double_sided = false
-texture = SubResource( 1 )
 script = ExtResource( 1 )
 
 [node name="Viewport" type="Viewport" parent="."]
