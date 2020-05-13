@@ -168,7 +168,7 @@ func finish_game(playerType: int):
 func _send_heartbeat():
 	var newHistoryHeartbeat := collect_heartbeat()
 	
-	history.rpc_unreliable("on_history_heartbeat", newHistoryHeartbeat)
+	history.rpc("on_history_heartbeat", newHistoryHeartbeat)
 
 
 func _on_StateMachine_state_change(new_state, transition):
