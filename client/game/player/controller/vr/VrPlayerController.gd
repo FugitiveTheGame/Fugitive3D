@@ -8,6 +8,7 @@ const CROUCH_THRESHOLD := 0.75
 onready var camera := $OQ_ARVRCamera
 onready var player := $Player as Player
 onready var locomotion := $Locomotion_Stick
+onready var hudCanvas := $OQ_LeftController/VisibilityToggle/HudCanvas
 onready var hudVisibilityToggle := $OQ_LeftController/VisibilityToggle
 onready var hud := $OQ_LeftController/VisibilityToggle/HudCanvas.find_node("HudContainer", true, false) as Control
 onready var fpsLabel := $OQ_LeftController/VisibilityToggle/HudCanvas.find_node("FpsLabel", true, false) as Label
@@ -48,6 +49,7 @@ func _ready():
 	# Performance tuning for mobile VR clients
 	if OS.has_feature("mobile"):
 		camera.far = 100.0
+		hudCanvas.transparent = false
 	
 	fpsLabel.visible = OS.is_debug_build()
 
