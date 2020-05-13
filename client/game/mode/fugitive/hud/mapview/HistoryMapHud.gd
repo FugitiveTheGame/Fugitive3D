@@ -180,38 +180,13 @@ func _draw():
 						_:
 							teamColor = Color.magenta
 					
-					# Calculate trail length
-					var trailSize: int
-					if currentIndex <= maxTrailSize:
-						trailSize = currentIndex -1
-					else:
-						trailSize = maxTrailSize
-					
+
 					# This is a unique color for this specific player so you can identify
 					# who is who from the ledgend
 					var playerColor := currentPlayerColorDictionary[entityId] as Color
 					
-					# $TODO: Reset global transform, do we actually need this? I think it's reset every where it needs to be already
-					draw_set_transform(Vector2(), 0.0, Vector2(1.0, 1.0))
-					
-					# Copy the player color so we don't modify the original while drawing the trail
-					var trailColor := Color(playerColor.to_rgba32())
-					var trailPoints := PoolVector2Array()
-					var trailColors := PoolColorArray()
-					
-					# Calculate the trail
-					for ii in trailSize:
-						var oldHeartbeat := fugitiveGame.history.stateHistoryArray[currentIndex-ii] as Dictionary
-						var oldEntry := oldHeartbeat[entityId] as Dictionary
-						var oldCoord := to_map_coord_vector2(oldEntry.position)
-						trailPoints.append(oldCoord)
-						
-						# Fade it out the further back in time the point is
-						trailColor.a = 1.0 - (float(ii) / float(maxTrailSize))
-						trailColors.append(Color(trailColor.to_rgba32()))
-					
-					# Draw the trail behind the player
-					draw_polyline_colors(trailPoints, trailColors, 2.0, true)
+					# Draw the location history prior to this point in time
+					draw_trail(playerColor, entityId)
 					
 					# Draw this players triangle
 					draw_set_transform(to_map_coord_vector2(interpolatedPosition), interpolatedAngle, Vector2(1.2, 1.2))
@@ -230,6 +205,36 @@ func _draw():
 					draw_set_transform(Vector2(), 0.0, Vector2(1.0, 1.0))
 				_:
 					print("ERROR: Unrecognized history entry %s" % entry.entryType)
+
+
+func draw_trail(playerColor: Color, entityId):
+	# Calculate trail length
+	var trailSize: int
+	if currentIndex <= maxTrailSize:
+		trailSize = currentIndex -1
+	else:
+		trailSize = maxTrailSize
+	
+	# Don't try to draw unless we have at leat two points
+	if trailSize > 1:
+		# Copy the player color so we don't modify the original while drawing the trail
+		var trailColor := Color(playerColor.to_rgba32())
+		var trailPoints := PoolVector2Array()
+		var trailColors := PoolColorArray()
+		
+		# Calculate the trail
+		for ii in trailSize:
+			var oldHeartbeat := fugitiveGame.history.stateHistoryArray[currentIndex-ii] as Dictionary
+			var oldEntry := oldHeartbeat[entityId] as Dictionary
+			var oldCoord := to_map_coord_vector2(oldEntry.position)
+			trailPoints.append(oldCoord)
+			
+			# Fade it out the further back in time the point is
+			trailColor.a = 1.0 - (float(ii) / float(maxTrailSize))
+			trailColors.append(Color(trailColor.to_rgba32()))
+		
+		# Draw the trail behind the player
+		draw_polyline_colors(trailPoints, trailColors, 2.0, true)
 
 
 # Go to the next frame if it's playing
