@@ -4,13 +4,13 @@ extends Control
 # Called when the node enters the scene tree for the first time.
 func populate(playerInfoData: PlayerData, playerObj: FugitivePlayer):
 	if playerInfoData != null and playerObj != null:
-		var playerType := playerInfoData.get_type()
-		var team = GameData.currentGame.get_team_name(playerType)
 		
+		# Populate the name
 		$PlayerNameLabel.text = playerInfoData.get_name()
 		
+		# Hider specific stats
 		if playerObj.playerType == FugitiveTeamResolver.PlayerType.Hider:
-			var frozen: String
+			# Indicate if the hider was frozen at the end of the game
 			if playerObj.frozen:
 				$PlayerNameLabel.text += " [Captured]"
 			else:
@@ -19,6 +19,7 @@ func populate(playerInfoData: PlayerData, playerObj: FugitivePlayer):
 			add_stat(playerInfoData, FugitivePlayerDataUtility.STAT_HIDER_FROZEN)
 			add_stat(playerInfoData, FugitivePlayerDataUtility.STAT_HIDER_UNFROZEN)
 			add_stat(playerInfoData, FugitivePlayerDataUtility.STAT_HIDER_UNFREEZER)
+		# Seeker specific stats
 		else:
 			add_stat(playerInfoData, FugitivePlayerDataUtility.STAT_SEEKER_FREEZES)
 
