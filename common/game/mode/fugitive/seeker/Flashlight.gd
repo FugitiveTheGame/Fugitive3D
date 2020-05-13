@@ -3,7 +3,7 @@ extends Spatial
 var is_on := true
 
 func _ready():
-	if OS.has_feature("mobile"):
+	if Utils.renderer_is_gles2():
 		$SpotLight.hide()
 		$gles2Beam.show()
 

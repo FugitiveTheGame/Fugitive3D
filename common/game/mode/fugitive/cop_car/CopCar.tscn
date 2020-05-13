@@ -74,6 +74,7 @@ spot_angle = 30.0
 
 [node name="gles2Headlight1" type="CSGCylinder" parent="cop_car"]
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 1.01261, 1.05743, -12.6947 )
+visible = false
 radius = 7.21034
 height = 20.0
 sides = 16
@@ -82,6 +83,7 @@ material = SubResource( 3 )
 
 [node name="gles2Headlight2" type="CSGCylinder" parent="cop_car"]
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, -1.01506, 1.05743, -12.6947 )
+visible = false
 radius = 7.21034
 height = 20.0
 sides = 16
