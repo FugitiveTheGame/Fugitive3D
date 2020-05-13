@@ -4,15 +4,16 @@ importer="texture"
 type="StreamTexture"
 path.s3tc="res://.import/LightMap28.png-2ec179d8d613bce14ecff1380033bece.s3tc.stex"
 path.etc2="res://.import/LightMap28.png-2ec179d8d613bce14ecff1380033bece.etc2.stex"
+path.etc="res://.import/LightMap28.png-2ec179d8d613bce14ecff1380033bece.etc.stex"
 metadata={
-"imported_formats": [ "s3tc", "etc2" ],
+"imported_formats": [ "s3tc", "etc2", "etc" ],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://common/game/maps/suburbia/lightmap/LightMap28.png"
-dest_files=[ "res://.import/LightMap28.png-2ec179d8d613bce14ecff1380033bece.s3tc.stex", "res://.import/LightMap28.png-2ec179d8d613bce14ecff1380033bece.etc2.stex" ]
+dest_files=[ "res://.import/LightMap28.png-2ec179d8d613bce14ecff1380033bece.s3tc.stex", "res://.import/LightMap28.png-2ec179d8d613bce14ecff1380033bece.etc2.stex", "res://.import/LightMap28.png-2ec179d8d613bce14ecff1380033bece.etc.stex" ]
 
 [params]
 

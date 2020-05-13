@@ -9,7 +9,16 @@ var ui_collisionshape = null;
 
 export var editor_live_update := false;
 
-export var transparent := false;
+export var transparent := false setget set_transparent;
+func set_transparent(value: bool):
+	transparent = value
+	update_transparent()
+
+
+func update_transparent():
+	if mesh_material != null:
+		mesh_material.flags_transparent = self.transparent;
+
 
 var mesh_material = null;
 onready var mesh_instance : MeshInstance = $UIArea/UIMeshInstance
@@ -47,7 +56,7 @@ func _ready():
 	
 	mesh_material = mesh_instance.mesh.surface_get_material(0);
 	# only enable transparency when necessary as it is significantly slower than non-transparent rendering
-	mesh_material.flags_transparent = transparent;
+	update_transparent()
 	
 	if Engine.editor_hint:
 		return;

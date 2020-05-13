@@ -1,7 +1,25 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://common/game/mode/fugitive/seeker/Flashlight.gd" type="Script" id=1]
 [ext_resource path="res://common/game/mode/fugitive/seeker/assets/flashlight/flashlight.glb" type="PackedScene" id=2]
+[ext_resource path="res://common/game/mode/fugitive/lightbeam.shader" type="Shader" id=3]
+
+[sub_resource type="ShaderMaterial" id=1]
+render_priority = 1
+shader = ExtResource( 3 )
+shader_param/albedo = Color( 0.898039, 0.901961, 0.396078, 0.0117647 )
+shader_param/specular = 0.5
+shader_param/metallic = 0.0
+shader_param/roughness = 1.0
+shader_param/point_size = 1.0
+shader_param/depth_scale = 0.05
+shader_param/depth_min_layers = 8
+shader_param/depth_max_layers = 32
+shader_param/depth_flip = Vector2( 1, 1 )
+shader_param/uv1_scale = Vector3( 1, 1, 1 )
+shader_param/uv1_offset = Vector3( 0, 0, 0 )
+shader_param/uv2_scale = Vector3( 1, 1, 1 )
+shader_param/uv2_offset = Vector3( 0, 0, 0 )
 
 [node name="Flashlight" type="Spatial"]
 script = ExtResource( 1 )
@@ -22,3 +40,11 @@ shadow_enabled = true
 spot_range = 30.0
 spot_angle = 25.0
 spot_angle_attenuation = 0.31864
+
+[node name="gles2Beam" type="CSGCylinder" parent="."]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, -15.2628 )
+radius = 14.515
+height = 30.0
+sides = 16
+cone = true
+material = SubResource( 1 )

@@ -2,6 +2,11 @@ extends Spatial
 
 var is_on := true
 
+func _ready():
+	if OS.has_feature("mobile"):
+		$SpotLight.hide()
+		$gles2Beam.show()
+
 func toggle_on():
 	GameAnalytics.design_event("toggle_flashlight")
 	set_on(not is_on)
