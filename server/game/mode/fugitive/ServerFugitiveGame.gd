@@ -64,10 +64,6 @@ func load_map():
 	.load_map()
 	map.get_countdown_timer().connect("timeout", self, "countdown_timer_timeout")
 	map.get_headstart_timer().connect("timeout", self, "headstart_timer_timeout")
-	
-	# Get and update stats
-	# $ TODO ALEX: This needs to some how not clear the game-over-game stats
-	# FugitivePlayerDataUtility.reset_stats()
 
 
 remote func on_client_configured(playerId: int):
@@ -136,16 +132,6 @@ remotesync func on_go_to_lobby():
 func _on_FpsTimer_timeout():
 	print("%d fps" % Engine.get_frames_per_second())
 
-var lastProcessedSeconds := 0.0
-
-func _process(delta):
-	if stateMachine.current_state.name == FugitiveStateMachine.STATE_PLAYING_HEADSTART or stateMachine.current_state.name == FugitiveStateMachine.STATE_PLAYING:
-		if lastProcessedSeconds + delta >= 1.0:
-			lastProcessedSeconds = 0
-			
-			_send_heartbeat()
-		else:
-			lastProcessedSeconds += delta
 
 func finish_game(playerType: int):
 	.finish_game(playerType)
@@ -178,22 +164,17 @@ func finish_game(playerType: int):
 	
 	rpc("on_finish_game", playerType)
 
+
 func _send_heartbeat():
-	var newHistoryHeartbeat := {}
-	
-	for playerId in GameData.currentGame.players:
-		var playerObj := GameData.currentGame.get_player(playerId) as FugitivePlayer
-		var playerHeartbeat = playerObj.get_history_heartbeat()
-		newHistoryHeartbeat[playerHeartbeat.id] = playerHeartbeat
-	
-	var cars := get_tree().get_nodes_in_group(Groups.CARS)
-	for car in cars:
-		var carHeartbeat = car.get_history_heartbeat()
-		newHistoryHeartbeat[carHeartbeat.id] = carHeartbeat
-	
-	#print("HEARTBEAT: Processed %d entries" % newHistoryHeartbeat.size())
+	var newHistoryHeartbeat := collect_heartbeat()
 	
 	history.rpc_unreliable("on_history_heartbeat", newHistoryHeartbeat)
 
+
 func _on_StateMachine_state_change(new_state, transition):
 	print("new state: %s via: %s" % [new_state.name, transition.name])
+
+
+func _on_HistoryHeartbeatTimer_timeout():
+	if gameStarted and not is_game_over():
+		_send_heartbeat()

@@ -72,3 +72,13 @@ func headstart_timer_timeout():
 # Emulating what the server would normmally do here
 func finish_game(playerType: int):
 	on_finish_game(playerType)
+
+
+# This happens on the server, hack it in here for local testing
+func debug_send_heartbeat():
+	history.rpc_unreliable("on_history_heartbeat", collect_heartbeat())
+
+
+func _on_DebugHistoryTimer_timeout():
+	if gameStarted and not is_game_over():
+		debug_send_heartbeat()
