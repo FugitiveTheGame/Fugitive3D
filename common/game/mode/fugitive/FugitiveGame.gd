@@ -16,7 +16,7 @@ func current_state() -> String:
 
 
 func is_game_over() -> bool:
-	return stateMachine == null or stateMachine.current_state.name == FugitiveStateMachine.STATE_GAME_OVER
+	return stateMachine == null or current_state() == FugitiveStateMachine.STATE_GAME_OVER
 
 
 func load_map():
@@ -369,3 +369,21 @@ func go_to_lobby():
 
 func get_team_name(teamId: int) -> String:
 	return Maps.get_team_name(GameData.general[GameData.GENERAL_MAP], teamId)
+
+
+func collect_heartbeat() -> Dictionary:
+	var newHistoryHeartbeat := {}
+	
+	for playerId in GameData.currentGame.players:
+		var playerObj := GameData.currentGame.get_player(playerId) as FugitivePlayer
+		var playerHeartbeat = playerObj.get_history_heartbeat()
+		newHistoryHeartbeat[playerHeartbeat.id] = playerHeartbeat
+	
+	var cars := get_tree().get_nodes_in_group(Groups.CARS)
+	for car in cars:
+		var carHeartbeat = car.get_history_heartbeat()
+		newHistoryHeartbeat[carHeartbeat.id] = carHeartbeat
+	
+	#print("HEARTBEAT: Processed %d entries" % newHistoryHeartbeat.size())
+	
+	return newHistoryHeartbeat

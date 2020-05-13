@@ -93,9 +93,13 @@ func updateLedgend():
 		var heartbeat := fugitiveGame.history.stateHistoryArray[currentIndex] as Dictionary
 		
 		for playerId in fugitiveGame.history.player_summaries.keys():
+			# Ensure this player exists in this heartbeat
+			# The player could have disconnected before this point in the game
 			if heartbeat.has(playerId):
+				# Get current heartbeat
 				var data = heartbeat[playerId]
 				
+				# Get next heartbeat data for interpolation
 				var nextData
 				if (currentIndex + 1) < fugitiveGame.history.stateHistoryArray.size():
 					var nextHeartbeat = fugitiveGame.history.stateHistoryArray[currentIndex + 1] as Dictionary
@@ -106,8 +110,10 @@ func updateLedgend():
 				else:
 					nextData = data
 				
+				# Calculate the weight for interpolation
 				var percentage_to_next_frame = min(timeSinceFrameChange / (1.0 / framesPerSecond), 1.0)
 				
+				# Get the ledgend UI node to update
 				var node := find_ledgend_item(playerId)
 				if node != null:
 					node.populate(data, nextData, percentage_to_next_frame)
@@ -126,31 +132,43 @@ func find_ledgend_item(playerId) -> Control:
 
 func _draw():
 	if currentIndex < fugitiveGame.history.stateHistoryArray.size():
+		# Get the current hearbeat
 		var heartbeat := fugitiveGame.history.stateHistoryArray[currentIndex] as Dictionary
-		var nextHeartbeat := heartbeat
 		
+		# Get the next heart beat if it exists so we can use it for interpolation
+		var nextHeartbeat: Dictionary
 		if (currentIndex + 1) < fugitiveGame.history.stateHistoryArray.size():
 			nextHeartbeat = fugitiveGame.history.stateHistoryArray[currentIndex + 1] as Dictionary
-			
+		# Must be the last heartbeat, use the current one which will result in no interpolation
+		else:
+			nextHeartbeat = heartbeat
+		
+		# Process each entity in this heart beat
 		for entityId in heartbeat:
 			var entry := heartbeat[entityId] as Dictionary
 			
-			var interpolatedPosition := entry.position as Vector2
-			var interpolatedAngle := entry.orientation as float
+			var interpolatedPosition: Vector2
+			var interpolatedAngle: float
 			
+			# Ensure next heart beat 
 			if nextHeartbeat.has(entityId):
 				var nextEntry = nextHeartbeat[entityId] as Dictionary
 				var percentage_to_next_frame = min(timeSinceFrameChange / (1.0 / framesPerSecond), 1.0)
 				interpolatedPosition = lerp(entry.position, nextEntry.position, percentage_to_next_frame)
 				interpolatedAngle = lerp_angle(entry.orientation, nextEntry.orientation, percentage_to_next_frame)
+			# Next heart beat doesn't contain this entity, it was probably a player who disconnected
+			# Use the current heartbeat data which will result in no interpolation
+			else:
+				interpolatedPosition = entry.position as Vector2
+				interpolatedAngle = entry.orientation as float
 			
 			match entry.entryType:
 				FugitiveEnums.EntityType.Player:
-					var teamColor := Color.magenta
-					
 					var playerData = fugitiveGame.history.player_summaries[entityId] as PlayerData
 					
 					# Outer color for the player triangle
+					# This represents the team they are one
+					var teamColor: Color
 					match playerData.get_type():
 						FugitiveTeamResolver.PlayerType.Hider:
 							teamColor = Color.orange
@@ -159,6 +177,8 @@ func _draw():
 								teamColor = Color.cyan
 						FugitiveTeamResolver.PlayerType.Seeker:
 							teamColor = Color.blue
+						_:
+							teamColor = Color.magenta
 					
 					# Calculate trail length
 					var trailSize: int
@@ -167,23 +187,42 @@ func _draw():
 					else:
 						trailSize = maxTrailSize
 					
+					# This is a unique color for this specific player so you can identify
+					# who is who from the ledgend
+					var playerColor := currentPlayerColorDictionary[entityId] as Color
+					
+					# $TODO: Reset global transform, do we actually need this? I think it's reset every where it needs to be already
 					draw_set_transform(Vector2(), 0.0, Vector2(1.0, 1.0))
-					# Draw the trail behind the player
-					var trailColor := Color((currentPlayerColorDictionary[entityId] as Color).to_rgba32())
+					
+					# Copy the player color so we don't modify the original while drawing the trail
+					var trailColor := Color(playerColor.to_rgba32())
+					var trailPoints := PoolVector2Array()
+					var trailColors := PoolColorArray()
+					
+					# Calculate the trail
 					for ii in trailSize:
 						var oldHeartbeat := fugitiveGame.history.stateHistoryArray[currentIndex-ii] as Dictionary
 						var oldEntry := oldHeartbeat[entityId] as Dictionary
 						var oldCoord := to_map_coord_vector2(oldEntry.position)
+						trailPoints.append(oldCoord)
+						
+						# Fade it out the further back in time the point is
 						trailColor.a = 1.0 - (float(ii) / float(maxTrailSize))
-						draw_circle(oldCoord, 3.0, trailColor)
+						trailColors.append(Color(trailColor.to_rgba32()))
+					
+					# Draw the trail behind the player
+					draw_polyline_colors(trailPoints, trailColors, 2.0, true)
 					
 					# Draw this players triangle
 					draw_set_transform(to_map_coord_vector2(interpolatedPosition), interpolatedAngle, Vector2(1.2, 1.2))
+					# Outter triangle
 					draw_colored_polygon(playerShape, teamColor)
 					draw_set_transform(to_map_coord_vector2(interpolatedPosition), interpolatedAngle, Vector2(1.0, 1.0))
-					draw_colored_polygon(playerShape, currentPlayerColorDictionary[entityId])
+					# Inner triangle
+					draw_colored_polygon(playerShape, playerColor)
 					draw_set_transform(Vector2(), 0.0, Vector2(1.0, 1.0))
 				FugitiveEnums.EntityType.Car:
+					# Draw the car
 					var carSize := Vector2(10.0, 20.0)
 					var rect := Rect2(Vector2(-(carSize.x/2.0), -(carSize.y/2.0)), carSize)
 					draw_set_transform(to_map_coord_vector2(interpolatedPosition), interpolatedAngle, Vector2(1.0, 1.0))
