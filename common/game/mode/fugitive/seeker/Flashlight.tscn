@@ -43,6 +43,7 @@ spot_angle_attenuation = 0.31864
 
 [node name="gles2Beam" type="CSGCylinder" parent="."]
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, -15.2628 )
+visible = false
 radius = 14.515
 height = 30.0
 sides = 16
