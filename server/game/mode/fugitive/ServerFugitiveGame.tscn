@@ -13,6 +13,7 @@ script = ExtResource( 2 )
 script = ExtResource( 3 )
 
 [node name="HistoryHeartbeatTimer" type="Timer" parent="." index="5"]
+autostart = true
 [connection signal="state_change" from="StateMachine" to="." method="_on_StateMachine_state_change"]
 [connection signal="timeout" from="FpsTimer" to="." method="_on_FpsTimer_timeout"]
 [connection signal="timeout" from="HistoryHeartbeatTimer" to="." method="_on_HistoryHeartbeatTimer_timeout"]
