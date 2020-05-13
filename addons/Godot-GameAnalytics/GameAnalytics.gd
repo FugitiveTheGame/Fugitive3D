@@ -21,7 +21,7 @@ const PLATFORMS = {
 
 const ssl_validate_domain = true
 # Number of events to hold before flushing the event queue
-const event_queue_max_events = 64
+const event_queue_max_events = 16
 
 
 # Game Keys
