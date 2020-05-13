@@ -35,7 +35,8 @@ func configure(_playerName: String, _playerId: int, _localPlayerType: int):
 
 
 func set_player_name(playerName: String):
-	playerShape.get_name_label().set_label_text(playerName)
+	playerShape.get_name_label().text = playerName
+
 
 func get_history_heartbeat() -> Dictionary:
 	var newEntry := {}

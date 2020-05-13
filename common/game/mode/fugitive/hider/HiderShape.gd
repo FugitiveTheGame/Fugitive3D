@@ -10,10 +10,6 @@ func set_alpha(value: float):
 	update_shaders()
 
 
-func get_name_label() -> Spatial:
-	return $PlayerNameLabel as Spatial
-
-
 func _ready():
 	standingMaterials.append($Standing/hider_standing_body.material_override)
 	crouchingMaterials.append($Crouching/hider_crouching_body.material_override)
