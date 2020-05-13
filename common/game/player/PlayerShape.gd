@@ -1,8 +1,8 @@
 extends CollisionShape
 
 
-func get_name_label() -> Spatial:
-	return $PlayerNameLabel as Spatial
+func get_name_label() -> Label3D:
+	return $PlayerNameLabel as Label3D
 
 
 func get_standing_shape() -> Spatial:
