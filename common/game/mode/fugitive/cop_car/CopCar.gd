@@ -32,6 +32,12 @@ onready var drivingAudio := $DrivingAudio as AudioStreamPlayer3D
 func _ready():
 	add_to_group(Groups.CARS)
 	
+	if OS.has_feature("mobile"):
+		$cop_car/OmniLight.hide()
+		$cop_car/HeadLightLeft.hide()
+		$cop_car/gles2Headlight1.show()
+		$cop_car/gles2Headlight2.show()
+	
 	# Add seat positions to array
 	for seat in $Seats.get_children():
 		if seat is CarSeat:

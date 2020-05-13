@@ -4,15 +4,16 @@ importer="texture"
 type="StreamTexture"
 path.s3tc="res://.import/external_controller01_col.png-3ad8b920576e5a7f58585030adb672e2.s3tc.stex"
 path.etc2="res://.import/external_controller01_col.png-3ad8b920576e5a7f58585030adb672e2.etc2.stex"
+path.etc="res://.import/external_controller01_col.png-3ad8b920576e5a7f58585030adb672e2.etc.stex"
 metadata={
-"imported_formats": [ "s3tc", "etc2" ],
+"imported_formats": [ "s3tc", "etc2", "etc" ],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://addons/godot-oculus/scenes/oculus_cv1_controller_left/external_controller01_col.png"
-dest_files=[ "res://.import/external_controller01_col.png-3ad8b920576e5a7f58585030adb672e2.s3tc.stex", "res://.import/external_controller01_col.png-3ad8b920576e5a7f58585030adb672e2.etc2.stex" ]
+dest_files=[ "res://.import/external_controller01_col.png-3ad8b920576e5a7f58585030adb672e2.s3tc.stex", "res://.import/external_controller01_col.png-3ad8b920576e5a7f58585030adb672e2.etc2.stex", "res://.import/external_controller01_col.png-3ad8b920576e5a7f58585030adb672e2.etc.stex" ]
 
 [params]
 

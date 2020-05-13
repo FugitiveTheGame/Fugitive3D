@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://common/game/mode/fugitive/cop_car/CopCar.gd" type="Script" id=1]
 [ext_resource path="res://common/game/mode/fugitive/cop_car/CarSeat.tscn" type="PackedScene" id=2]
@@ -10,6 +10,39 @@
 [ext_resource path="res://common/game/mode/fugitive/cop_car/PoliceLight.gd" type="Script" id=8]
 [ext_resource path="res://common/game/mode/fugitive/cop_car/car_braking.ogg" type="AudioStream" id=9]
 [ext_resource path="res://common/game/mode/fugitive/cop_car/car_locked.ogg" type="AudioStream" id=10]
+[ext_resource path="res://common/game/mode/fugitive/lightbeam.shader" type="Shader" id=11]
+
+[sub_resource type="ShaderMaterial" id=3]
+shader = ExtResource( 11 )
+shader_param/albedo = Color( 1, 0.945098, 0.878431, 0.0156863 )
+shader_param/specular = null
+shader_param/metallic = null
+shader_param/roughness = null
+shader_param/point_size = null
+shader_param/depth_scale = null
+shader_param/depth_min_layers = null
+shader_param/depth_max_layers = null
+shader_param/depth_flip = null
+shader_param/uv1_scale = null
+shader_param/uv1_offset = null
+shader_param/uv2_scale = null
+shader_param/uv2_offset = null
+
+[sub_resource type="ShaderMaterial" id=4]
+shader = ExtResource( 11 )
+shader_param/albedo = Color( 1, 0.945098, 0.878431, 0.0156863 )
+shader_param/specular = null
+shader_param/metallic = null
+shader_param/roughness = null
+shader_param/point_size = null
+shader_param/depth_scale = null
+shader_param/depth_min_layers = null
+shader_param/depth_max_layers = null
+shader_param/depth_flip = null
+shader_param/uv1_scale = null
+shader_param/uv1_offset = null
+shader_param/uv2_scale = null
+shader_param/uv2_offset = null
 
 [sub_resource type="BoxShape" id=1]
 extents = Vector3( 2.5, 1, 3.5 )
@@ -39,6 +72,22 @@ spot_range = 30.0
 spot_attenuation = 1.68179
 spot_angle = 30.0
 
+[node name="gles2Headlight1" type="CSGCylinder" parent="cop_car"]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 1.01261, 1.05743, -12.6947 )
+radius = 7.21034
+height = 20.0
+sides = 16
+cone = true
+material = SubResource( 3 )
+
+[node name="gles2Headlight2" type="CSGCylinder" parent="cop_car"]
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, -1.01506, 1.05743, -12.6947 )
+radius = 7.21034
+height = 20.0
+sides = 16
+cone = true
+material = SubResource( 4 )
+
 [node name="Seats" type="Spatial" parent="."]
 
 [node name="CarSeat" parent="Seats" instance=ExtResource( 2 )]
@@ -47,12 +96,15 @@ is_driver_seat = true
 
 [node name="CarSeat2" parent="Seats" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0.719833, -0.541356 )
+is_driver_seat = false
 
 [node name="CarSeat3" parent="Seats" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0.719833, 0.707853 )
+is_driver_seat = false
 
 [node name="CarSeat4" parent="Seats" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0.719833, 0.707853 )
+is_driver_seat = false
 
 [node name="EnterArea" type="Area" parent="."]
 
@@ -96,6 +148,7 @@ stream = ExtResource( 9 )
 
 [node name="PoliceLight" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.36854, 0 )
+visible = false
 script = ExtResource( 8 )
 
 [node name="Timer" type="Timer" parent="PoliceLight"]

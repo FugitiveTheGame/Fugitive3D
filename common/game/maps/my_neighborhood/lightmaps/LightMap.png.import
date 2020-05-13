@@ -4,15 +4,16 @@ importer="texture"
 type="StreamTexture"
 path.s3tc="res://.import/LightMap.png-5a16f12027f83c79cec23983d8938eea.s3tc.stex"
 path.etc2="res://.import/LightMap.png-5a16f12027f83c79cec23983d8938eea.etc2.stex"
+path.etc="res://.import/LightMap.png-5a16f12027f83c79cec23983d8938eea.etc.stex"
 metadata={
-"imported_formats": [ "s3tc", "etc2" ],
+"imported_formats": [ "s3tc", "etc2", "etc" ],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://common/game/maps/my_neighborhood/lightmaps/LightMap.png"
-dest_files=[ "res://.import/LightMap.png-5a16f12027f83c79cec23983d8938eea.s3tc.stex", "res://.import/LightMap.png-5a16f12027f83c79cec23983d8938eea.etc2.stex" ]
+dest_files=[ "res://.import/LightMap.png-5a16f12027f83c79cec23983d8938eea.s3tc.stex", "res://.import/LightMap.png-5a16f12027f83c79cec23983d8938eea.etc2.stex", "res://.import/LightMap.png-5a16f12027f83c79cec23983d8938eea.etc.stex" ]
 
 [params]
 

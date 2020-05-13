@@ -6,7 +6,7 @@ var be_seeker := true
 
 func _enter_tree():
 	# Change this to test what ever map you wish
-	GameData.general[GameData.GENERAL_MAP] = 0
+	GameData.general[GameData.GENERAL_MAP] = 1
 	
 	GameAnalytics.DEVELOPMENT = true
 	
