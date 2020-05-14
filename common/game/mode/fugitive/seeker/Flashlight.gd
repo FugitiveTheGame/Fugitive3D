@@ -7,6 +7,7 @@ func _ready():
 		$SpotLight.hide()
 		$gles2Beam.show()
 
+
 func toggle_on():
 	GameAnalytics.design_event("toggle_flashlight")
 	set_on(not is_on)
@@ -18,7 +19,10 @@ func set_on(on: bool):
 
 remotesync func on_set_on(on: bool):
 	is_on = on
-	$SpotLight.visible = is_on
+	if Utils.renderer_is_gles2():
+		$gles2Beam.visible = is_on
+	else:
+		$SpotLight.visible = is_on
 
 
 puppet func network_update(networkPosition: Vector3, networkRotation: Vector3):
