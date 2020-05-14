@@ -15,10 +15,14 @@ margin_right = 160.0
 margin_bottom = 82.0
 text = "Settings"
 
-[node name="DebugButton" type="Button" parent="OptionsContainer" index="2"]
+[node name="HelpButton" parent="OptionsContainer" index="2"]
 margin_top = 90.0
-margin_right = 160.0
 margin_bottom = 127.0
+
+[node name="DebugButton" type="Button" parent="OptionsContainer" index="3"]
+margin_top = 135.0
+margin_right = 160.0
+margin_bottom = 172.0
 text = "debug"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -34,5 +38,8 @@ margin_top = 70.0
 margin_right = -24.0
 margin_bottom = 95.0
 text = "driver"
+
+[node name="HelpDialog" parent="." index="13"]
+visible = false
 [connection signal="pressed" from="OptionsContainer/SettingsButton" to="." method="_on_SettingsButton_pressed"]
 [connection signal="pressed" from="OptionsContainer/DebugButton" to="." method="_on_DebugButton_pressed"]
