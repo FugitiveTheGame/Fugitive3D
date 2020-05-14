@@ -2,10 +2,13 @@ extends "res://client/game/mode/fugitive/VrFugitiveController.gd"
 
 onready var car_lock_hud := hud.find_node("CarLockHud", true, false)
 
+export(NodePath) var flashlightPath: NodePath
+onready var flashlight := get_node(flashlight) as Spatial
+
 
 func _process(delta):
 	if debounced_button_just_released(vr.BUTTON.B) and player.car == null:
-		$Flashlight.toggle_on()
+		flashlight.toggle_on()
 	
 	###########################
 	# Seeker only car controls
@@ -39,3 +42,9 @@ func _on_CarLockHud_locking_complete():
 	var car = get_nearest_car()
 	if car != null:
 		car.lock()
+
+
+func on_ui_raycast_visibility_changed():
+	.on_ui_raycast_visibility_changed()
+	
+	flashlight.visible = not uiRaycast.visible
