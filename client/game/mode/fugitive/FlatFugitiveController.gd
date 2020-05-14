@@ -120,6 +120,8 @@ func on_state_playing():
 func on_state_game_over():
 	$HudCanvas/HudContainer/EndGameHud.team_won( GameData.currentGame.winningTeam )
 	release_mouse()
+	# Hide the sticks on mobile clients so they can interact with the end-game hud
+	virtual_joysticks.hide()
 
 
 func _notification(what):
