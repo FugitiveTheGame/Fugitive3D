@@ -90,38 +90,36 @@ remotesync func on_request_enter_car(playerId: int):
 	mutex.lock()
 	
 	print("on_request_enter_car")
+	var canEnter: bool
 	
-	var seatIndex := get_free_seat()
-	if seatIndex > -1:
-		var canEnter: bool
-		
-		var player = GameData.currentGame.get_player(playerId)
-		var isHider = player.playerType == FugitiveTeamResolver.PlayerType.Hider
-		
-		# No one can enter if they are frozen
-		if player.frozen:
+	var seatIndex := get_free_seat()	
+	var player = GameData.currentGame.get_player(playerId)
+	var isHider = player.playerType == FugitiveTeamResolver.PlayerType.Hider
+	
+	# No one can enter if they are frozen
+	if seatIndex < 0:
+		print("No free seats in car")
+		canEnter = false
+	elif player.frozen:
+		canEnter = false
+	# Car starts locked, first cop unlocks it
+	elif locked:
+		if isHider:
 			canEnter = false
-		# Car starts locked, first cop unlocks it
-		elif locked:
-			if isHider:
-				canEnter = false
-			else:
-				canEnter = true
-				locked = false
-		# Hider can't get in the car when a Seeker is driving
-		elif isHider and driver_seat.occupant != null and driver_seat.occupant.playerType == FugitiveTeamResolver.PlayerType.Seeker:
-			canEnter = false
-		# Guess it's all good!
 		else:
 			canEnter = true
-		
-		if canEnter:
-			print("Server: it's okay to enter the car")
-			rpc("on_car_entered", playerId, seatIndex)
-		else:
-			car_enter_failed()
+			locked = false
+	# Hider can't get in the car when a Seeker is driving
+	elif isHider and driver_seat.occupant != null and driver_seat.occupant.playerType == FugitiveTeamResolver.PlayerType.Seeker:
+		canEnter = false
+	# Guess it's all good!
 	else:
-		print("No free seats in car")
+		canEnter = true
+	
+	if canEnter:
+		print("Server: it's okay to enter the car")
+		rpc("on_car_entered", playerId, seatIndex)
+	else:
 		car_enter_failed()
 	
 	mutex.unlock()
@@ -308,7 +306,8 @@ func process_input(forward: bool, backward: bool, left: bool, right: bool, break
 			# Rotate the car
 			rotate_y(rotAngle)
 			# Rotate the driver
-			driver_seat.rotate_occupant(rotAngle)
+			for seat in seats:
+				seat.rotate_occupant(rotAngle)
 
 
 remote func network_update(networkPosition: Vector3, networkRotation: Vector3, networkVelocity: Vector3):
