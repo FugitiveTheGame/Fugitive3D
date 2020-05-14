@@ -28,15 +28,15 @@ func debounced_button_just_released(button_id) -> bool:
 			# Debounce and throw away this release
 			if delta < DEBOUNCE_THRESHOLD_MS:
 				debouncedReleased = false
-				print("Debounced")
+				#print("Debounced")
 			else:
 				debounceBookKeeping[button_id] = OS.get_system_time_msecs()
 				debouncedReleased = true
-				print("new justRelease")
+				#print("new justRelease")
 		else:
 			debounceBookKeeping[button_id] = OS.get_system_time_msecs()
 			debouncedReleased = true
-			print("first justRelease")
+			#print("first justRelease")
 	else:
 		debouncedReleased = false
 	

@@ -86,9 +86,17 @@ func on_car_exited(car):
 	locomotion.allowTurn = true
 
 
-func car_update(position: Vector3):
+func car_translate(position: Vector3):
 	global_transform.origin = position
 	transform.origin.y -= (standingHeight * 0.45)
+
+
+func car_rotate(angle: float):
+	rpc_unreliable("on_car_rotate", angle)
+
+
+remotesync func on_car_rotate(angle: float):
+	rotate_y(angle)
 
 
 func on_state_not_ready():
