@@ -45,12 +45,6 @@ func handle_commandline_args():
 
 
 func go_to_flat():
-	# Handle desktop window settings
-	if not OS.has_feature("mobile"):
-		var fullscreen = UserData.data.full_screen
-		if fullscreen != OS.window_fullscreen:
-			OS.window_fullscreen = fullscreen
-	
 	get_tree().change_scene("res://client/main_menu/flat/FlatMainMenu.tscn")
 	
 	# Note that this one time handling of command line arguments is intentionally
