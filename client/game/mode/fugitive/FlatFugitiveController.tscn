@@ -55,11 +55,11 @@ margin_right = 320.0
 margin_bottom = 319.99
 
 [node name="EndGameHud" parent="HudCanvas/HudContainer" index="4" instance=ExtResource( 6 )]
+visible = false
 anchor_left = 0.2
 anchor_right = 0.8
 anchor_bottom = 1.0
 margin_top = 16.0
-margin_right = 0.0
 margin_bottom = -64.0
 
 [node name="GameTimerReadout" parent="HudCanvas/HudContainer" index="5" instance=ExtResource( 4 )]
