@@ -18,6 +18,10 @@ func on_car_exited(car):
 	pass
 
 
+func car_update(position: Vector3):
+	global_transform.origin = position
+
+
 func _process(delta):
 	# Client side prediction
 	if not player.gameEnded and not player.frozen:
