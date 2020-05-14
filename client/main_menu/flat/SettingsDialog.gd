@@ -33,8 +33,11 @@ func _on_SettingsDialog_popup_hide():
 
 
 func _on_FullScreenCheckBox_toggled(button_pressed):
-	UserData.data.full_screen = button_pressed
 	OS.window_fullscreen = button_pressed
+	
+	ProjectSettings.set_setting("display/window/size/fullscreen", button_pressed)
+	ProjectSettings.save()
+
 
 
 func _on_MouseSensetivitySlider_value_changed(value):
