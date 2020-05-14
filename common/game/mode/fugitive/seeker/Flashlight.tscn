@@ -26,3 +26,4 @@ spot_angle_attenuation = 0.31864
 
 [node name="gles2Beam" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.228065 )
+visible = false
