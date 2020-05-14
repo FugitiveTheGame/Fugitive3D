@@ -5,7 +5,7 @@ signal return_to_main_menu
 var standingHeight: float = -1.0
 const CROUCH_THRESHOLD := 0.75
 
-onready var camera := $OQ_ARVRCamera
+onready var camera := $OQ_ARVRCamera as ARVRCamera
 onready var player := $Player as Player
 onready var locomotion := $Locomotion_Stick
 onready var hudCanvas := $OQ_LeftController/VisibilityToggle/HudCanvas
