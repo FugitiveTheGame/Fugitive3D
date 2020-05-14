@@ -55,11 +55,15 @@ func update_player_name_state():
 	var show: bool
 	
 	var localPlayer := GameData.currentGame.localPlayer
+	var isLocalPlayer := (id == get_tree().get_network_unique_id()) as bool
 	var localPlayerInWinzone := (localPlayer != null and localPlayer.is_in_winzone()) as bool
 	var localPlayerIsHider := (localPlayerType == FugitiveTeamResolver.PlayerType.Hider) as bool
 	
+	# Always hide for local player
+	if isLocalPlayer:
+		show = false
 	# Always show for frozen players
-	if frozen:
+	elif frozen:
 		show = true
 	# Always show in pre-game and end-game
 	elif not gameStarted or gameEnded:
