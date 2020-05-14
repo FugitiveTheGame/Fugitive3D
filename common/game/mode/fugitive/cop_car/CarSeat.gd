@@ -22,7 +22,7 @@ func is_empty() -> bool:
 func _process(delta):
 	if occupant != null:
 		if is_instance_valid(occupant):
-			occupant.playerBody.global_transform.origin = global_transform.origin
+			occupant.playerController.car_update(global_transform.origin)
 		else:
 			occupant = null
 
@@ -30,6 +30,6 @@ func _process(delta):
 func rotate_occupant(angle: float):
 	if occupant != null:
 		if is_instance_valid(occupant):
-			occupant.playerBody.rotate_y(angle)
+			occupant.playerController.rotate_y(angle)
 		else:
 			occupant = null

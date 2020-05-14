@@ -48,8 +48,11 @@ func _process(delta):
 	locomotion.allowMovement = not player.frozen and player.car == null
 	
 	if player.car != null and player.car.is_driver(player.id):
-		var x = -vr.get_controller_axis(vr.AXIS.RIGHT_JOYSTICK_X);
+		var x = -vr.get_controller_axis(vr.AXIS.LEFT_JOYSTICK_X);
 		var y = vr.get_controller_axis(vr.AXIS.LEFT_JOYSTICK_Y);
+		# Car dead zone
+		if abs(x) < 0.5:
+			x = 0.0
 		
 		var forward := false
 		var backward := false
@@ -74,7 +77,6 @@ func _process(delta):
 
 func on_car_entered(car):
 	locomotion.allowTurn = false
-	transform.origin.y -= (standingHeight * 0.45)
 	vr.vrOrigin.is_fixed = true
 
 
@@ -82,6 +84,11 @@ func on_car_exited(car):
 	vr.vrOrigin.is_fixed = false
 	transform.origin.y = standingHeight
 	locomotion.allowTurn = true
+
+
+func car_update(position: Vector3):
+	global_transform.origin = position
+	transform.origin.y -= (standingHeight * 0.45)
 
 
 func on_state_not_ready():
