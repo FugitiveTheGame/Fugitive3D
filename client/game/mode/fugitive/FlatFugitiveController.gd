@@ -36,7 +36,7 @@ func _input(event):
 
 
 func _process(delta):
-	allowMovement = not player.frozen and player.car == null
+	self.allowMovement = not player.frozen and player.car == null and not player.gameEnded
 	
 	show_map( Input.is_action_pressed("flat_fugitive_map") )
 	
