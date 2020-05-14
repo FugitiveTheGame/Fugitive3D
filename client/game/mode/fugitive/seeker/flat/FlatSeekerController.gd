@@ -6,6 +6,9 @@ onready var car_lock_hud := get_node(car_lock_hud_path)
 export(NodePath) var car_lock_button_path: NodePath
 onready var car_lock_button := get_node(car_lock_button_path) as TouchScreenButton
 
+export(NodePath) var flashlightPath: NodePath
+onready var flashlight := get_node(flashlight) as Spatial
+
 
 func _input(event: InputEvent):
 	if event.is_action_pressed("flat_seeker_lock"):
@@ -18,7 +21,7 @@ func _input(event: InputEvent):
 			car_lock_hud.stop_locking()
 	
 	if event.is_action_released("flat_seeker_flashlight") and player.car == null:
-		$Flashlight.toggle_on()
+		flashlight.toggle_on()
 
 
 func _process(delta):

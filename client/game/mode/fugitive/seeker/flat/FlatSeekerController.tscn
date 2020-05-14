@@ -14,6 +14,7 @@ script = ExtResource( 2 )
 HeldObjectPath = NodePath("Flashlight")
 car_lock_hud_path = NodePath("HudCanvas/HudContainer/BarsContainer/CarLockHud")
 car_lock_button_path = NodePath("HudCanvas/HudContainer/LockButton")
+flashlightPath = NodePath("Flashlight")
 
 [node name="Camera" parent="." index="0"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.36891, 0 )
