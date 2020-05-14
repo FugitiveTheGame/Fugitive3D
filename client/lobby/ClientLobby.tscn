@@ -4,17 +4,18 @@
 [ext_resource path="res://client/lobby/ClientLobby.gd" type="Script" id=2]
 [ext_resource path="res://fonts/content/TitleFont.tres" type="DynamicFont" id=3]
 [ext_resource path="res://client/lobby/count_down.ogg" type="AudioStream" id=4]
-[ext_resource path="res://client/lobby/HelpDialog.gd" type="Script" id=5]
+[ext_resource path="res://client/HelpDialog.tscn" type="PackedScene" id=5]
 
 [node name="Lobby" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 startButtonPath = NodePath("PanelContainer/VBoxContainer/StartButton")
 leaveButtonPath = NodePath("PanelContainer/VBoxContainer/LeaveButton")
 randomButtonPath = NodePath("PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/RandomButton")
+helpDialogPath = NodePath("HelpDialog")
 
 [node name="LeaveButton" type="Button" parent="PanelContainer/VBoxContainer" index="0"]
-margin_left = 1325.0
-margin_right = 1412.0
+margin_left = 1165.0
+margin_right = 1252.0
 margin_bottom = 37.0
 size_flags_horizontal = 8
 size_flags_vertical = 0
@@ -50,13 +51,13 @@ margin_bottom = 157.0
 margin_bottom = 75.0
 
 [node name="ModelValue" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer/HBoxContainer" index="0"]
-margin_left = 108.0
-margin_right = 197.0
+margin_left = 88.0
+margin_right = 177.0
 margin_bottom = 37.0
 
 [node name="HelpButton" type="Button" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer/HBoxContainer" index="1"]
-margin_left = 205.0
-margin_right = 239.0
+margin_left = 185.0
+margin_right = 219.0
 margin_bottom = 37.0
 text = "?"
 
@@ -80,7 +81,7 @@ margin_bottom = 157.0
 
 [node name="Spacer" type="Control" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="5"]
 margin_top = 297.0
-margin_right = 702.0
+margin_right = 622.0
 margin_bottom = 313.0
 rect_min_size = Vector2( 0, 16 )
 
@@ -94,13 +95,13 @@ margin_bottom = 485.0
 
 [node name="RandomButton" type="Button" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="8"]
 margin_top = 493.0
-margin_right = 702.0
+margin_right = 622.0
 margin_bottom = 530.0
 text = "Randomize Teams"
 
 [node name="StartButton" type="Button" parent="PanelContainer/VBoxContainer" index="3"]
 margin_top = 655.0
-margin_right = 1412.0
+margin_right = 1252.0
 margin_bottom = 692.0
 text = "Start Game"
 __meta__ = {
@@ -126,61 +127,9 @@ __meta__ = {
 [node name="CountDownAudio" type="AudioStreamPlayer" parent="." index="3"]
 stream = ExtResource( 4 )
 
-[node name="HelpDialog" type="WindowDialog" parent="." index="4"]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -447.0
-margin_top = -262.0
-margin_right = 447.0
-margin_bottom = 262.0
-window_title = "Help"
-script = ExtResource( 5 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
-rulesTextboxPath = NodePath("TabContainer/Rules")
-controlsTextboxPath = NodePath("TabContainer/Controls")
-
-[node name="TabContainer" type="TabContainer" parent="HelpDialog" index="1"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 8.0
-margin_top = 8.0
-margin_right = -8.0
-margin_bottom = -8.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Rules" type="RichTextLabel" parent="HelpDialog/TabContainer" index="0"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 8.0
-margin_top = 61.0
-margin_right = -8.0
-margin_bottom = -8.0
-bbcode_enabled = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="Controls" type="RichTextLabel" parent="HelpDialog/TabContainer" index="1"]
-visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = 8.0
-margin_top = 61.0
-margin_right = -8.0
-margin_bottom = -8.0
-bbcode_enabled = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="HelpDialog" parent="." index="4" instance=ExtResource( 5 )]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/LeaveButton" to="." method="_on_LeaveButton_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer/HBoxContainer/HelpButton" to="." method="_on_HelpButton_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/RandomButton" to="." method="_on_RandomButton_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/StartButton" to="." method="_on_StartButton_pressed"]
 [connection signal="timeout" from="StartTimer" to="." method="_on_StartTimer_timeout"]
-[connection signal="about_to_show" from="HelpDialog" to="HelpDialog" method="_on_HelpDialog_about_to_show"]

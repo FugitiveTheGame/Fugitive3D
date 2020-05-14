@@ -20,14 +20,8 @@ sizeValuePath = NodePath("PanelContainer/VBoxContainer/HSplitContainer/VBoxConta
 teamsListPath = NodePath("PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/TeamsContainer/ScrollContainer/TeamsList")
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -720.0
-margin_top = -370.0
-margin_right = 720.0
-margin_bottom = 350.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -35,11 +29,11 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer"]
 margin_left = 14.0
 margin_top = 14.0
-margin_right = 1426.0
+margin_right = 1266.0
 margin_bottom = 706.0
 
 [node name="Title" type="Label" parent="PanelContainer/VBoxContainer"]
-margin_right = 1412.0
+margin_right = 1252.0
 margin_bottom = 64.0
 rect_min_size = Vector2( 0, 64 )
 custom_fonts/font = ExtResource( 2 )
@@ -51,31 +45,31 @@ __meta__ = {
 
 [node name="HSplitContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer"]
 margin_top = 72.0
-margin_right = 1412.0
+margin_right = 1252.0
 margin_bottom = 692.0
 size_flags_horizontal = 5
 size_flags_vertical = 3
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer"]
-margin_right = 702.0
+margin_right = 622.0
 margin_bottom = 620.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ColumnLabel" type="Label" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2"]
-margin_right = 702.0
+margin_right = 622.0
 margin_bottom = 25.0
 text = "Players"
 align = 1
 
 [node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2"]
 margin_top = 33.0
-margin_right = 702.0
+margin_right = 622.0
 margin_bottom = 41.0
 
 [node name="Panel" type="Panel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2"]
 margin_top = 49.0
-margin_right = 702.0
+margin_right = 622.0
 margin_bottom = 620.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -95,40 +89,40 @@ __meta__ = {
 }
 
 [node name="Players" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2/Panel/ScrollContainer"]
-margin_right = 670.0
+margin_right = 590.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer"]
-margin_left = 710.0
-margin_right = 1412.0
+margin_left = 630.0
+margin_right = 1252.0
 margin_bottom = 620.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ColumnLabel" type="Label" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
-margin_right = 702.0
+margin_right = 622.0
 margin_bottom = 25.0
 text = "Options"
 align = 1
 
 [node name="HSeparator" type="HSeparator" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
 margin_top = 33.0
-margin_right = 702.0
+margin_right = 622.0
 margin_bottom = 41.0
 
 [node name="MapLabel" type="Label" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
 margin_top = 49.0
-margin_right = 702.0
+margin_right = 622.0
 margin_bottom = 79.0
 custom_fonts/font = ExtResource( 3 )
 text = "Map:"
 
 [node name="MapButton" type="OptionButton" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
 margin_top = 87.0
-margin_right = 702.0
+margin_right = 622.0
 margin_bottom = 124.0
 text = "Select Map"
 __meta__ = {
@@ -137,17 +131,17 @@ __meta__ = {
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
 margin_top = 132.0
-margin_right = 702.0
+margin_right = 622.0
 margin_bottom = 280.0
 
 [node name="DetailsContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer"]
-margin_right = 347.0
+margin_right = 307.0
 margin_bottom = 148.0
 size_flags_horizontal = 3
 alignment = 1
 
 [node name="ModelLabel" type="Label" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer"]
-margin_right = 347.0
+margin_right = 307.0
 margin_bottom = 30.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 3 )
@@ -155,13 +149,13 @@ text = "Game Mode:"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer"]
 margin_top = 38.0
-margin_right = 347.0
+margin_right = 307.0
 margin_bottom = 66.0
 alignment = 1
 
 [node name="ModelValue" type="Label" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer/HBoxContainer"]
-margin_left = 129.0
-margin_right = 218.0
+margin_left = 109.0
+margin_right = 198.0
 margin_bottom = 28.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 4 )
@@ -171,13 +165,13 @@ valign = 1
 
 [node name="Spacer" type="Control" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer"]
 margin_top = 74.0
-margin_right = 347.0
+margin_right = 307.0
 margin_bottom = 74.0
 rect_min_size = Vector2( 64, 0 )
 
 [node name="SizeLabel" type="Label" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer"]
 margin_top = 82.0
-margin_right = 347.0
+margin_right = 307.0
 margin_bottom = 112.0
 size_flags_vertical = 1
 custom_fonts/font = ExtResource( 3 )
@@ -186,7 +180,7 @@ valign = 1
 
 [node name="SizeValue" type="Label" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer"]
 margin_top = 120.0
-margin_right = 347.0
+margin_right = 307.0
 margin_bottom = 148.0
 size_flags_vertical = 3
 custom_fonts/font = ExtResource( 4 )
@@ -195,37 +189,37 @@ align = 1
 valign = 1
 
 [node name="TeamsContainer" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer"]
-margin_left = 355.0
-margin_right = 702.0
+margin_left = 315.0
+margin_right = 622.0
 margin_bottom = 148.0
 size_flags_horizontal = 3
 
 [node name="TeamsLabel" type="Label" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/TeamsContainer"]
-margin_right = 347.0
+margin_right = 307.0
 margin_bottom = 30.0
 custom_fonts/font = ExtResource( 3 )
 text = "Max Team Sizes:"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/TeamsContainer"]
 margin_top = 38.0
-margin_right = 347.0
+margin_right = 307.0
 margin_bottom = 148.0
 size_flags_vertical = 3
 
 [node name="TeamsList" type="VBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/TeamsContainer/ScrollContainer"]
-margin_right = 347.0
+margin_right = 307.0
 size_flags_horizontal = 3
 
 [node name="DescriptionLabel" type="Label" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
 margin_top = 288.0
-margin_right = 702.0
+margin_right = 622.0
 margin_bottom = 318.0
 custom_fonts/font = ExtResource( 3 )
 text = "Map Description:"
 
 [node name="MapPanel" type="Panel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
 margin_top = 326.0
-margin_right = 702.0
+margin_right = 622.0
 margin_bottom = 620.0
 size_flags_vertical = 3
 
@@ -238,7 +232,7 @@ __meta__ = {
 }
 
 [node name="Margin" type="Control" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/MapPanel/ScrollContainer"]
-margin_right = 702.0
+margin_right = 622.0
 size_flags_horizontal = 3
 
 [node name="MapDescription" type="Label" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/MapPanel/ScrollContainer/Margin"]

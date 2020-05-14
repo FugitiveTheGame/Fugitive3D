@@ -8,8 +8,6 @@
 [node name="MainMenu" instance=ExtResource( 1 )]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 0.0
-margin_top = 0.0
 margin_right = 0.0
 margin_bottom = 0.0
 script = ExtResource( 2 )
@@ -46,10 +44,14 @@ margin_right = 160.0
 margin_bottom = 82.0
 text = "Settings"
 
-[node name="DebugButton" type="Button" parent="OptionsContainer" index="2"]
+[node name="HelpButton" parent="OptionsContainer" index="2"]
 margin_top = 90.0
-margin_right = 160.0
 margin_bottom = 127.0
+
+[node name="DebugButton" type="Button" parent="OptionsContainer" index="3"]
+margin_top = 135.0
+margin_right = 160.0
+margin_bottom = 172.0
 text = "debug"
 
 [node name="SettingsDialog" parent="." index="8" instance=ExtResource( 4 )]

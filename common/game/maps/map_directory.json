@@ -2,7 +2,7 @@
 	"maps" : [
 		{
 			"path": "res://common/game/maps/my_neighborhood/MyNeighborhood.scn",
-			"mode": "fugitive",
+			"mode": "Fugitive",
 			"size": "Large",
 			"name": "My Neighborhood",
 			"description": "A well balanced map based off my childhood neighborhood where the real life version of this game was invented.",
@@ -13,7 +13,7 @@
 		},
 		{
 			"path": "res://common/game/maps/suburbia/Suburbia.scn",
-			"mode": "fugitive",
+			"mode": "Fugitive",
 			"size": "Medium",
 			"name": "Suburbia",
 			"description": "A small suburban town. Two streets runing parallel with backyards connecting them.",
@@ -24,8 +24,8 @@
 		}
 	],
 	"modes" : {
-		"fugitive": {
-			"name" : "fugitive",
+		"Fugitive": {
+			"name" : "Fugitive",
 			"base_script" : "res://common/game/mode/fugitive/FugitiveGame.gd",
 			"game_scene" : {
 				"server" : "res://server/game/mode/fugitive/ServerFugitiveGame.tscn",

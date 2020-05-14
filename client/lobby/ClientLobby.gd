@@ -9,6 +9,9 @@ onready var leaveButton := get_node(leaveButtonPath) as Button
 export(NodePath) var randomButtonPath: NodePath
 onready var randomButton := get_node(randomButtonPath) as Button
 
+export (NodePath) var helpDialogPath: NodePath
+onready var helpDialog := get_node(helpDialogPath) as WindowDialog
+
 
 func _enter_tree():
 	ClientNetwork.connect("lost_connection_to_server", self, "on_disconnect")
@@ -95,4 +98,7 @@ func _notification(what):
 
 func _on_HelpButton_pressed():
 	GameAnalytics.design_event("lobby_help_shown")
-	$HelpDialog.popup_centered()
+	var mapId = GameData.general[GameData.GENERAL_MAP]
+	var mode := Maps.get_mode_for_map(mapId)
+	helpDialog.initialGameMode = mode[Maps.MODE_NAME]
+	helpDialog.popup_centered()

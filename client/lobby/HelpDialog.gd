@@ -1,15 +1,39 @@
 extends WindowDialog
 
+export(NodePath) var modeSelectContainerPath: NodePath
+onready var modeSelectContainer := get_node(modeSelectContainerPath) as Control
+
+export(NodePath) var modeSelectButtonPath: NodePath
+onready var modeSelectButton := get_node(modeSelectButtonPath) as OptionButton
+
 export(NodePath) var rulesTextboxPath: NodePath
 onready var rulesTextbox := get_node(rulesTextboxPath) as RichTextLabel
 
 export(NodePath) var controlsTextboxPath: NodePath
 onready var controlsTextbox := get_node(controlsTextboxPath) as RichTextLabel
 
+var initialGameMode = null
 
-func load_data():
-	var mapId = GameData.general[GameData.GENERAL_MAP]
-	var mode := Maps.get_mode_for_map(mapId)
+
+func load_modes():
+	# Populate the mode drop down
+	modeSelectButton.clear()
+	
+	var ii := 0
+	for modeId in Maps.modes:
+		modeSelectButton.add_item(modeId)
+		# Select the requested mode
+		if modeId == initialGameMode:
+			modeSelectButton.selected = ii
+		ii += 1
+	
+	# No mode was selected, just select the first
+	if modeSelectButton.selected < 0:
+		modeSelectButton.selected = 0
+
+
+func load_mode_data(modeId: String):
+	var mode = Maps.modes[modeId]
 	
 	var rulesPath = mode[Maps.MODE_RULES]
 	
@@ -42,4 +66,17 @@ func read_text(path: String) -> String:
 
 
 func _on_HelpDialog_about_to_show():
-	load_data()
+	load_modes()
+	
+	if initialGameMode == null:
+		modeSelectContainer.show()
+	else:
+		modeSelectContainer.hide()
+	
+	var modeId := modeSelectButton.get_item_text(modeSelectButton.selected)
+	load_mode_data(modeId)
+
+
+func _on_ModeSelectButton_item_selected(id):
+	var modeId := modeSelectButton.get_item_text(id)
+	load_mode_data(modeId)

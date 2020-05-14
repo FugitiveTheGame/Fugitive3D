@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://client/main_menu/MainMenu.gd" type="Script" id=1]
 [ext_resource path="res://client/main_menu/server_browser/ServerBrowser.tscn" type="PackedScene" id=2]
 [ext_resource path="res://fonts/content/TitleFont.tres" type="DynamicFont" id=3]
+[ext_resource path="res://client/HelpDialog.tscn" type="PackedScene" id=4]
 
 [node name="MainMenu" type="Control"]
 margin_right = 1024.0
@@ -20,6 +21,7 @@ joiningDialogPath = NodePath("JoiningDialog")
 joinFailedDialogPath = NodePath("JoinFailedDialog")
 badInputDialogPath = NodePath("BadInfoDialog")
 lostConnectionDialogPath = NodePath("ConnectionLostDialog")
+helpDialogPath = NodePath("HelpDialog")
 
 [node name="ScreenTitle" type="Label" parent="."]
 anchor_left = 0.5
@@ -196,6 +198,12 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="HelpButton" type="Button" parent="OptionsContainer"]
+margin_top = 45.0
+margin_right = 160.0
+margin_bottom = 82.0
+text = "Help"
+
 [node name="JoiningDialog" type="WindowDialog" parent="."]
 anchor_left = 0.5
 anchor_top = 0.5
@@ -274,7 +282,10 @@ margin_right = 190.0
 margin_bottom = 55.0
 window_title = "Connection Lost"
 dialog_autowrap = true
+
+[node name="HelpDialog" parent="." instance=ExtResource( 4 )]
 [connection signal="pressed" from="ManualContainer/VBoxContainer/ConnectButton" to="." method="_on_ConnectButton_pressed"]
 [connection signal="connect_to_server" from="ServerBrowser" to="." method="_on_ServerBrowser_connect_to_server"]
 [connection signal="pressed" from="OptionsContainer/ExitButton" to="." method="_on_ExitButton_pressed"]
+[connection signal="pressed" from="OptionsContainer/HelpButton" to="." method="_on_HelpButton_pressed"]
 [connection signal="pressed" from="JoiningDialog/VBoxContainer/CancelButton" to="." method="_on_CancelButton_pressed"]
