@@ -111,7 +111,6 @@ func set_is_local_player():
 
 func hide_avatar():
 	show_avatar = false
-	playerShape.get_name_label().hide()
 	playerShape.get_standing_shape().hide()
 	playerShape.get_crouching_shape().hide()
 
