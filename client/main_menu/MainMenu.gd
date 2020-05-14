@@ -26,6 +26,9 @@ onready var badInputDialog := get_node(badInputDialogPath) as AcceptDialog
 export (NodePath) var lostConnectionDialogPath: NodePath
 onready var lostConnectionDialog := get_node(lostConnectionDialogPath) as AcceptDialog
 
+export (NodePath) var helpDialogPath: NodePath
+onready var helpDialog := get_node(helpDialogPath) as WindowDialog
+
 
 func _enter_tree():
 	get_tree().connect("connected_to_server", self, "on_connected_to_server")
@@ -132,3 +135,7 @@ func _on_CancelButton_pressed():
 	ClientNetwork.reset_network()
 	GameAnalytics.design_event("cancel_join_request")
 	joiningDialog.hide()
+
+
+func _on_HelpButton_pressed():
+	helpDialog.popup_centered()
