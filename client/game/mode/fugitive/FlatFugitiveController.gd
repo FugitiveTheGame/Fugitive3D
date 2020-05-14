@@ -93,6 +93,10 @@ func on_car_exited(car):
 	update_camera_to_head()
 
 
+func car_update(position: Vector3):
+	global_transform.origin = position
+
+
 func on_state_not_ready():
 	$HudCanvas/HudContainer/PregameHud.show()
 
