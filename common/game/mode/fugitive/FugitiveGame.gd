@@ -362,10 +362,12 @@ func _on_ReturnToLobbyTimer_timeout():
 func go_to_lobby():
 	# When the host goes to the lobby, everyone else has a timer start
 	# which will force them back to the lobby
-	if GameData.get_current_player().get_is_host():
+	var curPlayer := GameData.get_current_player()
+	if curPlayer != null and curPlayer.get_is_host():
 		start_lobby_timer()
 	
 	on_go_to_lobby()
+
 
 func get_team_name(teamId: int) -> String:
 	return Maps.get_team_name(GameData.general[GameData.GENERAL_MAP], teamId)
