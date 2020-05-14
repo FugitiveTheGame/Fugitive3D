@@ -42,9 +42,11 @@ spot_angle = 30.0
 
 [node name="gles2Headlight1" parent="cop_car" instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.02435, 1.05348, -2.71607 )
+visible = false
 
 [node name="gles2Headlight2" parent="cop_car" instance=ExtResource( 11 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -1.0183, 1.05348, -2.71607 )
+visible = false
 
 [node name="Seats" type="Spatial" parent="."]
 
@@ -54,15 +56,12 @@ is_driver_seat = true
 
 [node name="CarSeat2" parent="Seats" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0.719833, -0.541356 )
-is_driver_seat = false
 
 [node name="CarSeat3" parent="Seats" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.75, 0.719833, 0.707853 )
-is_driver_seat = false
 
 [node name="CarSeat4" parent="Seats" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.75, 0.719833, 0.707853 )
-is_driver_seat = false
 
 [node name="EnterArea" type="Area" parent="."]
 

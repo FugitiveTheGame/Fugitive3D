@@ -3,9 +3,9 @@ extends Spatial
 var is_on := true
 
 func _ready():
-	if Utils.renderer_is_gles2():
-		$SpotLight.hide()
-		$gles2Beam.show()
+	var gles2 := Utils.renderer_is_gles2()
+	$SpotLight.visible = not gles2
+	$gles2Beam.visible = gles2
 
 
 func toggle_on():
