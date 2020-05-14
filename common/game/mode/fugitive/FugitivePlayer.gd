@@ -17,6 +17,7 @@ func set_car(value):
 	
 	if car != null:
 		self.is_crouching = true
+		stop_movement_sounds()
 	else:
 		self.is_crouching = false
 
@@ -103,6 +104,7 @@ remotesync func on_freeze():
 	print("Player frozen: %d" % get_network_master())
 	frozen = true
 	update_player_name_state()
+	stop_movement_sounds()
 
 
 func unfreeze():
@@ -145,6 +147,7 @@ func on_game_state_changed(newState: State, via: Transition):
 				playerController.on_state_playing()
 		FugitiveStateMachine.STATE_GAME_OVER:
 			gameEnded = true
+			on_state_game_over()
 			if playerController.has_method("on_state_game_over"):
 				playerController.on_state_game_over()
 
@@ -166,6 +169,10 @@ func on_state_playing_headstart():
 func on_state_playing():
 	print("FugPlay: on_state_playing()")
 	pass
+
+
+func on_state_game_over():
+	stop_movement_sounds()
 
 
 func _on_AutoReadyTimer_timeout():
