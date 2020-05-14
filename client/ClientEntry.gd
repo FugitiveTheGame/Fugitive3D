@@ -81,7 +81,7 @@ func prepare_mobile_vr():
 	
 	# set fixed foveation level
 	# for details see https://developer.oculus.com/documentation/quest/latest/concepts/mobile-ffr/
-	#vr.set_foveation_level(vr.FoveatedRenderingLevel.High)
+	vr.set_foveation_level(vr.FoveatedRenderingLevel.Medium)
 	
 	# This will dynamically change the foveation level up to the previous level
 	#vr.set_enable_dynamic_foveation(1)
