@@ -93,25 +93,33 @@ remotesync func on_request_enter_car(playerId: int):
 	
 	var seatIndex := get_free_seat()
 	if seatIndex > -1:
+		var canEnter: bool
+		
 		var player = GameData.currentGame.get_player(playerId)
-		
 		var isHider = player.playerType == FugitiveTeamResolver.PlayerType.Hider
-		# Car starts locked, first cop unlocks it
-		if locked:
-			if isHider:
-				car_enter_failed()
-				return
-			else:
-				locked = false
-		elif isHider:
-			if driver_seat.occupant != null:
-				if driver_seat.occupant.playerType == FugitiveTeamResolver.PlayerType.Seeker:
-					# Hider can't get in the car when a Seeker is driving
-					car_enter_failed()
-					return
 		
-		print("Server: it's okay to enter the car")
-		rpc("on_car_entered", playerId, seatIndex)
+		# No one can enter if they are frozen
+		if player.frozen:
+			canEnter = false
+		# Car starts locked, first cop unlocks it
+		elif locked:
+			if isHider:
+				canEnter = false
+			else:
+				canEnter = true
+				locked = false
+		# Hider can't get in the car when a Seeker is driving
+		elif isHider and driver_seat.occupant != null and driver_seat.occupant.playerType == FugitiveTeamResolver.PlayerType.Seeker:
+			canEnter = false
+		# Guess it's all good!
+		else:
+			canEnter = true
+		
+		if canEnter:
+			print("Server: it's okay to enter the car")
+			rpc("on_car_entered", playerId, seatIndex)
+		else:
+			car_enter_failed()
 	else:
 		print("No free seats in car")
 		car_enter_failed()
