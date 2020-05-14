@@ -18,8 +18,16 @@ func on_car_exited(car):
 	pass
 
 
-func car_update(position: Vector3):
+func car_translate(position: Vector3):
 	global_transform.origin = position
+
+
+func car_rotate(angle: float):
+	rpc_unreliable("on_car_rotate", angle)
+
+
+remotesync func on_car_rotate(angle: float):
+	rotate_y(angle)
 
 
 func _process(delta):
