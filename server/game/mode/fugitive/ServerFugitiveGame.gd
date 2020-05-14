@@ -119,11 +119,6 @@ func send_all_to_lobby():
 		rpc("on_go_to_lobby")
 
 
-# Server goes back to the lobby as soon as the host does
-remote func on_start_lobby_timer():
-	on_go_to_lobby()
-
-
 remotesync func on_go_to_lobby():
 	print("SERVER: on_go_to_lobby()")
 	get_tree().change_scene("res://server/lobby/ServerLobby.tscn")
@@ -173,6 +168,12 @@ func _send_heartbeat():
 
 func _on_StateMachine_state_change(new_state, transition):
 	print("new state: %s via: %s" % [new_state.name, transition.name])
+
+
+func on_state_game_over(current_state: State, transition: Transition):
+	.on_state_game_over(current_state, transition)
+	print("Server returning to lobby")
+	go_to_lobby()
 
 
 func _on_HistoryHeartbeatTimer_timeout():
