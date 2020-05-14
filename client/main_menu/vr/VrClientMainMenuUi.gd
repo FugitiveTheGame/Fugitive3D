@@ -7,8 +7,10 @@ export(NodePath) var debugButtonPath: NodePath
 onready var debugButton := get_node(debugButtonPath) as Button
 
 func _ready():
-	debugButton.visible = OS.is_debug_build()
-	$DriverLabel.text = ProjectSettings.get_setting("rendering/quality/driver/driver_name")
+	if OS.is_debug_build():
+		debugButton.visible = true
+		$DriverLabel.text = ProjectSettings.get_setting("rendering/quality/driver/driver_name")
+		$DriverLabel.visible = true
 
 
 func go_to_lobby():
