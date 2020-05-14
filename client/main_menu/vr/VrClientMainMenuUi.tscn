@@ -25,5 +25,14 @@ __meta__ = {
 }
 
 [node name="SettingsDialog" parent="." index="7" instance=ExtResource( 3 )]
+
+[node name="DriverLabel" type="Label" parent="." index="12"]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -89.0
+margin_top = 70.0
+margin_right = -24.0
+margin_bottom = 95.0
+text = "driver"
 [connection signal="pressed" from="OptionsContainer/SettingsButton" to="." method="_on_SettingsButton_pressed"]
 [connection signal="pressed" from="OptionsContainer/DebugButton" to="." method="_on_DebugButton_pressed"]

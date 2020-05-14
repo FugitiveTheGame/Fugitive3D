@@ -11,4 +11,4 @@ static func get_map_rotation(globalTransform: Transform) -> float:
 
 
 static func renderer_is_gles2() -> bool:
-	return ProjectSettings.get_setting("driver/driver_name") == "GLES2"
+	return ProjectSettings.get_setting("rendering/quality/driver/driver_name") == "GLES2"

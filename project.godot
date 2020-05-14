@@ -377,6 +377,7 @@ limits/message_queue/max_size_kb=2048
 
 [rendering]
 
+quality/driver/fallback_to_gles2=true
 threads/thread_model=2
 quality/filters/anisotropic_filter_level=8
 vram_compression/import_etc=true
