@@ -8,6 +8,7 @@ onready var debugButton := get_node(debugButtonPath) as Button
 
 func _ready():
 	debugButton.visible = OS.is_debug_build()
+	$DriverLabel.text = ProjectSettings.get_setting("rendering/quality/driver/driver_name")
 
 
 func go_to_lobby():
