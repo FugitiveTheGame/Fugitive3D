@@ -19,7 +19,7 @@ func _ready():
 
 
 func load_data():
-	fullscreenCheckbox.pressed = UserData.data.full_screen
+	fullscreenCheckbox.pressed = ProjectSettings.get_setting("display/window/size/fullscreen") as bool
 	mouseSensetivityLabel.text = MOUSE_SENSETIVITY_CONTENT % UserData.data.flat_mouse_sensetivity
 	mouseSensetivitySlider.value = UserData.data.flat_mouse_sensetivity
 
