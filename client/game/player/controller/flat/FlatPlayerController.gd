@@ -28,6 +28,7 @@ const MOVEMENT_LAMBDA := 0.01
 
 var allowMovement := true
 
+
 onready var virtual_joysticks := $HudCanvas/VirtualJoysticks
 const joystickMultiplier := 6.0
 

@@ -7,7 +7,7 @@ export(NodePath) var car_lock_button_path: NodePath
 onready var car_lock_button := get_node(car_lock_button_path) as TouchScreenButton
 
 export(NodePath) var flashlightPath: NodePath
-onready var flashlight := get_node(flashlight) as Spatial
+onready var flashlight := get_node(flashlightPath) as Spatial
 
 
 func _input(event: InputEvent):

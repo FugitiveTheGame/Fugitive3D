@@ -45,7 +45,7 @@ func _process(delta):
 	#######################
 	# Car movement input
 	
-	locomotion.allowMovement = not player.frozen and player.car == null
+	locomotion.allowMovement = not player.frozen and player.car == null and not player.gameEnded
 	
 	if player.car != null and player.car.is_driver(player.id):
 		var x = -vr.get_controller_axis(vr.AXIS.LEFT_JOYSTICK_X);
