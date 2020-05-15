@@ -10,6 +10,7 @@ func get_player() -> Player:
 
 
 export(float) var Sensitivity_X := 0.01
+export(float) var TouchSensitivity_X := 0.1
 export(float) var Sensitivity_Y := 0.005
 export(bool) var Invert_Y_Axis := false
 export(float) var Maximum_Y_Look := 45
@@ -29,9 +30,7 @@ const MOVEMENT_LAMBDA := 0.01
 var allowMovement := true
 
 
-onready var virtual_joysticks := $HudCanvas/VirtualJoysticks
-const joystickMultiplier := 6.0
-
+onready var virtual_joysticks := $HudCanvas/VirtualJoysticks as VirtualJoysticks
 
 export(NodePath) var HeldObjectPath: NodePath
 var heldObject: Spatial setget held_object_set, held_object_get
@@ -80,7 +79,9 @@ func _process(delta):
 	player.sprint = Input.is_action_pressed("flat_player_sprint")
 	
 	if virtual_joysticks.right_output.x != 0.0:
-		rotate_y(-Sensitivity_X * mouseLookSensetivityModifier * virtual_joysticks.right_output.x * joystickMultiplier)
+		var x := virtual_joysticks.right_output.x
+		# y=\frac{x^{6}}{x}
+		rotate_y(((pow(x, 6.0)/x) * -TouchSensitivity_X) * mouseLookSensetivityModifier)
 
 
 func _physics_process(delta):
