@@ -1,13 +1,14 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://client/main_menu/MainMenu.gd" type="Script" id=1]
 [ext_resource path="res://client/main_menu/server_browser/ServerBrowser.tscn" type="PackedScene" id=2]
 [ext_resource path="res://fonts/content/TitleFont.tres" type="DynamicFont" id=3]
 [ext_resource path="res://client/HelpDialog.tscn" type="PackedScene" id=4]
+[ext_resource path="res://godot_logo.png" type="Texture" id=5]
 
 [node name="MainMenu" type="Control"]
-margin_right = 1024.0
-margin_bottom = 600.0
+anchor_right = 1.0
+anchor_bottom = 1.0
 rect_min_size = Vector2( 1024, 600 )
 script = ExtResource( 1 )
 __meta__ = {
@@ -16,7 +17,7 @@ __meta__ = {
 playerNamePath = NodePath("UsernamePanel/VBoxContainer/PlayerName")
 serverIpPath = NodePath("ManualContainer/VBoxContainer/HBoxContainer/ServerIp")
 serverPortPath = NodePath("ManualContainer/VBoxContainer/HBoxContainer/ServerPort")
-versionLabelPath = NodePath("VersionLabel")
+versionLabelPath = NodePath("InfoContainer/VersionLabel")
 joiningDialogPath = NodePath("JoiningDialog")
 joinFailedDialogPath = NodePath("JoinFailedDialog")
 badInputDialogPath = NodePath("BadInfoDialog")
@@ -171,16 +172,6 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="VersionLabel" type="Label" parent="."]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -54.002
-margin_right = -0.00195313
-margin_bottom = 40.0
-text = "v0"
-align = 1
-valign = 1
-
 [node name="OptionsContainer" type="VBoxContainer" parent="."]
 margin_left = 9.58188
 margin_top = 10.4182
@@ -284,6 +275,36 @@ window_title = "Connection Lost"
 dialog_autowrap = true
 
 [node name="HelpDialog" parent="." instance=ExtResource( 4 )]
+
+[node name="InfoContainer" type="VBoxContainer" parent="."]
+anchor_left = 1.0
+anchor_right = 1.0
+margin_left = -72.0
+margin_top = 8.0
+margin_right = -8.0
+margin_bottom = 156.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GodotLogo" type="TextureRect" parent="InfoContainer"]
+margin_right = 64.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 64, 64 )
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VersionLabel" type="Label" parent="InfoContainer"]
+margin_top = 72.0
+margin_right = 64.0
+margin_bottom = 97.0
+text = "v0"
+align = 2
+valign = 1
 [connection signal="pressed" from="ManualContainer/VBoxContainer/ConnectButton" to="." method="_on_ConnectButton_pressed"]
 [connection signal="connect_to_server" from="ServerBrowser" to="." method="_on_ServerBrowser_connect_to_server"]
 [connection signal="pressed" from="OptionsContainer/ExitButton" to="." method="_on_ExitButton_pressed"]
