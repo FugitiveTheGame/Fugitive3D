@@ -5,7 +5,7 @@
 
 [sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 2 )
-shader_param/albedo = Color( 0.898039, 0.901961, 0.396078, 0.0156863 )
+shader_param/albedo = Color( 0.898039, 0.901961, 0.396078, 0.0588235 )
 
 [node name="baseless-cone" instance=ExtResource( 1 )]
 
