@@ -1,5 +1,8 @@
 extends Control
+class_name VirtualJoysticks
 
+export(float, 0.0, 1.0, 0.001) var left_dead_zone := 0.40
+export(float, 0.0, 1.0, 0.001) var right_dead_zone := 0.40
 
 onready var baseLeft := $BaseLeft as TextureRect
 onready var baseRight := $BaseRight as TextureRect
@@ -16,8 +19,6 @@ var right_initial_position: Vector2
 
 var left_move_radius: float
 var right_move_radius: float
-
-var dead_zone := 0.40
 
 var left_output := Vector2()
 var right_output := Vector2()
@@ -43,12 +44,12 @@ func _gui_input(event):
 	
 	if event is InputEventScreenDrag:
 		if event.index == left_finger_index:
-			left_output = update_stick(stickLeft, baseLeft, left_move_radius, left_initial_position, event.position)
+			left_output = update_stick(stickLeft, baseLeft, left_move_radius, left_initial_position, event.position, left_dead_zone)
 		elif event.index == right_finger_index:
-			right_output = update_stick(stickRight, baseRight, right_move_radius, right_initial_position, event.position)
+			right_output = update_stick(stickRight, baseRight, right_move_radius, right_initial_position, event.position, right_dead_zone)
 
 
-func update_stick(stick: TextureRect, base: TextureRect, radius: float, centerPosition: Vector2, newPosition: Vector2) -> Vector2:
+func update_stick(stick: TextureRect, base: TextureRect, radius: float, centerPosition: Vector2, newPosition: Vector2, deadZone: float) -> Vector2:
 	var stick_center := newPosition - base.rect_position - (stick.rect_size / 2.0)
 	
 	var output := Vector2()
@@ -62,10 +63,10 @@ func update_stick(stick: TextureRect, base: TextureRect, radius: float, centerPo
 	
 	output = output / radius
 	
-	if output.x < dead_zone and output.x > -dead_zone:
+	if output.x < deadZone and output.x > -deadZone:
 		output.x = 0.0
 	
-	if output.y < dead_zone and output.y > -dead_zone:
+	if output.y < deadZone and output.y > -deadZone:
 		output.y = 0.0
 	else:
 		output.y *= -1.0
