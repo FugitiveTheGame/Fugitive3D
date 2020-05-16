@@ -24,6 +24,8 @@ func _ready():
 func move(dt):
 	if allowMovement:
 		.move(dt)
+	else:
+		is_moving = false
 
 
 func turn(dt):

@@ -3,7 +3,7 @@ extends "res://client/game/mode/fugitive/VrFugitiveController.gd"
 onready var car_lock_hud := hud.find_node("CarLockHud", true, false)
 
 export(NodePath) var flashlightPath: NodePath
-onready var flashlight := get_node(flashlight) as Spatial
+onready var flashlight := get_node(flashlightPath) as Spatial
 
 
 func _process(delta):

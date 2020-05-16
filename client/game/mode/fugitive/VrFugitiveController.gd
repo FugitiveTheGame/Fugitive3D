@@ -6,15 +6,12 @@ onready var playerHeightHud := hud.find_node("HeightContainer", true, false) as 
 onready var overviewMapHud := hud.find_node("OverviewMapHud", true, false) as Control
 
 const dead_zone := 0.125
+const car_dead_zone := 0.5
 
 
 # Allow child classes to override this functionality
 func show_map(show: bool):
 	overviewMapHud.visible = show
-
-
-func _ready():
-	uiRaycast.connect("visibility_changed", self, "on_ui_raycast_visibility_changed")
 
 
 func _physics_process(delta):
@@ -25,7 +22,7 @@ func _physics_process(delta):
 		player.set_ready()
 	 
 	show_map( vr.button_pressed(vr.BUTTON.LEFT_THUMBSTICK) )
-
+	
 	if debounced_button_just_released(vr.BUTTON.A):
 		if player.car == null:
 			var cars := get_tree().get_nodes_in_group(Groups.CARS)
@@ -39,9 +36,11 @@ func _physics_process(delta):
 	if debounced_button_just_released(vr.BUTTON.LEFT_INDEX_TRIGGER):
 		if player.car != null and player.car.is_driver(player.id):
 			player.car.honk_horn()
+	
+	process_car_input(delta)
 
 
-func _process(delta):
+func process_car_input(delta: float):
 	#######################
 	# Car movement input
 	
@@ -51,7 +50,7 @@ func _process(delta):
 		var x = -vr.get_controller_axis(vr.AXIS.LEFT_JOYSTICK_X);
 		var y = vr.get_controller_axis(vr.AXIS.LEFT_JOYSTICK_Y);
 		# Car dead zone
-		if abs(x) < 0.5:
+		if abs(x) < car_dead_zone:
 			x = 0.0
 		
 		var forward := false
