@@ -155,7 +155,7 @@ func _physics_process(delta):
 	
 	# Gravity means that even when we're on the ground, our Y component always
 	# has a large size. So for isMoving we only consider X and Z
-	player.isMoving = (Vector3(player.velocity.x, 0.0, player.velocity.z).length() > MOVEMENT_LAMBDA)
+	player.isMoving = (Vector3(player.velocity.x, 0.0, player.velocity.z).length() > MOVEMENT_LAMBDA) and allowMovement
 	
 	if not player.gameEnded:
 		player.rpc_unreliable("network_update", translation, rotation, player.velocity, player.is_crouching, player.isMoving, player.sprint, player.stamina)

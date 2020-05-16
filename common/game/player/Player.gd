@@ -163,9 +163,3 @@ func out_of_stamina():
 
 remotesync func on_out_of_stamina():
 	no_stamina_sound.play()
-
-
-func stop_movement_sounds():
-	walking_sound.stop()
-	jumping_sound.stop()
-	no_stamina_sound.stop()
