@@ -14,6 +14,8 @@ onready var ui_raycast_hitmarker : MeshInstance = $RayCastPosition/RayCastHitMar
 
 const hand_click_button := vr.CONTROLLER_BUTTON.XA;
 
+var is_colliding := false;
+
 
 func _set_raycast_transform():
 	# woraround for now until there is a more standardized way to know the controller
@@ -44,18 +46,19 @@ func _update_raycasts():
 	ui_raycast_hitmarker.visible = false;
 	
 	
-		
 	if (controller.is_hand && vr.ovrHandTracking): # hand has separate logic
 		ui_raycast_mesh.visible = vr.ovrHandTracking.is_pointer_pose_valid(controller.controller_id);
+		if (!ui_raycast_mesh.visible): return;
 	elif (ui_raycast_visible_button == vr.CONTROLLER_BUTTON.None ||
 		  controller._button_pressed(ui_raycast_visible_button) ||
 		  controller._button_pressed(ui_raycast_click_button)): 
 		ui_raycast_mesh.visible = true;
 	else:
+		# Process when raycast just starts to not be visible,
+		# To allow for button release
+		if (!ui_raycast_mesh.visible): return;
 		ui_raycast_mesh.visible = false;
 		
-	if (!ui_raycast_mesh.visible): return;
-	
 	_set_raycast_transform();
 
 		
@@ -80,6 +83,9 @@ func _update_raycasts():
 		ui_raycast_hitmarker.global_transform.origin = position;
 		
 		c.ui_raycast_hit_event(position, click, release);
+		is_colliding = true;
+	else:
+		is_colliding = false;
 
 func _ready():
 	controller = get_parent();
