@@ -30,16 +30,19 @@ __meta__ = {
 
 [node name="SettingsDialog" parent="." index="7" instance=ExtResource( 3 )]
 
-[node name="DriverLabel" type="Label" parent="." index="12"]
-anchor_left = 1.0
-anchor_right = 1.0
-margin_left = -89.0
-margin_top = 70.0
-margin_right = -24.0
-margin_bottom = 95.0
-text = "driver"
+[node name="GodotLogo" parent="InfoContainer" index="0"]
+margin_right = 65.0
 
-[node name="HelpDialog" parent="." index="13"]
-visible = false
+[node name="VersionLabel" parent="InfoContainer" index="1"]
+margin_right = 65.0
+
+[node name="DriverLabel" type="Label" parent="InfoContainer" index="2"]
+margin_top = 105.0
+margin_right = 65.0
+margin_bottom = 130.0
+text = "driver"
+__meta__ = {
+"_edit_use_anchors_": false
+}
 [connection signal="pressed" from="OptionsContainer/SettingsButton" to="." method="_on_SettingsButton_pressed"]
 [connection signal="pressed" from="OptionsContainer/DebugButton" to="." method="_on_DebugButton_pressed"]
