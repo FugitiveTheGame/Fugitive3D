@@ -69,6 +69,18 @@ func get_free_seat() -> int:
 	return freeSeat
 
 
+func find_players_seat(playerId: int) -> CarSeat:
+	var playerSeat: CarSeat = null
+	
+	for ii in seats.size():
+		var seat = seats[ii] as CarSeat
+		if not seat.is_empty() and seat.occupant.id == playerId:
+			playerSeat = seat
+			break
+	
+	return playerSeat
+
+
 func car_enter_failed():
 	rpc("on_car_enter_failed")
 
