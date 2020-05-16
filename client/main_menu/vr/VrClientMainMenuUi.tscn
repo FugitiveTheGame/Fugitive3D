@@ -7,6 +7,7 @@
 [node name="MainMenu" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 settingsDialogPath = NodePath("SettingsDialog")
+driverLabelPath = NodePath("InfoContainer/DriverLabel")
 debugButtonPath = NodePath("OptionsContainer/DebugButton")
 
 [node name="SettingsButton" type="Button" parent="OptionsContainer" index="1"]
