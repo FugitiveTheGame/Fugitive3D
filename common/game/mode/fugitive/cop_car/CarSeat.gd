@@ -19,7 +19,7 @@ func is_empty() -> bool:
 	return occupant == null
 
 
-func _process(delta):
+func _physics_process(delta):
 	if occupant != null:
 		if is_instance_valid(occupant):
 			occupant.playerController.car_translate(global_transform.origin)
