@@ -19,14 +19,6 @@ func is_empty() -> bool:
 	return occupant == null
 
 
-func _physics_process(delta):
-	if occupant != null:
-		if is_instance_valid(occupant):
-			occupant.playerController.car_translate(global_transform.origin)
-		else:
-			occupant = null
-
-
 func rotate_occupant(angle: float):
 	if occupant != null:
 		if is_instance_valid(occupant):

@@ -98,6 +98,7 @@ visible = false
 ui_raycast_visible_button = -1
 
 [node name="Feature_Falling" parent="." instance=ExtResource( 7 )]
+fall_without_hit = true
 
 [node name="Feature_PlayerCollision" type="KinematicBody" parent="."]
 collision_mask = 11

@@ -38,6 +38,12 @@ func _input(event):
 func _process(delta):
 	self.allowMovement = not player.frozen and player.car == null and not player.gameEnded
 	
+	# Stick the user's butt in their seat!
+	if player.car != null:
+		var seat = player.car.find_players_seat(player.id)
+		if seat != null:
+			global_transform.origin = seat.global_transform.origin
+	
 	show_map( Input.is_action_pressed("flat_fugitive_map") )
 	
 	# Only allow the driver to control the car
@@ -91,10 +97,6 @@ func on_car_entered(car):
 
 func on_car_exited(car):
 	update_camera_to_head()
-
-
-func car_translate(position: Vector3):
-	global_transform.origin = position
 
 
 func car_rotate(angle: float):
