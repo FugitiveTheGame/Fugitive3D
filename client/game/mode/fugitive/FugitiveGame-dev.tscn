@@ -5,7 +5,3 @@
 
 [node name="Game" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-
-[node name="DebugHistoryTimer" type="Timer" parent="." index="5"]
-autostart = true
-[connection signal="timeout" from="DebugHistoryTimer" to="." method="_on_DebugHistoryTimer_timeout"]
