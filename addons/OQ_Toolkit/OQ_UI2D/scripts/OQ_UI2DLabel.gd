@@ -13,7 +13,11 @@ export var font_size_multiplier := 1.0
 export (Color) var font_color := Color(1,1,1,1);
 export (Color) var background_color := Color(0,0,0,1);
 #export var line_to_parent = false;
-export var transparent := false;
+export var transparent := false setget set_transparent;
+func set_transparent(value: bool):
+	transparent = value
+	update_transparency()
+
 
 onready var ui_label : Label = $Viewport/ColorRect/CenterContainer/Label
 onready var ui_container : CenterContainer = $Viewport/ColorRect/CenterContainer
@@ -49,6 +53,10 @@ func _ready():
 		#$LineMesh.global_transform.origin = center;
 		#$LineMesh.look_at_from_position()
 
+
+func update_transparency():
+	if mesh_material != null:
+		mesh_material.flags_transparent = transparent;
 
 func resize_auto():
 	var size = ui_label.get_minimum_size();
