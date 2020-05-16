@@ -34,6 +34,7 @@ func load_map():
 	
 	FugitivePlayerDataUtility.reset_stats()
 
+
 # If a player has disconnected, remove them from the world
 func remove_player(playerId: int):
 	var player := GameData.currentGame.get_player(playerId)
@@ -60,6 +61,9 @@ func finish_game(playerType: int):
 
 
 remotesync func on_finish_game(playerType: int):
+	# Send one last heartbeat when the game is finished.
+	record_heartbeat()
+	
 	var curState := stateMachine.current_state.name
 	
 	winningTeam = playerType
@@ -389,3 +393,13 @@ func collect_heartbeat() -> Dictionary:
 	#print("HEARTBEAT: Processed %d entries" % newHistoryHeartbeat.size())
 	
 	return newHistoryHeartbeat
+
+
+func record_heartbeat():
+	var heartBeat := collect_heartbeat()
+	history.record_heartbeat(heartBeat)
+
+
+func _on_HistoryHeartbeatTimer_timeout():
+	if gameStarted and not is_game_over():
+		record_heartbeat()
