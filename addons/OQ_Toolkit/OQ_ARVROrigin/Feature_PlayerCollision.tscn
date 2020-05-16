@@ -2,6 +2,7 @@
 
 [ext_resource path="res://addons/OQ_Toolkit/OQ_ARVROrigin/scripts/Feature_PlayerCollision.gd" type="Script" id=1]
 
+
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.15
 

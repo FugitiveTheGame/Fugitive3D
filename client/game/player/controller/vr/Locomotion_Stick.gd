@@ -5,7 +5,7 @@ var allowTurn := true
 
 
 func _ready():
-	movmenet_orientation = UserData.data.vr_movement_orientation
+	movement_orientation = UserData.data.vr_movement_orientation
 	enable_vignette = UserData.data.vr_movement_vignetting
 	
 	match UserData.data.vr_movement_hand:

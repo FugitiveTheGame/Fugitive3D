@@ -1,3 +1,5 @@
+# This file needs to be set as AutoLoad script in your Project Settings and called 'vr'
+# It contains all the glue code and helper functions to make individual features work together.
 extends Node
 
 const UI_PIXELS_TO_METER = 1.0 / 1024; # defines the (auto) size of UI elements in 3D
@@ -83,6 +85,25 @@ func remove_dbg_info(key):
 	_reorder_dbg_labels();
 
 
+var _notification_scene = null;
+
+func show_notification(title, text = ""):
+	if (_notification_scene == null): _notification_scene = load(oq_base_dir + "/OQ_UI2D/OQ_UI2DNotificationWindow.tscn");
+	var nw = _notification_scene.instance();
+	
+	nw.set_notificaiton_text(title, text);
+
+	if (scene_switch_root):
+		scene_switch_root.add_child(nw);
+	else:
+		vr.vrOrigin.get_parent().add_child(nw);
+	var pos = vr.vrCamera.global_transform.origin - vr.vrCamera.global_transform.basis.z;
+	
+	nw.look_at_from_position(pos, vr.vrCamera.global_transform.origin, Vector3(0,1,0));
+	
+	
+	
+	
 # returns the current player height based on the difference between
 # the height of origin and camera; this assumes that tracking is floor level
 func get_current_player_height():
@@ -106,6 +127,21 @@ var rightController : ARVRController = null;
 var vrOrigin : ARVROrigin = null;
 var vrCamera : ARVRCamera = null;
 
+# these two variable point to leftController/rightController
+# and are swapped when calling
+var dominantController : ARVRController = rightController;
+var nonDominantController : ARVRController = leftController;
+
+func set_dominant_controller_left(is_left_handed):
+	if (is_left_handed):
+		dominantController = leftController;
+		nonDominantController = rightController;
+	else:
+		dominantController = rightController;
+		nonDominantController = leftController;
+		
+func is_dominant_controller_left():
+	return dominantController == leftController;
 
 enum AXIS {
 	None = -1,
@@ -301,7 +337,6 @@ func _refresh_settings():
 	set_extra_latency_mode(oculus_mobile_settings_cache["extra_latency_mode"]);
 	set_foveation_level(oculus_mobile_settings_cache["foveation_level"]);
 	set_enable_dynamic_foveation(oculus_mobile_settings_cache["foveation_dynamic"]);
-	
 	set_swap_interval(oculus_mobile_settings_cache["swap_interval"]);
 	set_clock_levels(oculus_mobile_settings_cache["clock_levels_cpu"], oculus_mobile_settings_cache["clock_levels_gpu"]);
 	
@@ -387,6 +422,13 @@ func set_tracking_space(tracking_space):
 	else:
 		oculus_mobile_settings_cache["tracking_space"] = tracking_space;
 		return ovrTrackingTransform.set_tracking_space(tracking_space);
+		
+func locate_tracking_space(target_tracking_space):
+	if (!ovrTrackingTransform):
+		log_error("set_tracking_space(): no ovrTrackingTransform object.");
+		return Transform();
+	else:
+		return ovrTrackingTransform.locate_tracking_space(target_tracking_space);
 
 
 # these variables are currently only used by the recording playback
@@ -401,21 +443,27 @@ func get_controller_angular_velocity(controller_id):
 		#return Vector3(0,0,0); # we could implement a fallback here
 		return _sim_angular_velocity[controller_id];
 	else:
-		return ovrUtilities.get_controller_angular_velocity(controller_id);
+		var v = ovrUtilities.get_controller_angular_velocity(controller_id);
+		if (v != null): return v;
+	return Vector3(0,0,0);
 
 func get_controller_angular_acceleration(controller_id):
 	if (!ovrUtilities):
 		#return Vector3(0,0,0); # we could implement a fallback here
 		return _sim_angular_acceleration[controller_id];
 	else:
-		return ovrUtilities.get_controller_angular_acceleration(controller_id);
+		var v =  ovrUtilities.get_controller_angular_acceleration(controller_id);
+		if (v != null): return v;
+	return Vector3(0,0,0);
 	
 func get_controller_linear_velocity(controller_id):
 	if (!ovrUtilities):
 		#return Vector3(0,0,0); # we could implement a fallback here
 		return _sim_linear_velocity[controller_id];
 	else:
-		return ovrUtilities.get_controller_linear_velocity(controller_id);
+		var v =  ovrUtilities.get_controller_linear_velocity(controller_id);
+		if (v != null): return v;
+	return Vector3(0,0,0);
 
 
 func get_controller_linear_acceleration(controller_id):
@@ -423,7 +471,9 @@ func get_controller_linear_acceleration(controller_id):
 		#return Vector3(0,0,0); # we could implement a fallback here
 		return _sim_linear_acceleration[controller_id];
 	else:
-		return ovrUtilities.get_controller_linear_acceleration(controller_id);
+		var v =  ovrUtilities.get_controller_linear_acceleration(controller_id);
+		if (v != null): return v;
+	return Vector3(0,0,0);
 
 
 func get_head_angular_velocity():
@@ -431,21 +481,27 @@ func get_head_angular_velocity():
 		#return Vector3(0,0,0); # we could implement a fallback here
 		return _sim_angular_velocity[0];
 	else:
-		return ovrUtilities.get_head_angular_velocity();
+		var v =  ovrUtilities.get_head_angular_velocity();
+		if (v != null): return v;
+	return Vector3(0,0,0);
 
 func get_head_angular_acceleration():
 	if (!ovrUtilities):
 		#return Vector3(0,0,0); # we could implement a fallback here
 		return _sim_angular_acceleration[0];
 	else:
-		return ovrUtilities.get_head_angular_acceleration();
+		var v = ovrUtilities.get_head_angular_acceleration();
+		if (v != null): return v;
+	return Vector3(0,0,0);
 	
 func get_head_linear_velocity():
 	if (!ovrUtilities):
 		#return Vector3(0,0,0); # we could implement a fallback here
 		return _sim_linear_velocity[0];
 	else:
-		return ovrUtilities.get_head_linear_velocity();
+		var v = ovrUtilities.get_head_linear_velocity();
+		if (v != null): return v;
+	return Vector3(0,0,0);
 
 
 func get_head_linear_acceleration():
@@ -453,7 +509,9 @@ func get_head_linear_acceleration():
 		#return Vector3(0,0,0); # we could implement a fallback here
 		return _sim_linear_acceleration[0];
 	else:
-		return ovrUtilities.get_head_linear_acceleration();
+		var v = ovrUtilities.get_head_linear_acceleration();
+		if (v != null): return v;
+	return Vector3(0,0,0);
 
 
 func get_ipd():
@@ -543,7 +601,7 @@ func _perform_switch_scene(scene_path):
 			scene_switch_root.remove_child(s);
 			s.queue_free();
 			_dbg_labels.clear(); # make sure to also clear the debug label dictionary as they might be created in the scene above
-	
+
 		var next_scene_resource = load(scene_path);
 		if (next_scene_resource):
 			_active_scene_path = scene_path;
@@ -555,7 +613,7 @@ func _perform_switch_scene(scene_path):
 			log_error("could not load scene '%s'" % scene_path)
 	else:
 		get_tree().change_scene(scene_path)
-
+	
 
 
 var _target_scene_path = null;
@@ -572,7 +630,7 @@ func switch_scene(scene_path, fade_time = 0.1, wait_time = 0.0):
 		yield(get_tree().create_timer(wait_time), "timeout")
 
 	if (scene_switch_root == null):
-		log_error("vr.switch_scene(...) called but no scene_switch_root configured. Defaulting to normal get_tree().change_scene()");
+		log_error("vr.switch_scene(...) called but no scene_switch_root configured. Will use default scene change.");
 	if (_active_scene_path == scene_path): return;
 
 	if (fade_time <= 0.0):
@@ -602,14 +660,12 @@ func _check_for_scene_switch_and_fade(dt):
 			_switch_performed = true;
 			switch_scene_in_progress = true;
 	elif (_target_scene_path != null && _switch_performed):
-		print("Fade back in")
 		if (_scene_switch_fade_in_time < _scene_switch_fade_in_duration):
 			var c = _scene_switch_fade_in_time / _scene_switch_fade_in_duration;
 			set_default_layer_color_scale(Color(c, c, c, c));
 			_scene_switch_fade_in_time += dt;
 			switch_scene_in_progress = true;
 		else: # everything done; full white again for color
-			print("All Done")
 			set_default_layer_color_scale(Color(1, 1, 1, 1));
 			_target_scene_path = null;
 
