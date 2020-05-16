@@ -47,7 +47,7 @@ func process_car_input(delta: float):
 	locomotion.allowMovement = not player.frozen and player.car == null and not player.gameEnded
 	
 	if player.car != null and player.car.is_driver(player.id):
-		var x = -vr.get_controller_axis(vr.AXIS.LEFT_JOYSTICK_X);
+		var x = -vr.get_controller_axis(vr.AXIS.RIGHT_JOYSTICK_X);
 		var y = vr.get_controller_axis(vr.AXIS.LEFT_JOYSTICK_Y);
 		# Car dead zone
 		if abs(x) < car_dead_zone:
@@ -72,6 +72,13 @@ func process_car_input(delta: float):
 		var breaking := vr.button_pressed(vr.BUTTON.RIGHT_INDEX_TRIGGER) as bool
 		
 		player.car.process_input(forward, backward, left, right, breaking, delta)
+		
+		# Stick the user's butt in their seat!
+		if player.car != null:
+			var seat = player.car.find_players_seat(player.id)
+			if seat != null:
+				global_transform.origin = seat.global_transform.origin
+				transform.origin.y -= (standingHeight * 0.45)
 
 
 func on_car_entered(car):
