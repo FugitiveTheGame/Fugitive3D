@@ -20,7 +20,6 @@ func set_car(value):
 	else:
 		self.is_crouching = false
 
-
 func _ready():
 	# Listen to the winzone
 	for zone in win_zones:
