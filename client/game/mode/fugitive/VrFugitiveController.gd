@@ -86,8 +86,10 @@ func on_car_exited(car):
 
 
 func car_translate(position: Vector3):
-	global_transform.origin = position
+	vr.vrOrigin.global_transform.origin = position
 	transform.origin.y -= (standingHeight * 0.45)
+	
+	vr.vrOrigin.global_transform = vr.vrOrigin.global_transform.orthonormalized();
 
 
 func car_rotate(angle: float):
