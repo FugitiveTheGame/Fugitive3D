@@ -66,7 +66,8 @@ func set_standing_height():
 		vr.log_warning("Cannot set standing height while playing")
 
 
-func _process(delta):
+func _physics_process(delta):
+	# Movement input
 	var curHeight = camera.translation.y
 	var curPercent = curHeight / standingHeight
 	
@@ -93,12 +94,9 @@ func _process(delta):
 		locomotion.move_speed = player.speed_crouch
 	else:
 		locomotion.move_speed = player.speed_walk
-
-
-func _physics_process(delta):
-	var totalTranslation = translation
 	
 	# We need to incorporate head turn into our network rotation
+	var totalTranslation = translation
 	var totalRotation = rotation
 	totalRotation.y += camera.rotation.y
 	

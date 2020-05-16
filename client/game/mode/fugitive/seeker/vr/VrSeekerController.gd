@@ -6,7 +6,7 @@ export(NodePath) var flashlightPath: NodePath
 onready var flashlight := get_node(flashlightPath) as Spatial
 
 
-func _process(delta):
+func _physics_process(delta):
 	if debounced_button_just_released(vr.BUTTON.B) and player.car == null:
 		flashlight.toggle_on()
 	
