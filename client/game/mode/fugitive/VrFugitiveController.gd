@@ -14,15 +14,6 @@ func show_map(show: bool):
 	overviewMapHud.visible = show
 
 
-func _process(delta):
-	# Stick the user's butt in their seat!
-	if player.car != null:
-		var seat = player.car.find_players_seat(player.id)
-		if seat != null:
-			global_transform.origin = seat.global_transform.origin
-			transform.origin.y -= (standingHeight * 0.45)
-
-
 func _physics_process(delta):
 	#######################
 	# Process per-frame input
