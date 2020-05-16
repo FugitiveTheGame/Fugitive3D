@@ -154,16 +154,7 @@ func finish_game(playerType: int):
 		if player.get_type() == playerType:
 			FugitivePlayerDataUtility.increment_stat_for_player_id(playerId, FugitivePlayerDataUtility.STAT_WINS)
 	
-	# Send one last heartbeat when the game is finished.
-	_send_heartbeat()
-	
 	rpc("on_finish_game", playerType)
-
-
-func _send_heartbeat():
-	var newHistoryHeartbeat := collect_heartbeat()
-	
-	history.rpc("on_history_heartbeat", newHistoryHeartbeat)
 
 
 func _on_StateMachine_state_change(new_state, transition):
@@ -174,8 +165,3 @@ func on_state_game_over(current_state: State, transition: Transition):
 	.on_state_game_over(current_state, transition)
 	print("Server returning to lobby")
 	go_to_lobby()
-
-
-func _on_HistoryHeartbeatTimer_timeout():
-	if gameStarted and not is_game_over():
-		_send_heartbeat()
