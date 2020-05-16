@@ -1,8 +1,12 @@
 extends CollisionShape
 
 
-func get_name_label() -> Label3D:
-	return $PlayerNameLabel as Label3D
+func _ready():
+	get_name_label().transparent = not Utils.renderer_is_gles2()
+
+
+func get_name_label():
+	return $PlayerNameLabel
 
 
 func get_standing_shape() -> Spatial:
