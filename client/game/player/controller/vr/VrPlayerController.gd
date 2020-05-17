@@ -72,7 +72,7 @@ func _physics_process(delta):
 	var curPercent = curHeight / standingHeight
 	
 	# If the player's is different enough, consider them crouching
-	if curHeight < standingHeight and curPercent < CROUCH_THRESHOLD:
+	if (curHeight < standingHeight and curPercent < CROUCH_THRESHOLD) or player.car != null:
 		player.is_crouching = true
 	else:
 		player.is_crouching = false
