@@ -10,7 +10,7 @@ var serverListItemScene := preload("res://client/main_menu/server_browser/Server
 
 func _ready():
 	$ServerListener.serverRepositoryUrl = ServerNetwork.SERVER_REPOSITORY_URL
-	$ServerListener.request_servers()
+	$ServerListener.call_deferred("request_servers")
 
 
 func _on_ServerListener_new_server(serverInfo):
