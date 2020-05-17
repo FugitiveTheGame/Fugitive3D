@@ -275,7 +275,7 @@ window/size/height.X11=900
 
 [editor_plugins]
 
-enabled=PoolStringArray( "Fugitive3D", "Godot-GameAnalytics", "LANServerBroadcast", "wakatime" )
+enabled=PoolStringArray( "Fugitive3D", "Godot-GameAnalytics", "LANServerBroadcast" )
 
 [gdnative]
 
@@ -285,6 +285,7 @@ singletons_disabled=[ "res://addons/godot-oculus/godot_oculus.gdnlib" ]
 [gui]
 
 theme/use_hidpi=true
+theme/custom="res://fugitive_theme.tres"
 
 [input]
 
