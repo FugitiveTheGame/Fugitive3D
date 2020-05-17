@@ -10,6 +10,11 @@ const car_dead_zone := 0.5
 const crouching_modifier := 0.45
 
 
+func _ready():
+	print("Player Standing: " + str(UserData.data.vr_standing))
+	playerHeightHud.visible = UserData.data.vr_standing
+
+
 # Allow child classes to override this functionality
 func show_map(show: bool):
 	overviewMapHud.visible = show

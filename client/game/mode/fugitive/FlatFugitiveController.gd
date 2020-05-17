@@ -139,3 +139,18 @@ func _notification(what):
 	# If they alt-tab out and back in, we need to re-release it
 	if what == MainLoop.NOTIFICATION_WM_FOCUS_IN and player != null and player.gameEnded:
 		call_deferred("release_mouse")
+
+
+func _on_InGameMenuHud_popup_hide():
+	if not player.gameEnded:
+		._on_InGameMenuHud_popup_hide()
+
+
+func _on_ExitGameHud_on_exit_dialog_hide():
+	if not player.gameEnded:
+		._on_ExitGameHud_on_exit_dialog_hide()
+
+
+func _on_HelpDialog_popup_hide():
+	if not player.gameEnded:
+		._on_HelpDialog_popup_hide()
