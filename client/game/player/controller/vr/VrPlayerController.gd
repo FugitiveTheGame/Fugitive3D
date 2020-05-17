@@ -19,6 +19,12 @@ onready var exitGameHud := hud.find_node("ExitGameHud", true, false) as Confirma
 onready var helpDialog := hud.find_node("HelpDialog", true, false) as WindowDialog
 
 
+const seated_standing_offset_meters := 1.5
+const seated_crouching_offset_meters := 0.5
+onready var initial_origin := transform.origin as Vector3
+var is_standing := true
+
+
 const DEBOUNCE_THRESHOLD_MS := 100
 var debounceBookKeeping = {}
 func debounced_button_just_released(button_id) -> bool:
@@ -47,6 +53,10 @@ func debounced_button_just_released(button_id) -> bool:
 	return debouncedReleased
 
 
+func _enter_tree():
+	UserData.connect("user_data_updated", self, "on_user_data_updated")
+
+
 func _ready():
 	player.set_is_local_player()
 	
@@ -56,6 +66,12 @@ func _ready():
 		hudCanvas.transparent = false
 	
 	fpsLabel.visible = OS.is_debug_build()
+	
+	call_deferred("update_standing")
+
+
+func _exit_tree():
+	UserData.disconnect("user_data_updated", self, "on_user_data_updated")
 
 
 func set_standing_height():
@@ -75,11 +91,19 @@ func _physics_process(delta):
 	var curHeight = camera.translation.y
 	var curPercent = curHeight / standingHeight
 	
-	# If the player's is different enough, consider them crouching
-	if (curHeight < standingHeight and curPercent < CROUCH_THRESHOLD) or player.car != null:
-		player.is_crouching = true
+	# Handle crouching
+	# Standing mode, crouching is just real crouching
+	if is_standing:
+		# If the player's is different enough, consider them crouching
+		if (curHeight < standingHeight and curPercent < CROUCH_THRESHOLD) or player.car != null:
+			player.is_crouching = true
+		else:
+			player.is_crouching = false
+	# Seated mode, crouching is button controlled
 	else:
-		player.is_crouching = false
+		if debounced_button_just_released(vr.BUTTON.LEFT_GRIP_TRIGGER):
+			player.is_crouching = not player.is_crouching
+			update_head_height()
 	
 	# Handle VR controller input
 	if debounced_button_just_released(vr.BUTTON.B):
@@ -157,3 +181,22 @@ func _on_InGameMenuHud_show_help():
 	helpDialog.showControlsFirst = true
 	
 	helpDialog.popup_centered()
+
+
+func on_user_data_updated():
+	update_standing()
+
+
+func update_standing():
+	if UserData.data.vr_standing != is_standing:
+		is_standing = UserData.data.vr_standing
+		
+		update_head_height()
+
+
+func update_head_height():
+	if not is_standing:
+		if player.is_crouching:
+			transform.origin.y = initial_origin.y + seated_crouching_offset_meters
+		else:
+			transform.origin.y = initial_origin.y + seated_standing_offset_meters

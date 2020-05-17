@@ -1,5 +1,8 @@
 extends WindowDialog
 
+export(NodePath) var standingModeOptionsPath: NodePath
+onready var standingModeOptions := get_node(standingModeOptionsPath) as OptionButton
+
 export(NodePath) var movementOrientationOptionsPath: NodePath
 onready var movementOrientationOptions := get_node(movementOrientationOptionsPath) as OptionButton
 
@@ -17,6 +20,11 @@ func _ready():
 
 
 func load_data():
+	if UserData.data.vr_standing:
+		standingModeOptions.selected = 0
+	else:
+		standingModeOptions.selected = 1
+	
 	movementVignettingCheckbox.pressed = UserData.data.vr_movement_vignetting
 	movementOrientationOptions.selected = UserData.data.vr_movement_orientation
 	movementHandOptions.selected = UserData.data.vr_movement_hand
@@ -40,3 +48,15 @@ func _on_VignettingCheckBox_toggled(button_pressed):
 
 func _on_MovementHandOptions_item_selected(id):
 	UserData.data.vr_movement_hand = id
+
+
+func _on_StandingModeOptions_item_selected(id):
+	match id:
+		0:
+			UserData.data.vr_standing = true
+		1:
+			UserData.data.vr_standing = false
+	
+	# Normally we just save on dialog close, but this one we want
+	# real-time feedback to the user
+	UserData.save_data()
