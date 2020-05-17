@@ -8,6 +8,7 @@ const CROUCH_THRESHOLD := 0.75
 onready var camera := $OQ_ARVRCamera as ARVRCamera
 onready var player := $Player as Player
 onready var locomotion := $Locomotion_Stick
+onready var falling := $Feature_Falling
 onready var hudCanvas := $OQ_LeftController/VisibilityToggle/HudCanvas
 onready var hudVisibilityToggle := $OQ_LeftController/VisibilityToggle
 onready var hud := $OQ_LeftController/VisibilityToggle/HudCanvas.find_node("HudContainer", true, false) as Control
@@ -22,6 +23,7 @@ onready var helpDialog := hud.find_node("HelpDialog", true, false) as WindowDial
 const seated_standing_offset_meters := 1.5
 const seated_crouching_offset_meters := 0.5
 onready var initial_origin := transform.origin as Vector3
+onready var initial_shape_origin := player.playerShape.transform.origin as Vector3
 var is_standing := true
 
 
@@ -86,14 +88,13 @@ func set_standing_height():
 		vr.log_warning("Cannot set standing height while playing")
 
 
-func _physics_process(delta):
-	# Movement input
-	var curHeight = camera.translation.y
-	var curPercent = curHeight / standingHeight
-	
-	# Handle crouching
+func process_crouch():
 	# Standing mode, crouching is just real crouching
 	if is_standing:
+		# Movement input
+		var curHeight = camera.translation.y
+		var curPercent = curHeight / standingHeight
+	
 		# If the player's is different enough, consider them crouching
 		if (curHeight < standingHeight and curPercent < CROUCH_THRESHOLD) or player.car != null:
 			player.is_crouching = true
@@ -101,9 +102,15 @@ func _physics_process(delta):
 			player.is_crouching = false
 	# Seated mode, crouching is button controlled
 	else:
-		if debounced_button_just_released(vr.BUTTON.LEFT_GRIP_TRIGGER):
-			player.is_crouching = not player.is_crouching
+		var wasCrouching := player.is_crouching
+		player.is_crouching = vr.button_pressed(vr.BUTTON.LEFT_GRIP_TRIGGER)
+		if wasCrouching != player.is_crouching:
 			update_head_height()
+
+
+func _physics_process(delta):
+	# Handle crouching
+	process_crouch()
 	
 	# Handle VR controller input
 	if debounced_button_just_released(vr.BUTTON.B):
@@ -197,6 +204,10 @@ func update_standing():
 func update_head_height():
 	if not is_standing:
 		if player.is_crouching:
+			falling.height_offset = seated_crouching_offset_meters
 			transform.origin.y = initial_origin.y + seated_crouching_offset_meters
+			player.playerShape.transform.origin.y = initial_shape_origin.y + seated_crouching_offset_meters
 		else:
+			falling.height_offset = seated_standing_offset_meters
 			transform.origin.y = initial_origin.y + seated_standing_offset_meters
+			player.playerShape.transform.origin.y = initial_shape_origin.y
