@@ -1,4 +1,4 @@
-[gd_resource type="Theme" load_steps=30 format=2]
+[gd_resource type="Theme" load_steps=31 format=2]
 
 [ext_resource path="res://theme/button/button_normal_flat.tres" type="StyleBox" id=1]
 [ext_resource path="res://theme/button/button_hover_flat.tres" type="StyleBox" id=2]
@@ -496,6 +496,21 @@ expand_margin_left = 6.0
 expand_margin_right = 6.0
 shadow_color = Color( 0, 0, 0, 0.117647 )
 
+[sub_resource type="StyleBoxFlat" id=29]
+content_margin_left = 0.0
+content_margin_right = 0.0
+content_margin_top = 0.0
+content_margin_bottom = 0.0
+bg_color = Color( 0.0823529, 0.0901961, 0.133333, 1 )
+border_width_top = 40
+border_color = Color( 0.247059, 0.266667, 0.403922, 1 )
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+corner_detail = 3
+expand_margin_top = 40.0
+shadow_color = Color( 0.282353, 0.552941, 0.909804, 0.0666667 )
+shadow_size = 5
+
 [resource]
 Button/colors/font_color = Color( 0.88, 0.88, 0.88, 1 )
 Button/colors/font_color_disabled = Color( 0.9, 0.9, 0.9, 0.2 )
@@ -652,3 +667,12 @@ VSlider/icons/grabber_highlight = null
 VSlider/icons/tick = null
 VSlider/styles/grabber_area = SubResource( 22 )
 VSlider/styles/slider = SubResource( 23 )
+WindowDialog/colors/title_color = Color( 0, 0, 0, 1 )
+WindowDialog/constants/close_h_ofs = 36
+WindowDialog/constants/close_v_ofs = 36
+WindowDialog/constants/scaleborder_size = 8
+WindowDialog/constants/title_height = 40
+WindowDialog/fonts/title_font = null
+WindowDialog/icons/close = null
+WindowDialog/icons/close_highlight = null
+WindowDialog/styles/panel = SubResource( 29 )
