@@ -1,7 +1,9 @@
 extends Node
 
-const GAME_VERSION := 2
-const USER_DATA_VERSION := 5
+signal user_data_updated
+
+const GAME_VERSION := 3
+const USER_DATA_VERSION := 6
 
 var file_name := 'user://user_data.json'
 
@@ -15,6 +17,7 @@ static func get_default_data():
 		last_ip = '127.0.0.1',
 		last_port = ServerNetwork.SERVER_PORT,
 		flat_mouse_sensetivity = 1.0,
+		vr_standing = true, # Standing
 		vr_movement_orientation = 0, # HEAD
 		vr_movement_vignetting = false,
 		vr_movement_hand = 0 # Left
@@ -65,3 +68,5 @@ func save_data(save_data = self.data):
 	var serialized = to_json(save_data)
 	file.store_line(serialized)
 	file.close()
+	
+	emit_signal("user_data_updated")

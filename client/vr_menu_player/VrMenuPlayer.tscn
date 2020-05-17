@@ -37,14 +37,7 @@ transform = Transform( 0.866025, -0.17101, 0.469846, 0, 0.939693, 0.34202, -0.5,
 [node name="FpsLabel" parent="OQ_ARVROrigin/OQ_LeftController/OQ_VisibilityToggle" instance=ExtResource( 9 )]
 transform = Transform( 0.999147, 0, -0.0412827, 0, 1, 0, 0.0412827, 0, 0.999147, 0.630577, 0, -0.282998 )
 text = "FPS"
-margin = 16
-billboard = false
-depth_test = true
-resize_mode = 0
-font_size_multiplier = 1.0
-font_color = Color( 1, 1, 1, 1 )
-background_color = Color( 0, 0, 0, 1 )
-transparent = false
+font_size_multiplier = 2.0
 
 [node name="OQ_RightController" parent="OQ_ARVROrigin" instance=ExtResource( 3 )]
 enable_gesture_to_button = true
