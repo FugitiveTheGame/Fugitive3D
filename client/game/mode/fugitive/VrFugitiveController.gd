@@ -84,7 +84,8 @@ func process_car_input(delta: float):
 		var seat = player.car.find_players_seat(player.id)
 		if seat != null:
 			global_transform.origin = seat.global_transform.origin
-			transform.origin.y -= (standingHeight * crouching_modifier)
+			if is_standing:
+				transform.origin.y -= (standingHeight * crouching_modifier)
 
 
 
@@ -142,3 +143,9 @@ func on_ui_raycast_visibility_changed():
 	# In the end-game state, we always want the raycast shown
 	if not uiRaycast.visible and player.gameEnded:
 		uiRaycast.show()
+
+
+func process_crouch():
+	# Only allow crouching if we are not in a car
+	if player.car == null:
+		.process_crouch()
