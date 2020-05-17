@@ -7,6 +7,7 @@ onready var overviewMapHud := hud.find_node("OverviewMapHud", true, false) as Co
 
 const dead_zone := 0.125
 const car_dead_zone := 0.5
+const crouching_modifier := 0.45
 
 
 # Allow child classes to override this functionality
@@ -46,39 +47,40 @@ func process_car_input(delta: float):
 	
 	locomotion.allowMovement = not player.frozen and player.car == null and not player.gameEnded
 	
-	if player.car != null and player.car.is_driver(player.id):
-		var x = -vr.get_controller_axis(vr.AXIS.RIGHT_JOYSTICK_X);
-		var y = vr.get_controller_axis(vr.AXIS.LEFT_JOYSTICK_Y);
-		# Car dead zone
-		if abs(x) < car_dead_zone:
-			x = 0.0
-		
-		var forward := false
-		var backward := false
-		
-		if y > dead_zone:
-			forward = true
-		elif y < -dead_zone:
-			backward = true
-		
-		var left := false
-		var right := false
-		
-		if x > dead_zone:
-			left = true
-		elif x < -dead_zone:
-			right = true
-		
-		var breaking := vr.button_pressed(vr.BUTTON.RIGHT_INDEX_TRIGGER) as bool
-		
-		player.car.process_input(forward, backward, left, right, breaking, delta)
-		
+	if player.car != null:
+		if player.car.is_driver(player.id):
+			var x = -vr.get_controller_axis(vr.AXIS.RIGHT_JOYSTICK_X);
+			var y = vr.get_controller_axis(vr.AXIS.LEFT_JOYSTICK_Y);
+			# Car dead zone
+			if abs(x) < car_dead_zone:
+				x = 0.0
+			
+			var forward := false
+			var backward := false
+			
+			if y > dead_zone:
+				forward = true
+			elif y < -dead_zone:
+				backward = true
+			
+			var left := false
+			var right := false
+			
+			if x > dead_zone:
+				left = true
+			elif x < -dead_zone:
+				right = true
+			
+			var breaking := vr.button_pressed(vr.BUTTON.RIGHT_INDEX_TRIGGER) as bool
+			
+			player.car.process_input(forward, backward, left, right, breaking, delta)
+	
 		# Stick the user's butt in their seat!
-		if player.car != null:
-			var seat = player.car.find_players_seat(player.id)
-			if seat != null:
-				global_transform.origin = seat.global_transform.origin
-				transform.origin.y -= (standingHeight * 0.45)
+		var seat = player.car.find_players_seat(player.id)
+		if seat != null:
+			global_transform.origin = seat.global_transform.origin
+			transform.origin.y -= (standingHeight * crouching_modifier)
+
 
 
 func on_car_entered(car):
