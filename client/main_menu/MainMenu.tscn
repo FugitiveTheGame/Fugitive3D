@@ -14,7 +14,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
-playerNamePath = NodePath("UsernamePanel/VBoxContainer/PlayerName")
+playerNamePath = NodePath("VBoxContainer/UsernamePanel/VBoxContainer/PlayerName")
 serverIpPath = NodePath("ManualContainer/VBoxContainer/HBoxContainer/ServerIp")
 serverPortPath = NodePath("ManualContainer/VBoxContainer/HBoxContainer/ServerPort")
 versionLabelPath = NodePath("InfoContainer/VersionLabel")
@@ -36,70 +36,26 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="UsernamePanel" type="PanelContainer" parent="."]
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -524.42
-margin_top = -439.582
-margin_right = -285.42
-margin_bottom = -333.582
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="VBoxContainer" type="VBoxContainer" parent="UsernamePanel"]
-margin_left = 14.0
-margin_top = 14.0
-margin_right = 225.0
-margin_bottom = 92.0
-size_flags_horizontal = 3
-size_flags_vertical = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="PlayerNameLabel" type="Label" parent="UsernamePanel/VBoxContainer"]
-margin_right = 210.0
-margin_bottom = 25.0
-text = "Player Name:"
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="PlayerName" type="LineEdit" parent="UsernamePanel/VBoxContainer"]
-margin_top = 33.0
-margin_right = 210.0
-margin_bottom = 78.0
-max_length = 16
-clear_button_enabled = true
-placeholder_text = "Enter Name"
-caret_blink = true
-caret_blink_speed = 0.5
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
 [node name="ManualContainer" type="PanelContainer" parent="."]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_left = 9.58188
-margin_top = -169.582
-margin_right = 493.582
-margin_bottom = -11.5819
+margin_left = 8.0
+margin_top = -138.0
+margin_right = 332.0
+margin_bottom = -8.0
+grow_vertical = 0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ManualContainer"]
-margin_left = 14.0
-margin_top = 14.0
-margin_right = 470.0
-margin_bottom = 144.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 316.0
+margin_bottom = 122.0
 
 [node name="ManualConnectLabel" type="Label" parent="ManualContainer/VBoxContainer"]
-margin_right = 456.0
+margin_right = 308.0
 margin_bottom = 25.0
 text = "Direct Connect:"
 __meta__ = {
@@ -108,13 +64,13 @@ __meta__ = {
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ManualContainer/VBoxContainer"]
 margin_top = 33.0
-margin_right = 456.0
-margin_bottom = 78.0
+margin_right = 308.0
+margin_bottom = 67.0
 size_flags_horizontal = 3
 
 [node name="ServerIp" type="LineEdit" parent="ManualContainer/VBoxContainer/HBoxContainer"]
-margin_right = 284.0
-margin_bottom = 45.0
+margin_right = 150.0
+margin_bottom = 34.0
 size_flags_horizontal = 3
 max_length = 128
 clear_button_enabled = true
@@ -126,9 +82,9 @@ __meta__ = {
 }
 
 [node name="ServerPort" type="LineEdit" parent="ManualContainer/VBoxContainer/HBoxContainer"]
-margin_left = 292.0
-margin_right = 456.0
-margin_bottom = 45.0
+margin_left = 158.0
+margin_right = 308.0
+margin_bottom = 34.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
 size_flags_stretch_ratio = 0.0
@@ -143,24 +99,14 @@ __meta__ = {
 }
 
 [node name="ConnectButton" type="Button" parent="ManualContainer/VBoxContainer"]
-margin_top = 86.0
-margin_right = 456.0
-margin_bottom = 123.0
+margin_top = 75.0
+margin_right = 308.0
+margin_bottom = 114.0
 size_flags_vertical = 0
 text = "Connect"
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="ServerBrowser" parent="." instance=ExtResource( 2 )]
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_left = -523.0
-margin_top = -327.0
-margin_right = -16.0
-margin_bottom = -16.0
 
 [node name="UserNameErrorDialog" type="AcceptDialog" parent="."]
 margin_right = 256.0
@@ -173,26 +119,24 @@ __meta__ = {
 }
 
 [node name="OptionsContainer" type="VBoxContainer" parent="."]
-margin_left = 9.58188
-margin_top = 10.4182
-margin_right = 169.582
-margin_bottom = 330.418
+margin_left = 8.0
+margin_top = 8.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ExitButton" type="Button" parent="OptionsContainer"]
-margin_right = 160.0
-margin_bottom = 37.0
+margin_right = 124.0
+margin_bottom = 39.0
 text = "Exit Game"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HelpButton" type="Button" parent="OptionsContainer"]
-margin_top = 45.0
-margin_right = 160.0
-margin_bottom = 82.0
+margin_top = 47.0
+margin_right = 124.0
+margin_bottom = 86.0
 text = "Help"
 
 [node name="JoiningDialog" type="WindowDialog" parent="."]
@@ -305,8 +249,69 @@ margin_bottom = 97.0
 text = "v0"
 align = 2
 valign = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -8.0
+margin_bottom = -8.0
+grow_horizontal = 0
+grow_vertical = 0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UsernamePanel" type="PanelContainer" parent="VBoxContainer"]
+margin_right = 250.0
+margin_bottom = 83.0
+rect_min_size = Vector2( 250, 0 )
+size_flags_horizontal = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/UsernamePanel"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 242.0
+margin_bottom = 75.0
+size_flags_horizontal = 3
+size_flags_vertical = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerNameLabel" type="Label" parent="VBoxContainer/UsernamePanel/VBoxContainer"]
+margin_right = 234.0
+margin_bottom = 25.0
+text = "Player Name:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="PlayerName" type="LineEdit" parent="VBoxContainer/UsernamePanel/VBoxContainer"]
+margin_top = 33.0
+margin_right = 234.0
+margin_bottom = 67.0
+max_length = 16
+clear_button_enabled = true
+placeholder_text = "Enter Name"
+caret_blink = true
+caret_blink_speed = 0.5
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ServerBrowser" parent="VBoxContainer" instance=ExtResource( 2 )]
+margin_left = 0.0
+margin_top = 91.0
+margin_right = 500.0
+margin_bottom = 391.0
+rect_min_size = Vector2( 500, 300 )
 [connection signal="pressed" from="ManualContainer/VBoxContainer/ConnectButton" to="." method="_on_ConnectButton_pressed"]
-[connection signal="connect_to_server" from="ServerBrowser" to="." method="_on_ServerBrowser_connect_to_server"]
 [connection signal="pressed" from="OptionsContainer/ExitButton" to="." method="_on_ExitButton_pressed"]
 [connection signal="pressed" from="OptionsContainer/HelpButton" to="." method="_on_HelpButton_pressed"]
 [connection signal="pressed" from="JoiningDialog/VBoxContainer/CancelButton" to="." method="_on_CancelButton_pressed"]
+[connection signal="connect_to_server" from="VBoxContainer/ServerBrowser" to="." method="_on_ServerBrowser_connect_to_server"]
