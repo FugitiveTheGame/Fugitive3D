@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://client/lobby/HelpDialog.gd" type="Script" id=1]
+[ext_resource path="res://client/HelpDialog.gd" type="Script" id=1]
 
 [node name="HelpDialog" type="WindowDialog"]
 anchor_left = 0.5
@@ -16,6 +16,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+tabsContainerPath = NodePath("VBoxContainer/TabContainer")
 modeSelectContainerPath = NodePath("VBoxContainer/ModeSelectContainer")
 modeSelectButtonPath = NodePath("VBoxContainer/ModeSelectContainer/ModeSelectButton")
 rulesTextboxPath = NodePath("VBoxContainer/TabContainer/Rules")
@@ -49,7 +50,6 @@ margin_bottom = 42.0
 size_flags_horizontal = 0
 size_flags_vertical = 4
 text = "Game Mode"
-selected = 0
 
 [node name="TabContainer" type="TabContainer" parent="VBoxContainer"]
 margin_top = 56.0
@@ -76,6 +76,7 @@ __meta__ = {
 }
 
 [node name="Controls" type="RichTextLabel" parent="VBoxContainer/TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 8.0
