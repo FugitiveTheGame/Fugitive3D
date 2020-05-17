@@ -21,6 +21,10 @@ var driver_seat: CarSeat
 var velocity := Vector3()
 var isBreaking := false
 
+var networkPosition = null
+var networkRotation = null
+var networkVelocity = null
+
 var locked := true
 
 var mutex := Mutex.new()
@@ -322,10 +326,10 @@ func process_input(forward: bool, backward: bool, left: bool, right: bool, break
 				seat.rotate_occupant(rotAngle)
 
 
-remote func network_update(networkPosition: Vector3, networkRotation: Vector3, networkVelocity: Vector3):
-	translation = networkPosition
-	rotation = networkRotation
-	velocity = networkVelocity
+remote func network_update(_networkPosition: Vector3, _networkRotation: Vector3, _networkVelocity: Vector3):
+	networkPosition = _networkPosition
+	networkRotation = _networkRotation
+	networkVelocity = _networkVelocity
 
 
 func _physics_process(delta):
@@ -351,6 +355,17 @@ func _physics_process(delta):
 		if not GameData.currentGame.is_game_over():
 			rpc_unreliable("network_update", translation, rotation, velocity)
 	else:
+		# Apply the most recent transform update from the network
+		if networkPosition != null:
+			translation = networkPosition
+			networkPosition = null
+		if networkRotation != null:
+			rotation = networkRotation
+			networkRotation = null
+		if networkVelocity != null:
+			velocity = networkVelocity
+			networkVelocity = null
+			
 		# Client side prediction
 		if GameData.currentGame != null and not GameData.currentGame.is_game_over():
 			velocity = move_and_slide_with_snap(velocity, Vector3(0,-2,0), Vector3(0,1,0))
