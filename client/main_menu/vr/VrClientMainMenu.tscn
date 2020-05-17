@@ -23,5 +23,5 @@ transform = Transform( -0.00598646, 0, -0.999982, 0, 1, 0, 0.999982, 0, -0.00598
 [node name="Backgroud" parent="." instance=ExtResource( 6 )]
 
 [node name="OQ_UI2DKeyboard" parent="." instance=ExtResource( 5 )]
-transform = Transform( -1.50744e-07, 0.379327, -0.925263, 6.18002e-08, 0.925263, 0.379327, 1, 0, -1.62921e-07, 0.876221, 2.46925, 0 )
+transform = Transform( -1.50744e-07, 0.379327, -0.925263, 6.18002e-08, 0.925263, 0.379327, 1, 0, -1.62921e-07, 0.876221, 2.44345, 0.0991356 )
 show_text_input = false
