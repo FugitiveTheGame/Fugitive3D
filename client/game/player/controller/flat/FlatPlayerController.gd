@@ -21,6 +21,18 @@ export(float) var Jump_Speed := 10.0
 export(float) var Gravity := pow(9.8, 2)
 export(bool) var CameraIsCurrentOnStart: bool = true
 
+export(NodePath) var virtual_joysticks_path: NodePath
+onready var virtual_joysticks := get_node(virtual_joysticks_path) as VirtualJoysticks
+
+export(NodePath) var inGameMenuPath: NodePath
+onready var inGameMenu := get_node(inGameMenuPath) as WindowDialog
+
+export(NodePath) var exitGameHudPath: NodePath
+onready var exitGameHud := get_node(exitGameHudPath) as Control
+
+export(NodePath) var helpDialogPath: NodePath
+onready var helpDialog := get_node(helpDialogPath) as WindowDialog
+
 var mouseLookSensetivityModifier := 1.0
 
 # Our velocity vector never seems to be exactly zero.
@@ -29,8 +41,6 @@ const MOVEMENT_LAMBDA := 0.01
 
 var allowMovement := true
 
-
-onready var virtual_joysticks := $HudCanvas/VirtualJoysticks as VirtualJoysticks
 
 export(NodePath) var HeldObjectPath: NodePath
 var heldObject: Spatial setget held_object_set, held_object_get
@@ -163,7 +173,11 @@ func _physics_process(delta):
 
 func _input(event):
 	if event.is_action_released("flat_player_exit"):
-		$HudCanvas/HudContainer/ExitGameHud.show_dialog()
+		if not inGameMenu.visible:
+			inGameMenu.popup_centered()
+		else:
+			inGameMenu.hide()
+	
 	
 	# Don't process input if we aren't capturing the mouse
 	if event is InputEventMouseMotion and mouse_captured():
@@ -187,7 +201,7 @@ func _notification(what):
 		elif what == MainLoop.NOTIFICATION_WM_FOCUS_OUT:
 			release_mouse()
 		elif what == MainLoop.NOTIFICATION_WM_GO_BACK_REQUEST: 
-			$HudCanvas/HudContainer/ExitGameHud.show_dialog()
+			exitGameHud.show_dialog()
 
 
 func update_camera_to_head():
@@ -196,6 +210,12 @@ func update_camera_to_head():
 	var local = to_local(global)
 	
 	camera.translation.y = local.y
+
+
+func _on_CrouchButton_released():
+	if player.car == null:
+		player.is_crouching = not player.is_crouching
+		update_camera_to_head()
 
 
 func _on_ExitGameHud_return_to_main_menu():
@@ -210,7 +230,37 @@ func _on_ExitGameHud_on_exit_dialog_hide():
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 
-func _on_CrouchButton_released():
-	if player.car == null:
-		player.is_crouching = not player.is_crouching
-		update_camera_to_head()
+func _on_InGameMenuHud_about_to_show():
+	exitGameHud.hide()
+	helpDialog.hide()
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+
+func _on_InGameMenuHud_popup_hide():
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+
+func _on_InGameMenuHud_show_exit():
+	exitGameHud.show_dialog()
+
+
+func _on_InGameMenuHud_show_help():
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	
+	var mapId = GameData.general[GameData.GENERAL_MAP]
+	var mode := Maps.get_mode_for_map(mapId)
+	helpDialog.showGameMode = mode[Maps.MODE_NAME]
+	helpDialog.showControlsFirst = true
+	helpDialog.popup_centered()
+
+
+func _on_HelpDialog_about_to_show():
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+
+
+func _on_HelpDialog_popup_hide():
+	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
+
+
+func _on_InGameMenuHud_resume_game():
+	pass # Replace with function body.

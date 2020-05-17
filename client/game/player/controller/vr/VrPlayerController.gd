@@ -13,7 +13,11 @@ onready var hudVisibilityToggle := $OQ_LeftController/VisibilityToggle
 onready var hud := $OQ_LeftController/VisibilityToggle/HudCanvas.find_node("HudContainer", true, false) as Control
 onready var fpsLabel := $OQ_LeftController/VisibilityToggle/HudCanvas.find_node("FpsLabel", true, false) as Label
 onready var uiRaycast := $OQ_RightController/Feature_UIRayCast
-onready var exitGameHud := hud.find_node("ExitGameHud", true, false)
+
+onready var inGameMenuHud := hud.find_node("InGameMenuHud", true, false) as WindowDialog
+onready var exitGameHud := hud.find_node("ExitGameHud", true, false) as ConfirmationDialog
+onready var helpDialog := hud.find_node("HelpDialog", true, false) as WindowDialog
+
 
 const DEBOUNCE_THRESHOLD_MS := 100
 var debounceBookKeeping = {}
@@ -83,7 +87,10 @@ func _physics_process(delta):
 	
 	if debounced_button_just_released(vr.BUTTON.ENTER):
 		hudVisibilityToggle.visible = true
-		exitGameHud.show_dialog()
+		if inGameMenuHud.visible:
+			inGameMenuHud.hide()
+		else:
+			inGameMenuHud.popup_centered()
 	
 	player.sprint = vr.button_pressed(vr.BUTTON.A)
 	player.isMoving = locomotion.is_moving
@@ -108,6 +115,17 @@ func _physics_process(delta):
 		fpsLabel.text = ("%d fps" % fps)
 
 
+func _on_InGameMenuHud_about_to_show():
+	exitGameHud.hide()
+	helpDialog.hide()
+	
+	uiRaycast.show()
+
+
+func _on_InGameMenuHud_popup_hide():
+	uiRaycast.hide()
+
+
 func _on_ExitGameHud_return_to_main_menu():
 	emit_signal("return_to_main_menu")
 
@@ -118,3 +136,24 @@ func _on_ExitGameHud_on_exit_dialog_show():
 
 func _on_ExitGameHud_on_exit_dialog_hide():
 	uiRaycast.hide()
+
+
+func _on_HelpDialog_about_to_show():
+	uiRaycast.show()
+
+
+func _on_HelpDialog_popup_hide():
+	uiRaycast.hide()
+
+
+func _on_InGameMenuHud_show_exit():
+	exitGameHud.popup_centered()
+
+
+func _on_InGameMenuHud_show_help():
+	var mapId = GameData.general[GameData.GENERAL_MAP]
+	var mode := Maps.get_mode_for_map(mapId)
+	helpDialog.showGameMode = mode[Maps.MODE_NAME]
+	helpDialog.showControlsFirst = true
+	
+	helpDialog.popup_centered()
