@@ -1,5 +1,9 @@
 extends WindowDialog
 
+
+export(NodePath) var tabsContainerPath: NodePath
+onready var tabsContainer := get_node(tabsContainerPath) as TabContainer
+
 export(NodePath) var modeSelectContainerPath: NodePath
 onready var modeSelectContainer := get_node(modeSelectContainerPath) as Control
 
@@ -12,8 +16,8 @@ onready var rulesTextbox := get_node(rulesTextboxPath) as RichTextLabel
 export(NodePath) var controlsTextboxPath: NodePath
 onready var controlsTextbox := get_node(controlsTextboxPath) as RichTextLabel
 
-var initialGameMode = null
-
+var showGameMode = null
+var showControlsFirst := false
 
 func load_modes():
 	# Populate the mode drop down
@@ -23,7 +27,7 @@ func load_modes():
 	for modeId in Maps.modes:
 		modeSelectButton.add_item(modeId)
 		# Select the requested mode
-		if modeId == initialGameMode:
+		if modeId == showGameMode:
 			modeSelectButton.selected = ii
 		ii += 1
 	
@@ -68,10 +72,13 @@ func read_text(path: String) -> String:
 func _on_HelpDialog_about_to_show():
 	load_modes()
 	
-	if initialGameMode == null:
+	if showGameMode == null:
 		modeSelectContainer.show()
 	else:
 		modeSelectContainer.hide()
+	
+	if showControlsFirst:
+		tabsContainer.current_tab = 1
 	
 	var modeId := modeSelectButton.get_item_text(modeSelectButton.selected)
 	load_mode_data(modeId)

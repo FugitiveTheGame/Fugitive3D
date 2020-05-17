@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://client/game/player/controller/vr/VrPlayerController.gd" type="Script" id=1]
 [ext_resource path="res://client/game/player/controller/vr/Feature_PlayerCollision.gd" type="Script" id=2]
@@ -13,6 +13,8 @@
 [ext_resource path="res://client/game/player/hud/CrouchIndicatorHud.tscn" type="PackedScene" id=11]
 [ext_resource path="res://client/game/mode/fugitive/hud/ExitGameHud.tscn" type="PackedScene" id=12]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_ARVRController/Feature_UIRayCast.tscn" type="PackedScene" id=13]
+[ext_resource path="res://client/game/mode/fugitive/hud/InGameMenuHud.tscn" type="PackedScene" id=14]
+[ext_resource path="res://client/HelpDialog.tscn" type="PackedScene" id=15]
 
 [node name="PlayerController" type="ARVROrigin"]
 script = ExtResource( 1 )
@@ -85,10 +87,21 @@ margin_top = 208.0
 margin_right = 48.0
 margin_bottom = 256.0
 
+[node name="InGameMenuHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" instance=ExtResource( 14 )]
+visible = true
+
 [node name="ExitGameHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" instance=ExtResource( 12 )]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_right = 0.0
+margin_left = -174.0
+margin_top = -55.0
+margin_right = 174.0
+margin_bottom = 55.0
+
+[node name="HelpDialog" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" instance=ExtResource( 15 )]
+visible = true
+margin_left = -222.5
+margin_top = -207.5
+margin_right = 222.5
+margin_bottom = 207.5
 
 [node name="OQ_RightController" parent="." instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, -0.375232, -0.5 )
@@ -106,6 +119,12 @@ script = ExtResource( 2 )
 capsule_radius = 0.3
 
 [node name="Locomotion_Stick" parent="." instance=ExtResource( 5 )]
+[connection signal="about_to_show" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/InGameMenuHud" to="." method="_on_InGameMenuHud_about_to_show"]
+[connection signal="popup_hide" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/InGameMenuHud" to="." method="_on_InGameMenuHud_popup_hide"]
+[connection signal="show_exit" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/InGameMenuHud" to="." method="_on_InGameMenuHud_show_exit"]
+[connection signal="show_help" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/InGameMenuHud" to="." method="_on_InGameMenuHud_show_help"]
 [connection signal="on_exit_dialog_hide" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/ExitGameHud" to="." method="_on_ExitGameHud_on_exit_dialog_hide"]
 [connection signal="on_exit_dialog_show" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/ExitGameHud" to="." method="_on_ExitGameHud_on_exit_dialog_show"]
 [connection signal="return_to_main_menu" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/ExitGameHud" to="." method="_on_ExitGameHud_return_to_main_menu"]
+[connection signal="about_to_show" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/HelpDialog" to="." method="_on_HelpDialog_about_to_show"]
+[connection signal="popup_hide" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/HelpDialog" to="." method="_on_HelpDialog_popup_hide"]

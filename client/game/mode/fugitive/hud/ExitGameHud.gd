@@ -1,14 +1,14 @@
-extends Control
+extends ConfirmationDialog
 
 signal return_to_main_menu
 signal on_exit_dialog_show
 signal on_exit_dialog_hide
 
 func show_dialog():
-	if not $ExitGameDialog.visible:
-		$ExitGameDialog.popup_centered()
+	if not visible:
+		popup_centered()
 	else:
-		$ExitGameDialog.hide()
+		hide()
 
 
 func _on_ExitGameDialog_confirmed():

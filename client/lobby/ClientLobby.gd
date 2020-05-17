@@ -100,5 +100,5 @@ func _on_HelpButton_pressed():
 	GameAnalytics.design_event("lobby_help_shown")
 	var mapId = GameData.general[GameData.GENERAL_MAP]
 	var mode := Maps.get_mode_for_map(mapId)
-	helpDialog.initialGameMode = mode[Maps.MODE_NAME]
+	helpDialog.showGameMode = mode[Maps.MODE_NAME]
 	helpDialog.popup_centered()

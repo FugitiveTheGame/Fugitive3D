@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://client/game/player/hud/StaminaHud.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/game/player/controller/flat/Camera.gd" type="Script" id=2]
@@ -12,10 +12,16 @@
 [ext_resource path="res://client/game/player/controller/flat/mobile/button_crouch_normal.png" type="Texture" id=10]
 [ext_resource path="res://client/game/player/controller/flat/mobile/button_jump_normal.png" type="Texture" id=11]
 [ext_resource path="res://client/game/player/controller/flat/mobile/button_jump_pressed.png" type="Texture" id=12]
+[ext_resource path="res://client/HelpDialog.tscn" type="PackedScene" id=13]
+[ext_resource path="res://client/game/mode/fugitive/hud/InGameMenuHud.tscn" type="PackedScene" id=14]
 
 [node name="PlayerController" type="KinematicBody"]
 collision_mask = 11
 script = ExtResource( 3 )
+virtual_joysticks_path = NodePath("HudCanvas/VirtualJoysticks")
+inGameMenuPath = NodePath("HudCanvas/HudContainer/InGameMenuHud")
+exitGameHudPath = NodePath("HudCanvas/HudContainer/ExitGameHud")
+helpDialogPath = NodePath("HudCanvas/HudContainer/HelpDialog")
 crouch_button_path = NodePath("HudCanvas/HudContainer/CrouchButton")
 sprint_button_path = NodePath("HudCanvas/HudContainer/SprintButton")
 
@@ -68,6 +74,8 @@ margin_top = 104.0
 margin_right = 48.0
 margin_bottom = 152.0
 
+[node name="InGameMenuHud" parent="HudCanvas/HudContainer" instance=ExtResource( 14 )]
+
 [node name="ExitGameHud" parent="HudCanvas/HudContainer" instance=ExtResource( 4 )]
 anchor_left = 0.471
 anchor_top = 0.493
@@ -79,6 +87,8 @@ margin_right = 179.12
 margin_bottom = 64.1
 size_flags_horizontal = 0
 size_flags_vertical = 0
+
+[node name="HelpDialog" parent="HudCanvas/HudContainer" instance=ExtResource( 13 )]
 
 [node name="JumpButton" type="TouchScreenButton" parent="HudCanvas/HudContainer"]
 position = Vector2( 1206, 650 )
@@ -108,7 +118,14 @@ margin_top = -0.199997
 margin_right = 0.0
 margin_bottom = 0.299988
 right_dead_zone = 0.01
+[connection signal="about_to_show" from="HudCanvas/HudContainer/InGameMenuHud" to="." method="_on_InGameMenuHud_about_to_show"]
+[connection signal="popup_hide" from="HudCanvas/HudContainer/InGameMenuHud" to="." method="_on_InGameMenuHud_popup_hide"]
+[connection signal="resume_game" from="HudCanvas/HudContainer/InGameMenuHud" to="." method="_on_InGameMenuHud_resume_game"]
+[connection signal="show_exit" from="HudCanvas/HudContainer/InGameMenuHud" to="." method="_on_InGameMenuHud_show_exit"]
+[connection signal="show_help" from="HudCanvas/HudContainer/InGameMenuHud" to="." method="_on_InGameMenuHud_show_help"]
 [connection signal="on_exit_dialog_hide" from="HudCanvas/HudContainer/ExitGameHud" to="." method="_on_ExitGameHud_on_exit_dialog_hide"]
 [connection signal="on_exit_dialog_show" from="HudCanvas/HudContainer/ExitGameHud" to="." method="_on_ExitGameHud_on_exit_dialog_show"]
 [connection signal="return_to_main_menu" from="HudCanvas/HudContainer/ExitGameHud" to="." method="_on_ExitGameHud_return_to_main_menu"]
+[connection signal="about_to_show" from="HudCanvas/HudContainer/HelpDialog" to="." method="_on_HelpDialog_about_to_show"]
+[connection signal="popup_hide" from="HudCanvas/HudContainer/HelpDialog" to="." method="_on_HelpDialog_popup_hide"]
 [connection signal="released" from="HudCanvas/HudContainer/CrouchButton" to="." method="_on_CrouchButton_released"]
