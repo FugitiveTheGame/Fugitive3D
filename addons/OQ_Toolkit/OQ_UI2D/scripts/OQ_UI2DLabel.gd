@@ -25,7 +25,7 @@ onready var ui_container : CenterContainer = $Viewport/ColorRect/CenterContainer
 onready var ui_color_rect : CenterContainer = $Viewport/ColorRect
 onready var ui_viewport : Viewport = $Viewport
 onready var mesh_instance : MeshInstance = $MeshInstance
-var ui_mesh : PlaneMesh = null;
+var ui_mesh : QuadMesh = null;
 
 var mesh_material = null;
 
@@ -33,19 +33,17 @@ func _ready():
 	ui_mesh = mesh_instance.mesh;
 	set_label_text(text);
 	
-	#mesh_material = mesh_instance.mesh.surface_get_material(0).duplicate();
-	#mesh_instance.mesh.surface_set_material(0, mesh_material);
-	mesh_material = mesh_instance.mesh.surface_get_material(0);
+	mesh_material = mesh_instance.material_override
 	
 	if (billboard):
 		mesh_material.params_billboard_mode = SpatialMaterial.BILLBOARD_FIXED_Y;
+	mesh_material.flags_no_depth_test = !depth_test;
+	
+	# only enable transparency when necessary as it is significantly slower than non-transparent rendering
+	update_transparency()
 	
 	ui_label.add_color_override("font_color", font_color)
 	ui_color_rect.color = background_color
-	
-	# only enable transparency when necessary as it is significantly slower than non-transparent rendering
-	mesh_material.flags_transparent = transparent;
-	mesh_material.flags_no_depth_test = !depth_test;
 	
 	#if (line_to_parent):
 		#var p = get_parent();
