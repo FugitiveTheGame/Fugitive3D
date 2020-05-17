@@ -29,4 +29,6 @@ visible = false
 
 [node name="PlayerNameLabel" parent="." index="3" instance=ExtResource( 4 )]
 transform = Transform( -1, 3.25841e-07, 5.30863e-14, 0, -1.62921e-07, 1, 3.25841e-07, 1, 1.62921e-07, 0, -2.57652e-07, 1.58145 )
+billboard = true
 font_size_multiplier = 6.0
+background_color = Color( 0, 0, 0, 0 )
