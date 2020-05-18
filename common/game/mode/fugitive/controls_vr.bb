@@ -1,15 +1,18 @@
 [u]On Foot:[/u]
 - Left Stick - Movement
-- Real Crouch - Crouch
-- [Not in VR] - Jump
+- Right Stick - Snap Turn
+- Left Grip (seated) - Crouch
+- Right Grip - Get in car
 - A - Sprint
 - B - Toggle flashlight
 - X (hold) - Cops Lock car
-- Left Stick In - Map
 - Y - Toggle HUD (_Better FPS on Quest with HUD off_)
+- Left Stick In - Map
+- Left Menu - Menu
 
 [u]In Car:[/u]
 - Left Stick - Movement
+- Right Stick - Turn
 - Left Trigger - Honk Horn
-- A - Get in or out of car
 - Right Trigger - Break Car
+- Right Grip - Get out of car
