@@ -26,8 +26,7 @@ func load_map():
 	
 	playersContainer = map.get_players()
 	
-	var gameTimelimitTimer = map.get_timelimit_timer()
-	gameTimelimitTimer.connect("timeout", self, "game_time_limit_exceeded")
+	map.get_timelimit_timer().connect("timeout", self, "game_time_limit_exceeded")
 	
 	if history != null:
 		history.reset()
@@ -63,6 +62,8 @@ func finish_game(playerType: int):
 remotesync func on_finish_game(playerType: int):
 	# Send one last heartbeat when the game is finished.
 	record_heartbeat()
+	
+	map.get_timelimit_timer().paused = true
 	
 	var curState := stateMachine.current_state.name
 	
