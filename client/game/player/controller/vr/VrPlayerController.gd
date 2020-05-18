@@ -139,6 +139,12 @@ func _physics_process(delta):
 	totalRotation.y += camera.rotation.y
 	
 	if not player.gameEnded:
+		# Seated mode must adjust the position being send out to remote clients
+		if not is_standing:
+			if player.is_crouching:
+				totalTranslation.y += seated_crouching_offset_meters
+			else:
+				totalTranslation.y -= (seated_standing_offset_meters/2.0)
 		player.rpc_unreliable("network_update", totalTranslation, totalRotation, Vector3(), player.is_crouching, player.isMoving, player.sprint, player.stamina)
 	
 	if fpsLabel.visible:
