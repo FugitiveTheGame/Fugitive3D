@@ -51,11 +51,11 @@ __meta__ = {
 [node name="VBoxContainer" type="VBoxContainer" parent="ManualContainer"]
 margin_left = 8.0
 margin_top = 8.0
-margin_right = 316.0
+margin_right = 336.0
 margin_bottom = 122.0
 
 [node name="ManualConnectLabel" type="Label" parent="ManualContainer/VBoxContainer"]
-margin_right = 308.0
+margin_right = 328.0
 margin_bottom = 25.0
 text = "Direct Connect:"
 __meta__ = {
@@ -64,12 +64,12 @@ __meta__ = {
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ManualContainer/VBoxContainer"]
 margin_top = 33.0
-margin_right = 308.0
+margin_right = 328.0
 margin_bottom = 67.0
 size_flags_horizontal = 3
 
 [node name="ServerIp" type="LineEdit" parent="ManualContainer/VBoxContainer/HBoxContainer"]
-margin_right = 150.0
+margin_right = 160.0
 margin_bottom = 34.0
 size_flags_horizontal = 3
 max_length = 128
@@ -82,8 +82,8 @@ __meta__ = {
 }
 
 [node name="ServerPort" type="LineEdit" parent="ManualContainer/VBoxContainer/HBoxContainer"]
-margin_left = 158.0
-margin_right = 308.0
+margin_left = 168.0
+margin_right = 328.0
 margin_bottom = 34.0
 size_flags_horizontal = 0
 size_flags_vertical = 0
@@ -100,7 +100,7 @@ __meta__ = {
 
 [node name="ConnectButton" type="Button" parent="ManualContainer/VBoxContainer"]
 margin_top = 75.0
-margin_right = 308.0
+margin_right = 328.0
 margin_bottom = 114.0
 size_flags_vertical = 0
 text = "Connect"
@@ -121,12 +121,15 @@ __meta__ = {
 [node name="OptionsContainer" type="VBoxContainer" parent="."]
 margin_left = 8.0
 margin_top = 8.0
+margin_right = 158.0
+margin_bottom = 94.0
+rect_min_size = Vector2( 175, 0 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ExitButton" type="Button" parent="OptionsContainer"]
-margin_right = 124.0
+margin_right = 175.0
 margin_bottom = 39.0
 text = "Exit Game"
 __meta__ = {
@@ -135,7 +138,7 @@ __meta__ = {
 
 [node name="HelpButton" type="Button" parent="OptionsContainer"]
 margin_top = 47.0
-margin_right = 124.0
+margin_right = 175.0
 margin_bottom = 86.0
 text = "Help"
 
