@@ -10,6 +10,11 @@ const car_dead_zone := 0.5
 const crouching_modifier := 0.45
 
 
+func _ready():
+	print("Player Standing: " + str(UserData.data.vr_standing))
+	playerHeightHud.visible = UserData.data.vr_standing
+
+
 # Allow child classes to override this functionality
 func show_map(show: bool):
 	overviewMapHud.visible = show
@@ -24,7 +29,7 @@ func _physics_process(delta):
 	 
 	show_map( vr.button_pressed(vr.BUTTON.LEFT_THUMBSTICK) )
 	
-	if debounced_button_just_released(vr.BUTTON.A):
+	if debounced_button_just_released(vr.BUTTON.RIGHT_GRIP_TRIGGER):
 		if player.car == null:
 			var cars := get_tree().get_nodes_in_group(Groups.CARS)
 			for car in cars:
@@ -79,12 +84,14 @@ func process_car_input(delta: float):
 		var seat = player.car.find_players_seat(player.id)
 		if seat != null:
 			global_transform.origin = seat.global_transform.origin
-			transform.origin.y -= (standingHeight * crouching_modifier)
+			if is_standing:
+				transform.origin.y -= (standingHeight * crouching_modifier)
 
 
 
 func on_car_entered(car):
 	locomotion.allowTurn = false
+	vr.vrOrigin.global_transform.basis = car.global_transform.basis
 	vr.vrOrigin.is_fixed = true
 
 
@@ -137,3 +144,9 @@ func on_ui_raycast_visibility_changed():
 	# In the end-game state, we always want the raycast shown
 	if not uiRaycast.visible and player.gameEnded:
 		uiRaycast.show()
+
+
+func process_crouch():
+	# Only allow crouching if we are not in a car
+	if player.car == null:
+		.process_crouch()

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://client/lobby/HelpDialog.gd" type="Script" id=1]
+[ext_resource path="res://client/HelpDialog.gd" type="Script" id=1]
 
 [node name="HelpDialog" type="WindowDialog"]
 anchor_left = 0.5
@@ -16,6 +16,7 @@ script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+tabsContainerPath = NodePath("VBoxContainer/TabContainer")
 modeSelectContainerPath = NodePath("VBoxContainer/ModeSelectContainer")
 modeSelectButtonPath = NodePath("VBoxContainer/ModeSelectContainer/ModeSelectButton")
 rulesTextboxPath = NodePath("VBoxContainer/TabContainer/Rules")

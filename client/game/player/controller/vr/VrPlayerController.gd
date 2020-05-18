@@ -8,12 +8,24 @@ const CROUCH_THRESHOLD := 0.75
 onready var camera := $OQ_ARVRCamera as ARVRCamera
 onready var player := $Player as Player
 onready var locomotion := $Locomotion_Stick
+onready var falling := $Feature_Falling
 onready var hudCanvas := $OQ_LeftController/VisibilityToggle/HudCanvas
 onready var hudVisibilityToggle := $OQ_LeftController/VisibilityToggle
 onready var hud := $OQ_LeftController/VisibilityToggle/HudCanvas.find_node("HudContainer", true, false) as Control
 onready var fpsLabel := $OQ_LeftController/VisibilityToggle/HudCanvas.find_node("FpsLabel", true, false) as Label
 onready var uiRaycast := $OQ_RightController/Feature_UIRayCast
-onready var exitGameHud := hud.find_node("ExitGameHud", true, false)
+
+onready var inGameMenuHud := hud.find_node("InGameMenuHud", true, false) as WindowDialog
+onready var exitGameHud := hud.find_node("ExitGameHud", true, false) as ConfirmationDialog
+onready var helpDialog := hud.find_node("HelpDialog", true, false) as WindowDialog
+
+
+const seated_standing_offset_meters := 1.5
+const seated_crouching_offset_meters := 0.5
+onready var initial_origin := transform.origin as Vector3
+onready var initial_shape_origin := player.playerShape.transform.origin as Vector3
+var is_standing := true
+
 
 const DEBOUNCE_THRESHOLD_MS := 100
 var debounceBookKeeping = {}
@@ -43,15 +55,25 @@ func debounced_button_just_released(button_id) -> bool:
 	return debouncedReleased
 
 
+func _enter_tree():
+	UserData.connect("user_data_updated", self, "on_user_data_updated")
+
+
 func _ready():
 	player.set_is_local_player()
 	
 	# Performance tuning for mobile VR clients
 	if OS.has_feature("mobile"):
 		camera.far = 100.0
-		hudCanvas.transparent = false
+		#hudCanvas.transparent = false
 	
 	fpsLabel.visible = OS.is_debug_build()
+	
+	call_deferred("update_standing")
+
+
+func _exit_tree():
+	UserData.disconnect("user_data_updated", self, "on_user_data_updated")
 
 
 func set_standing_height():
@@ -66,16 +88,29 @@ func set_standing_height():
 		vr.log_warning("Cannot set standing height while playing")
 
 
-func _physics_process(delta):
-	# Movement input
-	var curHeight = camera.translation.y
-	var curPercent = curHeight / standingHeight
+func process_crouch():
+	# Standing mode, crouching is just real crouching
+	if is_standing:
+		# Movement input
+		var curHeight = camera.translation.y
+		var curPercent = curHeight / standingHeight
 	
-	# If the player's is different enough, consider them crouching
-	if (curHeight < standingHeight and curPercent < CROUCH_THRESHOLD) or player.car != null:
-		player.is_crouching = true
+		# If the player's is different enough, consider them crouching
+		if (curHeight < standingHeight and curPercent < CROUCH_THRESHOLD) or player.car != null:
+			player.is_crouching = true
+		else:
+			player.is_crouching = false
+	# Seated mode, crouching is button controlled
 	else:
-		player.is_crouching = false
+		var wasCrouching := player.is_crouching
+		player.is_crouching = vr.button_pressed(vr.BUTTON.LEFT_GRIP_TRIGGER)
+		if wasCrouching != player.is_crouching:
+			update_head_height()
+
+
+func _physics_process(delta):
+	# Handle crouching
+	process_crouch()
 	
 	# Handle VR controller input
 	if debounced_button_just_released(vr.BUTTON.B):
@@ -83,7 +118,10 @@ func _physics_process(delta):
 	
 	if debounced_button_just_released(vr.BUTTON.ENTER):
 		hudVisibilityToggle.visible = true
-		exitGameHud.show_dialog()
+		if inGameMenuHud.visible:
+			inGameMenuHud.hide()
+		else:
+			inGameMenuHud.popup_centered()
 	
 	player.sprint = vr.button_pressed(vr.BUTTON.A)
 	player.isMoving = locomotion.is_moving
@@ -108,6 +146,17 @@ func _physics_process(delta):
 		fpsLabel.text = ("%d fps" % fps)
 
 
+func _on_InGameMenuHud_about_to_show():
+	exitGameHud.hide()
+	helpDialog.hide()
+	
+	uiRaycast.show()
+
+
+func _on_InGameMenuHud_popup_hide():
+	uiRaycast.hide()
+
+
 func _on_ExitGameHud_return_to_main_menu():
 	emit_signal("return_to_main_menu")
 
@@ -118,3 +167,47 @@ func _on_ExitGameHud_on_exit_dialog_show():
 
 func _on_ExitGameHud_on_exit_dialog_hide():
 	uiRaycast.hide()
+
+
+func _on_HelpDialog_about_to_show():
+	uiRaycast.show()
+
+
+func _on_HelpDialog_popup_hide():
+	uiRaycast.hide()
+
+
+func _on_InGameMenuHud_show_exit():
+	exitGameHud.popup_centered()
+
+
+func _on_InGameMenuHud_show_help():
+	var mapId = GameData.general[GameData.GENERAL_MAP]
+	var mode := Maps.get_mode_for_map(mapId)
+	helpDialog.showGameMode = mode[Maps.MODE_NAME]
+	helpDialog.showControlsFirst = true
+	
+	helpDialog.popup_centered()
+
+
+func on_user_data_updated():
+	update_standing()
+
+
+func update_standing():
+	if UserData.data.vr_standing != is_standing:
+		is_standing = UserData.data.vr_standing
+		
+		update_head_height()
+
+
+func update_head_height():
+	if not is_standing:
+		if player.is_crouching:
+			falling.height_offset = seated_crouching_offset_meters
+			transform.origin.y = initial_origin.y + seated_crouching_offset_meters
+			player.playerShape.transform.origin.y = initial_shape_origin.y + seated_crouching_offset_meters
+		else:
+			falling.height_offset = seated_standing_offset_meters
+			transform.origin.y = initial_origin.y + seated_standing_offset_meters
+			player.playerShape.transform.origin.y = initial_shape_origin.y
