@@ -70,21 +70,21 @@ margin_left = -64.0
 margin_bottom = 64.0
 
 [node name="UseButton" type="TouchScreenButton" parent="HudCanvas/HudContainer" index="10"]
-position = Vector2( 800, 650 )
+position = Vector2( 1056, 552 )
 normal = ExtResource( 8 )
 pressed = ExtResource( 7 )
 action = "flat_player_use"
 visibility_mode = 1
 
 [node name="HornButton" type="TouchScreenButton" parent="HudCanvas/HudContainer" index="11"]
-position = Vector2( 710, 650 )
+position = Vector2( 960, 552 )
 normal = ExtResource( 10 )
 pressed = ExtResource( 9 )
 action = "flat_car_horn"
 visibility_mode = 1
 
 [node name="MapButton" type="TouchScreenButton" parent="HudCanvas/HudContainer" index="12"]
-position = Vector2( 600, 648 )
+position = Vector2( 1152, 552 )
 normal = ExtResource( 13 )
 pressed = ExtResource( 14 )
 action = "flat_fugitive_map"
