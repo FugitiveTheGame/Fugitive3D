@@ -171,13 +171,16 @@ func _physics_process(delta):
 		player.rpc_unreliable("network_update", translation, rotation, player.velocity, player.is_crouching, player.isMoving, player.sprint, player.stamina)
 
 
+func trigger_menu():
+	if not inGameMenu.visible:
+			inGameMenu.popup_centered()
+	else:
+		inGameMenu.hide()
+
+
 func _input(event):
 	if event.is_action_released("flat_player_exit"):
-		if not inGameMenu.visible:
-			inGameMenu.popup_centered()
-		else:
-			inGameMenu.hide()
-	
+		trigger_menu()
 	
 	# Don't process input if we aren't capturing the mouse
 	if event is InputEventMouseMotion and mouse_captured():
@@ -201,7 +204,7 @@ func _notification(what):
 		elif what == MainLoop.NOTIFICATION_WM_FOCUS_OUT:
 			release_mouse()
 		elif what == MainLoop.NOTIFICATION_WM_GO_BACK_REQUEST: 
-			exitGameHud.show_dialog()
+			trigger_menu()
 
 
 func update_camera_to_head():
