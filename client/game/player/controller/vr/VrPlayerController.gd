@@ -65,7 +65,7 @@ func _ready():
 	# Performance tuning for mobile VR clients
 	if OS.has_feature("mobile"):
 		camera.far = 100.0
-		hudCanvas.transparent = false
+		#hudCanvas.transparent = false
 	
 	fpsLabel.visible = OS.is_debug_build()
 	
