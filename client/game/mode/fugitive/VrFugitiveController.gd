@@ -29,7 +29,7 @@ func _physics_process(delta):
 	 
 	show_map( vr.button_pressed(vr.BUTTON.LEFT_THUMBSTICK) )
 	
-	if debounced_button_just_released(vr.BUTTON.A):
+	if debounced_button_just_released(vr.BUTTON.RIGHT_GRIP_TRIGGER):
 		if player.car == null:
 			var cars := get_tree().get_nodes_in_group(Groups.CARS)
 			for car in cars:
@@ -91,6 +91,7 @@ func process_car_input(delta: float):
 
 func on_car_entered(car):
 	locomotion.allowTurn = false
+	vr.vrOrigin.global_transform.basis = car.global_transform.basis
 	vr.vrOrigin.is_fixed = true
 
 
