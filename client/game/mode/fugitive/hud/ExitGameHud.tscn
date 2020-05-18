@@ -1,8 +1,10 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://client/game/mode/fugitive/hud/ExitGameHud.gd" type="Script" id=1]
+[ext_resource path="res://fugitive_theme.tres" type="Theme" id=2]
 
 [node name="ExitGameDialog" type="ConfirmationDialog"]
+visible = true
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -11,6 +13,7 @@ margin_left = -148.5
 margin_top = -37.0
 margin_right = 148.5
 margin_bottom = 80.0
+theme = ExtResource( 2 )
 popup_exclusive = true
 window_title = "Leave Game"
 dialog_text = "Are you sure?"
