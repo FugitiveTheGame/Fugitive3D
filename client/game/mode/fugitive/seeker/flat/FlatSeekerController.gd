@@ -6,6 +6,9 @@ onready var car_lock_hud := get_node(car_lock_hud_path)
 export(NodePath) var car_lock_button_path: NodePath
 onready var car_lock_button := get_node(car_lock_button_path) as TouchScreenButton
 
+export(NodePath) var flash_light_button_path: NodePath
+onready var flash_light_button := get_node(flash_light_button_path) as TouchScreenButton
+
 export(NodePath) var flashlightPath: NodePath
 onready var flashlight := get_node(flashlightPath) as Spatial
 
@@ -30,6 +33,8 @@ func _process(delta):
 		car_lock_hud.stop_locking()
 	
 	if OS.has_touchscreen_ui_hint():
+		flash_light_button.visible = (player.car == null)
+		
 		if player.can_lock_car(get_nearest_car()):
 			car_lock_button.show()
 		else:
