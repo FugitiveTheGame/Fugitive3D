@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://client/game/mode/fugitive/FlatFugitiveController.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/game/mode/fugitive/seeker/flat/FlatSeekerController.gd" type="Script" id=2]
@@ -8,12 +8,15 @@
 [ext_resource path="res://client/game/mode/fugitive/seeker/CarLockHud.tscn" type="PackedScene" id=6]
 [ext_resource path="res://client/game/player/controller/flat/mobile/button_lock_normal.png" type="Texture" id=7]
 [ext_resource path="res://client/game/player/controller/flat/mobile/button_lock_pressed.png" type="Texture" id=8]
+[ext_resource path="res://client/game/player/controller/flat/mobile/button_flashlight_pressed.png" type="Texture" id=9]
+[ext_resource path="res://client/game/player/controller/flat/mobile/button_flashlight_normal.png" type="Texture" id=10]
 
 [node name="PlayerController" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 HeldObjectPath = NodePath("Flashlight")
 car_lock_hud_path = NodePath("HudCanvas/HudContainer/BarsContainer/CarLockHud")
 car_lock_button_path = NodePath("HudCanvas/HudContainer/LockButton")
+flash_light_button_path = NodePath("HudCanvas/HudContainer/FlashlightButton")
 flashlightPath = NodePath("Flashlight")
 
 [node name="Camera" parent="." index="0"]
@@ -32,6 +35,10 @@ margin_bottom = 72.0
 [node name="StaminaHud" parent="HudCanvas/HudContainer/BarsContainer" index="1"]
 playerPath = NodePath("../../../../Player")
 
+[node name="IndicatorsContainer" parent="HudCanvas/HudContainer" index="1"]
+margin_top = -336.0
+margin_bottom = -80.0
+
 [node name="CrouchingHud" parent="HudCanvas/HudContainer/IndicatorsContainer" index="0"]
 playerPath = NodePath("../../../../Player")
 
@@ -47,10 +54,17 @@ margin_right = 137.0
 margin_bottom = 167.0
 
 [node name="LockButton" type="TouchScreenButton" parent="HudCanvas/HudContainer" index="12"]
-position = Vector2( 496, 648 )
+position = Vector2( 864, 552 )
 normal = ExtResource( 7 )
 pressed = ExtResource( 8 )
 action = "flat_seeker_lock"
+visibility_mode = 1
+
+[node name="FlashlightButton" type="TouchScreenButton" parent="HudCanvas/HudContainer" index="13"]
+position = Vector2( 728, 648 )
+normal = ExtResource( 10 )
+pressed = ExtResource( 9 )
+action = "flat_seeker_flashlight"
 visibility_mode = 1
 
 [node name="VirtualJoysticks" parent="HudCanvas" index="1"]
