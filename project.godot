@@ -280,6 +280,7 @@ singletons_disabled=[ "res://addons/godot-oculus/godot_oculus.gdnlib" ]
 
 theme/use_hidpi=true
 theme/custom="res://fugitive_theme.tres"
+theme/custom.client_vr_mobile=""
 
 [input]
 
