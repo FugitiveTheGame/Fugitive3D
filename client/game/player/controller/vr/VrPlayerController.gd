@@ -26,6 +26,12 @@ onready var initial_origin := transform.origin as Vector3
 onready var initial_shape_origin := player.playerShape.transform.origin as Vector3
 var is_standing := true
 
+const CENTER_MIN := 0.35
+const CENTER_MAX := 0.75
+onready var centerLabel := $OQ_ARVRCamera/CenterLabel
+onready var centerIndicator := $CenterIndicator as CSGTorus
+onready var centerIndicatorMaterial := centerIndicator.material as SpatialMaterial
+
 
 const DEBOUNCE_THRESHOLD_MS := 100
 var debounceBookKeeping = {}
@@ -106,6 +112,17 @@ func process_crouch():
 		player.is_crouching = vr.button_pressed(vr.BUTTON.LEFT_GRIP_TRIGGER)
 		if wasCrouching != player.is_crouching:
 			update_head_height()
+
+
+func _process(delta):
+	var camTrans := camera.translation
+	var distFromCenter := Vector2(camTrans.x, camTrans.z).length()
+	
+	centerLabel.visible = distFromCenter >= CENTER_MAX
+	centerIndicator.visible = distFromCenter > CENTER_MIN
+	
+	var percentVisible := clamp((distFromCenter-CENTER_MIN)/(CENTER_MAX-CENTER_MIN), 0.0, 1.0)
+	centerIndicatorMaterial.albedo_color.a = percentVisible
 
 
 func _physics_process(delta):

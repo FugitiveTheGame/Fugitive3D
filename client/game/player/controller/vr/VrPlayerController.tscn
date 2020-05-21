@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://client/game/player/controller/vr/VrPlayerController.gd" type="Script" id=1]
 [ext_resource path="res://client/game/player/controller/vr/Feature_PlayerCollision.gd" type="Script" id=2]
@@ -15,6 +15,14 @@
 [ext_resource path="res://addons/OQ_Toolkit/OQ_ARVRController/Feature_UIRayCast.tscn" type="PackedScene" id=13]
 [ext_resource path="res://client/game/mode/fugitive/hud/InGameMenuHud.tscn" type="PackedScene" id=14]
 [ext_resource path="res://client/HelpDialog.tscn" type="PackedScene" id=15]
+[ext_resource path="res://addons/OQ_Toolkit/OQ_UI2D/OQ_UI2DLabel.tscn" type="PackedScene" id=16]
+
+[sub_resource type="SpatialMaterial" id=1]
+render_priority = 1
+flags_transparent = true
+flags_unshaded = true
+flags_no_depth_test = true
+albedo_color = Color( 0.697266, 0.697266, 0.697266, 1 )
 
 [node name="PlayerController" type="ARVROrigin"]
 script = ExtResource( 1 )
@@ -24,6 +32,19 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
 current = true
 far = 300.0
 
+[node name="CenterLabel" parent="OQ_ARVRCamera" instance=ExtResource( 16 )]
+process_priority = 1
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -2.64645e-05, 0.00594926, -1.00355 )
+text = "Move Back to center"
+margin = 16
+billboard = false
+depth_test = false
+resize_mode = 0
+font_size_multiplier = 1.0
+font_color = Color( 1, 1, 1, 1 )
+background_color = Color( 0, 0, 0, 0 )
+transparent = true
+
 [node name="OQ_LeftController" parent="." instance=ExtResource( 3 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, -0.375232, -0.5 )
 
@@ -32,7 +53,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0 )
 
 [node name="HudCanvas" parent="OQ_LeftController/VisibilityToggle" instance=ExtResource( 8 )]
 transform = Transform( 0.896695, -0.0624615, 0.43822, 0, 0.989994, 0.141109, -0.442649, -0.126531, 0.887723, 0, 0, 0 )
-editor_live_update = false
+editor_live_update = true
 transparent = true
 
 [node name="HudContainer" type="Control" parent="OQ_LeftController/VisibilityToggle/HudCanvas"]
@@ -88,16 +109,15 @@ margin_right = 48.0
 margin_bottom = 256.0
 
 [node name="InGameMenuHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" instance=ExtResource( 14 )]
-visible = true
 
 [node name="ExitGameHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" instance=ExtResource( 12 )]
+visible = false
 margin_left = -174.0
 margin_top = -55.0
 margin_right = 174.0
 margin_bottom = 55.0
 
 [node name="HelpDialog" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" instance=ExtResource( 15 )]
-visible = true
 margin_left = -222.5
 margin_top = -207.5
 margin_right = 222.5
@@ -119,6 +139,12 @@ script = ExtResource( 2 )
 capsule_radius = 0.3
 
 [node name="Locomotion_Stick" parent="." instance=ExtResource( 5 )]
+
+[node name="CenterIndicator" type="CSGTorus" parent="."]
+calculate_tangents = false
+inner_radius = 0.4
+outer_radius = 0.5
+material = SubResource( 1 )
 [connection signal="about_to_show" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/InGameMenuHud" to="." method="_on_InGameMenuHud_about_to_show"]
 [connection signal="popup_hide" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/InGameMenuHud" to="." method="_on_InGameMenuHud_popup_hide"]
 [connection signal="show_exit" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/InGameMenuHud" to="." method="_on_InGameMenuHud_show_exit"]
