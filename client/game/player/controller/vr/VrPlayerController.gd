@@ -115,6 +115,7 @@ func process_crouch():
 
 
 func _process(delta):
+	# Process what to show about the re-center indicator
 	var camTrans := camera.translation
 	var distFromCenter := Vector2(camTrans.x, camTrans.z).length()
 	
