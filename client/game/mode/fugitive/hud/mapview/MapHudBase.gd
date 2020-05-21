@@ -43,16 +43,17 @@ func _build_triangle(triangle_size: float) -> PoolVector2Array:
 	return new_points
 
 func update_map_background():
-	var imageTexture = ImageTexture.new()
-	var image = Image.new()
-	
-	var curSize := rect_size
-	image.create(curSize.x, curSize.y, false, Image.FORMAT_RGBA8)
-	image.fill(Color(0.1, 0.9, 0.1, 0.5))
-	imageTexture.create_from_image(image)
-	mapBackground.texture = imageTexture
-	
-	mapBackground.update()
+	if mapBackground != null:
+		var imageTexture = ImageTexture.new()
+		var image = Image.new()
+		
+		var curSize := rect_size
+		image.create(curSize.x, curSize.y, false, Image.FORMAT_RGBA8)
+		image.fill(Color(0.1, 0.9, 0.1, 0.5))
+		imageTexture.create_from_image(image)
+		mapBackground.texture = imageTexture
+		
+		mapBackground.update()
 
 
 func _process(delta):
