@@ -52,7 +52,7 @@ _global_script_classes=[ {
 "base": "Spatial",
 "class": "FugitiveMap",
 "language": "GDScript",
-"path": "res://common/game/mode/fugitive/FugitiveMap.gd"
+"path": "res://common/game/base_maps/FugitiveMap.gd"
 }, {
 "base": "Spatial",
 "class": "FugitivePlayer",
