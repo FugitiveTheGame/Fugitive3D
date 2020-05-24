@@ -3,6 +3,7 @@
 [ext_resource path="res://addons/OQ_Toolkit/OQ_ARVROrigin/scripts/Locomotion_Stick.gd" type="Script" id=1]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_ARVROrigin/scripts/MovementVignette_CanvasItem.shader" type="Shader" id=2]
 
+
 [sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 2 )
 shader_param/r0 = 0.5
