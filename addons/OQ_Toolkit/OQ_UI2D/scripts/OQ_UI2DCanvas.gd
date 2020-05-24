@@ -9,16 +9,7 @@ var ui_collisionshape = null;
 
 export var editor_live_update := false;
 
-export var transparent := false setget set_transparent;
-func set_transparent(value: bool):
-	transparent = value
-	update_transparent()
-
-
-func update_transparent():
-	if mesh_material != null:
-		mesh_material.flags_transparent = self.transparent;
-
+export var transparent := false;
 
 var mesh_material = null;
 onready var mesh_instance : MeshInstance = $UIArea/UIMeshInstance
@@ -56,7 +47,7 @@ func _ready():
 	
 	mesh_material = mesh_instance.mesh.surface_get_material(0);
 	# only enable transparency when necessary as it is significantly slower than non-transparent rendering
-	update_transparent()
+	mesh_material.flags_transparent = transparent;
 	
 	if Engine.editor_hint:
 		return;
@@ -93,8 +84,10 @@ func _process(_dt):
 		# if we are invisible we need to disable the collision shape to avoid interaction with the UIRayCast
 		if (!is_visible_in_tree()): 
 			ui_collisionshape.disabled = true;
+			ui_control.visible = false;
 		else:
 			ui_collisionshape.disabled = false;
+			ui_control.visible = true;
 		return;
 		
 
