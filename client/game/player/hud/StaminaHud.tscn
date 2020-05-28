@@ -18,7 +18,7 @@ margin_bottom = 48.0
 texture = ExtResource( 2 )
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
-margin_left = 52.0
+margin_left = 56.0
 margin_right = 512.0
 margin_bottom = 48.0
 size_flags_horizontal = 3
