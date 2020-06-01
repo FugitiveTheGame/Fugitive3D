@@ -2,12 +2,12 @@
 
 importer="scene"
 type="PackedScene"
-path="res://.import/wall_tiles.glb-341a7805c4c93a4ffd9d4c540049f635.scn"
+path="res://.import/brick_test.glb-839063b73d5a94950634ddb95b6160d0.scn"
 
 [deps]
 
-source_file="res://common/game/tilesets/suburban_neighborhood/walls/wall_tiles.glb"
-dest_files=[ "res://.import/wall_tiles.glb-341a7805c4c93a4ffd9d4c540049f635.scn" ]
+source_file="res://common/game/tilesets/suburban_neighborhood/walls/brick_test.glb"
+dest_files=[ "res://.import/brick_test.glb-839063b73d5a94950634ddb95b6160d0.scn" ]
 
 [params]
 
@@ -18,15 +18,15 @@ nodes/custom_script=""
 nodes/storage=0
 materials/location=1
 materials/storage=1
-materials/keep_on_reimport=false
+materials/keep_on_reimport=true
 meshes/compress=true
 meshes/ensure_tangents=true
 meshes/storage=0
-meshes/light_baking=2
+meshes/light_baking=0
 meshes/lightmap_texel_size=0.1
-skins/use_named_skins=false
-external_files/store_in_subdir=true
-animation/import=false
+skins/use_named_skins=true
+external_files/store_in_subdir=false
+animation/import=true
 animation/fps=15
 animation/filter_script=""
 animation/storage=false
