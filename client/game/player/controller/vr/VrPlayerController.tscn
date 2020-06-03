@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=19 format=2]
 
 [ext_resource path="res://client/game/player/controller/vr/VrPlayerController.gd" type="Script" id=1]
 [ext_resource path="res://client/game/player/controller/vr/Feature_PlayerCollision.gd" type="Script" id=2]
@@ -16,6 +16,8 @@
 [ext_resource path="res://client/game/mode/fugitive/hud/InGameMenuHud.tscn" type="PackedScene" id=14]
 [ext_resource path="res://client/HelpDialog.tscn" type="PackedScene" id=15]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_UI2D/OQ_UI2DLabel.tscn" type="PackedScene" id=16]
+[ext_resource path="res://common/voice_chat/VoiceChatTransceiver.tscn" type="PackedScene" id=17]
+
 
 [sub_resource type="SpatialMaterial" id=1]
 render_priority = 1
@@ -145,6 +147,8 @@ calculate_tangents = false
 inner_radius = 0.4
 outer_radius = 0.5
 material = SubResource( 1 )
+
+[node name="VoiceChat" parent="." instance=ExtResource( 17 )]
 [connection signal="about_to_show" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/InGameMenuHud" to="." method="_on_InGameMenuHud_about_to_show"]
 [connection signal="popup_hide" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/InGameMenuHud" to="." method="_on_InGameMenuHud_popup_hide"]
 [connection signal="show_exit" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/InGameMenuHud" to="." method="_on_InGameMenuHud_show_exit"]

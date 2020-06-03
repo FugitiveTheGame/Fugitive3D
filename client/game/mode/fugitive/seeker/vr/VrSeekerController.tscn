@@ -36,6 +36,22 @@ playerPath = NodePath("../../../../../../Player")
 [node name="FrozenHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/IndicatorsContainer" index="1"]
 playerPath = NodePath("../../../../../../Player")
 
+[node name="VBox" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/HeightContainer" index="0"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 504.0
+margin_bottom = 78.0
+
+[node name="HeightInstructionsLabel" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/HeightContainer/VBox" index="0"]
+margin_top = 6.0
+margin_right = 496.0
+margin_bottom = 31.0
+
+[node name="HeightLabel" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/HeightContainer/VBox" index="1"]
+margin_top = 39.0
+margin_right = 496.0
+margin_bottom = 64.0
+
 [node name="OQ_RightController" parent="." index="2"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.3, -0.5 )
 
@@ -60,6 +76,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0 )
 shapePath = NodePath("../Feature_PlayerCollision/CollisionShape")
 playerControllerPath = NodePath("..")
 playerBodyPath = NodePath("../Feature_PlayerCollision")
+playerVoiceChatPath = NodePath("../VoiceChat")
 flash_light_path = NodePath("../Flashlight")
 
 [node name="Flashlight" parent="." index="7" instance=ExtResource( 5 )]
