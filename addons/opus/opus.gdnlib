@@ -2,7 +2,7 @@
 
 singleton=false
 load_once=true
-symbol_prefix="godot_"
+symbol_prefix="opus_"
 reloadable=true
 
 [entry]
@@ -11,4 +11,4 @@ Windows.64="res://addons/opus/lib/libgodotopus.dll"
 
 [dependencies]
 
-Windows.64=[  ]
+Windows.64=[ "res://addons/opus/lib/opus.dll" ]
