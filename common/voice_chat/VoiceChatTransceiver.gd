@@ -7,6 +7,9 @@ var maxTeamHearingRange := 10.0
 var maxHearingRange := 30.0
 
 onready var opus_encoder := $OpusEncoder
+onready var transmit_limit_timer := $TransmitLimitTimer as Timer
+onready var transmit_limit_audio := $TransmitLimitAudio as AudioStreamPlayer
+
 
 
 func _ready():
@@ -19,16 +22,24 @@ func _input(event):
 		if not effect.is_recording_active():
 			print("Start recording")
 			effect.set_recording_active(true)
+			transmit_limit_timer.start()
 	elif event.is_action_released("push_to_talk"):
-		if effect.is_recording_active():
-			print("Stop recording")
-			var recording := effect.get_recording()
-			effect.set_recording_active(false)
-			
-			print("Received audio of size:")
-			print(recording.data.size())
-			
-			send_audio(recording.data)
+		transmit_limit_timer.stop()
+		transmit_audio()
+
+
+func transmit_audio():
+	if effect.is_recording_active():
+		print("Stop recording")
+		transmit_limit_timer.stop()
+		
+		var recording := effect.get_recording()
+		effect.set_recording_active(false)
+		
+		print("Received audio of size:")
+		print(recording.data.size())
+		
+		send_audio(recording.data)
 
 
 func send_audio(audioData: PoolByteArray):
@@ -53,3 +64,12 @@ func send_audio(audioData: PoolByteArray):
 			# Enemy is within ear shot
 			elif localPlayerPos.distance_to(player.global_transform.origin) <= maxHearingRange:
 				rpc_id(playerId,"on_receive_audio", encodedData)
+
+
+func _on_TransmitLimitTimer_timeout():
+	transmit_limit_audio.play()
+	transmit_audio()
+
+
+func is_recording() -> bool:
+	return effect.is_recording_active()

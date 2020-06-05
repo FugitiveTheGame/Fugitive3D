@@ -7,8 +7,12 @@ reloadable=true
 
 [entry]
 
-Windows.64="res://addons/opus/lib/libgodotopus.dll"
+Windows.64="res://addons/opus/bin/win64/libgodotopus.dll"
+Android.arm64-v8a="res://addons/opus/bin/android/arm64-v8a/libgodot-opus.so"
+X11.64="res://addons/opus/bin/x11/libgodotopus.so"
 
 [dependencies]
 
-Windows.64=[ "res://addons/opus/lib/opus.dll" ]
+Windows.64=[ "res://addons/opus/bin/win64/opus.dll" ]
+Android.arm64-v8a=[  ]
+X11.64=[ "res://addons/opus/bin/x11/libopus.so" ]
