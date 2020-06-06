@@ -188,6 +188,16 @@ _global_script_classes=[ {
 "class": "VirtualJoysticks",
 "language": "GDScript",
 "path": "res://client/game/player/controller/flat/mobile/VirtualJoystick.gd"
+}, {
+"base": "Spatial",
+"class": "VoiceChatReceiver",
+"language": "GDScript",
+"path": "res://common/voice_chat/VoiceChatReceiver.gd"
+}, {
+"base": "VoiceChatReceiver",
+"class": "VoiceChatTransceiver",
+"language": "GDScript",
+"path": "res://common/voice_chat/VoiceChatTransceiver.gd"
 } ]
 _global_script_class_icons={
 "CarSeat": "",
@@ -225,7 +235,9 @@ _global_script_class_icons={
 "TimeUtils": "",
 "Transition": "",
 "Utils": "",
-"VirtualJoysticks": ""
+"VirtualJoysticks": "",
+"VoiceChatReceiver": "",
+"VoiceChatTransceiver": ""
 }
 
 [application]
@@ -235,6 +247,10 @@ run/main_scene="res://entry/Entry.tscn"
 boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/quit_on_go_back=false
+
+[audio]
+
+enable_audio_input=true
 
 [autoload]
 
@@ -269,7 +285,7 @@ window/size/height.X11=900
 
 [editor_plugins]
 
-enabled=PoolStringArray( "Fugitive3D", "Godot-GameAnalytics", "LANServerBroadcast" )
+enabled=PoolStringArray( "Fugitive3D", "Godot-GameAnalytics", "LANServerBroadcast", "opus" )
 
 [gdnative]
 
@@ -355,6 +371,11 @@ flat_player_exit={
 flat_fugitive_map={
 "deadzone": 0.5,
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":77,"unicode":0,"echo":false,"script":null)
+ ]
+}
+push_to_talk={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777218,"unicode":0,"echo":false,"script":null)
  ]
 }
 

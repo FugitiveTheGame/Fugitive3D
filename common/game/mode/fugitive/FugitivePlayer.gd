@@ -7,7 +7,6 @@ const STAMINA_LAMBDA := 0.1
 const EXHAUSTED_PENALTY := 0.5
 const EXHAUSTED_REPLENISH_POINT = 0.5
 
-var playerType: int
 var frozen := false
 
 var gameStarted := false
@@ -44,8 +43,8 @@ func _ready():
 		zone.connect("body_exited", self, "on_exit_winzone")
 
 
-func configure(_playerName: String, _playerId: int, _localPlayerType: int):
-	.configure(_playerName, _playerId, _localPlayerType)
+func configure(_playerName: String, _playerId: int, _playerType: int, _localPlayerType: int):
+	.configure(_playerName, _playerId, _playerType, _localPlayerType)
 	set_player_name(_playerName)
 	update_player_name_state()
 

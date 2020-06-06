@@ -5,3 +5,4 @@
 - E - Get in or out of car
 - F - Toggle flashlight
 - M (hold) - Map
+- TAB (hold) - Push-To-Talk (max 10 seconds)

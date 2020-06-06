@@ -176,7 +176,7 @@ func spawn_player(playerId: int, hiderSpawns: Array, seekerSpawns: Array):
 	
 	# Final setup and config for the player
 	var playerNode = pcNode.get_node("Player")
-	playerNode.configure(playerName, playerId, localPlayerType)
+	playerNode.configure(playerName, playerId, playerType, localPlayerType)
 	# Player listens to Game state changes
 	stateMachine.connect("state_change", playerNode, "on_game_state_changed")
 	

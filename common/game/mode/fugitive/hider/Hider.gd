@@ -11,7 +11,6 @@ var initialFreeze := true
 
 
 func _ready():
-	playerType = FugitiveTeamResolver.PlayerType.Hider
 	add_to_group(GROUP)
 
 func set_current_visibility(percentVisible: float):

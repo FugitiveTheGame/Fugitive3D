@@ -22,6 +22,7 @@ var velocity := Vector3()
 
 # The player ID that this player object represents
 var id: int
+var playerType: int = -1
 
 # This is useful so players on opposing teams from the local player
 #  can be configured differently
@@ -67,10 +68,13 @@ func set_is_crouching(value: bool):
 export(NodePath) var shapePath: NodePath
 export(NodePath) var playerControllerPath: NodePath
 export(NodePath) var playerBodyPath: NodePath
+export(NodePath) var playerVoiceChatPath: NodePath
+
 
 onready var playerController := get_node(playerControllerPath) as Spatial
 onready var playerShape := get_node(shapePath) as Spatial
 onready var playerBody := get_node(playerBodyPath) as KinematicBody
+onready var playerVoiceChat := get_node(playerVoiceChatPath) as VoiceChatReceiver
 
 
 puppet func network_update(networkPosition: Vector3, networkRotation: Vector3, networkVelocity: Vector3, networkCrouching: bool, networkMoving: bool, networkSprinting, networkStamina: float):
@@ -93,8 +97,9 @@ func _physics_process(delta):
 		walking_sound.pitch_scale = 1.0
 
 
-func configure(_playerName: String, _playerId: int, _localPlayerType: int):
+func configure(_playerName: String, _playerId: int, _playerType: int,  _localPlayerType: int):
 	id = _playerId
+	playerType = _playerType
 	localPlayerType = _localPlayerType
 
 
@@ -108,6 +113,9 @@ func set_is_local_player():
 	add_to_group(Groups.LOCAL_PLAYER)
 	hide_avatar()
 
+
+func is_on_local_players_team() -> bool:
+	return playerType == localPlayerType
 
 func hide_avatar():
 	show_avatar = false
