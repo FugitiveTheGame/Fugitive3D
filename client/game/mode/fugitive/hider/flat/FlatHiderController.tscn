@@ -61,6 +61,10 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0 )
 shapePath = NodePath("../CollisionShape")
 playerControllerPath = NodePath("..")
 playerBodyPath = NodePath("..")
+playerVoiceChatPath = NodePath("../VoiceChat")
 
 [node name="CollisionShape" parent="." index="3" instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 1.3, 0 )
+
+[node name="VoiceChat" parent="." index="4"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.28414, 0 )
