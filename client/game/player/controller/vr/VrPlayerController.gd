@@ -126,9 +126,23 @@ func _process(delta):
 	centerIndicatorMaterial.albedo_color.a = percentVisible
 
 
+func inject_ptt_action(pressed: bool):
+	var event := InputEventAction.new()
+	event.action = "push_to_talk"
+	event.pressed = pressed
+	Input.parse_input_event(event)
+
+
 func _physics_process(delta):
 	# Handle crouching
 	process_crouch()
+	
+	if vr.button_just_pressed(vr.BUTTON.RIGHT_THUMBSTICK):
+		print("Right thumb stick pressed")
+		inject_ptt_action(true)
+	elif debounced_button_just_released(vr.BUTTON.RIGHT_THUMBSTICK):
+		print("Right thumb stick released")
+		inject_ptt_action(false)
 	
 	# Handle VR controller input
 	if debounced_button_just_released(vr.BUTTON.B):
