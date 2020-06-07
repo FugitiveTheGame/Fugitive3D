@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://common/lobby/PlayerListItem.gd" type="Script" id=1]
 [ext_resource path="res://common/lobby/client_type_pc.png" type="Texture" id=2]
 [ext_resource path="res://common/lobby/host.png" type="Texture" id=3]
 [ext_resource path="res://common/lobby/menu.png" type="Texture" id=4]
+[ext_resource path="res://common/lobby/void_active.png" type="Texture" id=5]
 
 [node name="PlayerListItem" type="VBoxContainer"]
 margin_left = 521.0
@@ -15,7 +16,7 @@ __meta__ = {
 }
 
 [node name="Controls" type="HBoxContainer" parent="."]
-margin_right = 414.0
+margin_right = 454.0
 margin_bottom = 44.0
 rect_clip_content = true
 size_flags_horizontal = 3
@@ -38,36 +39,45 @@ size_flags_horizontal = 3
 text = "Name"
 valign = 1
 
-[node name="HostIndicator" type="TextureRect" parent="Controls"]
+[node name="VoipIndicator" type="TextureRect" parent="Controls"]
 margin_left = 114.0
 margin_right = 146.0
+margin_bottom = 44.0
+rect_min_size = Vector2( 32, 32 )
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 4
+
+[node name="HostIndicator" type="TextureRect" parent="Controls"]
+margin_left = 154.0
+margin_right = 186.0
 margin_bottom = 44.0
 texture = ExtResource( 3 )
 stretch_mode = 4
 
 [node name="TeamButton" type="OptionButton" parent="Controls"]
-margin_left = 154.0
-margin_right = 350.0
+margin_left = 194.0
+margin_right = 390.0
 margin_bottom = 44.0
 rect_min_size = Vector2( 196, 0 )
 text = "Team"
 
 [node name="HostMenuButton" type="MenuButton" parent="Controls"]
-margin_left = 358.0
-margin_right = 414.0
+margin_left = 398.0
+margin_right = 454.0
 margin_bottom = 44.0
 icon = ExtResource( 4 )
 items = [ "Make Host", null, 0, false, false, 0, 0, null, "", false, "Kick", null, 0, false, false, 1, 0, null, "", false ]
 
 [node name="StatsLabel" type="Label" parent="."]
 margin_top = 52.0
-margin_right = 414.0
+margin_right = 454.0
 margin_bottom = 77.0
 text = "Stats"
 align = 1
 
 [node name="HSeparator" type="HSeparator" parent="."]
 margin_top = 85.0
-margin_right = 414.0
+margin_right = 454.0
 margin_bottom = 93.0
 [connection signal="item_selected" from="Controls/TeamButton" to="." method="_on_TeamButton_item_selected"]
