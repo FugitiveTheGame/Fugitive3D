@@ -138,10 +138,8 @@ func _physics_process(delta):
 	process_crouch()
 	
 	if vr.button_just_pressed(vr.BUTTON.RIGHT_THUMBSTICK):
-		print("Right thumb stick pressed")
 		inject_ptt_action(true)
 	elif debounced_button_just_released(vr.BUTTON.RIGHT_THUMBSTICK):
-		print("Right thumb stick released")
 		inject_ptt_action(false)
 	
 	# Handle VR controller input
