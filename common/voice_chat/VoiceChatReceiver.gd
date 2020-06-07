@@ -25,3 +25,7 @@ remote func on_receive_audio(audioData: PoolByteArray):
 	
 	audioPlayer.stream.data = pcm_data
 	audioPlayer.play()
+
+
+func is_playing() -> bool:
+	return audioPlayer.playing as bool

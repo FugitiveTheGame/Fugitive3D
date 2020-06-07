@@ -8,6 +8,8 @@ var playerInfo: PlayerData = null
 onready var teamButton := $Controls/TeamButton as OptionButton
 var curTeamResolver = null
 
+onready var voipIndicator := $Controls/VoipIndicator
+
 
 func _ready():
 	$Controls/HostMenuButton.get_popup().connect("id_pressed", self, "on_id_pressed")
@@ -72,3 +74,12 @@ func on_id_pressed(id):
 			emit_signal("make_host", playerInfo.get_id())
 		1:
 			emit_signal("kick_player", playerInfo.get_id())
+
+
+# Override this
+func is_voip_active() -> bool:
+	return false
+
+
+func _process(delta):
+	voipIndicator.visible = is_voip_active()
