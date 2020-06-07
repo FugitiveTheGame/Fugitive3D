@@ -91,6 +91,10 @@ func _physics_process(delta):
 	if is_network_master():
 		process_stamina(delta)
 	
+	# Move voice chat to the player's head
+	var headPos = get_current_shape().head.global_transform.origin
+	playerVoiceChat.global_transform.origin = headPos
+	
 	if is_sprinting():
 		walking_sound.pitch_scale = 2.0
 	else:

@@ -1,21 +1,12 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://common/voice_chat/VoiceChatReceiver.gd" type="Script" id=1]
 [ext_resource path="res://addons/opus/OpusDecoderNode.gdns" type="Script" id=2]
-
-[sub_resource type="AudioStreamSample" id=1]
-format = 1
-stereo = true
 
 [node name="VoiceChat" type="Spatial" groups=[
 "voice_chat_receiver",
 ]]
 script = ExtResource( 1 )
-
-[node name="AudioStreamPlayBack" type="AudioStreamPlayer3D" parent="."]
-stream = SubResource( 1 )
-unit_db = 6.0
-autoplay = true
 
 [node name="OpusDecoder" type="Node" parent="."]
 script = ExtResource( 2 )

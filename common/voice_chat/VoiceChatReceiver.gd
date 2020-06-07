@@ -1,8 +1,19 @@
 extends Spatial
 class_name VoiceChatReceiver
 
-onready var audioPlayer := $AudioStreamPlayBack as AudioStreamPlayer3D
+export(NodePath) var audioPlayerPath: NodePath
+onready var audioPlayer := get_node(audioPlayerPath)
+
 onready var opus_decoder := $OpusDecoder
+
+
+func _ready():
+	var audioStream := AudioStreamSample.new()
+	audioStream.stereo = true
+	audioStream.format = AudioStreamSample.FORMAT_16_BITS
+	audioStream.mix_rate = 44100
+	
+	audioPlayer.stream = audioStream
 
 
 func send_audio(audioData: PoolByteArray):
@@ -10,9 +21,7 @@ func send_audio(audioData: PoolByteArray):
 
 
 remote func on_receive_audio(audioData: PoolByteArray):
-	print("Received audio size encoded: %d" % audioData.size())
 	var pcm_data = opus_decoder.decode(audioData)
-	print("Received audio size decoded: %d" % pcm_data.size())
 	
 	audioPlayer.stream.data = pcm_data
 	audioPlayer.play()
