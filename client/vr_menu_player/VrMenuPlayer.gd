@@ -23,6 +23,11 @@ func _exit_tree():
 
 func _physics_process(delta):
 	fpsLabel.set_label_text("%d fps" % Engine.get_frames_per_second())
+	
+	if vr.button_just_pressed(vr.BUTTON.RIGHT_THUMBSTICK):
+		inject_ptt_action(true)
+	elif vr.button_just_released(vr.BUTTON.RIGHT_THUMBSTICK):
+		inject_ptt_action(false)
 
 
 func on_user_data_updated():
@@ -38,3 +43,10 @@ func update_standing():
 			$OQ_ARVROrigin.transform.origin.y += seated_offset_meters
 		
 		is_standing = UserData.data.vr_standing
+
+
+func inject_ptt_action(pressed: bool):
+	var event := InputEventAction.new()
+	event.action = "push_to_talk"
+	event.pressed = pressed
+	Input.parse_input_event(event)
