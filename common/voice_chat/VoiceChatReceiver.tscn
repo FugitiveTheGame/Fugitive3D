@@ -3,7 +3,7 @@
 [ext_resource path="res://common/voice_chat/VoiceChatReceiver.gd" type="Script" id=1]
 [ext_resource path="res://addons/opus/OpusDecoderNode.gdns" type="Script" id=2]
 
-[node name="VoiceChat" type="Spatial" groups=[
+[node name="VoiceChat" type="Node" groups=[
 "voice_chat_receiver",
 ]]
 script = ExtResource( 1 )
