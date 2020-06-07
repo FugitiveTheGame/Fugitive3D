@@ -39,7 +39,8 @@ func transmit_audio():
 		print("Received audio of size:")
 		print(recording.data.size())
 		
-		send_audio(recording.data)
+		var encodedData = opus_encoder.encode(recording.data)
+		send_audio(encodedData)
 
 
 # This should be overriden to determine who the audio is sent to based on game
