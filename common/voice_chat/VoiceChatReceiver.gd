@@ -1,4 +1,4 @@
-extends Spatial
+extends Node
 class_name VoiceChatReceiver
 
 export(NodePath) var audioPlayerPath: NodePath
