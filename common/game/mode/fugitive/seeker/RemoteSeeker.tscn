@@ -24,7 +24,7 @@ transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 1.3,
 [node name="Flashlight" parent="." instance=ExtResource( 4 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0 )
 
-[node name="VoiceChat" parent="." instance=ExtResource( 5 )]
-audioPlayerPath = NodePath("AudioStreamPlayer3D")
+[node name="VoiceChatPlayback" type="AudioStreamPlayer3D" parent="."]
 
-[node name="AudioStreamPlayer3D" type="AudioStreamPlayer3D" parent="VoiceChat"]
+[node name="VoiceChat" parent="." instance=ExtResource( 5 )]
+audioPlayerPath = NodePath("../VoiceChatPlayback")

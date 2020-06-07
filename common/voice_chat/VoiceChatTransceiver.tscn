@@ -15,13 +15,13 @@ stream = SubResource( 1 )
 autoplay = true
 bus = "Record"
 
-[node name="OpusEncoder" type="Node" parent="." index="3"]
+[node name="OpusEncoder" type="Node" parent="." index="2"]
 script = ExtResource( 3 )
 
-[node name="TransmitLimitTimer" type="Timer" parent="." index="4"]
+[node name="TransmitLimitTimer" type="Timer" parent="." index="3"]
 wait_time = 10.0
 one_shot = true
 
-[node name="TransmitLimitAudio" type="AudioStreamPlayer" parent="." index="5"]
+[node name="TransmitLimitAudio" type="AudioStreamPlayer" parent="." index="4"]
 stream = ExtResource( 4 )
 [connection signal="timeout" from="TransmitLimitTimer" to="." method="_on_TransmitLimitTimer_timeout"]
