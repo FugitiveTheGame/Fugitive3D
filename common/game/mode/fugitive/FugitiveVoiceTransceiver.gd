@@ -1,9 +1,7 @@
 extends VoiceChatTransceiver
 
 
-func send_audio(audioData: PoolByteArray):
-	var encodedData = opus_encoder.encode(audioData)
-	
+func send_audio(encodedData: PoolByteArray):
 	var localPlayer := GameData.currentGame.localPlayer
 	var localPlayerPos := localPlayer.global_transform.origin
 	
