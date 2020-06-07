@@ -43,9 +43,7 @@ func transmit_audio():
 
 
 func send_audio(audioData: PoolByteArray):
-	print("Sent audio size raw: %d" % audioData.size())
 	var encodedData = opus_encoder.encode(audioData)
-	print("Sent audio size encoded: %d" % encodedData.size())
 	
 	var localPlayer := GameData.currentGame.localPlayer
 	var localPlayerPos := localPlayer.global_transform.origin
