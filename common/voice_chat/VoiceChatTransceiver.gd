@@ -36,11 +36,12 @@ func transmit_audio():
 		var recording := effect.get_recording()
 		effect.set_recording_active(false)
 		
-		print("Received audio of size:")
-		print(recording.data.size())
-		
-		var encodedData = opus_encoder.encode(recording.data)
-		send_audio(encodedData)
+		if recording.data != null:
+			print("Recorded audio of size:")
+			print(recording.data.size())
+			
+			var encodedData = opus_encoder.encode(recording.data)
+			send_audio(encodedData)
 
 
 # This should be overriden to determine who the audio is sent to based on game
