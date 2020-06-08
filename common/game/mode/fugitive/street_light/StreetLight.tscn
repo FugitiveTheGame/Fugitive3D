@@ -33,6 +33,7 @@ light_color = Color( 1, 0.717647, 0.298039, 1 )
 light_energy = 5.0
 light_bake_mode = 2
 shadow_enabled = true
+shadow_bias = 0.5
 spot_range = 8.0
 spot_angle = 53.6258
 spot_angle_attenuation = 0.435275

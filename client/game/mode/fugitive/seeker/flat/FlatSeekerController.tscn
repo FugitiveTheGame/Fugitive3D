@@ -12,6 +12,7 @@
 [ext_resource path="res://client/game/player/controller/flat/mobile/button_flashlight_normal.png" type="Texture" id=10]
 
 [node name="PlayerController" instance=ExtResource( 1 )]
+collision_mask = 63
 script = ExtResource( 2 )
 HeldObjectPath = NodePath("Flashlight")
 car_lock_hud_path = NodePath("HudCanvas/HudContainer/BarsContainer/CarLockHud")
@@ -20,7 +21,7 @@ flash_light_button_path = NodePath("HudCanvas/HudContainer/FlashlightButton")
 flashlightPath = NodePath("Flashlight")
 
 [node name="Camera" parent="." index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.36891, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.51462, 0 )
 
 [node name="HudCanvas" parent="." index="1"]
 follow_viewport_enable = true
@@ -72,15 +73,15 @@ anchor_right = 0.994
 margin_right = 9.59998
 
 [node name="Player" parent="." index="2" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.851208, 0 )
 shapePath = NodePath("../CollisionShape")
 playerControllerPath = NodePath("..")
 playerBodyPath = NodePath("..")
 flash_light_path = NodePath("../Flashlight")
 
 [node name="CollisionShape" parent="." index="3" instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 1.3, 0 )
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 0.851208, 0 )
 
 [node name="Flashlight" parent="." index="4" instance=ExtResource( 5 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.3, -0.5 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.175535, 0.851208, -0.200574 )
 [connection signal="locking_complete" from="HudCanvas/HudContainer/BarsContainer/CarLockHud" to="." method="_on_CarLockHud_locking_complete"]

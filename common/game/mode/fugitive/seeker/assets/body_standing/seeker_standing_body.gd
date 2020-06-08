@@ -1,3 +1,3 @@
 extends Spatial
 
-onready var head := find_node("head") as Spatial
+onready var head := find_node("Head") as Spatial
