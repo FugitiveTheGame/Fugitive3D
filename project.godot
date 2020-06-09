@@ -272,6 +272,10 @@ boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
 config/quit_on_go_back=false
 
+[audio]
+
+enable_audio_input=true
+
 [autoload]
 
 ClientNetwork="*res://networking/ClientNetwork.gd"
@@ -393,16 +397,20 @@ flat_fugitive_map={
 "events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":77,"unicode":0,"echo":false,"script":null)
  ]
 }
+push_to_talk={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777218,"unicode":0,"echo":false,"script":null)
+ ]
+}
 
 [layer_names]
 
 2d_physics/layer_1="players"
 3d_physics/layer_1="players"
 3d_physics/layer_2="walls"
-3d_physics/layer_3="walls_see_through"
+3d_physics/layer_3="visibility"
 3d_physics/layer_4="cars"
-3d_physics/layer_5="ground"
-3d_physics/layer_6="police_walls"
+3d_physics/layer_5="car_walls"
 
 [memory]
 
