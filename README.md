@@ -92,7 +92,8 @@ There are scripts in `extras/scripts` to accelerate this:
 - `run_server.bat` will run a windows server
 
 ## Fugitive Mapping Best Practices
-- A Fugitive can maximally run/walk about 90 meters in 10 seconds
+- A Fugitive can maximally run/walk about 90 meters in 10 seconds (*Each ground tile is 8x8 meters*)
+- Your head start timer probably souldn't be less than 10 seconds, but can be higher as dictates by where i your map you want the fugitives to be able to reach by the time the cops catch up
 - A futitive should be able to get to some sort of decision point by the time cops can catch up to them
 - Win zone should have multiple entrences, or there should be multiple win zones
 - Use cluster of tall features (such as pine trees) to break up sight lines, this allows hiders to break line of sight when being chased.
