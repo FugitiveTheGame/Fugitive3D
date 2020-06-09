@@ -39,7 +39,7 @@ spot_angle = 53.6258
 spot_angle_attenuation = 0.435275
 
 [node name="RayCast" type="RayCast" parent="OmniLight"]
-collision_mask = 5
+collision_mask = 3
 
 [node name="street_light" parent="." instance=ExtResource( 2 )]
 
