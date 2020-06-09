@@ -90,3 +90,11 @@ There are scripts in `extras/scripts` to accelerate this:
 	1) Player Name
 	2) IP address to connect to
 - `run_server.bat` will run a windows server
+
+## Fugitive Mapping Best Practices
+- A Fugitive can maximally run/walk about 90 meters in 10 seconds
+- A futitive should be able to get to some sort of decision point by the time cops can catch up to them
+- Win zone should have multiple entrences, or there should be multiple win zones
+- Use cluster of tall features (such as pine trees) to break up sight lines, this allows hiders to break line of sight when being chased.
+- Features need to break sight lines and give choice, so in a chase, a hider has a chance of escape.
+- Features should provide escape routes through the use of "police features" which force the police to either expend stamina or go a longer way around. Especially good if that longer way forces them to break line of sight with the Fugitive through the use of tall features.
