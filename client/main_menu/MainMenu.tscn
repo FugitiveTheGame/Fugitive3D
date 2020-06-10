@@ -5,7 +5,7 @@
 [ext_resource path="res://fonts/content/TitleFont.tres" type="DynamicFont" id=3]
 [ext_resource path="res://client/HelpDialog.tscn" type="PackedScene" id=4]
 [ext_resource path="res://godot_logo.png" type="Texture" id=5]
-[ext_resource path="res://addons/opus/OpusEncoderNode.gdns" type="Script" id=6]
+[ext_resource path="res://client/main_menu/main_menu_theme.ogg" type="AudioStream" id=6]
 
 [node name="MainMenu" type="Control"]
 anchor_right = 1.0
@@ -24,6 +24,8 @@ joinFailedDialogPath = NodePath("JoinFailedDialog")
 badInputDialogPath = NodePath("BadInfoDialog")
 lostConnectionDialogPath = NodePath("ConnectionLostDialog")
 helpDialogPath = NodePath("HelpDialog")
+menuMusicButtonPath = NodePath("OptionsContainer/MenuMusicButton")
+menuMusicPlayerPath = NodePath("MainMenuMusicPlayer")
 
 [node name="ScreenTitle" type="Label" parent="."]
 anchor_left = 0.5
@@ -130,7 +132,7 @@ __meta__ = {
 }
 
 [node name="ExitButton" type="Button" parent="OptionsContainer"]
-margin_right = 175.0
+margin_right = 223.0
 margin_bottom = 39.0
 text = "Exit Game"
 __meta__ = {
@@ -139,9 +141,16 @@ __meta__ = {
 
 [node name="HelpButton" type="Button" parent="OptionsContainer"]
 margin_top = 47.0
-margin_right = 175.0
+margin_right = 223.0
 margin_bottom = 86.0
 text = "Help"
+
+[node name="MenuMusicButton" type="CheckButton" parent="OptionsContainer"]
+margin_top = 94.0
+margin_right = 223.0
+margin_bottom = 174.0
+pressed = true
+text = "Music"
 
 [node name="JoiningDialog" type="WindowDialog" parent="."]
 anchor_left = 0.5
@@ -227,10 +236,8 @@ dialog_autowrap = true
 [node name="InfoContainer" type="VBoxContainer" parent="."]
 anchor_left = 1.0
 anchor_right = 1.0
-margin_left = -72.0
-margin_top = 8.0
-margin_right = -8.0
-margin_bottom = 156.0
+margin_left = -64.0
+margin_bottom = 148.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -315,10 +322,13 @@ margin_right = 500.0
 margin_bottom = 391.0
 rect_min_size = Vector2( 500, 300 )
 
-[node name="OpusEncoder" type="Node" parent="."]
-script = ExtResource( 6 )
+[node name="MainMenuMusicPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 6 )
+volume_db = -16.0
+autoplay = true
 [connection signal="pressed" from="ManualContainer/VBoxContainer/ConnectButton" to="." method="_on_ConnectButton_pressed"]
 [connection signal="pressed" from="OptionsContainer/ExitButton" to="." method="_on_ExitButton_pressed"]
 [connection signal="pressed" from="OptionsContainer/HelpButton" to="." method="_on_HelpButton_pressed"]
+[connection signal="toggled" from="OptionsContainer/MenuMusicButton" to="." method="_on_MenuMusicButton_toggled"]
 [connection signal="pressed" from="JoiningDialog/VBoxContainer/CancelButton" to="." method="_on_CancelButton_pressed"]
 [connection signal="connect_to_server" from="VBoxContainer/ServerBrowser" to="." method="_on_ServerBrowser_connect_to_server"]

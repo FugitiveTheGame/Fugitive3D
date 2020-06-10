@@ -23,7 +23,7 @@ func _ready():
 	
 	for road in roads:
 		var colShape = road.get_node("CollisionShape")
-		var aabb := aabb_from_shape(colShape)
+		var aabb := Utils.aabb_from_shape(colShape)
 		bb = bb.merge(aabb)
 	
 	mapStart = Vector2(bb.position.x, bb.position.z)
@@ -78,17 +78,6 @@ func to_map_coord_vector2(globalCoord: Vector2) -> Vector2:
 	var mapCoord := ((rect_size * marginReduction) * mapScale) + margin
 	return mapCoord
 
-
-func aabb_from_shape(colShape: CollisionShape) -> AABB:
-	var boxShape := colShape.shape as BoxShape
-	var pos := colShape.global_transform.origin
-	var extents := boxShape.extents
-	
-	var newBB := AABB()
-	newBB.position = pos - extents
-	newBB.size = extents * 2.0
-	
-	return newBB
 
 func _on_Map_draw():
 	# First draw the eblows

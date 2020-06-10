@@ -3,6 +3,8 @@
 [ext_resource path="res://common/game/mode/fugitive/seeker/assets/body_crouching/seeker_crouching_body.glb" type="PackedScene" id=1]
 [ext_resource path="res://common/game/mode/fugitive/seeker/assets/body_crouching/seeker_crouching_body.gd" type="Script" id=2]
 
-
 [node name="seeker_crouching_body" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+
+[node name="seeker_crouching" parent="." index="0"]
+use_in_baked_light = false

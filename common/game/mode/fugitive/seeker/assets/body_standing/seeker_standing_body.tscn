@@ -7,4 +7,5 @@
 script = ExtResource( 2 )
 
 [node name="seeker_standing" parent="." index="0"]
-transform = Transform( -1.62921e-07, 0, -1, 0, 1, 0, 1, 0, -1.62921e-07, 0, 0, 0 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0 )
+use_in_baked_light = false
