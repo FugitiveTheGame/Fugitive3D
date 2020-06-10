@@ -1,17 +1,9 @@
 extends Spatial
 
 
-export(NodePath) var fugitiveMapPath: NodePath
-onready var fugitiveMap := get_node(fugitiveMapPath) as FugitiveMap
-
-
-var boundingBox: AABB
 var effects := []
 
 func _ready():
-	assert(fugitiveMap != null)
-	boundingBox = calculate_bounding_box(fugitiveMap.get_roads())
-	
 	for child in get_children():
 		if child is AmbientEffect:
 			effects.push_back(child);
@@ -28,11 +20,13 @@ func calculate_bounding_box(roads) -> AABB:
 	return bb
 
 
+func get_effects_position() -> Vector3:
+	return to_local(GameData.currentGame.localPlayer.global_transform.origin)
+
+
 func _physics_process(delta):
-	
-	var local_player_pos := to_local(GameData.currentGame.localPlayer.global_transform.origin)
-	
+	var effect_position := get_effects_position()
 	for effect in effects:
 		var chance := randf()
 		if chance < effect.frequency:
-			effect.play(local_player_pos)
+			effect.play(effect_position)
