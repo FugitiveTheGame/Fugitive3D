@@ -1,7 +1,7 @@
 extends "res://common/game/player/PlayerShape.gd"
 
-var standingMaterials = []
-var crouchingMaterials = []
+var standingMaterial = null
+var crouchingMaterial = null
 
 var alpha := 1.0 setget set_alpha
 func set_alpha(value: float):
@@ -11,16 +11,13 @@ func set_alpha(value: float):
 
 
 func _ready():
-	standingMaterials.append($Standing/hider_standing.material_override)
-	crouchingMaterials.append($Crouching/hider_crouching.material_override)
+	standingMaterial = $Standing/hider_standing.material_override
+	crouchingMaterial = $Crouching/hider_crouching.material_override
 
 
 func update_shaders():
-	for material in standingMaterials:
-		material.set_shader_param("alpha", alpha)
-	
-	for material in crouchingMaterials:
-		material.set_shader_param("alpha", alpha)
+	standingMaterial.set_shader_param("alpha", alpha)
+	crouchingMaterial.set_shader_param("alpha", alpha)
 
 
 func get_frozen_shape() -> Spatial:
