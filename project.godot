@@ -218,6 +218,16 @@ _global_script_classes=[ {
 "class": "VirtualJoysticks",
 "language": "GDScript",
 "path": "res://client/game/player/controller/flat/mobile/VirtualJoystick.gd"
+}, {
+"base": "Node",
+"class": "VoiceChatReceiver",
+"language": "GDScript",
+"path": "res://common/voice_chat/VoiceChatReceiver.gd"
+}, {
+"base": "VoiceChatReceiver",
+"class": "VoiceChatTransceiver",
+"language": "GDScript",
+"path": "res://common/voice_chat/VoiceChatTransceiver.gd"
 } ]
 _global_script_class_icons={
 "AmbientAudioEffect": "",
@@ -261,7 +271,9 @@ _global_script_class_icons={
 "TimeUtils": "",
 "Transition": "",
 "Utils": "",
-"VirtualJoysticks": ""
+"VirtualJoysticks": "",
+"VoiceChatReceiver": "",
+"VoiceChatTransceiver": ""
 }
 
 [application]
@@ -309,7 +321,7 @@ window/size/height.X11=900
 
 [editor_plugins]
 
-enabled=PoolStringArray( "Fugitive3D", "Godot-GameAnalytics", "LANServerBroadcast" )
+enabled=PoolStringArray( "Fugitive3D", "Godot-GameAnalytics", "LANServerBroadcast", "opus" )
 
 [gdnative]
 

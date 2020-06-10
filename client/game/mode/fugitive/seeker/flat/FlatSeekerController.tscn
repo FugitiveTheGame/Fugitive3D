@@ -77,6 +77,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.851208, 0 )
 shapePath = NodePath("../CollisionShape")
 playerControllerPath = NodePath("..")
 playerBodyPath = NodePath("..")
+playerVoiceChatPath = NodePath("../VoiceChat")
 flash_light_path = NodePath("../Flashlight")
 
 [node name="CollisionShape" parent="." index="3" instance=ExtResource( 4 )]
@@ -84,4 +85,8 @@ transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 0.85
 
 [node name="Flashlight" parent="." index="4" instance=ExtResource( 5 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.175535, 0.851208, -0.200574 )
+
+[node name="VoiceChat" parent="." index="5"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.36891, 0 )
+
 [connection signal="locking_complete" from="HudCanvas/HudContainer/BarsContainer/CarLockHud" to="." method="_on_CarLockHud_locking_complete"]

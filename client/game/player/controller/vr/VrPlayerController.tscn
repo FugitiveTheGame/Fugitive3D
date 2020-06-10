@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=20 format=2]
 
 [ext_resource path="res://client/game/player/controller/vr/VrPlayerController.gd" type="Script" id=1]
 [ext_resource path="res://client/game/player/controller/vr/Feature_PlayerCollision.gd" type="Script" id=2]
@@ -16,6 +16,8 @@
 [ext_resource path="res://client/game/mode/fugitive/hud/InGameMenuHud.tscn" type="PackedScene" id=14]
 [ext_resource path="res://client/HelpDialog.tscn" type="PackedScene" id=15]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_UI2D/OQ_UI2DLabel.tscn" type="PackedScene" id=16]
+[ext_resource path="res://common/game/mode/fugitive/FugitiveVoiceTransceiver.tscn" type="PackedScene" id=17]
+[ext_resource path="res://client/game/player/hud/VoiceRecordingHud.tscn" type="PackedScene" id=18]
 
 [sub_resource type="SpatialMaterial" id=1]
 render_priority = 1
@@ -52,8 +54,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, -0.375232, -0.5 )
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0 )
 
 [node name="HudCanvas" parent="OQ_LeftController/VisibilityToggle" instance=ExtResource( 8 )]
-transform = Transform( 0.896695, -0.0624615, 0.43822, 0, 0.989994, 0.141109, -0.442649, -0.126531, 0.887723, 0, 0, 0 )
-editor_live_update = true
+editor_live_update = false
 transparent = true
 
 [node name="HudContainer" type="Control" parent="OQ_LeftController/VisibilityToggle/HudCanvas"]
@@ -104,9 +105,17 @@ __meta__ = {
 [node name="CrouchingHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/IndicatorsContainer" instance=ExtResource( 11 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
+margin_top = 152.0
+margin_right = 48.0
+margin_bottom = 200.0
+
+[node name="VoiceRecordingHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/IndicatorsContainer" instance=ExtResource( 18 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
 margin_top = 208.0
 margin_right = 48.0
 margin_bottom = 256.0
+voiceChatTransceiverPath = NodePath("../../../../../../VoiceChat")
 
 [node name="InGameMenuHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" instance=ExtResource( 14 )]
 
@@ -145,6 +154,13 @@ calculate_tangents = false
 inner_radius = 0.4
 outer_radius = 0.5
 material = SubResource( 1 )
+
+[node name="VoiceChatPlayback" type="AudioStreamPlayer3D" parent="."]
+
+[node name="VoiceChat" parent="." groups=[
+"voice_chat_receiver",
+] instance=ExtResource( 17 )]
+audioPlayerPath = NodePath("../VoiceChatPlayback")
 [connection signal="about_to_show" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/InGameMenuHud" to="." method="_on_InGameMenuHud_about_to_show"]
 [connection signal="popup_hide" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/InGameMenuHud" to="." method="_on_InGameMenuHud_popup_hide"]
 [connection signal="show_exit" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/InGameMenuHud" to="." method="_on_InGameMenuHud_show_exit"]

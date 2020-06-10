@@ -18,6 +18,13 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.716302, 0 )
 [node name="ShaderCache" parent="OQ_ARVRCamera" index="0" instance=ExtResource( 7 )]
 transform = Transform( 0.001, 0, 0, 0, 0.001, 0, 0, 0, 0.001, 0, -0.508516, -1.19957 )
 
+[node name="CenterLabel" parent="OQ_ARVRCamera" index="1"]
+margin = 16
+billboard = false
+resize_mode = 0
+font_size_multiplier = 1.0
+font_color = Color( 1, 1, 1, 1 )
+
 [node name="OQ_LeftController" parent="." index="1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0.216302, -0.5 )
 
@@ -28,15 +35,19 @@ transform = Transform( 0.896695, -0.0624614, 0.43822, 0, 0.989994, 0.141108, -0.
 alignment = 1
 
 [node name="CrouchingHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/IndicatorsContainer" index="0"]
-margin_top = 100.0
-margin_bottom = 148.0
+margin_top = 48.0
+margin_bottom = 96.0
 
-[node name="FrozenHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/IndicatorsContainer" index="1" instance=ExtResource( 5 )]
+[node name="VoiceRecordingHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/IndicatorsContainer" index="1"]
+margin_top = 104.0
+margin_bottom = 152.0
+
+[node name="FrozenHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/IndicatorsContainer" index="2" instance=ExtResource( 5 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 156.0
+margin_top = 160.0
 margin_right = 48.0
-margin_bottom = 156.0
+margin_bottom = 208.0
 
 [node name="GameTimerReadout" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="3" instance=ExtResource( 4 )]
 anchor_left = 1.0
@@ -62,18 +73,19 @@ __meta__ = {
 }
 
 [node name="VBox" type="VBoxContainer" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/HeightContainer" index="0"]
-margin_left = 14.0
-margin_top = 14.0
-margin_right = 498.0
-margin_bottom = 72.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 504.0
+margin_bottom = 78.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HeightInstructionsLabel" type="Label" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/HeightContainer/VBox" index="0"]
-margin_right = 484.0
-margin_bottom = 25.0
+margin_top = 6.0
+margin_right = 496.0
+margin_bottom = 31.0
 text = "Press B to set standing height"
 align = 1
 __meta__ = {
@@ -81,9 +93,9 @@ __meta__ = {
 }
 
 [node name="HeightLabel" type="Label" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/HeightContainer/VBox" index="1"]
-margin_top = 33.0
-margin_right = 484.0
-margin_bottom = 58.0
+margin_top = 39.0
+margin_right = 496.0
+margin_bottom = 64.0
 text = "Height: 0.0m"
 align = 1
 __meta__ = {

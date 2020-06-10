@@ -17,10 +17,6 @@ onready var seeker_ray_caster := flash_light.get_ray_caster() as RayCast
 
 
 func _ready():
-	playerType = FugitiveTeamResolver.PlayerType.Seeker
-	# Seeker should walk and sprint slightly faster than the Hider
-	speed_walk = DEFAULT_SPEED_WALK * 1.5
-	speed_sprint = DEFAULT_SPEED_SPRINT * 1.1
 	add_to_group(GROUP)
 	
 	# Only the server listens for detections

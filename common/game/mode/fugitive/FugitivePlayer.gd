@@ -3,11 +3,26 @@ class_name FugitivePlayer
 
 signal local_player_ready
 
-var playerType: int
+const STAMINA_LAMBDA := 0.1
+const EXHAUSTED_PENALTY := 0.5
+const EXHAUSTED_REPLENISH_POINT = 0.5
+
 var frozen := false
 
 var gameStarted := false
 var gameEnded := false
+var exhausted := false setget set_exhausted
+func set_exhausted(value: bool):
+	print("set_exhausted")
+	print(value)
+	exhausted = value
+	if value:
+		speed_walk = DEFAULT_SPEED_WALK * EXHAUSTED_PENALTY
+		speed_sprint = speed_walk
+	else:
+		speed_walk = DEFAULT_SPEED_WALK
+		speed_sprint = DEFAULT_SPEED_SPRINT
+
 
 onready var win_zones := get_tree().get_nodes_in_group(Groups.WIN_ZONE)
 
@@ -20,6 +35,7 @@ func set_car(value):
 	else:
 		self.is_crouching = false
 
+
 func _ready():
 	# Listen to the winzone
 	for zone in win_zones:
@@ -27,8 +43,8 @@ func _ready():
 		zone.connect("body_exited", self, "on_exit_winzone")
 
 
-func configure(_playerName: String, _playerId: int, _localPlayerType: int):
-	.configure(_playerName, _playerId, _localPlayerType)
+func configure(_playerName: String, _playerId: int, _playerType: int, _localPlayerType: int):
+	.configure(_playerName, _playerId, _playerType, _localPlayerType)
 	set_player_name(_playerName)
 	update_player_name_state()
 
@@ -194,3 +210,19 @@ func on_exit_winzone(body):
 		# When anyone enters a winzone, everyone should update their name visibility
 		# Must defer this call so that checks about the winzone have time to update
 		call_deferred("update_player_name_state")
+
+
+func is_sprinting() -> bool:
+	return .is_sprinting() and not self.exhausted
+
+
+func process_stamina(delta: float):
+	var had_stamina := stamina > STAMINA_LAMBDA
+	.process_stamina(delta)
+	
+	if had_stamina and stamina <= STAMINA_LAMBDA:
+		self.exhausted = true
+	
+	# Once stamina has regenerated past the replenish point, remove exhaustion
+	if self.exhausted and stamina > (DEFAULT_STAMINA_MAX * EXHAUSTED_REPLENISH_POINT):
+		self.exhausted = false

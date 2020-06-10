@@ -71,7 +71,11 @@ func create_player_ui(playerId: int):
 	var player := GameData.get_player(playerId)
 	var mode = Maps.get_mode_for_map(GameData.general[GameData.GENERAL_MAP])
 	
-	var playerListItem = preload("res://common/lobby/PlayerListItem.tscn")
+	var playerListItem = null
+	if playerId == get_tree().get_network_unique_id():
+		playerListItem = preload("res://common/lobby/LocalPlayerListItem.tscn")
+	else:
+		playerListItem = preload("res://common/lobby/RemotePlayerListItem.tscn")
 	
 	var playerNode = playerListItem.instance()
 	playerNode.set_network_master(playerId)
