@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://common/game/mode/fugitive/ambience/EffectOwl.gd" type="Script" id=1]
+
+[node name="EffectOwl" type="Spatial"]
+script = ExtResource( 1 )
+frequency = 0.00025
+sounds = [ "res://common/game/mode/fugitive/ambience/owl_00.ogg" ]
+max_radius = 20.0
+min_height = 4.0
+max_height = 6.0

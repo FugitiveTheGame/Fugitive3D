@@ -21,6 +21,17 @@
 				9,
 				6
 			]
+		},
+		{
+			"path": "res://common/game/maps/grey_box/GreyBox.scn",
+			"mode": "Fugitive",
+			"size": "Small",
+			"name": "GreyBox",
+			"description": "Grey box test map.",
+			"team_sizes": [
+				4,
+				4
+			]
 		}
 	],
 	"modes" : {

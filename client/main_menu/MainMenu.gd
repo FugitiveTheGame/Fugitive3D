@@ -29,6 +29,12 @@ onready var lostConnectionDialog := get_node(lostConnectionDialogPath) as Accept
 export (NodePath) var helpDialogPath: NodePath
 onready var helpDialog := get_node(helpDialogPath) as WindowDialog
 
+export (NodePath) var menuMusicButtonPath: NodePath
+onready var menuMusicButton := get_node(menuMusicButtonPath) as CheckButton
+
+export (NodePath) var menuMusicPlayerPath: NodePath
+onready var menuMusicPlayer := get_node(menuMusicPlayerPath) as AudioStreamPlayer
+
 
 func _enter_tree():
 	get_tree().connect("connected_to_server", self, "on_connected_to_server")
@@ -53,6 +59,9 @@ func _ready():
 	playerNameInput.text = UserData.data.user_name
 	serverIpInput.text = UserData.data.last_ip
 	serverPortInput.text = str(UserData.data.last_port)
+	
+	menuMusicButton.pressed = UserData.data.menu_music
+	update_menu_music()
 	
 	if ClientNetwork.has_disconnect_reason():
 		lostConnectionDialog.dialog_text = ClientNetwork.consume_disconnect_reason()
@@ -139,3 +148,13 @@ func _on_CancelButton_pressed():
 
 func _on_HelpButton_pressed():
 	helpDialog.popup_centered()
+
+
+func _on_MenuMusicButton_toggled(button_pressed):
+	UserData.data.menu_music = button_pressed
+	UserData.save_data()
+	update_menu_music()
+
+
+func update_menu_music():
+	menuMusicPlayer.playing = UserData.data.menu_music

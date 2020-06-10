@@ -337,7 +337,12 @@ func _physics_process(delta):
 	
 	# Local player will drive the simulation OR if no driver, then server will do it
 	if localPlayerIsDriver or (driver_seat.is_empty() and get_tree().network_peer != null and get_tree().is_network_server()):
+		# At some minimum speed, stop the car
+		if Vector2(velocity.x, velocity.z).length_squared() < 0.03:
+			velocity.x = 0.0
+			velocity.z = 0.0
 		velocity.y -= GRAVITY * delta
+		
 		velocity = move_and_slide_with_snap(velocity, Vector3(0,-2,0), Vector3(0,1,0))
 		
 		# Apply friction to counter sideways drift

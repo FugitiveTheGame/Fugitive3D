@@ -1,0 +1,15 @@
+[remap]
+
+importer="ogg_vorbis"
+type="AudioStreamOGGVorbis"
+path="res://.import/dogs_03.ogg-a924d406309ad5061acf1e980316fc24.oggstr"
+
+[deps]
+
+source_file="res://common/game/mode/fugitive/ambience/dogs_03.ogg"
+dest_files=[ "res://.import/dogs_03.ogg-a924d406309ad5061acf1e980316fc24.oggstr" ]
+
+[params]
+
+loop=false
+loop_offset=0

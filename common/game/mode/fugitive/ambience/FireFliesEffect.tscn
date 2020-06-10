@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://common/game/mode/fugitive/ambience/FireFliesEffect.gd" type="Script" id=1]
+
+[node name="FireFlies" type="Spatial"]
+script = ExtResource( 1 )
+frequency = 0.2

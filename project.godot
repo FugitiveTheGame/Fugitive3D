@@ -9,6 +9,21 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "AmbientEffect",
+"class": "AmbientAudioEffect",
+"language": "GDScript",
+"path": "res://common/game/mode/fugitive/ambience/AmbientAudioEffect.gd"
+}, {
+"base": "Spatial",
+"class": "AmbientEffect",
+"language": "GDScript",
+"path": "res://common/game/mode/fugitive/ambience/AmbientEffect.gd"
+}, {
+"base": "AmbientEffect",
+"class": "AmbientVisualEffect",
+"language": "GDScript",
+"path": "res://common/game/mode/fugitive/ambience/AmbientVisualEffect.gd"
+}, {
 "base": "Spatial",
 "class": "CarSeat",
 "language": "GDScript",
@@ -28,6 +43,11 @@ _global_script_classes=[ {
 "class": "Feature_RigidBodyGrab",
 "language": "GDScript",
 "path": "res://addons/OQ_Toolkit/OQ_ARVRController/scripts/Feature_RigidBodyGrab.gd"
+}, {
+"base": "OneTimeVisualEffect",
+"class": "FireFlyInstance",
+"language": "GDScript",
+"path": "res://common/game/mode/fugitive/ambience/FireFlyInstance.gd"
 }, {
 "base": "Camera",
 "class": "FpsCamera",
@@ -108,6 +128,16 @@ _global_script_classes=[ {
 "class": "OQClass_GrabbableRigidBody",
 "language": "GDScript",
 "path": "res://addons/OQ_Toolkit/OQ_Classes/OQClass_GrabbableRigidBody.gd"
+}, {
+"base": "AudioStreamPlayer3D",
+"class": "OneTimeAudioEffect",
+"language": "GDScript",
+"path": "res://common/game/mode/fugitive/ambience/OneTimeAudioEffect.gd"
+}, {
+"base": "Spatial",
+"class": "OneTimeVisualEffect",
+"language": "GDScript",
+"path": "res://common/game/mode/fugitive/ambience/OneTimeVisualEffect.gd"
 }, {
 "base": "Node",
 "class": "PlatformTypeUtils",
@@ -200,10 +230,14 @@ _global_script_classes=[ {
 "path": "res://common/voice_chat/VoiceChatTransceiver.gd"
 } ]
 _global_script_class_icons={
+"AmbientAudioEffect": "",
+"AmbientEffect": "",
+"AmbientVisualEffect": "",
 "CarSeat": "",
 "ClientFugitiveGame": "",
 "CopCar": "",
 "Feature_RigidBodyGrab": "",
+"FireFlyInstance": "",
 "FpsCamera": "",
 "FugitiveEnums": "",
 "FugitiveGame": "",
@@ -220,6 +254,8 @@ _global_script_class_icons={
 "Lobby": "",
 "MotionSensor": "",
 "OQClass_GrabbableRigidBody": "",
+"OneTimeAudioEffect": "",
+"OneTimeVisualEffect": "",
 "PlatformTypeUtils": "",
 "Player": "",
 "PlayerData": "",

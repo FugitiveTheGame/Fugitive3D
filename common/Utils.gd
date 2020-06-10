@@ -12,3 +12,29 @@ static func get_map_rotation(globalTransform: Transform) -> float:
 
 static func renderer_is_gles2() -> bool:
 	return ProjectSettings.get_setting("rendering/quality/driver/driver_name") == "GLES2"
+
+
+static func aabb_from_shape(colShape: CollisionShape) -> AABB:
+	var boxShape := colShape.shape as BoxShape
+	var pos := colShape.global_transform.origin
+	var extents := boxShape.extents
+	
+	var newBB := AABB()
+	newBB.position = pos - extents
+	newBB.size = extents * 2.0
+	
+	return newBB
+
+
+static func rand_unit_vec3(ignore_axis := Vector3()) -> Vector3:
+	var vec := Vector3(rand_range(-1.0, 1.0) * ignore_axis.x,
+						rand_range(-1.0, 1.0) * ignore_axis.y,
+						rand_range(-1.0, 1.0) * ignore_axis.z)
+	# Don't allow a zero length vec
+	if vec.length() == 0.0:
+		vec.x += 0.001 * ignore_axis.x
+		vec.y += 0.001 * ignore_axis.y
+		vec.z += 0.001 * ignore_axis.z
+	
+	vec = vec.normalized()
+	return vec

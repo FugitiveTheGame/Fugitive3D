@@ -20,7 +20,7 @@
 [ext_resource path="res://client/game/player/controller/flat/mobile/button_ptt_normal.png" type="Texture" id=18]
 
 [node name="PlayerController" type="KinematicBody"]
-collision_mask = 11
+collision_mask = 31
 script = ExtResource( 3 )
 virtual_joysticks_path = NodePath("HudCanvas/VirtualJoysticks")
 inGameMenuPath = NodePath("HudCanvas/HudContainer/InGameMenuHud")
