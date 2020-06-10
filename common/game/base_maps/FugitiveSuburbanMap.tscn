@@ -26,18 +26,6 @@ shape = SubResource( 1 )
 mesh_library = ExtResource( 3 )
 cell_size = Vector3( 8, 2, 8 )
 cell_center_y = false
-collision_layer = 16
-collision_mask = 0
-data = {
-"cells": PoolIntArray(  )
-}
-__meta__ = {
-"_editor_clip_": 0
-}
-
-[node name="WallsGridMap" type="GridMap" parent="." index="11"]
-cell_size = Vector3( 8, 2, 8 )
-cell_center_y = false
 collision_layer = 2
 collision_mask = 0
 data = {
@@ -47,7 +35,7 @@ __meta__ = {
 "_editor_clip_": 0
 }
 
-[node name="FeatureGridMap" type="GridMap" parent="." index="12"]
+[node name="FeatureGridMap" type="GridMap" parent="." index="11"]
 mesh_library = ExtResource( 2 )
 cell_octant_size = 16
 cell_center_y = false
@@ -60,7 +48,7 @@ __meta__ = {
 "_editor_clip_": 0
 }
 
-[node name="PoliceFeaturesGridMap" type="GridMap" parent="." index="13"]
+[node name="PoliceFeaturesGridMap" type="GridMap" parent="." index="12"]
 mesh_library = ExtResource( 4 )
 cell_octant_size = 16
 cell_center_y = false
@@ -73,7 +61,7 @@ __meta__ = {
 "_editor_clip_": 0
 }
 
-[node name="SeeThroughGridMap" type="GridMap" parent="." index="14"]
+[node name="SeeThroughGridMap" type="GridMap" parent="." index="13"]
 mesh_library = ExtResource( 5 )
 cell_octant_size = 16
 cell_center_y = false
@@ -86,14 +74,13 @@ __meta__ = {
 "_editor_clip_": 0
 }
 
-[node name="DirectionalLight" type="DirectionalLight" parent="." index="15"]
+[node name="DirectionalLight" type="DirectionalLight" parent="." index="14"]
 transform = Transform( 0.851086, 0.260726, -0.455713, 0.0509965, 0.822826, 0.566001, 0.522544, -0.504955, 0.687, 0, 10, 0 )
 light_color = Color( 0.129412, 0.207843, 0.772549, 1 )
 light_energy = 0.5
 light_bake_mode = 2
 
-[node name="Ambience" parent="." index="16" instance=ExtResource( 7 )]
-fugitiveMapPath = NodePath("..")
+[node name="Ambience" parent="." index="15" instance=ExtResource( 7 )]
 
 [node name="Crickets" parent="Ambience" index="0" instance=ExtResource( 10 )]
 
