@@ -157,9 +157,7 @@ material = SubResource( 1 )
 
 [node name="VoiceChatPlayback" type="AudioStreamPlayer3D" parent="."]
 
-[node name="VoiceChat" parent="." groups=[
-"voice_chat_receiver",
-] instance=ExtResource( 17 )]
+[node name="VoiceChat" parent="." instance=ExtResource( 17 )]
 audioPlayerPath = NodePath("../VoiceChatPlayback")
 [connection signal="about_to_show" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/InGameMenuHud" to="." method="_on_InGameMenuHud_about_to_show"]
 [connection signal="popup_hide" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/InGameMenuHud" to="." method="_on_InGameMenuHud_popup_hide"]
