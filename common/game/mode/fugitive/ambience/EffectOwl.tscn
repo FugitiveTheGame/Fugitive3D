@@ -2,7 +2,7 @@
 
 [ext_resource path="res://common/game/mode/fugitive/ambience/EffectOwl.gd" type="Script" id=1]
 
-[node name="EffectOwl" type="Spatial"]
+[node name="Owl" type="Spatial"]
 script = ExtResource( 1 )
 frequency = 0.00025
 sounds = [ "res://common/game/mode/fugitive/ambience/owl_00.ogg" ]
