@@ -3,7 +3,7 @@ extends Node
 signal user_data_updated
 
 const GAME_VERSION := 3
-const USER_DATA_VERSION := 6
+const USER_DATA_VERSION := 7
 
 var file_name := 'user://user_data.json'
 
@@ -16,6 +16,7 @@ static func get_default_data():
 		user_name = '',
 		last_ip = '127.0.0.1',
 		last_port = ServerNetwork.SERVER_PORT,
+		menu_music = true,
 		flat_mouse_sensetivity = 1.0,
 		vr_standing = true, # Standing
 		vr_movement_orientation = 0, # HEAD

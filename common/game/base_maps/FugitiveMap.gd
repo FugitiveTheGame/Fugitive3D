@@ -7,6 +7,10 @@ onready var players := $Players
 onready var roads := $Roads.get_children()
 
 
+func get_roads() -> Array:
+	return $Roads.get_children()
+
+
 func get_hider_spawns() -> Array:
 	return $HiderSpawns.get_children()
 

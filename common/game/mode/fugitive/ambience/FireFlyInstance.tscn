@@ -1,0 +1,90 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://common/game/mode/fugitive/ambience/FireFlyInstance.gd" type="Script" id=1]
+[ext_resource path="res://common/game/mode/fugitive/ambience/firefly.png" type="Texture" id=2]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type spatial;
+render_mode blend_add,depth_draw_opaque,cull_back,diffuse_burley,specular_schlick_ggx,unshaded;
+uniform vec4 albedo : hint_color;
+uniform sampler2D texture_albedo : hint_albedo;
+uniform float alpha_override : hint_range(0, 1) = 1.0;
+
+const float PI = 3.14159265358979323846;
+const float HALF_PI = PI / 2.0;
+const float FREQUENCY = 0.5;
+
+
+void vertex() {
+	// Billboard
+	MODELVIEW_MATRIX = INV_CAMERA_MATRIX * mat4(CAMERA_MATRIX[0],CAMERA_MATRIX[1],CAMERA_MATRIX[2],WORLD_MATRIX[3]);
+}
+
+
+void fragment() {
+	vec4 albedo_tex = texture(texture_albedo,UV);
+	ALBEDO = albedo.rgb * albedo_tex.rgb;
+	
+	ALPHA = (albedo.a * albedo_tex.a * (1.0+sin((2.0 * PI * FREQUENCY * TIME)-HALF_PI))) * alpha_override;
+}
+"
+
+[sub_resource type="ShaderMaterial" id=2]
+resource_local_to_scene = true
+shader = SubResource( 1 )
+shader_param/albedo = Color( 0.956863, 0.984314, 0.0509804, 0.501961 )
+shader_param/alpha_override = 1.0
+shader_param/texture_albedo = ExtResource( 2 )
+
+[sub_resource type="QuadMesh" id=3]
+resource_local_to_scene = true
+material = SubResource( 2 )
+size = Vector2( 0.05, 0.05 )
+
+[sub_resource type="Animation" id=4]
+length = 2.0
+loop = true
+tracks/0/type = "transform"
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = PoolRealArray( 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 0.176939, 0.191621, 0, 0, 0, 0, 1, 1, 1, 1, 2, 1, 0.431841, 0.191621, 0.255345, 0, 0, 0, 1, 1, 1, 1 )
+tracks/1/type = "method"
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 2 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "fire_fly_completed"
+} ]
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("..:alpha_override")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0.25, 0, 1.03557, -0.15, 0.0450732, 0.33, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.4, 1.7, 2 )
+}
+
+[node name="FireFly" type="Spatial"]
+script = ExtResource( 1 )
+
+[node name="Body" type="MeshInstance" parent="."]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.431841, 0.191621, 0.255345 )
+cast_shadow = 0
+mesh = SubResource( 3 )
+material/0 = null
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Body"]
+autoplay = "firefly_move"
+anims/firefly_move = SubResource( 4 )
