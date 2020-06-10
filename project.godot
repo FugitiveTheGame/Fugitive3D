@@ -420,9 +420,10 @@ push_to_talk={
 2d_physics/layer_1="players"
 3d_physics/layer_1="players"
 3d_physics/layer_2="walls"
-3d_physics/layer_3="visibility"
+3d_physics/layer_3="see_through_walls"
 3d_physics/layer_4="cars"
-3d_physics/layer_5="car_walls"
+3d_physics/layer_5="ground"
+3d_physics/layer_6="police_walls"
 
 [memory]
 
