@@ -1,0 +1,37 @@
+[remap]
+
+importer="texture"
+type="StreamTexture"
+path.s3tc="res://.import/LightMap131.png-b3f526f74bb140b9ca9705776c569efd.s3tc.stex"
+path.etc2="res://.import/LightMap131.png-b3f526f74bb140b9ca9705776c569efd.etc2.stex"
+path.etc="res://.import/LightMap131.png-b3f526f74bb140b9ca9705776c569efd.etc.stex"
+metadata={
+"imported_formats": [ "s3tc", "etc2", "etc" ],
+"vram_texture": true
+}
+
+[deps]
+
+source_file="res://common/game/maps/freehold/lightmaps/LightMap131.png"
+dest_files=[ "res://.import/LightMap131.png-b3f526f74bb140b9ca9705776c569efd.s3tc.stex", "res://.import/LightMap131.png-b3f526f74bb140b9ca9705776c569efd.etc2.stex", "res://.import/LightMap131.png-b3f526f74bb140b9ca9705776c569efd.etc.stex" ]
+
+[params]
+
+compress/mode=2
+compress/lossy_quality=0.7
+compress/hdr_mode=0
+compress/bptc_ldr=0
+compress/normal_map=0
+flags/repeat=false
+flags/filter=true
+flags/mipmaps=false
+flags/anisotropic=false
+flags/srgb=true
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/HDR_as_SRGB=false
+process/invert_color=false
+stream=false
+size_limit=0
+detect_3d=false
+svg/scale=1.0

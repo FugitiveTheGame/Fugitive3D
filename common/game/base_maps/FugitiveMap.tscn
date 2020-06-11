@@ -1,8 +1,10 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://common/game/base_maps/BaseMap.tscn" type="PackedScene" id=1]
 [ext_resource path="res://common/game/base_maps/FugitiveMap.gd" type="Script" id=2]
 
+[sub_resource type="BoxShape" id=1]
+extents = Vector3( 125, 10, 155 )
 
 [node name="Game" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
@@ -22,7 +24,10 @@ collision_layer = 0
 
 [node name="SeekerSpawns" type="Spatial" parent="." index="5"]
 
-[node name="Roads" type="Spatial" parent="." index="6"]
+[node name="Roads" type="Area" parent="." index="6"]
+
+[node name="MapBoundingBox" type="CollisionShape" parent="Roads" index="0"]
+shape = SubResource( 1 )
 
 [node name="GameTimer" type="Timer" parent="." index="7" groups=[
 "game_timer",
