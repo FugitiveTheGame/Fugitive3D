@@ -1,28 +1,6 @@
 {
 	"maps" : [
 		{
-			"path": "res://common/game/maps/my_neighborhood/MyNeighborhood.scn",
-			"mode": "Fugitive",
-			"size": "Large",
-			"name": "My Neighborhood",
-			"description": "A well balanced map based off my childhood neighborhood where the real life version of this game was invented.",
-			"team_sizes": [
-				8,
-				6
-			]
-		},
-		{
-			"path": "res://common/game/maps/suburbia/Suburbia.scn",
-			"mode": "Fugitive",
-			"size": "Medium",
-			"name": "Suburbia",
-			"description": "A small suburban town. Two streets runing parallel with backyards connecting them.",
-			"team_sizes": [
-				9,
-				6
-			]
-		},
-		{
 			"path": "res://common/game/maps/freehold/Freehold.scn",
 			"mode": "Fugitive",
 			"size": "Large",
