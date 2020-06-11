@@ -12,6 +12,17 @@
 			]
 		},
 		{
+			"path": "res://common/game/maps/cedar_point/CedarPoint.scn",
+			"mode": "Fugitive",
+			"size": "Medium",
+			"name": "Cedar Point",
+			"description": "A small suburban town. Two streets runing parallel with backyards connecting them.",
+			"team_sizes": [
+				9,
+				6
+			]
+		},
+		{
 			"path": "res://common/game/maps/grey_box/GreyBox.scn",
 			"mode": "Fugitive",
 			"size": "Small",
