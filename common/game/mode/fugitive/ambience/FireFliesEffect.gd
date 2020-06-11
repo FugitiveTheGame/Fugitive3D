@@ -29,8 +29,6 @@ func _exit_tree():
 func play(playerPos: Vector3):
 	.play(playerPos)
 	
-	var dir := Utils.rand_unit_vec3()
-	
 	# If we haven't hit our max yet, make a new one
 	if free_fire_fly_instances.empty() and cur_fireflies < NUM_FIREFLIES:
 		create_new_firefly()
