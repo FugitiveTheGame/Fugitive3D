@@ -46,8 +46,8 @@ func play(playerPos: Vector3):
 		var firefly = free_fire_fly_instances.pop_back() as FireFlyInstance
 		add_child(firefly)
 		firefly.transform.origin = randPos
-	else:
-		print("Out of fire flies")
+	#else:
+		#print("Out of fire flies")
 
 
 # Once the effect has finished, remove it from the world
