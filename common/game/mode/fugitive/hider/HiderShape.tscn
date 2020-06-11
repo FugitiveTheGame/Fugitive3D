@@ -9,17 +9,17 @@
 
 [sub_resource type="CapsuleShape" id=1]
 radius = 0.3
-height = 1.40747
+height = 1.4
 
 [node name="CollisionShape" instance=ExtResource( 1 )]
 shape = SubResource( 1 )
 script = ExtResource( 6 )
 
 [node name="Standing" parent="." index="0" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 1.32137e-07, -0.81105 )
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, -0.8 )
 
 [node name="Crouching" parent="." index="1" instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, -2.33951e-08, -0.841404 )
+transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, -0.8 )
 visible = false
 
 [node name="PlayerNameLabel" parent="." index="2" instance=ExtResource( 4 )]
