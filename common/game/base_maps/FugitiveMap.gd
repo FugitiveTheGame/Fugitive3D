@@ -4,11 +4,22 @@ class_name FugitiveMap
 onready var winZones := get_tree().get_nodes_in_group(Groups.WIN_ZONE)
 onready var players := $Players
 
-onready var roads := $Roads.get_children()
+onready var roads := get_roads()
+onready var mapBoundingBox: AABB
+
+
+func _ready():
+	var bbArea := $Roads.find_node("MapBoundingBox") as CollisionShape
+	var bbShape := bbArea.shape as BoxShape
+	mapBoundingBox = AABB(bbArea.global_transform.origin, bbShape.extents * 2.0)
 
 
 func get_roads() -> Array:
-	return $Roads.get_children()
+	var roads = []
+	for child in $Roads.get_children():
+		if child is Street:
+			roads.push_back(child)
+	return roads
 
 
 func get_hider_spawns() -> Array:

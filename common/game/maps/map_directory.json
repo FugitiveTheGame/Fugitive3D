@@ -23,6 +23,17 @@
 			]
 		},
 		{
+			"path": "res://common/game/maps/freehold/Freehold.scn",
+			"mode": "Fugitive",
+			"size": "Large",
+			"name": "Freehold",
+			"description": "A well balanced map based off my childhood neighborhood where the real life version of this game was invented.",
+			"team_sizes": [
+				8,
+				4
+			]
+		},
+		{
 			"path": "res://common/game/maps/cedar_point/CedarPoint.scn",
 			"mode": "Fugitive",
 			"size": "Medium",
