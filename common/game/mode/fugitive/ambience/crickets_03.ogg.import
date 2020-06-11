@@ -11,5 +11,5 @@ dest_files=[ "res://.import/crickets_03.ogg-475296b162ad731413492a175bff1f1b.ogg
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0
