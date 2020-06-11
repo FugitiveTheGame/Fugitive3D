@@ -20,9 +20,8 @@ var drawStreetNames := true
 
 func _ready():
 	var bb := GameData.currentMap.mapBoundingBox as AABB
-	mapStart = Vector2(-bb.position.x, bb.position.z)
-	mapStart *= 2.0
 	mapSize = Vector2(bb.size.x, bb.size.z)
+	mapStart = Vector2(bb.position.x, bb.position.z)
 	
 	playerShape = _build_triangle(playerSize)
 	playerOutlineShape = _build_triangle(playerOutlineSize)
@@ -67,13 +66,16 @@ func to_map_coord(globalCoord: Vector3) -> Vector2:
 
 
 func to_map_coord_vector2(globalCoord: Vector2) -> Vector2:
-	var marginFactor := 0.05
-	var margin := rect_size * marginFactor
+	var correctedCoord := globalCoord
+	# Translate to local
+	correctedCoord -= mapStart
+	# Shift so 0,0 is bottom left corner
+	correctedCoord += (mapSize / 2.0)
+	# Convert to percent inside local area
+	var mapScale := correctedCoord / mapSize
+	# Convert to 2d rect coord
+	var mapCoord = (rect_size * mapScale)
 	
-	var mapScale := (globalCoord - mapStart) / mapSize
-	
-	var marginReduction := 1.0 - (marginFactor * 2.0)
-	var mapCoord := ((rect_size * marginReduction) * mapScale) + margin
 	return mapCoord
 
 
