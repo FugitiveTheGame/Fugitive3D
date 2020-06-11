@@ -15,11 +15,11 @@ func _ready():
 
 
 func get_roads() -> Array:
-	var roads = []
+	var foundRoads = []
 	for child in $Roads.get_children():
 		if child is Street:
-			roads.push_back(child)
-	return roads
+			foundRoads.push_back(child)
+	return foundRoads
 
 
 func get_hider_spawns() -> Array:
