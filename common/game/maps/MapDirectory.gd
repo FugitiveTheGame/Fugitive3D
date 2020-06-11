@@ -9,6 +9,7 @@ const MAP_DESCRIPTION := "description"
 const MAP_MODE := "mode"
 const MAP_SIZE := "size"
 const MAP_PATH := "path"
+const MAP_DEBUG := "debug"
 const MAP_TEAM_SIZES := "team_sizes"
 
 const MODE_NAME := "name"
