@@ -31,7 +31,7 @@ light_color = Color( 1, 0.945098, 0.878431, 1 )
 light_energy = 3.0
 
 [node name="HeadLightLeft" type="SpotLight" parent="cop_car"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0493479, 0.709651, -2.23964 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0493479, 0.709651, -2.46457 )
 light_color = Color( 1, 0.945098, 0.878431, 1 )
 light_energy = 5.0
 light_bake_mode = 0
