@@ -19,20 +19,16 @@ const playerOutlineSize := 23.0
 var drawStreetNames := true
 
 func _ready():
-	var bb := AABB()
-	
-	for road in roads:
-		var colShape = road.get_node("CollisionShape")
-		var aabb := Utils.aabb_from_shape(colShape)
-		bb = bb.merge(aabb)
-	
-	mapStart = Vector2(bb.position.x, bb.position.z)
+	var bb := GameData.currentMap.mapBoundingBox as AABB
+	mapStart = Vector2(-bb.position.x, bb.position.z)
+	mapStart *= 2.0
 	mapSize = Vector2(bb.size.x, bb.size.z)
 	
 	playerShape = _build_triangle(playerSize)
 	playerOutlineShape = _build_triangle(playerOutlineSize)
 	
 	update_map_background()
+
 
 func _build_triangle(triangle_size: float) -> PoolVector2Array:
 	var half_size := triangle_size/2.0
@@ -41,6 +37,7 @@ func _build_triangle(triangle_size: float) -> PoolVector2Array:
 	new_points.append(Vector2(half_size, -half_size))
 	new_points.append(Vector2(0.0, triangle_size))
 	return new_points
+
 
 func update_map_background():
 	if mapBackground != null:
@@ -67,6 +64,7 @@ func to_map_scale(globalCoord: Vector3) -> Vector2:
 
 func to_map_coord(globalCoord: Vector3) -> Vector2:
 	return to_map_coord_vector2(Vector2(globalCoord.x, globalCoord.z))
+
 
 func to_map_coord_vector2(globalCoord: Vector2) -> Vector2:
 	var marginFactor := 0.05
@@ -131,17 +129,17 @@ func _on_Map_draw():
 	if drawStreetNames:
 		for road in roads:
 			var namePos := to_map_coord(road.global_transform.origin)
-				
+			
 			var textSize = streetNameFont.get_string_size(road.street_name)
 			
-			var size = road.get_node("CollisionShape").shape.extents
 			var rotation := 0.0
-			if size.x < size.z:
+			if road.vertical:
 				rotation = deg2rad(-90.0)
-				namePos -= Vector2(textSize.x/8.0, -textSize.y*2.0)
+				#namePos -= Vector2(-textSize.y, -(textSize.x/2.0))
+				namePos -= Vector2(0.0, -(textSize.x/2.0))
 			else:
-				namePos -= Vector2(textSize.x/2.0, textSize.y)
-				pass
+				namePos -= Vector2(textSize.x/2.0, -textSize.y)
+			
 			
 			mapBackground.draw_set_transform(namePos, rotation, Vector2(1.0, 1.0))
 			mapBackground.draw_string(streetNameFont, Vector2(), road.street_name)
