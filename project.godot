@@ -442,5 +442,4 @@ threads/thread_model=2
 quality/filters/anisotropic_filter_level=8
 vram_compression/import_etc=true
 environment/default_clear_color=Color( 0.117647, 0.101961, 0.188235, 1 )
-environment/default_environment="res://default_env.tres"
 quality/driver/driver_name.mobile="GLES2"
