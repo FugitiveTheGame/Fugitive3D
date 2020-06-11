@@ -4,8 +4,8 @@ uniform vec4 albedo : hint_color;
 uniform sampler2D texture_albedo : hint_albedo;
 uniform float alpha_override : hint_range(0, 1) = 1.0;
 
-const float PI = 3.14159265358979323846;
-const float HALF_PI = PI / 2.0;
+const float PI = 3.14159265358979;
+const float HALF_PI = 1.57079632679;
 const float FREQUENCY = 0.5;
 
 
