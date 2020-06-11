@@ -25,6 +25,11 @@ collision_layer = 0
 [node name="SeekerSpawns" type="Spatial" parent="." index="5"]
 
 [node name="Roads" type="Area" parent="." index="6"]
+input_ray_pickable = false
+monitoring = false
+monitorable = false
+collision_layer = 0
+collision_mask = 0
 
 [node name="MapBoundingBox" type="CollisionShape" parent="Roads" index="0"]
 shape = SubResource( 1 )
