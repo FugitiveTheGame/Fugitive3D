@@ -27,6 +27,7 @@
 			"mode": "Fugitive",
 			"size": "Small",
 			"name": "GreyBox",
+			"debug": true,
 			"description": "Grey box test map.",
 			"team_sizes": [
 				4,

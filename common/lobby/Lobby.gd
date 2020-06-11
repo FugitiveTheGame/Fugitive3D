@@ -58,7 +58,8 @@ func _ready():
 
 func populate_map_list():
 	for map in Maps.directory:
-		mapSelect.add_item(map[Maps.MAP_NAME])
+		if not map.has(Maps.MAP_DEBUG) or map[Maps.MAP_DEBUG] == false:
+			mapSelect.add_item(map[Maps.MAP_NAME])
 
 
 func create_player_ui(playerId: int):
