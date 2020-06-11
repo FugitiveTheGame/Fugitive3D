@@ -20,13 +20,17 @@ func calculate_bounding_box(roads) -> AABB:
 	return bb
 
 
-func get_effects_position() -> Vector3:
-	return to_local(GameData.currentGame.localPlayer.global_transform.origin)
+func get_effects_position():
+	if GameData.currentGame != null and GameData.currentGame.localPlayer != null:
+		return to_local(GameData.currentGame.localPlayer.global_transform.origin)
+	else:
+		return null
 
 
 func _physics_process(delta):
-	var effect_position := get_effects_position()
-	for effect in effects:
-		var chance := randf()
-		if chance < effect.frequency:
-			effect.play(effect_position)
+	var effect_position = get_effects_position()
+	if effect_position != null:
+		for effect in effects:
+			var chance := randf()
+			if chance < effect.frequency:
+				effect.play(effect_position)
