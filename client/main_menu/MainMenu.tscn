@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://client/main_menu/MainMenu.gd" type="Script" id=1]
 [ext_resource path="res://client/main_menu/server_browser/ServerBrowser.tscn" type="PackedScene" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://client/HelpDialog.tscn" type="PackedScene" id=4]
 [ext_resource path="res://godot_logo.png" type="Texture" id=5]
 [ext_resource path="res://client/main_menu/main_menu_theme.ogg" type="AudioStream" id=6]
+[ext_resource path="res://client/main_menu/ic_headphones.webp" type="Texture" id=7]
 
 [node name="MainMenu" type="Control"]
 anchor_right = 1.0
@@ -112,15 +113,15 @@ __meta__ = {
 [node name="OptionsContainer" type="VBoxContainer" parent="."]
 margin_left = 8.0
 margin_top = 8.0
-margin_right = 158.0
-margin_bottom = 94.0
+margin_right = 256.0
+margin_bottom = 182.0
 rect_min_size = Vector2( 175, 0 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ExitButton" type="Button" parent="OptionsContainer"]
-margin_right = 223.0
+margin_right = 248.0
 margin_bottom = 39.0
 text = "Exit Game"
 __meta__ = {
@@ -129,16 +130,41 @@ __meta__ = {
 
 [node name="HelpButton" type="Button" parent="OptionsContainer"]
 margin_top = 47.0
-margin_right = 223.0
+margin_right = 248.0
 margin_bottom = 86.0
 text = "Help"
 
 [node name="MenuMusicButton" type="CheckButton" parent="OptionsContainer"]
 margin_top = 94.0
-margin_right = 223.0
+margin_right = 248.0
 margin_bottom = 174.0
 pressed = true
 text = "Music"
+
+[node name="HeadphonesContainer" type="HBoxContainer" parent="."]
+anchor_top = 1.0
+anchor_bottom = 1.0
+margin_left = 8.0
+margin_top = -208.0
+margin_right = 373.0
+margin_bottom = -160.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HeadphonesIcon" type="TextureRect" parent="HeadphonesContainer"]
+margin_right = 48.0
+margin_bottom = 48.0
+texture = ExtResource( 7 )
+
+[node name="HeadphonesLabel" type="Label" parent="HeadphonesContainer"]
+margin_left = 56.0
+margin_right = 359.0
+margin_bottom = 48.0
+size_flags_vertical = 5
+text = "Headphones recommended"
+align = 1
+valign = 1
 
 [node name="JoiningDialog" type="WindowDialog" parent="."]
 anchor_left = 0.5
