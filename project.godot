@@ -432,6 +432,10 @@ push_to_talk={
 3d_physics/layer_5="ground"
 3d_physics/layer_6="police_walls"
 
+[logging]
+
+file_logging/enable_file_logging=true
+
 [memory]
 
 limits/multithreaded_server/rid_pool_prealloc=90
