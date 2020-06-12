@@ -1,8 +1,14 @@
 extends AmbientVisualEffect
 
-const NUM_FIREFLIES := 50
+var MAX_FIREFLIES := 50
 var cur_fireflies := 0
 var free_fire_fly_instances := []
+
+
+func _ready():
+	# Fireflies are bad for perf on mobile
+	if Utils.renderer_is_gles2():
+		MAX_FIREFLIES = 0
 
 
 func create_new_firefly():
@@ -30,7 +36,7 @@ func play(playerPos: Vector3):
 	.play(playerPos)
 	
 	# If we haven't hit our max yet, make a new one
-	if free_fire_fly_instances.empty() and cur_fireflies < NUM_FIREFLIES:
+	if free_fire_fly_instances.empty() and cur_fireflies < MAX_FIREFLIES:
 		create_new_firefly()
 	
 	# If we have any fireflies ready in the pool, play an instance of the effect
