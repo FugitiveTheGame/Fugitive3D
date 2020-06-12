@@ -25,6 +25,7 @@ func add_server(serverInfo):
 	if not serverInfo.has("game_version") or (int(serverInfo.game_version)) != UserData.GAME_VERSION:
 		print("Warning: Server is wrong version, throwing it away")
 	else:
+		print("add_server: " + serverInfo.name + " port " + str(serverInfo.port))
 		var serverNode := serverListItemScene.instance()
 		serverNode.populate(serverInfo)
 		serverNode.connect("connect_to_server", self, "on_connect_request")
@@ -32,16 +33,17 @@ func add_server(serverInfo):
 
 
 func remove_server(serverIp):
+	print("remove_server: " + serverIp)
 	for serverNode in serverList.get_children():
 		if serverNode.serverInfo.ip == serverIp:
 			serverList.remove_child(serverNode)
 			break
 
 
-func get_server(serverIp) -> Control:
+func get_server(serverIp, serverPort) -> Control:
 	var node = null
 	for serverNode in serverList.get_children():
-		if serverNode.serverInfo.ip == serverIp:
+		if serverNode.serverInfo.ip == serverIp and serverNode.serverInfo.port == serverPort:
 			node = serverNode
 			break
 	
@@ -59,6 +61,6 @@ func _on_RefreshButton_pressed():
 
 
 func _on_ServerListener_update_server(serverInfo):
-	var serverNode := get_server(serverInfo.ip)
+	var serverNode := get_server(serverInfo.ip, serverInfo.port)
 	if serverNode != null:
 		serverNode.populate(serverInfo)

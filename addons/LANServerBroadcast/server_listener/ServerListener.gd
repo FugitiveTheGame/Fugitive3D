@@ -22,6 +22,9 @@ var serverRepoRequest := HTTPRequest.new()
 export (int) var server_cleanup_threshold_lan: int = 3
 export (int) var server_cleanup_threshold_wan: int = 15
 
+func get_server_id(ip, port) -> String:
+	return str(ip) + ":" + str(port)
+
 func _init():
 	cleanUpTimer.wait_time = server_cleanup_threshold_lan
 	cleanUpTimer.one_shot = false
@@ -67,20 +70,21 @@ func add_server(serverInfo):
 	serverInfo.lastSeen = OS.get_unix_time()
 	
 	# We've discovered a new server! Add it to the list and let people know
-	if not knownServers.has(serverInfo.ip):
-		knownServers[serverInfo.ip] = serverInfo
+	var serverId = get_server_id(serverInfo.ip, serverInfo.port)
+	if not knownServers.has(serverId):
+		knownServers[serverId] = serverInfo
 		print("New server found: %s - %s:%s" % [serverInfo.name, serverInfo.ip, serverInfo.port])
 		emit_signal("new_server", serverInfo)
 	# Update the last seen time
 	else:
-		knownServers[serverInfo.ip] = serverInfo
+		knownServers[serverId] = serverInfo
 		emit_signal("update_server", serverInfo)
 
 
 func clean_up():
 	var now = OS.get_unix_time()
-	for serverIp in knownServers:
-		var serverInfo = knownServers[serverIp]
+	for serverId in knownServers:
+		var serverInfo = knownServers[serverId]
 		
 		var threshold: float
 		if serverInfo.lan:
@@ -89,9 +93,9 @@ func clean_up():
 			threshold = server_cleanup_threshold_wan
 		
 		if (now - serverInfo.lastSeen) > threshold:
-			knownServers.erase(serverIp)
-			print('Remove old server: %s' % serverIp)
-			emit_signal("remove_server", serverIp)
+			knownServers.erase(serverId)
+			print('Remove old server: %s' % serverId)
+			emit_signal("remove_server", serverInfo.ip, serverInfo.port)
 
 
 func _exit_tree():
