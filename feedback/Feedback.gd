@@ -74,7 +74,7 @@ func get_log_file_contents() -> String:
 	return combinedLogContents
 
 
-func get_log_file_names(exclude_current := true) -> Array:
+func get_log_file_names(exclude_current := false) -> Array:
 	var logFiles = []
 	var dir = Directory.new()
 	dir.open(LOG_PATH)
