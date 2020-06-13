@@ -35,6 +35,12 @@ onready var menuMusicButton := get_node(menuMusicButtonPath) as CheckButton
 export (NodePath) var menuMusicPlayerPath: NodePath
 onready var menuMusicPlayer := get_node(menuMusicPlayerPath) as AudioStreamPlayer
 
+export (NodePath) var feedbackDialogPath: NodePath
+onready var feedbackDialog := get_node(feedbackDialogPath) as WindowDialog
+
+export (NodePath) var crashDetectedDialogPath: NodePath
+onready var crashDetectedDialog := get_node(crashDetectedDialogPath) as AcceptDialog
+
 
 func _enter_tree():
 	get_tree().connect("connected_to_server", self, "on_connected_to_server")
@@ -66,6 +72,11 @@ func _ready():
 	if ClientNetwork.has_disconnect_reason():
 		lostConnectionDialog.dialog_text = ClientNetwork.consume_disconnect_reason()
 		lostConnectionDialog.popup_centered()
+	
+	if Feedback.has_crash_to_report:
+		print("Has crash to report")
+		feedbackDialog.popup_centered()
+		crashDetectedDialog.call_deferred("popup_centered")
 
 
 func _on_ConnectButton_pressed():
@@ -158,3 +169,8 @@ func _on_MenuMusicButton_toggled(button_pressed):
 
 func update_menu_music():
 	menuMusicPlayer.playing = UserData.data.menu_music
+
+
+func _on_FeedbackButton_pressed():
+	if not feedbackDialog.visible:
+		feedbackDialog.popup_centered()
