@@ -1,0 +1,73 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://client/feedback/FeedbackDialog.gd" type="Script" id=1]
+
+[node name="FeedbackDialog" type="WindowDialog"]
+visible = true
+anchor_right = 0.543
+anchor_bottom = 0.658
+margin_right = -0.0400391
+margin_bottom = -12.76
+popup_exclusive = true
+window_title = "Feedback"
+resizable = true
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Container" type="VBoxContainer" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 16.0
+margin_top = 16.0
+margin_right = -16.0
+margin_bottom = -16.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UserNameLabel" type="Label" parent="Container"]
+margin_right = 663.0
+margin_bottom = 25.0
+text = "Your Name (optional):"
+
+[node name="UserNameEdit" type="LineEdit" parent="Container"]
+margin_top = 33.0
+margin_right = 663.0
+margin_bottom = 67.0
+placeholder_text = "Anonymous"
+
+[node name="FeedBackLabel" type="Label" parent="Container"]
+margin_top = 75.0
+margin_right = 663.0
+margin_bottom = 100.0
+text = "Description:"
+
+[node name="DescriptionTextEdit" type="TextEdit" parent="Container"]
+margin_top = 108.0
+margin_right = 663.0
+margin_bottom = 328.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="SendLogsCheckBox" type="CheckBox" parent="Container"]
+margin_top = 336.0
+margin_right = 663.0
+margin_bottom = 382.0
+pressed = true
+text = "Send Logs [important for crashes!]"
+
+[node name="SendButton" type="Button" parent="Container"]
+margin_top = 390.0
+margin_right = 663.0
+margin_bottom = 429.0
+text = "Send"
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]
+use_threads = true
+[connection signal="about_to_show" from="." to="." method="_on_FeedbackDialog_about_to_show"]
+[connection signal="pressed" from="Container/SendButton" to="." method="_on_SendButton_pressed"]
+[connection signal="request_completed" from="HTTPRequest" to="." method="_on_HTTPRequest_request_completed"]
