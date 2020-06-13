@@ -7,6 +7,7 @@
 
 [node name="Lobby" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
+voiceChatContainerPath = NodePath("VoiceChatContainer")
 
 [node name="LeaveButton" parent="PanelContainer/VBoxContainer" index="0"]
 margin_left = 1187.0
@@ -96,3 +97,5 @@ normal = ExtResource( 4 )
 pressed = ExtResource( 3 )
 action = "push_to_talk"
 visibility_mode = 1
+
+[node name="VoiceChatContainer" type="Node" parent="." index="6"]

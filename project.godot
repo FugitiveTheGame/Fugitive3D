@@ -321,13 +321,13 @@ window/stretch/mode="2d"
 window/stretch/aspect="expand"
 window/stretch/mode.mobile="2d"
 window/stretch/aspect.mobile="keep_height"
-window/size/width.Windows=1600
-window/size/height.Windows=900
 window/size/width.OSX=1600
 window/size/height.OSX=900
 window/size/width.X11=1600
 window/size/height.X11=900
 window/size/fullscreen.server=false
+window/size/width.Windows=1600
+window/size/height.Windows=900
 
 [editor_plugins]
 

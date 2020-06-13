@@ -12,6 +12,9 @@ onready var randomButton := get_node(randomButtonPath) as Button
 export (NodePath) var helpDialogPath: NodePath
 onready var helpDialog := get_node(helpDialogPath) as WindowDialog
 
+export (NodePath) var voiceChatContainerPath: NodePath
+onready var voiceChatContainer := get_node(voiceChatContainerPath) as Node
+
 
 func _enter_tree():
 	ClientNetwork.connect("lost_connection_to_server", self, "on_disconnect")
@@ -102,3 +105,32 @@ func _on_HelpButton_pressed():
 	var mode := Maps.get_mode_for_map(mapId)
 	helpDialog.showGameMode = mode[Maps.MODE_NAME]
 	helpDialog.popup_centered()
+
+
+func create_player_ui(playerId: int):
+	# First add the VOIP node for this player
+	var playerVoipNode = null
+	if playerId == get_tree().get_network_unique_id():
+		playerVoipNode = preload("res://common/lobby/voip/LobbyLocalVoiceChat.tscn").instance()
+	else:
+		playerVoipNode = preload("res://common/lobby/voip/LobbyRemoteVoiceChat.tscn").instance()
+	
+	playerVoipNode.set_name(str(playerId))
+	voiceChatContainer.add_child(playerVoipNode)
+	
+	# Then create the player list item
+	.create_player_ui(playerId)
+	
+	# Finally hook up the list item to the voip node
+	var playerListItem := find_player_node(playerId)
+	playerListItem.voice_chat = playerVoipNode.get_node("VoiceChat")
+
+
+func remove_player(playerId: int):
+	.remove_player(playerId)
+	
+	var nodeName := str(playerId)
+	for child in get_children():
+		if child.name == nodeName:
+			child.queue_free()
+			break

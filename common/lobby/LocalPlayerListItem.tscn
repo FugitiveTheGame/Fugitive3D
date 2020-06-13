@@ -7,6 +7,9 @@
 [node name="PlayerListItem" instance=ExtResource( 1 )]
 script = ExtResource( 3 )
 
+[node name="HostMenuButton" parent="Controls" index="5"]
+items = [ "Make Host", null, 0, false, false, 0, 0, null, "", false, "Kick", null, 0, false, false, 1, 0, null, "", false ]
+
 [node name="VoiceChatPlayerback" type="AudioStreamPlayer" parent="." index="3"]
 
 [node name="VoiceChat" parent="." index="4" instance=ExtResource( 2 )]

@@ -1,7 +1,8 @@
 extends "res://common/lobby/PlayerListItem.gd"
 
-onready var voice_chat := $VoiceChat as VoiceChatReceiver
+
+var voice_chat: VoiceChatReceiver  = null
 
 
 func is_voip_active() -> bool:
-	return voice_chat.is_playing()
+	return voice_chat != null and voice_chat.is_playing()

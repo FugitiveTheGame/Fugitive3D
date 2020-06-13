@@ -106,7 +106,7 @@ func update_player(playerId: int):
 func remove_player(playerId: int):
 	var node := find_player_node(playerId)
 	if node != null:
-		playerList.remove_child(node)
+		node.queue_free()
 	else:
 		print("Lobby: remove_player: failed to find node for player: %d" % playerId)
 	
