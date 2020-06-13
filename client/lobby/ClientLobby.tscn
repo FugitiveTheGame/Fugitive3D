@@ -14,9 +14,9 @@ randomButtonPath = NodePath("PanelContainer/VBoxContainer/HSplitContainer/VBoxCo
 helpDialogPath = NodePath("HelpDialog")
 
 [node name="LeaveButton" type="Button" parent="PanelContainer/VBoxContainer" index="0"]
-margin_left = 1165.0
-margin_right = 1252.0
-margin_bottom = 37.0
+margin_left = 1187.0
+margin_right = 1264.0
+margin_bottom = 39.0
 size_flags_horizontal = 8
 size_flags_vertical = 0
 text = "Leave"
@@ -25,84 +25,84 @@ __meta__ = {
 }
 
 [node name="Title" parent="PanelContainer/VBoxContainer" index="1"]
-margin_top = 45.0
-margin_bottom = 109.0
+margin_top = 47.0
+margin_bottom = 111.0
 
 [node name="HSplitContainer" parent="PanelContainer/VBoxContainer" index="2"]
-margin_top = 117.0
-margin_bottom = 647.0
+margin_top = 119.0
+margin_bottom = 657.0
 
 [node name="VBoxContainer2" parent="PanelContainer/VBoxContainer/HSplitContainer" index="0"]
-margin_bottom = 530.0
+margin_bottom = 538.0
 
 [node name="Panel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2" index="2"]
-margin_bottom = 530.0
+margin_bottom = 538.0
 
 [node name="VBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer" index="1"]
-margin_bottom = 530.0
+margin_bottom = 538.0
 
 [node name="HBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="4"]
-margin_bottom = 289.0
+margin_bottom = 293.0
 
 [node name="DetailsContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer" index="0"]
-margin_bottom = 157.0
+margin_bottom = 159.0
 
 [node name="HBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer" index="1"]
-margin_bottom = 75.0
+margin_bottom = 77.0
 
 [node name="ModelValue" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer/HBoxContainer" index="0"]
-margin_left = 88.0
-margin_right = 177.0
-margin_bottom = 37.0
+margin_left = 94.0
+margin_right = 183.0
+margin_bottom = 39.0
 
 [node name="HelpButton" type="Button" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer/HBoxContainer" index="1"]
-margin_left = 185.0
-margin_right = 219.0
-margin_bottom = 37.0
+margin_left = 191.0
+margin_right = 215.0
+margin_bottom = 39.0
 text = "?"
 
 [node name="Spacer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer" index="2"]
-margin_top = 83.0
-margin_bottom = 83.0
+margin_top = 85.0
+margin_bottom = 85.0
 
 [node name="SizeLabel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer" index="3"]
-margin_top = 91.0
-margin_bottom = 121.0
+margin_top = 93.0
+margin_bottom = 123.0
 
 [node name="SizeValue" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer" index="4"]
-margin_top = 129.0
-margin_bottom = 157.0
+margin_top = 131.0
+margin_bottom = 159.0
 
 [node name="TeamsContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer" index="1"]
-margin_bottom = 157.0
+margin_bottom = 159.0
 
 [node name="ScrollContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/TeamsContainer" index="1"]
-margin_bottom = 157.0
+margin_bottom = 159.0
 
 [node name="Spacer" type="Control" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="5"]
-margin_top = 297.0
-margin_right = 622.0
-margin_bottom = 313.0
+margin_top = 301.0
+margin_right = 628.0
+margin_bottom = 317.0
 rect_min_size = Vector2( 0, 16 )
 
 [node name="DescriptionLabel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="6"]
-margin_top = 321.0
-margin_bottom = 351.0
+margin_top = 325.0
+margin_bottom = 355.0
 
 [node name="MapPanel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="7"]
-margin_top = 359.0
-margin_bottom = 485.0
+margin_top = 363.0
+margin_bottom = 491.0
 
 [node name="RandomButton" type="Button" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="8"]
-margin_top = 493.0
-margin_right = 622.0
-margin_bottom = 530.0
+margin_top = 499.0
+margin_right = 628.0
+margin_bottom = 538.0
 text = "Randomize Teams"
 
 [node name="StartButton" type="Button" parent="PanelContainer/VBoxContainer" index="3"]
-margin_top = 655.0
-margin_right = 1252.0
-margin_bottom = 692.0
+margin_top = 665.0
+margin_right = 1264.0
+margin_bottom = 704.0
 text = "Start Game"
 __meta__ = {
 "_edit_use_anchors_": false
