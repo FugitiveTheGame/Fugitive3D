@@ -4,7 +4,7 @@ const CRASH_FILE_PATH := "user://did_crash"
 const LOG_PATH := "user://logs/"
 
 
-var is_enabled := OS.has_feature("client") or OS.is_debug_build()
+var is_enabled := OS.has_feature("client") and not OS.is_debug_build()
 var has_crash_to_report := false
 
 
