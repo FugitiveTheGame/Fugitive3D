@@ -288,6 +288,7 @@ config/name="Fugitive 3D"
 run/main_scene="res://entry/Entry.tscn"
 boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
+config/windows_native_icon="res://icon.ico"
 config/quit_on_go_back=false
 
 [audio]
@@ -437,6 +438,7 @@ push_to_talk={
 [logging]
 
 file_logging/enable_file_logging=true
+file_logging/max_log_files=5
 
 [memory]
 
@@ -450,4 +452,5 @@ threads/thread_model=2
 quality/filters/anisotropic_filter_level=8
 vram_compression/import_etc=true
 environment/default_clear_color=Color( 0.117647, 0.101961, 0.188235, 1 )
+environment/default_environment="res://default_environment.tres"
 quality/driver/driver_name.mobile="GLES2"
