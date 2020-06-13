@@ -17,8 +17,8 @@ func _on_ServerListener_new_server(serverInfo):
 	add_server(serverInfo)
 
 
-func _on_ServerListener_remove_server(serverIp):
-	remove_server(serverIp)
+func _on_ServerListener_remove_server(serverIp: String, serverPort: int):
+	remove_server(serverIp, serverPort)
 
 
 func add_server(serverInfo):
@@ -32,10 +32,10 @@ func add_server(serverInfo):
 		serverList.add_child(serverNode)
 
 
-func remove_server(serverIp):
+func remove_server(serverIp: String, port: int):
 	print("remove_server: " + serverIp)
 	for serverNode in serverList.get_children():
-		if serverNode.serverInfo.ip == serverIp:
+		if serverNode.serverInfo.ip == serverIp and serverNode.serverInfo.port == port:
 			serverList.remove_child(serverNode)
 			break
 
