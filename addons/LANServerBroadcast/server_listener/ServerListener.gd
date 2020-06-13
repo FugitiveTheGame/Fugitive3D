@@ -5,7 +5,7 @@ signal new_server
 signal update_server
 signal remove_server
 
-const REPOSITORY_REFRESH_INTERVAL := 10.0
+const REPOSITORY_REFRESH_INTERVAL := 5.0
 
 var cleanUpTimer := Timer.new()
 var socketUDP := PacketPeerUDP.new()
