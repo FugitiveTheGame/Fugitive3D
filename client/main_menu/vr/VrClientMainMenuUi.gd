@@ -43,7 +43,7 @@ func _on_SettingsButton_pressed():
 
 
 func on_user_data_updated():
-	update_vr_mode_label()
+	call_deferred("update_vr_mode_label")
 
 
 func update_vr_mode_label():
@@ -53,4 +53,5 @@ func update_vr_mode_label():
 	else:
 		modeName = "Seated"
 	
-	vrModeLabel.text = "VR Mode: %s" % modeName
+	if vrModeLabel != null:
+		vrModeLabel.text = "VR Mode: %s" % modeName
