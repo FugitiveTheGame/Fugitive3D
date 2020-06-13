@@ -4,6 +4,9 @@ extends WindowDialog
 func _ready():
 	if Feedback.has_crash_to_report:
 		$Container/DescriptionTextEdit.text = "[CRASH DETECTED]\n"
+		$Container/SendLogsCheckBox.pressed = true
+	else:
+		$Container/SendLogsCheckBox.pressed = false
 	
 	$Container/DescriptionTextEdit.text += "Platform: %s\n\n" % OS.get_name()
 	Feedback.has_crash_to_report = false
@@ -48,9 +51,10 @@ func send_feedback(userName: String, description: String, logContents):
 
 
 func _on_HTTPRequest_request_completed(result, response_code, headers, body):
-	if response_code >= 200 and response_code < 300 and false:
+	if response_code >= 200 and response_code < 300:
 		print("Feedback sent: " + str(response_code))
 		hide()
 	else:
 		print("Failed to send feedback: " + str(response_code))
+		$Container/SendButton.disabled = false
 		OS.alert("Failed to send feedback. Please try again.")
