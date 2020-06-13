@@ -67,7 +67,7 @@ func _ready():
 	serverPortInput.text = str(UserData.data.last_port)
 	
 	menuMusicButton.pressed = UserData.data.menu_music
-	update_menu_music()
+	call_deferred("update_menu_music")
 	
 	if ClientNetwork.has_disconnect_reason():
 		lostConnectionDialog.dialog_text = ClientNetwork.consume_disconnect_reason()
