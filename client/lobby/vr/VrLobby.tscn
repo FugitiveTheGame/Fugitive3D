@@ -20,7 +20,7 @@ sun_energy = 0.0
 background_mode = 2
 background_sky = SubResource( 1 )
 
-[node name="VrMobileLobby" type="Spatial"]
+[node name="Lobby" type="Spatial"]
 script = ExtResource( 3 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -32,5 +32,18 @@ editor_live_update = false
 transparent = true
 
 [node name="Lobby" parent="LobbyMenuDisplay" instance=ExtResource( 1 )]
+playerListPath = NodePath("../../../Lobby/LobbyMenuDisplay/Lobby/PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2/Panel/ScrollContainer/Players")
+mapSelectPath = NodePath("../../../Lobby/LobbyMenuDisplay/Lobby/PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/MapButton")
+mapDescriptionPath = NodePath("../../../Lobby/LobbyMenuDisplay/Lobby/PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/MapPanel/ScrollContainer/Margin/MapDescription")
+modeValuePath = NodePath("../../../Lobby/LobbyMenuDisplay/Lobby/PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer/HBoxContainer/ModelValue")
+sizeValuePath = NodePath("../../../Lobby/LobbyMenuDisplay/Lobby/PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer/SizeValue")
+teamsListPath = NodePath("../../../Lobby/LobbyMenuDisplay/Lobby/PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/TeamsContainer/ScrollContainer/TeamsList")
+startButtonPath = NodePath("../../../Lobby/LobbyMenuDisplay/Lobby/PanelContainer/VBoxContainer/StartButton")
+leaveButtonPath = NodePath("../../../Lobby/LobbyMenuDisplay/Lobby/PanelContainer/VBoxContainer/LeaveButton")
+randomButtonPath = NodePath("../../../Lobby/LobbyMenuDisplay/Lobby/PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/RandomButton")
+helpDialogPath = NodePath("../../../Lobby/LobbyMenuDisplay/Lobby/HelpDialog")
+voiceChatContainerPath = NodePath("../../VoiceChatContainer")
 
 [node name="VrMenuPlayer" parent="." instance=ExtResource( 4 )]
+
+[node name="VoiceChatContainer" type="Node" parent="."]
