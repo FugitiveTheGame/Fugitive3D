@@ -326,6 +326,7 @@ window/size/width.OSX=1600
 window/size/height.OSX=900
 window/size/width.X11=1600
 window/size/height.X11=900
+window/size/fullscreen.server=false
 
 [editor_plugins]
 
@@ -448,6 +449,5 @@ quality/driver/fallback_to_gles2=true
 threads/thread_model=2
 quality/filters/anisotropic_filter_level=8
 vram_compression/import_etc=true
-quality/shading/force_vertex_shading.mobile=false
 environment/default_clear_color=Color( 0.117647, 0.101961, 0.188235, 1 )
 quality/driver/driver_name.mobile="GLES2"
