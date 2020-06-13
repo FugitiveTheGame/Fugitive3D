@@ -47,6 +47,10 @@ func _exit_tree():
 func _ready():
 	populate_map_list()
 	
+	call_deferred("initialize_ui")
+
+
+func initialize_ui():
 	# If we already have players, such as when returing from a game
 	# then we need to create UI for them
 	if not GameData.players.empty():
