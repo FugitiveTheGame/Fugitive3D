@@ -97,7 +97,6 @@ func on_car_entered(car):
 
 func on_car_exited(car):
 	vr.vrOrigin.is_fixed = false
-	transform.origin.y = standingHeight
 	locomotion.allowTurn = true
 
 
