@@ -4,7 +4,7 @@ class_name VoiceChatTransceiver
 
 var effect: AudioEffectRecord
 var maxTeamHearingRange := 10.0
-var maxHearingRange := 30.0
+var maxHearingRange := 40.0
 
 onready var opus_encoder := $OpusEncoder
 onready var transmit_limit_timer := $TransmitLimitTimer as Timer
