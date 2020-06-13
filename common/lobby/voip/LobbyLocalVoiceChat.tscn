@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://common/lobby/LobbyVoiceChatTransceiver.tscn" type="PackedScene" id=1]
+
+[node name="LobbyPlayerVoip" type="Node"]
+
+[node name="VoiceChat" parent="." instance=ExtResource( 1 )]
+audioPlayerPath = NodePath("../AudioStreamPlayer")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
