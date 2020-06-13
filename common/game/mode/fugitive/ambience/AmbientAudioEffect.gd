@@ -6,7 +6,7 @@ export(float) var min_radius: float = 10.0
 export(float) var max_radius: float = 100.0
 export(float) var min_height: float = 0.0
 export(float) var max_height: float = 5.0
-export(int) var max_effect_instances: int = 5
+export(int) var max_effect_instances: int = 8
 
 var free_effects := []
 
@@ -48,7 +48,7 @@ func play(localPlayerPos: Vector3):
 		# Set the position and add the effect to the world
 		effect.translation = soundPosition
 		add_child(effect)
-	else:
+	elif OS.is_debug_build():
 		print_debug("No free audio effect avalible")
 
 
