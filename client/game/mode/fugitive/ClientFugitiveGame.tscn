@@ -10,8 +10,8 @@ script = ExtResource( 2 )
 
 [node name="StartAudio" type="AudioStreamPlayer" parent="." index="1"]
 stream = ExtResource( 3 )
-volume_db = -10.0
+volume_db = -20.0
 
 [node name="PregameCountdownAudio" type="AudioStreamPlayer" parent="." index="2"]
 stream = ExtResource( 4 )
-volume_db = -10.0
+volume_db = -20.0
