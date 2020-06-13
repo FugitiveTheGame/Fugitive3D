@@ -54,12 +54,15 @@ is_driver_seat = true
 
 [node name="CarSeat2" parent="Seats" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 0.2, -0.367 )
+is_driver_seat = false
 
 [node name="CarSeat3" parent="Seats" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.45, 0.2, 0.326663 )
+is_driver_seat = false
 
 [node name="CarSeat4" parent="Seats" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 0.2, 0.326663 )
+is_driver_seat = false
 
 [node name="EnterArea" type="Area" parent="."]
 
@@ -79,7 +82,7 @@ collision_mask = 3
 [node name="DrivingAudio" type="AudioStreamPlayer3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.675816, -1.80862 )
 stream = ExtResource( 6 )
-unit_db = 10.0
+unit_db = 5.0
 doppler_tracking = 2
 
 [node name="LockAudio" type="AudioStreamPlayer3D" parent="."]
@@ -97,11 +100,13 @@ stream = ExtResource( 10 )
 [node name="HornAudio" type="AudioStreamPlayer3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.66712, -1.90287 )
 stream = ExtResource( 5 )
+unit_db = -10.0
 doppler_tracking = 1
 
 [node name="BreakAudio" type="AudioStreamPlayer3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.300157, 0.0582988 )
 stream = ExtResource( 9 )
+unit_db = -20.0
 
 [node name="PoliceLight" type="Spatial" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.69434, 0 )
