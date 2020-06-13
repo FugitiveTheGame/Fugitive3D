@@ -204,7 +204,6 @@ remotesync func on_exit_car(playerId: int, seatIndex: int):
 		player.playerShape.disabled = false
 		
 		player.playerController.transform = transform
-		player.playerController.transform.origin.y += 1.0
 		player.playerController.transform.origin.x += 1.0
 		player.playerController.transform.origin.z += 1.0
 		
