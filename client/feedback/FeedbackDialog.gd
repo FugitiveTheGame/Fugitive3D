@@ -1,7 +1,7 @@
 extends WindowDialog
 
 
-func _ready():
+func _on_FeedbackDialog_about_to_show():
 	if Feedback.has_crash_to_report:
 		$Container/DescriptionTextEdit.text = "[CRASH DETECTED]\n"
 		$Container/SendLogsCheckBox.pressed = true
@@ -10,9 +10,7 @@ func _ready():
 	
 	$Container/DescriptionTextEdit.text += "Platform: %s\n\n" % OS.get_name()
 	Feedback.has_crash_to_report = false
-
-
-func _on_FeedbackDialog_about_to_show():
+	
 	$Container/SendButton.disabled = false
 
 
