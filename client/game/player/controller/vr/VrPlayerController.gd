@@ -20,8 +20,8 @@ onready var exitGameHud := hud.find_node("ExitGameHud", true, false) as Confirma
 onready var helpDialog := hud.find_node("HelpDialog", true, false) as WindowDialog
 
 
-const seated_standing_offset_meters := 1.5
-const seated_crouching_offset_meters := 0.5
+const seated_standing_offset_meters := 1.0
+const seated_crouching_offset_meters := 0.45
 onready var initial_origin := transform.origin as Vector3
 onready var initial_shape_origin := player.playerShape.transform.origin as Vector3
 var is_standing := true
@@ -173,8 +173,6 @@ func _physics_process(delta):
 		if not is_standing:
 			if player.is_crouching:
 				totalTranslation.y += seated_crouching_offset_meters
-			else:
-				totalTranslation.y -= (seated_standing_offset_meters/2.0)
 		player.rpc_unreliable("network_update", totalTranslation, totalRotation, Vector3(), player.is_crouching, player.isMoving, player.sprint, player.stamina)
 	
 	if fpsLabel.visible:
@@ -241,9 +239,10 @@ func update_head_height():
 	if not is_standing:
 		if player.is_crouching:
 			falling.height_offset = seated_crouching_offset_meters
-			transform.origin.y = initial_origin.y + seated_crouching_offset_meters
+			transform.origin.y = initial_origin.y - seated_crouching_offset_meters
 			player.playerShape.transform.origin.y = initial_shape_origin.y + seated_crouching_offset_meters
 		else:
 			falling.height_offset = seated_standing_offset_meters
-			transform.origin.y = initial_origin.y + seated_standing_offset_meters
+			#transform.origin.y = initial_origin.y + seated_standing_offset_meters
+			transform.origin.y = initial_origin.y
 			player.playerShape.transform.origin.y = initial_shape_origin.y
