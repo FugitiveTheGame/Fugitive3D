@@ -115,6 +115,7 @@ func create_player_ui(playerId: int):
 	else:
 		playerVoipNode = preload("res://common/lobby/voip/LobbyRemoteVoiceChat.tscn").instance()
 	
+	playerVoipNode.set_network_master(playerId)
 	playerVoipNode.set_name(str(playerId))
 	voiceChatContainer.add_child(playerVoipNode)
 	
