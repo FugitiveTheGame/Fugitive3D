@@ -349,7 +349,6 @@ rect_min_size = Vector2( 500, 300 )
 [node name="MainMenuMusicPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
 volume_db = -16.0
-autoplay = true
 
 [node name="TitleGraphic" type="TextureRect" parent="."]
 anchor_left = 0.5
