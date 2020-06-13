@@ -327,6 +327,7 @@ window/size/width.OSX=1600
 window/size/height.OSX=900
 window/size/width.X11=1600
 window/size/height.X11=900
+window/size/fullscreen.server=false
 
 [editor_plugins]
 
