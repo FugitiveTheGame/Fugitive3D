@@ -6,7 +6,7 @@ export(float) var min_radius: float = 10.0
 export(float) var max_radius: float = 100.0
 export(float) var min_height: float = 0.0
 export(float) var max_height: float = 5.0
-export(int) var max_effect_instances: int = 8
+export(int) var max_effect_instances: int = 10
 
 var free_effects := []
 
