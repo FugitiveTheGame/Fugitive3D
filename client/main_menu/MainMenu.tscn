@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://client/main_menu/MainMenu.gd" type="Script" id=1]
 [ext_resource path="res://client/main_menu/server_browser/ServerBrowser.tscn" type="PackedScene" id=2]
@@ -7,6 +7,8 @@
 [ext_resource path="res://godot_logo.png" type="Texture" id=5]
 [ext_resource path="res://client/main_menu/main_menu_theme.ogg" type="AudioStream" id=6]
 [ext_resource path="res://client/main_menu/ic_headphones.webp" type="Texture" id=7]
+[ext_resource path="res://client/feedback/FeedbackDialog.tscn" type="PackedScene" id=8]
+[ext_resource path="res://fugitive_theme.tres" type="Theme" id=9]
 
 [node name="MainMenu" type="Control"]
 anchor_right = 1.0
@@ -27,6 +29,8 @@ lostConnectionDialogPath = NodePath("ConnectionLostDialog")
 helpDialogPath = NodePath("HelpDialog")
 menuMusicButtonPath = NodePath("OptionsContainer/MenuMusicButton")
 menuMusicPlayerPath = NodePath("MainMenuMusicPlayer")
+feedbackDialogPath = NodePath("FeedbackDialog")
+crashDetectedDialogPath = NodePath("CrashDetectedDialog")
 
 [node name="ManualContainer" type="PanelContainer" parent="."]
 anchor_top = 1.0
@@ -134,10 +138,16 @@ margin_right = 248.0
 margin_bottom = 86.0
 text = "Help"
 
-[node name="MenuMusicButton" type="CheckButton" parent="OptionsContainer"]
+[node name="FeedbackButton" type="Button" parent="OptionsContainer"]
 margin_top = 94.0
 margin_right = 248.0
-margin_bottom = 174.0
+margin_bottom = 133.0
+text = "Feedback"
+
+[node name="MenuMusicButton" type="CheckButton" parent="OptionsContainer"]
+margin_top = 141.0
+margin_right = 248.0
+margin_bottom = 221.0
 pressed = true
 text = "Music"
 
@@ -352,9 +362,38 @@ texture = ExtResource( 3 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="FeedbackDialog" parent="." instance=ExtResource( 8 )]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -347.5
+margin_top = -249.0
+margin_right = 347.5
+margin_bottom = 249.0
+
+[node name="CrashDetectedDialog" type="AcceptDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -284.0
+margin_top = -149.0
+margin_right = 284.0
+margin_bottom = 149.0
+theme = ExtResource( 9 )
+window_title = "Crash Detected"
+dialog_text = "It looks like Fugitive 3D did not shutdown properly last time.
+
+It would be very helpful if you would send the crash logs to us! Thanks for helping make Fugitive better.
+
+- Stumpy Dog Studios"
+dialog_autowrap = true
 [connection signal="pressed" from="ManualContainer/VBoxContainer/ConnectButton" to="." method="_on_ConnectButton_pressed"]
 [connection signal="pressed" from="OptionsContainer/ExitButton" to="." method="_on_ExitButton_pressed"]
 [connection signal="pressed" from="OptionsContainer/HelpButton" to="." method="_on_HelpButton_pressed"]
+[connection signal="pressed" from="OptionsContainer/FeedbackButton" to="." method="_on_FeedbackButton_pressed"]
 [connection signal="toggled" from="OptionsContainer/MenuMusicButton" to="." method="_on_MenuMusicButton_toggled"]
 [connection signal="pressed" from="JoiningDialog/VBoxContainer/CancelButton" to="." method="_on_CancelButton_pressed"]
 [connection signal="connect_to_server" from="VBoxContainer/ServerBrowser" to="." method="_on_ServerBrowser_connect_to_server"]
