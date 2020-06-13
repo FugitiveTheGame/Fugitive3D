@@ -2,6 +2,7 @@ extends WindowDialog
 
 
 func _on_FeedbackDialog_about_to_show():
+	$Container/DescriptionTextEdit.text = ""
 	if Feedback.has_crash_to_report:
 		$Container/DescriptionTextEdit.text = "[CRASH DETECTED]\n"
 		$Container/SendLogsCheckBox.pressed = true
