@@ -74,7 +74,7 @@ func get_log_file_contents() -> String:
 	return combinedLogContents
 
 
-func get_log_file_names(exclude_current := false) -> Array:
+func get_log_file_names() -> Array:
 	var logFiles = []
 	var dir = Directory.new()
 	dir.open(LOG_PATH)
@@ -82,7 +82,7 @@ func get_log_file_names(exclude_current := false) -> Array:
 	
 	var file_name = dir.get_next()
 	while file_name != "":
-		if not dir.current_is_dir() and (not exclude_current or file_name != "log.txt"):
+		if not dir.current_is_dir() and file_name != "log.txt":
 			print("Found log: " + file_name)
 			logFiles.push_back(file_name)
 		file_name = dir.get_next()
