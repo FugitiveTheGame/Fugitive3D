@@ -65,9 +65,12 @@ To change the port that the server binds to, add this argument: `--port xxxxx`
 Personally I've created a shell script that contains that line called `run.sh` in that directory to make it quicker.
 
 ## Server Arguments:
-`--port xxxxx` The port to bind to, default is `31000`
-`--name "My Server"` The name to show in the server browser
-`--public` advertises to the public Server Repository.
+- `--port xxxxx` The port to bind to, default is `31000`
+- `--name "My Server"` The name to show in the server browser
+- `--public` advertises to the public Server Repository.
+- `--nolan` prevents advertising to LAN clients
+- `--fps` print server FPS to log periodically
+
 
 ## Quick Dev
 To truly test things out, you need to run the server, spin up and connect multiple clients. It can all be done on one box, but it makes itteration times quite slow.
