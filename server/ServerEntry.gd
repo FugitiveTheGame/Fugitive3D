@@ -8,6 +8,11 @@ var fetchThread: Thread = null
 # Do any server specific setup here
 # Then open a lobby and start listening for users
 func _ready():
+	# Now that we know we are a server, add our Reporter to the tree
+	if not ServerUtils.get_no_stats():
+		var serverReporter = load("res://server/reporter/ServerReporter.tscn").instance()
+		get_tree().root.add_child(serverReporter)
+	
 	# If we are going to be public, handle the initial registration
 	if ServerUtils.get_public():
 		# Third argument is optional userdata, it can be any variable.

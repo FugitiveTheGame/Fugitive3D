@@ -179,6 +179,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/LANServerBroadcast/server_listener/ServerListener.gd"
 }, {
+"base": "Node",
+"class": "ServerReporter",
+"language": "GDScript",
+"path": "res://server/reporter/ServerReporter.gd"
+}, {
 "base": "Object",
 "class": "ServerUtils",
 "language": "GDScript",
@@ -213,6 +218,11 @@ _global_script_classes=[ {
 "class": "Transition",
 "language": "GDScript",
 "path": "res://common/game/FSM/Transition.gd"
+}, {
+"base": "Node",
+"class": "UUID",
+"language": "GDScript",
+"path": "res://addons/UUID/uuid.gd"
 }, {
 "base": "Node",
 "class": "Utils",
@@ -269,6 +279,7 @@ _global_script_class_icons={
 "ServerAdvertiser": "res://addons/LANServerBroadcast/server_advertiser/ServerAdvertiser.png",
 "ServerFugitiveGame": "",
 "ServerListener": "res://addons/LANServerBroadcast/server_listener/ServerListener.png",
+"ServerReporter": "",
 "ServerUtils": "",
 "State": "",
 "StateMachine": "",
@@ -276,6 +287,7 @@ _global_script_class_icons={
 "StreetLight": "",
 "TimeUtils": "",
 "Transition": "",
+"UUID": "",
 "Utils": "",
 "VirtualJoysticks": "",
 "VoiceChatReceiver": "",

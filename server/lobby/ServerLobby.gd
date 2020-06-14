@@ -1,6 +1,7 @@
 extends "res://common/lobby/Lobby.gd"
 
 onready var advertiser := $ServerAdvertiser as ServerAdvertiser
+onready var reporter := ServerReporter.get_instance(get_tree()) as ServerReporter
 var serverPort: int
 var serverName: String
 
@@ -29,6 +30,9 @@ func _exit_tree():
 
 func _ready():
 	ServerUtils.normal_start(advertiser, true)
+	
+	if reporter != null:
+		reporter.configure(advertiser.externalIp, serverPort, serverName)
 
 
 func on_start_game():
