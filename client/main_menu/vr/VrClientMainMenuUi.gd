@@ -22,6 +22,9 @@ func _ready():
 		debugButton.visible = true
 		driverLabel.text = ProjectSettings.get_setting("rendering/quality/driver/driver_name")
 		driverLabel.visible = true
+	else:
+		debugButton.visible = false
+		driverLabel.visible = false
 	
 	update_vr_mode_label()
 
