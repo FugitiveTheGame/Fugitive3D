@@ -32,7 +32,7 @@ func _ready():
 	ServerUtils.normal_start(advertiser, true)
 	
 	if reporter != null:
-		reporter.configure(advertiser.externalIp, serverPort, serverName)
+		reporter.configure(advertiser.externalIp, serverPort, serverName, UserData.GAME_VERSION)
 
 
 func on_start_game():
