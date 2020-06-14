@@ -1,6 +1,7 @@
 extends Object
 class_name ServerUtils
 
+
 static func normal_start(advertiser: ServerAdvertiser, joinable: bool):
 	var public := get_public()
 	
@@ -84,6 +85,20 @@ static func get_public() -> bool:
 			break
 	
 	return public
+
+
+# Parse command line port in the form of:
+# --no-stats
+static func get_no_stats() -> bool:
+	var stats := false
+	
+	var args := OS.get_cmdline_args()
+	for arg in args:
+		if arg.nocasecmp_to("--no-stats") == 0:
+			stats = true
+			break
+	
+	return stats
 
 
 # Parse command line server name in the form of:
