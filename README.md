@@ -69,6 +69,7 @@ Personally I've created a shell script that contains that line called `run.sh` i
 - `--name "My Server"` The name to show in the server browser
 - `--public` advertises to the public Server Repository.
 - `--nolan` prevents advertising to LAN clients
+- `--nostats` prevents reporting of anonymous gameplay stats
 - `--fps` print server FPS to log periodically
 
 

@@ -88,13 +88,13 @@ static func get_public() -> bool:
 
 
 # Parse command line port in the form of:
-# --no-stats
+# --nostats
 static func get_no_stats() -> bool:
 	var stats := false
 	
 	var args := OS.get_cmdline_args()
 	for arg in args:
-		if arg.nocasecmp_to("--no-stats") == 0:
+		if arg.nocasecmp_to("--nostats") == 0:
 			stats = true
 			break
 	
