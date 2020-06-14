@@ -11,6 +11,7 @@ var serverId: String
 var serverName: String
 var externalIp: String = "[private]"
 var serverPort: int
+var serverVersion: int
 
 
 static func get_instance(tree: SceneTree):
@@ -40,11 +41,12 @@ func _enter_tree():
 
 
 
-func configure(ip, port: int, thisName: String):
+func configure(ip, port: int, thisName: String, version: int):
 	if ip != null:
 		externalIp = ip
 	serverPort = port
 	serverName = thisName.percent_encode()
+	serverVersion = version
 
 
 func add_url_params(params: Dictionary) -> String:
@@ -80,6 +82,7 @@ func report_game_start(numPlayers: int, numFugitives: int, numCops: int, mapName
 	
 	var params := {
 		"server_id" : serverId,
+		"version" : serverVersion,
 		"server_name" : serverName,
 		"event" : "game_start",
 		"num_players" : numPlayers,
@@ -103,6 +106,7 @@ func report_game_end(numPlayers: int, numFugitives: int, numCops: int, mapName: 
 	
 	var params := {
 		"server_id" : serverId,
+		"version" : serverVersion,
 		"server_name" : serverName,
 		"event" : "game_end",
 		"num_players" : numPlayers,
