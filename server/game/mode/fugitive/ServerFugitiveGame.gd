@@ -1,6 +1,7 @@
 extends FugitiveGame
 class_name ServerFugitiveGame
 
+onready var reporter := ServerReporter.get_instance(get_tree()) as ServerReporter
 onready var advertiser := $ServerAdvertiser as ServerAdvertiser
 
 var configuredPlayers := {}
@@ -22,10 +23,19 @@ func _ready():
 	ServerUtils.normal_start(advertiser, false)
 
 
+func report_start():
+	if reporter != null:
+		var numSeekers = get_tree().get_nodes_in_group(Seeker.GROUP).size()
+		var numHiders = get_tree().get_nodes_in_group(Hider.GROUP).size()
+		var mapName = Maps.directory[GameData.general[GameData.GENERAL_MAP]][Maps.MAP_NAME]
+		reporter.report_game_start(GameData.players.size(), numHiders, numSeekers, mapName)
+
+
 func pre_configure():
 	.pre_configure()
 	
 	print("Server configuration complete")
+	report_start()
 
 
 func unconfigured_players() -> int:
@@ -128,8 +138,22 @@ func _on_FpsTimer_timeout():
 	print("%d fps" % Engine.get_frames_per_second())
 
 
+func report_game_end(winningTeam: int):
+	if reporter != null:
+		var numSeekers = get_tree().get_nodes_in_group(Seeker.GROUP).size()
+		var numHiders = get_tree().get_nodes_in_group(Hider.GROUP).size()
+		var mapName = Maps.directory[GameData.general[GameData.GENERAL_MAP]][Maps.MAP_NAME]
+		
+		var timer = map.get_timelimit_timer()
+		var ellapsedTime := int(timer.wait_time - timer.time_left)
+		
+		reporter.report_game_end(GameData.players.size(), numHiders, numSeekers, mapName, winningTeam, ellapsedTime)
+
+
 func finish_game(playerType: int):
 	.finish_game(playerType)
+	
+	report_game_end(playerType)
 	
 	##########################
 	# Calculate end-game stats
