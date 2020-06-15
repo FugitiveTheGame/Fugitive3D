@@ -27,7 +27,7 @@ func create_new_firefly():
 
 func _exit_tree():
 	for firefly in free_fire_fly_instances:
-		firefly.queue_free()
+		firefly.free()
 	
 	free_fire_fly_instances.clear()
 

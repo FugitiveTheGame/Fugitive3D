@@ -27,7 +27,7 @@ func _ready():
 
 func _exit_tree():
 	for effect in free_effects:
-		effect.queue_free()
+		effect.free()
 	
 	free_effects.clear()
 
