@@ -25,6 +25,13 @@ func _ready():
 		free_effects.shuffle()
 
 
+func _exit_tree():
+	for effect in free_effects:
+		effect.queue_free()
+	
+	free_effects.clear()
+
+
 func get_random_effect() -> OneTimeAudioEffect:
 	var effect = null
 	
