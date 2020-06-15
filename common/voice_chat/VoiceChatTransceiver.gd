@@ -36,7 +36,7 @@ func transmit_audio():
 		var recording := effect.get_recording()
 		effect.set_recording_active(false)
 		
-		if recording.data != null:
+		if recording != null and recording.data != null and recording.data.size() > 0:
 			print("Recorded audio of size:")
 			print(recording.data.size())
 			
