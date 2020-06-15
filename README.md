@@ -3,9 +3,9 @@ It's Fugitive, with more Ds.
 
 ## Clients:
 Download Releases here:
-https://wavesonics.itch.io/fugitive-3d
-https://sidequestvr.com/app/1192
-https://play.google.com/store/apps/details?id=com.darkrockstudios.games.fugitive3d
+- https://wavesonics.itch.io/fugitive-3d
+- https://sidequestvr.com/app/1192
+- https://play.google.com/store/apps/details?id=com.darkrockstudios.games.fugitive3d
 
 #### Flat:
 _This is the normal 3D client_
