@@ -2,3 +2,5 @@
 export/*
 -export/.gdignore
 addons/wakatime
+android/build/.gradle
+android/build/build
