@@ -26,6 +26,7 @@ func get_server_id(ip, port) -> String:
 	return str(ip) + ":" + str(port)
 
 func _init():
+	cleanUpTimer.name = "CleanUpTimer"
 	cleanUpTimer.wait_time = server_cleanup_threshold_lan
 	cleanUpTimer.one_shot = false
 	cleanUpTimer.autostart = true
