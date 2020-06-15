@@ -6,7 +6,7 @@ export(float) var min_radius: float = 10.0
 export(float) var max_radius: float = 100.0
 export(float) var min_height: float = 0.0
 export(float) var max_height: float = 5.0
-export(int) var max_effect_instances: int = 10
+export(int) var max_effect_instances: int = 1
 
 var free_effects := []
 
@@ -18,17 +18,19 @@ func _ready():
 		for ii in max_effect_instances:
 			var oneTimeAudio := OneTimeAudioEffect.new()
 			oneTimeAudio.stream = audio_stream
+			oneTimeAudio.autoplay = true
 			oneTimeAudio.connect("audio_effect_complete", self, "on_audio_effect_complete")
 			free_effects.push_back(oneTimeAudio)
+		
+		free_effects.shuffle()
 
 
 func get_random_effect() -> OneTimeAudioEffect:
 	var effect = null
-	if not free_effects.empty():
-		var ii := randi() % free_effects.size()
-		effect = free_effects[ii]
-		free_effects.remove(ii)
 	
+	if not free_effects.empty():
+		effect = free_effects.pop_back()
+
 	return effect
 
 
@@ -37,6 +39,7 @@ func play(localPlayerPos: Vector3):
 	
 	var effect := get_random_effect()
 	if effect != null:
+		#print("Remaining %s free_effects: %d" % [name, free_effects.size()])
 		# Randomly position the audio effect around the player
 		var soundPosition := localPlayerPos
 		var distance := rand_range(min_radius, max_radius)
@@ -49,7 +52,7 @@ func play(localPlayerPos: Vector3):
 		effect.translation = soundPosition
 		add_child(effect)
 	elif OS.is_debug_build():
-		print_debug("No free audio effect avalible")
+		print("No free audio effect avalible: " + name)
 
 
 func on_audio_effect_complete(effect):
