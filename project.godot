@@ -454,6 +454,7 @@ push_to_talk={
 
 file_logging/enable_file_logging=true
 file_logging/max_log_files=5
+file_logging/enable_file_logging.server=false
 
 [memory]
 
