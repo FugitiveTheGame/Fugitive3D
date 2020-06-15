@@ -328,18 +328,21 @@ gdscript/warnings/return_value_discarded=false
 window/size/width=1280
 window/size/height=720
 window/size/fullscreen=true
+window/size/test_width=1280
+window/size/test_height=720
 window/dpi/allow_hidpi=true
 window/stretch/mode="2d"
 window/stretch/aspect="expand"
 window/stretch/mode.mobile="2d"
 window/stretch/aspect.mobile="keep_height"
-window/size/width.OSX=1600
 window/size/height.OSX=900
 window/size/width.X11=1600
 window/size/height.X11=900
 window/size/fullscreen.server=false
 window/size/width.Windows=1600
 window/size/height.Windows=900
+window/size/fullscreen.debug=false
+window/size/width.OSX=720
 
 [editor_plugins]
 
@@ -348,7 +351,7 @@ enabled=PoolStringArray( "Fugitive3D", "Godot-GameAnalytics", "LANServerBroadcas
 [gdnative]
 
 singletons=[ "res://addons/godot-oculus/godot_oculus.gdnlib", "res://addons/godot-openvr/godot_openvr.gdnlib", "res://addons/godot_ovrmobile/godot_ovrmobile.gdnlib" ]
-singletons_disabled=[ "res://addons/godot-oculus/godot_oculus.gdnlib" ]
+singletons_disabled=[  ]
 
 [gui]
 
