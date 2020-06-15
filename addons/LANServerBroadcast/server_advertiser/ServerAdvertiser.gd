@@ -112,7 +112,7 @@ func register_server():
 			print("initial registration")
 			registerRequest.request(url, headers, false, HTTPClient.METHOD_POST, body)
 		else:
-			print("updating registration")
+			#print("updating registration")
 			registerRequest.request(url, headers, false, HTTPClient.METHOD_PUT, body)
 
 
