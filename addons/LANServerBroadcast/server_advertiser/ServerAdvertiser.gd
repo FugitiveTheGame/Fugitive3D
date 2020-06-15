@@ -29,6 +29,9 @@ var initial_registration := true
 
 
 func _ready():
+	repositoryRegisterTimer.name = "RepositoryRegisterTimer"
+
+	broadcastTimer.name = "BroadcastTimer"
 	add_child(broadcastTimer)
 	broadcastTimer.connect("timeout", self, "broadcast") 
 	broadcastTimer.wait_time = broadcast_interval
