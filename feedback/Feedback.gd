@@ -3,8 +3,8 @@ extends Node
 const CRASH_FILE_PATH := "user://did_crash"
 const LOG_PATH := "user://logs/"
 
-
-var is_enabled := OS.has_feature("client") and not OS.is_debug_build()
+# Mobile clients life cycle isn't as reliable, so disable auto-crash report on mobile
+var is_enabled := OS.has_feature("client") and not OS.is_debug_build() and not OS.has_feature("mobile")
 var has_crash_to_report := false
 
 
