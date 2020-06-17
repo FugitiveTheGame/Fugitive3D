@@ -1,4 +1,4 @@
-extends Node
+extends Object
 class_name PlayerData
 
 var player_data_dictionary: Dictionary
