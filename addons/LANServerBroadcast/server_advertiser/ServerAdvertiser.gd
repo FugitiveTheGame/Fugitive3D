@@ -30,6 +30,9 @@ var initial_registration := true
 
 func _ready():
 	repositoryRegisterTimer.name = "RepositoryRegisterTimer"
+	repositoryRegisterTimer.wait_time = REPOSITORY_ADVERTISE_INTERVAL
+	repositoryRegisterTimer.connect("timeout", self, "_on_RepositoryRegisterTimer_timeout")
+	add_child(repositoryRegisterTimer)
 
 	broadcastTimer.name = "BroadcastTimer"
 	add_child(broadcastTimer)
@@ -65,10 +68,7 @@ func start_advertising_publicly():
 	else:
 		register_server()
 	
-	# Setup the heat beat
-	repositoryRegisterTimer.wait_time = REPOSITORY_ADVERTISE_INTERVAL
-	add_child(repositoryRegisterTimer)
-	repositoryRegisterTimer.connect("timeout", self, "_on_RepositoryRegisterTimer_timeout")
+	# Start the heat beat
 	repositoryRegisterTimer.start()
 
 
