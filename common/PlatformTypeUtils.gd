@@ -1,4 +1,4 @@
-extends Node
+extends Object
 class_name PlatformTypeUtils
 
 enum PlatformType { FlatDesktop, FlatMobile, VrDesktop, VrMobile, Unset }
