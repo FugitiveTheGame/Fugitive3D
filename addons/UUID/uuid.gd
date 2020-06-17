@@ -2,7 +2,7 @@
 # https://github.com/binogure-studio/godot-uuid
 ############
 
-extends Node
+extends Object
 class_name UUID
 
 
