@@ -3,7 +3,6 @@ extends WindowDialog
 export(NodePath) var fullscreenCheckboxPath: NodePath
 onready var fullscreenCheckbox := get_node(fullscreenCheckboxPath) as CheckBox
 
-
 export(NodePath) var mouseSensetivityLabelPath: NodePath
 onready var mouseSensetivityLabel := get_node(mouseSensetivityLabelPath) as Label
 

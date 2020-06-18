@@ -6,6 +6,10 @@ func _ready():
 	get_tree().connect("network_peer_disconnected", self, "_player_disconnected")
 
 
+func _exit_tree():
+	get_tree().disconnect("network_peer_disconnected", self, "_player_disconnected")
+
+
 # Every network peer needs to clean up the disconnected client
 func _player_disconnected(id):
 	print("Player disconnected: " + str(id))
