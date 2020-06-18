@@ -27,7 +27,8 @@ func _ready():
 
 func _exit_tree():
 	for effect in free_effects:
-		effect.free()
+		effect.disconnect("audio_effect_complete", self, "on_audio_effect_complete")
+		effect.queue_free()
 	
 	free_effects.clear()
 
