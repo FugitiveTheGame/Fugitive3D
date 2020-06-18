@@ -43,7 +43,7 @@ func on_connected_to_server():
 
 func on_connection_failed():
 	print("Connection to server failed.")
-	reset_network()
+	call_deferred("reset_network")
 
 
 func on_disconnected_from_server():
@@ -53,7 +53,7 @@ func on_disconnected_from_server():
 
 func handle_disconnect_from_server(message := "Connection lost"):
 	disconnectReason = message
-	reset_network()
+	call_deferred("reset_network")
 	GameAnalytics.error_event(GameAnalytics.ErrorSeverity.ERROR, "Lost connection to server: %s" % message)
 	emit_signal("lost_connection_to_server")
 
