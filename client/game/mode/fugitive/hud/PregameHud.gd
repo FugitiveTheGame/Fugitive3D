@@ -11,10 +11,18 @@ func _ready():
 		$NotReadyLabel.text = "Press JUMP to ready up"
 	
 	
-	var teamName := GameData.currentGame.get_team_name(GameData.get_current_player_type())
+	var playerType := GameData.get_current_player_type()
+	var teamName := GameData.currentGame.get_team_name(playerType)
 	$PlayerClassLabel.text = "You are a: %s" % teamName
 	
+	match playerType:
+		FugitiveTeamResolver.PlayerType.Hider:
+			$PlayerClassInstructions.text = "Get to the Safe Zone!"
+		FugitiveTeamResolver.PlayerType.Seeker:
+			$PlayerClassInstructions.text = "Arrest the Fugitives!"
+	
 	$NotReadyLabel.show()
+	$PlayerClassInstructions.hide()
 	$ReadyLabel.hide()
 	$StartTimerLabel.hide()
 	$HeadstartTimerLabel.hide()
@@ -23,6 +31,7 @@ func _ready():
 func show_ready():
 	$NotReadyLabel.hide()
 	$ReadyLabel.show()
+	$PlayerClassInstructions.show()
 	$StartTimerLabel.hide()
 	$HeadstartTimerLabel.hide()
 
@@ -30,6 +39,7 @@ func show_ready():
 func show_start_timer():
 	$NotReadyLabel.hide()
 	$ReadyLabel.hide()
+	$PlayerClassInstructions.show()
 	$StartTimerLabel.show()
 	$HeadstartTimerLabel.hide()
 
@@ -37,6 +47,7 @@ func show_start_timer():
 func show_headstart_timer():
 	$NotReadyLabel.hide()
 	$ReadyLabel.hide()
+	$PlayerClassInstructions.show()
 	$StartTimerLabel.hide()
 	$HeadstartTimerLabel.show()
 
