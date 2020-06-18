@@ -6,10 +6,6 @@
 [ext_resource path="res://client/main_menu/flat/SettingsDialog.tscn" type="PackedScene" id=4]
 
 [node name="MainMenu" instance=ExtResource( 1 )]
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_right = 0.0
-margin_bottom = 0.0
 script = ExtResource( 2 )
 settingsWindowPath = NodePath("SettingsDialog")
 debugButtonPath = NodePath("OptionsContainer/DebugButton")
@@ -34,25 +30,29 @@ current = true
 
 [node name="Backgroud" parent="ViewportContainer/Viewport" index="1" instance=ExtResource( 3 )]
 
-[node name="ServerBrowser" parent="." index="4"]
-grow_horizontal = 0
-grow_vertical = 0
-
 [node name="SettingsButton" type="Button" parent="OptionsContainer" index="1"]
-margin_top = 45.0
-margin_right = 160.0
-margin_bottom = 82.0
+margin_top = 47.0
+margin_right = 248.0
+margin_bottom = 86.0
 text = "Settings"
 
 [node name="HelpButton" parent="OptionsContainer" index="2"]
-margin_top = 90.0
-margin_bottom = 127.0
+margin_top = 94.0
+margin_bottom = 133.0
 
 [node name="DebugButton" type="Button" parent="OptionsContainer" index="3"]
-margin_top = 135.0
-margin_right = 160.0
-margin_bottom = 172.0
+margin_top = 141.0
+margin_right = 248.0
+margin_bottom = 180.0
 text = "debug"
+
+[node name="FeedbackButton" parent="OptionsContainer" index="4"]
+margin_top = 188.0
+margin_bottom = 227.0
+
+[node name="MenuMusicButton" parent="OptionsContainer" index="5"]
+margin_top = 235.0
+margin_bottom = 315.0
 
 [node name="SettingsDialog" parent="." index="8" instance=ExtResource( 4 )]
 [connection signal="pressed" from="OptionsContainer/SettingsButton" to="." method="_on_SettingsButton_pressed"]
