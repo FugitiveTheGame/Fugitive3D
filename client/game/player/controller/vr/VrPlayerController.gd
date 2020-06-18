@@ -19,6 +19,7 @@ onready var inGameMenuHud := hud.find_node("InGameMenuHud", true, false) as Wind
 onready var exitGameHud := hud.find_node("ExitGameHud", true, false) as ConfirmationDialog
 onready var helpDialog := hud.find_node("HelpDialog", true, false) as WindowDialog
 
+var update_threshold := Threshold.new(Utils.COMMON_NETWORK_UPDATE_THRESHOLD)
 
 const seated_standing_offset_meters := 1.0
 const seated_crouching_offset_meters := 0.45
@@ -163,12 +164,12 @@ func _physics_process(delta):
 	else:
 		locomotion.move_speed = player.speed_walk
 	
-	# We need to incorporate head turn into our network rotation
-	var totalTranslation = translation
-	var totalRotation = rotation
-	totalRotation.y += camera.rotation.y
-	
-	if not player.gameEnded:
+	if not player.gameEnded and update_threshold.is_exceeded():
+		# We need to incorporate head turn into our network rotation
+		var totalTranslation = translation
+		var totalRotation = rotation
+		totalRotation.y += camera.rotation.y
+		
 		# Seated mode must adjust the position being send out to remote clients
 		if not is_standing:
 			if player.is_crouching:

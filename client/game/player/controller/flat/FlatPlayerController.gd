@@ -8,6 +8,7 @@ onready var player := $Player as Player
 func get_player() -> Player:
 	return player
 
+var update_threshold := Threshold.new(Utils.COMMON_NETWORK_UPDATE_THRESHOLD)
 
 export(float) var Sensitivity_X := 0.01
 export(float) var TouchSensitivity_X := 0.1
@@ -167,7 +168,7 @@ func _physics_process(delta):
 	# has a large size. So for isMoving we only consider X and Z
 	player.isMoving = (Vector3(player.velocity.x, 0.0, player.velocity.z).length() > MOVEMENT_LAMBDA) and allowMovement
 	
-	if not player.gameEnded:
+	if not player.gameEnded and update_threshold.is_exceeded():
 		player.rpc_unreliable("network_update", translation, rotation, player.velocity, player.is_crouching, player.isMoving, player.sprint, player.stamina)
 
 
