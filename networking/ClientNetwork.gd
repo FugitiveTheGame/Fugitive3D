@@ -1,4 +1,4 @@
-extends "BaseNetwork.gd"
+extends "res://networking/BaseNetwork.gd"
 
 signal create_player(playerId)
 signal update_player(playerId)
