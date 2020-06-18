@@ -1,6 +1,7 @@
 extends Object
 class_name Utils
 
+const COMMON_NETWORK_UPDATE_THRESHOLD := 33
 
 static func set_window_to_screen_size():
 	OS.set_window_size(OS.get_screen_size())
