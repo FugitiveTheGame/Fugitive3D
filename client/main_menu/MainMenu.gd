@@ -202,3 +202,7 @@ func _on_VersionCheckRequest_request_completed(result: int, response_code: int, 
 					newVersionDialog.popup_centered()
 		else:
 			print("Failed to parse version check response")
+
+
+func _on_DiscordButton_pressed():
+	OS.shell_open("https://discord.gg/2qk2Spe")
