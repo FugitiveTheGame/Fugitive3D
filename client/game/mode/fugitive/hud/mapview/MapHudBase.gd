@@ -126,6 +126,12 @@ func _on_Map_draw():
 		var rect := Rect2(coord, colSizeMap)
 		
 		mapBackground.draw_rect(rect, Color(0.0, 0.0, 1.0, 0.75))
+		
+		var safeText := "Safe Zone"
+		mapBackground.draw_set_transform(coord, 0.0, Vector2(1.0, 1.0))
+		mapBackground.draw_string(streetNameFont, Vector2(), safeText)
+		mapBackground.draw_set_transform(Vector2(), 0.0, Vector2(1.0, 1.0))
+		
 	
 	# Finally draw road names
 	if drawStreetNames:
