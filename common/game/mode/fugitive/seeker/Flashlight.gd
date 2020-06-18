@@ -1,5 +1,7 @@
 extends Spatial
 
+var update_threshold := Threshold.new(Utils.COMMON_NETWORK_UPDATE_THRESHOLD)
+
 var is_on := true
 
 func _ready():
@@ -31,7 +33,7 @@ puppet func network_update(networkPosition: Vector3, networkRotation: Vector3):
 
 
 func _physics_process(delta):
-	if get_tree().network_peer != null and is_network_master() and not GameData.currentGame.is_game_over():
+	if get_tree().network_peer != null and is_network_master() and update_threshold.is_exceeded() and not GameData.currentGame.is_game_over():
 		rpc_unreliable("network_update", translation, rotation)
 
 
