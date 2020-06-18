@@ -1,4 +1,4 @@
-extends Object
+extends Reference
 class_name PlayerData
 
 var player_data_dictionary: Dictionary

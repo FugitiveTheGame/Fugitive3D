@@ -31,9 +31,7 @@ func _exit_tree():
 	ClientNetwork.disconnect("remove_player", self, "remove_player")
 	
 	GameData.currentGame = null
-	GameData.currentMap.queue_free()
 	GameData.currentMap = null
-	queue_free()
 
 
 func load_map():
