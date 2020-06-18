@@ -54,7 +54,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://client/game/player/controller/flat/Camera.gd"
 }, {
-"base": "Node",
+"base": "Object",
 "class": "FugitiveEnums",
 "language": "GDScript",
 "path": "res://common/game/mode/fugitive/FugitiveEnums.gd"
@@ -79,7 +79,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://common/game/mode/fugitive/FugitivePlayer.gd"
 }, {
-"base": "Node",
+"base": "Object",
 "class": "FugitivePlayerDataUtility",
 "language": "GDScript",
 "path": "res://common/game/mode/fugitive/networking/FugitivePlayerDataUtility.gd"
@@ -139,7 +139,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://common/game/mode/fugitive/ambience/OneTimeVisualEffect.gd"
 }, {
-"base": "Node",
+"base": "Object",
 "class": "PlatformTypeUtils",
 "language": "GDScript",
 "path": "res://common/PlatformTypeUtils.gd"
@@ -189,7 +189,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://server/ServerUtils.gd"
 }, {
-"base": "Object",
+"base": "Reference",
 "class": "State",
 "language": "GDScript",
 "path": "res://common/game/FSM/State.gd"
@@ -214,17 +214,17 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/TimeUtils/TimeUtils.gd"
 }, {
-"base": "Object",
+"base": "Reference",
 "class": "Transition",
 "language": "GDScript",
 "path": "res://common/game/FSM/Transition.gd"
 }, {
-"base": "Node",
+"base": "Object",
 "class": "UUID",
 "language": "GDScript",
 "path": "res://addons/UUID/uuid.gd"
 }, {
-"base": "Node",
+"base": "Object",
 "class": "Utils",
 "language": "GDScript",
 "path": "res://common/Utils.gd"
@@ -300,7 +300,6 @@ config/name="Fugitive 3D"
 run/main_scene="res://entry/Entry.tscn"
 boot_splash/image="res://splash.png"
 config/icon="res://icon.png"
-config/windows_native_icon="res://icon.ico"
 config/quit_on_go_back=false
 
 [audio]
