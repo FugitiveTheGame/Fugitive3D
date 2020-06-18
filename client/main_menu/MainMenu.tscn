@@ -31,6 +31,8 @@ menuMusicButtonPath = NodePath("OptionsContainer/MenuMusicButton")
 menuMusicPlayerPath = NodePath("MainMenuMusicPlayer")
 feedbackDialogPath = NodePath("FeedbackDialog")
 crashDetectedDialogPath = NodePath("CrashDetectedDialog")
+versionCheckRequestPath = NodePath("VersionCheckRequest")
+newVersionDialogPath = NodePath("NewVersionDialog")
 
 [node name="ManualContainer" type="PanelContainer" parent="."]
 anchor_top = 1.0
@@ -390,6 +392,23 @@ It would be very helpful if you would send the crash logs to us! Thanks for help
 
 - Stumpy Dog Studios"
 dialog_autowrap = true
+
+[node name="VersionCheckRequest" type="HTTPRequest" parent="."]
+
+[node name="NewVersionDialog" type="AcceptDialog" parent="."]
+margin_left = 392.0
+margin_top = 216.0
+margin_right = 936.0
+margin_bottom = 392.0
+theme = ExtResource( 9 )
+window_title = "Update Available"
+resizable = true
+dialog_text = "There is a new version of Fugitive 3D available.
+
+Please update your client.
+
+You may not be able to play with others until you do so."
+dialog_autowrap = true
 [connection signal="pressed" from="ManualContainer/VBoxContainer/ConnectButton" to="." method="_on_ConnectButton_pressed"]
 [connection signal="pressed" from="OptionsContainer/ExitButton" to="." method="_on_ExitButton_pressed"]
 [connection signal="pressed" from="OptionsContainer/HelpButton" to="." method="_on_HelpButton_pressed"]
@@ -397,3 +416,4 @@ dialog_autowrap = true
 [connection signal="toggled" from="OptionsContainer/MenuMusicButton" to="." method="_on_MenuMusicButton_toggled"]
 [connection signal="pressed" from="JoiningDialog/VBoxContainer/CancelButton" to="." method="_on_CancelButton_pressed"]
 [connection signal="connect_to_server" from="VBoxContainer/ServerBrowser" to="." method="_on_ServerBrowser_connect_to_server"]
+[connection signal="request_completed" from="VersionCheckRequest" to="." method="_on_VersionCheckRequest_request_completed"]

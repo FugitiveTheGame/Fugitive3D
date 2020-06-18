@@ -8,6 +8,7 @@ const USER_DATA_VERSION := 7
 var file_name := 'user://user_data.json'
 
 var data = get_default_data()
+var update_notification_presented := false
 
 
 static func get_default_data():
