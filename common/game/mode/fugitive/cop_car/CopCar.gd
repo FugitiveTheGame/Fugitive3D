@@ -1,6 +1,8 @@
 extends KinematicBody
 class_name CopCar
 
+var update_threshold := Threshold.new(Utils.COMMON_NETWORK_UPDATE_THRESHOLD)
+
 onready var enterArea := $EnterArea as Area
 
 const MIN_SPEED := 0.5
@@ -356,7 +358,7 @@ func _physics_process(delta):
 			# FRICTION_BREAKING: Apply less fricton when breaking to allow power sliding
 			velocity = velocity - (velocity.normalized() * (FRICTION_BREAKING * delta))
 
-		if not GameData.currentGame.is_game_over():
+		if not GameData.currentGame.is_game_over() and update_threshold.is_exceeded():
 			rpc_unreliable("network_update", translation, rotation, velocity)
 	else:
 		# Apply the most recent transform update from the network
