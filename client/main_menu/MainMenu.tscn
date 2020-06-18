@@ -274,7 +274,6 @@ __meta__ = {
 margin_right = 64.0
 margin_bottom = 25.0
 text = "v0"
-align = 2
 valign = 1
 
 [node name="GodotLogo" type="TextureRect" parent="InfoContainer"]
