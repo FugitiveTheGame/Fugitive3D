@@ -1,4 +1,4 @@
-extends Object
+extends Reference
 class_name Transition
 
 var name: String
