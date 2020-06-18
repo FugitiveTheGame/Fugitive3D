@@ -149,7 +149,7 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://common/game/player/Player.gd"
 }, {
-"base": "Node",
+"base": "Reference",
 "class": "PlayerData",
 "language": "GDScript",
 "path": "res://networking/PlayerData.gd"
