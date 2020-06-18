@@ -18,18 +18,18 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.716302, 0 )
 [node name="ShaderCache" parent="OQ_ARVRCamera" index="0" instance=ExtResource( 7 )]
 transform = Transform( 0.001, 0, 0, 0, 0.001, 0, 0, 0, 0.001, 0, -0.508516, -1.19957 )
 
-[node name="CenterLabel" parent="OQ_ARVRCamera" index="1"]
-margin = 16
-billboard = false
-resize_mode = 0
-font_size_multiplier = 1.0
-font_color = Color( 1, 1, 1, 1 )
-
 [node name="OQ_LeftController" parent="." index="1"]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0.216302, -0.5 )
 
 [node name="HudCanvas" parent="OQ_LeftController/VisibilityToggle" index="0"]
 transform = Transform( 0.896695, -0.0624614, 0.43822, 0, 0.989994, 0.141108, -0.442649, -0.126531, 0.887723, 0, 0, 0 )
+
+[node name="HudContainer" parent="OQ_LeftController/VisibilityToggle/HudCanvas" index="2"]
+anchor_right = 0.4
+anchor_bottom = 0.711
+margin_right = 0.0
+margin_bottom = 0.0799866
+rect_min_size = Vector2( 512, 512 )
 
 [node name="IndicatorsContainer" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="2"]
 alignment = 1
@@ -59,9 +59,9 @@ margin_bottom = 45.504
 [node name="PregameHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="4" instance=ExtResource( 3 )]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -143.5
-margin_right = 143.5
-margin_bottom = 157.0
+margin_left = -254.0
+margin_right = 254.0
+margin_bottom = 249.0
 
 [node name="HeightContainer" type="PanelContainer" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="5"]
 anchor_top = 1.0
