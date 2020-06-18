@@ -11,6 +11,7 @@ func record_heartbeat(heartbeat: Dictionary):
 
 func reset():
 	stateHistoryArray.clear()
+	player_summaries.clear()
 
 
 func loadPlayers(players : Dictionary):
