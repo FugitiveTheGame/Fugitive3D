@@ -41,6 +41,12 @@ onready var feedbackDialog := get_node(feedbackDialogPath) as WindowDialog
 export (NodePath) var crashDetectedDialogPath: NodePath
 onready var crashDetectedDialog := get_node(crashDetectedDialogPath) as AcceptDialog
 
+export (NodePath) var versionCheckRequestPath: NodePath
+onready var versionCheckRequest := get_node(versionCheckRequestPath) as HTTPRequest
+
+export (NodePath) var newVersionDialogPath: NodePath
+onready var newVersionDialog := get_node(newVersionDialogPath) as AcceptDialog
+
 
 func _enter_tree():
 	get_tree().connect("connected_to_server", self, "on_connected_to_server")
@@ -77,6 +83,12 @@ func _ready():
 		print("Has crash to report")
 		feedbackDialog.popup_centered()
 		crashDetectedDialog.call_deferred("popup_centered")
+		
+	check_for_update()
+
+
+func check_for_update():
+	versionCheckRequest.request("https://fugitivethegame.online/latest_version.json")
 
 
 func _on_ConnectButton_pressed():
@@ -174,3 +186,19 @@ func update_menu_music():
 func _on_FeedbackButton_pressed():
 	if not feedbackDialog.visible:
 		feedbackDialog.popup_centered()
+
+
+func _on_VersionCheckRequest_request_completed(result: int, response_code: int, headers: PoolStringArray, body: PoolByteArray):
+	if response_code >= 200 and response_code < 300:
+		var bodyStr := body.get_string_from_utf8()
+		var jsonResult := JSON.parse(bodyStr)
+		if jsonResult.error == OK:
+			var jsonObj = jsonResult.result
+			var latestVersion = jsonObj.version as int
+			if latestVersion > UserData.GAME_VERSION:
+				print("Newer version available")
+				if not UserData.update_notification_presented:
+					UserData.update_notification_presented = true
+					newVersionDialog.popup_centered()
+		else:
+			print("Failed to parse version check response")
