@@ -14,6 +14,10 @@ var general = {
 }
 
 
+func remove_player(playerId: int):
+	players.erase(playerId)
+
+
 func get_players() -> Array:
 	return players.values()
 

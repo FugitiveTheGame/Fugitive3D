@@ -21,6 +21,12 @@ func _ready():
 	audioPlayer.connect("finished", self, "on_audio_finished")
 
 
+func _exit_tree():
+	for clip in audio_clips:
+		clip.free()
+	audio_clips.clear()
+
+
 func send_audio(audioData: PoolByteArray):
 	rpc("on_receive_audio", audioData)
 

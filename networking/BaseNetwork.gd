@@ -9,7 +9,7 @@ func _ready():
 # Every network peer needs to clean up the disconnected client
 func _player_disconnected(id):
 	print("Player disconnected: " + str(id))
-	GameData.players.erase(id)
+	GameData.remove_player(id)
 	
 	emit_signal("remove_player", id)
 	print("Total players: %d" % GameData.players.size())
