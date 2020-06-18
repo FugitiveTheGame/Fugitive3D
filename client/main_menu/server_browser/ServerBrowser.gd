@@ -36,7 +36,8 @@ func remove_server(serverIp: String, port: int):
 	print("remove_server: " + serverIp)
 	for serverNode in serverList.get_children():
 		if serverNode.serverInfo.ip == serverIp and serverNode.serverInfo.port == port:
-			serverList.remove_child(serverNode)
+			serverNode.disconnect("connect_to_server", self, "on_connect_request")
+			serverNode.queue_free()
 			break
 
 
