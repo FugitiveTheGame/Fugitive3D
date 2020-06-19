@@ -94,7 +94,7 @@ func body_entered_detection_radius(body: Node):
 	if gameStarted and not gameEnded:
 		if body.has_method("get_player"):
 			var player = body.get_player()
-			if player.playerType == FugitiveTeamResolver.PlayerType.Hider:
+			if player != null and player.playerType == FugitiveTeamResolver.PlayerType.Hider:
 				# 1) Neither Hider nor Seeker may be in a car
 				# 2) Hider must not be in a win zone
 				# 3) Hider must not be frozen
