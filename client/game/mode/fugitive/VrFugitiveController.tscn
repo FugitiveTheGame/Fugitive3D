@@ -57,6 +57,7 @@ margin_left = -58.0
 margin_bottom = 45.504
 
 [node name="PregameHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="4" instance=ExtResource( 3 )]
+visible = false
 anchor_left = 0.5
 anchor_right = 0.5
 margin_left = -254.0
