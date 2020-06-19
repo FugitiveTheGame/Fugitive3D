@@ -5,7 +5,7 @@ SET /P AREYOUSURE=Did you update vesion.txt (Y/[N])?
 IF /I "%AREYOUSURE%" NEQ "Y" GOTO END
 
 echo --=== Flat clients ===--
-butler push Fugitive3D_Client_Flat_Windows.zip wavesonics/fugitive-3d:windows-flat --userversion-file vesion.txt
+butler push releases/Fugitive3D_Client_Flat_Windows.zip wavesonics/fugitive-3d:windows-flat --userversion-file vesion.txt
 butler push releases/Fugitive3D_Client_Flat_Linux.zip wavesonics/fugitive-3d:linux-flat --userversion-file vesion.txt
 butler push releases/Fugitive3D_Client_Flat_OSX.zip wavesonics/fugitive-3d:osx-flat --userversion-file vesion.txt
 butler push releases/Fugitive3D_Client_Flat_Android.apk wavesonics/fugitive-3d:android-flat --userversion-file vesion.txt
