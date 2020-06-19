@@ -62,7 +62,7 @@ func team_won(winningTeam: int):
 	
 	for playerObj in hiders:
 		var playerInfoData := GameData.get_player(playerObj.id)
-		if playerObj != null:
+		if playerObj != null and playerInfoData != null:
 			var playerStatsListItem := playerStatsListItemScene.instance()
 			playerStatsListItem.populate(playerInfoData, playerObj)
 			playerList.add_child(playerStatsListItem)

@@ -114,8 +114,10 @@ remotesync func on_request_enter_car(playerId: int):
 	var player = GameData.currentGame.get_player(playerId)
 	var isHider = player.playerType == FugitiveTeamResolver.PlayerType.Hider
 	
+	if player == null:
+		canEnter = false
 	# No one can enter if they are frozen
-	if seatIndex < 0:
+	elif seatIndex < 0:
 		print("No free seats in car")
 		canEnter = false
 	elif player.frozen:
@@ -148,6 +150,9 @@ remotesync func on_car_entered(playerId: int, seatIndex: int):
 	mutex.lock()
 	var player = GameData.currentGame.get_player(playerId)
 	var seat = seats[seatIndex]
+
+	if player == null:
+		return
 		
 	var isHider = player.playerType == FugitiveTeamResolver.PlayerType.Hider
 	# Car starts locked, first cop unlocks it
