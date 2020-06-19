@@ -5,7 +5,10 @@ powershell Remove-Item releases/Fugitive3D_Client_Flat_Windows.zip
 powershell Remove-Item ../../export/client/flat/windows/godot_oculus.dll
 powershell Remove-Item ../../export/client/flat/windows/libgodot_openvr.dll
 powershell Remove-Item ../../export/client/flat/windows/openvr_api.dll
+powershell Copy-Item -Path ../win-dependencies/vcruntime140.dll -Destination ../../export/client/flat/windows/
+powershell Copy-Item -Path ../win-dependencies/vcruntime140_1.dll -Destination ../../export/client/flat/windows/
 powershell Compress-Archive -Path ../../export/client/flat/windows/* -CompressionLevel Optimal -DestinationPath releases/Fugitive3D_Client_Flat_Windows.zip
+
 
 echo --=== Packing Linux Flat ===--
 powershell Remove-Item releases/Fugitive3D_Client_Flat_Linux.zip
@@ -31,6 +34,8 @@ powershell Copy-Item -Path ../../export/client/vr/quest/Fugitive3D_Client_VR_Que
 
 echo --=== Packing Windows VR ===--
 powershell Remove-Item releases/Fugitive3D_Client_VR_Windows.zip
+powershell Copy-Item -Path ../win-dependencies/vcruntime140.dll -Destination ../../export/client/vr/windows/
+powershell Copy-Item -Path ../win-dependencies/vcruntime140_1.dll -Destination ../../export/client/vr/windows/
 powershell Compress-Archive -Path ../../export/client/vr/windows/* -CompressionLevel Optimal -DestinationPath releases/Fugitive3D_Client_VR_Windows.zip
 
 
