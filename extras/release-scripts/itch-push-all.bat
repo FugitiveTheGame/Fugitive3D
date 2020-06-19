@@ -1,6 +1,9 @@
 @echo off
 setlocal
 
+echo Current Version:
+type vesion.txt & echo. 
+
 SET /P AREYOUSURE=Did you update vesion.txt (Y/[N])?
 IF /I "%AREYOUSURE%" NEQ "Y" GOTO END
 
