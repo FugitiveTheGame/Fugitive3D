@@ -81,7 +81,9 @@ func get_current_player_id() -> int:
 
 func update_player_from_raw_data(player_data_dictionary: Dictionary):
 	var playerId = player_data_dictionary.id
-	get_player(playerId).load(player_data_dictionary)
+	var player := get_player(playerId)
+	if player != null:
+		player.load(player_data_dictionary)
 
 
 func get_host() -> PlayerData:

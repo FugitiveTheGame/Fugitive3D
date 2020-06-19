@@ -21,7 +21,7 @@ func _input(event):
 	
 	if event.is_action_released("flat_player_use"):
 		var player := get_player()
-		if player.car == null:
+		if player != null and player.car == null:
 			var cars := get_tree().get_nodes_in_group(Groups.CARS)
 			for car in cars:
 				if car.enterArea.overlaps_body(player.playerBody):
