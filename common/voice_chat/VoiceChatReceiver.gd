@@ -22,8 +22,6 @@ func _ready():
 
 
 func _exit_tree():
-	for clip in audio_clips:
-		clip.free()
 	audio_clips.clear()
 
 
