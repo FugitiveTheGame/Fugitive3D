@@ -475,3 +475,4 @@ quality/shading/force_vertex_shading.mobile=false
 environment/default_clear_color=Color( 0.117647, 0.101961, 0.188235, 1 )
 environment/default_environment="res://default_environment.tres"
 quality/driver/driver_name.mobile="GLES2"
+quality/driver/driver_name.server="GLES2"
