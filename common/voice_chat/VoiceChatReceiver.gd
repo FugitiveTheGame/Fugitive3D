@@ -30,13 +30,19 @@ func send_audio(audioData: PoolByteArray):
 
 
 remote func on_receive_audio(audioData: PoolByteArray):
-	var pcm_data = opus_decoder.decode(audioData)
-	
-	if audio_clips.size() < MAX_CLIPS:
-		audio_clips.push_back(pcm_data)
-		play_next_clip()
+	if not audioData.empty():
+		var pcm_data = opus_decoder.decode(audioData)
+		
+		if audio_clips.size() < MAX_CLIPS:
+			if not pcm_data.empty():
+				audio_clips.push_back(pcm_data)
+				play_next_clip()
+			else:
+				push_warning("Decoded PCM data was empty")
+		else:
+			print("Dropping audio clip, too many in queue already")
 	else:
-		print("Dropping audio clip, too many in queue already")
+		push_warning("Received empty opus packet.")
 
 
 func is_playing() -> bool:
