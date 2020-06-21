@@ -28,6 +28,7 @@ static func get_default_data():
 	return default
 
 func _ready():
+	print("Game Version: %d" % GAME_VERSION)
 	load_data()
 
 func load_data():
