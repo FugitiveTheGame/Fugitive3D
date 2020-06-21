@@ -9,7 +9,9 @@ func _on_FeedbackDialog_about_to_show():
 	else:
 		$Container/SendLogsCheckBox.pressed = false
 	
-	$Container/DescriptionTextEdit.text += "Platform: %s\n\n" % OS.get_name()
+	$Container/DescriptionTextEdit.text += "Platform: %s\n" % OS.get_name()
+	$Container/DescriptionTextEdit.text += "Game Version: %d\n" % UserData.GAME_VERSION
+	$Container/DescriptionTextEdit.text += "VR: %s\n" % str(OS.has_feature("vr"))
 	Feedback.has_crash_to_report = false
 	
 	$Container/SendButton.disabled = false
