@@ -98,7 +98,7 @@ static func get_no_stats() -> bool:
 			stats = true
 			break
 	
-	return stats
+	return stats and not OS.is_debug_build()
 
 
 # Parse command line server name in the form of:
