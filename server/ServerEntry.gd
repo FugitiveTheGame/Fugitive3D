@@ -56,22 +56,27 @@ func register_publicly():
 		# Wait for the repository to ping us
 		if socketUDP.wait() == OK:
 			var array_bytes := socketUDP.get_packet()
-			var message = array_bytes.get_string_from_ascii()
-			if message == "ping":
-				var ip := socketUDP.get_packet_ip()
-				var port := socketUDP.get_packet_port()
-				socketUDP.set_dest_address(ip, port)
-				
-				var response := "pong"
-				# Send 3 response packets
-				for ii in 10:
-					socketUDP.put_packet(response.to_ascii())
-				
-				print("Port check request received. Response sent.")
+			if not array_bytes.empty():
+				var message = array_bytes.get_string_from_ascii()
+				if message == "ping":
+					var ip := socketUDP.get_packet_ip()
+					var port := socketUDP.get_packet_port()
+					socketUDP.set_dest_address(ip, port)
+					
+					var response := "pong"
+					# Send redundant response packets
+					for ii in 10:
+						socketUDP.put_packet(response.to_ascii())
+					
+					print("Port check request received. Response sent.")
+				elif message == null or message.empty():
+					print("Bad message from Server Repository, waiting for another: '" + str(message) + "'")
+				else:
+					print("Public Repository Registration Failed: Bad message from Server Repository: '" + str(message) + "'")
+					print("Do you have the latest version? Current Version: %d" % UserData.GAME_VERSION)
+					get_tree().quit()
 			else:
-				print("Public Repository Registration Failed: Bad message from Server Repository: " + str(message))
-				print("Do you have the latest version? Current Version: %d" % UserData.GAME_VERSION)
-				get_tree().quit()
+				print("Read empty packet")
 		else:
 			print("Public Repository Registration Failed: No ping received from Repository.")
 			print("Are your ports forwarded correctly? UDP & TCP Port: %d" % listenPort)
