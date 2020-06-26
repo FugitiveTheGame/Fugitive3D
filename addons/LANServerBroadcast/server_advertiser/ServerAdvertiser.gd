@@ -31,20 +31,21 @@ var initial_registration := true
 func _ready():
 	repositoryRegisterTimer.name = "RepositoryRegisterTimer"
 	repositoryRegisterTimer.wait_time = REPOSITORY_ADVERTISE_INTERVAL
+	repositoryRegisterTimer.one_shot = false
 	repositoryRegisterTimer.connect("timeout", self, "_on_RepositoryRegisterTimer_timeout")
 	add_child(repositoryRegisterTimer)
 
 	broadcastTimer.name = "BroadcastTimer"
-	add_child(broadcastTimer)
-	broadcastTimer.connect("timeout", self, "broadcast") 
 	broadcastTimer.wait_time = broadcast_interval
 	broadcastTimer.one_shot = false
+	broadcastTimer.connect("timeout", self, "broadcast") 
+	add_child(broadcastTimer)
 	
-	add_child(ipRequest)
 	ipRequest.connect("request_completed", self, "_on_IpRequest_request_completed")
+	add_child(ipRequest)
 	
-	add_child(registerRequest)
 	registerRequest.connect("request_completed", self, "_on_RegisterRequest_request_completed")
+	add_child(registerRequest)
 	
 	add_child(removeRequest)
 
@@ -117,6 +118,8 @@ func register_server():
 		else:
 			#print("updating registration")
 			registerRequest.request(url, headers, false, HTTPClient.METHOD_PUT, body)
+	else:
+		fetch_external_ip()
 
 
 func _on_RegisterRequest_request_completed(result, response_code, headers, body):
