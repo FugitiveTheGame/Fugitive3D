@@ -69,7 +69,7 @@ func register_publicly():
 				
 				print("Port check request received. Response sent.")
 			else:
-				print("Public Repository Registration Failed: Bad message from Server Repository.")
+				print("Public Repository Registration Failed: Bad message from Server Repository: " + str(message))
 				print("Do you have the latest version? Current Version: %d" % UserData.GAME_VERSION)
 				get_tree().quit()
 		else:
