@@ -14,6 +14,7 @@ onready var hudVisibilityToggle := $OQ_LeftController/VisibilityToggle
 onready var hud := $OQ_LeftController/VisibilityToggle/HudCanvas.find_node("HudContainer", true, false) as Control
 onready var fpsLabel := $OQ_LeftController/VisibilityToggle/HudCanvas.find_node("FpsLabel", true, false) as Label
 onready var uiRaycast := $OQ_RightController/Feature_UIRayCast
+onready var playerCollision := $Feature_PlayerCollision as KinematicBody
 
 onready var inGameMenuHud := hud.find_node("InGameMenuHud", true, false) as WindowDialog
 onready var exitGameHud := hud.find_node("ExitGameHud", true, false) as ConfirmationDialog
@@ -27,10 +28,10 @@ onready var initial_origin := transform.origin as Vector3
 onready var initial_shape_origin := player.playerShape.transform.origin as Vector3
 var is_standing := true
 
-const CENTER_MIN := 0.35
-const CENTER_MAX := 0.75
+const CENTER_MIN := 0.15
+const CENTER_MAX := 0.40
 onready var centerLabel := $OQ_ARVRCamera/CenterLabel
-onready var centerIndicator := $CenterIndicator as CSGTorus
+onready var centerIndicator := $Feature_PlayerCollision/CenterIndicator as CSGPrimitive
 onready var centerIndicatorMaterial := centerIndicator.material as SpatialMaterial
 
 
@@ -117,7 +118,7 @@ func process_crouch():
 
 func _process(delta):
 	# Process what to show about the re-center indicator
-	var camTrans := camera.translation
+	var camTrans := playerCollision.translation - camera.translation
 	var distFromCenter := Vector2(camTrans.x, camTrans.z).length()
 	
 	centerLabel.visible = distFromCenter >= CENTER_MAX
@@ -166,7 +167,7 @@ func _physics_process(delta):
 	
 	if not player.gameEnded and update_threshold.is_exceeded():
 		# We need to incorporate head turn into our network rotation
-		var totalTranslation = translation
+		var totalTranslation = playerCollision.global_transform.origin
 		var totalRotation = rotation
 		totalRotation.y += camera.rotation.y
 		

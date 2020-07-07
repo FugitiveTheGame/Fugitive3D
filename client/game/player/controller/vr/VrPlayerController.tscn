@@ -42,7 +42,7 @@ margin = 16
 billboard = false
 depth_test = false
 resize_mode = 0
-font_size_multiplier = 1.0
+font_size_multiplier = 4.0
 font_color = Color( 1, 1, 1, 1 )
 background_color = Color( 0, 0, 0, 0 )
 transparent = true
@@ -147,13 +147,13 @@ collision_mask = 31
 script = ExtResource( 2 )
 capsule_radius = 0.3
 
-[node name="Locomotion_Stick" parent="." instance=ExtResource( 5 )]
-
-[node name="CenterIndicator" type="CSGTorus" parent="."]
+[node name="CenterIndicator" type="CSGCylinder" parent="Feature_PlayerCollision"]
 calculate_tangents = false
-inner_radius = 0.4
-outer_radius = 0.5
+radius = 0.2
+height = 1.5
 material = SubResource( 1 )
+
+[node name="Locomotion_Stick" parent="." instance=ExtResource( 5 )]
 
 [node name="VoiceChatPlayback" type="AudioStreamPlayer3D" parent="."]
 
