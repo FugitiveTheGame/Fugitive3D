@@ -168,6 +168,8 @@ func _physics_process(delta):
 	if not player.gameEnded and update_threshold.is_exceeded():
 		# We need to incorporate head turn into our network rotation
 		var totalTranslation = playerCollision.global_transform.origin
+		totalTranslation.y -= totalTranslation.y - global_transform.origin.y
+		
 		var totalRotation = rotation
 		totalRotation.y += camera.rotation.y
 		
@@ -175,6 +177,8 @@ func _physics_process(delta):
 		if not is_standing:
 			if player.is_crouching:
 				totalTranslation.y += seated_crouching_offset_meters
+			
+			
 		player.rpc_unreliable("network_update", totalTranslation, totalRotation, Vector3(), player.is_crouching, player.isMoving, player.sprint, player.stamina)
 	
 	if fpsLabel.visible:
