@@ -39,7 +39,6 @@ margin_top = 160.0
 margin_bottom = 208.0
 
 [node name="PregameHud" parent="HudCanvas/HudContainer" index="2" instance=ExtResource( 5 )]
-visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
