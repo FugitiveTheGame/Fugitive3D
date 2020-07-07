@@ -95,7 +95,7 @@ func move(dt):
 	
 	if (move_checker):
 		actual_velocity = move_checker.oq_locomotion_stick_check_move(actual_velocity, dt);
-
+	
 	vr.vrOrigin.translation += actual_velocity * dt;
 	
 	is_moving = actual_velocity.length_squared() > 0.0;
@@ -128,8 +128,12 @@ func turn(dt):
 		vr.vrOrigin.rotate_y(deg2rad(dlr * smooth_turn_speed * dt));
 
 	# reposition vrOrigin for in place rotation
-	vr.vrOrigin.global_transform.origin +=  origHeadPos - vr.vrCamera.global_transform.origin;
+	var direction = origHeadPos - vr.vrCamera.global_transform.origin;
+	vr.vrOrigin.global_transform.origin += direction;
 	vr.vrOrigin.global_transform = vr.vrOrigin.global_transform.orthonormalized();
+	
+	if (move_checker):
+		move_checker.oq_locomotion_stick_check_turn(direction, dt)
 
 # NOTE: we do this in physics_process so after moving the origin
 #       the controllers are still rendered in the right position; but we have to keep in mind that this

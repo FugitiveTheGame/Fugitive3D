@@ -29,23 +29,40 @@ func _show_debug_information():
 	vr.show_dbg_info("Feature_PlayerCollision", "Slide Count: %d; on floor: %d; on wall: %d; last update: %d;\n         Colliders: %s" % [slide_count, on_floor, on_wall, vr.frame_counter, colliders]);
 
 
+func _physics_process(delta):
+	_update_collsion_shape_start_position()
+
+
 func _update_collsion_shape_start_position():
 	var player_height = vr.get_current_player_height();
 	collision_object.shape.radius = capsule_radius;
 	collision_object.shape.height = player_height - 2.0 * capsule_radius - step_offset;
-	global_transform.origin = vr.vrCamera.global_transform.origin;
-	global_transform.origin.y -= (player_height-step_offset) * 0.5;
 	
+	var direction := vr.vrCamera.global_transform.origin - global_transform.origin
 	
+	if not test_move(global_transform, direction):
+		global_transform.origin = vr.vrCamera.global_transform.origin;
+		global_transform.origin.y -= (player_height-step_offset) * 0.5;
+
 
 func oq_locomotion_stick_check_move(velocity, dt):
 	if (!enabled): return velocity;
 
 	_update_collsion_shape_start_position();
 
+	# If the camera can't make the move, don't do anything
 	velocity = move_and_slide(velocity, Vector3(0.0, 1.0, 0.0));
 	
 	if (debug_information):
 		_show_debug_information();
 	
 	return velocity;
+
+
+func oq_locomotion_stick_check_turn(velocity, dt):
+	if (!enabled): return;
+	
+	move_and_slide(velocity, Vector3(0.0, 1.0, 0.0));
+	
+	if (debug_information):
+		_show_debug_information();
