@@ -109,6 +109,7 @@ remotesync func on_car_rotate(angle: float):
 
 func on_state_not_ready():
 	$HudCanvas/HudContainer/PregameHud.show()
+	$HudCanvas/HudContainer/PregameHud.show_not_ready()
 
 
 func on_state_ready():

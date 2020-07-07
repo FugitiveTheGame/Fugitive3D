@@ -21,14 +21,25 @@ func _ready():
 		FugitiveTeamResolver.PlayerType.Seeker:
 			$PlayerClassInstructions.text = "Arrest the Fugitives!"
 	
-	$NotReadyLabel.show()
+	$LoadContainer.show()
+	$NotReadyLabel.hide()
 	$PlayerClassInstructions.hide()
 	$ReadyLabel.hide()
 	$StartTimerLabel.hide()
 	$HeadstartTimerLabel.hide()
 
 
+func show_not_ready():
+	$LoadContainer.hide()
+	$NotReadyLabel.show()
+	$ReadyLabel.hide()
+	$PlayerClassInstructions.show()
+	$StartTimerLabel.hide()
+	$HeadstartTimerLabel.hide()
+
+
 func show_ready():
+	$LoadContainer.hide()
 	$NotReadyLabel.hide()
 	$ReadyLabel.show()
 	$PlayerClassInstructions.show()
@@ -37,6 +48,7 @@ func show_ready():
 
 
 func show_start_timer():
+	$LoadContainer.hide()
 	$NotReadyLabel.hide()
 	$ReadyLabel.hide()
 	$PlayerClassInstructions.show()
@@ -45,6 +57,7 @@ func show_start_timer():
 
 
 func show_headstart_timer():
+	$LoadContainer.hide()
 	$NotReadyLabel.hide()
 	$ReadyLabel.hide()
 	$PlayerClassInstructions.show()
