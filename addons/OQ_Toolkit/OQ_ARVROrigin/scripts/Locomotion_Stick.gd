@@ -128,7 +128,7 @@ func turn(dt):
 		vr.vrOrigin.rotate_y(deg2rad(dlr * smooth_turn_speed * dt));
 
 	# reposition vrOrigin for in place rotation
-	var direction = origHeadPos - vr.vrCamera.global_transform.origin;
+	var direction = vr.vrCamera.global_transform.origin - origHeadPos;
 	vr.vrOrigin.global_transform.origin += direction;
 	vr.vrOrigin.global_transform = vr.vrOrigin.global_transform.orthonormalized();
 	
