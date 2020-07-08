@@ -5,9 +5,12 @@ var update_threshold := Threshold.new(Utils.COMMON_NETWORK_UPDATE_THRESHOLD)
 var is_on := true
 
 func _ready():
-	var gles2 := Utils.renderer_is_gles2()
-	$SpotLight.visible = not gles2
-	$gles2Beam.visible = gles2
+	if Utils.renderer_is_gles2():
+		$SpotLight.visible = false
+		$LightBeam.alpha = 0.05
+	else:
+		$SpotLight.visible = true
+		$LightBeam.alpha = 0.004
 
 
 func toggle_on():
@@ -21,10 +24,11 @@ func set_on(on: bool):
 
 remotesync func on_set_on(on: bool):
 	is_on = on
-	if Utils.renderer_is_gles2():
-		$gles2Beam.visible = is_on
-	else:
+	
+	if not Utils.renderer_is_gles2():
 		$SpotLight.visible = is_on
+	
+	$LightBeam.visible = is_on
 
 
 puppet func network_update(networkPosition: Vector3, networkRotation: Vector3):
