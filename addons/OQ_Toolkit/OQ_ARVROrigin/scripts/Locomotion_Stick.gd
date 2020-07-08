@@ -127,13 +127,10 @@ func turn(dt):
 		if (enable_vignette) : movement_vignette_rect.visible = true;
 		vr.vrOrigin.rotate_y(deg2rad(dlr * smooth_turn_speed * dt));
 
-	# reposition vrOrigin for in place rotation
-	var direction = vr.vrCamera.global_transform.origin - origHeadPos;
-	vr.vrOrigin.global_transform.origin += direction;
+	vr.vrOrigin.global_transform.origin += origHeadPos - vr.vrCamera.global_transform.origin;
 	vr.vrOrigin.global_transform = vr.vrOrigin.global_transform.orthonormalized();
-	
-	if (move_checker):
-		move_checker.oq_locomotion_stick_check_turn(direction, dt)
+
+
 
 # NOTE: we do this in physics_process so after moving the origin
 #       the controllers are still rendered in the right position; but we have to keep in mind that this

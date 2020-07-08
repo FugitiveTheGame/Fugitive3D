@@ -12,6 +12,9 @@ func _ready():
 	if (not get_parent() is ARVROrigin):
 		vr.log_error("Feature_StickMovement: parent is not ARVROrigin");
 		
+	
+	capsule_radius = collision_object.shape.radius
+	
 	_update_collsion_shape_start_position();
 
 
@@ -39,30 +42,19 @@ func _update_collsion_shape_start_position():
 	collision_object.shape.height = player_height - 2.0 * capsule_radius - step_offset;
 	
 	var direction := vr.vrCamera.global_transform.origin - global_transform.origin
+	direction.y -= (player_height-step_offset) * 0.5;
 	
-	if not test_move(global_transform, direction):
-		global_transform.origin = vr.vrCamera.global_transform.origin;
-		global_transform.origin.y -= (player_height-step_offset) * 0.5;
+	move_and_collide(direction);
 
 
 func oq_locomotion_stick_check_move(velocity, dt):
 	if (!enabled): return velocity;
-
-	_update_collsion_shape_start_position();
-
-	# If the camera can't make the move, don't do anything
+	
+	_update_collsion_shape_start_position()
+	
 	velocity = move_and_slide(velocity, Vector3(0.0, 1.0, 0.0));
 	
 	if (debug_information):
 		_show_debug_information();
 	
 	return velocity;
-
-
-func oq_locomotion_stick_check_turn(velocity, dt):
-	if (!enabled): return;
-	
-	move_and_slide(velocity, Vector3(0.0, 1.0, 0.0));
-	
-	if (debug_information):
-		_show_debug_information();

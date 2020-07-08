@@ -166,10 +166,11 @@ func _physics_process(delta):
 		locomotion.move_speed = player.speed_walk
 	
 	if not player.gameEnded and update_threshold.is_exceeded():
-		# We need to incorporate head turn into our network rotation
+		# Our network position is that of our KinematicBody
 		var totalTranslation = playerCollision.global_transform.origin
 		totalTranslation.y -= totalTranslation.y - global_transform.origin.y
 		
+		# We need to incorporate head turn into our network rotation
 		var totalRotation = rotation
 		totalRotation.y += camera.rotation.y
 		
