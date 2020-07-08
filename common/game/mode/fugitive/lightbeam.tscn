@@ -1,13 +1,15 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://common/game/mode/fugitive/baseless-cone.glb" type="PackedScene" id=1]
 [ext_resource path="res://common/game/mode/fugitive/lightbeam.shader" type="Shader" id=2]
+[ext_resource path="res://common/game/mode/fugitive/lightbeam.gd" type="Script" id=3]
 
 [sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 2 )
 shader_param/albedo = Color( 0.898039, 0.901961, 0.396078, 0.0588235 )
 
 [node name="baseless-cone" instance=ExtResource( 1 )]
+script = ExtResource( 3 )
 
 [node name="Cone" parent="." index="0"]
 transform = Transform( 1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0 )
