@@ -28,7 +28,7 @@ onready var initial_origin := transform.origin as Vector3
 onready var initial_shape_origin := player.playerShape.transform.origin as Vector3
 var is_standing := true
 
-const CENTER_MIN := 0.15
+const CENTER_MIN := 0.20
 const CENTER_MAX := 0.40
 onready var centerLabel := $OQ_ARVRCamera/CenterLabel
 onready var centerIndicator := $Feature_PlayerCollision/CenterIndicator as CSGPrimitive

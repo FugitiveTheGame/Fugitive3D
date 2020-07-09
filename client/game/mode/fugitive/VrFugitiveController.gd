@@ -85,8 +85,9 @@ func process_car_input(delta: float):
 		if seat != null:
 			global_transform.origin = seat.global_transform.origin
 			if is_standing:
-				transform.origin.y -= (standingHeight * crouching_modifier)
-
+				transform.origin.y -= standingHeight * crouching_modifier
+			else:
+				transform.origin.y -= vr.get_current_player_height() * crouching_modifier
 
 
 func on_car_entered(car):
