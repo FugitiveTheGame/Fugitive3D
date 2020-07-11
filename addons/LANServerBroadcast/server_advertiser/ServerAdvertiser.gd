@@ -89,6 +89,7 @@ func _exit_tree():
 func fetch_external_ip():
 	var endpointUrl := serverRepositoryUrl + "/reflection/ip"
 	print("fetch_external_ip")
+	ipRequest.cancel_request()
 	ipRequest.request(endpointUrl)
 
 
@@ -112,6 +113,8 @@ func register_server():
 		
 		var body := JSON.print(serverInfo)
 		var headers := ["Content-Type: application/json"]
+		
+		registerRequest.cancel_request()
 		if initial_registration:
 			print("initial registration")
 			registerRequest.request(url, headers, false, HTTPClient.METHOD_POST, body)
