@@ -28,10 +28,21 @@ var repositoryRegisterTimer := Timer.new()
 var initial_registration := true
 
 
+func _enter_tree():
+	ipRequest.connect("request_completed", self, "_on_IpRequest_request_completed")
+	add_child(ipRequest)
+	
+	registerRequest.connect("request_completed", self, "_on_RegisterRequest_request_completed")
+	add_child(registerRequest)
+	
+	add_child(removeRequest)
+
+
 func _ready():
 	repositoryRegisterTimer.name = "RepositoryRegisterTimer"
 	repositoryRegisterTimer.wait_time = REPOSITORY_ADVERTISE_INTERVAL
 	repositoryRegisterTimer.one_shot = false
+	repositoryRegisterTimer.autostart = false
 	repositoryRegisterTimer.connect("timeout", self, "_on_RepositoryRegisterTimer_timeout")
 	add_child(repositoryRegisterTimer)
 
@@ -40,14 +51,6 @@ func _ready():
 	broadcastTimer.one_shot = false
 	broadcastTimer.connect("timeout", self, "broadcast") 
 	add_child(broadcastTimer)
-	
-	ipRequest.connect("request_completed", self, "_on_IpRequest_request_completed")
-	add_child(ipRequest)
-	
-	registerRequest.connect("request_completed", self, "_on_RegisterRequest_request_completed")
-	add_child(registerRequest)
-	
-	add_child(removeRequest)
 
 
 func start_advertising_lan():
@@ -84,11 +87,18 @@ func _exit_tree():
 	broadcastTimer.stop()
 	if socketUDP != null:
 		socketUDP.close()
+	
+	repositoryRegisterTimer.stop()
 
 
 func fetch_external_ip():
 	var endpointUrl := serverRepositoryUrl + "/reflection/ip"
 	print("fetch_external_ip")
+	
+	if not ipRequest.is_inside_tree():
+		print("Error: ipRequest NOT INSIDE TREE")
+		return
+	
 	ipRequest.cancel_request()
 	ipRequest.request(endpointUrl)
 
@@ -113,6 +123,10 @@ func register_server():
 		
 		var body := JSON.print(serverInfo)
 		var headers := ["Content-Type: application/json"]
+		
+		if not registerRequest.is_inside_tree():
+			print("Error: registerRequest NOT INSIDE TREE")
+			return
 		
 		registerRequest.cancel_request()
 		if initial_registration:
