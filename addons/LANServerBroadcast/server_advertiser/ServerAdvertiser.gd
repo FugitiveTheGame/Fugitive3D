@@ -133,13 +133,14 @@ func register_server():
 			print("initial registration")
 			registerRequest.request(url, headers, false, HTTPClient.METHOD_POST, body)
 		else:
-			#print("updating registration")
+			print("updating registration")
 			registerRequest.request(url, headers, false, HTTPClient.METHOD_PUT, body)
 	else:
 		fetch_external_ip()
 
 
 func _on_RegisterRequest_request_completed(result, response_code, headers, body):
+	print("RegisterRequest Status: %d" % response_code)
 	if response_code >= 200 and response_code < 300:
 		initial_registration = false
 		emit_signal("register_succeeded")
@@ -150,6 +151,7 @@ func _on_RegisterRequest_request_completed(result, response_code, headers, body)
 
 
 func _on_RepositoryRegisterTimer_timeout():
+	print("RepositoryRegister Timer %d" % OS.get_unix_time())
 	register_server()
 
 
