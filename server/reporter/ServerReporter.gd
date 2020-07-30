@@ -119,4 +119,4 @@ func report_game_end(numPlayers: int, numFugitives: int, numCops: int, mapName: 
 
 
 func _on_HTTPRequest_request_completed(result, response_code, headers, body):
-	print_debug("Server report sent: %d" % response_code)
+	print("Server report sent: %d" % response_code)
