@@ -12,6 +12,9 @@ onready var driverLabel := get_node(driverLabelPath) as Label
 export(NodePath) var debugButtonPath: NodePath
 onready var debugButton := get_node(debugButtonPath) as Button
 
+export(NodePath) var exploreDialogPath: NodePath
+onready var exploreDialog := get_node(exploreDialogPath) as ConfirmationDialog
+
 
 func _enter_tree():
 	UserData.connect("user_data_updated", self, "on_user_data_updated")
@@ -58,3 +61,11 @@ func update_vr_mode_label():
 	
 	if vrModeLabel != null:
 		vrModeLabel.text = "VR Mode: %s" % modeName
+
+
+func _on_ExploreButton_pressed():
+	exploreDialog.popup_centered()
+
+
+func _on_ExploreDialog_confirmed():
+	get_tree().change_scene("res://client/explore/VrExploreGame.tscn")

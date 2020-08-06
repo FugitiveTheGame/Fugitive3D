@@ -6,6 +6,9 @@ onready var settingsWindow := get_node(settingsWindowPath) as WindowDialog
 export(NodePath) var debugButtonPath: NodePath
 onready var debugButton := get_node(debugButtonPath) as Button
 
+export(NodePath) var exploreDialogPath: NodePath
+onready var exploreDialog := get_node(exploreDialogPath) as ConfirmationDialog
+
 
 func _ready():
 	debugButton.visible = OS.is_debug_build()
@@ -29,3 +32,11 @@ func _notification(what):
 		if what == MainLoop.NOTIFICATION_WM_GO_BACK_REQUEST: 
 			print("Closing game")
 			get_tree().quit()
+
+
+func _on_ExploreButton_pressed():
+	exploreDialog.popup_centered()
+
+
+func _on_ExploreDialog_confirmed():
+	get_tree().change_scene("res://client/explore/FlatExploreGame.tscn")
