@@ -33,6 +33,18 @@
 				4,
 				4
 			]
+		},
+		{
+			"path": "res://common/game/maps/explore/ExploreMap.tscn",
+			"mode": "Fugitive",
+			"size": "Large",
+			"name": "Explore",
+			"debug": true,
+			"description": "Explore Fugitive 3D offline.",
+			"team_sizes": [
+				4,
+				4
+			]
 		}
 	],
 	"modes" : {
