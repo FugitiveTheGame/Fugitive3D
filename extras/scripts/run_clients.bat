@@ -1,8 +1,8 @@
 @echo off
-start cmd /k run_client.bat bbbbbbbbbbbbb 127.0.0.1
-timeout /t 1
-start cmd /k run_client.bat ccccccccccccc 127.0.0.1
-timeout /t 1
-start cmd /k run_client.bat d_d_d_d_d_d_d 127.0.0.1
+
+FOR %%i IN (1 2 3) DO (
+	start cmd /k run_client.bat %%i%%i%%i%%i%%i%%i%%i 127.0.0.1
+	timeout /t 1
+)
 
 exit
