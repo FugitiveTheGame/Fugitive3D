@@ -119,7 +119,13 @@ func _on_Map_draw():
 	for zone in GameData.currentMap.get_win_zones():
 		var pos = zone.global_transform.origin
 		var coord := to_map_coord(pos)
-		var colSize = zone.get_node("CollisionShape").shape.extents
+		
+		if zone.get_children().empty():
+			print("ERROR: Winzone missing colission shape")
+			continue
+		
+		var colShape = zone.get_node("CollisionShape")
+		var colSize = colShape.shape.extents
 		colSize *= 4.0 # I don't understand why this is 4... it should be 2.0...
 		var colSizeMap := to_map_scale(colSize) * mapSize
 		coord = coord - (colSizeMap / 2.0)
