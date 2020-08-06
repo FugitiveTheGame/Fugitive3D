@@ -12,39 +12,45 @@ vrModeLabelPath = NodePath("VrModeLabel")
 driverLabelPath = NodePath("InfoContainer/DriverLabel")
 debugButtonPath = NodePath("OptionsContainer/DebugButton")
 
-[node name="SettingsButton" type="Button" parent="OptionsContainer" index="1"]
+[node name="ExploreButton" type="Button" parent="OptionsContainer" index="1"]
 margin_top = 47.0
 margin_right = 248.0
 margin_bottom = 86.0
+text = "Explore"
+
+[node name="SettingsButton" type="Button" parent="OptionsContainer" index="2"]
+margin_top = 94.0
+margin_right = 248.0
+margin_bottom = 133.0
 text = "Settings"
 
-[node name="HelpButton" parent="OptionsContainer" index="2"]
-margin_top = 94.0
-margin_bottom = 133.0
-
-[node name="DebugButton" type="Button" parent="OptionsContainer" index="3"]
+[node name="HelpButton" parent="OptionsContainer" index="3"]
 margin_top = 141.0
-margin_right = 248.0
 margin_bottom = 180.0
+
+[node name="DebugButton" type="Button" parent="OptionsContainer" index="4"]
+margin_top = 188.0
+margin_right = 248.0
+margin_bottom = 227.0
 text = "debug"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="FeedbackButton" parent="OptionsContainer" index="4"]
-margin_top = 188.0
-margin_bottom = 227.0
-
-[node name="MenuMusicButton" parent="OptionsContainer" index="5"]
+[node name="FeedbackButton" parent="OptionsContainer" index="5"]
 margin_top = 235.0
-margin_bottom = 315.0
+margin_bottom = 274.0
+
+[node name="MenuMusicButton" parent="OptionsContainer" index="6"]
+margin_top = 282.0
+margin_bottom = 362.0
 
 [node name="SettingsDialog" parent="." index="7" instance=ExtResource( 3 )]
 
-[node name="GodotLogo" parent="InfoContainer" index="0"]
+[node name="VersionLabel" parent="InfoContainer" index="0"]
 margin_right = 65.0
 
-[node name="VersionLabel" parent="InfoContainer" index="1"]
+[node name="GodotLogo" parent="InfoContainer" index="1"]
 margin_right = 65.0
 
 [node name="DriverLabel" type="Label" parent="InfoContainer" index="2"]
@@ -55,6 +61,11 @@ text = "driver"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="DiscordButton" parent="InfoContainer" index="3"]
+margin_top = 138.0
+margin_right = 65.0
+margin_bottom = 202.0
 
 [node name="VrModeLabel" type="Label" parent="." index="13"]
 anchor_top = 0.5
@@ -68,5 +79,20 @@ text = "VR Mode: Standing"
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
+[node name="ExploreDialog" type="ConfirmationDialog" parent="." index="19"]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -252.0
+margin_top = -87.0
+margin_right = 252.0
+margin_bottom = 87.0
+window_title = "Explore Fugitive"
+dialog_text = "This will allow you to check out Fugitive 3D offline. Learn a few of the mechanics in preperation for online play. Try to find all 8 Fugitives!"
+dialog_autowrap = true
+[connection signal="pressed" from="OptionsContainer/ExploreButton" to="." method="_on_ExploreButton_pressed"]
 [connection signal="pressed" from="OptionsContainer/SettingsButton" to="." method="_on_SettingsButton_pressed"]
 [connection signal="pressed" from="OptionsContainer/DebugButton" to="." method="_on_DebugButton_pressed"]
+[connection signal="confirmed" from="ExploreDialog" to="." method="_on_ExploreDialog_confirmed"]
