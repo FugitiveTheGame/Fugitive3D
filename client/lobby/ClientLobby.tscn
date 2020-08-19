@@ -11,6 +11,7 @@ script = ExtResource( 2 )
 startButtonPath = NodePath("PanelContainer/VBoxContainer/StartButton")
 leaveButtonPath = NodePath("PanelContainer/VBoxContainer/LeaveButton")
 randomButtonPath = NodePath("PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/RandomButton")
+randomCooldownTimerPath = NodePath("PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/RandomButton/RandomizeCooldownTimer")
 helpDialogPath = NodePath("HelpDialog")
 
 [node name="LeaveButton" type="Button" parent="PanelContainer/VBoxContainer" index="0"]
@@ -99,6 +100,9 @@ margin_right = 628.0
 margin_bottom = 538.0
 text = "Randomize Teams"
 
+[node name="RandomizeCooldownTimer" type="Timer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/RandomButton" index="0"]
+one_shot = true
+
 [node name="StartButton" type="Button" parent="PanelContainer/VBoxContainer" index="3"]
 margin_top = 665.0
 margin_right = 1264.0
@@ -131,5 +135,6 @@ stream = ExtResource( 4 )
 [connection signal="pressed" from="PanelContainer/VBoxContainer/LeaveButton" to="." method="_on_LeaveButton_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer/HBoxContainer/HelpButton" to="." method="_on_HelpButton_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/RandomButton" to="." method="_on_RandomButton_pressed"]
+[connection signal="timeout" from="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/RandomButton/RandomizeCooldownTimer" to="." method="_on_RandomizeCooldownTimer_timeout"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/StartButton" to="." method="_on_StartButton_pressed"]
 [connection signal="timeout" from="StartTimer" to="." method="_on_StartTimer_timeout"]

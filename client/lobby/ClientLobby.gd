@@ -9,6 +9,9 @@ onready var leaveButton := get_node(leaveButtonPath) as Button
 export(NodePath) var randomButtonPath: NodePath
 onready var randomButton := get_node(randomButtonPath) as Button
 
+export(NodePath) var randomCooldownTimerPath: NodePath
+onready var randomCooldownTimer := get_node(randomCooldownTimerPath) as Timer
+
 export (NodePath) var helpDialogPath: NodePath
 onready var helpDialog := get_node(helpDialogPath) as WindowDialog
 
@@ -58,7 +61,7 @@ func on_disconnect():
 func update_ui():
 	.update_ui()
 	
-	randomButton.disabled = not is_host or is_starting
+	randomButton.disabled = not is_host or is_starting or (not randomCooldownTimer.is_stopped())
 	startButton.visible = is_host
 	
 	if startButton != null:
@@ -75,6 +78,7 @@ func on_start_lobby_countdown():
 	.on_start_lobby_countdown()
 	
 	randomButton.disabled = true
+	randomCooldownTimer.stop()
 	
 	$StartLabel.show()
 	$StartTimer.start()
@@ -88,6 +92,8 @@ func _on_StartTimer_timeout():
 
 
 func _on_RandomButton_pressed():
+	randomButton.disabled = true
+	randomCooldownTimer.start()
 	GameAnalytics.design_event("lobby_randomize_teams")
 	ServerNetwork.randomize_teams()
 
@@ -135,3 +141,8 @@ func remove_player(playerId: int):
 		if child.name == nodeName:
 			child.queue_free()
 			break
+
+
+func _on_RandomizeCooldownTimer_timeout():
+	if is_host and not is_starting:
+		randomButton.disabled = false
