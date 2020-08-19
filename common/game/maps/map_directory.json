@@ -23,6 +23,17 @@
 			]
 		},
 		{
+			"path": "res://common/game/maps/littleton/Littleton.scn",
+			"mode": "Fugitive",
+			"size": "Small",
+			"name": "Littleton",
+			"description": "A small map; good for 3-5 players.",
+			"team_sizes": [
+				6,
+				4
+			]
+		},
+		{
 			"path": "res://common/game/maps/grey_box/GreyBox.scn",
 			"mode": "Fugitive",
 			"size": "Small",
