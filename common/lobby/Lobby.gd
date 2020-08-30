@@ -61,9 +61,12 @@ func initialize_ui():
 
 
 func populate_map_list():
-	for map in Maps.directory:
-		if not map.has(Maps.MAP_DEBUG) or map[Maps.MAP_DEBUG] == false:
+	for map in Maps.directory.values():
+		if not map.has(Maps.MAP_HIDE) or map[Maps.MAP_HIDE] == false:
 			mapSelect.add_item(map[Maps.MAP_NAME])
+			
+			var new_id := mapSelect.get_item_id(mapSelect.get_item_count()-1)
+			mapSelect.set_item_metadata(new_id, map[Maps.MAP_ID])
 
 
 func create_player_ui(playerId: int):
@@ -146,7 +149,7 @@ func update_game_data(generalData: Dictionary):
 	update_ui()
 
 
-func update_map_description(mapId: int):
+func update_map_description(mapId: String):
 	var resolver = Maps.get_team_resolver(mapId)
 	var mapData = Maps.directory[mapId]
 	
@@ -164,7 +167,6 @@ func update_map_description(mapId: int):
 		var teamSize = teamSizes[teamId]
 		label.text = "%s: %d" % [resolver.get_team_name(teamId), teamSize]
 		teamsList.add_child(label)
-		
 	
 	mapDescription.text = mapData[Maps.MAP_DESCRIPTION]
 
@@ -190,25 +192,28 @@ func can_start() -> bool:
 	
 	var players = GameData.get_players()
 	
+	var teamSizesAreValid = false
+	
 	var mapid = GameData.general[GameData.GENERAL_MAP]
-	var teamSizes := Maps.get_team_sizes_for_map(mapid)
-	var actualTeamSizes = []
-	for ii in teamSizes.size():
-		actualTeamSizes.push_back(0)
+	if mapid != null and mapid != "":
+		var teamSizes := Maps.get_team_sizes_for_map(mapid)
+		var actualTeamSizes = []
+		for ii in teamSizes.size():
+			actualTeamSizes.push_back(0)
 	
-	if not players.empty():
-		for player in players:
-			var playerteam = player.get_type()
-			actualTeamSizes[playerteam] += 1
-	
-	var teamSizesAreValid = true
-	for ii in teamSizes.size():
-		var maxSize = teamSizes[ii]
-		var actualSize = actualTeamSizes[ii]
+		if not players.empty():
+			for player in players:
+				var playerteam = player.get_type()
+				actualTeamSizes[playerteam] += 1
 		
-		if actualSize <= 0 or actualSize > maxSize:
-			teamSizesAreValid = false
-			break
+		teamSizesAreValid = true
+		for ii in teamSizes.size():
+			var maxSize = teamSizes[ii]
+			var actualSize = actualTeamSizes[ii]
+			
+			if actualSize <= 0 or actualSize > maxSize:
+				teamSizesAreValid = false
+				break
 	
 	var allAreReady := true
 	for player in players:
@@ -235,13 +240,26 @@ func update_host():
 		is_host = false
 
 
+func find_id_for_map(map_id: String) -> int:
+	var found_id := -1
+	
+	for item_id in mapSelect.get_item_count():
+		var metadata = mapSelect.get_item_metadata(item_id)
+		if metadata == map_id:
+			found_id = item_id
+			break
+	
+	return found_id
+
+
 func update_ui():
 	mapSelect.disabled = not is_host or is_starting
 	
-	var mapId = GameData.general[GameData.GENERAL_MAP]
-	
-	mapSelect.select(mapId)
-	update_map_description(mapId)
+	var map_id = GameData.general[GameData.GENERAL_MAP]
+	var item_id := find_id_for_map(map_id)
+	if item_id > -1:
+		mapSelect.select(item_id)
+		update_map_description(map_id)
 
 
 func on_start_lobby_countdown():
@@ -251,9 +269,11 @@ func on_start_lobby_countdown():
 
 
 func _on_MapButton_item_selected(id):
+	var map_id = mapSelect.get_item_metadata(id)
+	
 	GameAnalytics.design_event("lobby_map_changed")
-	GameData.general[GameData.GENERAL_MAP] = id
-	update_map_description(id)
+	GameData.general[GameData.GENERAL_MAP] = map_id
+	update_map_description(map_id)
 	ClientNetwork.update_game_data()
 
 

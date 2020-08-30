@@ -9,7 +9,7 @@ const GENERAL_MAP = "map"
 const GENERAL_SEED = "shared_seed"
 
 var general = {
-	GENERAL_MAP : 0,
+	GENERAL_MAP : "",
 	GENERAL_SEED : 0
 }
 
