@@ -1,6 +1,7 @@
 {
 	"maps" : [
 		{
+			"id": "freehold",
 			"path": "res://common/game/maps/freehold/Freehold.scn",
 			"mode": "Fugitive",
 			"size": "Large",
@@ -12,6 +13,7 @@
 			]
 		},
 		{
+			"id": "cedar_point",
 			"path": "res://common/game/maps/cedar_point/CedarPoint.scn",
 			"mode": "Fugitive",
 			"size": "Medium",
@@ -23,6 +25,7 @@
 			]
 		},
 		{
+			"id": "littleton",
 			"path": "res://common/game/maps/littleton/Littleton.scn",
 			"mode": "Fugitive",
 			"size": "Small",
@@ -34,11 +37,12 @@
 			]
 		},
 		{
+			"id": "greybox",
 			"path": "res://common/game/maps/grey_box/GreyBox.scn",
 			"mode": "Fugitive",
 			"size": "Small",
 			"name": "GreyBox",
-			"debug": true,
+			"hide": true,
 			"description": "Grey box test map.",
 			"team_sizes": [
 				4,
@@ -46,11 +50,12 @@
 			]
 		},
 		{
+			"id": "explore",
 			"path": "res://common/game/maps/explore/ExploreMap.tscn",
 			"mode": "Fugitive",
 			"size": "Large",
 			"name": "Explore",
-			"debug": true,
+			"hide": true,
 			"description": "Explore Fugitive 3D offline.",
 			"team_sizes": [
 				4,
