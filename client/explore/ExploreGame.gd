@@ -5,7 +5,7 @@ var be_seeker := true
 
 
 func _enter_tree():
-	GameData.general[GameData.GENERAL_MAP] = 4
+	GameData.general[GameData.GENERAL_MAP] = "explore"
 	
 	GameData.currentGame = self
 	
