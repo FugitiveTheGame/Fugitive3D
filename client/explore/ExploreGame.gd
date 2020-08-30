@@ -5,7 +5,7 @@ var be_seeker := true
 
 
 func _enter_tree():
-	GameData.general[GameData.GENERAL_MAP] = 3
+	GameData.general[GameData.GENERAL_MAP] = 4
 	
 	GameData.currentGame = self
 	
@@ -52,10 +52,10 @@ func _ready():
 			car.locked = false
 	
 	# Artificially ready the client
-	call_deferred("dev_ready")
+	call_deferred("explore_ready")
 
 
-func dev_ready():
+func explore_ready():
 	# Ready the local client
 	stateMachine.transition_by_name(FugitiveStateMachine.TRANS_READY)
 	
