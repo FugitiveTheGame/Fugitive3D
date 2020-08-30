@@ -34,6 +34,8 @@ func _ready():
 	ServerNetwork.register_self(get_tree().get_network_unique_id(), clientType, ClientNetwork.localPlayerName, UserData.GAME_VERSION)
 	
 	$StartLabel.hide()
+	
+	leaveButton.grab_focus()
 
 
 func _on_StartButton_pressed():

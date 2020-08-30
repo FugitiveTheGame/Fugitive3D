@@ -24,19 +24,20 @@ replayLabelSpeedPath = NodePath("Container/PanelContainer/TabContainer/Replay/Re
 replayHudPath = NodePath("Container/PanelContainer/TabContainer/Replay/ReplayLayout/LeftReplayPanel/HistoryMapHud")
 replayLegendPath = NodePath("Container/PanelContainer/TabContainer/Replay/ReplayLayout/RightReplayPanel/ScrollContainer/ReplayLegend")
 autostartReplayTimerPath = NodePath("Container/PanelContainer/TabContainer/Replay/ReplayLayout/StartReplayTimer")
+lobbyButtonPath = NodePath("Container/ToLobbyButton")
 
 [node name="Container" type="VBoxContainer" parent="."]
-margin_left = 14.0
-margin_top = 14.0
-margin_right = 498.0
-margin_bottom = 498.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 504.0
+margin_bottom = 504.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="WinnerLabel" type="Label" parent="Container"]
-margin_right = 484.0
+margin_right = 496.0
 margin_bottom = 52.0
 size_flags_horizontal = 3
 custom_fonts/font = ExtResource( 2 )
@@ -48,77 +49,77 @@ __meta__ = {
 
 [node name="PanelContainer" type="PanelContainer" parent="Container"]
 margin_top = 60.0
-margin_right = 484.0
-margin_bottom = 439.0
+margin_right = 496.0
+margin_bottom = 449.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="TabContainer" type="TabContainer" parent="Container/PanelContainer"]
-margin_left = 14.0
-margin_top = 14.0
-margin_right = 470.0
-margin_bottom = 365.0
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 488.0
+margin_bottom = 381.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Replay" type="MarginContainer" parent="Container/PanelContainer/TabContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 8.0
-margin_top = 61.0
-margin_right = -7.99997
-margin_bottom = -28.0
+margin_left = 7.0
+margin_top = 46.0
+margin_right = -7.0
+margin_bottom = -7.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ReplayLayout" type="HBoxContainer" parent="Container/PanelContainer/TabContainer/Replay"]
-margin_right = 440.0
-margin_bottom = 262.0
+margin_right = 466.0
+margin_bottom = 320.0
 
 [node name="LeftReplayPanel" type="VBoxContainer" parent="Container/PanelContainer/TabContainer/Replay/ReplayLayout"]
-margin_right = 216.0
-margin_bottom = 262.0
+margin_right = 229.0
+margin_bottom = 320.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="HistoryMapHud" parent="Container/PanelContainer/TabContainer/Replay/ReplayLayout/LeftReplayPanel" instance=ExtResource( 4 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 216.0
-margin_bottom = 189.0
+margin_right = 229.0
+margin_bottom = 247.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 replayLegendPath = NodePath("../../RightReplayPanel/ScrollContainer/ReplayLegend")
 
 [node name="LabelHistory" type="Label" parent="Container/PanelContainer/TabContainer/Replay/ReplayLayout/LeftReplayPanel"]
-margin_top = 197.0
-margin_right = 216.0
-margin_bottom = 222.0
+margin_top = 255.0
+margin_right = 229.0
+margin_bottom = 280.0
 text = "Hi	story:"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="Scrub" type="HSlider" parent="Container/PanelContainer/TabContainer/Replay/ReplayLayout/LeftReplayPanel"]
-margin_top = 230.0
-margin_right = 216.0
-margin_bottom = 262.0
+margin_top = 288.0
+margin_right = 229.0
+margin_bottom = 320.0
 
 [node name="RightReplayPanel" type="VBoxContainer" parent="Container/PanelContainer/TabContainer/Replay/ReplayLayout"]
-margin_left = 224.0
-margin_right = 440.0
-margin_bottom = 262.0
+margin_left = 237.0
+margin_right = 466.0
+margin_bottom = 320.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="LabelSpeed" type="Label" parent="Container/PanelContainer/TabContainer/Replay/ReplayLayout/RightReplayPanel"]
-margin_right = 216.0
+margin_right = 229.0
 margin_bottom = 25.0
 text = "Speed:"
 
 [node name="Speed" type="HSlider" parent="Container/PanelContainer/TabContainer/Replay/ReplayLayout/RightReplayPanel"]
 margin_top = 33.0
-margin_right = 216.0
+margin_right = 229.0
 margin_bottom = 65.0
 min_value = 1.0
 max_value = 50.0
@@ -126,19 +127,19 @@ value = 4.0
 
 [node name="Play" type="Button" parent="Container/PanelContainer/TabContainer/Replay/ReplayLayout/RightReplayPanel"]
 margin_top = 73.0
-margin_right = 216.0
-margin_bottom = 110.0
+margin_right = 229.0
+margin_bottom = 112.0
 text = "Play"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Container/PanelContainer/TabContainer/Replay/ReplayLayout/RightReplayPanel"]
-margin_top = 118.0
-margin_right = 216.0
-margin_bottom = 262.0
+margin_top = 120.0
+margin_right = 229.0
+margin_bottom = 320.0
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
 
 [node name="ReplayLegend" type="VBoxContainer" parent="Container/PanelContainer/TabContainer/Replay/ReplayLayout/RightReplayPanel/ScrollContainer"]
-margin_right = 216.0
+margin_right = 229.0
 size_flags_horizontal = 3
 __meta__ = {
 "_edit_use_anchors_": false
@@ -149,24 +150,25 @@ wait_time = 1.5
 one_shot = true
 
 [node name="Stats" type="ScrollContainer" parent="Container/PanelContainer/TabContainer"]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 8.0
-margin_top = 61.0
-margin_right = -7.99997
-margin_bottom = -31.0
+margin_left = 7.0
+margin_top = 46.0
+margin_right = -7.0
+margin_bottom = -7.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 scroll_horizontal_enabled = false
 
 [node name="PlayerList" type="VBoxContainer" parent="Container/PanelContainer/TabContainer/Stats"]
-margin_right = 440.0
+margin_right = 466.0
 size_flags_horizontal = 3
 
 [node name="ToLobbyButton" type="Button" parent="Container"]
-margin_top = 447.0
-margin_right = 484.0
-margin_bottom = 484.0
+margin_top = 457.0
+margin_right = 496.0
+margin_bottom = 496.0
 text = "Return to Lobby"
 
 [node name="GameOverAudio" type="AudioStreamPlayer" parent="."]
