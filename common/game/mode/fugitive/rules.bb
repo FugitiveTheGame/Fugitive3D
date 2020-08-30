@@ -12,5 +12,12 @@ Your goal is to get to the safe zone at the end of the map without being seen. I
 [u]Sprinting:[/u]
 A short burst of speed, you must stop moving completely to regenerate your stamina.
 
+[u]Exhaustion:[/u]
+If you deplete your stamina you will become exhausted. You will not be able to jump, and your walk speed will be greatly reduced.
+
+You will stay exhausted until you stop moving and let your stamina regenerate past the threshold.
+
+So be careful when sprinting to get away, if you exhaust your self you will likely be caught!
+
 [u]Car Jacking:[/u]
 Cops should remember to lock the car when they get out! Other wise a fugitive can steal it and drive around picking up their friends. If a fugitive is driving the car, a cop can stand in front of it, and if the car hits the cop, the Fugitive driver will be forced out, locking the car.
