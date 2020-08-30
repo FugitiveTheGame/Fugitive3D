@@ -3,6 +3,8 @@ class_name FpsCamera
 
 onready var fpsController: Spatial = get_parent()
 
+const JOY_THRESHOLD := 0.25
+
 var sensitivity_y := 0.0
 var inversion_mult := 1.0
 var max_y := 89.0
@@ -31,14 +33,26 @@ func _input(event):
 		return
 	
 	if event is InputEventMouseMotion:
-		var rotateBy = inversion_mult * sensitivity_y * mouseLookSensetivityModifier * event.relative.y
-		
-		if rotateBy >= 0 and self.rotation_degrees.x >= max_y:
-			return
-		if rotateBy <= 0  and self.rotation_degrees.x <= -max_y:
-			return
-		
-		rotate_x(rotateBy)
-		
-		if heldObject != null:
-			heldObject.rotate_x(rotateBy)
+		var rotate_by = inversion_mult * sensitivity_y * mouseLookSensetivityModifier * event.relative.y
+		look_vertical(rotate_by)
+
+
+func _process(delta):
+	var look_y_joystick := Input.get_joy_axis(0, JOY_ANALOG_RY)
+	if abs(look_y_joystick) > JOY_THRESHOLD:
+		var rotate_by = inversion_mult * sensitivity_y * mouseLookSensetivityModifier * look_y_joystick
+		look_vertical(rotate_by)
+
+
+func look_vertical(rotate_by: float):
+	if rotate_by == 0.0:
+		return 
+	if rotate_by >= 0 and self.rotation_degrees.x >= max_y:
+		return
+	if rotate_by <= 0  and self.rotation_degrees.x <= -max_y:
+		return
+	
+	rotate_x(rotate_by)
+	
+	if heldObject != null:
+		heldObject.rotate_x(rotate_by)

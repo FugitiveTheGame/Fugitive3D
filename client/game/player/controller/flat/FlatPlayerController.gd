@@ -93,6 +93,10 @@ func _process(delta):
 		var x := virtual_joysticks.right_output.x
 		# y=\frac{x^{6}}{x}
 		rotate_y(((pow(x, 6.0)/x) * -TouchSensitivity_X) * mouseLookSensetivityModifier)
+	
+	var look_x_joystick := Input.get_joy_axis(0, JOY_ANALOG_RX)
+	if abs(look_x_joystick) > 0.1 and mouse_captured():
+		rotate_y(-Sensitivity_X * mouseLookSensetivityModifier * look_x_joystick)
 
 
 func _physics_process(delta):

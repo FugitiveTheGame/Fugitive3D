@@ -4,6 +4,13 @@ signal show_help
 signal show_exit
 signal resume_game
 
+export(NodePath) var resumeButtonPath: NodePath
+onready var resumeButton := get_node(resumeButtonPath) as Button
+
+
+func _on_InGameMenuHud_about_to_show():
+	resumeButton.grab_focus()
+
 
 func _on_HelpButton_pressed():
 	hide()

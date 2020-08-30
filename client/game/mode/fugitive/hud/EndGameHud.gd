@@ -27,6 +27,9 @@ onready var replayLegend := get_node(replayLegendPath) as VBoxContainer
 export(NodePath) var autostartReplayTimerPath: NodePath
 onready var autostartReplayTimer := get_node(autostartReplayTimerPath) as Timer
 
+export(NodePath) var lobbyButtonPath: NodePath
+onready var lobbyButton := get_node(lobbyButtonPath) as Button
+
 
 func _ready():
 	hide()
@@ -79,6 +82,9 @@ func team_won(winningTeam: int):
 	replayHud.loadReplayLegend()
 	
 	$GameOverAudio.play()
+	
+	# For controllers
+	lobbyButton.grab_focus()
 	
 	# Give everyone a moment to realize that the game was just finished
 	$DelayShowTimer.start()
