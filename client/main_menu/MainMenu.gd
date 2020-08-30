@@ -26,6 +26,9 @@ onready var badInputDialog := get_node(badInputDialogPath) as AcceptDialog
 export (NodePath) var lostConnectionDialogPath: NodePath
 onready var lostConnectionDialog := get_node(lostConnectionDialogPath) as AcceptDialog
 
+export (NodePath) var helpButtonPath: NodePath
+onready var helpButton := get_node(helpButtonPath) as Button
+
 export (NodePath) var helpDialogPath: NodePath
 onready var helpDialog := get_node(helpDialogPath) as WindowDialog
 
@@ -85,6 +88,8 @@ func _ready():
 		crashDetectedDialog.call_deferred("popup_centered")
 		
 	check_for_update()
+	
+	helpButton.grab_focus()
 
 
 func check_for_update():

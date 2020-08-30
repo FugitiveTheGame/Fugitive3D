@@ -16,6 +16,7 @@ func _on_ExitGameDialog_confirmed():
 
 
 func _on_ExitGameDialog_about_to_show():
+	grab_focus()
 	emit_signal("on_exit_dialog_show")
 
 
