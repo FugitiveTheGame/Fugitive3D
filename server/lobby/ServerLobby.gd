@@ -59,3 +59,13 @@ func on_start_lobby_countdown():
 	# So while the cliets are counting down, send the server to the game
 	# so it can get configured in time
 	ClientNetwork.on_start_game()
+
+
+func create_player(playerId: int):
+	.create_player(playerId)
+	advertiser.update_players(GameData.players.size())
+
+
+func remove_player(playerId: int):
+	.remove_player(playerId)
+	advertiser.update_players(GameData.players.size())

@@ -11,6 +11,7 @@ func populate(info):
 	
 	$NameLabel.text = "%s" % [serverInfo.name]
 	$LanIndicator.visible = serverInfo.lan
+	$PlayersLabel.text = "%d/%d" % [serverInfo.current_players, serverInfo.max_players]
 	
 	if serverInfo.is_joinable:
 		$ConnectButton.show()
