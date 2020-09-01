@@ -104,6 +104,8 @@ func _exit_tree():
 
 
 func request_servers():
+	serverRepoRequest.cancel_request()
+	
 	var endpointUrl = serverRepositoryUrl + "/servers"
 	serverRepoRequest.request(endpointUrl)
 
