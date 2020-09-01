@@ -68,6 +68,8 @@ func server_remove_player(playerId: int):
 			check_all_configured()
 		elif stateMachine.current_state.name == FugitiveStateMachine.STATE_NOT_READY:
 			check_all_ready()
+	
+	advertiser.update_players(GameData.players.size())
 
 
 func load_map():

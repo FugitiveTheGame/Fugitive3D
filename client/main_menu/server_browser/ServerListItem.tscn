@@ -13,39 +13,48 @@ __meta__ = {
 }
 
 [node name="NameLabel" type="Label" parent="."]
-margin_top = 6.0
-margin_right = 139.0
-margin_bottom = 31.0
+margin_top = 7.0
+margin_right = 81.0
+margin_bottom = 32.0
 size_flags_horizontal = 3
 text = "Server name"
 clip_text = true
 
 [node name="LanIndicator" type="Label" parent="."]
-margin_left = 147.0
-margin_top = 6.0
-margin_right = 192.0
-margin_bottom = 31.0
+margin_left = 89.0
+margin_top = 7.0
+margin_right = 134.0
+margin_bottom = 32.0
 text = "LAN"
 __meta__ = {
 "_edit_use_anchors_": true
 }
 
 [node name="ConnectButton" type="Button" parent="."]
-margin_left = 200.0
-margin_right = 312.0
-margin_bottom = 37.0
+margin_left = 142.0
+margin_right = 244.0
+margin_bottom = 39.0
 size_flags_vertical = 4
 text = "Connect"
 
 [node name="NotJoinableLabel" type="Label" parent="."]
-margin_left = 320.0
-margin_top = 6.0
-margin_right = 435.0
-margin_bottom = 31.0
+margin_left = 252.0
+margin_top = 7.0
+margin_right = 367.0
+margin_bottom = 32.0
 custom_colors/font_color = Color( 0.678431, 0.580392, 0.580392, 1 )
 custom_colors/font_color_shadow = Color( 0, 0, 0, 1 )
 custom_constants/shadow_offset_x = 1
 custom_constants/shadow_offset_y = 1
 text = "[IN-GAME]"
 uppercase = true
+
+[node name="PlayersLabel" type="Label" parent="."]
+margin_left = 375.0
+margin_top = 7.0
+margin_right = 423.0
+margin_bottom = 32.0
+text = "0/10"
+align = 2
+valign = 1
 [connection signal="pressed" from="ConnectButton" to="." method="_on_ConnectButton_pressed"]

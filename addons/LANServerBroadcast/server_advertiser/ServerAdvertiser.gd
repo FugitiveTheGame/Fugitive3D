@@ -11,7 +11,12 @@ const SERVER_ID_FORMAT := "%s:%d"
 
 # How often to broadcast out to the network that this host is active
 export (float) var broadcast_interval: float = 1.0
-var serverInfo := {"name": "LAN Game", "port": 0}
+var serverInfo := {
+	"name": "LAN Game",
+	"port": 0,
+	"max_players": 10,
+	"current_players": 0
+	}
 
 var socketUDP: PacketPeerUDP
 var broadcastTimer := Timer.new()
@@ -51,6 +56,10 @@ func _ready():
 	broadcastTimer.one_shot = false
 	broadcastTimer.connect("timeout", self, "broadcast") 
 	add_child(broadcastTimer)
+
+
+func update_players(num_players: int):
+	serverInfo["current_players"] = num_players
 
 
 func start_advertising_lan():
