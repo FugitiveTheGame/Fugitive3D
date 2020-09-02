@@ -21,7 +21,7 @@ static func get_team_name(teamId: int) -> String:
 	return teamName
 
 
-static func get_random_team_layout(mapId: int, numPlayers: int) -> Array:
+static func get_random_team_layout(mapId: String, numPlayers: int) -> Array:
 	var teams = []
 	if numPlayers < 3:
 		teams.push_back(numPlayers-1) # Hiders
