@@ -35,7 +35,8 @@ func _exit_tree():
 
 
 func load_map():
-	var mapData = Maps.directory[GameData.general[GameData.GENERAL_MAP]]
+	var mapId = GameData.general[GameData.GENERAL_MAP]
+	var mapData = Maps.directory[mapId]
 	var mapPath = mapData[Maps.MAP_PATH]
 	var scene := load(mapPath)
 	var map = scene.instance()

@@ -46,7 +46,8 @@ func _ready():
 	
 	# Init map id to the first map, this is a bunch of code that gets angry if this
 	# is not a valid ID at all times :(
-	GameData.general[GameData.GENERAL_MAP] = directory.values()[0].id
+	if GameData.general[GameData.GENERAL_MAP] == null or GameData.general[GameData.GENERAL_MAP] == "":
+		GameData.general[GameData.GENERAL_MAP] = directory.values()[0].id
 
 
 func get_team_sizes_for_map(mapId: String) -> Array:
