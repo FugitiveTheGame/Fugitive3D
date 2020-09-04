@@ -6,8 +6,12 @@ There are two teams in Fugitive:
 [u]As a Cop:[/u]
 Your goal is to capture the Fugitives by touching them. You will have the advantage of a car which you can use to patrol the map, and quickly pick up and drop off your fellow cops. But be careful to not leave your car unattended, after unlocking the car the first time anyone can get in and drive it.
 
+As a cop, you have the utmost respect for private property, so there are some flower beds and small bushes with dirt under them that you would never step on. Fugitives however are now so kind, so they may run right through them.
+
 [u]As a Fugitive:[/u]
 Your goal is to get to the safe zone at the end of the map without being seen. If a Cop catches up to you and tags you, you'll be frozen in place. Another Fugitive can come and touch you to unfreeze you. If you make it to the safe zone, just sit tight, no one can freeze you in the safe zone!
+
+Try to lose the cops by running through flower beds! They can't follow you through tiles with dirt.
 
 [u]Sprinting:[/u]
 A short burst of speed, you must stop moving completely to regenerate your stamina.
