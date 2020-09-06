@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://client/main_menu/MainMenu.gd" type="Script" id=1]
 [ext_resource path="res://client/main_menu/server_browser/ServerBrowser.tscn" type="PackedScene" id=2]
@@ -11,6 +11,7 @@
 [ext_resource path="res://fugitive_theme.tres" type="Theme" id=9]
 [ext_resource path="res://client/main_menu/discord_pressed.png" type="Texture" id=10]
 [ext_resource path="res://client/main_menu/discord_normal.png" type="Texture" id=11]
+[ext_resource path="res://godot_logo_pressed.png" type="Texture" id=12]
 
 [node name="MainMenu" type="Control"]
 anchor_right = 1.0
@@ -277,17 +278,15 @@ margin_bottom = 25.0
 text = "v0"
 valign = 1
 
-[node name="GodotLogo" type="TextureRect" parent="InfoContainer"]
+[node name="GodotLogo" type="TextureButton" parent="InfoContainer"]
 margin_top = 33.0
 margin_right = 64.0
 margin_bottom = 97.0
 rect_min_size = Vector2( 64, 64 )
-texture = ExtResource( 5 )
+texture_normal = ExtResource( 5 )
+texture_pressed = ExtResource( 12 )
 expand = true
-stretch_mode = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
+stretch_mode = 4
 
 [node name="DiscordButton" type="TextureButton" parent="InfoContainer"]
 margin_top = 105.0
@@ -424,6 +423,7 @@ dialog_autowrap = true
 [connection signal="pressed" from="OptionsContainer/FeedbackButton" to="." method="_on_FeedbackButton_pressed"]
 [connection signal="toggled" from="OptionsContainer/MenuMusicButton" to="." method="_on_MenuMusicButton_toggled"]
 [connection signal="pressed" from="JoiningDialog/VBoxContainer/CancelButton" to="." method="_on_CancelButton_pressed"]
+[connection signal="pressed" from="InfoContainer/GodotLogo" to="." method="_on_GodotLogo_pressed"]
 [connection signal="pressed" from="InfoContainer/DiscordButton" to="." method="_on_DiscordButton_pressed"]
 [connection signal="connect_to_server" from="VBoxContainer/ServerBrowser" to="." method="_on_ServerBrowser_connect_to_server"]
 [connection signal="request_completed" from="VersionCheckRequest" to="." method="_on_VersionCheckRequest_request_completed"]
