@@ -211,3 +211,7 @@ func _on_VersionCheckRequest_request_completed(result: int, response_code: int, 
 
 func _on_DiscordButton_pressed():
 	OS.shell_open("https://discord.gg/2qk2Spe")
+
+
+func _on_GodotLogo_pressed():
+	OS.shell_open("https://godotengine.org/")
