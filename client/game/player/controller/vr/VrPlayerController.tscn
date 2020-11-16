@@ -120,7 +120,6 @@ voiceChatTransceiverPath = NodePath("../../../../../../VoiceChat")
 [node name="InGameMenuHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" instance=ExtResource( 14 )]
 
 [node name="ExitGameHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" instance=ExtResource( 12 )]
-visible = false
 margin_left = -174.0
 margin_top = -55.0
 margin_right = 174.0
