@@ -15,6 +15,10 @@ static func renderer_is_gles2() -> bool:
 	return ProjectSettings.get_setting("rendering/quality/driver/driver_name") == "GLES2"
 
 
+static func is_quest2() -> bool:
+	return OS.has_feature("quest2")
+
+
 static func aabb_from_shape(colShape: CollisionShape) -> AABB:
 	var boxShape := colShape.shape as BoxShape
 	var pos := colShape.global_transform.origin

@@ -468,7 +468,6 @@ push_to_talk={
 [logging]
 
 file_logging/enable_file_logging=true
-file_logging/max_log_files=5
 file_logging/enable_file_logging.server=false
 
 [memory]
@@ -481,7 +480,10 @@ limits/message_queue/max_size_kb=4096
 quality/driver/fallback_to_gles2=true
 threads/thread_model=2
 vram_compression/import_etc=true
+quality/shadows/filter_mode.mobile=1
 quality/shading/force_vertex_shading.mobile=false
+quality/shading/force_lambert_over_burley.mobile=false
+quality/shading/force_blinn_over_ggx.mobile=false
 environment/default_clear_color=Color( 0.117647, 0.101961, 0.188235, 1 )
 environment/default_environment="res://default_environment.tres"
 quality/driver/driver_name.mobile="GLES2"
