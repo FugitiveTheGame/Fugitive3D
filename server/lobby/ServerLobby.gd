@@ -49,12 +49,6 @@ func on_start_lobby_countdown():
 	# Make sure we aren't joinable
 	ServerUtils.update_joinable(advertiser, ServerNetwork.is_joinable)
 	
-	# Send the final state that the server sees for all of the game and player data
-	# Before it leaves for the game
-	ClientNetwork.update_game_data()
-	for player in GameData.get_players():
-		ClientNetwork.update_player(player)
-	
 	# We must ensure that the server loads before everyone else,
 	# So while the cliets are counting down, send the server to the game
 	# so it can get configured in time

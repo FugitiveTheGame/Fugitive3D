@@ -41,6 +41,16 @@ func _player_disconnected(id):
 				make_host(newHost.get_id())
 
 
+func change_map(map_id: String):
+	rpc_id(SERVER_ID, "on_change_map", map_id)
+
+
+remote func on_change_map(map_id: String):
+	GameData.general[GameData.GENERAL_MAP] = map_id
+	
+	ClientNetwork.update_game_data(GameData.general, ClientNetwork.gameDataSequence+1)
+
+
 # Called by clients when they connect
 func register_self(playerId: int, platformType: int, playerName: String, gameVersion: int):
 	rpc_id(SERVER_ID, "on_register_self", playerId, platformType, playerName, gameVersion)
@@ -82,7 +92,7 @@ remote func on_register_self(playerId: int, platformType: int, playerName: Strin
 				var player = GameData.get_player(curPlayerId)
 				ClientNetwork.register_player(playerId, player)
 		
-		ClientNetwork.update_game_data()
+		ClientNetwork.update_game_data(GameData.general, ClientNetwork.gameDataSequence)
 		
 		# If there is no host, make this player the host
 		if GameData.get_host() == null:

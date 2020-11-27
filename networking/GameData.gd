@@ -1,5 +1,6 @@
 extends Node
 
+
 var players = {}
 
 var currentGame: GameMode = null
@@ -12,6 +13,8 @@ var general = {
 	GENERAL_MAP : "",
 	GENERAL_SEED : 0
 }
+
+var lock := Mutex.new()
 
 
 func remove_player(playerId: int):
@@ -53,6 +56,12 @@ func add_player_from_raw_data(newPlayerDictionary: Dictionary) -> bool:
 
 func reset():
 	self.players = {}
+
+
+func update_general(new_data: Dictionary):
+	lock.lock()
+	general = new_data
+	lock.unlock()
 
 
 func get_current_player() -> PlayerData:

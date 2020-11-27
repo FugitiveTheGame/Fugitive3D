@@ -10,6 +10,9 @@ signal lost_connection_to_server
 var localPlayerName: String
 var disconnectReason = null
 
+var gameDataSequence := 0
+
+
 func _enter_tree():
 	get_tree().connect('connected_to_server', self, 'on_connected_to_server')
 	get_tree().connect('server_disconnected', self, 'on_disconnected_from_server')
@@ -85,13 +88,18 @@ remotesync func on_update_player(playerInfoDictionary: Dictionary):
 	emit_signal("update_player", playerInfoDictionary.id)
 
 
-func update_game_data():
-	rpc("on_update_game_data", GameData.general)
+func update_game_data(generalData: Dictionary, sequenceNumber: int):
+	rpc("on_update_game_data", generalData, sequenceNumber)
 
 
-remote func on_update_game_data(generalData):
-	GameData.general = generalData
-	emit_signal("update_game_data", GameData.general)
+remotesync func on_update_game_data(generalData: Dictionary, sequenceNumber: int):
+	print("on_update_game_data: new seq: " + str(sequenceNumber) + " cur seq: " + str(sequenceNumber))
+	if gameDataSequence < sequenceNumber:
+		gameDataSequence = sequenceNumber
+		GameData.update_general(generalData)
+		emit_signal("update_game_data", GameData.general)
+	else:
+		print("Old game data received, discarding.")
 
 
 func start_lobby_countdown():
