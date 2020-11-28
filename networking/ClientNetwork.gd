@@ -13,6 +13,13 @@ var disconnectReason = null
 var gameDataSequence := 0
 var playerDataSequence := 0
 
+func getNextSequence(curSequence: int) -> int:
+	# Roll over
+	if curSequence + 1 < 0:
+		return 0
+	else:
+		return curSequence + 1
+
 
 func _enter_tree():
 	get_tree().connect('connected_to_server', self, 'on_connected_to_server')
@@ -86,14 +93,17 @@ func update_players():
 	for playerId in GameData.players:
 		playerDictionaries[playerId] = GameData.players[playerId].player_data_dictionary
 	
-	print("Sending player update: old %d / new %d" % [playerDataSequence, playerDataSequence+1])
-	rpc("on_update_player", playerDictionaries, playerDataSequence+1)
+	var sequenceNumber = getNextSequence(playerDataSequence)
+	
+	print("Sending player update: old %d / new %d" % [playerDataSequence, sequenceNumber])
+	
+	rpc("on_update_player", playerDictionaries, sequenceNumber)
 
 
 remotesync func on_update_player(playersDictionary: Dictionary, sequenceNumber: int):
 	GameData.lock.lock()
 	
-	if playerDataSequence <= sequenceNumber:
+	if playerDataSequence <= sequenceNumber or sequenceNumber <= 0:
 		playerDataSequence = sequenceNumber
 		print("Updating players: new %d" % [playerDataSequence])
 		for playerId in playersDictionary:
@@ -109,7 +119,7 @@ remotesync func on_update_player(playersDictionary: Dictionary, sequenceNumber: 
 
 # Send local game data to all clients
 func update_game_data():
-	var sequenceNumber := gameDataSequence + 1
+	var sequenceNumber := getNextSequence(gameDataSequence)
 	rpc("on_update_game_data", GameData.general, sequenceNumber)
 
 
@@ -117,7 +127,7 @@ remotesync func on_update_game_data(generalData: Dictionary, sequenceNumber: int
 	GameData.lock.lock()
 	
 	print("on_update_game_data: new seq: " + str(sequenceNumber) + " cur seq: " + str(gameDataSequence))
-	if gameDataSequence <= sequenceNumber:
+	if gameDataSequence <= sequenceNumber or sequenceNumber <= 0:
 		gameDataSequence = sequenceNumber
 		print("Updating game data: new %d" % [gameDataSequence])
 		GameData.update_general(generalData)
