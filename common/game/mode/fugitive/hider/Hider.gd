@@ -41,6 +41,8 @@ func _on_UnfreezeArea_body_entered(body):
 				
 				# Also grant that rescuing player a stat
 				FugitivePlayerDataUtility.increment_stat_for_player_id(player.id, FugitivePlayerDataUtility.STAT_HIDER_UNFREEZER)
+				
+				ClientNetwork.update_players()
 
 
 remotesync func on_freeze():

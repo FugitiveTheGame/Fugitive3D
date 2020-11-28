@@ -1,7 +1,7 @@
 extends Node
 
 
-var players = {}
+var players := {}
 
 var currentGame: GameMode = null
 var currentMap = null
@@ -18,7 +18,9 @@ var lock := Mutex.new()
 
 
 func remove_player(playerId: int):
+	lock.lock()
 	players.erase(playerId)
+	lock.unlock()
 
 
 func get_players() -> Array:
@@ -43,6 +45,7 @@ func create_new_player_raw_data(playerId: int, platformType: int, playerName: St
 	}
 
 func add_player_from_raw_data(newPlayerDictionary: Dictionary) -> bool:
+	lock.lock()
 	var playerId = newPlayerDictionary.id
 	if not self.players.has(playerId):
 		var newPlayer := PlayerData.new()
@@ -52,6 +55,7 @@ func add_player_from_raw_data(newPlayerDictionary: Dictionary) -> bool:
 		return true
 	else:
 		return false
+	lock.unlock()
 
 
 func reset():
@@ -88,21 +92,39 @@ func get_current_player_id() -> int:
 		return -1
 
 
-func update_player_from_raw_data(player_data_dictionary: Dictionary):
+func update_player(player_data: PlayerData) -> bool:
+	lock.lock()
+	var player := get_player(player_data.get_id())
+	var updated = player.load(player_data.player_data_dictionary)
+	lock.unlock()
+	
+	return updated
+	
+
+func update_player_from_raw_data(player_data_dictionary: Dictionary) -> bool:
+	lock.lock()
+	
+	var updated := false
+	
 	var playerId = player_data_dictionary.id
 	var player := get_player(playerId)
 	if player != null:
-		player.load(player_data_dictionary)
+		updated = player.load(player_data_dictionary)
+	lock.unlock()
+	
+	return updated
 
 
 func get_host() -> PlayerData:
+	lock.lock()
 	var host = null
 	
-	for player in GameData.players.values():
+	for player in players.values():
 		var playerData := player as PlayerData
 		
 		if playerData.get_is_host() == true:
 			host = player
 			break
+	lock.unlock()
 	
 	return host

@@ -180,6 +180,8 @@ func finish_game(playerType: int):
 		if player.get_type() == playerType:
 			FugitivePlayerDataUtility.increment_stat_for_player_id(playerId, FugitivePlayerDataUtility.STAT_WINS)
 	
+	ClientNetwork.update_players()
+	
 	rpc("on_finish_game", playerType)
 
 

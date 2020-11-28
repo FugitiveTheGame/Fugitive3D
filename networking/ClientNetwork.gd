@@ -11,6 +11,7 @@ var localPlayerName: String
 var disconnectReason = null
 
 var gameDataSequence := 0
+var playerDataSequence := 0
 
 
 func _enter_tree():
@@ -79,27 +80,52 @@ remote func on_register_player(player: Dictionary):
 	print("Total players: %d" % GameData.players.size())
 
 
-func update_player(playerData: PlayerData):
-	rpc("on_update_player", playerData.player_data_dictionary)
+# Sends this clients player data to all other clients
+func update_players():
+	var playerDictionaries := {}
+	for playerId in GameData.players:
+		playerDictionaries[playerId] = GameData.players[playerId].player_data_dictionary
+	
+	print("Sending player update: old %d / new %d" % [playerDataSequence, playerDataSequence+1])
+	rpc("on_update_player", playerDictionaries, playerDataSequence+1)
 
 
-remotesync func on_update_player(playerInfoDictionary: Dictionary):
-	GameData.update_player_from_raw_data(playerInfoDictionary)
-	emit_signal("update_player", playerInfoDictionary.id)
+remotesync func on_update_player(playersDictionary: Dictionary, sequenceNumber: int):
+	GameData.lock.lock()
+	
+	if playerDataSequence <= sequenceNumber:
+		playerDataSequence = sequenceNumber
+		print("Updating players: new %d" % [playerDataSequence])
+		for playerId in playersDictionary:
+			var playerInfoDictionary = playersDictionary[playerId]
+			var updated = GameData.update_player_from_raw_data(playerInfoDictionary)
+			# Only send update event if this player actually updated
+			if updated or get_tree().is_network_server(): # Server always dispatches updates
+				emit_signal("update_player", playerInfoDictionary.id)
+	else:
+		print("Old player data received, discarding. old %d / new %d" % [playerDataSequence, sequenceNumber])
+	
+	GameData.lock.unlock()
 
-
-func update_game_data(generalData: Dictionary, sequenceNumber: int):
-	rpc("on_update_game_data", generalData, sequenceNumber)
+# Send local game data to all clients
+func update_game_data():
+	var sequenceNumber := gameDataSequence + 1
+	rpc("on_update_game_data", GameData.general, sequenceNumber)
 
 
 remotesync func on_update_game_data(generalData: Dictionary, sequenceNumber: int):
-	print("on_update_game_data: new seq: " + str(sequenceNumber) + " cur seq: " + str(sequenceNumber))
-	if gameDataSequence < sequenceNumber:
+	GameData.lock.lock()
+	
+	print("on_update_game_data: new seq: " + str(sequenceNumber) + " cur seq: " + str(gameDataSequence))
+	if gameDataSequence <= sequenceNumber:
 		gameDataSequence = sequenceNumber
+		print("Updating game data: new %d" % [gameDataSequence])
 		GameData.update_general(generalData)
 		emit_signal("update_game_data", GameData.general)
 	else:
-		print("Old game data received, discarding.")
+		print("Old game data received, discarding. old %d / new %d" % [gameDataSequence, sequenceNumber])
+	
+	GameData.lock.unlock()
 
 
 func start_lobby_countdown():
@@ -148,3 +174,10 @@ func consume_disconnect_reason() -> String:
 	var message = str(disconnectReason)
 	disconnectReason = null
 	return message
+
+
+func reset_network():
+	.reset_network()
+	
+	gameDataSequence = 0
+	playerDataSequence = 0
