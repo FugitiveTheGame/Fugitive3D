@@ -111,6 +111,8 @@ func freeze_hider(hider):
 		
 		FugitivePlayerDataUtility.increment_stat_for_player_id(id, FugitivePlayerDataUtility.STAT_SEEKER_FREEZES)
 		FugitivePlayerDataUtility.increment_stat_for_player_id(hider.id, FugitivePlayerDataUtility.STAT_HIDER_FROZEN)
+		
+		ClientNetwork.update_players()
 
 
 func on_state_playing():

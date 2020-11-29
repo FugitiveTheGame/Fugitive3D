@@ -3,8 +3,17 @@ class_name PlayerData
 
 var player_data_dictionary: Dictionary
 
-func load(new_player_data_dictionary: Dictionary):
+# Returns true if data was changed
+func load(new_player_data_dictionary: Dictionary) -> bool:
+	var changed := (player_data_dictionary.hash() != new_player_data_dictionary.hash())
+	
 	player_data_dictionary = new_player_data_dictionary
+	
+	return changed
+
+
+func equals(data: PlayerData) -> bool:
+	return player_data_dictionary.hash() == data.player_data_dictionary.hash()
 
 
 func get_id() -> int:

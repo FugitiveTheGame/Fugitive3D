@@ -270,11 +270,9 @@ func on_start_lobby_countdown():
 
 func _on_MapButton_item_selected(id):
 	var map_id = mapSelect.get_item_metadata(id)
-	
 	GameAnalytics.design_event("lobby_map_changed")
-	GameData.general[GameData.GENERAL_MAP] = map_id
 	update_map_description(map_id)
-	ClientNetwork.update_game_data()
+	ServerNetwork.change_map(map_id)
 
 
 func on_make_host(playerId: int):

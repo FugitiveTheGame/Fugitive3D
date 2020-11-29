@@ -41,6 +41,19 @@ func _player_disconnected(id):
 				make_host(newHost.get_id())
 
 
+func change_map(map_id: String):
+	rpc_id(SERVER_ID, "on_change_map", map_id)
+
+
+remote func on_change_map(map_id: String):
+	if GameData.currentGame == null:
+		GameData.general[GameData.GENERAL_MAP] = map_id
+		
+		ClientNetwork.update_game_data()
+	else:
+		print("WARN: Not allowed to change map during game")
+
+
 # Called by clients when they connect
 func register_self(playerId: int, platformType: int, playerName: String, gameVersion: int):
 	rpc_id(SERVER_ID, "on_register_self", playerId, platformType, playerName, gameVersion)
@@ -62,7 +75,7 @@ remote func on_register_self(playerId: int, platformType: int, playerName: Strin
 	# Ready up an existing plauyer
 	if existingPlayer != null:
 		existingPlayer.set_lobby_ready(true)
-		ClientNetwork.update_player(existingPlayer)
+		ClientNetwork.update_players()
 	# Register a totally new player
 	else:
 		# Default to team 0
@@ -82,11 +95,13 @@ remote func on_register_self(playerId: int, platformType: int, playerName: Strin
 				var player = GameData.get_player(curPlayerId)
 				ClientNetwork.register_player(playerId, player)
 		
-		ClientNetwork.update_game_data()
-		
 		# If there is no host, make this player the host
+		# That will trigger a player update
 		if GameData.get_host() == null:
 			make_host(playerId)
+		# Update player data
+		else:
+			ClientNetwork.update_game_data()
 
 
 func make_host(playerId: int):
@@ -95,12 +110,12 @@ func make_host(playerId: int):
 	var curHost := GameData.get_host() as PlayerData
 	if curHost != null:
 		curHost.set_is_host(false)
-		ClientNetwork.update_player(curHost)
 	
 	# Set the new player as host
 	var playerInfo := GameData.get_player(playerId) as PlayerData
 	playerInfo.set_is_host(true)
-	ClientNetwork.update_player(playerInfo)
+	
+	ClientNetwork.update_players()
 
 
 func is_hosting() -> bool:
@@ -136,16 +151,20 @@ func host_game(port: int = SERVER_PORT) -> bool:
 
 
 func change_player_type(playerId: int, playerType: int):
-	rpc("on_change_player_type", playerId, playerType)
+	rpc_id(SERVER_ID, "on_change_player_type", playerId, playerType)
 
 
-remote func on_change_player_type(playerId: int, playerType: int):
-	var player = GameData.get_player(playerId) as PlayerData
-	if player != null:
-		player.set_type(playerType)
-		ClientNetwork.update_player(player)
+remotesync func on_change_player_type(playerId: int, playerType: int):
+	if GameData.currentGame == null:
+		var player = GameData.get_player(playerId) as PlayerData
+		if player != null:
+			player.set_type(playerType)
+			
+			ClientNetwork.update_players()
+		else:
+			print("ERROR: on_change_player_type() player not found for ID: %d" % playerId)
 	else:
-		print("ERROR: on_change_player_type() player not found for ID: %d" % playerId)
+		print("WARN: not allowed to change player type while in game")
 
 
 func randomize_teams():
@@ -188,3 +207,5 @@ remotesync func on_randomize_teams():
 			change_player_type(playerId, teamId)
 		
 		teamId += 1
+	
+	ClientNetwork.update_players()
