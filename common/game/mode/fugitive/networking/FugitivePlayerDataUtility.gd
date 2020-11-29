@@ -77,8 +77,9 @@ static func increment_stat(playerData: PlayerData, identifier: String, step: int
 		overallStats[identifier] = 0
 	overallStats[identifier] += step
 	
+	GameData.update_player(playerData)
 	#print("STATS - Incrementing stat %s for player %s.  New value: %d" % [identifier, playerData.get_id(), stats[identifier]])
-	ClientNetwork.update_player(playerData)
+	#ClientNetwork.update_players() # Send this data later
 
 
 static func reset_stats():
@@ -89,7 +90,7 @@ static func reset_stats():
 static func reset_stats_for_player(playerData: PlayerData):
 	#print("STATS - Resetting stats for player %s" % playerData.get_id())
 	playerData.player_data_dictionary[STATS] = {}
-	ClientNetwork.update_player(playerData)
+	ClientNetwork.update_players()
 
 ### PRIVATE METHODS
 
