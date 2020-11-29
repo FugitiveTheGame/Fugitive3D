@@ -54,6 +54,15 @@ func go_to_flat():
 	handle_commandline_args()
 
 
+func prepare_vr_common():
+	# Joypad mappings overlap w\ vr button inputs,
+	# we need to remove them for vr clients
+	for action in InputMap.get_actions():
+		for action_event in InputMap.get_action_list(action):
+			if action_event is InputEventJoypadButton:
+				InputMap.action_erase_event(action, action_event)
+
+
 func go_to_pc_vr():
 	prepare_pc_vr()
 	
@@ -67,12 +76,13 @@ func go_to_mobile_vr():
 
 
 func prepare_pc_vr():
+	prepare_vr_common()
 	vr.initialize()
 
 
 func prepare_mobile_vr():
 	print("Configuring for Mobile VR")
-	
+	prepare_vr_common()
 	vr.initialize()
 	
 	# enable the extra latency mode: this gives some performance headroom at the cost
