@@ -473,7 +473,6 @@ file_logging/enable_file_logging.server=false
 [memory]
 
 limits/multithreaded_server/rid_pool_prealloc=90
-limits/message_queue/max_size_kb=4096
 
 [rendering]
 
