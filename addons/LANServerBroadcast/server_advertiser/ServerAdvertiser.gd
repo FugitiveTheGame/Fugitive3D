@@ -5,7 +5,7 @@ signal register_failed
 signal register_succeeded
 
 const DEFAULT_PORT := 32000
-const REPOSITORY_ADVERTISE_INTERVAL := 30.0
+const REPOSITORY_ADVERTISE_INTERVAL := 30_000
 
 const SERVER_ID_FORMAT := "%s:%d"
 
@@ -29,7 +29,7 @@ var ipRequest := HTTPRequest.new()
 var registerRequest := HTTPRequest.new()
 var removeRequest := HTTPRequest.new()
 
-var repositoryRegisterTimer := Timer.new()
+var repositoryRegisterTimer := Threshold.new(REPOSITORY_ADVERTISE_INTERVAL)
 var initial_registration := true
 
 
@@ -44,18 +44,16 @@ func _enter_tree():
 
 
 func _ready():
-	repositoryRegisterTimer.name = "RepositoryRegisterTimer"
-	repositoryRegisterTimer.wait_time = REPOSITORY_ADVERTISE_INTERVAL
-	repositoryRegisterTimer.one_shot = false
-	repositoryRegisterTimer.autostart = false
-	repositoryRegisterTimer.connect("timeout", self, "_on_RepositoryRegisterTimer_timeout")
-	add_child(repositoryRegisterTimer)
-
 	broadcastTimer.name = "BroadcastTimer"
 	broadcastTimer.wait_time = broadcast_interval
 	broadcastTimer.one_shot = false
 	broadcastTimer.connect("timeout", self, "broadcast") 
 	add_child(broadcastTimer)
+
+
+func _process(delta):
+	if repositoryRegisterTimer.is_exceeded():
+		_on_RepositoryRegisterTimer_timeout()
 
 
 func update_players(num_players: int):
@@ -96,8 +94,6 @@ func _exit_tree():
 	broadcastTimer.stop()
 	if socketUDP != null:
 		socketUDP.close()
-	
-	repositoryRegisterTimer.stop()
 
 
 func fetch_external_ip():
