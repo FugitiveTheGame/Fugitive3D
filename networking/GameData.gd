@@ -46,16 +46,19 @@ func create_new_player_raw_data(playerId: int, platformType: int, playerName: St
 
 func add_player_from_raw_data(newPlayerDictionary: Dictionary) -> bool:
 	lock.lock()
+	
+	var removed := false
 	var playerId = newPlayerDictionary.id
 	if not self.players.has(playerId):
 		var newPlayer := PlayerData.new()
 		newPlayer.load(newPlayerDictionary)
 		
 		self.players[playerId] = newPlayer
-		return true
-	else:
-		return false
+		removed = true
+	
 	lock.unlock()
+	
+	return removed
 
 
 func reset():
