@@ -165,4 +165,5 @@ func remove_from_repository():
 		var serverID := SERVER_ID_FORMAT % [serverInfo["ip"], serverInfo["port"]]
 		var url := serverRepositoryUrl + "/servers/" + serverID
 		
+		removeRequest.cancel_request()
 		removeRequest.request(url, [], false, HTTPClient.METHOD_DELETE)
