@@ -93,8 +93,19 @@ func prepare_mobile_vr():
 	# for details see https://developer.oculus.com/documentation/quest/latest/concepts/mobile-ffr/
 	vr.set_foveation_level(vr.FoveatedRenderingLevel.Medium)
 	
+	
 	# This will dynamically change the foveation level up to the previous level
-	#vr.set_enable_dynamic_foveation(1)
+	vr.set_enable_dynamic_foveation(1)
+	
+	print("== avalible rates ==")
+	var avalibleRates = vr.get_supported_display_refresh_rates()
+	for rate in avalibleRates:
+		print(rate)
+	var highestRate = avalibleRates[avalibleRates.size()-1]
+	print("highestRate: %s" % String(highestRate))
+	#vr.set_display_refresh_rate(highestRate)
+	
+	
 
 
 func init_analytics():
