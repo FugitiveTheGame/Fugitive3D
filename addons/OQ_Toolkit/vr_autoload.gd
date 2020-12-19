@@ -377,6 +377,8 @@ var ovrSystem = null;
 var ovrDisplay = null;
 var ovrGuardianSystem = null;
 var ovrTrackingTransform = null;
+var ovrHandTracking = null;
+var ovrInput = null;
 # for the types we need to assume it is always available
 var ovrVrApiTypes = load("res://addons/godot_ovrmobile/OvrVrApiTypes.gd").new();
 
@@ -393,7 +395,8 @@ func _initialize_OVR_API():
 	var _OvrDisplay = load("res://addons/godot_ovrmobile/OvrDisplay.gdns");
 	var _OvrGuardianSystem = load("res://addons/godot_ovrmobile/OvrGuardianSystem.gdns");
 	var _OvrTrackingTransform = load("res://addons/godot_ovrmobile/OvrTrackingTransform.gdns");
-	
+	var _OvrHandTracking = load("res://addons/godot_ovrmobile/OvrHandTracking.gdns");
+	var _OvrInput = load("res://addons/godot_ovrmobile/OvrInput.gdns");
 	
 	if (_OvrPerformance): ovrPerformance = _OvrPerformance.new();
 	else: log_error("Failed to load OvrPerformance.gdns");
@@ -411,8 +414,13 @@ func _initialize_OVR_API():
 	else: log_error("Failed to load OvrGuardianSystem.gdns");
 	if (_OvrTrackingTransform): ovrTrackingTransform = _OvrTrackingTransform.new();
 	else: log_error("Failed to load OvrTrackingTransform.gdns");
+	if (_OvrHandTracking): ovrHandTracking = _OvrHandTracking.new();
+	else: log_error("Failed to load OvrHandTracking.gdns");
+	if (_OvrInput): ovrInput = _OvrInput.new();
+	else: log_error("Failed to load OvrInput.gdns");
 	
 	log_info(str("    Quest Supported display refresh rates: ", get_supported_display_refresh_rates()));
+	log_info("    Oculus Device Type: %d" % get_device_type());
 
 
 # When the android application gets paused it will destroy the VR context
@@ -459,7 +467,36 @@ var oculus_mobile_settings_cache = {
 
 # wrapper for accessing the VrAPI helper functions that check for availability
 
-func get_supported_display_refresh_rates():
+func get_device_type() -> int:
+	if (!ovrSystem):
+		log_error("get_supported_display_refresh_rates(): no ovrSystem object.");
+		return ovrVrApiTypes.OvrDeviceType.VRAPI_DEVICE_TYPE_UNKNOWN;
+	else:
+		return ovrSystem.get_device_type();
+
+
+func is_oculus_quest_1_device() -> bool:
+	if (!ovrSystem):
+		log_error("is_oculus_quest_1_device(): no ovrSystem object.");
+		return false;
+	else:
+		return ovrSystem.is_oculus_quest_1_device();
+
+
+func is_oculus_quest_2_device() -> bool:
+	if (!ovrSystem):
+		log_error("is_oculus_quest_2_device(): no ovrSystem object.");
+		return false;
+	else:
+		return ovrSystem.is_oculus_quest_2_device();
+
+func set_display_refresh_rate_to_highest():
+	var supportedRefreshRates := get_supported_display_refresh_rates()
+	var highestRefreshRate = supportedRefreshRates[supportedRefreshRates.size()-1]
+	set_display_refresh_rate(highestRefreshRate)
+	log_info("set_display_refresh_rate_to_highest(): setting refresh rate to: %d" % highestRefreshRate);
+
+func get_supported_display_refresh_rates() -> Array:
 	if (!ovrDisplay):
 		log_error("get_supported_display_refresh_rates(): no ovrDisplay object.");
 		return [];
@@ -484,7 +521,7 @@ func get_boundary_oriented_bounding_box():
 			return [Transform(), Vector3(0, 0, 0)]; # return a default value
 		return ret;
 		
-func request_boundary_visible(val):
+func request_boundary_visible(val) -> bool:
 	if (!ovrGuardianSystem):
 		log_error("request_boundary_visible(): no ovrGuardianSystem object.");
 		return false;
@@ -492,7 +529,7 @@ func request_boundary_visible(val):
 		oculus_mobile_settings_cache["boundary_visible"] = val;
 		return ovrGuardianSystem.request_boundary_visible(val);
 		
-func get_boundary_visible():
+func get_boundary_visible() -> bool:
 	if (!ovrGuardianSystem):
 		log_error("get_boundary_visible(): no ovrGuardianSystem object.");
 		return false;
@@ -500,11 +537,11 @@ func get_boundary_visible():
 		return ovrGuardianSystem.get_boundary_visible();
 
 func get_tracking_space():
-	if (!ovrGuardianSystem):
+	if (!ovrTrackingTransform):
 		log_error("get_tracking_space(): no ovrGuardianSystem object.");
 		return -1;
 	else:
-		return ovrGuardianSystem.get_tracking_space();
+		return ovrTrackingTransform.get_tracking_space();
 		
 func set_tracking_space(tracking_space):
 	if (!ovrTrackingTransform):
@@ -639,7 +676,7 @@ enum FoveatedRenderingLevel {
 	HighTop = 4  # Quest Only
 }
 
-func set_foveation_level(ffr_level):
+func set_foveation_level(ffr_level: int):
 	if (!ovrPerformance):
 		log_error("set_foveation_level(): no ovrPerformance object.");
 		return false;
@@ -647,7 +684,7 @@ func set_foveation_level(ffr_level):
 		oculus_mobile_settings_cache["foveation_level"] = ffr_level;
 		return ovrPerformance.set_foveation_level(ffr_level);
 
-func set_enable_dynamic_foveation(ffr_dynamic):
+func set_enable_dynamic_foveation(ffr_dynamic: bool):
 	if (!ovrPerformance):
 		log_error("set_enable_dynamic_foveation(): no ovrPerformance object.");
 		return false;

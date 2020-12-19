@@ -87,25 +87,16 @@ func prepare_mobile_vr():
 	
 	# enable the extra latency mode: this gives some performance headroom at the cost
 	# of one more frame of latency
-	vr.set_extra_latency_mode(1)
+	vr.set_extra_latency_mode(vr.ovrVrApiTypes.OvrExtraLatencyMode.VRAPI_EXTRA_LATENCY_MODE_DYNAMIC)
 	
 	# set fixed foveation level
 	# for details see https://developer.oculus.com/documentation/quest/latest/concepts/mobile-ffr/
 	vr.set_foveation_level(vr.FoveatedRenderingLevel.Medium)
 	
-	
 	# This will dynamically change the foveation level up to the previous level
-	vr.set_enable_dynamic_foveation(1)
+	vr.set_enable_dynamic_foveation(true)
 	
-	print("== avalible rates ==")
-	var avalibleRates = vr.get_supported_display_refresh_rates()
-	for rate in avalibleRates:
-		print(rate)
-	var highestRate = avalibleRates[avalibleRates.size()-1]
-	print("highestRate: %s" % String(highestRate))
-	#vr.set_display_refresh_rate(highestRate)
-	
-	
+	vr.set_display_refresh_rate_to_highest()
 
 
 func init_analytics():
