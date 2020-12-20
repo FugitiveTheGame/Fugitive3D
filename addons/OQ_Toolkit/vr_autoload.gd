@@ -379,8 +379,7 @@ var ovrGuardianSystem = null;
 var ovrTrackingTransform = null;
 var ovrHandTracking = null;
 var ovrInput = null;
-# for the types we need to assume it is always available
-var ovrVrApiTypes = load("res://addons/godot_ovrmobile/OvrVrApiTypes.gd").new();
+var ovrVrApiTypes = null;
 
 var _need_settings_refresh = false;
 
@@ -397,6 +396,7 @@ func _initialize_OVR_API():
 	var _OvrTrackingTransform = load("res://addons/godot_ovrmobile/OvrTrackingTransform.gdns");
 	var _OvrHandTracking = load("res://addons/godot_ovrmobile/OvrHandTracking.gdns");
 	var _OvrInput = load("res://addons/godot_ovrmobile/OvrInput.gdns");
+	var _OvrVrApiTypes = load("res://addons/godot_ovrmobile/OvrVrApiTypes.gd");
 	
 	if (_OvrPerformance): ovrPerformance = _OvrPerformance.new();
 	else: log_error("Failed to load OvrPerformance.gdns");
@@ -418,6 +418,9 @@ func _initialize_OVR_API():
 	else: log_error("Failed to load OvrHandTracking.gdns");
 	if (_OvrInput): ovrInput = _OvrInput.new();
 	else: log_error("Failed to load OvrInput.gdns");
+	if (_OvrVrApiTypes): ovrVrApiTypes = _OvrVrApiTypes.new();
+	else: log_error("Failed to load OvrVrApiTypes.gdns");
+	
 	
 	log_info("    Oculus Device Type: %d" % get_device_type());
 	log_info(str("    Quest Supported display refresh rates: ", get_supported_display_refresh_rates()));
@@ -468,7 +471,7 @@ var oculus_mobile_settings_cache = {
 # wrapper for accessing the VrAPI helper functions that check for availability
 
 func get_device_type() -> int:
-	if (!ovrSystem):
+	if (!ovrSystem or !ovrVrApiTypes):
 		log_error("get_supported_display_refresh_rates(): no ovrSystem object.");
 		return ovrVrApiTypes.OvrDeviceType.VRAPI_DEVICE_TYPE_UNKNOWN;
 	else:
