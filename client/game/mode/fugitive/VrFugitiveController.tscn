@@ -23,6 +23,7 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0.216302, -0.5 )
 
 [node name="HudCanvas" parent="OQ_LeftController/VisibilityToggle" index="0"]
 transform = Transform( 0.896695, -0.0624614, 0.43822, 0, 0.989994, 0.141108, -0.442649, -0.126531, 0.887723, 0, 0, 0 )
+disable_collision = false
 
 [node name="HudContainer" parent="OQ_LeftController/VisibilityToggle/HudCanvas" index="2"]
 anchor_right = 0.4
@@ -103,6 +104,7 @@ __meta__ = {
 }
 
 [node name="OverviewMapHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="6" instance=ExtResource( 8 )]
+visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 margin_bottom = 0.0

@@ -91,8 +91,9 @@ func team_won(winningTeam: int):
 
 
 func _process(delta):
-	replayScrubSlider.value = replayHud.getIndex()
-	_update_history_label(replayScrubSlider.value)
+	if visible:
+		replayScrubSlider.value = replayHud.getIndex()
+		_update_history_label(replayScrubSlider.value)
 
 
 func _on_ToLobbyButton_pressed():

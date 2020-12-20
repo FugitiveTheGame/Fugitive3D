@@ -11,6 +11,7 @@ settingsDialogPath = NodePath("SettingsDialog")
 vrModeLabelPath = NodePath("VrModeLabel")
 driverLabelPath = NodePath("InfoContainer/DriverLabel")
 debugButtonPath = NodePath("OptionsContainer/DebugButton")
+exploreDialogPath = NodePath("ExploreDialog")
 
 [node name="ExploreButton" type="Button" parent="OptionsContainer" index="1"]
 margin_top = 47.0

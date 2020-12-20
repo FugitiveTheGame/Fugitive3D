@@ -71,11 +71,13 @@ func _ready():
 	player.set_is_local_player()
 	
 	# Performance tuning for mobile VR clients
-	if Utils.is_quest2():
-		camera.far = 150.0
-	elif OS.has_feature("mobile"):
-		camera.far = 100.0
+	#if Utils.is_quest2():
+	#	camera.far = 150.0
+	#elif OS.has_feature("mobile"):
+	#	camera.far = 100.0
 		#hudCanvas.transparent = false
+	if OS.has_feature("mobile"):
+		camera.far = 100.0
 	
 	fpsLabel.visible = OS.is_debug_build()
 	

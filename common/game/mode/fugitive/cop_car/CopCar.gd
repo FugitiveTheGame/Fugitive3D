@@ -40,7 +40,7 @@ func _ready():
 	
 	var gles2 := Utils.renderer_is_gles2()
 	$cop_car/OmniLight.visible = not gles2
-	$cop_car/HeadLightLeft.visible = not gles2
+	$cop_car/HeadLight.visible = not gles2
 	$cop_car/gles2Headlight1.visible = gles2
 	$cop_car/gles2Headlight2.visible = gles2
 	
