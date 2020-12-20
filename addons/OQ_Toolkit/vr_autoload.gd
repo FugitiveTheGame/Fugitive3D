@@ -419,8 +419,8 @@ func _initialize_OVR_API():
 	if (_OvrInput): ovrInput = _OvrInput.new();
 	else: log_error("Failed to load OvrInput.gdns");
 	
-	log_info(str("    Quest Supported display refresh rates: ", get_supported_display_refresh_rates()));
 	log_info("    Oculus Device Type: %d" % get_device_type());
+	log_info(str("    Quest Supported display refresh rates: ", get_supported_display_refresh_rates()));
 
 
 # When the android application gets paused it will destroy the VR context
@@ -492,7 +492,7 @@ func is_oculus_quest_2_device() -> bool:
 
 func set_display_refresh_rate_to_highest():
 	var supportedRefreshRates := get_supported_display_refresh_rates()
-	var highestRefreshRate = supportedRefreshRates[supportedRefreshRates.size()-1]
+	var highestRefreshRate := supportedRefreshRates[supportedRefreshRates.size()-1] as int
 	set_display_refresh_rate(highestRefreshRate)
 	log_info("set_display_refresh_rate_to_highest(): setting refresh rate to: %d" % highestRefreshRate);
 
@@ -503,12 +503,14 @@ func get_supported_display_refresh_rates() -> Array:
 	else:
 		return ovrDisplay.get_supported_display_refresh_rates();
 
-func set_display_refresh_rate(value):
+func set_display_refresh_rate(value: int):
 	if (!ovrDisplay):
 		log_error("set_display_refresh_rate(): no ovrDisplay object.");
 	else:
 		oculus_mobile_settings_cache["display_refresh_rate"] = value;
 		ovrDisplay.set_display_refresh_rate(value);
+		Engine.iterations_per_second = value
+		Engine.target_fps = value
 
 func get_boundary_oriented_bounding_box():
 	if (!ovrGuardianSystem):
@@ -659,7 +661,7 @@ func set_default_layer_color_scale(color : Color):
 		return ovrUtilities.set_default_layer_color_scale(color);
 
 
-func set_extra_latency_mode(latency_mode):
+func set_extra_latency_mode(latency_mode: int):
 	if (!ovrPerformance):
 		log_error("set_tracking_space(): no ovrPerformance object.");
 		return false;
@@ -719,7 +721,7 @@ var scene_switch_root = null;
 
 # helper function to switch different scenes; this will be in the
 # future extend to allow for some transtioning to happen as well as maybe some shader caching
-func _perform_switch_scene(scene_path):
+func _perform_switch_scene(scene_path: String):
 	print("_perform_switch_scene to " + scene_path);
 	
 	if scene_switch_root != null:
