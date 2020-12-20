@@ -1,5 +1,7 @@
 @echo off
 
+powershell New-Item -Path "." -Name "releases" -ItemType "directory"
+
 echo --=== Packing Windows Flat ===--
 powershell Remove-Item releases/Fugitive3D_Client_Flat_Windows.zip
 powershell Remove-Item ../../export/client/flat/windows/godot_oculus.dll
