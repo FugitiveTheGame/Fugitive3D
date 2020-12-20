@@ -8,7 +8,7 @@
 - X (hold) - Cops Lock car
 - Y - Toggle HUD (_Better FPS on Quest with HUD off_)
 - Left Stick In - Map
-- Left Right In - Push-To-Talk (max of 10 seconds)
+- Right Stick In - Push-To-Talk (max of 10 seconds)
 - Left Menu - Menu
 
 [u]In Car:[/u]
