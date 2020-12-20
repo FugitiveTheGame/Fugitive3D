@@ -4,7 +4,7 @@ class_name ServerReporter
 const BASE_URL := "https://fugitivethegame.online/server_stats.php"
 const SERVER_ID_PATH := "user://SERVER_ID"
 
-onready var request := $HTTPRequest
+onready var request := $HTTPRequest as HTTPRequest
 
 var serverId: String
 
@@ -91,6 +91,7 @@ func report_game_start(numPlayers: int, numFugitives: int, numCops: int, mapName
 	}
 	var url := add_url_params(params)
 	
+	request.cancel_request()
 	request.request(url)
 
 
