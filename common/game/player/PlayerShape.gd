@@ -1,20 +1,23 @@
 extends CollisionShape
 
+onready var standing := $Standing as Spatial
+onready var crouching := $Crouching as Spatial
+onready var playerNameLabel := $PlayerNameLabel as Spatial
 
 func _ready():
 	get_name_label().transparent = not Utils.renderer_is_gles2()
 
 
 func get_name_label():
-	return $PlayerNameLabel
+	return playerNameLabel
 
 
 func get_standing_shape() -> Spatial:
-	return $Standing as Spatial
+	return standing
 
 
 func get_crouching_shape() -> Spatial:
-	return $Crouching as Spatial
+	return crouching
 
 
 func set_crouching(is_crouching: bool):
