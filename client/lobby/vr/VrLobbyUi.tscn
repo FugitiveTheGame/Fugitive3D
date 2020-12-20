@@ -7,84 +7,10 @@
 rect_min_size = Vector2( 1024, 600 )
 script = ExtResource( 2 )
 
-[node name="LeaveButton" parent="PanelContainer/VBoxContainer" index="0"]
-margin_left = 1187.0
-margin_right = 1264.0
-margin_bottom = 39.0
-
-[node name="Title" parent="PanelContainer/VBoxContainer" index="1"]
-margin_top = 47.0
-margin_bottom = 111.0
-
-[node name="HSplitContainer" parent="PanelContainer/VBoxContainer" index="2"]
-margin_top = 119.0
-margin_bottom = 657.0
-
-[node name="VBoxContainer2" parent="PanelContainer/VBoxContainer/HSplitContainer" index="0"]
-margin_bottom = 538.0
-
-[node name="Panel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2" index="2"]
-margin_bottom = 538.0
-
-[node name="VBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer" index="1"]
-margin_bottom = 538.0
-
-[node name="HBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="4"]
-margin_bottom = 293.0
-
-[node name="DetailsContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer" index="0"]
-margin_bottom = 159.0
-
-[node name="HBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer" index="1"]
-margin_bottom = 77.0
-
-[node name="ModelValue" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer/HBoxContainer" index="0"]
-margin_left = 94.0
-margin_right = 183.0
-margin_bottom = 39.0
-
-[node name="HelpButton" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer/HBoxContainer" index="1"]
-margin_left = 191.0
-margin_right = 215.0
-margin_bottom = 39.0
-
-[node name="Spacer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer" index="2"]
-margin_top = 85.0
-margin_bottom = 85.0
-
-[node name="SizeLabel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer" index="3"]
-margin_top = 93.0
-margin_bottom = 123.0
-
-[node name="SizeValue" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer" index="4"]
-margin_top = 131.0
-margin_bottom = 159.0
-
-[node name="TeamsContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer" index="1"]
-margin_bottom = 159.0
-
-[node name="ScrollContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/TeamsContainer" index="1"]
-margin_bottom = 159.0
-
-[node name="Spacer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="5"]
-margin_top = 301.0
-margin_right = 628.0
-margin_bottom = 317.0
-
-[node name="DescriptionLabel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="6"]
-margin_top = 325.0
-margin_bottom = 355.0
-
-[node name="MapPanel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="7"]
-margin_top = 363.0
-margin_bottom = 491.0
-
-[node name="RandomButton" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="8"]
-margin_top = 499.0
-margin_right = 628.0
-margin_bottom = 538.0
-
-[node name="StartButton" parent="PanelContainer/VBoxContainer" index="3"]
-margin_top = 665.0
-margin_right = 1264.0
-margin_bottom = 704.0
+[node name="MapDescription" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/MapPanel/ScrollContainer/Margin" index="0"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 0.0
+margin_top = 0.0
+margin_right = 0.0
+margin_bottom = 0.0
