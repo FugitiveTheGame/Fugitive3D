@@ -16,7 +16,9 @@ static func renderer_is_gles2() -> bool:
 
 
 static func is_quest2() -> bool:
-	return OS.has_feature("quest2")
+	if vr.ovrSystem != null:
+		return vr.ovrSystem.is_oculus_quest_2_device()
+	return false
 
 
 static func aabb_from_shape(colShape: CollisionShape) -> AABB:
