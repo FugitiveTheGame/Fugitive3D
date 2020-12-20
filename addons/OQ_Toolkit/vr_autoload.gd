@@ -455,9 +455,9 @@ func _notification(what):
 var oculus_mobile_settings_cache = {
 	"display_refresh_rate" : 72,
 	"boundary_visible" : false,
-	"tracking_space" : ovrVrApiTypes.OvrTrackingSpace.VRAPI_TRACKING_SPACE_LOCAL_FLOOR,
+	"tracking_space" : 1, #ovrVrApiTypes.OvrTrackingSpace.VRAPI_TRACKING_SPACE_LOCAL_FLOOR,
 	"default_layer_color_scale" : Color(1.0, 1.0, 1.0, 1.0),
-	"extra_latency_mode" : ovrVrApiTypes.OvrExtraLatencyMode.VRAPI_EXTRA_LATENCY_MODE_ON,
+	"extra_latency_mode" : 1, #ovrVrApiTypes.OvrExtraLatencyMode.VRAPI_EXTRA_LATENCY_MODE_ON,
 	"foveation_level" : FoveatedRenderingLevel.Off,
 	"foveation_dynamic" : 0,
 	"swap_interval" : 1,
