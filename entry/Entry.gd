@@ -8,6 +8,10 @@ var debug_is_server := false
 # Determine the type of app this is, and load the entry point for that type
 func _ready():
 	print("Application started")
+	print("Application Version: %d" % UserData.GAME_VERSION)
+	print("User Data Version: %d" % UserData.USER_DATA_VERSION)
+	print("Debug Build: %s" % OS.is_debug_build())
+	
 	if OS.has_feature("server"):
 		go_to_server()
 	elif OS.has_feature("client"):
