@@ -22,7 +22,6 @@ func _show_debug_information():
 	var on_floor = 1 if is_on_floor() else 0;
 	var on_wall = 1 if is_on_wall() else 0;
 	
-	
 	var colliders = "";
 	for c in range(0, slide_count):
 		colliders += get_slide_collision(c).collider.name + ",";
@@ -31,7 +30,7 @@ func _show_debug_information():
 	vr.show_dbg_info("Feature_PlayerCollision", "Slide Count: %d; on floor: %d; on wall: %d; last update: %d;\n         Colliders: %s" % [slide_count, on_floor, on_wall, vr.frame_counter, colliders]);
 
 
-func _process(delta):
+func _physics_process(delta):
 	_update_collsion_shape_start_position()
 
 
