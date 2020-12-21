@@ -40,6 +40,13 @@ powershell Copy-Item -Path ../win-dependencies/vcruntime140.dll -Destination ../
 powershell Copy-Item -Path ../win-dependencies/vcruntime140_1.dll -Destination ../../export/client/vr/windows/
 powershell Compress-Archive -Path ../../export/client/vr/windows/* -CompressionLevel Optimal -DestinationPath releases/Fugitive3D_Client_VR_Windows.zip
 
+echo --=== Packing Oculus PCVR ===--
+powershell Remove-Item releases/Fugitive3D_Client_VR_Oculus_Windows.zip
+powershell Copy-Item -Path ../win-dependencies/vcruntime140.dll -Destination ../../export/client/vr/windows/
+powershell Copy-Item -Path ../win-dependencies/vcruntime140_1.dll -Destination ../../export/client/vr/windows/
+powershell Remove-Item ../../export/client/vr/oculus-rift/openvr_api.dll
+powershell Remove-Item ../../export/client/vr/oculus-rift/libgodot_openvr.dll
+powershell Compress-Archive -Path ../../export/client/vr/oculus-rift/* -CompressionLevel Optimal -DestinationPath releases/Fugitive3D_Client_VR_Oculus_Windows.zip
 
 echo --=== Packing Windows Server ===--
 powershell Remove-Item releases/Fugitive3D_Server_Windows.zip
