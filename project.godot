@@ -49,11 +49,6 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://addons/OQ_Toolkit/OQ_ARVRController/scripts/Feature_ToolGrab.gd"
 }, {
-"base": "OneTimeVisualEffect",
-"class": "FireFlyInstance",
-"language": "GDScript",
-"path": "res://common/game/mode/fugitive/ambience/FireFlyInstance.gd"
-}, {
 "base": "Camera",
 "class": "FpsCamera",
 "language": "GDScript",
@@ -283,7 +278,6 @@ _global_script_class_icons={
 "CopCar": "",
 "Feature_RigidBodyGrab": "",
 "Feature_ToolGrab": "",
-"FireFlyInstance": "",
 "FpsCamera": "",
 "FugitiveEnums": "",
 "FugitiveGame": "",

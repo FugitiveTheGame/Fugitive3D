@@ -1,0 +1,45 @@
+[gd_scene load_steps=4 format=2]
+
+[sub_resource type="SpatialMaterial" id=1]
+flags_unshaded = true
+flags_do_not_receive_shadows = true
+flags_disable_ambient_light = true
+params_billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+albedo_color = Color( 0.945098, 0.87451, 0.129412, 1 )
+
+[sub_resource type="CubeMesh" id=2]
+material = SubResource( 1 )
+size = Vector3( 0.05, 0.05, 0.05 )
+
+[sub_resource type="Curve" id=3]
+_data = [ Vector2( 0, 0 ), 0.0, 0.0, 0, 0, Vector2( 0.0673077, 0.827273 ), 1.89091, 1.89091, 0, 0, Vector2( 0.567308, 0.627273 ), 3.25656, 3.25656, 0, 0, Vector2( 0.913462, 0.690909 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[node name="FireFlies" type="CPUParticles"]
+cast_shadow = 0
+amount = 48
+lifetime = 0.3
+speed_scale = 0.1
+explosiveness = 0.5
+randomness = 0.5
+lifetime_randomness = 0.2
+local_coords = false
+mesh = SubResource( 2 )
+emission_shape = 2
+emission_box_extents = Vector3( 15, 2.5, 15 )
+direction = Vector3( 0, 0, 0 )
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 2.0
+initial_velocity_random = 1.0
+linear_accel = 1.0
+linear_accel_random = 1.0
+radial_accel = 1.0
+radial_accel_random = 0.5
+tangential_accel = 0.5
+tangential_accel_random = 0.75
+damping = 0.5
+damping_random = 1.0
+scale_amount_curve = SubResource( 3 )

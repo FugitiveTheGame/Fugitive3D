@@ -1,7 +1,10 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://common/game/mode/fugitive/ambience/FireFliesEffect.gd" type="Script" id=1]
+[ext_resource path="res://common/game/mode/fugitive/ambience/FireflyParticles.tscn" type="PackedScene" id=2]
 
 [node name="FireFlies" type="Spatial"]
 script = ExtResource( 1 )
 frequency = 0.2
+
+[node name="FireFliesParticles" parent="." instance=ExtResource( 2 )]
