@@ -1,6 +1,8 @@
 extends Spatial
 class_name GameMode
 
+signal preconfigure_complete
+
 var localPlayer: Player
 var players = {}
 
@@ -45,7 +47,7 @@ func load_map():
 
 
 func pre_configure():
-	pass
+	call_deferred("emit_signal", "preconfigure_complete")
 
 
 func get_team_name(teamid: int) -> String:

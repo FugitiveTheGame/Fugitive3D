@@ -42,6 +42,10 @@ func get_random_effect() -> OneTimeAudioEffect:
 	return effect
 
 
+func initialize_effect(player):
+	pass
+
+
 func play(localPlayerPos: Vector3):
 	.play(localPlayerPos)
 	
