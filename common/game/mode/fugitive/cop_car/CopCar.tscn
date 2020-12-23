@@ -2,14 +2,14 @@
 
 [ext_resource path="res://common/game/mode/fugitive/cop_car/CopCar.gd" type="Script" id=1]
 [ext_resource path="res://common/game/mode/fugitive/cop_car/CarSeat.tscn" type="PackedScene" id=2]
-[ext_resource path="res://common/game/mode/fugitive/cop_car/car_lock.ogg" type="AudioStream" id=3]
-[ext_resource path="res://common/game/mode/fugitive/cop_car/car_door.ogg" type="AudioStream" id=4]
-[ext_resource path="res://common/game/mode/fugitive/cop_car/car_horn.ogg" type="AudioStream" id=5]
-[ext_resource path="res://common/game/mode/fugitive/cop_car/car_move.ogg" type="AudioStream" id=6]
+[ext_resource path="res://common/game/mode/fugitive/cop_car/car_door.wav" type="AudioStream" id=3]
+[ext_resource path="res://common/game/mode/fugitive/cop_car/car_horn.wav" type="AudioStream" id=4]
+[ext_resource path="res://common/game/mode/fugitive/cop_car/car_move.wav" type="AudioStream" id=5]
+[ext_resource path="res://common/game/mode/fugitive/cop_car/car_lock.wav" type="AudioStream" id=6]
 [ext_resource path="res://common/game/mode/fugitive/cop_car/cop_car_model.tscn" type="PackedScene" id=7]
 [ext_resource path="res://common/game/mode/fugitive/cop_car/PoliceLight.gd" type="Script" id=8]
-[ext_resource path="res://common/game/mode/fugitive/cop_car/car_braking.ogg" type="AudioStream" id=9]
-[ext_resource path="res://common/game/mode/fugitive/cop_car/car_locked.ogg" type="AudioStream" id=10]
+[ext_resource path="res://common/game/mode/fugitive/cop_car/car_braking.wav" type="AudioStream" id=9]
+[ext_resource path="res://common/game/mode/fugitive/cop_car/car_locked.wav" type="AudioStream" id=10]
 [ext_resource path="res://common/game/mode/fugitive/cop_car/Headlight_gles2.tscn" type="PackedScene" id=11]
 
 [sub_resource type="BoxShape" id=1]
@@ -81,17 +81,17 @@ collision_mask = 3
 
 [node name="DrivingAudio" type="AudioStreamPlayer3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.675816, -1.80862 )
-stream = ExtResource( 6 )
+stream = ExtResource( 5 )
 unit_db = 5.0
 doppler_tracking = 2
 
 [node name="LockAudio" type="AudioStreamPlayer3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.739308, 0 )
-stream = ExtResource( 3 )
+stream = ExtResource( 6 )
 
 [node name="DoorAudio" type="AudioStreamPlayer3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.739308, 0 )
-stream = ExtResource( 4 )
+stream = ExtResource( 3 )
 
 [node name="DoorLockedAudio" type="AudioStreamPlayer3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.739308, 0 )
@@ -99,11 +99,11 @@ stream = ExtResource( 10 )
 
 [node name="HornAudio" type="AudioStreamPlayer3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.66712, -1.90287 )
-stream = ExtResource( 5 )
+stream = ExtResource( 4 )
 unit_db = -10.0
 doppler_tracking = 1
 
-[node name="BreakAudio" type="AudioStreamPlayer3D" parent="."]
+[node name="BrakeAudio" type="AudioStreamPlayer3D" parent="."]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.300157, 0.0582988 )
 stream = ExtResource( 9 )
 unit_db = -20.0
