@@ -21,6 +21,12 @@ static func is_quest2() -> bool:
 	return false
 
 
+static func is_quest1() -> bool:
+	if vr.ovrSystem != null:
+		return vr.ovrSystem.is_oculus_quest_1_device()
+	return false
+
+
 static func aabb_from_shape(colShape: CollisionShape) -> AABB:
 	var boxShape := colShape.shape as BoxShape
 	var pos := colShape.global_transform.origin
