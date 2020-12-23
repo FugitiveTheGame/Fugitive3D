@@ -79,7 +79,8 @@ __meta__ = {
 transform = Transform( 0.851086, 0.260726, -0.455713, 0.0509965, 0.822826, 0.566001, 0.522544, -0.504955, 0.687, 0, 10, 0 )
 visible = false
 light_color = Color( 0.129412, 0.207843, 0.772549, 1 )
-light_energy = 0.75
+light_energy = 0.25
+light_indirect_energy = 6.0
 light_bake_mode = 2
 
 [node name="Ambience" parent="." index="15" instance=ExtResource( 7 )]
