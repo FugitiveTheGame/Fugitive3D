@@ -5,7 +5,7 @@
 [node name="Dogs" type="Spatial"]
 script = ExtResource( 1 )
 frequency = 0.001
-sounds = [ "res://common/game/mode/fugitive/ambience/dogs_00.ogg", "res://common/game/mode/fugitive/ambience/dogs_01.ogg", "res://common/game/mode/fugitive/ambience/dogs_02.ogg", "res://common/game/mode/fugitive/ambience/dogs_03.ogg", "res://common/game/mode/fugitive/ambience/dogs_04.ogg" ]
+sounds = [ "res://common/game/mode/fugitive/ambience/dogs_00.wav", "res://common/game/mode/fugitive/ambience/dogs_01.wav", "res://common/game/mode/fugitive/ambience/dogs_02.wav", "res://common/game/mode/fugitive/ambience/dogs_03.wav", "res://common/game/mode/fugitive/ambience/dogs_04.wav" ]
 min_radius = 8.0
 max_radius = 16.0
 max_height = 1.0

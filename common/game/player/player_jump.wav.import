@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/player_jump.wav-b3bc7cc870aca54e0b3415e2891e6c48.sample"
+
+[deps]
+
+source_file="res://common/game/player/player_jump.wav"
+dest_files=[ "res://.import/player_jump.wav-b3bc7cc870aca54e0b3415e2891e6c48.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=1

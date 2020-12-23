@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://common/game/player/Player.gd" type="Script" id=1]
-[ext_resource path="res://common/game/player/player_move.ogg" type="AudioStream" id=2]
-[ext_resource path="res://common/game/player/player_no_stamina.ogg" type="AudioStream" id=3]
-[ext_resource path="res://common/game/player/player_jump.ogg" type="AudioStream" id=4]
+[ext_resource path="res://common/game/player/player_move.wav" type="AudioStream" id=2]
+[ext_resource path="res://common/game/player/player_jump.wav" type="AudioStream" id=3]
+[ext_resource path="res://common/game/player/player_no_stamina.wav" type="AudioStream" id=4]
 
 [node name="Player" type="Spatial"]
 script = ExtResource( 1 )
@@ -12,7 +12,7 @@ script = ExtResource( 1 )
 stream = ExtResource( 2 )
 
 [node name="JumpingSound" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource( 4 )
+stream = ExtResource( 3 )
 
 [node name="NoStaminaSound" type="AudioStreamPlayer3D" parent="."]
-stream = ExtResource( 3 )
+stream = ExtResource( 4 )

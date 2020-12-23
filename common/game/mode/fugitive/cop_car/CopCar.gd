@@ -284,7 +284,7 @@ func process_breaking(nowBreaking: bool, delta: float):
 
 
 remotesync func on_breaking():
-	$BreakAudio.play()
+	$BrakeAudio.play()
 
 
 remotesync func on_lock():

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/car_door.wav-0d7996d4b60104fbdd2846cd95b4b5dd.sample"
+
+[deps]
+
+source_file="res://common/game/mode/fugitive/cop_car/car_door.wav"
+dest_files=[ "res://.import/car_door.wav-0d7996d4b60104fbdd2846cd95b4b5dd.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=1

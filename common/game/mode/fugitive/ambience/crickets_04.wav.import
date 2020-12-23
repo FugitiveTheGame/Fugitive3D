@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/crickets_04.wav-0e35649527a0424089c8b20ee0aae909.sample"
+
+[deps]
+
+source_file="res://common/game/mode/fugitive/ambience/crickets_04.wav"
+dest_files=[ "res://.import/crickets_04.wav-0e35649527a0424089c8b20ee0aae909.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=1

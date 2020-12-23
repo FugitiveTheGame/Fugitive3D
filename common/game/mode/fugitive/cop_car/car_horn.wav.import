@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/car_horn.wav-098d958c4ba7b1f71f71985bf28163c1.sample"
+
+[deps]
+
+source_file="res://common/game/mode/fugitive/cop_car/car_horn.wav"
+dest_files=[ "res://.import/car_horn.wav-098d958c4ba7b1f71f71985bf28163c1.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=1

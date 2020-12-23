@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/dogs_03.wav-51a2501e9fbc03e5d240f6b2dc52ccb9.sample"
+
+[deps]
+
+source_file="res://common/game/mode/fugitive/ambience/dogs_03.wav"
+dest_files=[ "res://.import/dogs_03.wav-51a2501e9fbc03e5d240f6b2dc52ccb9.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=1
