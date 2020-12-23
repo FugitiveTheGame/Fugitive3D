@@ -5,7 +5,7 @@
 [node name="Owl" type="Spatial"]
 script = ExtResource( 1 )
 frequency = 0.00025
-sounds = [ "res://common/game/mode/fugitive/ambience/owl_00.ogg" ]
+sounds = [ "res://common/game/mode/fugitive/ambience/owl_00.wav" ]
 max_radius = 20.0
 min_height = 4.0
 max_height = 6.0

@@ -1,0 +1,21 @@
+[remap]
+
+importer="wav"
+type="AudioStreamSample"
+path="res://.import/car_braking.wav-db90e3a1703f9465e304e06c8cb66df4.sample"
+
+[deps]
+
+source_file="res://common/game/mode/fugitive/cop_car/car_braking.wav"
+dest_files=[ "res://.import/car_braking.wav-db90e3a1703f9465e304e06c8cb66df4.sample" ]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop=false
+compress/mode=1

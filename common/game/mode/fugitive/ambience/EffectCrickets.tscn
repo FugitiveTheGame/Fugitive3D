@@ -5,7 +5,7 @@
 [node name="Crickets" type="Spatial"]
 script = ExtResource( 1 )
 frequency = 0.01
-sounds = [ "res://common/game/mode/fugitive/ambience/crickets_00.ogg", "res://common/game/mode/fugitive/ambience/crickets_01.ogg", "res://common/game/mode/fugitive/ambience/crickets_02.ogg", "res://common/game/mode/fugitive/ambience/crickets_03.ogg", "res://common/game/mode/fugitive/ambience/crickets_04.ogg", "res://common/game/mode/fugitive/ambience/crickets_05.ogg", "res://common/game/mode/fugitive/ambience/crickets_06.ogg" ]
+sounds = [ "res://common/game/mode/fugitive/ambience/crickets_00.wav", "res://common/game/mode/fugitive/ambience/crickets_01.wav", "res://common/game/mode/fugitive/ambience/crickets_02.wav", "res://common/game/mode/fugitive/ambience/crickets_03.wav", "res://common/game/mode/fugitive/ambience/crickets_04.wav", "res://common/game/mode/fugitive/ambience/crickets_05.wav", "res://common/game/mode/fugitive/ambience/crickets_06.wav" ]
 min_radius = 0.0
 max_radius = 20.0
 max_height = 1.0
