@@ -910,20 +910,21 @@ func initialize(initialize_vr = true):
 			active_arvr_interface_name = "OVRMobile";
 			get_viewport().arvr = true;
 			Engine.target_fps = 72; # TODO: only true for Oculus Quest; query the info here
+			#Engine.iterations_per_second = 72;
 			inVR = true;
 			_initialize_OVR_API();
 			# this will initialize the default
 			_refresh_settings();
 			log_info("  Success initializing OVRMobile Interface.");
 			remap_controller_axis_and_buttons(VR_CONTROLLER_TYPE.OCULUS_TOUCH);
-			# TODO: set physics FPS here too instead of in the project settings
 			return true;
 	elif arvr_oculus_interface:
 		log_info("  Found Oculus Interface.");
 		if arvr_oculus_interface.initialize():
 			active_arvr_interface_name = "Oculus";
 			get_viewport().arvr = true;
-			Engine.target_fps = 80 # TODO: this is headset dependent (RiftS == 80)=> figure out how to get this info at runtime
+			Engine.target_fps = 90 # TODO: this is headset dependent (RiftS == 80)=> figure out how to get this info at runtime
+			Engine.iterations_per_second = 90
 			OS.vsync_enabled = false;
 			inVR = true;
 			log_info("  Success initializing Oculus Interface.");
