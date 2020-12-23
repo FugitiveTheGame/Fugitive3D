@@ -13,8 +13,6 @@ var gameStarted := false
 var gameEnded := false
 var exhausted := false setget set_exhausted
 func set_exhausted(value: bool):
-	print("set_exhausted")
-	print(value)
 	exhausted = value
 	if value:
 		speed_walk = DEFAULT_SPEED_WALK * EXHAUSTED_PENALTY
