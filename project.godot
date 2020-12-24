@@ -501,7 +501,6 @@ limits/multithreaded_server/rid_pool_prealloc=90
 [rendering]
 
 quality/driver/fallback_to_gles2=true
-threads/thread_model=2
 vram_compression/import_etc=true
 quality/shadows/filter_mode.mobile=1
 quality/shading/force_vertex_shading.mobile=false
