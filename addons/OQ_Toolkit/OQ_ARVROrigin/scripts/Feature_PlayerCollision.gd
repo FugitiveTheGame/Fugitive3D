@@ -39,10 +39,8 @@ func _update_collsion_shape_start_position():
 	collision_object.shape.radius = capsule_radius;
 	collision_object.shape.height = player_height - 2.0 * capsule_radius - step_offset;
 	
-	var direction := vr.vrCamera.global_transform.origin - global_transform.origin
-	direction.y -= (player_height-step_offset) * 0.5;
-	
-	move_and_collide(direction);
+	global_transform.origin = vr.vrCamera.global_transform.origin;
+	global_transform.origin.y -= (player_height-step_offset) * 0.5;
 	
 	
 
