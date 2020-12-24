@@ -379,7 +379,7 @@ enabled=PoolStringArray( "Fugitive3D", "Godot-GameAnalytics", "LANServerBroadcas
 
 [gdnative]
 
-singletons=[ "res://addons/godot-oculus/godot_oculus.gdnlib", "res://addons/godot-openvr/godot_openvr.gdnlib", "res://addons/godot_ovrmobile/godot_ovrmobile.gdnlib" ]
+singletons=[ "res://addons/godot-oculus/godot_oculus.gdnlib", "res://addons/godot-openvr/godot_openvr.gdnlib" ]
 singletons_disabled=[  ]
 
 [gui]

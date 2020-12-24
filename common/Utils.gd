@@ -16,11 +16,15 @@ static func renderer_is_gles2() -> bool:
 
 
 static func is_quest2() -> bool:
-	return vr.is_oculus_quest_2_device()
+	if vr.ovrSystem != null:
+		return vr.ovrSystem.is_oculus_quest_2_device()
+	return false
 
 
 static func is_quest1() -> bool:
-	return vr.is_oculus_quest_1_device()
+	if vr.ovrSystem != null:
+		return vr.ovrSystem.is_oculus_quest_1_device()
+	return false
 
 
 static func aabb_from_shape(colShape: CollisionShape) -> AABB:
