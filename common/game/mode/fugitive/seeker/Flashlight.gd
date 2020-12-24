@@ -4,10 +4,10 @@ var update_threshold := Threshold.new(Utils.COMMON_NETWORK_UPDATE_THRESHOLD)
 
 var is_on := true
 # Quest 2 can handle a few more lights, so we re-enable flashlights
-onready var dynamic_lights_not_okay := not (Utils.renderer_is_gles2() and not Utils.is_quest2())
+onready var is_quest2 := Utils.is_quest2()
 
 func _ready():
-	if dynamic_lights_not_okay:
+	if Utils.renderer_is_gles2() and not is_quest2:
 		$SpotLight.visible = false
 		$LightBeam.alpha = 0.05
 	else:
@@ -27,7 +27,7 @@ func set_on(on: bool):
 remotesync func on_set_on(on: bool):
 	is_on = on
 	
-	if not dynamic_lights_not_okay:
+	if not Utils.renderer_is_gles2() or is_quest2:
 		$SpotLight.visible = is_on
 	
 	$LightBeam.visible = is_on
