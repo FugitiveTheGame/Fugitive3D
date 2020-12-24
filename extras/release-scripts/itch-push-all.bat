@@ -39,3 +39,5 @@ butler push --ignore .gitkeep --ignore libgodot_openvr.so --ignore libopenvr_api
 
 :END
 endlocal
+
+PAUSE

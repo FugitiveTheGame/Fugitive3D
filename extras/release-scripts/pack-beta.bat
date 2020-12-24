@@ -57,3 +57,5 @@ powershell Compress-Archive -Path ../../export/server/windows/* -CompressionLeve
 ::echo --=== Packing OSX Server ===--
 ::powershell Remove-Item releases/Fugitive3D_Server_OSX.zip
 ::powershell Copy-Item -Path ../../export/server/osx/Fugitive3D_Server_OSX.x86_64.zip -Destination releases/Fugitive3D_Server_OSX.x86_64.zip
+
+PAUSE

@@ -25,3 +25,5 @@ butler push --ignore godot_oculus.dll --ignore libgodot_openvr.dll --ignore open
 
 :END
 endlocal
+
+PAUSE
