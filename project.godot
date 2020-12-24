@@ -498,6 +498,11 @@ file_logging/enable_file_logging.server=false
 
 limits/multithreaded_server/rid_pool_prealloc=90
 
+[physics]
+
+3d/physics_engine="Bullet"
+3d/active_soft_world=false
+
 [rendering]
 
 quality/driver/fallback_to_gles2=true
