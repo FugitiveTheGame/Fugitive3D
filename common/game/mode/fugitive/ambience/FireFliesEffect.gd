@@ -6,7 +6,8 @@ func initialize_effect(player):
 	assert(fireFliesParticles != null)
 	
 	# Quest 1 is not powerful enough, remove the fireflies
-	if Utils.is_quest1():
+	# Also the server can just delete it when the player is null
+	if player == null or Utils.is_quest1():
 		fireFliesParticles.queue_free()
 	else:
 		# Move the effect to the player so it follows them
