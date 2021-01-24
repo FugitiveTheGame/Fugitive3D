@@ -14,11 +14,14 @@ var gameDataSequence := 0
 var playerDataSequence := 0
 
 func getNextSequence(curSequence: int) -> int:
+	var newSequence: int
 	# Roll over
 	if curSequence + 1 < 0:
-		return 0
+		newSequence = 0
 	else:
-		return curSequence + 1
+		newSequence = curSequence + 1
+	
+	return newSequence
 
 
 func _enter_tree():
@@ -93,7 +96,7 @@ func update_players():
 	for playerId in GameData.players:
 		playerDictionaries[playerId] = GameData.players[playerId].player_data_dictionary
 	
-	var sequenceNumber = getNextSequence(playerDataSequence)
+	var sequenceNumber := getNextSequence(playerDataSequence)
 	
 	print("Sending player update: old %d / new %d" % [playerDataSequence, sequenceNumber])
 	
