@@ -2,7 +2,7 @@ extends Node
 
 signal user_data_updated
 
-const GAME_VERSION := 13
+const GAME_VERSION := 14
 const USER_DATA_VERSION := 7
 
 var file_name := 'user://user_data.json'
