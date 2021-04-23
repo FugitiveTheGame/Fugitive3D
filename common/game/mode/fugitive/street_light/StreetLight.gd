@@ -3,7 +3,7 @@ class_name StreetLight
 
 export (int) var illumination_range := 7.0
 
-onready var rayCaster := $OmniLight/RayCast
+onready var rayCaster := $SpotLight/RayCast
 
 
 func process_hider(hider: Hider):

@@ -26,9 +26,17 @@ surfaces/0 = {
 ]]
 script = ExtResource( 1 )
 
-[node name="OmniLight" type="SpotLight" parent="."]
-transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.905988, 3.69722, 0 )
-visible = false
+[node name="OmniLight" type="OmniLight" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.905988, 3.74297, 0 )
+light_color = Color( 1, 0.717647, 0.298039, 1 )
+light_energy = 5.0
+light_bake_mode = 2
+shadow_bias = 0.5
+omni_range = 1.09572
+omni_attenuation = 2.82843
+
+[node name="SpotLight" type="SpotLight" parent="."]
+transform = Transform( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.905988, 3.46024, 0 )
 light_color = Color( 1, 0.717647, 0.298039, 1 )
 light_energy = 5.0
 light_bake_mode = 2
@@ -38,7 +46,7 @@ spot_range = 8.0
 spot_angle = 53.6258
 spot_angle_attenuation = 0.435275
 
-[node name="RayCast" type="RayCast" parent="OmniLight"]
+[node name="RayCast" type="RayCast" parent="SpotLight"]
 collision_mask = 3
 
 [node name="street_light" parent="." instance=ExtResource( 2 )]
