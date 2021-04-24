@@ -75,6 +75,7 @@ func start_advertising_publicly():
 	if ServerAdvertiserData.externalIp == null:
 		fetch_external_ip()
 	else:
+		serverInfo["ip"] = ServerAdvertiserData.externalIp
 		register_server()
 	
 	# Start the heat beat
