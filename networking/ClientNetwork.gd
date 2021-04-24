@@ -84,8 +84,8 @@ remote func on_register_player(player: Dictionary):
 	var playerId = player.id
 	var playerName = player.name
 	
-	#print("on_register_player: %d - %s" % [playerId, playerName] )
-	print("on_register_player" )
+	print("on_register_player: %d - %s" % [playerId, playerName] )
+
 	GameData.add_player_from_raw_data(player)
 	emit_signal("create_player", playerId)
 	print("Total players: %d" % GameData.players.size())
