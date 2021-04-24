@@ -151,8 +151,7 @@ func _on_RegisterRequest_request_completed(result, response_code, headers, body)
 		emit_signal("register_succeeded")
 	else:
 		var message := body.get_string_from_utf8() as String
-		print("Server registration failed with code: %d and message: %s" % [response_code, message])
-		print(ServerAdvertiserData.externalIp)
+		print("Server registration failed with code: %d and message: %s with ip: '%s'" % [response_code, message, ServerAdvertiserData.externalIp])
 		emit_signal("register_failed")
 
 
