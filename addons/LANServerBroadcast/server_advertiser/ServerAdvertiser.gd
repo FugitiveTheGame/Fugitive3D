@@ -21,7 +21,6 @@ var serverInfo := {
 var socketUDP: PacketPeerUDP
 var broadcastTimer := Timer.new()
 var broadcastPort := DEFAULT_PORT
-var externalIp = null
 var serverRepositoryUrl: String
 var public := false
 
@@ -32,8 +31,7 @@ var removeRequest := HTTPRequest.new()
 var repositoryRegisterTimer := Threshold.new(REPOSITORY_ADVERTISE_INTERVAL)
 var initial_registration := true
 
-
-func _enter_tree():
+func _init():
 	ipRequest.connect("request_completed", self, "_on_IpRequest_request_completed")
 	add_child(ipRequest)
 	
@@ -74,7 +72,7 @@ func start_advertising_lan():
 func start_advertising_publicly():
 	public = true
 	
-	if externalIp == null:
+	if ServerAdvertiserData.externalIp == null:
 		fetch_external_ip()
 	else:
 		register_server()
@@ -112,8 +110,8 @@ func _on_IpRequest_request_completed(result, response_code, headers, body):
 	if response_code >= 200 and response_code < 300:
 		var json = parse_json(body.get_string_from_utf8())
 		print('External IP: %s' % json.ip)
-		externalIp = json.ip
-		serverInfo["ip"] = externalIp
+		ServerAdvertiserData.externalIp = json.ip
+		serverInfo["ip"] = ServerAdvertiserData.externalIp
 		
 		if public:
 			register_server()
@@ -122,7 +120,7 @@ func _on_IpRequest_request_completed(result, response_code, headers, body):
 
 
 func register_server():
-	if externalIp != null:
+	if ServerAdvertiserData.externalIp != null:
 		var serverID := SERVER_ID_FORMAT % [serverInfo["ip"], serverInfo["port"]]
 		var url := serverRepositoryUrl + "/servers/" + serverID
 		

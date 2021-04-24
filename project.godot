@@ -346,6 +346,7 @@ UserData="*res://common/UserData.gd"
 Maps="*res://common/game/maps/MapDirectory.gd"
 GameAnalytics="*res://addons/Godot-GameAnalytics/GameAnalytics.gd"
 Feedback="*res://feedback/Feedback.gd"
+ServerAdvertiserData="*res://addons/LANServerBroadcast/server_advertiser/ServerAdvertiserData.gd"
 
 [debug]
 
