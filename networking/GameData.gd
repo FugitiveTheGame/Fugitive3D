@@ -24,14 +24,24 @@ func remove_player(playerId: int):
 
 
 func get_players() -> Array:
-	return players.values()
+	lock.lock()
+	var playersRaw = players.values()
+	lock.unlock()
+	
+	return playersRaw
 
 
 func get_player(playerId: int) -> PlayerData:
+	var data
+	
+	lock.lock()
 	if players.has(playerId):
-		return players[playerId] as PlayerData
+		data = players[playerId] as PlayerData
 	else:
-		return null
+		data = null
+	lock.unlock()
+	
+	return data
 
 
 func create_new_player_raw_data(playerId: int, platformType: int, playerName: String, playerType: int) -> Dictionary:
@@ -62,7 +72,9 @@ func add_player_from_raw_data(newPlayerDictionary: Dictionary) -> bool:
 
 
 func reset():
+	lock.lock()
 	self.players = {}
+	lock.unlock()
 
 
 func update_general(new_data: Dictionary):
@@ -72,11 +84,17 @@ func update_general(new_data: Dictionary):
 
 
 func get_current_player() -> PlayerData:
+	var curPlayer
+	
+	lock.lock()
 	var id := get_tree().get_network_unique_id()
 	if players.has(id):
-		return players[id] as PlayerData
+		curPlayer = players[id] as PlayerData
 	else:
-		return null
+		curPlayer = null
+	lock.unlock()
+	
+	return curPlayer
 
 
 func get_current_player_type() -> int:
