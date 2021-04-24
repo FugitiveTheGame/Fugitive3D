@@ -109,9 +109,11 @@ func fetch_external_ip():
 func _on_IpRequest_request_completed(result, response_code, headers, body):
 	if response_code >= 200 and response_code < 300:
 		var json = parse_json(body.get_string_from_utf8())
-		print('External IP: %s' % json.ip)
+		
 		ServerAdvertiserData.externalIp = json.ip
 		serverInfo["ip"] = ServerAdvertiserData.externalIp
+		
+		print('External IP: %s' % ServerAdvertiserData.externalIp)
 		
 		if public:
 			register_server()
@@ -150,6 +152,7 @@ func _on_RegisterRequest_request_completed(result, response_code, headers, body)
 	else:
 		var message := body.get_string_from_utf8() as String
 		print("Server registration failed with code: %d and message: %s" % [response_code, message])
+		print(ServerAdvertiserData.externalIp)
 		emit_signal("register_failed")
 
 
