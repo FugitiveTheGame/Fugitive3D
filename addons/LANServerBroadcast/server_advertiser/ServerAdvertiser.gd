@@ -28,7 +28,7 @@ var ipRequest := HTTPRequest.new()
 var registerRequest := HTTPRequest.new()
 var removeRequest := HTTPRequest.new()
 
-var repositoryRegisterTimer := Threshold.new(REPOSITORY_ADVERTISE_INTERVAL)
+var repositoryRegisterTimer := Threshold.new(REPOSITORY_ADVERTISE_INTERVAL, false)
 var initial_registration := true
 
 func _init():

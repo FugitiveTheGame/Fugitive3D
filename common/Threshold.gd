@@ -11,8 +11,9 @@ func set_last_run(v: int):
 	assert(false)
 
 
-func _init(threshold):
+func _init(threshold, start_running = true):
 	threshold_ms = threshold
+	is_running = start_running
 
 
 func start():
@@ -25,6 +26,7 @@ func stop():
 
 func reset():
 	last_run = 0
+	start()
 
 
 func is_exceeded() -> bool:
