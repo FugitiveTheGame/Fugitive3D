@@ -7,5 +7,98 @@
 [node name="Lobby" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
+[node name="VBoxContainer" parent="PanelContainer" index="0"]
+margin_right = 1592.0
+margin_bottom = 892.0
+
+[node name="Title" parent="PanelContainer/VBoxContainer" index="0"]
+margin_right = 1584.0
+
+[node name="HSplitContainer" parent="PanelContainer/VBoxContainer" index="1"]
+margin_right = 1584.0
+margin_bottom = 884.0
+
+[node name="VBoxContainer2" parent="PanelContainer/VBoxContainer/HSplitContainer" index="0"]
+margin_right = 788.0
+margin_bottom = 812.0
+
+[node name="ColumnLabel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2" index="0"]
+margin_right = 788.0
+
+[node name="HSeparator" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2" index="1"]
+margin_right = 788.0
+
+[node name="Panel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2" index="2"]
+margin_right = 788.0
+margin_bottom = 812.0
+
+[node name="Players" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2/Panel/ScrollContainer" index="0"]
+margin_right = 756.0
+
+[node name="VBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer" index="1"]
+margin_left = 796.0
+margin_right = 1584.0
+margin_bottom = 812.0
+
+[node name="ColumnLabel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="0"]
+margin_right = 788.0
+
+[node name="HSeparator" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="1"]
+margin_right = 788.0
+
+[node name="MapLabel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="2"]
+margin_right = 788.0
+
+[node name="MapButton" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="3"]
+margin_right = 788.0
+
+[node name="HBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="4"]
+margin_right = 788.0
+
+[node name="DetailsContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer" index="0"]
+margin_right = 390.0
+
+[node name="ModelLabel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer" index="0"]
+margin_right = 390.0
+
+[node name="HBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer" index="1"]
+margin_right = 390.0
+
+[node name="ModelValue" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer/HBoxContainer" index="0"]
+margin_left = 150.0
+margin_right = 239.0
+
+[node name="Spacer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer" index="2"]
+margin_right = 390.0
+
+[node name="SizeLabel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer" index="3"]
+margin_right = 390.0
+
+[node name="SizeValue" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer" index="4"]
+margin_right = 390.0
+
+[node name="TeamsContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer" index="1"]
+margin_left = 398.0
+margin_right = 788.0
+
+[node name="TeamsLabel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/TeamsContainer" index="0"]
+margin_right = 390.0
+
+[node name="ScrollContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/TeamsContainer" index="1"]
+margin_right = 390.0
+
+[node name="TeamsList" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/TeamsContainer/ScrollContainer" index="0"]
+margin_right = 390.0
+
+[node name="DescriptionLabel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="5"]
+margin_right = 788.0
+
+[node name="MapPanel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="6"]
+margin_right = 788.0
+margin_bottom = 812.0
+
+[node name="Margin" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/MapPanel/ScrollContainer" index="0"]
+margin_right = 788.0
+
 [node name="ServerAdvertiser" type="Node" parent="." index="1"]
 script = ExtResource( 3 )

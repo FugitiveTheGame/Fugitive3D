@@ -1,0 +1,34 @@
+[remap]
+
+importer="texture"
+type="StreamTexture"
+path="res://.import/FeatureGridMap18.png-8997e5dcca307cb4bc48d6eb9243a62f.stex"
+metadata={
+"vram_texture": false
+}
+
+[deps]
+
+source_file="res://common/game/maps/freehold/lightmaps/FeatureGridMap18.png"
+dest_files=[ "res://.import/FeatureGridMap18.png-8997e5dcca307cb4bc48d6eb9243a62f.stex" ]
+
+[params]
+
+compress/mode=0
+compress/lossy_quality=0.7
+compress/hdr_mode=0
+compress/bptc_ldr=0
+compress/normal_map=0
+flags/repeat=false
+flags/filter=true
+flags/mipmaps=false
+flags/anisotropic=false
+flags/srgb=true
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/HDR_as_SRGB=false
+process/invert_color=false
+stream=false
+size_limit=0
+detect_3d=false
+svg/scale=1.0
