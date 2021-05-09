@@ -51,3 +51,9 @@ static func rand_unit_vec3(ignore_axis := Vector3()) -> Vector3:
 	
 	vec = vec.normalized()
 	return vec
+
+# This disables baked lights so they don't cast expensive dynamic shadows
+static func turn_off_baked_lights(node: Node):
+	var lights := node.get_tree().get_nodes_in_group("baked_lights")
+	for light in lights:
+		light.visible = false

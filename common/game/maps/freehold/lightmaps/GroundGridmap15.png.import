@@ -1,0 +1,34 @@
+[remap]
+
+importer="texture"
+type="StreamTexture"
+path="res://.import/GroundGridmap15.png-2c4df10619a715b2ba4adf640b4c0100.stex"
+metadata={
+"vram_texture": false
+}
+
+[deps]
+
+source_file="res://common/game/maps/freehold/lightmaps/GroundGridmap15.png"
+dest_files=[ "res://.import/GroundGridmap15.png-2c4df10619a715b2ba4adf640b4c0100.stex" ]
+
+[params]
+
+compress/mode=0
+compress/lossy_quality=0.7
+compress/hdr_mode=0
+compress/bptc_ldr=0
+compress/normal_map=0
+flags/repeat=false
+flags/filter=true
+flags/mipmaps=false
+flags/anisotropic=false
+flags/srgb=true
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/HDR_as_SRGB=false
+process/invert_color=false
+stream=false
+size_limit=0
+detect_3d=false
+svg/scale=1.0

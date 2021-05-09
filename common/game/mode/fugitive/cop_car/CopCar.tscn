@@ -54,15 +54,12 @@ is_driver_seat = true
 
 [node name="CarSeat2" parent="Seats" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 0.2, -0.367 )
-is_driver_seat = false
 
 [node name="CarSeat3" parent="Seats" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.45, 0.2, 0.326663 )
-is_driver_seat = false
 
 [node name="CarSeat4" parent="Seats" instance=ExtResource( 2 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.35, 0.2, 0.326663 )
-is_driver_seat = false
 
 [node name="EnterArea" type="Area" parent="."]
 
@@ -130,5 +127,6 @@ light_energy = 5.0
 light_bake_mode = 0
 omni_range = 8.0
 omni_shadow_mode = 0
+
 [connection signal="body_entered" from="EnterArea" to="." method="_on_EnterArea_body_entered"]
 [connection signal="timeout" from="PoliceLight/Timer" to="PoliceLight" method="_on_Timer_timeout"]

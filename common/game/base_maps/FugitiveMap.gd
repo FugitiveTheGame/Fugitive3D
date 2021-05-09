@@ -9,6 +9,8 @@ onready var mapBoundingBox: AABB
 
 
 func _ready():
+	Utils.turn_off_baked_lights(self)
+	
 	var bbArea := $Roads.find_node("MapBoundingBox") as CollisionShape
 	var bbShape := bbArea.shape as BoxShape
 	mapBoundingBox = AABB(bbArea.global_transform.origin, bbShape.extents * 2.0)

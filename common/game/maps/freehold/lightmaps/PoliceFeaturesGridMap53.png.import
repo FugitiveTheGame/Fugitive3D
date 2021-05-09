@@ -1,0 +1,34 @@
+[remap]
+
+importer="texture"
+type="StreamTexture"
+path="res://.import/PoliceFeaturesGridMap53.png-fad096385d4a507578f2fe28b26ae520.stex"
+metadata={
+"vram_texture": false
+}
+
+[deps]
+
+source_file="res://common/game/maps/freehold/lightmaps/PoliceFeaturesGridMap53.png"
+dest_files=[ "res://.import/PoliceFeaturesGridMap53.png-fad096385d4a507578f2fe28b26ae520.stex" ]
+
+[params]
+
+compress/mode=0
+compress/lossy_quality=0.7
+compress/hdr_mode=0
+compress/bptc_ldr=0
+compress/normal_map=0
+flags/repeat=false
+flags/filter=true
+flags/mipmaps=false
+flags/anisotropic=false
+flags/srgb=true
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/HDR_as_SRGB=false
+process/invert_color=false
+stream=false
+size_limit=0
+detect_3d=false
+svg/scale=1.0
