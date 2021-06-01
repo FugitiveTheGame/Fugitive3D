@@ -3,7 +3,7 @@ class_name FugitiveStateMachine
 
 const STATE_CONFIGURING := "configuring"
 const STATE_NOT_READY := "not_ready"
-const STATE_READY := "configuring"
+const STATE_READY := "ready"
 const STATE_COUNTDOWN := "countdown"
 const STATE_PLAYING_HEADSTART := "playing_headstart"
 const STATE_PLAYING := "playing"
