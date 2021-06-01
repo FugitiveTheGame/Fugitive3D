@@ -34,6 +34,9 @@ func _exit_tree():
 	
 	GameData.currentGame = null
 	GameData.currentMap = null
+	
+	# Make sure we can't leave the GameMode without unpausing the game
+	get_tree().paused = false
 
 
 func load_map():
