@@ -60,7 +60,7 @@ func server_remove_player(playerId: int):
 	# If all players are gone, return to lobby
 	if GameData.players.empty():
 		print("All players disconnected, returning to lobby")
-		get_tree().change_scene("res://server/lobby/ServerLobby.tscn")
+		rpc("on_finish_game", -1)
 	else:
 		print("Players remaining: %d" % GameData.players.size())
 		
@@ -69,7 +69,7 @@ func server_remove_player(playerId: int):
 		elif stateMachine.current_state.name == FugitiveStateMachine.STATE_NOT_READY:
 			check_all_ready()
 	
-	advertiser.update_players(GameData.players.size())
+		advertiser.update_players(GameData.players.size())
 
 
 func load_map():
