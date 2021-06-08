@@ -4,16 +4,18 @@ class_name PlatformTypeUtils
 enum PlatformType { FlatDesktop, FlatMobile, VrDesktop, VrMobile, Unset }
 enum PlatformCategory { Flat, Vr, Unset }
 
+
 static func get_platform_type() -> int:
 	var type: int
 	if OS.has_feature("client_flat") and OS.has_feature("mobile"):
 		type = PlatformType.FlatMobile
 	elif OS.has_feature("client_flat"):
 		type = PlatformType.FlatDesktop
-	elif OS.has_feature("client_vr_desktop"):
-		type = PlatformType.VrDesktop
-	elif OS.has_feature("client_vr_mobile"):
-		type = PlatformType.VrMobile
+	elif VrUtils.isVrClient():
+		if OS.has_feature("client_vr_desktop"):
+			type = PlatformType.VrDesktop
+		elif OS.has_feature("client_vr_mobile"):
+			type = PlatformType.VrMobile
 	# Debug builds from the editor expect this
 	else:
 		type = PlatformType.FlatDesktop

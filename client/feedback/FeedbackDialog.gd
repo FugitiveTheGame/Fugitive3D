@@ -11,7 +11,7 @@ func _on_FeedbackDialog_about_to_show():
 	
 	$Container/DescriptionTextEdit.text += "Platform: %s\n" % OS.get_name()
 	$Container/DescriptionTextEdit.text += "Game Version: %d\n" % UserData.GAME_VERSION
-	$Container/DescriptionTextEdit.text += "VR: %s\n" % str(OS.has_feature("vr"))
+	$Container/DescriptionTextEdit.text += "VR: %s\n" % str(VrUtils.isVrClient())
 	Feedback.has_crash_to_report = false
 	
 	$Container/SendButton.disabled = false

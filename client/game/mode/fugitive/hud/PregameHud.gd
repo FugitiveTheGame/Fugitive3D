@@ -5,7 +5,7 @@ onready var headstartTimer: Timer = get_tree().get_nodes_in_group(Groups.HEADSTA
 
 
 func _ready():
-	if OS.has_feature("vr"):
+	if VrUtils.isVrClient():
 		$NotReadyLabel.text = "Press TRIGGER to ready up"
 	else:
 		$NotReadyLabel.text = "Press JUMP to ready up"
