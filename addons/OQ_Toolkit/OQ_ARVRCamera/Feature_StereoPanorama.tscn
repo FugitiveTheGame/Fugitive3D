@@ -3,6 +3,7 @@
 [ext_resource path="res://addons/OQ_Toolkit/OQ_ARVRCamera/scripts/Feature_StereoPanorama.gd" type="Script" id=1]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_ARVRCamera/scripts/StereoPanorama.material" type="Material" id=2]
 
+
 [sub_resource type="QuadMesh" id=1]
 size = Vector2( 4, 2 )
 
