@@ -4,6 +4,7 @@
 [ext_resource path="res://addons/OQ_Toolkit/OQ_ARVROrigin/scripts/Locomotion_Teleport_Arc.shader" type="Shader" id=2]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_ARVROrigin/scripts/Locomotion_Teleport.gd" type="Script" id=3]
 
+
 [sub_resource type="PlaneMesh" id=1]
 size = Vector2( 0.1, 1 )
 subdivide_depth = 15

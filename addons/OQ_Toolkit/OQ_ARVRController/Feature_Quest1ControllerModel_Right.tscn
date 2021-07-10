@@ -4,8 +4,7 @@
 [ext_resource path="res://addons/OQ_Toolkit/OQ_ARVRController/scripts/Feature_ControllerModel.gd" type="Script" id=2]
 
 
-
-[node name="Feature_ControllerModel_Right" type="Spatial"]
+[node name="Feature_Quest1ControllerModel_Right" type="Spatial"]
 script = ExtResource( 2 )
 
 [node name="OculusQuestTouchController_Right" parent="." instance=ExtResource( 1 )]
