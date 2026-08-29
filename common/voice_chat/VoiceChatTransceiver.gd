@@ -6,13 +6,14 @@ var effect: AudioEffectRecord
 var maxTeamHearingRange := 10.0
 var maxHearingRange := 40.0
 
-onready var opus_encoder := $OpusEncoder
-onready var transmit_limit_timer := $TransmitLimitTimer as Timer
-onready var transmit_limit_audio := $TransmitLimitAudio as AudioStreamPlayer
+@onready var opus_encoder := $OpusEncoder
+@onready var transmit_limit_timer := $TransmitLimitTimer as Timer
+@onready var transmit_limit_audio := $TransmitLimitAudio as AudioStreamPlayer
 
 
 
 func _ready():
+	super._ready()
 	var idx := AudioServer.get_bus_index("Record")
 	effect = AudioServer.get_bus_effect(idx, 0) as AudioEffectRecord
 
@@ -46,7 +47,7 @@ func transmit_audio():
 
 # This should be overriden to determine who the audio is sent to based on game
 # rules
-func send_audio(audioData: PoolByteArray):
+func send_audio(audioData: PackedByteArray):
 	pass
 
 

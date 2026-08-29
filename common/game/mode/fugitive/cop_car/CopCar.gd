@@ -1,9 +1,9 @@
-extends KinematicBody
+extends CharacterBody3D
 class_name CopCar
 
 var update_threshold := Threshold.new(Utils.COMMON_NETWORK_UPDATE_THRESHOLD)
 
-onready var enterArea := $EnterArea as Area
+@onready var enterArea := $EnterArea as Area3D
 
 const MIN_SPEED := 0.5
 const MAX_SPEED := 25.0
@@ -14,13 +14,12 @@ const FRICTION_BREAKING := 2.5
 const ROTATION := 2.0
 const GRAVITY := pow(9.8, 2)
 
-const CONE_WIDTH = cos(deg2rad(35.0))
+const CONE_WIDTH = cos(deg_to_rad(35.0))
 const MAX_VISION_DISTANCE := 50.0
 const MIN_VISION_DISTANCE := 0.0
 
 var seats := []
 var driver_seat: CarSeat
-var velocity := Vector3()
 var isBreaking := false
 
 var networkPosition = null
@@ -31,15 +30,15 @@ var locked := true
 
 var mutex := Mutex.new()
 
-onready var headlight_ray_caster := $RayCast as RayCast
-onready var drivingAudio := $DrivingAudio as AudioStreamPlayer3D
+@onready var headlight_ray_caster := $RayCast3D as RayCast3D
+@onready var drivingAudio := $DrivingAudio as AudioStreamPlayer3D
 
 
 func _ready():
 	add_to_group(Groups.CARS)
 	
 	var gles2 := Utils.renderer_is_gles2()
-	$cop_car/OmniLight.visible = not gles2
+	$cop_car/OmniLight3D.visible = not gles2
 	$cop_car/HeadLight.visible = not gles2
 	$cop_car/gles2Headlight1.visible = gles2
 	$cop_car/gles2Headlight2.visible = gles2
@@ -91,7 +90,7 @@ func car_enter_failed():
 	rpc("on_car_enter_failed")
 
 
-remotesync func on_car_enter_failed():
+@rpc("any_peer", "call_local") func on_car_enter_failed():
 	$DoorLockedAudio.play()
 
 
@@ -101,8 +100,8 @@ func request_enter_car(player: FugitivePlayer):
 
 
 # The servers decides if user can enter, and what seat they will enter into
-remotesync func on_request_enter_car(playerId: int):
-	if not get_tree().is_network_server():
+@rpc("any_peer", "call_local") func on_request_enter_car(playerId: int):
+	if not multiplayer.is_server():
 		return
 	
 	mutex.lock()
@@ -146,7 +145,7 @@ remotesync func on_request_enter_car(playerId: int):
 
 
 # Then it tells all clients what player is entering what seat in the car
-remotesync func on_car_entered(playerId: int, seatIndex: int):
+@rpc("any_peer", "call_local") func on_car_entered(playerId: int, seatIndex: int):
 	mutex.lock()
 	var player = GameData.currentGame.get_player(playerId)
 	var seat = seats[seatIndex]
@@ -184,8 +183,8 @@ func request_exit_car(player: FugitivePlayer):
 	rpc_id(ServerNetwork.SERVER_ID, "on_request_exit_car", player.id)
 
 
-remotesync func on_request_exit_car(playerId: int):
-	if not get_tree().is_network_server():
+@rpc("any_peer", "call_local") func on_request_exit_car(playerId: int):
+	if not multiplayer.is_server():
 		return
 	
 	mutex.lock()
@@ -198,7 +197,7 @@ remotesync func on_request_exit_car(playerId: int):
 	mutex.unlock()
 
 
-remotesync func on_exit_car(playerId: int, seatIndex: int):
+@rpc("any_peer", "call_local") func on_exit_car(playerId: int, seatIndex: int):
 	mutex.lock()
 	var player = GameData.currentGame.get_player(playerId)
 	
@@ -238,7 +237,7 @@ func eject_all_occupants():
 
 
 # Then kick everyone out of the car and lock it
-remotesync func on_eject_all_occupants():
+@rpc("any_peer", "call_local") func on_eject_all_occupants():
 	for seatIndex in range(seats.size()):
 		var seat = seats[seatIndex]
 		if seat.occupant != null:
@@ -283,11 +282,11 @@ func process_breaking(nowBreaking: bool, delta: float):
 			rpc("on_breaking")
 
 
-remotesync func on_breaking():
+@rpc("any_peer", "call_local") func on_breaking():
 	$BrakeAudio.play()
 
 
-remotesync func on_lock():
+@rpc("any_peer", "call_local") func on_lock():
 	locked = true
 	$LockAudio.play()
 
@@ -332,7 +331,7 @@ func process_input(forward: bool, backward: bool, left: bool, right: bool, break
 				seat.rotate_occupant(rotAngle)
 
 
-remote func network_update(_networkPosition: Vector3, _networkRotation: Vector3, _networkVelocity: Vector3):
+@rpc("any_peer", "unreliable") func network_update(_networkPosition: Vector3, _networkRotation: Vector3, _networkVelocity: Vector3):
 	networkPosition = _networkPosition
 	networkRotation = _networkRotation
 	networkVelocity = _networkVelocity
@@ -342,14 +341,18 @@ func _physics_process(delta):
 	var localPlayerIsDriver := (not driver_seat.is_empty() and driver_seat.occupant.id == GameData.get_current_player_id()) as bool
 	
 	# Local player will drive the simulation OR if no driver, then server will do it
-	if localPlayerIsDriver or (driver_seat.is_empty() and get_tree().network_peer != null and get_tree().is_network_server()):
+	if localPlayerIsDriver or (driver_seat.is_empty() and Utils.has_active_network_peer(multiplayer) and multiplayer.is_server()):
 		# At some minimum speed, stop the car
 		if Vector2(velocity.x, velocity.z).length_squared() < 0.03:
 			velocity.x = 0.0
 			velocity.z = 0.0
 		velocity.y -= GRAVITY * delta
 		
-		velocity = move_and_slide_with_snap(velocity, Vector3(0,-2,0), Vector3(0,1,0))
+		set_velocity(velocity)
+		# TODOConverter3To4 looks that snap in Godot 4 is float, not vector like in Godot 3 - previous value `Vector3(0,-2,0)`
+		set_up_direction(Vector3(0,1,0))
+		move_and_slide()
+		velocity = velocity
 		
 		# Apply friction to counter sideways drift
 		if not isBreaking:
@@ -364,11 +367,11 @@ func _physics_process(delta):
 			velocity = velocity - (velocity.normalized() * (FRICTION_BREAKING * delta))
 
 		if not GameData.currentGame.is_game_over() and update_threshold.is_exceeded():
-			rpc_unreliable("network_update", translation, rotation, velocity)
+			rpc("network_update", position, rotation, velocity)
 	else:
 		# Apply the most recent transform update from the network
 		if networkPosition != null:
-			translation = networkPosition
+			position = networkPosition
 			networkPosition = null
 		if networkRotation != null:
 			rotation = networkRotation
@@ -379,7 +382,11 @@ func _physics_process(delta):
 			
 		# Client side prediction
 		if GameData.currentGame != null and not GameData.currentGame.is_game_over():
-			velocity = move_and_slide_with_snap(velocity, Vector3(0,-2,0), Vector3(0,1,0))
+			set_velocity(velocity)
+			# TODOConverter3To4 looks that snap in Godot 4 is float, not vector like in Godot 3 - previous value `Vector3(0,-2,0)`
+			set_up_direction(Vector3(0,1,0))
+			move_and_slide()
+			velocity = velocity
 
 
 func get_movment_speed() -> float:
@@ -398,7 +405,7 @@ func honk_horn():
 	rpc("on_honk_horn")
 
 
-remotesync func on_honk_horn():
+@rpc("any_peer", "call_local") func on_honk_horn():
 	$HornAudio.play()
 
 
@@ -426,7 +433,7 @@ func process_hider(hider: Hider):
 		var curHiderShape = hider.get_current_shape().head
 		var look_vec := headlight_ray_caster.to_local(curHiderShape.global_transform.origin)
 		
-		headlight_ray_caster.cast_to = look_vec
+		headlight_ray_caster.target_position = look_vec
 		headlight_ray_caster.force_raycast_update()
 		
 		# Only if ray is colliding. If it's not, and we try to do logic,
@@ -475,7 +482,7 @@ func process_hider(hider: Hider):
 
 func _on_EnterArea_body_entered(body):
 	# Server authoritative
-	if get_tree().network_peer != null and get_tree().is_network_server():
+	if Utils.has_active_network_peer(multiplayer) and multiplayer.is_server():
 		if has_occupants():
 			# If the player we just collided with is a Seeker
 			var collidedPlayer = body.get_player()

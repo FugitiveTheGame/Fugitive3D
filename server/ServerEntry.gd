@@ -10,21 +10,22 @@ var fetchThread: Thread = null
 func _ready():
 	# Now that we know we are a server, add our Reporter to the tree
 	if not ServerUtils.get_no_stats():
-		var serverReporter = load("res://server/reporter/ServerReporter.tscn").instance()
-		get_tree().root.add_child(serverReporter)
+		var serverReporter = load("res://server/reporter/ServerReporter.tscn").instantiate()
+		get_tree().root.add_child.call_deferred(serverReporter)
 	
 	# If we are going to be public, handle the initial registration
 	if ServerUtils.get_public():
 		# Third argument is optional userdata, it can be any variable.
 		registerThread = Thread.new()
-		registerThread.start(self, "run_register_publicly")
+		registerThread.start(Callable(self, "run_register_publicly"))
 	# If we're not registering publicly, just continue
 	else:
 		go_to_lobby()
 
 
 func go_to_lobby():
-	get_tree().change_scene("res://server/lobby/ServerLobby.tscn")
+	# Deferred: called both mid-_ready and from the registration thread
+	get_tree().change_scene_to_file.call_deferred("res://server/lobby/ServerLobby.tscn")
 
 
 func run_register_publicly(userdata):
@@ -45,13 +46,13 @@ func register_publicly():
 		var advertiser = ServerAdvertiser.new()
 		ServerUtils.configure_advertiser(advertiser, ServerUtils.get_name(), listenPort, ServerUtils.get_public(), false)
 		add_child(advertiser)
-		advertiser.connect("register_succeeded", self, "on_register_succeeded")
-		advertiser.connect("register_failed", self, "on_register_failed")
+		advertiser.connect("register_succeeded", Callable(self, "on_register_succeeded"))
+		advertiser.connect("register_failed", Callable(self, "on_register_failed"))
 		# This will get the IP, then proceed to register the server
 		# As part of registration, the repository will connect to us on
 		# UDP to confirm our ports are open
 		fetchThread = Thread.new()
-		fetchThread.start(self, "run_fetch_external_ip", advertiser)
+		fetchThread.start(Callable(self, "run_fetch_external_ip").bind(advertiser))
 		
 		# Wait for the repository to ping us
 		if socketUDP.wait() == OK:
@@ -65,7 +66,7 @@ func register_publicly():
 				var response := "pong"
 				# Send redundant response packets
 				for ii in 10:
-					socketUDP.put_packet(response.to_ascii())
+					socketUDP.put_packet(response.to_ascii_buffer())
 				
 				print("Port check request received. Response sent.")
 			else:

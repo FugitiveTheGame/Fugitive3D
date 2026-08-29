@@ -1,9 +1,9 @@
 extends Control
 
-export(NodePath) var voiceChatTransceiverPath: NodePath
-onready var voiceChatTransceiver := get_node(voiceChatTransceiverPath) as VoiceChatTransceiver
+@export var voiceChatTransceiverPath: NodePath
+@onready var voiceChatTransceiver := get_node(voiceChatTransceiverPath) as VoiceChatTransceiver
 
-onready var icon := $Icon
+@onready var icon := $Icon
 
 
 func _process(delta):

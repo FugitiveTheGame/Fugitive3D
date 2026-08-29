@@ -2,5 +2,5 @@
 
 [ext_resource path="res://common/game/mode/fugitive/cop_car/CarSeat.gd" type="Script" id=1]
 
-[node name="CarSeat" type="Spatial"]
+[node name="CarSeat" type="Node3D"]
 script = ExtResource( 1 )

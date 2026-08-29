@@ -1,13 +1,13 @@
-extends Spatial
+extends Node3D
 
 
-onready var cone := $Cone as MeshInstance
-onready var material := cone.material_override as ShaderMaterial
+@onready var cone := $Cone as MeshInstance3D
+@onready var material := cone.material_override as ShaderMaterial
 
-var alpha: float setget set_alpha, get_alpha
+var alpha: float: get = get_alpha, set = set_alpha
 func set_alpha(value: float):
-	var albedo := material.get_shader_param("albedo") as Color
+	var albedo := material.get_shader_parameter("albedo") as Color
 	albedo.a = value
-	material.set_shader_param("albedo", albedo)
+	material.set_shader_parameter("albedo", albedo)
 func get_alpha() -> float:
-	return material.get_shader_param("albedo").a
+	return material.get_shader_parameter("albedo").a

@@ -1,12 +1,12 @@
 extends GameMode
 class_name FugitiveGame
 
-onready var stateMachine := $StateMachine as FugitiveStateMachine
+@onready var stateMachine := $StateMachine as FugitiveStateMachine
 
 var map: FugitiveMap
 var playersContainer: Node
 
-onready var history:= $FugitiveHistoryCollection as FugitiveHistoryCollection
+@onready var history:= $FugitiveHistoryCollection as FugitiveHistoryCollection
 
 var gameStarted := false
 var winningTeam: int
@@ -20,13 +20,13 @@ func is_game_over() -> bool:
 
 
 func load_map():
-	.load_map()
+	super.load_map()
 	
 	map = GameData.currentMap
 	
 	playersContainer = map.get_players()
 	
-	map.get_timelimit_timer().connect("timeout", self, "game_time_limit_exceeded")
+	map.get_timelimit_timer().connect("timeout", Callable(self, "game_time_limit_exceeded"))
 	
 	if history != null:
 		history.reset()
@@ -59,7 +59,7 @@ func finish_game(playerType: int):
 	print("finish_game")
 
 
-remotesync func on_finish_game(playerType: int):
+@rpc("any_peer", "call_local") func on_finish_game(playerType: int):
 	# Send one last heartbeat when the game is finished.
 	record_heartbeat()
 	
@@ -92,7 +92,7 @@ remotesync func on_finish_game(playerType: int):
 # This has to be completed on all clients before the game can start
 # Once completed, notify the server that we are done
 func pre_configure():
-	.pre_configure()
+	super.pre_configure()
 	
 	var sharedSeed = GameData.general[GameData.GENERAL_SEED]
 	seed(sharedSeed)
@@ -106,14 +106,14 @@ func pre_configure():
 	sortedPlayers.sort()
 	
 	var hiderSpawns = map.get_hider_spawns()
-	assert(not hiderSpawns.empty())
+	assert(not hiderSpawns.is_empty())
 	# Randomize the spawn locations.
 	# Due to the shared seed this will be the same
 	# across all clients
 	hiderSpawns.shuffle()
 	
 	var seekerSpawns = map.get_seeker_spawns()
-	assert(not seekerSpawns.empty())
+	assert(not seekerSpawns.is_empty())
 	seekerSpawns.shuffle()
 	
 	for playerId in sortedPlayers:
@@ -133,7 +133,7 @@ func pre_configure():
 func spawn_player(playerId: int, hiderSpawns: Array, seekerSpawns: Array):
 	print("Creating player game object")
 	
-	var localPlayerId := get_tree().get_network_unique_id()
+	var localPlayerId := multiplayer.get_unique_id()
 	var localPlayerType: int
 	if GameData.players.has(localPlayerId):
 		localPlayerType = GameData.get_player(localPlayerId).get_type()
@@ -147,10 +147,10 @@ func spawn_player(playerId: int, hiderSpawns: Array, seekerSpawns: Array):
 	
 	# This is the node for the PlayerController
 	var pcNode: Node
-	var spawnPointNode: Spatial
+	var spawnPointNode: Node3D
 	
 	# Create the player controller for the local player
-	if get_tree().get_network_unique_id() == playerId:
+	if multiplayer.get_unique_id() == playerId:
 		match playerType:
 			FugitiveTeamResolver.PlayerType.Seeker:
 				pcNode = create_player_seeker_node()
@@ -168,7 +168,7 @@ func spawn_player(playerId: int, hiderSpawns: Array, seekerSpawns: Array):
 				pcNode = create_remote_hider_node()
 				spawnPointNode = hiderSpawns.pop_front()
 	
-	pcNode.set_network_master(playerId)
+	pcNode.set_multiplayer_authority(playerId)
 	pcNode.set_name(str(playerId))
 	
 	# Add the PlayerController to the player's node in the game scene
@@ -178,7 +178,7 @@ func spawn_player(playerId: int, hiderSpawns: Array, seekerSpawns: Array):
 	var playerNode = pcNode.get_node("Player")
 	playerNode.configure(playerName, playerId, playerType, localPlayerType)
 	# Player listens to Game state changes
-	stateMachine.connect("state_change", playerNode, "on_game_state_changed")
+	stateMachine.connect("state_change", Callable(playerNode, "on_game_state_changed"))
 	
 	# Add the player node to our list of players
 	players[playerId] = playerNode
@@ -187,7 +187,7 @@ func spawn_player(playerId: int, hiderSpawns: Array, seekerSpawns: Array):
 	pcNode.global_transform = spawnPointNode.global_transform
 
 
-remotesync func on_all_clients_configured():
+@rpc("any_peer", "call_local") func on_all_clients_configured():
 	print("All clients are configured. Waiting for them to ready up.")
 	get_tree().paused = false
 	stateMachine.transition_by_name(FugitiveStateMachine.TRANS_CONFIGURED)
@@ -195,7 +195,7 @@ remotesync func on_all_clients_configured():
 
 # When all clients have reported that they have finished setting up the gmae
 # The server calls this on all clients telling them to start the game
-remotesync func on_all_ready():
+@rpc("any_peer", "call_local") func on_all_ready():
 	print("All clients are ready. Starting the count down.")
 	stateMachine.transition_by_name(FugitiveStateMachine.TRANS_START_COUNT)
 
@@ -206,12 +206,12 @@ remotesync func on_all_ready():
 # localy controlled by this machine.
 func create_remote_seeker_node() -> Node:
 	var scene = preload("res://common/game/mode/fugitive/seeker/RemoteSeeker.tscn")
-	return scene.instance()
+	return scene.instantiate()
 
 
 func create_remote_hider_node() -> Node:
 	var scene = preload("res://common/game/mode/fugitive/hider/RemoteHider.tscn")
-	return scene.instance()
+	return scene.instantiate()
 
 
 ####################################
@@ -281,7 +281,7 @@ func process_hiders():
 
 func check_win_conditions():
 	# Only the server will end the game
-	if not get_tree().is_network_server():
+	if not multiplayer.is_server():
 		return
 	
 	var hiders = get_tree().get_nodes_in_group(Hider.GROUP)
@@ -306,9 +306,9 @@ func check_win_conditions():
 			finish_game(FugitiveTeamResolver.PlayerType.Seeker)
 		elif allUnfrozenHidersInWinZone:
 			finish_game(FugitiveTeamResolver.PlayerType.Hider)
-		elif seekers.empty():
+		elif seekers.is_empty():
 			finish_game(FugitiveTeamResolver.PlayerType.Hider)
-		elif hiders.empty():
+		elif hiders.is_empty():
 			finish_game(FugitiveTeamResolver.PlayerType.Seeker)
 
 
@@ -330,7 +330,7 @@ func on_state_game_over(current_state: State, transition: Transition):
 	print("game is complete!")
 
 
-remotesync func begin_game():
+@rpc("any_peer", "call_local") func begin_game():
 	print("Release the hiders!")
 	stateMachine.transition_by_name(FugitiveStateMachine.TRANS_GAME_START)
 	map.get_headstart_timer().start()
@@ -338,7 +338,7 @@ remotesync func begin_game():
 	gameStarted = true
 
 
-remotesync func release_cops():
+@rpc("any_peer", "call_local") func release_cops():
 	if stateMachine.current_state.name == FugitiveStateMachine.STATE_PLAYING_HEADSTART:
 		print("Release the cops!")
 		stateMachine.transition_by_name(FugitiveStateMachine.TRANS_COPS_RELEASED)
@@ -346,7 +346,7 @@ remotesync func release_cops():
 		print("Ignoring TRANS_COPS_RELEASED")
 
 
-remotesync func on_go_to_lobby():
+@rpc("any_peer", "call_local") func on_go_to_lobby():
 	print("on_go_to_lobby MUST BE OVERRIDEN")
 	assert(false)
 
@@ -355,8 +355,17 @@ func start_lobby_timer():
 	rpc("on_start_lobby_timer")
 
 
-remote func on_start_lobby_timer():
+@rpc("any_peer") func on_start_lobby_timer():
 	$ReturnToLobbyTimer.start()
+
+
+# RPC configs must exist on every peer's Game script; the server overrides these
+@rpc("any_peer") func on_client_configured(_playerId: int):
+	pass
+
+
+@rpc("any_peer") func on_client_ready(_playerId: int):
+	pass
 
 
 func _on_ReturnToLobbyTimer_timeout():

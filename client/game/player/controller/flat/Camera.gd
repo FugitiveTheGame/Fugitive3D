@@ -1,7 +1,7 @@
-extends Camera
+extends Camera3D
 class_name FpsCamera
 
-onready var fpsController: Spatial = get_parent()
+@onready var fpsController: Node3D = get_parent()
 
 const JOY_THRESHOLD := 0.25
 
@@ -10,7 +10,7 @@ var inversion_mult := 1.0
 var max_y := 89.0
 var mouseLookSensetivityModifier := 1.0
 
-var heldObject: Spatial
+var heldObject: Node3D
 
 func initialize_components():
 	sensitivity_y = self.get_parent().Sensitivity_Y
@@ -38,7 +38,7 @@ func _input(event):
 
 
 func _process(delta):
-	var look_y_joystick := Input.get_joy_axis(0, JOY_ANALOG_RY)
+	var look_y_joystick := Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)
 	if abs(look_y_joystick) > JOY_THRESHOLD:
 		var rotate_by = inversion_mult * sensitivity_y * mouseLookSensetivityModifier * look_y_joystick
 		look_vertical(rotate_by)

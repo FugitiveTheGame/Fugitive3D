@@ -2,7 +2,7 @@
 
 [ext_resource path="res://common/game/mode/fugitive/ambience/EffectCrickets.gd" type="Script" id=1]
 
-[node name="Crickets" type="Spatial"]
+[node name="Crickets" type="Node3D"]
 script = ExtResource( 1 )
 frequency = 0.01
 sounds = [ "res://common/game/mode/fugitive/ambience/crickets_00.wav", "res://common/game/mode/fugitive/ambience/crickets_01.wav", "res://common/game/mode/fugitive/ambience/crickets_02.wav", "res://common/game/mode/fugitive/ambience/crickets_03.wav", "res://common/game/mode/fugitive/ambience/crickets_04.wav", "res://common/game/mode/fugitive/ambience/crickets_05.wav", "res://common/game/mode/fugitive/ambience/crickets_06.wav" ]

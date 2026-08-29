@@ -1,12 +1,13 @@
 extends "res://common/lobby/Lobby.gd"
 
-onready var advertiser := $ServerAdvertiser as ServerAdvertiser
-onready var reporter := ServerReporter.get_instance(get_tree()) as ServerReporter
+@onready var advertiser := $ServerAdvertiser as ServerAdvertiser
+@onready var reporter := ServerReporter.get_instance(get_tree()) as ServerReporter
 var serverPort: int
 var serverName: String
 
 
 func _enter_tree():
+	super._enter_tree()
 	serverPort = ServerUtils.get_port()
 	serverName = ServerUtils.get_name()
 	
@@ -21,14 +22,16 @@ func _enter_tree():
 
 
 func _exit_tree():
+	super._exit_tree()
 	# Don't allow new connections if we're in-game
-	if get_tree().network_peer != null:
+	if Utils.has_active_network_peer(multiplayer):
 		ServerNetwork.is_joinable = false
 	
 	ServerUtils.update_joinable(advertiser, ServerNetwork.is_joinable)
 
 
 func _ready():
+	super._ready()
 	ServerUtils.normal_start(advertiser, true)
 	
 	if reporter != null:
@@ -37,11 +40,11 @@ func _ready():
 
 func on_start_game():
 	var mapId = GameData.general[GameData.GENERAL_MAP]
-	get_tree().change_scene(Maps.get_game_scene(mapId, Maps.TYPE_SERVER))
+	get_tree().change_scene_to_file(Maps.get_game_scene(mapId, Maps.TYPE_SERVER))
 
 
 func on_start_lobby_countdown():
-	.on_start_lobby_countdown()
+	super.on_start_lobby_countdown()
 	
 	# Don't allow any more connections now that we're in the terminal count
 	ServerNetwork.is_joinable = false
@@ -61,10 +64,10 @@ func on_start_lobby_countdown():
 
 
 func create_player(playerId: int):
-	.create_player(playerId)
+	super.create_player(playerId)
 	advertiser.update_players(GameData.players.size())
 
 
 func remove_player(playerId: int):
-	.remove_player(playerId)
+	super.remove_player(playerId)
 	advertiser.update_players(GameData.players.size())

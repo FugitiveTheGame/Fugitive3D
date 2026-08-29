@@ -1,8 +1,8 @@
 extends Control
 
-onready var mapBackground := $Map as TextureRect
+@onready var mapBackground := $Map as TextureRect
 
-export(DynamicFont) var streetNameFont
+@export var streetNameFont: FontFile
 
 const road_width := 20.0
 
@@ -10,10 +10,10 @@ var mapSize: Vector2
 var mapStart: Vector2
 var mapDrawn := false
 
-onready var roads = GameData.currentMap.roads
-var playerShape := PoolVector2Array()
+@onready var roads = GameData.currentMap.roads
+var playerShape := PackedVector2Array()
 const playerSize := 20.0
-var playerOutlineShape := PoolVector2Array()
+var playerOutlineShape := PackedVector2Array()
 const playerOutlineSize := 23.0
 
 var drawStreetNames := true
@@ -29,9 +29,9 @@ func _ready():
 	update_map_background()
 
 
-func _build_triangle(triangle_size: float) -> PoolVector2Array:
+func _build_triangle(triangle_size: float) -> PackedVector2Array:
 	var half_size := triangle_size/2.0
-	var new_points := PoolVector2Array()
+	var new_points := PackedVector2Array()
 	new_points.append(Vector2(-half_size, -half_size))
 	new_points.append(Vector2(half_size, -half_size))
 	new_points.append(Vector2(0.0, triangle_size))
@@ -43,18 +43,18 @@ func update_map_background():
 		var imageTexture = ImageTexture.new()
 		var image = Image.new()
 		
-		var curSize := rect_size
+		var curSize := size
 		image.create(curSize.x, curSize.y, false, Image.FORMAT_RGBA8)
 		image.fill(Color(0.1, 0.9, 0.1, 0.5))
 		imageTexture.create_from_image(image)
 		mapBackground.texture = imageTexture
 		
-		mapBackground.update()
+		mapBackground.queue_redraw()
 
 
 func _process(delta):
 	if visible:
-		update()
+		queue_redraw()
 
 
 func to_map_scale(globalCoord: Vector3) -> Vector2:
@@ -74,7 +74,7 @@ func to_map_coord_vector2(globalCoord: Vector2) -> Vector2:
 	# Convert to percent inside local area
 	var mapScale := correctedCoord / mapSize
 	# Convert to 2d rect coord
-	var mapCoord = (rect_size * mapScale)
+	var mapCoord = (size * mapScale)
 	
 	return mapCoord
 
@@ -84,35 +84,35 @@ func _on_Map_draw():
 	var elbowRadius := floor(road_width/2.0) - 1.0 # -1 so the elbows don't peak past the roads
 	for road in roads:
 		for node in road.get_children():
-			if node is Position3D:
+			if node is Marker3D:
 				var pos = node.global_transform.origin
 				var coord := to_map_coord(pos)
-				mapBackground.draw_circle(coord, elbowRadius, Color.black)
+				mapBackground.draw_circle(coord, elbowRadius, Color.BLACK)
 	
 	# Then draw the main roads
 	for road in roads:
 		var fromCoord = null
 		for node in road.get_children():
-			if node is Position3D:
+			if node is Marker3D:
 				var pos = node.global_transform.origin
 				if fromCoord == null:
 					fromCoord = to_map_coord(pos)
 				else:
 					var toCoord := to_map_coord(pos)
-					mapBackground.draw_line(fromCoord, toCoord, Color.black, road_width)
+					mapBackground.draw_line(fromCoord, toCoord, Color.BLACK, road_width)
 					fromCoord = toCoord
 	
 	# Then draw the road lines
 	for road in roads:
 		var fromCoord = null
 		for node in road.get_children():
-			if node is Position3D:
+			if node is Marker3D:
 				var pos = node.global_transform.origin
 				if fromCoord == null:
 					fromCoord = to_map_coord(pos)
 				else:
 					var toCoord := to_map_coord(pos)
-					mapBackground.draw_line(fromCoord, toCoord, Color.white, 1.0)
+					mapBackground.draw_line(fromCoord, toCoord, Color.WHITE, 1.0)
 					fromCoord = toCoord
 	
 	# Now draw the win zones
@@ -120,12 +120,12 @@ func _on_Map_draw():
 		var pos = zone.global_transform.origin
 		var coord := to_map_coord(pos)
 		
-		if zone.get_children().empty():
+		if zone.get_children().is_empty():
 			print("ERROR: Winzone missing colission shape")
 			continue
 		
-		var colShape = zone.get_node("CollisionShape")
-		var colSize = colShape.shape.extents
+		var colShape = zone.get_node("CollisionShape3D")
+		var colSize = colShape.shape.size * 0.5
 		colSize *= 4.0 # I don't understand why this is 4... it should be 2.0...
 		var colSizeMap := to_map_scale(colSize) * mapSize
 		coord = coord - (colSizeMap / 2.0)
@@ -148,7 +148,7 @@ func _on_Map_draw():
 			
 			var rotation := 0.0
 			if road.vertical:
-				rotation = deg2rad(-90.0)
+				rotation = deg_to_rad(-90.0)
 				#namePos -= Vector2(-textSize.y, -(textSize.x/2.0))
 				namePos -= Vector2(0.0, -(textSize.x/2.0))
 			else:

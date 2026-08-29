@@ -3,11 +3,11 @@ extends Node
 signal remove_player
 
 func _ready():
-	get_tree().connect("network_peer_disconnected", self, "_player_disconnected")
+	multiplayer.peer_disconnected.connect(_player_disconnected)
 
 
 func _exit_tree():
-	get_tree().disconnect("network_peer_disconnected", self, "_player_disconnected")
+	multiplayer.peer_disconnected.disconnect(_player_disconnected)
 
 
 # Every network peer needs to clean up the disconnected client
@@ -21,10 +21,9 @@ func _player_disconnected(id):
 
 # Completely reset the game state and clear the network
 func reset_network():
-	var peer = get_tree().network_peer
-	if peer != null:
-		peer.close_connection()
-		get_tree().network_peer = null
+	if Utils.has_active_network_peer(multiplayer):
+		multiplayer.multiplayer_peer.close()
+		multiplayer.multiplayer_peer = null
 	
 	# Cleanup all state related to the game session
 	GameData.reset()

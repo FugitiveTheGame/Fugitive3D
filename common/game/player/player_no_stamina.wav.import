@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/player_no_stamina.wav-60126810076dd276272fdbbf01ff71e6.sample"
+type="AudioStreamWAV"
+uid="uid://jk3ydjpjovhd"
+path="res://.godot/imported/player_no_stamina.wav-60126810076dd276272fdbbf01ff71e6.sample"
 
 [deps]
 
 source_file="res://common/game/player/player_no_stamina.wav"
-dest_files=[ "res://.import/player_no_stamina.wav-60126810076dd276272fdbbf01ff71e6.sample" ]
+dest_files=["res://.godot/imported/player_no_stamina.wav-60126810076dd276272fdbbf01ff71e6.sample"]
 
 [params]
 
@@ -17,5 +18,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=false
 edit/normalize=false
-edit/loop=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=1

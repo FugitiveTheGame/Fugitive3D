@@ -2,5 +2,5 @@
 
 [ext_resource path="res://common/game/base_maps/BaseMap.gd" type="Script" id=1]
 
-[node name="Map" type="Spatial"]
+[node name="Map" type="Node3D"]
 script = ExtResource( 1 )

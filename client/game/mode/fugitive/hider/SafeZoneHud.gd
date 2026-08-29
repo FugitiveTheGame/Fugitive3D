@@ -1,9 +1,9 @@
 extends Control
 
-export(NodePath) var playerPath: NodePath
-onready var player := get_node(playerPath) as Hider
+@export var playerPath: NodePath
+@onready var player := get_node(playerPath) as Hider
 
-onready var label := $SafeLabel as Label
+@onready var label := $SafeLabel as Label
 
 
 func _ready():

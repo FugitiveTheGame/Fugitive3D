@@ -1,7 +1,7 @@
-extends Spatial
+extends Node3D
 
-onready var redLight := get_node("RedLight")
-onready var blueLight := get_node("BlueLight")
+@onready var redLight := get_node("RedLight")
+@onready var blueLight := get_node("BlueLight")
 
 
 func _ready():

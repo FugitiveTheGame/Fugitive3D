@@ -1,4 +1,4 @@
-extends Spatial
+extends Node3D
 
 func _ready():
 	Utils.turn_off_baked_lights(self)

@@ -2,5 +2,5 @@
 
 [ext_resource path="res://common/game/mode/fugitive/Street.gd" type="Script" id=1]
 
-[node name="Street" type="Spatial"]
+[node name="Street" type="Node3D"]
 script = ExtResource( 1 )

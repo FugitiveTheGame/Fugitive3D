@@ -3,14 +3,15 @@ class_name Hider
 
 const GROUP := "hider"
 
-var current_visibility := 1.0 setget set_current_visibility
+var current_visibility := 1.0: set = set_current_visibility
 
-onready var freeze_sound := $FreezeSound as AudioStreamPlayer3D
-onready var unfreeze_sound := $UnfreezeSound as AudioStreamPlayer3D
+@onready var freeze_sound := $FreezeSound as AudioStreamPlayer3D
+@onready var unfreeze_sound := $UnfreezeSound as AudioStreamPlayer3D
 var initialFreeze := true
 
 
 func _ready():
+	super._ready()
 	add_to_group(GROUP)
 
 func set_current_visibility(percentVisible: float):
@@ -30,7 +31,7 @@ func update_visibility(percentVisible: float):
 
 func _on_UnfreezeArea_body_entered(body):
 	# Server authoratative
-	if get_tree().is_network_server():
+	if multiplayer.is_server():
 		# If we are frozen, and another hider is tagging us, then unfreeze
 		if frozen and body.has_method("get_player") and is_playing():
 			var player := body.get_player() as Player
@@ -45,16 +46,16 @@ func _on_UnfreezeArea_body_entered(body):
 				ClientNetwork.update_players()
 
 
-remotesync func on_freeze():
-	.on_freeze()
+@rpc("any_peer", "call_local") func on_freeze():
+	super.on_freeze()
 	
 	if gameStarted:
 		freeze_sound.play()
 		playerShape.get_frozen_shape().show()
 
 
-remotesync func on_unfreeze():
-	.on_unfreeze()
+@rpc("any_peer", "call_local") func on_unfreeze():
+	super.on_unfreeze()
 	playerShape.get_frozen_shape().hide()
 	
 	if gameStarted and not initialFreeze:
@@ -64,5 +65,5 @@ remotesync func on_unfreeze():
 
 
 func on_state_playing_headstart():
-	if get_tree().is_network_server():
+	if multiplayer.is_server():
 		unfreeze()

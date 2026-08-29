@@ -1,9 +1,9 @@
 extends "res://client/game/player/controller/vr/VrPlayerController.gd"
 
-onready var pregameHud := hud.find_node("PregameHud", true, false) as Control
-onready var endgameHud := hud.find_node("EndGameHud", true, false) as Control
-onready var playerHeightHud := hud.find_node("HeightContainer", true, false) as Control
-onready var overviewMapHud := hud.find_node("OverviewMapHud", true, false) as Control
+@onready var pregameHud := hud.find_child("PregameHud", true, false) as Control
+@onready var endgameHud := hud.find_child("EndGameHud", true, false) as Control
+@onready var playerHeightHud := hud.find_child("HeightContainer", true, false) as Control
+@onready var overviewMapHud := hud.find_child("OverviewMapHud", true, false) as Control
 
 const dead_zone := 0.125
 const car_dead_zone := 0.5
@@ -102,10 +102,10 @@ func on_car_exited(car):
 
 
 func car_rotate(angle: float):
-	rpc_unreliable("on_car_rotate", angle)
+	rpc("on_car_rotate", angle)
 
 
-remotesync func on_car_rotate(angle: float):
+@rpc("any_peer", "call_local", "unreliable") func on_car_rotate(angle: float):
 	rotate_y(angle)
 
 
@@ -150,4 +150,4 @@ func on_ui_raycast_visibility_changed():
 func process_crouch():
 	# Only allow crouching if we are not in a car
 	if player.car == null:
-		.process_crouch()
+		super.process_crouch()

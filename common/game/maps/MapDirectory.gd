@@ -26,16 +26,15 @@ var directory = {}
 var modes = {}
 
 func _ready():
-	var file = File.new()
-	if file.open('res://common/game/maps/map_directory.json', File.READ) != 0:
+	var file = FileAccess.open('res://common/game/maps/map_directory.json', FileAccess.READ)
+	if file == null:
 		print("Error opening file")
 		return
-	
+
 	var serialized = file.get_as_text()
-	var parsed = JSON.parse(serialized)
 	file.close()
-	
-	var data = parsed.result
+
+	var data = JSON.parse_string(serialized)
 	for map in data.maps:
 		directory[map.id] = map
 	

@@ -38,7 +38,7 @@
 		},
 		{
 			"id": "greybox",
-			"path": "res://common/game/maps/grey_box/GreyBox.scn",
+			"path": "res://common/game/maps/grey_box/GreyBox.tscn",
 			"mode": "Fugitive",
 			"size": "Small",
 			"name": "GreyBox",

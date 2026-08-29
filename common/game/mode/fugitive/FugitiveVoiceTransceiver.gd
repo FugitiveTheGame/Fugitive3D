@@ -1,7 +1,7 @@
 extends VoiceChatTransceiver
 
 
-func send_audio(encodedData: PoolByteArray):
+func send_audio(encodedData: PackedByteArray):
 	var localPlayer := GameData.currentGame.localPlayer
 	var localPlayerPos := localPlayer.global_transform.origin
 	

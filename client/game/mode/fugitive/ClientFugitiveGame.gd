@@ -3,11 +3,13 @@ class_name ClientFugitiveGame
 
 
 func _enter_tree():
-	ClientNetwork.connect("lost_connection_to_server", self, "on_disconnect")
+	super._enter_tree()
+	ClientNetwork.connect("lost_connection_to_server", Callable(self, "on_disconnect"))
 
 
 func _exit_tree():
-	ClientNetwork.disconnect("lost_connection_to_server", self, "on_disconnect")
+	super._exit_tree()
+	ClientNetwork.disconnect("lost_connection_to_server", Callable(self, "on_disconnect"))
 
 
 func on_disconnect():
@@ -16,18 +18,18 @@ func on_disconnect():
 
 
 func pre_configure():
-	.pre_configure()
+	super.pre_configure()
 	
 	# Get a handle to the local player
 	localPlayer = get_tree().get_nodes_in_group(Groups.LOCAL_PLAYER)[0] as Player
 	# Game listens to player in order to change state
-	localPlayer.connect("local_player_ready", self, "local_player_ready")
-	localPlayer.playerController.connect("return_to_main_menu", self, "on_return_to_main_menu")
+	localPlayer.connect("local_player_ready", Callable(self, "local_player_ready"))
+	localPlayer.playerController.connect("return_to_main_menu", Callable(self, "on_return_to_main_menu"))
 	
 	
-	if not get_tree().is_network_server():
+	if not multiplayer.is_server():
 		print("Sending client configured")
-		rpc_id(ServerNetwork.SERVER_ID, "on_client_configured", get_tree().get_network_unique_id())
+		rpc_id(ServerNetwork.SERVER_ID, "on_client_configured", multiplayer.get_unique_id())
 	# This is a special case to help development testing
 	else:
 		print("DEV: forcing on_all_clients_configured")
@@ -38,15 +40,15 @@ func pre_configure():
 
 func local_player_ready():
 	if stateMachine.is_current_state(FugitiveStateMachine.STATE_NOT_READY):
-		print("Reporting ready: %d" % get_tree().get_network_unique_id())
+		print("Reporting ready: %d" % multiplayer.get_unique_id())
 		stateMachine.transition_by_name(FugitiveStateMachine.TRANS_READY)
 		
 		# Report that this client is done
-		rpc_id(ServerNetwork.SERVER_ID, "on_client_ready", get_tree().get_network_unique_id())
+		rpc_id(ServerNetwork.SERVER_ID, "on_client_ready", multiplayer.get_unique_id())
 
 
 func on_state_countdown(current_state: State, transition: Transition):
-	.on_state_countdown(current_state, transition)
+	super.on_state_countdown(current_state, transition)
 	$PregameCountdownAudio.play()
 
 
@@ -68,5 +70,5 @@ func goto_main_menu():
 
 
 func finish_game(playerType: int):
-	.finish_game(playerType)
+	super.finish_game(playerType)
 	GameAnalytics.design_event("game_complete")

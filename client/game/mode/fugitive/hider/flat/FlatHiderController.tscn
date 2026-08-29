@@ -10,61 +10,61 @@
 [node name="PlayerController" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
 
-[node name="Camera" parent="." index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.53504, 0 )
+[node name="Camera3D" parent="." index="0"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.53504, 0 )
 
 [node name="VisibilityHud" parent="HudCanvas/HudContainer/BarsContainer" index="0" instance=ExtResource( 5 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 24.0
-margin_right = 512.0
-margin_bottom = 72.0
+offset_top = 24.0
+offset_right = 512.0
+offset_bottom = 72.0
 playerPath = NodePath("../../../../Player")
 
 [node name="StaminaHud" parent="HudCanvas/HudContainer/BarsContainer" index="1"]
 playerPath = NodePath("../../../../Player")
 
 [node name="IndicatorsContainer" parent="HudCanvas/HudContainer" index="1"]
-margin_left = -128.0
+offset_left = -128.0
 grow_horizontal = 0
 
 [node name="CrouchingHud" parent="HudCanvas/HudContainer/IndicatorsContainer" index="0"]
-margin_right = 128.0
+offset_right = 128.0
 playerPath = NodePath("../../../../Player")
 
 [node name="FrozenHud" parent="HudCanvas/HudContainer/IndicatorsContainer" index="1"]
-margin_right = 128.0
+offset_right = 128.0
 playerPath = NodePath("../../../../Player")
 
 [node name="SafeZoneHud" parent="HudCanvas/HudContainer" index="2" instance=ExtResource( 6 )]
 anchor_left = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.0
-margin_left = -64.0
-margin_right = 64.0
-margin_bottom = 64.0
+offset_left = -64.0
+offset_right = 64.0
+offset_bottom = 64.0
 playerPath = NodePath("../../../Player")
 
 [node name="PregameHud" parent="HudCanvas/HudContainer" index="3"]
 anchor_top = 0.0
 anchor_bottom = 0.0
-margin_left = -150.0
-margin_top = 10.0
-margin_right = 137.0
-margin_bottom = 167.0
+offset_left = -150.0
+offset_top = 10.0
+offset_right = 137.0
+offset_bottom = 167.0
 
 [node name="GameTimerReadout" parent="HudCanvas/HudContainer" index="6"]
-margin_left = -128.0
+offset_left = -128.0
 
 [node name="Player" parent="." index="2" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85203, 0 )
-shapePath = NodePath("../CollisionShape")
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85203, 0 )
+shapePath = NodePath("../CollisionShape3D")
 playerControllerPath = NodePath("..")
 playerBodyPath = NodePath("..")
 playerVoiceChatPath = NodePath("../VoiceChat")
 
-[node name="CollisionShape" parent="." index="3" instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 0.85203, 0 )
+[node name="CollisionShape3D" parent="." index="3" instance=ExtResource( 4 )]
+transform = Transform3D( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 0.85203, 0 )
 
 [node name="VoiceChat" parent="." index="4"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.28414, 0 )
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.28414, 0 )

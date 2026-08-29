@@ -6,3 +6,5 @@
 *.scn filter=lfs diff=lfs merge=lfs -text
 *.ogg filter=lfs diff=lfs merge=lfs -text
 *.material filter=lfs diff=lfs merge=lfs -text
+*.exr filter=lfs diff=lfs merge=lfs -text
+*.lmbake filter=lfs diff=lfs merge=lfs -text

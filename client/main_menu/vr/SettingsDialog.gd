@@ -1,16 +1,16 @@
-extends WindowDialog
+extends Window
 
-export(NodePath) var standingModeOptionsPath: NodePath
-onready var standingModeOptions := get_node(standingModeOptionsPath) as OptionButton
+@export var standingModeOptionsPath: NodePath
+@onready var standingModeOptions := get_node(standingModeOptionsPath) as OptionButton
 
-export(NodePath) var movementOrientationOptionsPath: NodePath
-onready var movementOrientationOptions := get_node(movementOrientationOptionsPath) as OptionButton
+@export var movementOrientationOptionsPath: NodePath
+@onready var movementOrientationOptions := get_node(movementOrientationOptionsPath) as OptionButton
 
-export(NodePath) var movementHandOptionsPath: NodePath
-onready var movementHandOptions := get_node(movementHandOptionsPath) as OptionButton
+@export var movementHandOptionsPath: NodePath
+@onready var movementHandOptions := get_node(movementHandOptionsPath) as OptionButton
 
-export(NodePath) var movementVignettingCheckboxPath: NodePath
-onready var movementVignettingCheckbox := get_node(movementVignettingCheckboxPath) as CheckBox
+@export var movementVignettingCheckboxPath: NodePath
+@onready var movementVignettingCheckbox := get_node(movementVignettingCheckboxPath) as CheckBox
 
 
 func _ready():
@@ -25,7 +25,7 @@ func load_data():
 	else:
 		standingModeOptions.selected = 1
 	
-	movementVignettingCheckbox.pressed = UserData.data.vr_movement_vignetting
+	movementVignettingCheckbox.button_pressed = UserData.data.vr_movement_vignetting
 	movementOrientationOptions.selected = UserData.data.vr_movement_orientation
 	movementHandOptions.selected = UserData.data.vr_movement_hand
 

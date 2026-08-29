@@ -1,11 +1,11 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://common/game/mode/fugitive/lightbeam.tscn" type="PackedScene" id=1]
-[ext_resource path="res://common/game/mode/fugitive/lightbeam.shader" type="Shader" id=2]
+[ext_resource path="res://common/game/mode/fugitive/lightbeam.gdshader" type="Shader" id=2]
 
 [sub_resource type="ShaderMaterial" id=1]
 shader = ExtResource( 2 )
-shader_param/albedo = Color( 1, 0.945098, 0.878431, 0.0196078 )
+shader_parameter/albedo = Color( 1, 0.945098, 0.878431, 0.0196078 )
 
 [node name="headlightBeam" instance=ExtResource( 1 )]
 

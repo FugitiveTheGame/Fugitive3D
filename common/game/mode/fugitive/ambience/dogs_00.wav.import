@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/dogs_00.wav-fcf96dd9652072a5cd86067c83ce447e.sample"
+type="AudioStreamWAV"
+uid="uid://d282vlxajwfrq"
+path="res://.godot/imported/dogs_00.wav-fcf96dd9652072a5cd86067c83ce447e.sample"
 
 [deps]
 
 source_file="res://common/game/mode/fugitive/ambience/dogs_00.wav"
-dest_files=[ "res://.import/dogs_00.wav-fcf96dd9652072a5cd86067c83ce447e.sample" ]
+dest_files=["res://.godot/imported/dogs_00.wav-fcf96dd9652072a5cd86067c83ce447e.sample"]
 
 [params]
 
@@ -17,5 +18,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=false
 edit/normalize=false
-edit/loop=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=1

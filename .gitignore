@@ -6,3 +6,5 @@ android/build/.gradle
 android/build/build
 extras/release-scripts/releases
 android
+.godot/
+reports/

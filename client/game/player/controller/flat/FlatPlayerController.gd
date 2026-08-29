@@ -1,38 +1,38 @@
-extends KinematicBody
+extends CharacterBody3D
 
 signal return_to_main_menu
 
-onready var camera := $Camera as FpsCamera
-onready var player := $Player as Player
+@onready var camera := $Camera3D as FpsCamera
+@onready var player := $Player as Player
 
 func get_player() -> Player:
 	return player
 
 var update_threshold := Threshold.new(Utils.COMMON_NETWORK_UPDATE_THRESHOLD)
 
-export(float) var Sensitivity_X := 0.01
-export(float) var TouchSensitivity_X := 0.1
-export(float) var Sensitivity_Y := 0.005
-export(bool) var Invert_Y_Axis := false
-export(float) var Maximum_Y_Look := 45
-export(float) var Crouch_Accelaration := 1.0
-export(float) var Walk_Accelaration := 3.0
-export(float) var Sprint_Accelaration := 5.0
-export(float) var Jump_Speed := 10.0
-export(float) var Gravity := pow(9.8, 2)
-export(bool) var CameraIsCurrentOnStart: bool = true
+@export var Sensitivity_X := 0.01
+@export var TouchSensitivity_X := 0.1
+@export var Sensitivity_Y := 0.005
+@export var Invert_Y_Axis := false
+@export var Maximum_Y_Look := 45
+@export var Crouch_Accelaration := 1.0
+@export var Walk_Accelaration := 3.0
+@export var Sprint_Accelaration := 5.0
+@export var Jump_Speed := 10.0
+@export var Gravity := pow(9.8, 2)
+@export var CameraIsCurrentOnStart: bool = true
 
-export(NodePath) var virtual_joysticks_path: NodePath
-onready var virtual_joysticks := get_node(virtual_joysticks_path) as VirtualJoysticks
+@export var virtual_joysticks_path: NodePath
+@onready var virtual_joysticks := get_node(virtual_joysticks_path) as VirtualJoysticks
 
-export(NodePath) var inGameMenuPath: NodePath
-onready var inGameMenu := get_node(inGameMenuPath) as WindowDialog
+@export var inGameMenuPath: NodePath
+@onready var inGameMenu := get_node(inGameMenuPath) as Window
 
-export(NodePath) var exitGameHudPath: NodePath
-onready var exitGameHud := get_node(exitGameHudPath) as Control
+@export var exitGameHudPath: NodePath
+@onready var exitGameHud := get_node(exitGameHudPath) as Control
 
-export(NodePath) var helpDialogPath: NodePath
-onready var helpDialog := get_node(helpDialogPath) as WindowDialog
+@export var helpDialogPath: NodePath
+@onready var helpDialog := get_node(helpDialogPath) as Window
 
 var mouseLookSensetivityModifier := 1.0
 
@@ -43,19 +43,19 @@ const MOVEMENT_LAMBDA := 0.01
 var allowMovement := true
 
 
-export(NodePath) var HeldObjectPath: NodePath
-var heldObject: Spatial setget held_object_set, held_object_get
-func held_object_set(value: Spatial):
+@export var HeldObjectPath: NodePath
+var heldObject: Node3D: get = held_object_get, set = held_object_set
+func held_object_set(value: Node3D):
 	heldObject = value
 	self.camera.heldObject = self.heldObject
-func held_object_get() -> Spatial:
+func held_object_get() -> Node3D:
 	return heldObject
 
-export(NodePath) var crouch_button_path: NodePath
-onready var crouch_button := get_node(crouch_button_path) as TouchScreenButton
+@export var crouch_button_path: NodePath
+@onready var crouch_button := get_node(crouch_button_path) as TouchScreenButton
 
-export(NodePath) var sprint_button_path: NodePath
-onready var sprint_button := get_node(sprint_button_path) as TouchScreenButton
+@export var sprint_button_path: NodePath
+@onready var sprint_button := get_node(sprint_button_path) as TouchScreenButton
 
 
 func mouse_captured() -> bool:
@@ -75,7 +75,7 @@ func _ready():
 	
 	self.heldObject = get_node_or_null(HeldObjectPath)
 	
-	if not OS.has_touchscreen_ui_hint():
+	if not DisplayServer.is_touchscreen_available():
 		capture_mouse()
 	
 	self.camera.current = CameraIsCurrentOnStart
@@ -94,7 +94,7 @@ func _process(delta):
 		# y=\frac{x^{6}}{x}
 		rotate_y(((pow(x, 6.0)/x) * -TouchSensitivity_X) * mouseLookSensetivityModifier)
 	
-	var look_x_joystick := Input.get_joy_axis(0, JOY_ANALOG_RX)
+	var look_x_joystick := Input.get_joy_axis(0, JOY_AXIS_RIGHT_X)
 	if abs(look_x_joystick) > 0.1 and mouse_captured():
 		rotate_y(-Sensitivity_X * mouseLookSensetivityModifier * look_x_joystick)
 
@@ -143,7 +143,7 @@ func _physics_process(delta):
 		player.velocity.x += global_transform.basis.x.x * Movement_Speed
 		player.velocity.z += global_transform.basis.x.z * Movement_Speed
 	
-	if OS.has_touchscreen_ui_hint():
+	if DisplayServer.is_touchscreen_available():
 		if virtual_joysticks.left_output.y == 0.0 and virtual_joysticks.left_output.x == 0.0:
 			player.velocity.x = 0
 			player.velocity.z = 0
@@ -166,14 +166,17 @@ func _physics_process(delta):
 	if not allowMovement:
 		player.velocity = Vector3()
 	
-	player.velocity = move_and_slide(player.velocity, Vector3(0.0, 1.0, 0.0))
+	set_velocity(player.velocity)
+	set_up_direction(Vector3(0.0, 1.0, 0.0))
+	move_and_slide()
+	player.velocity = velocity
 	
 	# Gravity means that even when we're on the ground, our Y component always
 	# has a large size. So for isMoving we only consider X and Z
 	player.isMoving = (Vector3(player.velocity.x, 0.0, player.velocity.z).length() > MOVEMENT_LAMBDA) and allowMovement
 	
 	if not player.gameEnded and update_threshold.is_exceeded():
-		player.rpc_unreliable("network_update", translation, rotation, player.velocity, player.is_crouching, player.isMoving, player.sprint, player.stamina)
+		player.rpc("network_update", position, rotation, player.velocity, player.is_crouching, player.isMoving, player.sprint, player.stamina)
 
 
 func trigger_menu():
@@ -204,11 +207,11 @@ func _input(event):
 
 func _notification(what):
 	if is_inside_tree():
-		if what == MainLoop.NOTIFICATION_WM_FOCUS_IN:
+		if what == MainLoop.NOTIFICATION_APPLICATION_FOCUS_IN:
 			capture_mouse()
-		elif what == MainLoop.NOTIFICATION_WM_FOCUS_OUT:
+		elif what == MainLoop.NOTIFICATION_APPLICATION_FOCUS_OUT:
 			release_mouse()
-		elif what == MainLoop.NOTIFICATION_WM_GO_BACK_REQUEST: 
+		elif what == NOTIFICATION_WM_GO_BACK_REQUEST: 
 			trigger_menu()
 
 
@@ -217,7 +220,7 @@ func update_camera_to_head():
 	var global = shape.head.global_transform.origin
 	var local = to_local(global)
 	
-	camera.translation.y = local.y
+	camera.position.y = local.y
 
 
 func _on_CrouchButton_released():
@@ -245,6 +248,9 @@ func _on_InGameMenuHud_about_to_show():
 
 
 func _on_InGameMenuHud_popup_hide():
+	# Connected to visibility_changed, which also fires on show
+	if inGameMenu.visible:
+		return
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 
@@ -267,6 +273,8 @@ func _on_HelpDialog_about_to_show():
 
 
 func _on_HelpDialog_popup_hide():
+	if helpDialog.visible:
+		return
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 
 

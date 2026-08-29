@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/owl_00.wav-5546a8ceb54b7a22eb12f17e7b82cf6b.sample"
+type="AudioStreamWAV"
+uid="uid://bpvqjb7csw8hm"
+path="res://.godot/imported/owl_00.wav-5546a8ceb54b7a22eb12f17e7b82cf6b.sample"
 
 [deps]
 
 source_file="res://common/game/mode/fugitive/ambience/owl_00.wav"
-dest_files=[ "res://.import/owl_00.wav-5546a8ceb54b7a22eb12f17e7b82cf6b.sample" ]
+dest_files=["res://.godot/imported/owl_00.wav-5546a8ceb54b7a22eb12f17e7b82cf6b.sample"]
 
 [params]
 
@@ -17,5 +18,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=false
 edit/normalize=false
-edit/loop=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=1

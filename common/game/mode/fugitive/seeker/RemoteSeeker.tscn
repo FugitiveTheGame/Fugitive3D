@@ -6,26 +6,26 @@
 [ext_resource path="res://common/game/mode/fugitive/seeker/Flashlight.tscn" type="PackedScene" id=4]
 [ext_resource path="res://common/voice_chat/VoiceChatReceiver.tscn" type="PackedScene" id=5]
 
-[node name="PlayerController" type="KinematicBody"]
+[node name="PlayerController" type="CharacterBody3D"]
 collision_mask = 11
 script = ExtResource( 3 )
 
 [node name="Player" parent="." instance=ExtResource( 1 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0 )
-shapePath = NodePath("../CollisionShape")
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0 )
+shapePath = NodePath("../CollisionShape3D")
 playerControllerPath = NodePath("..")
 playerBodyPath = NodePath("..")
 playerVoiceChatPath = NodePath("../VoiceChat")
 flash_light_path = NodePath("../Flashlight")
 
-[node name="CollisionShape" parent="." instance=ExtResource( 2 )]
-transform = Transform( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 0.85, 0 )
+[node name="CollisionShape3D" parent="." instance=ExtResource( 2 )]
+transform = Transform3D( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 0.85, 0 )
 
 [node name="Flashlight" parent="." instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.848656, 0 )
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.848656, 0 )
 
 [node name="VoiceChatPlayback" type="AudioStreamPlayer3D" parent="."]
-unit_db = 2.0
+volume_db = 2.0
 unit_size = 0.6
 
 [node name="VoiceChat" parent="." instance=ExtResource( 5 )]

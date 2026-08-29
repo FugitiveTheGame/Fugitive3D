@@ -1,13 +1,16 @@
-[gd_resource type="Environment" load_steps=3 format=2]
+[gd_resource type="Environment" format=3 uid="uid://di6jls47j1v62"]
 
-[ext_resource path="res://common/game/skies/stace_from_space/panorama_image.webp" type="Texture" id=1]
+[ext_resource type="Texture2D" uid="uid://bi6pv0ik3eogt" path="res://common/game/skies/stace_from_space/panorama_image.webp" id="1"]
 
-[sub_resource type="PanoramaSky" id=1]
-panorama = ExtResource( 1 )
+[sub_resource type="PanoramaSkyMaterial" id="2"]
+panorama = ExtResource("1")
+
+[sub_resource type="Sky" id="1"]
+sky_material = SubResource("2")
 
 [resource]
 background_mode = 2
-background_sky = SubResource( 1 )
-background_energy = 0.5
-ambient_light_color = Color( 0.0980392, 0.101961, 0.552941, 1 )
+background_energy_multiplier = 0.5
+sky = SubResource("1")
+ambient_light_color = Color(0.0980392, 0.101961, 0.552941, 1)
 ambient_light_energy = 0.25

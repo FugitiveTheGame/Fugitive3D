@@ -1,13 +1,13 @@
 extends "res://client/game/player/controller/flat/FlatPlayerController.gd"
 
-onready var hud := $HudCanvas/HudContainer/PregameHud
-onready var overviewMapHud := $HudCanvas/HudContainer/OverviewMapHud
+@onready var hud := $HudCanvas/HudContainer/PregameHud
+@onready var overviewMapHud := $HudCanvas/HudContainer/OverviewMapHud
 
-export(NodePath) var use_button_path: NodePath
-onready var use_button := get_node(use_button_path) as TouchScreenButton
+@export var use_button_path: NodePath
+@onready var use_button := get_node(use_button_path) as TouchScreenButton
 
-export(NodePath) var car_horn_button_path: NodePath
-onready var car_horn_button := get_node(car_horn_button_path) as TouchScreenButton
+@export var car_horn_button_path: NodePath
+@onready var car_horn_button := get_node(car_horn_button_path) as TouchScreenButton
 
 
 # Allow child classes to override this functionality
@@ -16,6 +16,7 @@ func show_map(show: bool):
 
 
 func _input(event):
+	super._input(event)
 	if not player.gameStarted and event.is_action_released("flat_player_jump"):
 		player.set_ready()
 	
@@ -36,6 +37,7 @@ func _input(event):
 
 
 func _process(delta):
+	super._process(delta)
 	self.allowMovement = not player.frozen and player.car == null and not player.gameEnded
 	
 	# Stick the user's butt in their seat!
@@ -56,7 +58,7 @@ func _process(delta):
 		
 		player.car.process_input(forward, backward, left, right, breaking, delta)
 		
-	if OS.has_touchscreen_ui_hint():
+	if DisplayServer.is_touchscreen_available():
 		if player.car != null:
 			use_button.show()
 			
@@ -100,10 +102,10 @@ func on_car_exited(car):
 
 
 func car_rotate(angle: float):
-	rpc_unreliable("on_car_rotate", angle)
+	rpc("on_car_rotate", angle)
 
 
-remotesync func on_car_rotate(angle: float):
+@rpc("any_peer", "call_local", "unreliable") func on_car_rotate(angle: float):
 	rotate_y(angle)
 
 
@@ -138,20 +140,20 @@ func on_state_game_over():
 func _notification(what):
 	# We don't want the mouse captured in the end-game state
 	# If they alt-tab out and back in, we need to re-release it
-	if what == MainLoop.NOTIFICATION_WM_FOCUS_IN and player != null and player.gameEnded:
+	if what == MainLoop.NOTIFICATION_APPLICATION_FOCUS_IN and player != null and player.gameEnded:
 		call_deferred("release_mouse")
 
 
 func _on_InGameMenuHud_popup_hide():
 	if not player.gameEnded:
-		._on_InGameMenuHud_popup_hide()
+		super._on_InGameMenuHud_popup_hide()
 
 
 func _on_ExitGameHud_on_exit_dialog_hide():
 	if not player.gameEnded:
-		._on_ExitGameHud_on_exit_dialog_hide()
+		super._on_ExitGameHud_on_exit_dialog_hide()
 
 
 func _on_HelpDialog_popup_hide():
 	if not player.gameEnded:
-		._on_HelpDialog_popup_hide()
+		super._on_HelpDialog_popup_hide()

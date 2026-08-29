@@ -24,8 +24,10 @@ func handle_commandline_args():
 	var playerName = UserData.data.user_name
 	var serverIp = UserData.data.last_ip
 	var serverPort = int(UserData.data.last_port)
+	if serverPort <= 0 or serverPort > 65535:
+		serverPort = ServerNetwork.SERVER_PORT
 	
-	var args := OS.get_cmdline_args()
+	var args := OS.get_cmdline_args() + OS.get_cmdline_user_args()
 	print("Command Line args: %d" % [args.size()])
 	if (args.size() > 0):
 		for arg in args:
@@ -45,7 +47,7 @@ func handle_commandline_args():
 
 
 func go_to_flat():
-	get_tree().change_scene("res://client/main_menu/flat/FlatMainMenu.tscn")
+	get_tree().change_scene_to_file("res://client/main_menu/flat/FlatMainMenu.tscn")
 	
 	# Note that this one time handling of command line arguments is intentionally
 	# happening after the MainMenu for a given client is initialized: those scenes have
@@ -58,7 +60,7 @@ func prepare_vr_common():
 	# Joypad mappings overlap w\ vr button inputs,
 	# we need to remove them for vr clients
 	for action in InputMap.get_actions():
-		for action_event in InputMap.get_action_list(action):
+		for action_event in InputMap.action_get_events(action):
 			if action_event is InputEventJoypadButton:
 				InputMap.action_erase_event(action, action_event)
 
@@ -100,14 +102,14 @@ func prepare_mobile_vr():
 
 
 func init_analytics():
-	var file = File.new()
-	if file.open('res://keys.json', File.READ) != 0:
+	var file = FileAccess.open('res://keys.json', FileAccess.READ)
+	if file == null:
 		print("Error keys opening file")
 		return
-	
+
 	var serialized = file.get_as_text()
-	var keys = JSON.parse(serialized).result
 	file.close()
+	var keys = JSON.parse_string(serialized)
 	
 	var gaKeys = keys["game_analytics"]
 	

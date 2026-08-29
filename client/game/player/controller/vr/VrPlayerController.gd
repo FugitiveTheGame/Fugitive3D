@@ -5,34 +5,34 @@ signal return_to_main_menu
 var standingHeight: float = -1.0
 const CROUCH_THRESHOLD := 0.75
 
-onready var camera := $OQ_ARVRCamera as ARVRCamera
-onready var player := $Player as Player
-onready var locomotion := $Locomotion_Stick
-onready var falling := $Feature_Falling
-onready var hudCanvas := $OQ_LeftController/VisibilityToggle/HudCanvas
-onready var hudVisibilityToggle := $OQ_LeftController/VisibilityToggle
-onready var hud := $OQ_LeftController/VisibilityToggle/HudCanvas.find_node("HudContainer", true, false) as Control
-onready var fpsLabel := $OQ_LeftController/VisibilityToggle/HudCanvas.find_node("FpsLabel", true, false) as Label
-onready var uiRaycast := $OQ_RightController/Feature_UIRayCast
-onready var playerCollision := $Feature_PlayerCollision as KinematicBody
+@onready var camera := $OQ_ARVRCamera as XRCamera3D
+@onready var player := $Player as Player
+@onready var locomotion := $Locomotion_Stick
+@onready var falling := $Feature_Falling
+@onready var hudCanvas := $OQ_LeftController/VisibilityToggle/HudCanvas
+@onready var hudVisibilityToggle := $OQ_LeftController/VisibilityToggle
+@onready var hud := $OQ_LeftController/VisibilityToggle/HudCanvas.find_child("HudContainer", true, false) as Control
+@onready var fpsLabel := $OQ_LeftController/VisibilityToggle/HudCanvas.find_child("FpsLabel", true, false) as Label
+@onready var uiRaycast := $OQ_RightController/Feature_UIRayCast
+@onready var playerCollision := $Feature_PlayerCollision as CharacterBody3D
 
-onready var inGameMenuHud := hud.find_node("InGameMenuHud", true, false) as WindowDialog
-onready var exitGameHud := hud.find_node("ExitGameHud", true, false) as ConfirmationDialog
-onready var helpDialog := hud.find_node("HelpDialog", true, false) as WindowDialog
+@onready var inGameMenuHud := hud.find_child("InGameMenuHud", true, false) as Window
+@onready var exitGameHud := hud.find_child("ExitGameHud", true, false) as ConfirmationDialog
+@onready var helpDialog := hud.find_child("HelpDialog", true, false) as Window
 
 var update_threshold := Threshold.new(Utils.COMMON_NETWORK_UPDATE_THRESHOLD)
 
 const seated_standing_offset_meters := 1.0
 const seated_crouching_offset_meters := 0.45
-onready var initial_origin := transform.origin as Vector3
-onready var initial_shape_origin := player.playerShape.transform.origin as Vector3
+@onready var initial_origin := transform.origin as Vector3
+@onready var initial_shape_origin := player.playerShape.transform.origin as Vector3
 var is_standing := true
 
 const CENTER_MIN := 0.20
 const CENTER_MAX := 0.40
-onready var centerLabel := $OQ_ARVRCamera/CenterLabel
-onready var centerIndicator := $Feature_PlayerCollision/CenterIndicator as CSGPrimitive
-onready var centerIndicatorMaterial := centerIndicator.material as SpatialMaterial
+@onready var centerLabel := $OQ_ARVRCamera/CenterLabel
+@onready var centerIndicator := $Feature_PlayerCollision/CenterIndicator as CSGPrimitive3D
+@onready var centerIndicatorMaterial := centerIndicator.material as StandardMaterial3D
 
 
 const DEBOUNCE_THRESHOLD_MS := 100
@@ -44,17 +44,17 @@ func debounced_button_just_released(button_id) -> bool:
 	if justReleased:
 		if debounceBookKeeping.has(button_id):
 			var lastPressed = debounceBookKeeping[button_id] as int
-			var delta = OS.get_system_time_msecs() - lastPressed
+			var delta = Time.get_ticks_msec() - lastPressed
 			# Debounce and throw away this release
 			if delta < DEBOUNCE_THRESHOLD_MS:
 				debouncedReleased = false
 				#print("Debounced")
 			else:
-				debounceBookKeeping[button_id] = OS.get_system_time_msecs()
+				debounceBookKeeping[button_id] = Time.get_ticks_msec()
 				debouncedReleased = true
 				#print("new justRelease")
 		else:
-			debounceBookKeeping[button_id] = OS.get_system_time_msecs()
+			debounceBookKeeping[button_id] = Time.get_ticks_msec()
 			debouncedReleased = true
 			#print("first justRelease")
 	else:
@@ -64,7 +64,7 @@ func debounced_button_just_released(button_id) -> bool:
 
 
 func _enter_tree():
-	UserData.connect("user_data_updated", self, "on_user_data_updated")
+	UserData.connect("user_data_updated", Callable(self, "on_user_data_updated"))
 
 
 func _ready():
@@ -85,7 +85,7 @@ func _ready():
 
 
 func _exit_tree():
-	UserData.disconnect("user_data_updated", self, "on_user_data_updated")
+	UserData.disconnect("user_data_updated", Callable(self, "on_user_data_updated"))
 
 
 func set_standing_height():
@@ -95,7 +95,7 @@ func set_standing_height():
 		vr.log_info("Standing height set")
 		standingHeight = vr.get_current_player_height()
 		
-		hud.find_node("HeightLabel", true, false).text = "Height: %f m" % standingHeight
+		hud.find_child("HeightLabel", true, false).text = "Height: %f m" % standingHeight
 	else:
 		vr.log_warning("Cannot set standing height while playing")
 
@@ -104,7 +104,7 @@ func process_crouch():
 	# Standing mode, crouching is just real crouching
 	if is_standing:
 		# Movement input
-		var curHeight = camera.translation.y
+		var curHeight = camera.position.y
 		var curPercent = curHeight / standingHeight
 	
 		# If the player's is different enough, consider them crouching
@@ -122,7 +122,7 @@ func process_crouch():
 
 func _process(delta):
 	# Process what to show about the re-center indicator
-	var camTrans := playerCollision.translation - camera.translation
+	var camTrans := playerCollision.position - camera.position
 	var distFromCenter := Vector2(camTrans.x, camTrans.z).length()
 	
 	centerLabel.visible = distFromCenter >= CENTER_MAX
@@ -135,7 +135,7 @@ func _process(delta):
 func inject_ptt_action(pressed: bool):
 	var event := InputEventAction.new()
 	event.action = "push_to_talk"
-	event.pressed = pressed
+	event.button_pressed = pressed
 	Input.parse_input_event(event)
 
 
@@ -184,7 +184,7 @@ func _physics_process(delta):
 				totalTranslation.y += seated_crouching_offset_meters
 			
 			
-		player.rpc_unreliable("network_update", totalTranslation, totalRotation, Vector3(), player.is_crouching, player.isMoving, player.sprint, player.stamina)
+		player.rpc("network_update", totalTranslation, totalRotation, Vector3(), player.is_crouching, player.isMoving, player.sprint, player.stamina)
 	
 	if fpsLabel.visible:
 		var fps := Engine.get_frames_per_second()

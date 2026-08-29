@@ -15,10 +15,10 @@ func _enter_tree():
 	(GameData.currentGame.get_node("PregameCountdownAudio") as AudioStreamPlayer).volume_db = -100.0
 	
 	# Start a local server, the whole game expects to be multiplayer	
-	var peer := NetworkedMultiplayerENet.new()
+	var peer := ENetMultiplayerPeer.new()
 	var _result := peer.create_server(5555, 5)
 	ServerNetwork.is_joinable = false
-	get_tree().set_network_peer(peer)
+	get_tree().set_multiplayer_peer(peer)
 	
 	# Add our fake players, the normal spawn system will actually spawn these guys
 	if be_seeker:
@@ -41,8 +41,8 @@ func _ready():
 	map.get_headstart_timer().wait_time = 0.25
 	
 	# Normally the server listens to these
-	map.get_countdown_timer().connect("timeout", self, "start_timer_timeout")
-	map.get_headstart_timer().connect("timeout", self, "headstart_timer_timeout")
+	map.get_countdown_timer().connect("timeout", Callable(self, "start_timer_timeout"))
+	map.get_headstart_timer().connect("timeout", Callable(self, "headstart_timer_timeout"))
 	
 	# Unlock all cars for the hider
 	if not be_seeker:
