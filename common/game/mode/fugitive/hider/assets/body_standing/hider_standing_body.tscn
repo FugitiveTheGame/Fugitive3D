@@ -9,4 +9,4 @@ script = ExtResource( 3 )
 
 [node name="hider_standing" parent="." index="0"]
 material_override = ExtResource( 2 )
-use_in_baked_light = false
+gi_mode = 0

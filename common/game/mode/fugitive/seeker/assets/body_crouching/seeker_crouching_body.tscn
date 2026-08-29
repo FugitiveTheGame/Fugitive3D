@@ -7,4 +7,4 @@
 script = ExtResource( 2 )
 
 [node name="seeker_crouching" parent="." index="0"]
-use_in_baked_light = false
+gi_mode = 0
