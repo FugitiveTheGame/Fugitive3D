@@ -16,8 +16,8 @@ collision_mask = 5
 
 [node name="SpotLight3D" type="SpotLight3D" parent="."]
 transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.432394 )
-light_color = Color( 0.898039, 0.901961, 0.396078, 1 )
-light_energy = 10.0
+light_color = Color( 0.898039, 0.901961, 0.75, 1 )
+light_energy = 14.0
 light_bake_mode = 0
 shadow_enabled = true
 shadow_bias = 0.5
