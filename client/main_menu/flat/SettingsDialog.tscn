@@ -3,15 +3,8 @@
 [ext_resource path="res://client/main_menu/flat/SettingsDialog.gd" type="Script" id=1]
 
 [node name="SettingsDialog" type="Window"]
+size = Vector2i(385, 199)
 visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -192.5
-offset_top = -99.5
-offset_right = 192.5
-offset_bottom = 99.5
 window_title = "Settings"
 script = ExtResource( 1 )
 __meta__ = {
