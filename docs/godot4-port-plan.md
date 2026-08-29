@@ -199,6 +199,8 @@ else, and nothing warns. Found so far:
 | `use_in_baked_light` | real property | replaced by `gi_mode` | players and the garage light fixture baked as static level geometry |
 | `ambient_light_sky_contribution` | defaulted to 0 | defaults to 1 | the configured ambient colour contributes nothing, so unlit ground reads pure black |
 | `get_tree().set_multiplayer_peer()` | the peer lived on SceneTree | moved to MultiplayerAPI | parses fine and fails only when the line runs, so Explore and the dev scenes stayed broken well past Phase 2 |
+| `image.create()`, `imageTexture.create_from_image()` | instance methods | now static | the call builds a new object and discards it, leaving the original empty; the map view logged "Invalid image: image is empty" |
+| dialogs cast `as Control` | WindowDialog was a Control | Window derives from Viewport | the cast yields null, and the reference only fails when the dialog is opened |
 
 Before Phase 4, sweep for the rest of this class rather than finding them one
 screenshot at a time. Enum values whose meaning shifted are the nastiest,
