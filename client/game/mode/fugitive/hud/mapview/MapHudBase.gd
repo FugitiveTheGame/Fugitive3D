@@ -39,17 +39,21 @@ func _build_triangle(triangle_size: float) -> PackedVector2Array:
 
 
 func update_map_background():
-	if mapBackground != null:
-		var imageTexture = ImageTexture.new()
-		var image = Image.new()
-		
-		var curSize := size
-		image.create(curSize.x, curSize.y, false, Image.FORMAT_RGBA8)
-		image.fill(Color(0.1, 0.9, 0.1, 0.5))
-		imageTexture.create_from_image(image)
-		mapBackground.texture = imageTexture
-		
-		mapBackground.queue_redraw()
+	if mapBackground == null:
+		return
+
+	# Image.create and ImageTexture.create_from_image are static in Godot 4;
+	# calling them on an instance builds a new object and discards it.
+	var width := int(size.x)
+	var height := int(size.y)
+	if width < 1 or height < 1:
+		return
+
+	var image := Image.create(width, height, false, Image.FORMAT_RGBA8)
+	image.fill(Color(0.1, 0.9, 0.1, 0.5))
+	mapBackground.texture = ImageTexture.create_from_image(image)
+
+	mapBackground.queue_redraw()
 
 
 func _process(delta):

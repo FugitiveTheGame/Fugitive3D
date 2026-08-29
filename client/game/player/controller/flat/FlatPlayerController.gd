@@ -29,7 +29,7 @@ var update_threshold := Threshold.new(Utils.COMMON_NETWORK_UPDATE_THRESHOLD)
 @onready var inGameMenu := get_node(inGameMenuPath) as Window
 
 @export var exitGameHudPath: NodePath
-@onready var exitGameHud := get_node(exitGameHudPath) as Control
+@onready var exitGameHud := get_node(exitGameHudPath) as Window
 
 @export var helpDialogPath: NodePath
 @onready var helpDialog := get_node(helpDialogPath) as Window
