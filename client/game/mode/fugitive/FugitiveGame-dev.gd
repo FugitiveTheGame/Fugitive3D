@@ -17,7 +17,12 @@ func _enter_tree():
 	
 	# Start a local server, the whole game expects to be multiplayer	
 	var peer := ENetMultiplayerPeer.new()
-	var _result := peer.create_server(5555, 5)
+	var result := peer.create_server(5555, 5)
+	if result != OK:
+		# Usually another instance still holds the port. Assigning a peer that
+		# failed to start only produces a second, more confusing error.
+		push_error("Could not start the local server on port 5555 (error %d). Is another copy of the game running?" % result)
+		return
 	ServerNetwork.is_joinable = false
 	multiplayer.multiplayer_peer = peer
 	
