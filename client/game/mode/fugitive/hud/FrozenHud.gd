@@ -1,8 +1,8 @@
 extends Control
 
-export(NodePath) var playerPath: NodePath
-onready var player := get_node(playerPath) as FugitivePlayer
-onready var indicator := $Icon
+@export var playerPath: NodePath
+@onready var player := get_node(playerPath) as FugitivePlayer
+@onready var indicator := $Icon
 
 
 func _process(delta):

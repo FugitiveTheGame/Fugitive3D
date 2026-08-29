@@ -1,23 +1,23 @@
 extends "res://client/main_menu/MainMenu.gd"
 
-export(NodePath) var settingsDialogPath: NodePath
-onready var settingsDialog := get_node(settingsDialogPath) as WindowDialog
+@export var settingsDialogPath: NodePath
+@onready var settingsDialog := get_node(settingsDialogPath) as Window
 
-export(NodePath) var vrModeLabelPath: NodePath
-onready var vrModeLabel := get_node(vrModeLabelPath) as Label
+@export var vrModeLabelPath: NodePath
+@onready var vrModeLabel := get_node(vrModeLabelPath) as Label
 
-export(NodePath) var driverLabelPath: NodePath
-onready var driverLabel := get_node(driverLabelPath) as Label
+@export var driverLabelPath: NodePath
+@onready var driverLabel := get_node(driverLabelPath) as Label
 
-export(NodePath) var debugButtonPath: NodePath
-onready var debugButton := get_node(debugButtonPath) as Button
+@export var debugButtonPath: NodePath
+@onready var debugButton := get_node(debugButtonPath) as Button
 
-export(NodePath) var exploreDialogPath: NodePath
-onready var exploreDialog := get_node(exploreDialogPath) as ConfirmationDialog
+@export var exploreDialogPath: NodePath
+@onready var exploreDialog := get_node(exploreDialogPath) as ConfirmationDialog
 
 
 func _enter_tree():
-	UserData.connect("user_data_updated", self, "on_user_data_updated")
+	UserData.connect("user_data_updated", Callable(self, "on_user_data_updated"))
 
 
 func _ready():
@@ -33,7 +33,7 @@ func _ready():
 
 
 func _exit_tree():
-	UserData.disconnect("user_data_updated", self, "on_user_data_updated")
+	UserData.disconnect("user_data_updated", Callable(self, "on_user_data_updated"))
 
 
 func go_to_lobby():
@@ -68,4 +68,4 @@ func _on_ExploreButton_pressed():
 
 
 func _on_ExploreDialog_confirmed():
-	get_tree().change_scene("res://client/explore/VrExploreGame.tscn")
+	get_tree().change_scene_to_file("res://client/explore/VrExploreGame.tscn")

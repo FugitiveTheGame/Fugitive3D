@@ -5,14 +5,14 @@ signal kick_player(playerId)
 
 var playerInfo: PlayerData = null
 
-onready var teamButton := $Controls/TeamButton as OptionButton
+@onready var teamButton := $Controls/TeamButton as OptionButton
 var curTeamResolver = null
 
-onready var voipIndicator := $Controls/VoipIndicator
+@onready var voipIndicator := $Controls/VoipIndicator
 
 
 func _ready():
-	$Controls/HostMenuButton.get_popup().connect("id_pressed", self, "on_id_pressed")
+	$Controls/HostMenuButton.get_popup().connect("id_pressed", Callable(self, "on_id_pressed"))
 
 
 func populate(player: PlayerData, is_starting: bool, is_host: bool, game_mode: Dictionary):
@@ -52,16 +52,16 @@ func populate(player: PlayerData, is_starting: bool, is_host: bool, game_mode: D
 	var games := FugitivePlayerDataUtility.get_overall_stat(playerInfoData, FugitivePlayerDataUtility.STAT_GAMES)
 	var stats := "Score: %d    |    Games: %d" % [score, games]
 	
-	if stats.empty():
+	if stats.is_empty():
 		$StatsLabel.text = "No games played yet"
 	else:
 		$StatsLabel.text = stats
 	
 	# Indicate when a player hasn't returned from the last game yet
 	if lobbyReady:
-		modulate = Color.white
+		modulate = Color.WHITE
 	else:
-		modulate = Color.darkgray
+		modulate = Color.DARK_GRAY
 
 
 func _on_TeamButton_item_selected(id):

@@ -1,9 +1,9 @@
 extends "res://client/game/mode/fugitive/hud/mapview/MapHudBase.gd"
 class_name HistoryMapHud
-onready var fugitiveGame := GameData.currentGame as FugitiveGame
+@onready var fugitiveGame := GameData.currentGame as FugitiveGame
 
-export(NodePath) var replayLegendPath: NodePath
-onready var replayLegend := get_node(replayLegendPath) as VBoxContainer
+@export var replayLegendPath: NodePath
+@onready var replayLegend := get_node(replayLegendPath) as VBoxContainer
 
 
 var PlayerLegendEntryTemplate = preload("res://client/game/mode/fugitive/hud/PlayerLegendEntry.tscn")
@@ -16,27 +16,28 @@ var isPlaying := false
 const maxTrailSize := 40
 
 var playerColors := [ 
-	Color.red,
-	Color.blue,
-	Color.yellow,
-	Color.green,
-	Color.brown,
-	Color.purple,
-	Color.orange,
-	Color.pink,
-	Color.magenta,
-	Color.gold,
-	Color.gray,
-	Color.cyan,
-	Color.lavender,
-	Color.white,
-	Color.plum,
-	Color.beige
+	Color.RED,
+	Color.BLUE,
+	Color.YELLOW,
+	Color.GREEN,
+	Color.BROWN,
+	Color.PURPLE,
+	Color.ORANGE,
+	Color.PINK,
+	Color.MAGENTA,
+	Color.GOLD,
+	Color.GRAY,
+	Color.CYAN,
+	Color.LAVENDER,
+	Color.WHITE,
+	Color.PLUM,
+	Color.BEIGE
 ]
 
 var currentPlayerColorDictionary = {}
 
 func _ready():
+	super._ready()
 	drawStreetNames = false
 	
 	var playerIndex := 0
@@ -83,7 +84,7 @@ func loadReplayLegend():
 	
 	for playerId in currentPlayerColorDictionary:
 		var playerData = fugitiveGame.history.player_summaries[playerId] as PlayerData
-		var newEntry = PlayerLegendEntryTemplate.instance()
+		var newEntry = PlayerLegendEntryTemplate.instantiate()
 		newEntry.initialize(playerData, currentPlayerColorDictionary[playerId])
 		replayLegend.add_child(newEntry)
 
@@ -171,14 +172,14 @@ func _draw():
 					var teamColor: Color
 					match playerData.get_type():
 						FugitiveTeamResolver.PlayerType.Hider:
-							teamColor = Color.orange
+							teamColor = Color.ORANGE
 							
 							if (entry.frozen):
-								teamColor = Color.cyan
+								teamColor = Color.CYAN
 						FugitiveTeamResolver.PlayerType.Seeker:
-							teamColor = Color.blue
+							teamColor = Color.BLUE
 						_:
-							teamColor = Color.magenta
+							teamColor = Color.MAGENTA
 					
 
 					# This is a unique color for this specific player so you can identify
@@ -201,7 +202,7 @@ func _draw():
 					var carSize := Vector2(10.0, 20.0)
 					var rect := Rect2(Vector2(-(carSize.x/2.0), -(carSize.y/2.0)), carSize)
 					draw_set_transform(to_map_coord_vector2(interpolatedPosition), interpolatedAngle, Vector2(1.0, 1.0))
-					draw_rect(rect, Color.white)
+					draw_rect(rect, Color.WHITE)
 					draw_set_transform(Vector2(), 0.0, Vector2(1.0, 1.0))
 				_:
 					print("ERROR: Unrecognized history entry %s" % entry.entryType)
@@ -219,8 +220,8 @@ func draw_trail(playerColor: Color, entityId):
 	if trailSize > 1:
 		# Copy the player color so we don't modify the original while drawing the trail
 		var trailColor := Color(playerColor.to_rgba32())
-		var trailPoints := PoolVector2Array()
-		var trailColors := PoolColorArray()
+		var trailPoints := PackedVector2Array()
+		var trailColors := PackedColorArray()
 		
 		# Calculate the trail
 		for ii in trailSize:
@@ -239,6 +240,7 @@ func draw_trail(playerColor: Color, entityId):
 
 # Go to the next frame if it's playing
 func _process(delta):
+	super._process(delta)
 	if (isPlaying
 		and (timeSinceFrameChange + delta) >= (1.0 / framesPerSecond)
 		and currentIndex < fugitiveGame.history.stateHistoryArray.size() - 1):

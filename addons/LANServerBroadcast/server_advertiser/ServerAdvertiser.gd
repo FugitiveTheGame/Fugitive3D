@@ -1,5 +1,6 @@
+@icon('res://addons/LANServerBroadcast/server_advertiser/ServerAdvertiser.png')
 extends Node
-class_name ServerAdvertiser, 'res://addons/LANServerBroadcast/server_advertiser/ServerAdvertiser.png'
+class_name ServerAdvertiser
 
 signal register_failed
 signal register_succeeded
@@ -10,7 +11,7 @@ const REPOSITORY_ADVERTISE_INTERVAL := 30_000
 const SERVER_ID_FORMAT := "%s:%d"
 
 # How often to broadcast out to the network that this host is active
-export (float) var broadcast_interval: float = 1.0
+@export var broadcast_interval: float = 1.0
 var serverInfo := {
 	"name": "LAN Game",
 	"port": 0,
@@ -32,10 +33,10 @@ var repositoryRegisterTimer := Threshold.new(REPOSITORY_ADVERTISE_INTERVAL, fals
 var initial_registration := true
 
 func _init():
-	ipRequest.connect("request_completed", self, "_on_IpRequest_request_completed")
+	ipRequest.connect("request_completed", Callable(self, "_on_IpRequest_request_completed"))
 	add_child(ipRequest)
 	
-	registerRequest.connect("request_completed", self, "_on_RegisterRequest_request_completed")
+	registerRequest.connect("request_completed", Callable(self, "_on_RegisterRequest_request_completed"))
 	add_child(registerRequest)
 	
 	add_child(removeRequest)
@@ -45,7 +46,7 @@ func _ready():
 	broadcastTimer.name = "BroadcastTimer"
 	broadcastTimer.wait_time = broadcast_interval
 	broadcastTimer.one_shot = false
-	broadcastTimer.connect("timeout", self, "broadcast") 
+	broadcastTimer.connect("timeout", Callable(self, "broadcast")) 
 	add_child(broadcastTimer)
 
 
@@ -84,8 +85,8 @@ func start_advertising_publicly():
 
 func broadcast():
 	#print('Broadcasting game...')
-	var packetMessage := to_json(serverInfo)
-	var packet := packetMessage.to_ascii()
+	var packetMessage := JSON.new().stringify(serverInfo)
+	var packet := packetMessage.to_ascii_buffer()
 	socketUDP.put_packet(packet)
 
 
@@ -109,7 +110,9 @@ func fetch_external_ip():
 
 func _on_IpRequest_request_completed(result, response_code, headers, body):
 	if response_code >= 200 and response_code < 300:
-		var json = parse_json(body.get_string_from_utf8())
+		var test_json_conv = JSON.new()
+		test_json_conv.parse(body.get_string_from_utf8())
+		var json = test_json_conv.get_data()
 		
 		ServerAdvertiserData.externalIp = json.ip
 		serverInfo["ip"] = ServerAdvertiserData.externalIp
@@ -127,7 +130,7 @@ func register_server():
 		var serverID := SERVER_ID_FORMAT % [serverInfo["ip"], serverInfo["port"]]
 		var url := serverRepositoryUrl + "/servers/" + serverID
 		
-		var body := JSON.print(serverInfo)
+		var body := JSON.stringify(serverInfo)
 		var headers := ["Content-Type: application/json"]
 		
 		if not registerRequest.is_inside_tree():
@@ -137,10 +140,10 @@ func register_server():
 		registerRequest.cancel_request()
 		if initial_registration:
 			print("initial registration")
-			registerRequest.request(url, headers, false, HTTPClient.METHOD_POST, body)
+			registerRequest.request(url, headers, HTTPClient.METHOD_POST, body)
 		else:
 			print("updating registration")
-			registerRequest.request(url, headers, false, HTTPClient.METHOD_PUT, body)
+			registerRequest.request(url, headers, HTTPClient.METHOD_PUT, body)
 	else:
 		fetch_external_ip()
 
@@ -157,7 +160,7 @@ func _on_RegisterRequest_request_completed(result, response_code, headers, body)
 
 
 func _on_RepositoryRegisterTimer_timeout():
-	print("RepositoryRegister Timer %d" % OS.get_unix_time())
+	print("RepositoryRegister Timer %d" % Time.get_unix_time_from_system())
 	register_server()
 
 
@@ -167,4 +170,4 @@ func remove_from_repository():
 		var url := serverRepositoryUrl + "/servers/" + serverID
 		
 		removeRequest.cancel_request()
-		removeRequest.request(url, [], false, HTTPClient.METHOD_DELETE)
+		removeRequest.request(url, [], HTTPClient.METHOD_DELETE)

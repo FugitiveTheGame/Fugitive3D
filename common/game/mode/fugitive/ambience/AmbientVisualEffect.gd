@@ -2,8 +2,8 @@ extends AmbientEffect
 class_name AmbientVisualEffect
 
 var local_bounding_box := AABB()
-export(float) var effect_size: float = 50.0
-export(float) var effect_height: float = 2.0
+@export var effect_size: float = 50.0
+@export var effect_height: float = 2.0
 
 
 func _ready():

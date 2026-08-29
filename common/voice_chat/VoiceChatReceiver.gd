@@ -1,40 +1,40 @@
 extends Node
 class_name VoiceChatReceiver
 
-export(NodePath) var audioPlayerPath: NodePath
-onready var audioPlayer := get_node(audioPlayerPath)
+@export var audioPlayerPath: NodePath
+@onready var audioPlayer := get_node(audioPlayerPath)
 
-onready var opus_decoder := $OpusDecoder
+@onready var opus_decoder := $OpusDecoder
 
 const MAX_CLIPS := 5
 var audio_clips := []
 
 
 func _ready():
-	var audioStream := AudioStreamSample.new()
+	var audioStream := AudioStreamWAV.new()
 	audioStream.stereo = true
-	audioStream.format = AudioStreamSample.FORMAT_16_BITS
+	audioStream.format = AudioStreamWAV.FORMAT_16_BITS
 	audioStream.mix_rate = 44100
 	
 	audioPlayer.stream = audioStream
 	
-	audioPlayer.connect("finished", self, "on_audio_finished")
+	audioPlayer.connect("finished", Callable(self, "on_audio_finished"))
 
 
 func _exit_tree():
 	audio_clips.clear()
 
 
-func send_audio(audioData: PoolByteArray):
+func send_audio(audioData: PackedByteArray):
 	rpc("on_receive_audio", audioData)
 
 
-remote func on_receive_audio(audioData: PoolByteArray):
-	if not audioData.empty():
+@rpc("any_peer") func on_receive_audio(audioData: PackedByteArray):
+	if not audioData.is_empty():
 		var pcm_data = opus_decoder.decode(audioData)
 		
 		if audio_clips.size() < MAX_CLIPS:
-			if not pcm_data.empty():
+			if not pcm_data.is_empty():
 				audio_clips.push_back(pcm_data)
 				play_next_clip()
 			else:
@@ -50,7 +50,7 @@ func is_playing() -> bool:
 
 
 func play_next_clip():
-	if not is_playing() and not audio_clips.empty():
+	if not is_playing() and not audio_clips.is_empty():
 		var clip = audio_clips.pop_front()
 		
 		audioPlayer.stream.data = clip

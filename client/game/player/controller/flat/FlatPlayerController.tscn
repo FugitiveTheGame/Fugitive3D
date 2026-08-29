@@ -6,20 +6,20 @@
 [ext_resource path="res://client/game/mode/fugitive/hud/ExitGameHud.tscn" type="PackedScene" id=4]
 [ext_resource path="res://client/game/player/controller/flat/mobile/VirtualJoystick.tscn" type="PackedScene" id=5]
 [ext_resource path="res://client/game/player/hud/CrouchIndicatorHud.tscn" type="PackedScene" id=6]
-[ext_resource path="res://client/game/player/controller/flat/mobile/button_sprint_normal.png" type="Texture" id=7]
-[ext_resource path="res://client/game/player/controller/flat/mobile/button_crouch_pressed.png" type="Texture" id=8]
-[ext_resource path="res://client/game/player/controller/flat/mobile/button_sprint_pressed.png" type="Texture" id=9]
-[ext_resource path="res://client/game/player/controller/flat/mobile/button_crouch_normal.png" type="Texture" id=10]
-[ext_resource path="res://client/game/player/controller/flat/mobile/button_jump_normal.png" type="Texture" id=11]
-[ext_resource path="res://client/game/player/controller/flat/mobile/button_jump_pressed.png" type="Texture" id=12]
+[ext_resource path="res://client/game/player/controller/flat/mobile/button_sprint_normal.png" type="Texture2D" id=7]
+[ext_resource path="res://client/game/player/controller/flat/mobile/button_crouch_pressed.png" type="Texture2D" id=8]
+[ext_resource path="res://client/game/player/controller/flat/mobile/button_sprint_pressed.png" type="Texture2D" id=9]
+[ext_resource path="res://client/game/player/controller/flat/mobile/button_crouch_normal.png" type="Texture2D" id=10]
+[ext_resource path="res://client/game/player/controller/flat/mobile/button_jump_normal.png" type="Texture2D" id=11]
+[ext_resource path="res://client/game/player/controller/flat/mobile/button_jump_pressed.png" type="Texture2D" id=12]
 [ext_resource path="res://client/HelpDialog.tscn" type="PackedScene" id=13]
 [ext_resource path="res://client/game/mode/fugitive/hud/InGameMenuHud.tscn" type="PackedScene" id=14]
 [ext_resource path="res://common/game/mode/fugitive/FugitiveVoiceTransceiver.tscn" type="PackedScene" id=15]
 [ext_resource path="res://client/game/player/hud/VoiceRecordingHud.tscn" type="PackedScene" id=16]
-[ext_resource path="res://client/game/player/controller/flat/mobile/button_ptt_pressed.png" type="Texture" id=17]
-[ext_resource path="res://client/game/player/controller/flat/mobile/button_ptt_normal.png" type="Texture" id=18]
+[ext_resource path="res://client/game/player/controller/flat/mobile/button_ptt_pressed.png" type="Texture2D" id=17]
+[ext_resource path="res://client/game/player/controller/flat/mobile/button_ptt_normal.png" type="Texture2D" id=18]
 
-[node name="PlayerController" type="KinematicBody"]
+[node name="PlayerController" type="CharacterBody3D"]
 collision_mask = 31
 script = ExtResource( 3 )
 virtual_joysticks_path = NodePath("HudCanvas/VirtualJoysticks")
@@ -29,7 +29,7 @@ helpDialogPath = NodePath("HudCanvas/HudContainer/HelpDialog")
 crouch_button_path = NodePath("HudCanvas/HudContainer/CrouchButton")
 sprint_button_path = NodePath("HudCanvas/HudContainer/SprintButton")
 
-[node name="Camera" type="Camera" parent="."]
+[node name="Camera3D" type="Camera3D" parent="."]
 far = 300.0
 script = ExtResource( 2 )
 
@@ -46,8 +46,8 @@ __meta__ = {
 [node name="BarsContainer" type="VBoxContainer" parent="HudCanvas/HudContainer"]
 anchor_top = 1.0
 anchor_bottom = 1.0
-margin_top = -128.0
-margin_right = 512.0
+offset_top = -128.0
+offset_right = 512.0
 grow_horizontal = 0
 alignment = 2
 __meta__ = {
@@ -55,17 +55,17 @@ __meta__ = {
 }
 
 [node name="StaminaHud" parent="HudCanvas/HudContainer/BarsContainer" instance=ExtResource( 1 )]
-margin_top = 80.0
-margin_bottom = 128.0
+offset_top = 80.0
+offset_bottom = 128.0
 
 [node name="IndicatorsContainer" type="VBoxContainer" parent="HudCanvas/HudContainer"]
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = -48.0
-margin_top = -328.0
-margin_bottom = -72.0
+offset_left = -48.0
+offset_top = -328.0
+offset_bottom = -72.0
 grow_vertical = 0
 alignment = 1
 __meta__ = {
@@ -75,16 +75,16 @@ __meta__ = {
 [node name="CrouchingHud" parent="HudCanvas/HudContainer/IndicatorsContainer" instance=ExtResource( 6 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 76.0
-margin_right = 48.0
-margin_bottom = 124.0
+offset_top = 76.0
+offset_right = 48.0
+offset_bottom = 124.0
 
 [node name="VoiceRecordingHud" parent="HudCanvas/HudContainer/IndicatorsContainer" instance=ExtResource( 16 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 132.0
-margin_right = 48.0
-margin_bottom = 180.0
+offset_top = 132.0
+offset_right = 48.0
+offset_bottom = 180.0
 voiceChatTransceiverPath = NodePath("../../../../VoiceChat")
 
 [node name="InGameMenuHud" parent="HudCanvas/HudContainer" instance=ExtResource( 14 )]
@@ -94,10 +94,10 @@ anchor_left = 0.471
 anchor_top = 0.493
 anchor_right = 0.471
 anchor_bottom = 0.493
-margin_left = -120.88
-margin_top = -63.9
-margin_right = 179.12
-margin_bottom = 64.1
+offset_left = -120.88
+offset_top = -63.9
+offset_right = 179.12
+offset_bottom = 64.1
 size_flags_horizontal = 0
 size_flags_vertical = 0
 
@@ -134,23 +134,23 @@ visibility_mode = 1
 anchor_top = 0.178
 anchor_right = 1.0
 anchor_bottom = 0.633
-margin_top = -0.199997
-margin_right = 0.0
-margin_bottom = 0.299988
+offset_top = -0.199997
+offset_right = 0.0
+offset_bottom = 0.299988
 right_dead_zone = 0.01
 
 [node name="VoiceChatPlayback" type="AudioStreamPlayer3D" parent="."]
 
 [node name="VoiceChat" parent="." instance=ExtResource( 15 )]
 audioPlayerPath = NodePath("../VoiceChatPlayback")
-[connection signal="about_to_show" from="HudCanvas/HudContainer/InGameMenuHud" to="." method="_on_InGameMenuHud_about_to_show"]
-[connection signal="popup_hide" from="HudCanvas/HudContainer/InGameMenuHud" to="." method="_on_InGameMenuHud_popup_hide"]
+[connection signal="about_to_popup" from="HudCanvas/HudContainer/InGameMenuHud" to="." method="_on_InGameMenuHud_about_to_show"]
+[connection signal="visibility_changed" from="HudCanvas/HudContainer/InGameMenuHud" to="." method="_on_InGameMenuHud_popup_hide"]
 [connection signal="resume_game" from="HudCanvas/HudContainer/InGameMenuHud" to="." method="_on_InGameMenuHud_resume_game"]
 [connection signal="show_exit" from="HudCanvas/HudContainer/InGameMenuHud" to="." method="_on_InGameMenuHud_show_exit"]
 [connection signal="show_help" from="HudCanvas/HudContainer/InGameMenuHud" to="." method="_on_InGameMenuHud_show_help"]
 [connection signal="on_exit_dialog_hide" from="HudCanvas/HudContainer/ExitGameHud" to="." method="_on_ExitGameHud_on_exit_dialog_hide"]
 [connection signal="on_exit_dialog_show" from="HudCanvas/HudContainer/ExitGameHud" to="." method="_on_ExitGameHud_on_exit_dialog_show"]
 [connection signal="return_to_main_menu" from="HudCanvas/HudContainer/ExitGameHud" to="." method="_on_ExitGameHud_return_to_main_menu"]
-[connection signal="about_to_show" from="HudCanvas/HudContainer/HelpDialog" to="." method="_on_HelpDialog_about_to_show"]
-[connection signal="popup_hide" from="HudCanvas/HudContainer/HelpDialog" to="." method="_on_HelpDialog_popup_hide"]
+[connection signal="about_to_popup" from="HudCanvas/HudContainer/HelpDialog" to="." method="_on_HelpDialog_about_to_show"]
+[connection signal="visibility_changed" from="HudCanvas/HudContainer/HelpDialog" to="." method="_on_HelpDialog_popup_hide"]
 [connection signal="released" from="HudCanvas/HudContainer/CrouchButton" to="." method="_on_CrouchButton_released"]

@@ -11,7 +11,7 @@ var frozen := false
 
 var gameStarted := false
 var gameEnded := false
-var exhausted := false setget set_exhausted
+var exhausted := false: set = set_exhausted
 func set_exhausted(value: bool):
 	exhausted = value
 	if value:
@@ -22,9 +22,9 @@ func set_exhausted(value: bool):
 		speed_sprint = DEFAULT_SPEED_SPRINT
 
 
-onready var win_zones := get_tree().get_nodes_in_group(Groups.WIN_ZONE)
+@onready var win_zones := get_tree().get_nodes_in_group(Groups.WIN_ZONE)
 
-var car = null setget set_car
+var car = null: set = set_car
 func set_car(value):
 	car = value
 	
@@ -37,18 +37,18 @@ func set_car(value):
 func _ready():
 	# Listen to the winzone
 	for zone in win_zones:
-		zone.connect("body_entered", self, "on_enter_winzone")
-		zone.connect("body_exited", self, "on_exit_winzone")
+		zone.connect("body_entered", Callable(self, "on_enter_winzone"))
+		zone.connect("body_exited", Callable(self, "on_exit_winzone"))
 
 
 func configure(_playerName: String, _playerId: int, _playerType: int, _localPlayerType: int):
-	.configure(_playerName, _playerId, _playerType, _localPlayerType)
+	super.configure(_playerName, _playerId, _playerType, _localPlayerType)
 	set_player_name(_playerName)
 	update_player_name_state()
 
 
 func set_player_name(playerName: String):
-	playerShape.get_name_label().set_label_text(playerName)
+	playerShape.get_name_label().text = playerName
 
 
 func get_history_heartbeat() -> Dictionary:
@@ -68,7 +68,7 @@ func update_player_name_state():
 	var show: bool
 	
 	var localPlayer := GameData.currentGame.localPlayer
-	var isLocalPlayer := (id == get_tree().get_network_unique_id()) as bool
+	var isLocalPlayer := (id == multiplayer.get_unique_id()) as bool
 	var localPlayerInWinzone := (localPlayer != null and localPlayer.is_in_winzone()) as bool
 	var localPlayerIsHider := (localPlayerType == FugitiveTeamResolver.PlayerType.Hider) as bool
 	
@@ -112,8 +112,8 @@ func freeze():
 	rpc("on_freeze")
 
 
-remotesync func on_freeze():
-	print("Player frozen: %d" % get_network_master())
+@rpc("any_peer", "call_local") func on_freeze():
+	print("Player frozen: %d" % get_multiplayer_authority())
 	frozen = true
 	update_player_name_state()
 
@@ -122,8 +122,8 @@ func unfreeze():
 	rpc("on_unfreeze")
 
 
-remotesync func on_unfreeze():
-	print("Player unfrozen: %d" % get_network_master())
+@rpc("any_peer", "call_local") func on_unfreeze():
+	print("Player unfrozen: %d" % get_multiplayer_authority())
 	frozen = false
 	update_player_name_state()
 
@@ -198,25 +198,25 @@ func is_in_winzone() -> bool:
 
 
 func on_enter_winzone(body):
-	if body is KinematicBody:
+	if body is CharacterBody3D:
 		# When anyone enters a winzone, everyone should update their name visibility
 		update_player_name_state()
 
 
 func on_exit_winzone(body):
-	if body is KinematicBody:
+	if body is CharacterBody3D:
 		# When anyone enters a winzone, everyone should update their name visibility
 		# Must defer this call so that checks about the winzone have time to update
 		call_deferred("update_player_name_state")
 
 
 func is_sprinting() -> bool:
-	return .is_sprinting() and not self.exhausted
+	return super.is_sprinting() and not self.exhausted
 
 
 func process_stamina(delta: float):
 	var had_stamina := stamina > STAMINA_LAMBDA
-	.process_stamina(delta)
+	super.process_stamina(delta)
 	
 	if had_stamina and stamina <= STAMINA_LAMBDA:
 		self.exhausted = true

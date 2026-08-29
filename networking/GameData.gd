@@ -87,7 +87,7 @@ func get_current_player() -> PlayerData:
 	var curPlayer
 	
 	lock.lock()
-	var id := get_tree().get_network_unique_id()
+	var id := multiplayer.get_unique_id()
 	if players.has(id):
 		curPlayer = players[id] as PlayerData
 	else:

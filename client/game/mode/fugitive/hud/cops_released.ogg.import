@@ -1,15 +1,19 @@
 [remap]
 
-importer="ogg_vorbis"
-type="AudioStreamOGGVorbis"
-path="res://.import/cops_released.ogg-89b984d64b4a84774f36b3224e1bbfd7.oggstr"
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://stw4xnjxe4tt"
+path="res://.godot/imported/cops_released.ogg-89b984d64b4a84774f36b3224e1bbfd7.oggvorbisstr"
 
 [deps]
 
 source_file="res://client/game/mode/fugitive/hud/cops_released.ogg"
-dest_files=[ "res://.import/cops_released.ogg-89b984d64b4a84774f36b3224e1bbfd7.oggstr" ]
+dest_files=["res://.godot/imported/cops_released.ogg-89b984d64b4a84774f36b3224e1bbfd7.oggvorbisstr"]
 
 [params]
 
 loop=false
 loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

@@ -2,15 +2,16 @@
 
 [ext_resource path="res://client/HelpDialog.gd" type="Script" id=1]
 
-[node name="HelpDialog" type="WindowDialog"]
+[node name="HelpDialog" type="Window"]
+visible = false
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -447.0
-margin_top = -262.0
-margin_right = 447.0
-margin_bottom = 262.0
+offset_left = -447.0
+offset_top = -262.0
+offset_right = 447.0
+offset_bottom = 262.0
 window_title = "Help"
 script = ExtResource( 1 )
 __meta__ = {
@@ -25,10 +26,10 @@ controlsTextboxPath = NodePath("VBoxContainer/TabContainer/Controls")
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 8.0
-margin_top = 8.0
-margin_right = -8.0
-margin_bottom = -8.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = -8.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -36,29 +37,29 @@ __meta__ = {
 }
 
 [node name="ModeSelectContainer" type="HBoxContainer" parent="VBoxContainer"]
-margin_right = 878.0
-margin_bottom = 48.0
-rect_min_size = Vector2( 0, 48 )
+offset_right = 878.0
+offset_bottom = 48.0
+custom_minimum_size = Vector2( 0, 48 )
 
 [node name="Label" type="Label" parent="VBoxContainer/ModeSelectContainer"]
-margin_top = 11.0
-margin_right = 151.0
-margin_bottom = 36.0
+offset_top = 11.0
+offset_right = 151.0
+offset_bottom = 36.0
 text = " Game Mode: "
 
 [node name="ModeSelectButton" type="OptionButton" parent="VBoxContainer/ModeSelectContainer"]
-margin_left = 159.0
-margin_top = 4.0
-margin_right = 334.0
-margin_bottom = 43.0
+offset_left = 159.0
+offset_top = 4.0
+offset_right = 334.0
+offset_bottom = 43.0
 size_flags_horizontal = 0
 size_flags_vertical = 4
 text = "Game Mode"
 
 [node name="TabContainer" type="TabContainer" parent="VBoxContainer"]
-margin_top = 56.0
-margin_right = 878.0
-margin_bottom = 508.0
+offset_top = 56.0
+offset_right = 878.0
+offset_bottom = 508.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -68,10 +69,10 @@ __meta__ = {
 [node name="Rules" type="RichTextLabel" parent="VBoxContainer/TabContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 7.0
-margin_top = 46.0
-margin_right = -7.0
-margin_bottom = -7.0
+offset_left = 7.0
+offset_top = 46.0
+offset_right = -7.0
+offset_bottom = -7.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 bbcode_enabled = true
@@ -83,15 +84,15 @@ __meta__ = {
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 7.0
-margin_top = 46.0
-margin_right = -7.0
-margin_bottom = -7.0
+offset_left = 7.0
+offset_top = 46.0
+offset_right = -7.0
+offset_bottom = -7.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 bbcode_enabled = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
-[connection signal="about_to_show" from="." to="." method="_on_HelpDialog_about_to_show"]
+[connection signal="about_to_popup" from="." to="." method="_on_HelpDialog_about_to_show"]
 [connection signal="item_selected" from="VBoxContainer/ModeSelectContainer/ModeSelectButton" to="." method="_on_ModeSelectButton_item_selected"]

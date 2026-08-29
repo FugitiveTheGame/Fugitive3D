@@ -1,17 +1,17 @@
-extends Spatial
+extends Node3D
 class_name MotionSensor
 
-const CONE_WIDTH = cos(deg2rad(25.0))
-const CONE_OFFSET = cos(deg2rad(90.0))
-onready var max_vision_distance := $OmniLight.omni_range as float
+const CONE_WIDTH = cos(deg_to_rad(25.0))
+const CONE_OFFSET = cos(deg_to_rad(90.0))
+@onready var max_vision_distance := $OmniLight3D.omni_range as float
 const MIN_VISION_DISTANCE := 3.0
 
 
-onready var rayCaster := $RayCast
+@onready var rayCaster := $RayCast3D
 
 
-export(bool) var always_on := false
-var is_turned_on := true setget set_enabled
+@export var always_on := false
+var is_turned_on := true: set = set_enabled
 
 
 func _ready():
@@ -20,7 +20,7 @@ func _ready():
 	# Start off
 	if not always_on:
 		set_enabled(true)
-		$OmniLight.hide()
+		$OmniLight3D.hide()
 	else:
 		$MotionSensorArea.monitoring = false
 
@@ -37,21 +37,21 @@ func set_enabled(isOn: bool):
 
 
 func _on_MotionSensorArea_body_entered(body):
-	if is_turned_on and not $OmniLight.visible:
-		if get_tree().is_network_server():
+	if is_turned_on and not $OmniLight3D.visible:
+		if multiplayer.is_server():
 			trigger_light()
 			rpc('trigger_light')
 
 
-remote func trigger_light():
-	$OmniLight.show()
+@rpc("any_peer") func trigger_light():
+	$OmniLight3D.show()
 	$LightTriggerAudio.play()
 	$AutoOffTimer.start()
 
 
 func process_hider(hider: Hider):
 	# Only process if this sensor is on, and the light is currently on
-	if not self.is_turned_on or not $OmniLight.visible:
+	if not self.is_turned_on or not $OmniLight3D.visible:
 		return
 	
 	# Cast a ray between the seeker and this hider
@@ -61,7 +61,7 @@ func process_hider(hider: Hider):
 	
 	# Quick reject, ray casting is slightly expensive, don't do it if we don't have to
 	if distance <= max_vision_distance:
-		rayCaster.cast_to = look_vec
+		rayCaster.target_position = look_vec
 		rayCaster.force_raycast_update()
 		
 		if(rayCaster.is_colliding()):
@@ -87,4 +87,4 @@ func process_hider(hider: Hider):
 
 
 func _on_AutoOffTimer_timeout():
-	$OmniLight.hide()
+	$OmniLight3D.hide()

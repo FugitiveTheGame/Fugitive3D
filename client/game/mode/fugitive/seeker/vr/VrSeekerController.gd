@@ -1,9 +1,9 @@
 extends "res://client/game/mode/fugitive/VrFugitiveController.gd"
 
-onready var car_lock_hud := hud.find_node("CarLockHud", true, false)
+@onready var car_lock_hud := hud.find_child("CarLockHud", true, false)
 
-export(NodePath) var flashlightPath: NodePath
-onready var flashlight := get_node(flashlightPath) as Spatial
+@export var flashlightPath: NodePath
+@onready var flashlight := get_node(flashlightPath) as Node3D
 
 
 func _physics_process(delta):
@@ -41,10 +41,10 @@ func get_nearest_car():
 func _on_CarLockHud_locking_complete():
 	var car = get_nearest_car()
 	if car != null:
-		car.lock()
+		false # car.lock() # TODOConverter3To4, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
 
 
 func on_ui_raycast_visibility_changed():
-	.on_ui_raycast_visibility_changed()
+	super.on_ui_raycast_visibility_changed()
 	
 	flashlight.visible = not uiRaycast.visible

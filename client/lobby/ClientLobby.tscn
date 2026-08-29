@@ -2,7 +2,7 @@
 
 [ext_resource path="res://common/lobby/Lobby.tscn" type="PackedScene" id=1]
 [ext_resource path="res://client/lobby/ClientLobby.gd" type="Script" id=2]
-[ext_resource path="res://fonts/content/TitleFont.tres" type="DynamicFont" id=3]
+[ext_resource path="res://fonts/content/TitleFont.tres" type="FontFile" id=3]
 [ext_resource path="res://client/lobby/count_down.ogg" type="AudioStream" id=4]
 [ext_resource path="res://client/HelpDialog.tscn" type="PackedScene" id=5]
 
@@ -15,9 +15,9 @@ randomCooldownTimerPath = NodePath("PanelContainer/VBoxContainer/HSplitContainer
 helpDialogPath = NodePath("HelpDialog")
 
 [node name="LeaveButton" type="Button" parent="PanelContainer/VBoxContainer" index="0"]
-margin_left = 1187.0
-margin_right = 1264.0
-margin_bottom = 39.0
+offset_left = 1187.0
+offset_right = 1264.0
+offset_bottom = 39.0
 size_flags_horizontal = 8
 size_flags_vertical = 0
 text = "Leave"
@@ -26,87 +26,87 @@ __meta__ = {
 }
 
 [node name="Title" parent="PanelContainer/VBoxContainer" index="1"]
-margin_top = 47.0
-margin_bottom = 111.0
+offset_top = 47.0
+offset_bottom = 111.0
 
 [node name="HSplitContainer" parent="PanelContainer/VBoxContainer" index="2"]
-margin_top = 119.0
-margin_bottom = 657.0
+offset_top = 119.0
+offset_bottom = 657.0
 
 [node name="VBoxContainer2" parent="PanelContainer/VBoxContainer/HSplitContainer" index="0"]
-margin_bottom = 538.0
+offset_bottom = 538.0
 
 [node name="Panel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer2" index="2"]
-margin_bottom = 538.0
+offset_bottom = 538.0
 
 [node name="VBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer" index="1"]
-margin_bottom = 538.0
+offset_bottom = 538.0
 
 [node name="HBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="4"]
-margin_bottom = 293.0
+offset_bottom = 293.0
 
 [node name="DetailsContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer" index="0"]
-margin_bottom = 159.0
+offset_bottom = 159.0
 
 [node name="HBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer" index="1"]
-margin_bottom = 77.0
+offset_bottom = 77.0
 
 [node name="ModelValue" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer/HBoxContainer" index="0"]
-margin_left = 94.0
-margin_right = 183.0
-margin_bottom = 39.0
+offset_left = 94.0
+offset_right = 183.0
+offset_bottom = 39.0
 
 [node name="HelpButton" type="Button" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer/HBoxContainer" index="1"]
-margin_left = 191.0
-margin_right = 215.0
-margin_bottom = 39.0
+offset_left = 191.0
+offset_right = 215.0
+offset_bottom = 39.0
 text = "?"
 
 [node name="Spacer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer" index="2"]
-margin_top = 85.0
-margin_bottom = 85.0
+offset_top = 85.0
+offset_bottom = 85.0
 
 [node name="SizeLabel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer" index="3"]
-margin_top = 93.0
-margin_bottom = 123.0
+offset_top = 93.0
+offset_bottom = 123.0
 
 [node name="SizeValue" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer" index="4"]
-margin_top = 131.0
-margin_bottom = 159.0
+offset_top = 131.0
+offset_bottom = 159.0
 
 [node name="TeamsContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer" index="1"]
-margin_bottom = 159.0
+offset_bottom = 159.0
 
 [node name="ScrollContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/TeamsContainer" index="1"]
-margin_bottom = 159.0
+offset_bottom = 159.0
 
 [node name="Spacer" type="Control" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="5"]
-margin_top = 301.0
-margin_right = 628.0
-margin_bottom = 317.0
-rect_min_size = Vector2( 0, 16 )
+offset_top = 301.0
+offset_right = 628.0
+offset_bottom = 317.0
+custom_minimum_size = Vector2( 0, 16 )
 
 [node name="DescriptionLabel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="6"]
-margin_top = 325.0
-margin_bottom = 355.0
+offset_top = 325.0
+offset_bottom = 355.0
 
 [node name="MapPanel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="7"]
-margin_top = 363.0
-margin_bottom = 491.0
+offset_top = 363.0
+offset_bottom = 491.0
 
 [node name="RandomButton" type="Button" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="8"]
-margin_top = 499.0
-margin_right = 628.0
-margin_bottom = 538.0
+offset_top = 499.0
+offset_right = 628.0
+offset_bottom = 538.0
 text = "Randomize Teams"
 
 [node name="RandomizeCooldownTimer" type="Timer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/RandomButton" index="0"]
 one_shot = true
 
 [node name="StartButton" type="Button" parent="PanelContainer/VBoxContainer" index="3"]
-margin_top = 665.0
-margin_right = 1264.0
-margin_bottom = 704.0
+offset_top = 665.0
+offset_right = 1264.0
+offset_bottom = 704.0
 text = "Start Game"
 __meta__ = {
 "_edit_use_anchors_": false
@@ -119,10 +119,10 @@ one_shot = true
 [node name="StartLabel" type="Label" parent="." index="2"]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -229.5
-margin_right = 229.5
-margin_bottom = 52.0
-custom_fonts/font = ExtResource( 3 )
+offset_left = -229.5
+offset_right = 229.5
+offset_bottom = 52.0
+theme_override_fonts/font = ExtResource( 3 )
 text = "Game Starting in 0:05"
 __meta__ = {
 "_edit_use_anchors_": false

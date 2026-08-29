@@ -1,20 +1,20 @@
-extends WindowDialog
+extends Window
 
 
-export(NodePath) var tabsContainerPath: NodePath
-onready var tabsContainer := get_node(tabsContainerPath) as TabContainer
+@export var tabsContainerPath: NodePath
+@onready var tabsContainer := get_node(tabsContainerPath) as TabContainer
 
-export(NodePath) var modeSelectContainerPath: NodePath
-onready var modeSelectContainer := get_node(modeSelectContainerPath) as Control
+@export var modeSelectContainerPath: NodePath
+@onready var modeSelectContainer := get_node(modeSelectContainerPath) as Control
 
-export(NodePath) var modeSelectButtonPath: NodePath
-onready var modeSelectButton := get_node(modeSelectButtonPath) as OptionButton
+@export var modeSelectButtonPath: NodePath
+@onready var modeSelectButton := get_node(modeSelectButtonPath) as OptionButton
 
-export(NodePath) var rulesTextboxPath: NodePath
-onready var rulesTextbox := get_node(rulesTextboxPath) as RichTextLabel
+@export var rulesTextboxPath: NodePath
+@onready var rulesTextbox := get_node(rulesTextboxPath) as RichTextLabel
 
-export(NodePath) var controlsTextboxPath: NodePath
-onready var controlsTextbox := get_node(controlsTextboxPath) as RichTextLabel
+@export var controlsTextboxPath: NodePath
+@onready var controlsTextbox := get_node(controlsTextboxPath) as RichTextLabel
 
 var showGameMode = null
 var showControlsFirst := false
@@ -53,16 +53,16 @@ func load_mode_data(modeId: String):
 		PlatformTypeUtils.PlatformCategory.Vr:
 			controlsPath = controlsObj[Maps.MODE_CONTROLS_VR]
 	
-	rulesTextbox.bbcode_text = read_text(rulesPath)
-	controlsTextbox.bbcode_text = read_text(controlsPath)
+	rulesTextbox.text = read_text(rulesPath)
+	controlsTextbox.text = read_text(controlsPath)
 
 
 func read_text(path: String) -> String:
-	var file = File.new()
-	if file.open(path, File.READ) != 0:
+	var file = FileAccess.open(path, FileAccess.READ)
+	if file == null:
 		print("Error opening file")
 		return "null"
-	
+
 	var text = file.get_as_text()
 	file.close()
 	

@@ -1,6 +1,6 @@
-extends KinematicBody
+extends CharacterBody3D
 
-onready var player := $Player as FugitivePlayer
+@onready var player := $Player as FugitivePlayer
 
 func _ready():
 	player.set_not_local_player()
@@ -19,17 +19,20 @@ func on_car_exited(car):
 
 
 func car_rotate(angle: float):
-	rpc_unreliable("on_car_rotate", angle)
+	rpc("on_car_rotate", angle)
 
 
-remotesync func on_car_rotate(angle: float):
+@rpc("any_peer", "call_local", "unreliable") func on_car_rotate(angle: float):
 	rotate_y(angle)
 
 
 func _process(delta):
 	# Client side prediction
 	if not player.gameEnded and not player.frozen:
-		player.velocity = move_and_slide(player.velocity, Vector3(0.0, 1.0, 0.0))
+		set_velocity(player.velocity)
+		set_up_direction(Vector3(0.0, 1.0, 0.0))
+		move_and_slide()
+		player.velocity = velocity
 	else:
 		player.isMoving = false
 	

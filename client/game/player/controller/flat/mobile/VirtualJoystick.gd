@@ -1,14 +1,14 @@
 extends Control
 class_name VirtualJoysticks
 
-export(float, 0.0, 1.0, 0.001) var left_dead_zone := 0.40
-export(float, 0.0, 1.0, 0.001) var right_dead_zone := 0.40
+@export var left_dead_zone := 0.40 # (float, 0.0, 1.0, 0.001)
+@export var right_dead_zone := 0.40 # (float, 0.0, 1.0, 0.001)
 
-onready var baseLeft := $BaseLeft as TextureRect
-onready var baseRight := $BaseRight as TextureRect
+@onready var baseLeft := $BaseLeft as TextureRect
+@onready var baseRight := $BaseRight as TextureRect
 
-onready var stickLeft := $BaseLeft/Stick as TextureRect
-onready var stickRight := $BaseRight/Stick as TextureRect
+@onready var stickLeft := $BaseLeft/Stick as TextureRect
+@onready var stickRight := $BaseRight/Stick as TextureRect
 
 
 var left_finger_index := -1
@@ -25,13 +25,13 @@ var right_output := Vector2()
 
 
 func _ready():
-	left_initial_position = stickLeft.rect_position
-	right_initial_position = stickRight.rect_position
+	left_initial_position = stickLeft.position
+	right_initial_position = stickRight.position
 	
-	left_move_radius = get_min_size(baseLeft.rect_size) / 2.0
-	right_move_radius = get_min_size(baseRight.rect_size) / 2.0
+	left_move_radius = get_min_size(baseLeft.size) / 2.0
+	right_move_radius = get_min_size(baseRight.size) / 2.0
 	
-	visible = OS.has_touchscreen_ui_hint()
+	visible = DisplayServer.is_touchscreen_available()
 
 
 func get_min_size(rect: Vector2) -> float:
@@ -50,7 +50,7 @@ func _gui_input(event):
 
 
 func update_stick(stick: TextureRect, base: TextureRect, radius: float, centerPosition: Vector2, newPosition: Vector2, deadZone: float) -> Vector2:
-	var stick_center := newPosition - base.rect_position - (stick.rect_size / 2.0)
+	var stick_center := newPosition - base.position - (stick.size / 2.0)
 	
 	var output := Vector2()
 	if centerPosition.distance_to(stick_center) > radius:
@@ -122,7 +122,7 @@ func release_left():
 		print("release LEFT")
 		left_finger_index = -1
 		left_output = Vector2()
-		stickLeft.rect_position = left_initial_position
+		stickLeft.position = left_initial_position
 
 
 func release_right():
@@ -130,4 +130,4 @@ func release_right():
 		print("release RIGHT")
 		right_finger_index = -1
 		right_output = Vector2()
-		stickRight.rect_position = right_initial_position
+		stickRight.position = right_initial_position

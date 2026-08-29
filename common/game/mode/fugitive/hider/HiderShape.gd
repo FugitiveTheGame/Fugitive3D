@@ -3,7 +3,7 @@ extends "res://common/game/player/PlayerShape.gd"
 var standingMaterial = null
 var crouchingMaterial = null
 
-var alpha := 1.0 setget set_alpha
+var alpha := 1.0: set = set_alpha
 func set_alpha(value: float):
 	alpha = value
 	
@@ -16,9 +16,9 @@ func _ready():
 
 
 func update_shaders():
-	standingMaterial.set_shader_param("alpha", alpha)
-	crouchingMaterial.set_shader_param("alpha", alpha)
+	standingMaterial.set_shader_parameter("alpha", alpha)
+	crouchingMaterial.set_shader_parameter("alpha", alpha)
 
 
-func get_frozen_shape() -> Spatial:
-	return $FrozenIce as Spatial
+func get_frozen_shape() -> Node3D:
+	return $FrozenIce as Node3D

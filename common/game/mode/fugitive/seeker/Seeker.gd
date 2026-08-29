@@ -2,7 +2,7 @@ extends "res://common/game/mode/fugitive/FugitivePlayer.gd"
 class_name Seeker
 
 const GROUP := "seeker"
-const CONE_WIDTH = cos(deg2rad(35.0))
+const CONE_WIDTH = cos(deg_to_rad(35.0))
 const MAX_DETECT_DISTANCE := 3.0
 const MAX_VISION_DISTANCE := 50.0
 const MIN_VISION_DISTANCE := 3.0
@@ -11,19 +11,20 @@ const CLOSE_PROXIMITY_DISTANCE := 1.5
 const MOVEMENT_VISIBILITY_PENALTY := 0.10
 const SPRINT_VISIBILITY_PENALTY := 0.75
 
-export(NodePath) var flash_light_path: NodePath
-onready var flash_light := get_node(flash_light_path) as Spatial
-onready var seeker_ray_caster := flash_light.get_ray_caster() as RayCast
+@export var flash_light_path: NodePath
+@onready var flash_light := get_node(flash_light_path) as Node3D
+@onready var seeker_ray_caster := flash_light.get_ray_caster() as RayCast3D
 
 
 func _ready():
+	super._ready()
 	add_to_group(GROUP)
 	
 	# Only the server listens for detections
-	if get_tree().is_network_server():
+	if multiplayer.is_server():
 		# SeekerShape has a special DetectionArea node
 		# Listen to it for detection logic
-		playerShape.get_node("DetectionArea").connect("body_entered", self, "body_entered_detection_radius")
+		playerShape.get_node("DetectionArea").connect("body_entered", Callable(self, "body_entered_detection_radius"))
 
 
 # Detect if a particular hider has been seen by the seeker
@@ -42,7 +43,7 @@ func process_hider(hider):
 		var curHiderShape = hider.get_current_shape().head
 		var look_vec := flash_light.to_local(curHiderShape.global_transform.origin)
 		
-		seeker_ray_caster.cast_to = look_vec
+		seeker_ray_caster.target_position = look_vec
 		seeker_ray_caster.force_raycast_update()
 		
 		# Only if ray is colliding. If it's not, and we try to do logic,
@@ -106,7 +107,7 @@ func freeze_hider(hider):
 	print("Freeze hider!")
 	
 	# Only the server is actually making this decision
-	if get_tree().is_network_server():
+	if multiplayer.is_server():
 		hider.freeze()
 		
 		FugitivePlayerDataUtility.increment_stat_for_player_id(id, FugitivePlayerDataUtility.STAT_SEEKER_FREEZES)
@@ -117,7 +118,7 @@ func freeze_hider(hider):
 
 func on_state_playing():
 	print("Seeker: on_state_playing()")
-	if get_tree().is_network_server():
+	if multiplayer.is_server():
 		unfreeze()
 
 

@@ -3,12 +3,18 @@ class_name Utils
 
 const COMMON_NETWORK_UPDATE_THRESHOLD := 33
 
+# The MultiplayerAPI default peer is an always-connected OfflineMultiplayerPeer,
+# so has_multiplayer_peer() alone cannot tell "in a network session" apart from idle
+static func has_active_network_peer(mp: MultiplayerAPI) -> bool:
+	return mp.has_multiplayer_peer() and not (mp.multiplayer_peer is OfflineMultiplayerPeer)
+
+
 static func set_window_to_screen_size():
-	OS.set_window_size(OS.get_screen_size())
+	DisplayServer.window_set_size(DisplayServer.screen_get_size())
 
 
-static func get_map_rotation(globalTransform: Transform) -> float:
-	return (globalTransform.basis.get_euler().y + deg2rad(180)) * -1.0
+static func get_map_rotation(globalTransform: Transform3D) -> float:
+	return (globalTransform.basis.get_euler().y + deg_to_rad(180)) * -1.0
 
 
 static func renderer_is_gles2() -> bool:
@@ -23,10 +29,10 @@ static func is_quest1() -> bool:
 	return vr.is_oculus_quest_1_device()
 
 
-static func aabb_from_shape(colShape: CollisionShape) -> AABB:
-	var boxShape := colShape.shape as BoxShape
+static func aabb_from_shape(colShape: CollisionShape3D) -> AABB:
+	var boxShape := colShape.shape as BoxShape3D
 	var pos := colShape.global_transform.origin
-	var extents := boxShape.extents
+	var extents := boxShape.size * 0.5
 	
 	var newBB := AABB()
 	newBB.position = pos - extents
@@ -36,9 +42,9 @@ static func aabb_from_shape(colShape: CollisionShape) -> AABB:
 
 
 static func rand_unit_vec3(ignore_axis := Vector3()) -> Vector3:
-	var vec := Vector3(rand_range(-1.0, 1.0) * ignore_axis.x,
-						rand_range(-1.0, 1.0) * ignore_axis.y,
-						rand_range(-1.0, 1.0) * ignore_axis.z)
+	var vec := Vector3(randf_range(-1.0, 1.0) * ignore_axis.x,
+						randf_range(-1.0, 1.0) * ignore_axis.y,
+						randf_range(-1.0, 1.0) * ignore_axis.z)
 	# Don't allow a zero length vec
 	if vec.length() == 0.0:
 		vec.x += 0.001 * ignore_axis.x

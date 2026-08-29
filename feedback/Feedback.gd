@@ -22,23 +22,17 @@ func _exit_tree():
 
 
 func create_crash_gaurd():
-	var crashFile := File.new()
-	crashFile.open(CRASH_FILE_PATH, File.WRITE)
+	var crashFile := FileAccess.open(CRASH_FILE_PATH, FileAccess.WRITE)
 	crashFile.store_string("did crash?")
 	crashFile.close()
 
 
 func delete_crash_gaurd():
-	var dir = Directory.new()
-	dir.remove(CRASH_FILE_PATH)
+	DirAccess.remove_absolute(CRASH_FILE_PATH)
 
 
 func has_crash() -> bool:
-	var dir = Directory.new()
-	if dir.file_exists(CRASH_FILE_PATH):
-		return true
-	else:
-		return false
+	return FileAccess.file_exists(CRASH_FILE_PATH)
 
 
 func crash_now():
@@ -46,10 +40,10 @@ func crash_now():
 	x.crash()
 
 
-func get_log_file_contents_gzip() -> PoolByteArray:
+func get_log_file_contents_gzip() -> PackedByteArray:
 	var log_contents := get_log_file_contents()
-	var uncompressed := log_contents.to_utf8()
-	var gzipped := uncompressed.compress(File.COMPRESSION_GZIP)
+	var uncompressed := log_contents.to_utf8_buffer()
+	var gzipped := uncompressed.compress(FileAccess.COMPRESSION_GZIP)
 	return gzipped
 
 
@@ -64,8 +58,7 @@ func get_log_file_contents() -> String:
 		combinedLogContents += fileName + "\n"
 		combinedLogContents += "==============================\n"
 		
-		var logFile := File.new()
-		logFile.open(LOG_PATH + fileName, File.READ)
+		var logFile := FileAccess.open(LOG_PATH + fileName, FileAccess.READ)
 		var logContents = logFile.get_as_text()
 		logFile.close()
 		
@@ -76,10 +69,11 @@ func get_log_file_contents() -> String:
 
 func get_log_file_names() -> Array:
 	var logFiles = []
-	var dir = Directory.new()
-	dir.open(LOG_PATH)
+	var dir = DirAccess.open(LOG_PATH)
+	if dir == null:
+		return logFiles
 	dir.list_dir_begin()
-	
+
 	var file_name = dir.get_next()
 	while file_name != "":
 		if not dir.current_is_dir() and file_name != "log.txt":

@@ -1,0 +1,111 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://common/game/mode/fugitive/cop_car/CopCar.tscn" type="PackedScene" id=1]
+[ext_resource path="res://common/game/mode/fugitive/street_light/StreetLight.tscn" type="PackedScene" id=2]
+[ext_resource path="res://common/game/base_maps/FugitiveSuburbanMap.tscn" type="PackedScene" id=3]
+[ext_resource path="res://common/game/mode/player_spawn/PlayerSpawn.gd" type="Script" id=4]
+
+[node name="Game" instance=ExtResource( 3 )]
+
+[node name="WorldEnvironment" parent="." index="0"]
+environment = null
+
+[node name="CopCar" parent="Players" index="0" instance=ExtResource( 1 )]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, -13.002, 0.861709, 21.1715 )
+
+[node name="StreetLight" parent="Lights" index="0" instance=ExtResource( 2 )]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.7694, 0, 14.3325 )
+
+[node name="StreetLight2" parent="Lights" index="1" instance=ExtResource( 2 )]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.7694, 0, 0.0641861 )
+
+[node name="StreetLight3" parent="Lights" index="2" instance=ExtResource( 2 )]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 14.7694, 0, -14.6039 )
+
+[node name="StreetLight6" parent="Lights" index="3" instance=ExtResource( 2 )]
+transform = Transform3D( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -14.691, 0, -14.6039 )
+
+[node name="StreetLight5" parent="Lights" index="4" instance=ExtResource( 2 )]
+transform = Transform3D( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -14.691, 0, -0.335562 )
+
+[node name="StreetLight4" parent="Lights" index="5" instance=ExtResource( 2 )]
+transform = Transform3D( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -14.691, 0, 14.3325 )
+
+[node name="StreetLight7" parent="Lights" index="6" instance=ExtResource( 2 )]
+transform = Transform3D( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -14.691, 0, 54.555 )
+
+[node name="StreetLight8" parent="Lights" index="7" instance=ExtResource( 2 )]
+transform = Transform3D( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, -14.691, 0, 65.4967 )
+
+[node name="StreetLight9" parent="Lights" index="8" instance=ExtResource( 2 )]
+transform = Transform3D( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 24.0866, 0, 68.4967 )
+
+[node name="StreetLight10" parent="Lights" index="9" instance=ExtResource( 2 )]
+transform = Transform3D( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 24.0866, 0, 50.4967 )
+
+[node name="StreetLight11" parent="Lights" index="10" instance=ExtResource( 2 )]
+transform = Transform3D( 0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -24.3569, 0, 21.9463 )
+
+[node name="StreetLight12" parent="Lights" index="11" instance=ExtResource( 2 )]
+transform = Transform3D( 0.965926, 0, -0.258819, 0, 1, 0, 0.258819, 0, 0.965926, -24.3569, 0, 4.68739 )
+
+[node name="WinArea" parent="." index="3"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.560225, 0, -50.3843 )
+
+[node name="PlayerSpawn" type="Node3D" parent="HiderSpawns" index="0"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 0 )
+script = ExtResource( 4 )
+
+[node name="PlayerSpawn2" type="Node3D" parent="HiderSpawns" index="1"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 2.74293 )
+script = ExtResource( 4 )
+
+[node name="PlayerSpawn3" type="Node3D" parent="HiderSpawns" index="2"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 5.71267 )
+script = ExtResource( 4 )
+
+[node name="PlayerSpawn4" type="Node3D" parent="HiderSpawns" index="3"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.25, 8.60992 )
+script = ExtResource( 4 )
+
+[node name="PlayerSpawn" type="Node3D" parent="SeekerSpawns" index="0"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.54071, 0.25, 0 )
+script = ExtResource( 4 )
+
+[node name="PlayerSpawn2" type="Node3D" parent="SeekerSpawns" index="1"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.54071, 0.25, 2.62045 )
+script = ExtResource( 4 )
+
+[node name="PlayerSpawn3" type="Node3D" parent="SeekerSpawns" index="2"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.54071, 0.25, 5.50877 )
+script = ExtResource( 4 )
+
+[node name="PlayerSpawn4" type="Node3D" parent="SeekerSpawns" index="3"]
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.54071, 0.25, 8.19531 )
+script = ExtResource( 4 )
+
+[node name="GroundGridmap" parent="." index="10"]
+data = {
+"cells": PackedInt32Array( 0, 0, 11, 1, 0, 11, 65533, 0, 1441792, 65534, 0, 10, 65535, 0, 11, 0, 1, 11, 1, 1, 11, 65533, 1, 1441792, 65534, 1, 10, 65535, 1, 11, 0, 2, 655370, 1, 2, 655361, 2, 2, 537526273, 65533, 2, 1441792, 65534, 2, 10, 65535, 2, 11, 0, 3, 655370, 1, 3, 537526273, 2, 3, 537526273, 65535, 3, 536870923, 0, 4, 655370, 1, 4, 537526273, 2, 4, 537526273, -65535, 4, 537526273, 0, 65534, 11, 1, 65534, 11, 65535, 65534, 11, 0, 65535, 11, 1, 65535, 11, 65533, 65535, 1441792, 65534, 65535, 10, 65535, 65535, 11 )
+}
+
+[node name="FeatureGridMap" parent="." index="11"]
+data = {
+"cells": PackedInt32Array(  )
+}
+
+[node name="PoliceFeaturesGridMap" parent="." index="12"]
+data = {
+"cells": PackedInt32Array(  )
+}
+
+[node name="SeeThroughGridMap" parent="." index="13"]
+data = {
+"cells": PackedInt32Array(  )
+}
+
+[node name="DirectionalLight3D" parent="." index="14"]
+transform = Transform3D( 0.851086, 0.260726, -0.455714, 0.0509965, 0.822826, 0.566001, 0.522544, -0.504955, 0.686999, 0, 10, 0 )
+visible = false
+light_energy = 0.75
+shadow_enabled = true

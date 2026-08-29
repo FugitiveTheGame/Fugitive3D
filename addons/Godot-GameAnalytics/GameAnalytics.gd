@@ -12,11 +12,11 @@ const UUID = preload("uuid/uuid.gd")
 # Platform remaps
 const PLATFORMS = {
 	'Windows': 'windows',
-	'X11': 'linux',
-	'OSX': 'mac_osx',
+	'Linux': 'linux',
+	'macOS': 'mac_osx',
 	'Android': 'android',
 	'iOS': 'ios',
-	'HTML5': 'webgl',
+	'Web': 'webgl',
 }
 
 const ssl_validate_domain = true
@@ -25,8 +25,8 @@ const event_queue_max_events = 16
 
 
 # Game Keys
-var game_key setget set_game_key, get_game_key
-var secret_key setget set_secret_key, get_secret_key
+var game_key : get = get_game_key, set = set_game_key
+var secret_key : get = get_secret_key, set = set_secret_key
 
 var build_version = null
 
@@ -79,13 +79,13 @@ func _http_done(result, response_code, headers, body, http_request, response_han
 		_http_free_request(http_request)
 		return
 
-	var json_result = JSON.parse(body.get_string_from_utf8())
-	if json_result.error != OK:
+	var test_json_conv = JSON.new()
+	if test_json_conv.parse(body.get_string_from_utf8()) != OK:
 		log_info("Invalid JSON recieved from server")
 		_http_free_request(http_request)
 		return
 
-	self.call(response_handler, response_code, json_result.result)
+	self.call(response_handler, response_code, test_json_conv.get_data())
 	_http_free_request(http_request)
 
 func _http_perform_request(endpoint, body, response_handler):
@@ -98,16 +98,16 @@ func _http_perform_request(endpoint, body, response_handler):
 	add_child(http_request)
 
 	# TODO: Is request_complete guaranteed to be called? Otherwise, we have a memory leak
-	http_request.connect("request_completed", self, "_http_done", [http_request, response_handler])
+	http_request.connect("request_completed", Callable(self, "_http_done").bind(http_request, response_handler))
 
 	var url = base_url + endpoint
-	var json_payload = to_json(body)
-	var headers = PoolStringArray([
+	var json_payload = JSON.new().stringify(body)
+	var headers = PackedStringArray([
 		"Authorization: " + Marshalls.raw_to_base64(hmac_sha256(json_payload, self.secret_key)),
 		"Content-Type: application/json"
 	])
 
-	var err = http_request.request(url, headers, ssl_validate_domain, HTTPClient.METHOD_POST, json_payload)
+	var err = http_request.request(url, headers, HTTPClient.METHOD_POST, json_payload)
 	if err != OK:
 		log_info("Request failed, with godot error: " + str(err))
 		_http_free_request(http_request)
@@ -119,7 +119,7 @@ func start_session():
 		return
 
 	state_config['session_id'] = UUID.v4()
-	state_config['session_start'] = OS.get_unix_time_from_datetime(OS.get_datetime())
+	state_config['session_start'] = Time.get_unix_time_from_datetime_dict(Time.get_datetime_dict_from_system())
 
 	log_info("Started session with id: " + str(state_config['session_id']))
 	_init_request()
@@ -129,7 +129,7 @@ func stop_session():
 	if state_config.has('session_start') and state_config['session_start'] is int:
 		log_info("Stopped session with id: " + str(state_config['session_id']))
 		
-		var client_ts = OS.get_unix_time_from_datetime(OS.get_datetime())
+		var client_ts = Time.get_unix_time_from_datetime_dict(Time.get_datetime_dict_from_system())
 		queue_event({
 			'category': 'session_end',
 			'length': client_ts - state_config['session_start']
@@ -295,7 +295,7 @@ func _process(delta):
 ## Init Request
 func update_client_ts_offset(server_ts):
 	# calculate client_ts using offset from server time
-	var client_ts = OS.get_unix_time_from_datetime(OS.get_datetime())
+	var client_ts = Time.get_unix_time_from_datetime_dict(Time.get_datetime_dict_from_system())
 	var offset = client_ts - server_ts
 
 	# If the difference is too small, ignore it
@@ -397,7 +397,7 @@ func _get_os_version():
 	if platform == "android":
 		var output = []
 		# TODO: Why is this not used?
-		var _pid = OS.execute("getprop", ["ro.build.version.release"], true, output)
+		var _pid = OS.execute("getprop", ["ro.build.version.release"], output)
 		# Trimming new line char at the end
 		output[0] = output[0].substr(0, output[0].length() - 1)
 		return platform + " " + output[0]
@@ -415,7 +415,7 @@ func _get_default_annotations():
 	var engine_version = Engine.get_version_info()['string']
 
 	var ts_offset = 0 if not state_config.has('client_ts_offset') else state_config['client_ts_offset']
-	var client_ts = OS.get_unix_time_from_datetime(OS.get_datetime()) - ts_offset
+	var client_ts = Time.get_unix_time_from_datetime_dict(Time.get_datetime_dict_from_system()) - ts_offset
 
 	var default_annotations = {
 		'v': 2,                                     # (required: Yes)
@@ -459,7 +459,7 @@ func log_info(message):
 
 
 func pool_byte_array_from_hex(hex):
-	var out = PoolByteArray()
+	var out = PackedByteArray()
 
 	for idx in range(0, hex.length(), 2):
 		var hex_int = ("0x" + hex.substr(idx, 2)).hex_to_int()
@@ -472,13 +472,12 @@ func pool_byte_array_from_hex(hex):
 # Returns the hex encoded sha256 hash of buffer
 func sha256(buffer):
 	var path = "user://__ga__sha256_temp"
-	var file = File.new()
-	file.open(path, File.WRITE)
+	var file = FileAccess.open(path, FileAccess.WRITE)
 	file.store_buffer(buffer)
 	file.close()
-	var sha_hash = file.get_sha256(path)
+	var sha_hash = FileAccess.get_sha256(path)
 
-	Directory.new().remove(path)
+	DirAccess.remove_absolute(path)
 
 	return sha_hash
 
@@ -486,7 +485,7 @@ func sha256(buffer):
 func hmac_sha256(message, key):
 	# Hash key if length > 64
 	if key.length() <= 64:
-		key = key.to_utf8()
+		key = key.to_utf8_buffer()
 	else:
 		key = key.sha256_buffer()
 
@@ -494,15 +493,15 @@ func hmac_sha256(message, key):
 	while key.size() < 64:
 		key.append(0)
 
-	var inner_key = PoolByteArray()
-	var outer_key = PoolByteArray()
+	var inner_key = PackedByteArray()
+	var outer_key = PackedByteArray()
 
 	for idx in range(0, 64):
 		outer_key.append(key[idx] ^ 0x5c)
 		inner_key.append(key[idx] ^ 0x36)
 
 
-	var inner_hash = pool_byte_array_from_hex(sha256(inner_key + message.to_utf8()))
+	var inner_hash = pool_byte_array_from_hex(sha256(inner_key + message.to_utf8_buffer()))
 	var outer_hash = pool_byte_array_from_hex(sha256(outer_key + inner_hash))
 
 	return outer_hash

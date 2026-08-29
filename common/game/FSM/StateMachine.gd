@@ -3,7 +3,7 @@ class_name StateMachine
 
 signal state_change(new_state, transition)
 
-export(NodePath) var listenerPath: NodePath
+@export var listenerPath: NodePath
 var listener: Node
 
 var current_state: State = null

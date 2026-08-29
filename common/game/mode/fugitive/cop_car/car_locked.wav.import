@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/car_locked.wav-59599e242debb98bde7f4007e798e541.sample"
+type="AudioStreamWAV"
+uid="uid://dyrdlfb2hb7yc"
+path="res://.godot/imported/car_locked.wav-59599e242debb98bde7f4007e798e541.sample"
 
 [deps]
 
 source_file="res://common/game/mode/fugitive/cop_car/car_locked.wav"
-dest_files=[ "res://.import/car_locked.wav-59599e242debb98bde7f4007e798e541.sample" ]
+dest_files=["res://.godot/imported/car_locked.wav-59599e242debb98bde7f4007e798e541.sample"]
 
 [params]
 
@@ -17,5 +18,7 @@ force/max_rate=false
 force/max_rate_hz=44100
 edit/trim=false
 edit/normalize=false
-edit/loop=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
 compress/mode=1

@@ -1,8 +1,8 @@
 extends VoiceChatTransceiver
 
 
-func send_audio(encodedData: PoolByteArray):
-	var localPlayerId = get_tree().get_network_unique_id()
+func send_audio(encodedData: PackedByteArray):
+	var localPlayerId = multiplayer.get_unique_id()
 	
 	# Send to all players except our selves
 	for playerId in GameData.players:

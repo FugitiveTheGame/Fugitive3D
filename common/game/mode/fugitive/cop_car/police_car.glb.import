@@ -11,7 +11,7 @@ dest_files=[ "res://.import/police_car.glb-f4cd4e56a50da3d33d7de0a253b92b27.scn"
 
 [params]
 
-nodes/root_type="Spatial"
+nodes/root_type="Node3D"
 nodes/root_name="Scene Root"
 nodes/root_scale=1.0
 nodes/custom_script=""

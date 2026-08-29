@@ -1,7 +1,7 @@
 extends Control
 
-onready var startTimer: Timer = get_tree().get_nodes_in_group(Groups.START_TIMER)[0]
-onready var headstartTimer: Timer = get_tree().get_nodes_in_group(Groups.HEADSTART_TIMER)[0]
+@onready var startTimer: Timer = get_tree().get_nodes_in_group(Groups.START_TIMER)[0]
+@onready var headstartTimer: Timer = get_tree().get_nodes_in_group(Groups.HEADSTART_TIMER)[0]
 
 
 func _ready():

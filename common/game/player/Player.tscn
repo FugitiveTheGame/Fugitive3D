@@ -5,7 +5,7 @@
 [ext_resource path="res://common/game/player/player_jump.wav" type="AudioStream" id=3]
 [ext_resource path="res://common/game/player/player_no_stamina.wav" type="AudioStream" id=4]
 
-[node name="Player" type="Spatial"]
+[node name="Player" type="Node3D"]
 script = ExtResource( 1 )
 
 [node name="WalkingSound" type="AudioStreamPlayer3D" parent="."]

@@ -1,4 +1,4 @@
-extends Spatial
+extends Node3D
 class_name GameMode
 
 signal preconfigure_complete
@@ -15,7 +15,7 @@ func get_player(playerId: int) -> Player:
 
 
 func _enter_tree():
-	ClientNetwork.connect("remove_player", self, "remove_player")
+	ClientNetwork.connect("remove_player", Callable(self, "remove_player"))
 	
 	GameData.currentGame = self
 
@@ -30,7 +30,7 @@ func _ready():
 
 
 func _exit_tree():
-	ClientNetwork.disconnect("remove_player", self, "remove_player")
+	ClientNetwork.disconnect("remove_player", Callable(self, "remove_player"))
 	
 	GameData.currentGame = null
 	GameData.currentMap = null
@@ -44,7 +44,7 @@ func load_map():
 	var mapData = Maps.directory[mapId]
 	var mapPath = mapData[Maps.MAP_PATH]
 	var scene := load(mapPath)
-	var map = scene.instance()
+	var map = scene.instantiate()
 	add_child(map)
 	GameData.currentMap = map
 

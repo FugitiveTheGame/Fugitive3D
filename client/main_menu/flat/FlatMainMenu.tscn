@@ -12,7 +12,7 @@ settingsWindowPath = NodePath("SettingsDialog")
 debugButtonPath = NodePath("OptionsContainer/DebugButton")
 exploreDialogPath = NodePath("ExploreDialog")
 
-[node name="ViewportContainer" type="ViewportContainer" parent="." index="0"]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." index="0"]
 anchor_right = 1.0
 anchor_bottom = 1.0
 stretch = true
@@ -20,47 +20,47 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Viewport" type="Viewport" parent="ViewportContainer" index="0"]
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" index="0"]
 size = Vector2( 1280, 720 )
 handle_input_locally = false
 render_target_update_mode = 3
 gui_disable_input = true
 
-[node name="Camera" type="Camera" parent="ViewportContainer/Viewport" index="0"]
-transform = Transform( -0.237642, 0.304248, -0.922475, 0.016146, 0.950786, 0.309426, 0.971219, 0.0586384, -0.230859, -8.97639, 5.87182, -7.35409 )
+[node name="Camera3D" type="Camera3D" parent="SubViewportContainer/SubViewport" index="0"]
+transform = Transform3D( -0.237642, 0.304248, -0.922475, 0.016146, 0.950786, 0.309426, 0.971219, 0.0586384, -0.230859, -8.97639, 5.87182, -7.35409 )
 current = true
 
-[node name="Backgroud" parent="ViewportContainer/Viewport" index="1" instance=ExtResource( 3 )]
+[node name="Backgroud" parent="SubViewportContainer/SubViewport" index="1" instance=ExtResource( 3 )]
 
 [node name="ExploreButton" type="Button" parent="OptionsContainer" index="1"]
-margin_top = 47.0
-margin_right = 248.0
-margin_bottom = 86.0
+offset_top = 47.0
+offset_right = 248.0
+offset_bottom = 86.0
 text = "Explore"
 
 [node name="SettingsButton" type="Button" parent="OptionsContainer" index="2"]
-margin_top = 94.0
-margin_right = 248.0
-margin_bottom = 133.0
+offset_top = 94.0
+offset_right = 248.0
+offset_bottom = 133.0
 text = "Settings"
 
 [node name="HelpButton" parent="OptionsContainer" index="3"]
-margin_top = 141.0
-margin_bottom = 180.0
+offset_top = 141.0
+offset_bottom = 180.0
 
 [node name="DebugButton" type="Button" parent="OptionsContainer" index="4"]
-margin_top = 188.0
-margin_right = 248.0
-margin_bottom = 227.0
+offset_top = 188.0
+offset_right = 248.0
+offset_bottom = 227.0
 text = "debug"
 
 [node name="FeedbackButton" parent="OptionsContainer" index="5"]
-margin_top = 235.0
-margin_bottom = 274.0
+offset_top = 235.0
+offset_bottom = 274.0
 
 [node name="MenuMusicButton" parent="OptionsContainer" index="6"]
-margin_top = 282.0
-margin_bottom = 362.0
+offset_top = 282.0
+offset_bottom = 362.0
 
 [node name="SettingsDialog" parent="." index="8" instance=ExtResource( 4 )]
 
@@ -69,10 +69,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-margin_left = -212.0
-margin_top = -133.0
-margin_right = 212.0
-margin_bottom = 81.0
+offset_left = -212.0
+offset_top = -133.0
+offset_right = 212.0
+offset_bottom = 81.0
 theme = ExtResource( 5 )
 window_title = "Explore Fugitive"
 dialog_text = "This will allow you to check out Fugitive 3D offline. Learn a few of the mechanics in preperation for online play. Try to find all 8 Fugitives!"

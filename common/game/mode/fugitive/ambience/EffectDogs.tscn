@@ -2,7 +2,7 @@
 
 [ext_resource path="res://common/game/mode/fugitive/ambience/EffectDogs.gd" type="Script" id=1]
 
-[node name="Dogs" type="Spatial"]
+[node name="Dogs" type="Node3D"]
 script = ExtResource( 1 )
 frequency = 0.001
 sounds = [ "res://common/game/mode/fugitive/ambience/dogs_00.wav", "res://common/game/mode/fugitive/ambience/dogs_01.wav", "res://common/game/mode/fugitive/ambience/dogs_02.wav", "res://common/game/mode/fugitive/ambience/dogs_03.wav", "res://common/game/mode/fugitive/ambience/dogs_04.wav" ]

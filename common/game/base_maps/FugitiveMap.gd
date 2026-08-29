@@ -1,19 +1,20 @@
 extends "res://common/game/base_maps/BaseMap.gd"
 class_name FugitiveMap
 
-onready var winZones := get_tree().get_nodes_in_group(Groups.WIN_ZONE)
-onready var players := $Players
+@onready var winZones := get_tree().get_nodes_in_group(Groups.WIN_ZONE)
+@onready var players := $Players
 
-onready var roads := get_roads()
-onready var mapBoundingBox: AABB
+@onready var roads := get_roads()
+@onready var mapBoundingBox: AABB
 
 
 func _ready():
+	super._ready()
 	Utils.turn_off_baked_lights(self)
 	
-	var bbArea := $Roads.find_node("MapBoundingBox") as CollisionShape
-	var bbShape := bbArea.shape as BoxShape
-	mapBoundingBox = AABB(bbArea.global_transform.origin, bbShape.extents * 2.0)
+	var bbArea := $Roads.find_child("MapBoundingBox") as CollisionShape3D
+	var bbShape := bbArea.shape as BoxShape3D
+	mapBoundingBox = AABB(bbArea.global_transform.origin, bbShape.size)
 
 
 func get_roads() -> Array:

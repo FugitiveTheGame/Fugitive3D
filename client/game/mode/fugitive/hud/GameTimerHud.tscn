@@ -5,7 +5,7 @@
 [node name="GameTimerReadout" type="Label"]
 anchor_right = 0.05
 anchor_bottom = 0.034
-margin_bottom = 36.8
+offset_bottom = 36.8
 text = "00:00"
 align = 1
 valign = 1

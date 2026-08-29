@@ -1,9 +1,9 @@
-extends Spatial
+extends Node3D
 class_name StreetLight
 
-export (int) var illumination_range := 7.0
+@export var illumination_range := 7.0
 
-onready var rayCaster := $SpotLight/RayCast
+@onready var rayCaster := $SpotLight3D/RayCast3D
 
 
 func process_hider(hider: Hider):
@@ -15,7 +15,7 @@ func process_hider(hider: Hider):
 	# Quick reject, ray casting is slightly expensive, don't do it if we don't have to
 	if distance <= illumination_range:
 		
-		rayCaster.cast_to = rayCaster.to_local(hiderGlobalPos)
+		rayCaster.target_position = rayCaster.to_local(hiderGlobalPos)
 		rayCaster.force_raycast_update()
 	
 		if(rayCaster.is_colliding()):

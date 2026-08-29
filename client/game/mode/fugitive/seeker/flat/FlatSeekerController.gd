@@ -1,19 +1,20 @@
 extends "res://client/game/mode/fugitive/FlatFugitiveController.gd"
 
-export(NodePath) var car_lock_hud_path: NodePath
-onready var car_lock_hud := get_node(car_lock_hud_path)
+@export var car_lock_hud_path: NodePath
+@onready var car_lock_hud := get_node(car_lock_hud_path)
 
-export(NodePath) var car_lock_button_path: NodePath
-onready var car_lock_button := get_node(car_lock_button_path) as TouchScreenButton
+@export var car_lock_button_path: NodePath
+@onready var car_lock_button := get_node(car_lock_button_path) as TouchScreenButton
 
-export(NodePath) var flash_light_button_path: NodePath
-onready var flash_light_button := get_node(flash_light_button_path) as TouchScreenButton
+@export var flash_light_button_path: NodePath
+@onready var flash_light_button := get_node(flash_light_button_path) as TouchScreenButton
 
-export(NodePath) var flashlightPath: NodePath
-onready var flashlight := get_node(flashlightPath) as Spatial
+@export var flashlightPath: NodePath
+@onready var flashlight := get_node(flashlightPath) as Node3D
 
 
 func _input(event: InputEvent):
+	super._input(event)
 	if event.is_action_pressed("flat_seeker_lock"):
 		var car = get_nearest_car()
 		if car != null and player.can_lock_car(car):
@@ -28,11 +29,12 @@ func _input(event: InputEvent):
 
 
 func _process(delta):
+	super._process(delta)
 	# Not allow to move while locking
 	if player.is_moving() and car_lock_hud.is_locking():
 		car_lock_hud.stop_locking()
 	
-	if OS.has_touchscreen_ui_hint():
+	if DisplayServer.is_touchscreen_available():
 		flash_light_button.visible = (player.car == null)
 		
 		if player.can_lock_car(get_nearest_car()):
@@ -44,4 +46,4 @@ func _process(delta):
 func _on_CarLockHud_locking_complete():
 	var car = get_nearest_car()
 	if car != null:
-		car.lock()
+		false # car.lock() # TODOConverter3To4, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed

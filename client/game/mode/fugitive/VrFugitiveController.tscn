@@ -13,80 +13,80 @@
 script = ExtResource( 2 )
 
 [node name="OQ_ARVRCamera" parent="." index="0"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.716302, 0 )
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.716302, 0 )
 
 [node name="ShaderCache" parent="OQ_ARVRCamera" index="0" instance=ExtResource( 7 )]
-transform = Transform( 0.001, 0, 0, 0, 0.001, 0, 0, 0, 0.001, 0, -0.508516, -1.19957 )
+transform = Transform3D( 0.001, 0, 0, 0, 0.001, 0, 0, 0, 0.001, 0, -0.508516, -1.19957 )
 
 [node name="OQ_LeftController" parent="." index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0.216302, -0.5 )
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0.216302, -0.5 )
 
 [node name="HudCanvas" parent="OQ_LeftController/VisibilityToggle" index="0"]
-transform = Transform( 0.896695, -0.0624614, 0.43822, 0, 0.989994, 0.141108, -0.442649, -0.126531, 0.887723, 0, 0, 0 )
+transform = Transform3D( 0.896695, -0.0624614, 0.43822, 0, 0.989994, 0.141108, -0.442649, -0.126531, 0.887723, 0, 0, 0 )
 disable_collision = false
 
 [node name="HudContainer" parent="OQ_LeftController/VisibilityToggle/HudCanvas" index="2"]
 anchor_right = 0.4
 anchor_bottom = 0.711
-margin_right = 0.0
-margin_bottom = 0.0799866
-rect_min_size = Vector2( 512, 512 )
+offset_right = 0.0
+offset_bottom = 0.0799866
+custom_minimum_size = Vector2( 512, 512 )
 
 [node name="IndicatorsContainer" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="2"]
 alignment = 1
 
 [node name="CrouchingHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/IndicatorsContainer" index="0"]
-margin_top = 48.0
-margin_bottom = 96.0
+offset_top = 48.0
+offset_bottom = 96.0
 
 [node name="VoiceRecordingHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/IndicatorsContainer" index="1"]
-margin_top = 104.0
-margin_bottom = 152.0
+offset_top = 104.0
+offset_bottom = 152.0
 
 [node name="FrozenHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/IndicatorsContainer" index="2" instance=ExtResource( 5 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_top = 160.0
-margin_right = 48.0
-margin_bottom = 208.0
+offset_top = 160.0
+offset_right = 48.0
+offset_bottom = 208.0
 
 [node name="GameTimerReadout" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="3" instance=ExtResource( 4 )]
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 0.0
-margin_left = -58.0
-margin_bottom = 45.504
+offset_left = -58.0
+offset_bottom = 45.504
 
 [node name="PregameHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="4" instance=ExtResource( 3 )]
 anchor_left = 0.5
 anchor_right = 0.5
-margin_left = -254.0
-margin_right = 254.0
-margin_bottom = 249.0
+offset_left = -254.0
+offset_right = 254.0
+offset_bottom = 249.0
 
 [node name="HeightContainer" type="PanelContainer" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="5"]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_top = -86.0
+offset_top = -86.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="VBox" type="VBoxContainer" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/HeightContainer" index="0"]
-margin_left = 8.0
-margin_top = 8.0
-margin_right = 504.0
-margin_bottom = 78.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 504.0
+offset_bottom = 78.0
 alignment = 1
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="HeightInstructionsLabel" type="Label" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/HeightContainer/VBox" index="0"]
-margin_top = 6.0
-margin_right = 496.0
-margin_bottom = 31.0
+offset_top = 6.0
+offset_right = 496.0
+offset_bottom = 31.0
 text = "Press B to set standing height"
 align = 1
 __meta__ = {
@@ -94,9 +94,9 @@ __meta__ = {
 }
 
 [node name="HeightLabel" type="Label" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/HeightContainer/VBox" index="1"]
-margin_top = 39.0
-margin_right = 496.0
-margin_bottom = 64.0
+offset_top = 39.0
+offset_right = 496.0
+offset_bottom = 64.0
 text = "Height: 0.0m"
 align = 1
 __meta__ = {
@@ -107,16 +107,16 @@ __meta__ = {
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_bottom = 0.0
+offset_bottom = 0.0
 
 [node name="EndGameHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="8" instance=ExtResource( 6 )]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_bottom = 0.0
+offset_bottom = 0.0
 
 [node name="OQ_RightController" parent="." index="2"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0.216302, -0.5 )
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0.216302, -0.5 )
 
 [node name="Feature_PlayerCollision" parent="." index="4"]
 collision_mask = 15

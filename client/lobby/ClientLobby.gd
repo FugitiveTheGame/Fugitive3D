@@ -1,37 +1,40 @@
 extends Lobby
 
-export(NodePath) var startButtonPath: NodePath
-onready var startButton := get_node(startButtonPath) as Button
+@export var startButtonPath: NodePath
+@onready var startButton := get_node(startButtonPath) as Button
 
-export(NodePath) var leaveButtonPath: NodePath
-onready var leaveButton := get_node(leaveButtonPath) as Button
+@export var leaveButtonPath: NodePath
+@onready var leaveButton := get_node(leaveButtonPath) as Button
 
-export(NodePath) var randomButtonPath: NodePath
-onready var randomButton := get_node(randomButtonPath) as Button
+@export var randomButtonPath: NodePath
+@onready var randomButton := get_node(randomButtonPath) as Button
 
-export(NodePath) var randomCooldownTimerPath: NodePath
-onready var randomCooldownTimer := get_node(randomCooldownTimerPath) as Timer
+@export var randomCooldownTimerPath: NodePath
+@onready var randomCooldownTimer := get_node(randomCooldownTimerPath) as Timer
 
-export (NodePath) var helpDialogPath: NodePath
-onready var helpDialog := get_node(helpDialogPath) as WindowDialog
+@export var helpDialogPath: NodePath
+@onready var helpDialog := get_node(helpDialogPath) as Window
 
-export (NodePath) var voiceChatContainerPath: NodePath
-onready var voiceChatContainer := get_node(voiceChatContainerPath) as Node
+@export var voiceChatContainerPath: NodePath
+@onready var voiceChatContainer := get_node(voiceChatContainerPath) as Node
 
 
 func _enter_tree():
-	ClientNetwork.connect("lost_connection_to_server", self, "on_disconnect")
+	super._enter_tree()
+	ClientNetwork.connect("lost_connection_to_server", Callable(self, "on_disconnect"))
 
 
 func _exit_tree():
-	ClientNetwork.disconnect("lost_connection_to_server", self, "on_disconnect")
+	super._exit_tree()
+	ClientNetwork.disconnect("lost_connection_to_server", Callable(self, "on_disconnect"))
 
 
 func _ready():
+	super._ready()
 	var clientType := PlatformTypeUtils.get_platform_type()
 	
 	# Tell the server about you
-	ServerNetwork.register_self(get_tree().get_network_unique_id(), clientType, ClientNetwork.localPlayerName, UserData.GAME_VERSION)
+	ServerNetwork.register_self(multiplayer.get_unique_id(), clientType, ClientNetwork.localPlayerName, UserData.GAME_VERSION)
 	
 	$StartLabel.hide()
 	
@@ -61,7 +64,7 @@ func on_disconnect():
 
 
 func update_ui():
-	.update_ui()
+	super.update_ui()
 	
 	randomButton.disabled = not is_host or is_starting or (not randomCooldownTimer.is_stopped())
 	startButton.visible = is_host
@@ -77,7 +80,7 @@ func _process(delta):
 
 
 func on_start_lobby_countdown():
-	.on_start_lobby_countdown()
+	super.on_start_lobby_countdown()
 	
 	randomButton.disabled = true
 	randomCooldownTimer.stop()
@@ -103,7 +106,7 @@ func _on_RandomButton_pressed():
 # Allow back to leave the lobby on mobile
 func _notification(what):
 	if is_inside_tree():
-		if what == MainLoop.NOTIFICATION_WM_GO_BACK_REQUEST: 
+		if what == NOTIFICATION_WM_GO_BACK_REQUEST: 
 			leave_lobby()
 
 
@@ -118,17 +121,17 @@ func _on_HelpButton_pressed():
 func create_player_ui(playerId: int):
 	# First add the VOIP node for this player
 	var playerVoipNode = null
-	if playerId == get_tree().get_network_unique_id():
-		playerVoipNode = preload("res://common/lobby/voip/LobbyLocalVoiceChat.tscn").instance()
+	if playerId == multiplayer.get_unique_id():
+		playerVoipNode = preload("res://common/lobby/voip/LobbyLocalVoiceChat.tscn").instantiate()
 	else:
-		playerVoipNode = preload("res://common/lobby/voip/LobbyRemoteVoiceChat.tscn").instance()
+		playerVoipNode = preload("res://common/lobby/voip/LobbyRemoteVoiceChat.tscn").instantiate()
 	
-	playerVoipNode.set_network_master(playerId)
+	playerVoipNode.set_multiplayer_authority(playerId)
 	playerVoipNode.set_name(str(playerId))
 	voiceChatContainer.add_child(playerVoipNode)
 	
 	# Then create the player list item
-	.create_player_ui(playerId)
+	super.create_player_ui(playerId)
 	
 	# Finally hook up the list item to the voip node
 	var playerListItem := find_player_node(playerId)
@@ -136,7 +139,7 @@ func create_player_ui(playerId: int):
 
 
 func remove_player(playerId: int):
-	.remove_player(playerId)
+	super.remove_player(playerId)
 	
 	var nodeName := str(playerId)
 	for child in get_children():

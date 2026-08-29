@@ -101,7 +101,7 @@ static func _calculate_score_from_bucket(playerData: PlayerData, bucketName: Str
 	var win_multiplier := 2
 	
 	var stats = _get_stats_bucket(playerData, bucketName)
-	if not stats.empty():
+	if not stats.is_empty():
 		score += _get_stat_from_bucket(playerData, stats, STAT_HIDER_FROZEN)
 		score += _get_stat_from_bucket(playerData, stats, STAT_HIDER_UNFREEZER)
 		score += _get_stat_from_bucket(playerData, stats, STAT_HIDER_UNFROZEN)

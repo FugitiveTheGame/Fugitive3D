@@ -27,9 +27,9 @@ func _ready():
 
 func go_to_client():
 	print("Is client")
-	get_tree().change_scene("res://client/ClientEntry.tscn")
+	get_tree().change_scene_to_file.call_deferred("res://client/ClientEntry.tscn")
 
 
 func go_to_server():
 	print("Is server")
-	get_tree().change_scene("res://server/ServerEntry.tscn")
+	get_tree().change_scene_to_file.call_deferred("res://server/ServerEntry.tscn")

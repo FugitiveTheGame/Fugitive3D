@@ -1,8 +1,8 @@
 extends Control
 
-export(NodePath) var playerPath: NodePath
-onready var player := get_node(playerPath) as Hider
-onready var visibilityBar := $ProgressBar
+@export var playerPath: NodePath
+@onready var player := get_node(playerPath) as Hider
+@onready var visibilityBar := $ProgressBar
 
 
 func _ready():

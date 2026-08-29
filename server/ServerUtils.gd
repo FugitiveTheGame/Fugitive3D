@@ -36,7 +36,7 @@ static func configure_advertiser(advertiser: ServerAdvertiser, _name: String, _p
 static func get_name() -> String:
 	var name := "Fugitive 3D Server"
 	
-	var args := OS.get_cmdline_args()
+	var args := OS.get_cmdline_args() + OS.get_cmdline_user_args()
 	for ii in range(args.size()):
 		var arg = args[ii]
 		if arg.nocasecmp_to("--name") == 0:
@@ -59,7 +59,7 @@ static func get_name() -> String:
 static func get_port() -> int:
 	var port := ServerNetwork.SERVER_PORT
 	
-	var args := OS.get_cmdline_args()
+	var args := OS.get_cmdline_args() + OS.get_cmdline_user_args()
 	for ii in range(args.size()):
 		var arg = args[ii]
 		if arg.nocasecmp_to("--port") == 0:
@@ -80,7 +80,7 @@ static func get_port() -> int:
 static func get_public() -> bool:
 	var public := false
 	
-	var args := OS.get_cmdline_args()
+	var args := OS.get_cmdline_args() + OS.get_cmdline_user_args()
 	for arg in args:
 		if arg.nocasecmp_to("--public") == 0:
 			public = true
@@ -94,7 +94,7 @@ static func get_public() -> bool:
 static func get_no_stats() -> bool:
 	var stats := false
 	
-	var args := OS.get_cmdline_args()
+	var args := OS.get_cmdline_args() + OS.get_cmdline_user_args()
 	for arg in args:
 		if arg.nocasecmp_to("--nostats") == 0:
 			stats = true
@@ -108,7 +108,7 @@ static func get_no_stats() -> bool:
 static func get_no_lan() -> bool:
 	var no_lan := false
 	
-	var args := OS.get_cmdline_args()
+	var args := OS.get_cmdline_args() + OS.get_cmdline_user_args()
 	for arg in args:
 		if arg.nocasecmp_to("--nolan") == 0:
 			no_lan = true
@@ -122,7 +122,7 @@ static func get_no_lan() -> bool:
 static func get_fps() -> bool:
 	var fps := false
 	
-	var args := OS.get_cmdline_args()
+	var args := OS.get_cmdline_args() + OS.get_cmdline_user_args()
 	for arg in args:
 		if arg.nocasecmp_to("--fps") == 0:
 			fps = true

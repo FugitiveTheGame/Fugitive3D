@@ -4,7 +4,7 @@ class_name ServerReporter
 const BASE_URL := "https://fugitivethegame.online/server_stats.php"
 const SERVER_ID_PATH := "user://SERVER_ID"
 
-onready var request := $HTTPRequest as HTTPRequest
+@onready var request := $HTTPRequest as HTTPRequest
 
 var serverId: String
 
@@ -20,20 +20,17 @@ static func get_instance(tree: SceneTree):
 
 func _enter_tree():
 	# Load or create unique server ID
-	var dir := Directory.new()
-	if dir.file_exists(SERVER_ID_PATH):
+	if FileAccess.file_exists(SERVER_ID_PATH):
 		print("Reading server id")
-		
-		var file := File.new()
-		file.open(SERVER_ID_PATH, File.READ)
+
+		var file := FileAccess.open(SERVER_ID_PATH, FileAccess.READ)
 		serverId = file.get_as_text()
 		file.close()
 	else:
 		print("Creating server id")
 		serverId = UUID.v4()
-		
-		var file := File.new()
-		file.open(SERVER_ID_PATH, File.WRITE)
+
+		var file := FileAccess.open(SERVER_ID_PATH, FileAccess.WRITE)
 		file.store_line(serverId)
 		file.close()
 	
@@ -45,7 +42,7 @@ func configure(ip, port: int, thisName: String, version: int):
 	if ip != null:
 		externalIp = ip
 	serverPort = port
-	serverName = thisName.percent_encode()
+	serverName = thisName.uri_encode()
 	serverVersion = version
 
 
@@ -58,16 +55,16 @@ func add_url_params(params: Dictionary) -> String:
 		
 		var pValue = params[paramName]
 		if pValue is Dictionary:
-			value = JSON.print(pValue).percent_encode()
+			value = JSON.stringify(pValue).uri_encode()
 		else:
-			value = str(params[paramName]).percent_encode()
+			value = str(params[paramName]).uri_encode()
 		
 		if first:
 			url += "?"
 			first = false
 		else:
 			url += "&"
-		url += "%s=%s" % [paramName.percent_encode(), value]
+		url += "%s=%s" % [paramName.uri_encode(), value]
 	
 	return url
 

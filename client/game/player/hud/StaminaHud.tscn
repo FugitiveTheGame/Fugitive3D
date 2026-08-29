@@ -1,26 +1,26 @@
 [gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://client/game/player/hud/StaminaHud.gd" type="Script" id=1]
-[ext_resource path="res://client/game/player/hud/ic_stamina.png" type="Texture" id=2]
+[ext_resource path="res://client/game/player/hud/ic_stamina.png" type="Texture2D" id=2]
 
 [node name="StaminaHud" type="HBoxContainer"]
-margin_right = 512.0
-margin_bottom = 48.0
-rect_min_size = Vector2( 256, 48 )
+offset_right = 512.0
+offset_bottom = 48.0
+custom_minimum_size = Vector2( 256, 48 )
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="TextureRect" type="TextureRect" parent="."]
-margin_right = 48.0
-margin_bottom = 48.0
+offset_right = 48.0
+offset_bottom = 48.0
 texture = ExtResource( 2 )
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
-margin_left = 56.0
-margin_right = 512.0
-margin_bottom = 48.0
+offset_left = 56.0
+offset_right = 512.0
+offset_bottom = 48.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 percent_visible = false

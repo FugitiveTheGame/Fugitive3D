@@ -23,11 +23,11 @@ func _ready():
 
 func move(dt):
 	if allowMovement:
-		.move(dt)
+		super.move(dt)
 	else:
 		is_moving = false
 
 
 func turn(dt):
 	if allowTurn:
-		.turn(dt)
+		super.turn(dt)

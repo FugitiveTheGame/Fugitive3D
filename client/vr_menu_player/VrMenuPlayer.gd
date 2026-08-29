@@ -1,6 +1,6 @@
-extends Spatial
+extends Node3D
 
-onready var fpsLabel := $OQ_ARVROrigin/OQ_LeftController/OQ_VisibilityToggle/FpsLabel
+@onready var fpsLabel := $OQ_ARVROrigin/OQ_LeftController/OQ_VisibilityToggle/FpsLabel
 
 var initial_origin: Vector3
 var is_standing := true
@@ -8,7 +8,7 @@ var is_standing := true
 var seated_offset_meters := 0.15
 
 func _enter_tree():
-	UserData.connect("user_data_updated", self, "on_user_data_updated")
+	UserData.connect("user_data_updated", Callable(self, "on_user_data_updated"))
 
 
 func _ready():
@@ -18,7 +18,7 @@ func _ready():
 
 
 func _exit_tree():
-	UserData.disconnect("user_data_updated", self, "on_user_data_updated")
+	UserData.disconnect("user_data_updated", Callable(self, "on_user_data_updated"))
 
 
 func _physics_process(delta):
@@ -48,5 +48,5 @@ func update_standing():
 func inject_ptt_action(pressed: bool):
 	var event := InputEventAction.new()
 	event.action = "push_to_talk"
-	event.pressed = pressed
+	event.button_pressed = pressed
 	Input.parse_input_event(event)

@@ -1,10 +1,10 @@
 extends "res://client/game/mode/fugitive/hud/mapview/MapHudBase.gd"
 
-const localPlayerColor := Color.red
-const hiderColor := Color.orange
-const hiderFrozenColor := Color.lightblue
-const seekerColor := Color.blue
-const carColor := Color.whitesmoke
+const localPlayerColor := Color.RED
+const hiderColor := Color.ORANGE
+const hiderFrozenColor := Color.LIGHT_BLUE
+const seekerColor := Color.BLUE
+const carColor := Color.WHITE_SMOKE
 
 
 func _draw():
@@ -32,7 +32,7 @@ func _draw():
 				FugitiveTeamResolver.PlayerType.Seeker:
 					color = seekerColor
 				_:
-					color = Color.black
+					color = Color.BLACK
 			
 			draw_circle(remoteCoord, 10.0, color)
 	
