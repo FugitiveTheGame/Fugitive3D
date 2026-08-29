@@ -20,7 +20,7 @@ func _enter_tree():
 	var peer := ENetMultiplayerPeer.new()
 	var _result := peer.create_server(5555, 5)
 	ServerNetwork.is_joinable = false
-	get_tree().set_multiplayer_peer(peer)
+	multiplayer.multiplayer_peer = peer
 	
 	# Add our fake players, the normal spawn system will actually spawn these guys
 	if be_seeker:
