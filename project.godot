@@ -24,7 +24,6 @@ driver/enable_input=true
 
 [autoload]
 
-McpInteractionServer="*res://mcp_interaction_server.gd"
 
 ClientNetwork="*res://networking/ClientNetwork.gd"
 ServerNetwork="*res://networking/ServerNetwork.gd"

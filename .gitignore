@@ -8,3 +8,8 @@ extras/release-scripts/releases
 android
 .godot/
 reports/
+
+# godot-mcp injects these into the project while the game is running,
+# and removes them on stop. Never commit them: the autoload opens a socket.
+mcp_interaction_server.gd
+mcp_interaction_server.gd.uid
