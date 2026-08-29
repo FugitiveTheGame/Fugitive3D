@@ -167,8 +167,9 @@ from the editor. Everything it needs is now in place:
 - Map geometry is `gi_mode = STATIC` (95 of 97 MeshInstance3D; the 2
   disabled ones are deliberate).
 - A `LightmapGI` node is on FugitiveSuburbanMap.tscn, so every map inherits
-  one. It starts at `bake_quality = 0` (LOW) and `bounces = 1` for fast first
-  iterations.
+  one. It now sits at `quality = 2` with `supersampling` on and
+  `denoiser_strength = 0.3`, which is what finally brought the speckle noise
+  down to an acceptable level.
 
 Note that until a bake exists the maps render dark, because `FugitiveMap`
 calls `Utils.turn_off_baked_lights()` which hides every `baked_lights` member
@@ -203,10 +204,38 @@ since the value still loads and looks plausible.
 ### Lightmap baking is a desktop job
 
 Supersampling multiplies bake time roughly fourfold, which is painful on the
-laptop. Bake on the workstation instead. Everything needed is committed: the
-LightmapGI settings live on FugitiveSuburbanMap.tscn so all maps inherit them,
-and Background.scn carries its own. Note that each full bake rewrites well over
-100MB of EXR lightmaps through LFS, so avoid pushing intermediate bakes.
+laptop. Bake on the workstation instead. The LightmapGI settings live on
+FugitiveSuburbanMap.tscn so all maps inherit them, and Background.scn carries
+its own.
+
+Every bake was deleted before this branch was pushed, so all four maps render
+unlit right now and need a fresh one: Freehold, CedarPoint, Littleton and the
+menu Background.
+
+Two traps:
+
+- **Check the bake actually linked.** CedarPoint and Littleton had complete
+  .exr and .lmbake files on disk that neither scene referenced, so 99MB of
+  bake was never applied in game. Baking writes the file, but the scene only
+  points at it once the scene itself is saved. After baking, save the scene
+  and confirm the LightmapGI node has `light_data` set.
+- **Do not push intermediate bakes.** A full set is well over 100MB of EXR
+  through LFS against a 1GB free tier. Bake, evaluate, then push once.
+
+### Resources are compressed binary, not text
+
+Meshes, materials and meshlibs were briefly stored as text .tres so the 3-to-4
+converter could read them. Text writes vertex arrays and embedded 1024x1024
+images as decimal numbers, roughly five bytes per stored byte, which is how the
+tree reached 354MB. They are now compressed binary .res: 23MB for the same 200
+resources, small enough to drop out of LFS entirely.
+
+Regenerate them as .res, not .tres. If one has to be edited as text, convert it
+back afterwards.
+
+One git trap worth knowing: if `filter.lfs.smudge` is ever set to `--skip`,
+checkouts silently write pointer files instead of real content, and `git status`
+will not report those files as modified.
 
 ### Ground collision: trimesh tiles were one-sided
 
