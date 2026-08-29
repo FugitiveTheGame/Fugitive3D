@@ -5,4 +5,4 @@
 [node name="garage_light" instance=ExtResource( 1 )]
 
 [node name="garage_light" parent="." index="0"]
-use_in_baked_light = false
+gi_mode = 0

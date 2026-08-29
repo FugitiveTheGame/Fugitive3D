@@ -9,4 +9,4 @@ script = ExtResource( 2 )
 
 [node name="hider_crouching" parent="." index="0"]
 material_override = ExtResource( 1 )
-use_in_baked_light = false
+gi_mode = 0

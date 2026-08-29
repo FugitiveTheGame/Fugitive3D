@@ -196,6 +196,8 @@ else, and nothing warns. Found so far:
 | `generate_lightmap` | real property | replaced by `gi_mode` | light beam cones baked into the lightmap |
 | `shader_param/x` | real | now `shader_parameter/x` | works via a compat path, warns on every load |
 | light attenuation of `1.0` | linear falloff | adds a distance decay term | near field blown out, far field dark |
+| `use_in_baked_light` | real property | replaced by `gi_mode` | players and the garage light fixture baked as static level geometry |
+| `ambient_light_sky_contribution` | defaulted to 0 | defaults to 1 | the configured ambient colour contributes nothing, so unlit ground reads pure black |
 
 Before Phase 4, sweep for the rest of this class rather than finding them one
 screenshot at a time. Enum values whose meaning shifted are the nastiest,
@@ -221,6 +223,18 @@ Two traps:
   and confirm the LightmapGI node has `light_data` set.
 - **Do not push intermediate bakes.** A full set is well over 100MB of EXR
   through LFS against a 1GB free tier. Bake, evaluate, then push once.
+
+### Judge lighting in the running game, not the editor viewport
+
+`FugitiveMap.gd` and `Background.gd` call `Utils.turn_off_baked_lights()` from
+`_ready`, and neither is a `@tool` script, so it never runs in the editor. The
+editor therefore shows the baked lightmap *plus* every baked light rendering in
+real time on top of it, which is a combination that never occurs at runtime.
+Street lights in particular look wrong there: they are `BAKE_STATIC`, so their
+real-time `shadow_enabled`/`shadow_bias = 0.5` settings only affect the editor
+preview and are irrelevant in game.
+
+Run the game to evaluate a bake.
 
 ### Resources are compressed binary, not text
 
