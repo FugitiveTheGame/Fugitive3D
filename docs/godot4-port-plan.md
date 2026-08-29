@@ -201,6 +201,7 @@ else, and nothing warns. Found so far:
 | `get_tree().set_multiplayer_peer()` | the peer lived on SceneTree | moved to MultiplayerAPI | parses fine and fails only when the line runs, so Explore and the dev scenes stayed broken well past Phase 2 |
 | `image.create()`, `imageTexture.create_from_image()` | instance methods | now static | the call builds a new object and discards it, leaving the original empty; the map view logged "Invalid image: image is empty" |
 | dialogs cast `as Control` | WindowDialog was a Control | Window derives from Viewport | the cast yields null, and the reference only fails when the dialog is opened |
+| dialogs keep `anchor_*` / `offset_*` | those sized a WindowDialog | Window is sized by `size` | the anchors are ignored, so every dialog falls back to Godot's 100x100 default and clips its own contents |
 
 Before Phase 4, sweep for the rest of this class rather than finding them one
 screenshot at a time. Enum values whose meaning shifted are the nastiest,

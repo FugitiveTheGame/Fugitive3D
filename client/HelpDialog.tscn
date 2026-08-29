@@ -3,15 +3,8 @@
 [ext_resource path="res://client/HelpDialog.gd" type="Script" id=1]
 
 [node name="HelpDialog" type="Window"]
+size = Vector2i(894, 524)
 visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -447.0
-offset_top = -262.0
-offset_right = 447.0
-offset_bottom = 262.0
 window_title = "Help"
 script = ExtResource( 1 )
 __meta__ = {

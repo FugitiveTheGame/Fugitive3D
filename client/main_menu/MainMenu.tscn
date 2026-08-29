@@ -183,15 +183,8 @@ align = 1
 valign = 1
 
 [node name="JoiningDialog" type="Window" parent="."]
+size = Vector2i(261, 110)
 visible = false
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -130.5
-offset_top = -55.0
-offset_right = 130.5
-offset_bottom = 55.0
 exclusive = true
 window_title = "Joining"
 __meta__ = {
@@ -223,26 +216,12 @@ offset_bottom = 74.0
 text = "Cancel"
 
 [node name="JoinFailedDialog" type="AcceptDialog" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -125.5
-offset_top = -55.0
-offset_right = 125.5
-offset_bottom = 55.0
+size = Vector2i(251, 110)
 window_title = "Failed"
 dialog_text = "Failed to join server."
 
 [node name="BadInfoDialog" type="AcceptDialog" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -146.0
-offset_top = -55.0
-offset_right = 146.0
-offset_bottom = 55.0
+size = Vector2i(292, 110)
 window_title = "Bad Input"
 dialog_text = "Check your IP and Port"
 dialog_autowrap = true
@@ -251,14 +230,7 @@ __meta__ = {
 }
 
 [node name="ConnectionLostDialog" type="AcceptDialog" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -190.0
-offset_top = -55.0
-offset_right = 190.0
-offset_bottom = 55.0
+size = Vector2i(380, 110)
 window_title = "Connection Lost"
 dialog_autowrap = true
 
@@ -385,14 +357,7 @@ offset_right = 347.5
 offset_bottom = 249.0
 
 [node name="CrashDetectedDialog" type="AcceptDialog" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -284.0
-offset_top = -149.0
-offset_right = 284.0
-offset_bottom = 149.0
+size = Vector2i(568, 298)
 theme = ExtResource( 9 )
 window_title = "Crash Detected"
 dialog_text = "It looks like Fugitive 3D did not shutdown properly last time.
@@ -405,10 +370,7 @@ dialog_autowrap = true
 [node name="VersionCheckRequest" type="HTTPRequest" parent="."]
 
 [node name="NewVersionDialog" type="AcceptDialog" parent="."]
-offset_left = 392.0
-offset_top = 216.0
-offset_right = 936.0
-offset_bottom = 392.0
+size = Vector2i(544, 176)
 theme = ExtResource( 9 )
 window_title = "Update Available"
 resizable = true
