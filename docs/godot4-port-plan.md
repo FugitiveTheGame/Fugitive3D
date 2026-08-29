@@ -224,6 +224,19 @@ Two traps:
 - **Do not push intermediate bakes.** A full set is well over 100MB of EXR
   through LFS against a 1GB free tier. Bake, evaluate, then push once.
 
+### Baking removes the ambient you configured
+
+A lightmapped surface stops receiving the Environment's ambient light: Godot
+assumes the bake already contains it. But the lightmapper samples the *sky*, not
+`ambient_light_color`, and this project's sky is a dim night panorama at half
+energy. On the default `environment_mode = SCENE` the bake therefore lands with
+almost no ambient, and baking makes the map darker than it was unbaked.
+
+FugitiveSuburbanMap.tscn's LightmapGI now uses `environment_mode = 3`
+(CUSTOM_COLOR) with the same blue the Environment uses.
+`environment_custom_energy` is the dial: raise it for a brighter night, lower it
+for a darker one. It is the one value to tune before spending a long bake.
+
 ### Judge lighting in the running game, not the editor viewport
 
 `FugitiveMap.gd` and `Background.gd` call `Utils.turn_off_baked_lights()` from
