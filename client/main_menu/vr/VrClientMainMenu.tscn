@@ -5,7 +5,7 @@
 [ext_resource path="res://client/vr_menu_player/VrMenuPlayer.tscn" type="PackedScene" id=3]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_UI2D/OQ_UI2DCanvas.tscn" type="PackedScene" id=4]
 [ext_resource path="res://addons/OQ_Toolkit/OQ_UI2D/OQ_UI2DKeyboard.tscn" type="PackedScene" id=5]
-[ext_resource path="res://client/main_menu/background/Background.scn" type="PackedScene" id=6]
+[ext_resource path="res://client/main_menu/background/Background.tscn" type="PackedScene" id=6]
 
 [node name="VrMainMenu" type="Node3D"]
 script = ExtResource( 1 )

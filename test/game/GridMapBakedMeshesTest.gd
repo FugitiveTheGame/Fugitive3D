@@ -14,11 +14,11 @@ extends GdUnitTestSuite
 # near -1 against its vertex normals; rotated normals score near 0. Scenes
 # with no stored baked meshes pass (valid, just no lightmap on the gridmaps).
 const MAPS := [
-	"res://common/game/maps/freehold/Freehold.scn",
-	"res://common/game/maps/cedar_point/CedarPoint.scn",
-	"res://common/game/maps/littleton/Littleton.scn",
+	"res://common/game/maps/freehold/Freehold.tscn",
+	"res://common/game/maps/cedar_point/CedarPoint.tscn",
+	"res://common/game/maps/littleton/Littleton.tscn",
 	"res://common/game/maps/grey_box/GreyBox.tscn",
-	"res://client/main_menu/background/Background.scn",
+	"res://client/main_menu/background/Background.tscn",
 ]
 const HEALTHY := -0.85
 const MAX_TRIS_PER_SURFACE := 300
