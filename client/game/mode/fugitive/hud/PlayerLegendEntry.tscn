@@ -51,7 +51,7 @@ offset_right = 479.0
 offset_bottom = 32.0
 custom_minimum_size = Vector2( 32, 32 )
 texture = ExtResource( 4 )
-expand = true
+expand_mode = 1
 
 [node name="FrozenIcon" type="TextureRect" parent="Container"]
 offset_left = 487.0
@@ -59,7 +59,7 @@ offset_right = 519.0
 offset_bottom = 32.0
 custom_minimum_size = Vector2( 32, 32 )
 texture = ExtResource( 3 )
-expand = true
+expand_mode = 1
 
 [node name="StaminaBar" type="ProgressBar" parent="."]
 offset_top = 40.0

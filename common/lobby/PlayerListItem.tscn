@@ -45,7 +45,7 @@ offset_right = 146.0
 offset_bottom = 44.0
 custom_minimum_size = Vector2( 32, 32 )
 texture = ExtResource( 5 )
-expand = true
+expand_mode = 1
 stretch_mode = 4
 
 [node name="HostIndicator" type="TextureRect" parent="Controls"]
