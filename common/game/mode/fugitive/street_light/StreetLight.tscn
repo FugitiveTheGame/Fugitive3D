@@ -31,7 +31,7 @@ script = ExtResource( 1 )
 ]]
 transform = Transform3D( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.905988, 3.74297, 0 )
 light_color = Color( 1, 0.717647, 0.298039, 1 )
-light_energy = 5.0
+light_energy = 15.0
 light_bake_mode = 1
 shadow_enabled = true
 shadow_bias = 0.5
@@ -43,7 +43,7 @@ omni_attenuation = 2.82843
 ]]
 transform = Transform3D( 1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 0.905988, 3.46024, 0 )
 light_color = Color( 1, 0.717647, 0.298039, 1 )
-light_energy = 5.0
+light_energy = 15.0
 light_bake_mode = 1
 shadow_enabled = true
 shadow_bias = 0.5
