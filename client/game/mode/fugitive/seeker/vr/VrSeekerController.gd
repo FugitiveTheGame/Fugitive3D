@@ -41,7 +41,7 @@ func get_nearest_car():
 func _on_CarLockHud_locking_complete():
 	var car = get_nearest_car()
 	if car != null:
-		false # car.lock() # TODOConverter3To4, Image no longer requires locking, `false` helps to not break one line if/else, so it can freely be removed
+		car.lock()
 
 
 func on_ui_raycast_visibility_changed():
