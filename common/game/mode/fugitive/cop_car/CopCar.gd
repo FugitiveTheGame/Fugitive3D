@@ -347,13 +347,9 @@ func _physics_process(delta):
 			velocity.x = 0.0
 			velocity.z = 0.0
 		velocity.y -= GRAVITY * delta
-		
-		set_velocity(velocity)
-		# TODOConverter3To4 looks that snap in Godot 4 is float, not vector like in Godot 3 - previous value `Vector3(0,-2,0)`
-		set_up_direction(Vector3(0,1,0))
+
 		move_and_slide()
-		velocity = velocity
-		
+
 		# Apply friction to counter sideways drift
 		if not isBreaking:
 			# Apply friction in oposition to sideways dift until it is zero'd out
@@ -382,11 +378,7 @@ func _physics_process(delta):
 			
 		# Client side prediction
 		if GameData.currentGame != null and not GameData.currentGame.is_game_over():
-			set_velocity(velocity)
-			# TODOConverter3To4 looks that snap in Godot 4 is float, not vector like in Godot 3 - previous value `Vector3(0,-2,0)`
-			set_up_direction(Vector3(0,1,0))
 			move_and_slide()
-			velocity = velocity
 
 
 func get_movment_speed() -> float:
