@@ -354,9 +354,11 @@ it and the rest are dropped until they stop. The Godot 3 build had the same
 one-at-a-time ceiling, it just queued the losers instead of dropping them. Real
 concurrent radio needs a decoder and generator per sender on that node.
 
-Encoder defaults are stereo at 15kbps. Mono (`channels = 1`, which downmixes on
-encode and duplicates on decode) is the obvious tuning knob if quality is thin,
-since the source is a single mic.
+Both codec nodes run mono (`channels = 1`) at the 15kbps default bit rate. The
+source is a single mic, so the streaming API downmixes the stereo capture frames
+on encode and duplicates the signal back into both channels on decode, which
+spends the whole bit budget on one real channel instead of a duplicated pair.
+Encoder and decoder have to agree, so change both together if this is revisited.
 
 Exit criteria: two clients exchange push-to-talk audio, both flat and VR,
 including Quest mic.

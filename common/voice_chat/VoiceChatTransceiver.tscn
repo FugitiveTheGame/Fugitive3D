@@ -15,6 +15,7 @@ autoplay = true
 bus = &"Record"
 
 [node name="OpusEncoder" type="OpusEncoderNode" parent="." index="2"]
+channels = 1
 
 [node name="TransmitLimitTimer" type="Timer" parent="." index="3"]
 wait_time = 10.0
