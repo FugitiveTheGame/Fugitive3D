@@ -41,7 +41,7 @@ Autoloads: ClientNetwork, ServerNetwork, GameData, vr (OQ_Toolkit), UserData, Ma
 | godot-openvr | GDNative | Delete. Built-in OpenXR covers it |
 | godot_ovrmobile | GDNative | Delete. OpenXR + vendors plugin covers Quest |
 | OQ_Toolkit | GDScript on old backends | Delete. Replace with godot-xr-tools v4.5.x |
-| opus | GDNative | Being ported separately (in flight). Integrate result, or fall back to TwoVoip |
+| opus | GDNative | Ported to a GDExtension upstream and integrated in Phase 5. Windows/Linux/macOS/Android arm64 binaries ship in `addons/opus/` |
 | LANServerBroadcast | Pure GDScript | Port with converter, small API fixes (PacketPeerUDP is similar in 4.x). Check upstream for an existing Godot 4 branch first |
 | Godot-GameAnalytics | Pure GDScript | Port with converter, HTTPRequest API mostly unchanged. Check upstream too |
 | UUID, TimeUtils | Pure GDScript | Trivial |
@@ -315,14 +315,51 @@ Exit criteria: VR client joins a flat-hosted game on a modern headset (Quest 3 p
 
 ## Phase 5: Voice chat
 
-Design today: push-to-talk records via `AudioEffectRecord` on a Record bus, encodes the whole utterance with the opus GDNative node, sends one blob over RPC, receiver decodes and plays. Not streaming.
+Design in Godot 3: push-to-talk recorded via `AudioEffectRecord` on a Record bus,
+encoded the whole utterance with the opus GDNative node, sent one blob over RPC;
+the receiver decoded it and played it as an `AudioStreamWAV`. Latency was the
+length of the utterance, capped at 10s by the transmit limit timer.
 
-1. Integrate the ported opus GDExtension (in flight in a parallel effort) into `common/voice_chat/` (VoiceChatReceiver, VoiceChatTransceiver and their scenes). API surface used is small: `OpusEncoder.encode(PackedByteArray)`, decoder equivalent on receive.
-2. `AudioEffectRecord.get_recording()` returns an `AudioStreamWAV` in 4.x (was AudioStreamSample); verify format assumptions (mix rate, 16-bit) still hold on both desktop and Quest mic input.
-3. Distance/team gating logic (maxTeamHearingRange, maxHearingRange) is engine-agnostic, keep as is.
-4. Fallback if the opus port stalls: TwoVoip GDExtension ships opus + rnnoise, but its API is stream-oriented, so the integration is bigger. Decision point at Phase 5 start.
+Now streaming. The opus port landed as a GDExtension
+([libopus-gdnative-asset](https://github.com/Godot-Opus/libopus-gdnative-asset))
+with a per-frame API that sits between `AudioEffectCapture` and
+`AudioStreamGenerator`, so voice goes out as 20ms Opus packets while the key is
+held rather than as one blob on release.
 
-Exit criteria: two clients exchange push-to-talk audio, both flat and VR, including Quest mic.
+What the integration changed:
+
+1. `addons/opus/` holds the GDExtension, with binaries for Windows x86_64, Linux
+   x86_64, macOS universal and Android arm64. No plugin activation; GDExtensions
+   load on editor start. `OpusStub` is gone.
+2. The Record bus carries an `AudioEffectCapture` instead of an
+   `AudioEffectRecord`, and `audio/driver/mix_rate` is pinned to 48000. Opus does
+   not accept Godot's default 44.1kHz and the extension does not resample.
+3. `VoiceChatTransceiver` pumps capture into `push_audio()` each frame and drains
+   `pop_packet()` while `has_packet()` is true, numbering packets as it goes.
+   `reset_stream()` and `clear_buffer()` run at the start of each burst so
+   audio captured before the key went down is not transmitted.
+4. `VoiceChatReceiver` plays into an `AudioStreamGenerator`, pushing each
+   `decode_frame()` result at `push_buffer()`. The RPC is `unreliable_ordered`,
+   so a gap in the sequence numbers means loss, and up to three missing frames
+   are filled with `decode_dropped()` concealment. A 0.5s silence ends the burst
+   and resets the decoder.
+5. Distance/team gating (maxTeamHearingRange, maxHearingRange) is unchanged, but
+   now runs per packet rather than per utterance, so range is re-evaluated as
+   players move mid-sentence.
+
+In-earshot audio lands on a per-speaker receiver node, so those streams are
+independent. The radio and post-game paths are the exception: they all route to
+the listener's own transceiver, which has one decoder, so the first speaker holds
+it and the rest are dropped until they stop. The Godot 3 build had the same
+one-at-a-time ceiling, it just queued the losers instead of dropping them. Real
+concurrent radio needs a decoder and generator per sender on that node.
+
+Encoder defaults are stereo at 15kbps. Mono (`channels = 1`, which downmixes on
+encode and duplicates on decode) is the obvious tuning knob if quality is thin,
+since the source is a single mic.
+
+Exit criteria: two clients exchange push-to-talk audio, both flat and VR,
+including Quest mic.
 
 ## Phase 6: Exports and release plumbing
 
@@ -347,7 +384,7 @@ which is why the first fix looked like it failed.
 1. Physics feel: 4.x Godot Physics behaves differently from 3.x Bullet (CopCar handling, player movement, stairs). Budget tuning time; outcome tests on speeds/thresholds help.
 2. Renderer look: lighting will not match; the maps will need environment re-tuning by eye.
 3. Quest hardware validation needs a real headset session; emulators will not answer comfort/perf questions.
-4. Voice chat depends on the parallel opus port; TwoVoip is the fallback but changes the transceiver design.
+4. Voice chat now streams over `unreliable_ordered` RPCs at 50 packets/sec per listener. In a full lobby that is a lot more small packets than the old one-blob-per-utterance design; watch bandwidth and ENet behaviour during the Phase 5 exit test.
 5. Server discovery infra (ServerRepository) may be offline; LAN discovery works regardless.
 6. Converter comment mangling: budget one careful diff review pass on the Phase 1 commit.
 

@@ -2,10 +2,10 @@
 export/*
 -export/.gdignore
 addons/wakatime
-android/build/.gradle
-android/build/build
+/android/build/.gradle
+/android/build/build
 extras/release-scripts/releases
-android
+/android
 .godot/
 reports/
 
@@ -16,3 +16,7 @@ mcp_interaction_server.gd.uid
 
 # Machine-specific: absolute paths to the godot-mcp build and the Godot exe.
 .mcp.json
+
+# Godot renames a GDExtension library it still has open rather than
+# overwriting it, leaving the old copy behind.
+~*.dll

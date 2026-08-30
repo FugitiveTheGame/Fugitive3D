@@ -1,27 +1,26 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=5 format=3]
 
-[ext_resource path="res://common/voice_chat/VoiceChatTransceiver.gd" type="Script" id=1]
-[ext_resource path="res://common/voice_chat/VoiceChatReceiver.tscn" type="PackedScene" id=2]
-[ext_resource path="res://common/voice_chat/OpusStub.gd" type="Script" id=3]
-[ext_resource path="res://common/voice_chat/transmit_limit.ogg" type="AudioStream" id=4]
+[ext_resource type="PackedScene" path="res://common/voice_chat/VoiceChatReceiver.tscn" id="1"]
+[ext_resource type="Script" uid="uid://cx5wf6gqu33vh" path="res://common/voice_chat/VoiceChatTransceiver.gd" id="2"]
+[ext_resource type="AudioStream" uid="uid://bcjg1p0c8t50e" path="res://common/voice_chat/transmit_limit.ogg" id="3"]
 
-[sub_resource type="AudioStreamMicrophone" id=1]
+[sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_1"]
 
-[node name="VoiceChat" instance=ExtResource( 2 )]
-script = ExtResource( 1 )
+[node name="VoiceChat" instance=ExtResource("1")]
+script = ExtResource("2")
 
 [node name="AudioStreamRecord" type="AudioStreamPlayer" parent="." index="1"]
-stream = SubResource( 1 )
+stream = SubResource("AudioStreamMicrophone_1")
 autoplay = true
-bus = "Record"
+bus = &"Record"
 
-[node name="OpusEncoder" type="Node" parent="." index="2"]
-script = ExtResource( 3 )
+[node name="OpusEncoder" type="OpusEncoderNode" parent="." index="2"]
 
 [node name="TransmitLimitTimer" type="Timer" parent="." index="3"]
 wait_time = 10.0
 one_shot = true
 
 [node name="TransmitLimitAudio" type="AudioStreamPlayer" parent="." index="4"]
-stream = ExtResource( 4 )
+stream = ExtResource("3")
+
 [connection signal="timeout" from="TransmitLimitTimer" to="." method="_on_TransmitLimitTimer_timeout"]
