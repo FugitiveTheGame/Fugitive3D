@@ -138,15 +138,18 @@ contact while driving ~30 units. 10 gdUnit4 tests green.
 Fixed here: ground tiles had no collision because Godot 4 makes
 ConcavePolygonShape3D one-sided by default (see the collision section below).
 
-Still open for Phase 3:
+Phase 3 is closed out: the rendering pass and LightmapGI re-bake landed (all
+four maps plus the menu background have committed bakes, calibrated against
+the Godot 3 build), the old-surface-format mesh in StreetLight.tscn was
+extracted to `lightbeam_cone.mesh.res` in the 4.x format, the meshlibs and
+`lightbeam.gdshader` turned out to be already clean, and the CopCar
+move_and_slide converter debris is gone. Also found and fixed during cleanup:
+the converter had replaced `car.lock()` with `false` in both seeker
+controllers (it pattern-matched the removed `Image.lock()`), so the seeker
+car-lock action was silently a no-op since the port.
 
-- Rendering pass and the LightmapGI re-bake, which needs a human eye and the
-  editor; deliberately left for a session with the user awake.
-- Deprecation warnings worth clearing while touching the renderer: meshes
-  using the old surface format (StreetLight.tscn and the tileset meshlibs
-  load slower), and `lightbeam.gdshader` using pre-4.x parameter names.
-- `CopCar.gd` has two `velocity = velocity` no-ops at the move_and_slide call
-  sites, converter debris now that move_and_slide updates velocity in place.
+Still open, carried forward:
+
 - Second round in one session could not be started from the test harness: the
   auto-return-to-lobby timer only starts when the HOST clicks "Return to
   Lobby", so a headless bot host strands everyone on the end screen. Matches
@@ -203,6 +206,7 @@ else, and nothing warns. Found so far:
 | dialogs cast `as Control` | WindowDialog was a Control | Window derives from Viewport | the cast yields null, and the reference only fails when the dialog is opened |
 | dialogs keep `anchor_*` / `offset_*` | those sized a WindowDialog | Window is sized by `size` | the anchors are ignored, so every dialog falls back to Godot's 100x100 default and clips its own contents |
 | mesh library normals | matched the source art | rotated by each mesh's own node transform, positions left alone | ground tiles ended up facing sideways, so a surface lit only from one horizontal direction and neighbours at different GridMap rotations lit from opposite sides |
+| `car.lock()` | a game method on CopCar | converter assumed the removed `Image.lock()` and replaced the call with `false` | the seeker car-lock action did nothing, no error anywhere |
 
 Before Phase 4, sweep for the rest of this class rather than finding them one
 screenshot at a time. Enum values whose meaning shifted are the nastiest,
@@ -215,9 +219,8 @@ laptop. Bake on the workstation instead. The LightmapGI settings live on
 FugitiveSuburbanMap.tscn so all maps inherit them, and Background.scn carries
 its own.
 
-Every bake was deleted before this branch was pushed, so all four maps render
-unlit right now and need a fresh one: Freehold, CedarPoint, Littleton and the
-menu Background.
+All four maps and the menu Background now have committed bakes, calibrated
+against the Godot 3 build. Re-bake only after geometry or lighting changes.
 
 Two traps:
 
