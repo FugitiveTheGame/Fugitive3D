@@ -316,6 +316,45 @@ Approach:
 
 Exit criteria: VR client joins a flat-hosted game on a modern headset (Quest 3 presumably), full round playable cross-play VR + flat.
 
+### Phase 4 status (2026-08-29): structural rebuild done, needs a headset
+
+Landed: godot-xr-tools 4.5.1 in `addons/`, OpenXR enabled in project settings
+(with `startup_alert` off so flat clients boot quietly without a runtime), and
+the default OpenXR action map. `VrCompat.gd` is now a real OpenXR-backed `vr`
+autoload: the rig registers its origin/camera/controllers, and the old
+`vr.BUTTON`/`vr.AXIS` queries map onto OpenXR actions (`ax_button`,
+`trigger_click`, `primary`, ...), so the gameplay scripts kept their input
+surface. The whole controller scene chain (VrPlayerController, VrFugitive,
+VrHider, VrSeeker) plus VrMenuPlayer, VrClientMainMenu and VrLobby were
+rewritten in 4.x format with no OQ references left; xr-tools `PlayerBody`
+replaces Feature_PlayerCollision (it sweeps movement, which should fix the
+snap-turn wall clip), `MovementDirect`/`MovementTurn` replace Locomotion_Stick
+behind a small `Locomotion` coordinator, and the xr-tools vignette replaces the
+OQ one. `test/game/VrControllerScenesTest.gd` instantiates every VR scene as a
+regression net.
+
+Deviations from the plan above:
+
+- The wrist HUD and menu panels are a small custom SubViewport-quad pair
+  (`WristHud.gd` / `UiPanel3D.gd`) with a custom `UiRaycast` laser pointer,
+  not xr-tools Viewport2Din3D + FunctionPointer. Viewport2Din3D loads its UI
+  from a separate PackedScene, which would have broken the HUD scene
+  inheritance chain and every `playerPath`-style NodePath into the HUD.
+- The button debounce layer survived; it is harmless and the scripts lean on
+  it heavily.
+- The OQ VR keyboard was dropped with nothing in its place, so the player name
+  cannot be edited from VR for now.
+- `vr_movement_orientation` (head vs hand oriented movement) is inert:
+  xr-tools applies ground control in the camera frame, so movement is always
+  head-oriented.
+
+Needs the headset-in-hand session: every panel/HUD transform and size (the
+values are educated guesses), seated mode (PlayerBody manages the origin, so
+the manual origin offsets need re-tuning), snap vs smooth turn preference,
+the wall-clip regression check, controller visuals (no hand or controller
+meshes yet, only the pointer laser), and the Quest foveation/refresh tuning
+now routed through `OpenXRInterface`.
+
 ## Phase 5: Voice chat
 
 Design in Godot 3: push-to-talk recorded via `AudioEffectRecord` on a Record bus,
