@@ -35,6 +35,9 @@ func _on_SettingsDialog_about_to_show():
 
 
 func _on_SettingsDialog_popup_hide():
+	# Connected to visibility_changed, which also fires on show
+	if visible:
+		return
 	UserData.save_data()
 
 

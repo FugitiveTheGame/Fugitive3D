@@ -7,7 +7,7 @@
 size = Vector2i(297, 117)
 theme = ExtResource( 2 )
 exclusive = true
-window_title = "Leave Game"
+title = "Leave Game"
 dialog_text = "Are you sure?"
 script = ExtResource( 1 )
 __meta__ = {

@@ -5,7 +5,7 @@
 [node name="SettingsDialog" type="Window"]
 size = Vector2i(446, 320)
 visible = false
-window_title = "VR Settings"
+title = "VR Settings"
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -76,8 +76,9 @@ text = "Move Left / Turn Right"
 items = [ "Move Left / Turn Right", null, false, 0, null, "Move Right / Turn Left", null, false, 1, null ]
 selected = 0
 [connection signal="about_to_popup" from="." to="." method="_on_SettingsDialog_about_to_show"]
-[connection signal="popup_hide" from="." to="." method="_on_SettingsDialog_popup_hide"]
+[connection signal="visibility_changed" from="." to="." method="_on_SettingsDialog_popup_hide"]
 [connection signal="item_selected" from="VBoxContainer/StandingModeOptions" to="." method="_on_StandingModeOptions_item_selected"]
 [connection signal="toggled" from="VBoxContainer/VignettingCheckBox" to="." method="_on_VignettingCheckBox_toggled"]
 [connection signal="item_selected" from="VBoxContainer/MovementOrientationOptions" to="." method="_on_MovementOrientationOptions_item_selected"]
 [connection signal="item_selected" from="VBoxContainer/MovementHandOptions" to="." method="_on_MovementHandOptions_item_selected"]
+[connection signal="close_requested" from="." to="." method="hide"]

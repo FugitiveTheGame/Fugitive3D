@@ -9,7 +9,7 @@ anchor_bottom = 0.658
 offset_right = -0.0400391
 offset_bottom = -12.76
 exclusive = true
-window_title = "Feedback"
+title = "Feedback"
 resizable = true
 script = ExtResource( 1 )
 __meta__ = {
@@ -71,3 +71,4 @@ use_threads = true
 [connection signal="about_to_popup" from="." to="." method="_on_FeedbackDialog_about_to_show"]
 [connection signal="pressed" from="Container/SendButton" to="." method="_on_SendButton_pressed"]
 [connection signal="request_completed" from="HTTPRequest" to="." method="_on_HTTPRequest_request_completed"]
+[connection signal="close_requested" from="." to="." method="hide"]
