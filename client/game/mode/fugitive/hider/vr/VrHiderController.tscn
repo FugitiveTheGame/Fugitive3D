@@ -1,71 +1,53 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=7 format=3]
 
-[ext_resource path="res://client/game/mode/fugitive/VrFugitiveController.tscn" type="PackedScene" id=1]
-[ext_resource path="res://client/game/mode/fugitive/hider/vr/VrHiderController.gd" type="Script" id=2]
-[ext_resource path="res://common/game/mode/fugitive/hider/Hider.tscn" type="PackedScene" id=3]
-[ext_resource path="res://common/game/mode/fugitive/hider/HiderShape.tscn" type="PackedScene" id=4]
-[ext_resource path="res://client/game/mode/fugitive/hider/VisibilityHud.tscn" type="PackedScene" id=5]
-[ext_resource path="res://client/game/mode/fugitive/hider/SafeZoneHud.tscn" type="PackedScene" id=6]
+[ext_resource type="PackedScene" path="res://client/game/mode/fugitive/VrFugitiveController.tscn" id="1"]
+[ext_resource type="Script" path="res://client/game/mode/fugitive/hider/vr/VrHiderController.gd" id="2"]
+[ext_resource type="PackedScene" path="res://common/game/mode/fugitive/hider/Hider.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://common/game/mode/fugitive/hider/HiderShape.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://client/game/mode/fugitive/hider/VisibilityHud.tscn" id="5"]
+[ext_resource type="PackedScene" path="res://client/game/mode/fugitive/hider/SafeZoneHud.tscn" id="6"]
 
-[node name="PlayerController" instance=ExtResource( 1 )]
-script = ExtResource( 2 )
+[node name="PlayerController" instance=ExtResource("1")]
+script = ExtResource("2")
 
-[node name="OQ_ARVRCamera" parent="." index="0"]
-transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0 )
-
-[node name="OQ_LeftController" parent="." index="1"]
-transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 1.3, -0.5 )
-
-[node name="VisibilityHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/BarsContainer" index="0" instance=ExtResource( 5 )]
+[node name="VisibilityHud" parent="LeftHand/VisibilityToggle/HudCanvas/HudViewport/HudContainer/BarsContainer" index="0" instance=ExtResource("5")]
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_top = 24.0
 offset_right = 380.0
 offset_bottom = 72.0
-playerPath = NodePath("../../../../../../Player")
+playerPath = NodePath("../../../../../../../Player")
 
-[node name="StaminaHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/BarsContainer" index="1"]
-playerPath = NodePath("../../../../../../Player")
+[node name="StaminaHud" parent="LeftHand/VisibilityToggle/HudCanvas/HudViewport/HudContainer/BarsContainer" index="1"]
+playerPath = NodePath("../../../../../../../Player")
 
-[node name="CrouchingHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/IndicatorsContainer" index="0"]
-playerPath = NodePath("../../../../../../Player")
+[node name="CrouchingHud" parent="LeftHand/VisibilityToggle/HudCanvas/HudViewport/HudContainer/IndicatorsContainer" index="0"]
+playerPath = NodePath("../../../../../../../Player")
 
-[node name="FrozenHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/IndicatorsContainer" index="2"]
-playerPath = NodePath("../../../../../../Player")
+[node name="FrozenHud" parent="LeftHand/VisibilityToggle/HudCanvas/HudViewport/HudContainer/IndicatorsContainer" index="2"]
+playerPath = NodePath("../../../../../../../Player")
 
-[node name="SafeZoneHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="6" instance=ExtResource( 6 )]
+[node name="SafeZoneHud" parent="LeftHand/VisibilityToggle/HudCanvas/HudViewport/HudContainer" index="7" instance=ExtResource("6")]
 anchor_left = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.0
 offset_left = -60.5
 offset_right = 60.5
 offset_bottom = 49.0
-playerPath = NodePath("../../../../../Player")
+playerPath = NodePath("../../../../../../Player")
 
-[node name="OQ_RightController" parent="." index="2"]
-transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 1.3, -0.5 )
-
-[node name="Feature_Falling" parent="." index="3"]
-transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0 )
-ground_height = 1.0
-ray_collision_mask = 2
-
-[node name="Feature_PlayerCollision" parent="." index="4"]
-transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0 )
+[node name="PlayerBody" parent="." index="4"]
 collision_mask = 7
 playerPath = NodePath("../Player")
 
-[node name="CollisionShape3D" parent="Feature_PlayerCollision" index="0" instance=ExtResource( 4 )]
+[node name="CollisionShape3D" parent="PlayerBody" index="0" instance=ExtResource("4")]
 
-[node name="RemoteTransform3D" type="RemoteTransform3D" parent="Feature_PlayerCollision" index="2"]
+[node name="RemoteTransform3D" type="RemoteTransform3D" parent="PlayerBody" index="2"]
 remote_path = NodePath("../../Player")
 use_global_coordinates = false
 
-[node name="Locomotion_Stick" parent="." index="5"]
-transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.3, 0 )
-
-[node name="Player" parent="." index="6" instance=ExtResource( 3 )]
-shapePath = NodePath("../Feature_PlayerCollision/CollisionShape3D")
+[node name="Player" parent="." index="8" instance=ExtResource("3")]
+shapePath = NodePath("../PlayerBody/CollisionShape3D")
 playerControllerPath = NodePath("..")
-playerBodyPath = NodePath("../Feature_PlayerCollision")
+playerBodyPath = NodePath("../PlayerBody")
 playerVoiceChatPath = NodePath("../VoiceChat")

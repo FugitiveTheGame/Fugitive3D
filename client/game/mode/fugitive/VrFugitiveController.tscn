@@ -1,123 +1,95 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=9 format=3]
 
-[ext_resource path="res://client/game/player/controller/vr/VrPlayerController.tscn" type="PackedScene" id=1]
-[ext_resource path="res://client/game/mode/fugitive/VrFugitiveController.gd" type="Script" id=2]
-[ext_resource path="res://client/game/mode/fugitive/hud/PregameHud.tscn" type="PackedScene" id=3]
-[ext_resource path="res://client/game/mode/fugitive/hud/GameTimerHud.tscn" type="PackedScene" id=4]
-[ext_resource path="res://client/game/mode/fugitive/hud/FrozenHud.tscn" type="PackedScene" id=5]
-[ext_resource path="res://client/game/mode/fugitive/hud/EndGameHud.tscn" type="PackedScene" id=6]
-[ext_resource path="res://client/game/mode/fugitive/VrFugitiveShaderCache.tscn" type="PackedScene" id=7]
-[ext_resource path="res://client/game/mode/fugitive/hud/mapview/OverviewMapHud.tscn" type="PackedScene" id=8]
+[ext_resource type="PackedScene" path="res://client/game/player/controller/vr/VrPlayerController.tscn" id="1"]
+[ext_resource type="Script" path="res://client/game/mode/fugitive/VrFugitiveController.gd" id="2"]
+[ext_resource type="PackedScene" path="res://client/game/mode/fugitive/hud/PregameHud.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://client/game/mode/fugitive/hud/GameTimerHud.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://client/game/mode/fugitive/hud/FrozenHud.tscn" id="5"]
+[ext_resource type="PackedScene" path="res://client/game/mode/fugitive/hud/EndGameHud.tscn" id="6"]
+[ext_resource type="PackedScene" path="res://client/game/mode/fugitive/VrFugitiveShaderCache.tscn" id="7"]
+[ext_resource type="PackedScene" path="res://client/game/mode/fugitive/hud/mapview/OverviewMapHud.tscn" id="8"]
 
-[node name="PlayerController" instance=ExtResource( 1 )]
-script = ExtResource( 2 )
+[node name="PlayerController" instance=ExtResource("1")]
+script = ExtResource("2")
 
-[node name="OQ_ARVRCamera" parent="." index="0"]
-transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.716302, 0 )
+[node name="ShaderCache" parent="Camera" index="2" instance=ExtResource("7")]
+transform = Transform3D(0.001, 0, 0, 0, 0.001, 0, 0, 0, 0.001, 0, -0.508516, -1.19957)
 
-[node name="ShaderCache" parent="OQ_ARVRCamera" index="0" instance=ExtResource( 7 )]
-transform = Transform3D( 0.001, 0, 0, 0, 0.001, 0, 0, 0, 0.001, 0, -0.508516, -1.19957 )
+[node name="HudCanvas" parent="LeftHand/VisibilityToggle" index="0"]
+transform = Transform3D(0.896695, -0.0624614, 0.43822, 0, 0.989994, 0.141108, -0.442649, -0.126531, 0.887723, 0, 0, 0)
 
-[node name="OQ_LeftController" parent="." index="1"]
-transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0.216302, -0.5 )
-
-[node name="HudCanvas" parent="OQ_LeftController/VisibilityToggle" index="0"]
-transform = Transform3D( 0.896695, -0.0624614, 0.43822, 0, 0.989994, 0.141108, -0.442649, -0.126531, 0.887723, 0, 0, 0 )
-disable_collision = false
-
-[node name="HudContainer" parent="OQ_LeftController/VisibilityToggle/HudCanvas" index="2"]
-anchor_right = 0.4
-anchor_bottom = 0.711
-offset_right = 0.0
-offset_bottom = 0.0799866
-custom_minimum_size = Vector2( 512, 512 )
-
-[node name="IndicatorsContainer" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="2"]
+[node name="IndicatorsContainer" parent="LeftHand/VisibilityToggle/HudCanvas/HudViewport/HudContainer" index="2"]
 alignment = 1
 
-[node name="CrouchingHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/IndicatorsContainer" index="0"]
+[node name="CrouchingHud" parent="LeftHand/VisibilityToggle/HudCanvas/HudViewport/HudContainer/IndicatorsContainer" index="0"]
 offset_top = 48.0
 offset_bottom = 96.0
 
-[node name="VoiceRecordingHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/IndicatorsContainer" index="1"]
+[node name="VoiceRecordingHud" parent="LeftHand/VisibilityToggle/HudCanvas/HudViewport/HudContainer/IndicatorsContainer" index="1"]
 offset_top = 104.0
 offset_bottom = 152.0
 
-[node name="FrozenHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/IndicatorsContainer" index="2" instance=ExtResource( 5 )]
+[node name="FrozenHud" parent="LeftHand/VisibilityToggle/HudCanvas/HudViewport/HudContainer/IndicatorsContainer" index="2" instance=ExtResource("5")]
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_top = 160.0
 offset_right = 48.0
 offset_bottom = 208.0
 
-[node name="GameTimerReadout" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="3" instance=ExtResource( 4 )]
+[node name="GameTimerReadout" parent="LeftHand/VisibilityToggle/HudCanvas/HudViewport/HudContainer" index="3" instance=ExtResource("4")]
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 0.0
 offset_left = -58.0
 offset_bottom = 45.504
 
-[node name="PregameHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="4" instance=ExtResource( 3 )]
+[node name="PregameHud" parent="LeftHand/VisibilityToggle/HudCanvas/HudViewport/HudContainer" index="4" instance=ExtResource("3")]
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -254.0
 offset_right = 254.0
 offset_bottom = 249.0
 
-[node name="HeightContainer" type="PanelContainer" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="5"]
+[node name="HeightContainer" type="PanelContainer" parent="LeftHand/VisibilityToggle/HudCanvas/HudViewport/HudContainer" index="5"]
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_top = -86.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="VBox" type="VBoxContainer" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/HeightContainer" index="0"]
+[node name="VBox" type="VBoxContainer" parent="LeftHand/VisibilityToggle/HudCanvas/HudViewport/HudContainer/HeightContainer" index="0"]
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 504.0
 offset_bottom = 78.0
 alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="HeightInstructionsLabel" type="Label" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/HeightContainer/VBox" index="0"]
+[node name="HeightInstructionsLabel" type="Label" parent="LeftHand/VisibilityToggle/HudCanvas/HudViewport/HudContainer/HeightContainer/VBox" index="0"]
 offset_top = 6.0
 offset_right = 496.0
 offset_bottom = 31.0
 text = "Press B to set standing height"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
+horizontal_alignment = 1
 
-[node name="HeightLabel" type="Label" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/HeightContainer/VBox" index="1"]
+[node name="HeightLabel" type="Label" parent="LeftHand/VisibilityToggle/HudCanvas/HudViewport/HudContainer/HeightContainer/VBox" index="1"]
 offset_top = 39.0
 offset_right = 496.0
 offset_bottom = 64.0
 text = "Height: 0.0m"
-align = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
+horizontal_alignment = 1
 
-[node name="OverviewMapHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="6" instance=ExtResource( 8 )]
+[node name="OverviewMapHud" parent="LeftHand/VisibilityToggle/HudCanvas/HudViewport/HudContainer" index="6" instance=ExtResource("8")]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_bottom = 0.0
 
-[node name="EndGameHud" parent="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer" index="8" instance=ExtResource( 6 )]
+[node name="EndGameHud" parent="LeftHand/VisibilityToggle/HudCanvas/HudViewport/HudContainer" index="8" instance=ExtResource("6")]
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_bottom = 0.0
 
-[node name="OQ_RightController" parent="." index="2"]
-transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0.216302, -0.5 )
-
-[node name="Feature_PlayerCollision" parent="." index="4"]
+[node name="PlayerBody" parent="." index="4"]
 collision_mask = 15
-[connection signal="visibility_changed" from="OQ_RightController/Feature_UIRayCast" to="." method="on_ui_raycast_visibility_changed"]
+
+[connection signal="visibility_changed" from="RightHand/UiRaycast" to="." method="on_ui_raycast_visibility_changed"]
