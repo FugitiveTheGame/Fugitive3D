@@ -3,9 +3,9 @@ class_name VrUtils
 
 
 static func isVrCompatibleOs():
-	var vrCompatibleOs := ["windows", "x11", "android"]
+	var vrCompatibleOs := ["windows", "linux", "android"]
 	var osName = OS.get_name().to_lower()
-	return vrCompatibleOs.find(osName) == 0
+	return vrCompatibleOs.has(osName)
 
 
 static func isVrClient() -> bool:
