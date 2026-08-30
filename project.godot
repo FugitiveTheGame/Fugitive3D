@@ -21,6 +21,7 @@ config/icon="res://icon.png"
 
 buses/default_bus_layout="res://default_bus_layout.tres"
 driver/enable_input=true
+driver/mix_rate=48000
 
 [autoload]
 
@@ -61,11 +62,6 @@ window/size/viewport_width.OSX=720
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/Fugitive3D/plugin.cfg", "res://addons/Godot-GameAnalytics/plugin.cfg", "res://addons/LANServerBroadcast/plugin.cfg", "res://addons/gdUnit4/plugin.cfg")
-
-[gdnative]
-
-singletons=[]
-singletons_disabled=[]
 
 [gui]
 

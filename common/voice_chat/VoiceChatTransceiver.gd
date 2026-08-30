@@ -2,59 +2,77 @@ extends VoiceChatReceiver
 class_name VoiceChatTransceiver
 
 
-var effect: AudioEffectRecord
+var capture: AudioEffectCapture
 var maxTeamHearingRange := 10.0
 var maxHearingRange := 40.0
 
-@onready var opus_encoder := $OpusEncoder
+@onready var opus_encoder := $OpusEncoder as OpusEncoderNode
 @onready var transmit_limit_timer := $TransmitLimitTimer as Timer
 @onready var transmit_limit_audio := $TransmitLimitAudio as AudioStreamPlayer
 
+var transmitting := false
+var packet_sequence := 0
 
 
 func _ready():
 	super._ready()
 	var idx := AudioServer.get_bus_index("Record")
-	effect = AudioServer.get_bus_effect(idx, 0) as AudioEffectRecord
+	capture = AudioServer.get_bus_effect(idx, 0) as AudioEffectCapture
 
 
 func _input(event):
 	if event.is_action_pressed("push_to_talk"):
-		if not effect.is_recording_active():
-			print("Start recording")
-			effect.set_recording_active(true)
-			transmit_limit_timer.start()
+		start_transmitting()
 	elif event.is_action_released("push_to_talk"):
-		transmit_limit_timer.stop()
-		transmit_audio()
+		stop_transmitting()
 
 
-func transmit_audio():
-	if effect.is_recording_active():
-		print("Stop recording")
-		transmit_limit_timer.stop()
-		
-		var recording := effect.get_recording()
-		effect.set_recording_active(false)
-		
-		if recording != null and recording.data != null and recording.data.size() > 0:
-			print("Recorded audio of size:")
-			print(recording.data.size())
-			
-			var encodedData = opus_encoder.encode(recording.data)
-			send_audio(encodedData)
+func _process(delta):
+	super._process(delta)
+	
+	if not transmitting:
+		return
+	
+	opus_encoder.push_audio(capture.get_buffer(capture.get_frames_available()))
+	
+	while opus_encoder.has_packet():
+		var packet := opus_encoder.pop_packet()
+		if not packet.is_empty():
+			send_audio(packet_sequence, packet)
+			packet_sequence += 1
+
+
+func start_transmitting():
+	if transmitting:
+		return
+	
+	transmitting = true
+	
+	# Anything captured before the key went down is not part of this burst
+	capture.clear_buffer()
+	opus_encoder.reset_stream()
+	
+	transmit_limit_timer.start()
+
+
+func stop_transmitting():
+	if not transmitting:
+		return
+	
+	transmitting = false
+	transmit_limit_timer.stop()
 
 
 # This should be overriden to determine who the audio is sent to based on game
 # rules
-func send_audio(audioData: PackedByteArray):
+func send_audio(sequence: int, packet: PackedByteArray):
 	pass
 
 
 func _on_TransmitLimitTimer_timeout():
 	transmit_limit_audio.play()
-	transmit_audio()
+	stop_transmitting()
 
 
 func is_recording() -> bool:
-	return effect.is_recording_active()
+	return transmitting

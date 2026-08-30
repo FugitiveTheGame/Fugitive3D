@@ -1,7 +1,7 @@
 [gd_resource type="AudioBusLayout" format=3 uid="uid://ur088vj6maj"]
 
-[sub_resource type="AudioEffectRecord" id="1"]
-resource_name = "Record"
+[sub_resource type="AudioEffectCapture" id="1"]
+resource_name = "Capture"
 
 [resource]
 bus/0/volume_db = 0.0672607
