@@ -1,6 +1,6 @@
 extends Node3D
 
-@onready var fpsLabel := $OQ_ARVROrigin/OQ_LeftController/OQ_VisibilityToggle/FpsLabel
+@onready var fpsLabel := $Origin/LeftHand/VisibilityToggle/FpsLabel as Label3D
 
 var initial_origin: Vector3
 var is_standing := true
@@ -12,18 +12,21 @@ func _enter_tree():
 
 
 func _ready():
-	initial_origin = $OQ_ARVROrigin.transform.origin
-	
+	vr.register_rig($Origin, $Origin/Camera, $Origin/LeftHand, $Origin/RightHand)
+
+	initial_origin = $Origin.transform.origin
+
 	update_standing()
 
 
 func _exit_tree():
 	UserData.disconnect("user_data_updated", Callable(self, "on_user_data_updated"))
+	vr.unregister_rig($Origin)
 
 
 func _physics_process(delta):
-	fpsLabel.set_label_text("%d fps" % Engine.get_frames_per_second())
-	
+	fpsLabel.text = "%d fps" % Engine.get_frames_per_second()
+
 	if vr.button_just_pressed(vr.BUTTON.RIGHT_THUMBSTICK):
 		inject_ptt_action(true)
 	elif vr.button_just_released(vr.BUTTON.RIGHT_THUMBSTICK):
@@ -37,11 +40,11 @@ func on_user_data_updated():
 func update_standing():
 	if UserData.data.vr_standing != is_standing:
 		if UserData.data.vr_standing:
-			$OQ_ARVROrigin.transform.origin = initial_origin
+			$Origin.transform.origin = initial_origin
 		else:
-			$OQ_ARVROrigin.transform.origin = initial_origin
-			$OQ_ARVROrigin.transform.origin.y += seated_offset_meters
-		
+			$Origin.transform.origin = initial_origin
+			$Origin.transform.origin.y += seated_offset_meters
+
 		is_standing = UserData.data.vr_standing
 
 

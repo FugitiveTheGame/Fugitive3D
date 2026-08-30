@@ -4,11 +4,11 @@ extends Node3D
 # the controller aim, drives the laser beam visual, and forwards hover and
 # trigger clicks to the WristHud it hits.
 
-const LASER_MAX_LENGTH := 2.0
+const LASER_MAX_LENGTH := 3.0
 
 @export var hudPath: NodePath
 
-@onready var hud := get_node(hudPath)
+@onready var hud := get_node(hudPath) if not hudPath.is_empty() else null
 @onready var ray := $RayCast3D as RayCast3D
 @onready var laser := $Laser as MeshInstance3D
 
@@ -23,7 +23,7 @@ func _ready():
 
 
 func _physics_process(_delta):
-	if not visible:
+	if hud == null or not visible:
 		if _pressed or _hovering:
 			_pressed = false
 			_hovering = false

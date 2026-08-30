@@ -12,8 +12,10 @@ var _last_position := Vector2.ZERO
 
 
 func _ready():
-	var material := screen.material_override as StandardMaterial3D
+	# The material is duplicated so panels never share an albedo texture
+	var material := screen.material_override.duplicate() as StandardMaterial3D
 	material.albedo_texture = viewport.get_texture()
+	screen.material_override = material
 
 
 func is_screen_body(body: Node) -> bool:

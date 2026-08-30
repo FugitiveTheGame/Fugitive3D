@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3]
+[gd_scene load_steps=21 format=3]
 
 [ext_resource type="Script" path="res://client/game/player/controller/vr/VrPlayerController.gd" id="1"]
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/functions/movement_direct.tscn" id="2"]
@@ -7,7 +7,7 @@
 [ext_resource type="Script" path="res://client/game/player/controller/vr/VrPlayerBody.gd" id="5"]
 [ext_resource type="Script" path="res://client/game/player/controller/vr/Locomotion.gd" id="6"]
 [ext_resource type="Script" path="res://client/game/player/controller/vr/WristHud.gd" id="7"]
-[ext_resource type="Script" path="res://client/game/player/controller/vr/UiRaycast.gd" id="8"]
+[ext_resource type="PackedScene" path="res://client/game/player/controller/vr/UiRaycast.tscn" id="8"]
 [ext_resource type="PackedScene" path="res://addons/godot-xr-tools/effects/vignette.tscn" id="9"]
 [ext_resource type="PackedScene" path="res://client/game/player/hud/StaminaHud.tscn" id="10"]
 [ext_resource type="PackedScene" path="res://client/game/player/hud/CrouchIndicatorHud.tscn" id="11"]
@@ -33,14 +33,6 @@ size = Vector2(0.4, 0.4)
 
 [sub_resource type="BoxShape3D" id="ScreenShape"]
 size = Vector3(0.4, 0.4, 0.01)
-
-[sub_resource type="StandardMaterial3D" id="LaserMaterial"]
-transparency = 1
-shading_mode = 0
-albedo_color = Color(1, 0.3, 0.3, 0.6)
-
-[sub_resource type="BoxMesh" id="LaserMesh"]
-size = Vector3(0.004, 0.004, 1)
 
 [node name="PlayerController" type="XROrigin3D"]
 script = ExtResource("1")
@@ -165,20 +157,9 @@ strafe = true
 
 [node name="MoveTurn" parent="RightHand" instance=ExtResource("3")]
 
-[node name="UiRaycast" type="Node3D" parent="RightHand"]
+[node name="UiRaycast" parent="RightHand" instance=ExtResource("8")]
 visible = false
-script = ExtResource("8")
 hudPath = NodePath("../../LeftHand/VisibilityToggle/HudCanvas")
-
-[node name="RayCast3D" type="RayCast3D" parent="RightHand/UiRaycast"]
-enabled = false
-target_position = Vector3(0, 0, -2)
-collision_mask = 8388608
-
-[node name="Laser" type="MeshInstance3D" parent="RightHand/UiRaycast"]
-mesh = SubResource("LaserMesh")
-material_override = SubResource("LaserMaterial")
-cast_shadow = 0
 
 [node name="PlayerBody" parent="." instance=ExtResource("4")]
 collision_layer = 1
