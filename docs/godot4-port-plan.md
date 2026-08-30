@@ -242,6 +242,12 @@ FugitiveSuburbanMap.tscn's LightmapGI now uses `environment_mode = 3`
 `environment_custom_energy` is the dial: raise it for a brighter night, lower it
 for a darker one. It is the one value to tune before spending a long bake.
 
+### Lighting investigation
+
+The lighting work has its own notes in docs/lighting-investigation.md: symptoms,
+the mesh library normal corruption that caused most of it, what has been ruled
+out and how, and what is still open.
+
 ### Judge lighting in the running game, not the editor viewport
 
 `FugitiveMap.gd` and `Background.gd` call `Utils.turn_off_baked_lights()` from
