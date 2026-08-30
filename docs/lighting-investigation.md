@@ -4,6 +4,78 @@ Working notes on the Godot 4 lighting problems. Written to hand the work to the
 desktop. Everything here was measured, not inferred; where something is a guess
 it says so.
 
+## RESOLVED: the maps rendered stale GridMap baked meshes
+
+The tile flip survived the meshlib normals fix because the meshlib was never
+what the screen showed. Every map scene's GridMaps carried **baked meshes**
+(`GridMap.make_baked_meshes()` output): merged per-cell copies of the library
+meshes, stored inside the scene file, made *before* the normals fix. When a
+GridMap has baked meshes the engine renders those instead of the library, so:
+
+- fixing the library changed nothing on screen;
+- re-baking lightmaps changed nothing (the lightmapper consumed the same stale
+  copies);
+- `light_data = null` didn't move the cone boundary (the boundary was the stale
+  geometry's normals, not the bake);
+- houses/trees/trim misbehaved identically (FeatureGridMap's baked meshes were
+  equally stale).
+
+They were 99.9% of the scene bytes: Freehold.scn was 74 MB as text, 83 KB after
+removal.
+
+**Correction after further testing:** baked meshes are not pure leftovers; they
+are *how* a GridMap receives a lightmap (the merged copies carry the UV2 layout
+and the instances the .lmbake attaches to). The sin was staleness, not
+existence. Three facts to hold on to:
+
+1. `GridMap.get_bake_meshes()` silently *regenerates* baked meshes from the
+   library when none are stored. LightmapGI's bake calls it, so every bake
+   refreezes the library as it is at that moment. After any meshlib change:
+   reload the project, re-bake, and **save the scene**.
+2. A bake without a scene save leaves an orphaned .exr/.lmbake and no baked
+   meshes on disk: the "bake silently failed" mystery. The scene save is part
+   of the bake.
+3. Any tool that wants to know what is *stored* must read the scene's
+   SceneState, not call `get_bake_meshes()`, or it will measure freshly
+   generated copies and see nothing wrong.
+
+**How it was found:** a scripted flip test (spotlight at flashlight spec aimed
+at one grass tile from four sides, sampling rendered pixels) still showed the
+far-side-only pools and tile-edge rectangles; the G-buffer normal debug view
+(`DEBUG_DRAW_NORMAL_BUFFER`) then showed the ground as a patchwork whose colors
+decoded to exactly the pre-fix broken normals, while the same mesh in a bare
+MeshInstance3D rendered correct up normals. Only the baked-mesh copies could
+hold rotated normals that no GridMap orientation can produce (the 24 cell
+orientations map axes to axes; (0.71, 0, -0.71) is not axis-aligned).
+
+**Fix:** cleared baked meshes from all GridMaps in Freehold, CedarPoint,
+Littleton, GreyBox and Background, verified at SceneState level that nothing
+else changed. After clearing, the flip test is symmetric: pools start at the
+spot cone's near edge, cross tile seams smoothly, mirror correctly between
+opposite sides. Guarded by `test/game/GridMapBakedMeshesTest.gd`.
+
+**Second root cause, same day: the "left alone" meshes were broken too.** The
+surfaces 5c75abcd could not fix (houses, apartment, trees, rock, bushes,
+signs, mailbox, fire hydrant, some wall/sidewalk pieces: 46 surfaces) turned
+out to have rotated normals as well; no source surface even matched their
+vertex counts because the conversion had *merged* them differently. Diagnosed
+by scoring stored normals against triangle winding (Godot fronts wind
+clockwise, so healthy surfaces score -1.0; these scored ~0). Fixed by
+regenerating normals from the geometry, area-weighted per shared vertex index,
+which preserves the authored flat/smooth shading. All 106 library surfaces now
+score <= -0.98. This was why house siding stayed dark while its trim lit up,
+and why trees lit in polygon patches.
+
+**Still to do after this:**
+
+1. Reload the project (so the editor drops cached pre-fix meshlibs), re-bake
+   every map, and save each scene: the baked meshes regenerate from the fixed
+   libraries during the bake and the save persists them with the lightmap.
+   Guarded by `test/game/GridMapBakedMeshesTest.gd`, which scores the baked
+   meshes actually stored in each scene file.
+2. Re-judge overall brightness against the Godot 3 reference only after that
+   re-bake.
+
 ## The symptoms
 
 1. **Tiles light from one side only.** Point the flashlight at a grass tile, run
