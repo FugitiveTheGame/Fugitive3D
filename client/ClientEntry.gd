@@ -29,20 +29,28 @@ func handle_commandline_args():
 	
 	var args := OS.get_cmdline_args() + OS.get_cmdline_user_args()
 	print("Command Line args: %d" % [args.size()])
-	if (args.size() > 0):
-		for arg in args:
-			print("    : %s" % arg)
-			var keyValuePair = arg.split("=")
-			
-			match keyValuePair[0]:
-				"--name":
-					playerName = keyValuePair[1]
-					# Also override the default file save path so each test user has its own settings.
-					UserData.file_name = 'user://user_data-%s.json' % playerName
-				"--ip":
-					serverIp = keyValuePair[1]
-				_:
-					print("UNKNOWN ARGUMENT %s" % keyValuePair[0])
+	
+	# Only a server given on the command line asks us to skip the menu and join
+	var autoJoin := false
+	
+	for arg in args:
+		print("    : %s" % arg)
+		var keyValuePair = arg.split("=", true, 1)
+		var key: String = keyValuePair[0]
+		var value: String = keyValuePair[1] if keyValuePair.size() > 1 else ""
+		
+		match key:
+			"--name":
+				playerName = value
+				# Also override the default file save path so each test user has its own settings.
+				UserData.file_name = 'user://user_data-%s.json' % playerName
+			"--ip":
+				serverIp = value
+				autoJoin = true
+			_:
+				print("UNKNOWN ARGUMENT %s" % key)
+	
+	if autoJoin:
 		ClientNetwork.join_game(serverIp, serverPort, playerName.strip_edges())
 
 
