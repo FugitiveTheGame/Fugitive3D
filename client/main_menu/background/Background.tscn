@@ -1,0 +1,202 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://client/main_menu/background/Background.gd" id="1_vh5yr"]
+[ext_resource type="Environment" path="res://common/game/maps/default_environment.tres" id="2_klawi"]
+[ext_resource type="PackedScene" path="res://common/game/mode/fugitive/street_light/StreetLight.tscn" id="3_87ing"]
+[ext_resource type="PackedScene" path="res://common/game/mode/fugitive/cop_car/CopCar.tscn" id="4_holv1"]
+[ext_resource type="PackedScene" path="res://common/game/mode/fugitive/seeker/SeekerShape.tscn" id="5_mauf3"]
+[ext_resource type="PackedScene" path="res://common/game/mode/fugitive/seeker/Flashlight.tscn" id="6_iat3h"]
+[ext_resource type="PackedScene" path="res://common/game/mode/fugitive/hider/HiderShape.tscn" id="7_1movg"]
+[ext_resource type="MeshLibrary" path="res://common/game/tilesets/suburban_neighborhood/suburban_neighborhood_ground.meshlib.res" id="8_ghhbe"]
+[ext_resource type="MeshLibrary" path="res://common/game/tilesets/suburban_neighborhood/suburban_neighborhood_features.meshlib.res" id="9_a67mx"]
+[ext_resource type="MeshLibrary" path="res://common/game/tilesets/suburban_neighborhood/suburban_neighborhood_see_through_features.meshlib.res" id="10_0522h"]
+[ext_resource type="MeshLibrary" path="res://common/game/tilesets/suburban_neighborhood/suburban_neighborhood_police_features.meshlib.res" id="11_p027g"]
+[ext_resource type="PackedScene" path="res://common/game/mode/fugitive/motion_sensor/garage_light.tscn" id="12_dpwew"]
+[ext_resource type="PackedScene" path="res://client/main_menu/background/StaticAmbience.tscn" id="13_uvnj1"]
+[ext_resource type="PackedScene" path="res://common/game/mode/fugitive/ambience/FireFliesEffect.tscn" id="14_8xpt7"]
+[ext_resource type="PackedScene" path="res://common/game/mode/fugitive/ambience/EffectCrickets.tscn" id="15_jabmi"]
+[ext_resource type="PackedScene" path="res://common/game/mode/fugitive/ambience/EffectDogs.tscn" id="16_70s0n"]
+[ext_resource type="PackedScene" path="res://common/game/mode/fugitive/ambience/EffectOwl.tscn" id="17_2pyq8"]
+[ext_resource type="LightmapGIData" path="res://client/main_menu/background/Background.lmbake" id="18_llbva"]
+
+[sub_resource type="CapsuleShape3D" id="1"]
+radius = 0.3
+height = 1.4
+
+[sub_resource type="Animation" id="3"]
+resource_name = "cop1"
+length = 12.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.5, 4, 8),
+"transitions": PackedFloat32Array(2.63902, 2, 0.297302, 1),
+"update": 0,
+"values": [Vector3(-90, -90, 0), Vector3(-90, 0, 0), Vector3(-90, 0, 0), Vector3(-90, -90, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_p4ufj"]
+_data = {
+&"cop1": SubResource("3")
+}
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_052m3"]
+radius = 0.3
+height = 1.4
+
+[sub_resource type="Animation" id="32"]
+resource_name = "hider_00"
+length = 9.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(-0.1, 0, 3, 4, 6),
+"transitions": PackedFloat32Array(1, 1, 0.615572, 2.63902, 3.13834),
+"update": 0,
+"values": [Vector3(-90, 180, 0), Vector3(-90, 90, 0), Vector3(-90, 0, 0), Vector3(-90, 0, 0), Vector3(-90, 90, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_h2xs2"]
+_data = {
+&"hider_00": SubResource("32")
+}
+
+[node name="Backgroud" type="Node3D" unique_id=1032273795]
+script = ExtResource("1_vh5yr")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=479731995]
+environment = ExtResource("2_klawi")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=44982078 groups=["baked_lights"]]
+transform = Transform3D(-0.774282, 0, -0.63284, -0.525432, 0.557354, 0.642867, 0.352716, 0.830275, -0.431549, 0, 12.1894, 0)
+light_color = Color(0.152941, 0.278431, 0.490196, 1)
+light_energy = 0.6
+light_bake_mode = 1
+shadow_enabled = true
+
+[node name="StreetLight" parent="." unique_id=93133883 instance=ExtResource("3_87ing")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.50478, 0.989324, 0)
+
+[node name="StreetLight2" parent="." unique_id=1661044195 instance=ExtResource("3_87ing")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.50478, 0.989324, 25.849)
+
+[node name="StreetLight3" parent="." unique_id=251855361 instance=ExtResource("3_87ing")]
+transform = Transform3D(-1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0.304795, 0.989324, 24.3592)
+
+[node name="StreetLight4" parent="." unique_id=905382671 instance=ExtResource("3_87ing")]
+transform = Transform3D(-1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0.304795, 0.989324, 15.7307)
+
+[node name="StreetLight5" parent="." unique_id=231076913 instance=ExtResource("3_87ing")]
+transform = Transform3D(-1, 0, -3.25841e-07, 0, 1, 0, 3.25841e-07, 0, -1, 0.304795, 0.989324, -13.9869)
+
+[node name="CopCar" parent="." unique_id=1067901645 instance=ExtResource("4_holv1")]
+transform = Transform3D(-0.553479, 0, -0.832863, 0, 1, 0, 0.832863, 0, -0.553479, -4.59098, 0.814156, -12.3799)
+
+[node name="Bake_OmniLight" type="OmniLight3D" parent="CopCar" unique_id=114687442 groups=["baked_lights"]]
+transform = Transform3D(1, 0, 0, 0, 1, -1.18357e-14, 0, 1.18357e-14, 1, 0, 0.7, -2.5)
+light_color = Color(1, 0.945098, 0.878431, 1)
+light_energy = 2.0
+light_bake_mode = 1
+
+[node name="Bake_SpotLight" type="SpotLight3D" parent="CopCar" unique_id=1539909523 groups=["baked_lights"]]
+transform = Transform3D(1, 8.47033e-22, 0, 0, 1, -2.72971e-14, 0, 2.72971e-14, 1, 4.76837e-07, 0.7, -2.5)
+light_color = Color(1, 0.945098, 0.878431, 1)
+light_bake_mode = 1
+spot_range = 30.0
+spot_attenuation = 1.68179
+spot_angle = 30.0
+spot_angle_attenuation = 0.574349
+
+[node name="Cop1" parent="." unique_id=2045034714 instance=ExtResource("5_mauf3")]
+transform = Transform3D(-1.62921e-07, 1, 1.62921e-07, 0, -1.62921e-07, 1, 1, 1.62921e-07, 2.65431e-14, 0.973996, 1.95478, 10.1593)
+shape = SubResource("1")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Cop1" unique_id=1060359286]
+libraries/ = SubResource("AnimationLibrary_p4ufj")
+autoplay = &"cop1"
+
+[node name="Flashlight" parent="Cop1" unique_id=103190332 instance=ExtResource("6_iat3h")]
+transform = Transform3D(0.999617, -2.27878e-11, -0.0276947, -0.0276947, -1.62921e-07, -0.999617, -4.48932e-09, 1, -1.62859e-07, -0.518875, 0.140486, -0.10329)
+
+[node name="CopIllumination" type="OmniLight3D" parent="Cop1" unique_id=395692593 groups=["baked_lights"]]
+transform = Transform3D(1, -2.84217e-14, 0, 2.84217e-14, 1, -2.84217e-14, 1.69407e-21, 2.84217e-14, 1, 0, 0.405199, 1.19209e-07)
+light_color = Color(0.898039, 0.901961, 0.396078, 1)
+light_bake_mode = 1
+
+[node name="Hider" parent="." unique_id=1034865539 instance=ExtResource("7_1movg")]
+transform = Transform3D(-1.62921e-07, -1, -1.62921e-07, 0, -1.62921e-07, 1, -1, 1.62921e-07, 2.65431e-14, 6.78155, 2.19457, -7.64028)
+shape = SubResource("CapsuleShape3D_052m3")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Hider" unique_id=1901547719]
+libraries/ = SubResource("AnimationLibrary_h2xs2")
+autoplay = &"hider_00"
+
+[node name="Ground" type="GridMap" parent="." unique_id=448387975]
+mesh_library = ExtResource("8_ghhbe")
+cell_size = Vector3(8, 2, 8)
+collision_layer = 2
+collision_mask = 0
+data = {
+"cells": PackedInt32Array(0, 0, 10, 1, 0, 1441809, 2, 0, 13, 3, 0, 13, 4, 0, 15, 65533, 0, 1048589, 65534, 0, 655370, 65535, 0, 1048576, 0, 1, 1048585, 1, 1, 1048586, 2, 1, 1048586, 3, 1, 1048584, 4, 1, 1441805, 65533, 1, 1048589, 65534, 1, 655370, 65535, 1, 1048576, -65536, 1, 1048586, 0, 2, 0, 1, 2, 0, 2, 2, 655364, 3, 2, 10, 4, 2, 1441805, 65533, 2, 1048589, 65534, 2, 655370, 65535, 2, 1048576, 0, 3, 9, 1, 3, 12, 2, 3, 12, 3, 3, 8, 4, 3, 1441805, 65533, 3, 1048589, 65534, 3, 655370, 65535, 3, 1048576, 0, 4, 10, 1, 4, 1441805, 3, 4, 655375, 4, 4, 1441807, 65533, 4, 1048596, 65534, 4, 655370, 65535, 4, 1048576, 0, 5, 7, 1, 5, 1441808, 65533, 5, 1048589, 65534, 5, 655370, 65535, 5, 1048580, 0, 6, 8, 1, 6, 1441809, 65533, 6, 1048589, 65534, 6, 1441800, 65535, 6, 1441802, 0, 7, 655373, 1, 7, 1441807, 65533, 7, 655375, 65534, 7, 655373, 65535, 7, 655373, 0, 65531, 13, 1, 65531, 15, 65533, 65531, 1048591, 65534, 65531, 13, 65535, 65531, 13, 0, 65532, 1048584, 1, 65532, 1441805, 65533, 65532, 1048589, 65534, 65532, 655368, 65535, 65532, 1048586, 0, 65533, 10, 1, 65533, 1441805, 65533, 65533, 1048589, 65534, 65533, 655370, 65535, 65533, 1441796, 0, 65534, 10, 1, 65534, 1441805, 65533, 65534, 1048595, 65534, 65534, 655370, 65535, 65534, 1441792, 0, 65535, 7, 1, 65535, 1441808, 65533, 65535, 1048594, 65534, 65535, 655367, 65535, 65535, 1048576)
+}
+
+[node name="Features" type="GridMap" parent="." unique_id=119489936]
+mesh_library = ExtResource("9_a67mx")
+collision_layer = 2
+collision_mask = 0
+data = {
+"cells": PackedInt32Array(65530, 0, 1441799, 1, 1, 1441800, 2, 1, 1441800, 3, 1, 1441800, 65530, 1, 1441799, 65526, 2, 1441796, 2, 4, 1441799, 9, 4, 1441799, 65529, 4, 1441794, 2, 5, 4, 9, 5, 1441799, 12, 5, 1441796, 65525, 5, 1441799, 65530, 5, 1441796, 11, 6, 1441799, 65526, 6, 1441799, 65527, 6, 1441799, 2, 7, 655361, 65531, 7, 1048576, 13, 9, 1441797, 15, 10, 1441799, 2, 12, 655363, 17, 12, 1441799, 14, 13, 1441799, 1, 14, 1441801, 2, 14, 1441801, 3, 14, 1441801, 17, 14, 1441796, 65529, 15, 1441799, 1, 16, 1441799, 65529, 16, 1441796, 1, 17, 1441799, 3, 17, 1441799, 65530, 17, 1441794, 1, 18, 1441799, 4, 18, 1441796, 65529, 20, 1441797, 65530, 21, 1441799, 65529, 24, 1441797, 0, 25, 1441799, 65532, 25, 1441797, 1, 26, 1441797, 65535, 27, 1441799, 65534, 28, 1441796, 65535, 65518, 1441796, 6, 65519, 1441799, 65527, 65519, 1441796, 1, 65520, 1441797, 65533, 65520, 1441799, 2, 65521, 1441799, 65527, 65521, 1441797, 65530, 65521, 1441797, 65535, 65521, 1441799, 4, 65522, 1441796, 65528, 65524, 1441799, 6, 65526, 5, 65528, 65527, 1441799, 3, 65529, 5, 5, 65529, 5, 65528, 65529, 1441800, 65529, 65529, 1441800, 65530, 65529, 1441800, 0, 65530, 1441798, 2, 65531, 7, 65528, 65531, 1441799, 2, 65532, 7, 65528, 65534, 4, 65530, 65535, 1441799)
+}
+
+[node name="Seethrough" type="GridMap" parent="." unique_id=2004759409]
+mesh_library = ExtResource("10_0522h")
+collision_layer = 4
+collision_mask = 0
+data = {
+"cells": PackedInt32Array(1, 3, 1048576, 1, 4, 1048576, 7, 4, 1441792, 1, 5, 1048576, 7, 5, 1441792, 1, 6, 1048576, 2, 6, 655360, 3, 6, 655360, 4, 6, 655360, 5, 6, 655360, 6, 6, 655360, 7, 6, 655360, 2, 65523, 1048579, 3, 65523, 1, 4, 65523, 1, 5, 65523, 3, 2, 65524, 1048577, 3, 65524, 1048578, 4, 65524, 1048578, 5, 65524, 1441793, 2, 65525, 1048577, 3, 65525, 1048578, 4, 65525, 1048578, 5, 65525, 1441793, 2, 65526, 1048577, 3, 65526, 1048578, 4, 65526, 1048578, 5, 65526, 1441793, 2, 65527, 1048577, 3, 65527, 1048578, 4, 65527, 1048578, 5, 65527, 1441793, 2, 65528, 655363, 3, 65528, 655361, 4, 65528, 655361, 5, 65528, 1441795, 1, 65530, 0, 2, 65530, 0, 3, 65530, 0, 4, 65530, 0, 1, 65531, 1048576, 1, 65532, 1048576, 1, 65533, 1048576)
+}
+
+[node name="PoliceFeatures" type="GridMap" parent="." unique_id=1837204934]
+mesh_library = ExtResource("11_p027g")
+collision_layer = 32
+collision_mask = 0
+data = {
+"cells": PackedInt32Array(3, 0, 1441792, 65525, 11, 1441792, 65526, 11, 1441792, 65530, 12, 1441793, 3, 13, 1441792, 65534, 25, 1048577, 65535, 25, 1048577, 65530, 65528, 1441793, 65530, 65530, 1441793, 3, 65535, 1441792)
+}
+
+[node name="garage_light" parent="." unique_id=1508786348 instance=ExtResource("12_dpwew")]
+transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 8, 4, -3)
+
+[node name="Ambience" parent="." unique_id=80696017 instance=ExtResource("13_uvnj1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="FireFlies" parent="Ambience" unique_id=307633984 instance=ExtResource("14_8xpt7")]
+effect_size = 16.0
+frequency = 1.0
+
+[node name="Crickets" parent="Ambience" unique_id=1856264980 instance=ExtResource("15_jabmi")]
+frequency = 0.001
+
+[node name="Dogs" parent="Ambience" unique_id=1742893245 instance=ExtResource("16_70s0n")]
+
+[node name="Owl" parent="Ambience" unique_id=590053049 instance=ExtResource("17_2pyq8")]
+
+[node name="BackBufferCopy" type="BackBufferCopy" parent="." unique_id=1708509794]
+
+[node name="LightmapGI" type="LightmapGI" parent="." unique_id=1355226552]
+quality = 2
+supersampling = true
+denoiser_strength = 0.3
+environment_mode = 3
+environment_custom_color = Color(0.09803922, 0.101960786, 0.5529412, 1)
+environment_custom_energy = 2.5
+light_data = ExtResource("18_llbva")

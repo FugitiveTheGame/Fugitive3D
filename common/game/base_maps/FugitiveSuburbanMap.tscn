@@ -74,4 +74,4 @@ supersampling = true
 denoiser_strength = 0.3
 environment_mode = 3
 environment_custom_color = Color(0.0980392, 0.101961, 0.552941, 1)
-environment_custom_energy = 1.0
+environment_custom_energy = 2.5
