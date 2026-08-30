@@ -1,27 +1,25 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=6 format=3]
 
-[ext_resource path="res://client/main_menu/vr/VrClientMainMenu.gd" type="Script" id=1]
-[ext_resource path="res://client/main_menu/vr/VrClientMainMenuUi.tscn" type="PackedScene" id=2]
-[ext_resource path="res://client/vr_menu_player/VrMenuPlayer.tscn" type="PackedScene" id=3]
-[ext_resource path="res://addons/OQ_Toolkit/OQ_UI2D/OQ_UI2DCanvas.tscn" type="PackedScene" id=4]
-[ext_resource path="res://addons/OQ_Toolkit/OQ_UI2D/OQ_UI2DKeyboard.tscn" type="PackedScene" id=5]
-[ext_resource path="res://client/main_menu/background/Background.tscn" type="PackedScene" id=6]
+[ext_resource type="Script" path="res://client/main_menu/vr/VrClientMainMenu.gd" id="1"]
+[ext_resource type="PackedScene" path="res://client/main_menu/vr/VrClientMainMenuUi.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://client/vr_menu_player/VrMenuPlayer.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://client/vr_menu_player/UiPanel3D.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://client/main_menu/background/Background.tscn" id="5"]
 
 [node name="VrMainMenu" type="Node3D"]
-script = ExtResource( 1 )
+script = ExtResource("1")
 
-[node name="MainMenuDisplay" parent="." instance=ExtResource( 4 )]
-transform = Transform3D( -0.00598646, 0, -0.999982, 0, 1, 0, 0.999982, 0, -0.00598646, 0.929554, 2.90218, 0.106663 )
-editor_live_update = false
-transparent = true
+[node name="MainMenuDisplay" parent="." instance=ExtResource("4")]
+transform = Transform3D(-0.00598646, 0, -0.999982, 0, 1, 0, 0.999982, 0, -0.00598646, 0.929554, 2.90218, 0.106663)
 
-[node name="MainMenu" parent="MainMenuDisplay" instance=ExtResource( 2 )]
+[node name="MainMenu" parent="MainMenuDisplay" instance=ExtResource("2")]
 
-[node name="VrMenuPlayer" parent="." instance=ExtResource( 3 )]
-transform = Transform3D( -0.00598646, 0, -0.999982, 0, 1, 0, 0.999982, 0, -0.00598646, 0.225457, 1.25288, 0.102448 )
+[node name="VrMenuPlayer" parent="." instance=ExtResource("3")]
+transform = Transform3D(-0.00598646, 0, -0.999982, 0, 1, 0, 0.999982, 0, -0.00598646, 0.225457, 1.25288, 0.102448)
 
-[node name="Backgroud" parent="." instance=ExtResource( 6 )]
+[node name="UiRaycast" parent="VrMenuPlayer/Origin/RightHand" index="0"]
+hudPath = NodePath("../../../../MainMenuDisplay")
 
-[node name="OQ_UI2DKeyboard" parent="." instance=ExtResource( 5 )]
-transform = Transform3D( -1.50744e-07, 0.379327, -0.925263, 6.18002e-08, 0.925263, 0.379327, 1, 0, -1.62921e-07, 0.876221, 2.44345, 0.0991356 )
-show_text_input = false
+[node name="Backgroud" parent="." instance=ExtResource("5")]
+
+[editable path="VrMenuPlayer"]
