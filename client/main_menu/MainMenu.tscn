@@ -186,7 +186,7 @@ valign = 1
 size = Vector2i(261, 110)
 visible = false
 exclusive = true
-window_title = "Joining"
+title = "Joining"
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -217,12 +217,12 @@ text = "Cancel"
 
 [node name="JoinFailedDialog" type="AcceptDialog" parent="."]
 size = Vector2i(251, 110)
-window_title = "Failed"
+title = "Failed"
 dialog_text = "Failed to join server."
 
 [node name="BadInfoDialog" type="AcceptDialog" parent="."]
 size = Vector2i(292, 110)
-window_title = "Bad Input"
+title = "Bad Input"
 dialog_text = "Check your IP and Port"
 dialog_autowrap = true
 __meta__ = {
@@ -231,7 +231,7 @@ __meta__ = {
 
 [node name="ConnectionLostDialog" type="AcceptDialog" parent="."]
 size = Vector2i(380, 110)
-window_title = "Connection Lost"
+title = "Connection Lost"
 dialog_autowrap = true
 
 [node name="HelpDialog" parent="." instance=ExtResource( 4 )]
@@ -364,7 +364,7 @@ offset_bottom = 249.0
 [node name="CrashDetectedDialog" type="AcceptDialog" parent="."]
 size = Vector2i(568, 298)
 theme = ExtResource( 9 )
-window_title = "Crash Detected"
+title = "Crash Detected"
 dialog_text = "It looks like Fugitive 3D did not shutdown properly last time.
 
 It would be very helpful if you would send the crash logs to us! Thanks for helping make Fugitive better.
@@ -377,7 +377,7 @@ dialog_autowrap = true
 [node name="NewVersionDialog" type="AcceptDialog" parent="."]
 size = Vector2i(544, 176)
 theme = ExtResource( 9 )
-window_title = "Update Available"
+title = "Update Available"
 resizable = true
 dialog_text = "There is a new version of Fugitive 3D available.
 
@@ -396,3 +396,4 @@ dialog_autowrap = true
 [connection signal="pressed" from="InfoContainer/DiscordButton" to="." method="_on_DiscordButton_pressed"]
 [connection signal="connect_to_server" from="VBoxContainer/ServerBrowser" to="." method="_on_ServerBrowser_connect_to_server"]
 [connection signal="request_completed" from="VersionCheckRequest" to="." method="_on_VersionCheckRequest_request_completed"]
+[connection signal="close_requested" from="JoiningDialog" to="." method="_on_CancelButton_pressed"]

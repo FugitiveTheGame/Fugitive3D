@@ -199,6 +199,9 @@ func _on_InGameMenuHud_about_to_show():
 
 
 func _on_InGameMenuHud_popup_hide():
+	# Connected to visibility_changed, which also fires on show
+	if inGameMenuHud.visible:
+		return
 	uiRaycast.hide()
 
 
@@ -219,6 +222,8 @@ func _on_HelpDialog_about_to_show():
 
 
 func _on_HelpDialog_popup_hide():
+	if helpDialog.visible:
+		return
 	uiRaycast.hide()
 
 

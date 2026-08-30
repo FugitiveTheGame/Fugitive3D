@@ -5,7 +5,7 @@
 [node name="SettingsDialog" type="Window"]
 size = Vector2i(385, 199)
 visible = false
-window_title = "Settings"
+title = "Settings"
 script = ExtResource( 1 )
 __meta__ = {
 "_edit_use_anchors_": false
@@ -48,3 +48,4 @@ value = 1.0
 [connection signal="visibility_changed" from="." to="." method="_on_SettingsDialog_popup_hide"]
 [connection signal="toggled" from="VBoxContainer/FullScreenCheckBox" to="." method="_on_FullScreenCheckBox_toggled"]
 [connection signal="value_changed" from="VBoxContainer/MouseSensetivitySlider" to="." method="_on_MouseSensetivitySlider_value_changed"]
+[connection signal="close_requested" from="." to="." method="hide"]

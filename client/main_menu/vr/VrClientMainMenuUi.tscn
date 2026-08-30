@@ -83,7 +83,7 @@ __meta__ = {
 
 [node name="ExploreDialog" type="ConfirmationDialog" parent="." index="19"]
 size = Vector2i(504, 174)
-window_title = "Explore Fugitive"
+title = "Explore Fugitive"
 dialog_text = "This will allow you to check out Fugitive 3D offline. Learn a few of the mechanics in preperation for online play. Try to find all 8 Fugitives!"
 dialog_autowrap = true
 [connection signal="pressed" from="OptionsContainer/ExploreButton" to="." method="_on_ExploreButton_pressed"]

@@ -161,11 +161,11 @@ material = SubResource( 1 )
 [node name="VoiceChat" parent="." instance=ExtResource( 17 )]
 audioPlayerPath = NodePath("../VoiceChatPlayback")
 [connection signal="about_to_popup" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/InGameMenuHud" to="." method="_on_InGameMenuHud_about_to_show"]
-[connection signal="popup_hide" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/InGameMenuHud" to="." method="_on_InGameMenuHud_popup_hide"]
+[connection signal="visibility_changed" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/InGameMenuHud" to="." method="_on_InGameMenuHud_popup_hide"]
 [connection signal="show_exit" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/InGameMenuHud" to="." method="_on_InGameMenuHud_show_exit"]
 [connection signal="show_help" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/InGameMenuHud" to="." method="_on_InGameMenuHud_show_help"]
 [connection signal="on_exit_dialog_hide" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/ExitGameHud" to="." method="_on_ExitGameHud_on_exit_dialog_hide"]
 [connection signal="on_exit_dialog_show" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/ExitGameHud" to="." method="_on_ExitGameHud_on_exit_dialog_show"]
 [connection signal="return_to_main_menu" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/ExitGameHud" to="." method="_on_ExitGameHud_return_to_main_menu"]
 [connection signal="about_to_popup" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/HelpDialog" to="." method="_on_HelpDialog_about_to_show"]
-[connection signal="popup_hide" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/HelpDialog" to="." method="_on_HelpDialog_popup_hide"]
+[connection signal="visibility_changed" from="OQ_LeftController/VisibilityToggle/HudCanvas/HudContainer/HelpDialog" to="." method="_on_HelpDialog_popup_hide"]
