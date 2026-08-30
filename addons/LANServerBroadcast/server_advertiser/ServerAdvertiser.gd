@@ -40,14 +40,16 @@ func _init():
 	add_child(registerRequest)
 	
 	add_child(removeRequest)
+	# Parented here as well as configured in _ready, so an advertiser freed
+	# before entering the tree does not leak it
+	add_child(broadcastTimer)
 
 
 func _ready():
 	broadcastTimer.name = "BroadcastTimer"
 	broadcastTimer.wait_time = broadcast_interval
 	broadcastTimer.one_shot = false
-	broadcastTimer.connect("timeout", Callable(self, "broadcast")) 
-	add_child(broadcastTimer)
+	broadcastTimer.connect("timeout", Callable(self, "broadcast"))
 
 
 func _process(delta):

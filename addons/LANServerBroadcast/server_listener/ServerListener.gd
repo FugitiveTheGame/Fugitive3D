@@ -33,18 +33,19 @@ func _init():
 	cleanUpTimer.autostart = true
 	cleanUpTimer.connect("timeout", Callable(self, 'clean_up'))
 	add_child(cleanUpTimer)
+	# Parent the helper nodes here as well, so a listener that is freed
+	# before entering the tree does not leak them
+	add_child(serverRepoRequestTimer)
+	add_child(serverRepoRequest)
 
 func _ready():
 	knownServers.clear()
-	
+
 	serverRepoRequestTimer.wait_time = REPOSITORY_REFRESH_INTERVAL
 	serverRepoRequestTimer.one_shot = false
-	add_child(serverRepoRequestTimer)
 	serverRepoRequestTimer.connect("timeout", Callable(self, "request_servers"))
 	serverRepoRequestTimer.start()
-	
-	
-	add_child(serverRepoRequest)
+
 	serverRepoRequest.connect("request_completed", Callable(self, "_on_ServerRepoRequest_request_completed"))
 	
 	if socketUDP.bind(listenPort) != OK:
