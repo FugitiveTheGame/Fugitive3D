@@ -7,6 +7,8 @@ extends "res://client/game/mode/fugitive/VrFugitiveController.gd"
 
 
 func _physics_process(delta):
+	super._physics_process(delta)
+	
 	if debounced_button_just_released(vr.BUTTON.B):
 		flashlight.toggle_on()
 	

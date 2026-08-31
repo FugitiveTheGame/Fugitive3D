@@ -11,6 +11,8 @@ const crouching_modifier := 0.45
 
 
 func _ready():
+	super._ready()
+	
 	print("Player Standing: " + str(UserData.data.vr_standing))
 	playerHeightHud.visible = UserData.data.vr_standing
 
@@ -21,6 +23,8 @@ func show_map(show: bool):
 
 
 func _physics_process(delta):
+	super._physics_process(delta)
+	
 	#######################
 	# Process per-frame input
 	
