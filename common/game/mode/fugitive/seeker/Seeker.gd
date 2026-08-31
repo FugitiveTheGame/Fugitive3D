@@ -8,6 +8,9 @@ const MAX_VISION_DISTANCE := 50.0
 const MIN_VISION_DISTANCE := 3.0
 const CLOSE_PROXIMITY_DISTANCE := 1.5
 
+# Points tested from a hider's feet up to their head
+const BODY_SAMPLES := 5
+
 const MOVEMENT_VISIBILITY_PENALTY := 0.10
 const SPRINT_VISIBILITY_PENALTY := 0.75
 
@@ -39,55 +42,70 @@ func process_hider(hider):
 		hider.update_visibility(1.0)
 	# Quick reject, if too far away, or flashlight is off, just give up
 	elif distance <=  MAX_VISION_DISTANCE and flash_light.is_on:
-		# Cast a ray between the seeker's flashlight and this hider
-		var curHiderShape = hider.get_current_shape().head
-		var look_vec := flash_light.to_local(curHiderShape.global_transform.origin)
+		############################################
+		# Begin visibility calculations
+		############################################
 		
-		seeker_ray_caster.target_position = look_vec
-		seeker_ray_caster.force_raycast_update()
+		# At a given distance, fade the hider out
+		var distance_visibility: float
 		
-		# Only if ray is colliding. If it's not, and we try to do logic,
-		# wierd stuff happens
-		if(seeker_ray_caster.is_colliding()):
+		# Hider is too far away, make invisible regardless of FOV visibility
+		if distance > MAX_VISION_DISTANCE:
+			distance_visibility = 0.0
+		# Hider is at the edge of distance visibility, calculate how close to the edge they are
+		elif distance > MIN_VISION_DISTANCE:
+			var shiftedDistance = distance - MIN_VISION_DISTANCE
+			distance_visibility = 1.0 - (shiftedDistance / (MAX_VISION_DISTANCE-MIN_VISION_DISTANCE))
+		# Hider is well with-in visible distance, we won't modify the FOV visibility at all
+		else:
+			distance_visibility = 1.0
+		
+		# The flashlight rides at the seeker's waist while a hider's head is most
+		# of a metre higher, so measuring a single point at the head swings outside
+		# the cone whenever the seeker looks down at someone close, even with the
+		# body squarely in the beam. Take the best view along the whole hider;
+		# update_visibility() keeps the highest value it is given.
+		var feet: Vector3 = hider.playerController.global_transform.origin
+		var head: Vector3 = hider.get_current_shape().head.global_transform.origin
+		
+		for sample in BODY_SAMPLES:
+			var point: Vector3 = feet.lerp(head, float(sample) / float(BODY_SAMPLES - 1))
+			var fov_visibility: float = beam_strength_at(hider, point)
 			
-			var bodySeen = seeker_ray_caster.get_collider()
+			# FOV visibility can be faded out if at edge of distance visibility
+			var percent_visible: float = fov_visibility * distance_visibility
+			percent_visible = clamp(percent_visible, 0.0, 1.0)
 			
-			# If the ray hits a wall or something else first, then this Hider is fully occluded
-			if(bodySeen == hider.playerBody):
-				# Calculate the angle of this ray from the cetner of the Flashlight's FOV
-				var look_angle := Vector3(0.0, 0.0, -1.0).dot(look_vec.normalized())
-				
-				############################################
-				# Begin visibility calculations
-				############################################
-				
-				# At a given distance, fade the hider out
-				var distance_visibility: float
-				
-				# Hider is too far away, make invisible regardless of FOV visibility
-				if distance > MAX_VISION_DISTANCE:
-					distance_visibility = 0.0
-				# Hider is at the edge of distance visibility, calculate how close to the edge they are
-				elif distance > MIN_VISION_DISTANCE:
-					var shiftedDistance = distance - MIN_VISION_DISTANCE
-					distance_visibility = 1.0 - (shiftedDistance / (MAX_VISION_DISTANCE-MIN_VISION_DISTANCE))
-				# Hider is well with-in visible distance, we won't modify the FOV visibility at all
-				else:
-					distance_visibility = 1.0
-				
-				# If hider is in the center of Seeker's FOV, they are fully visible
-				# otherwise, they will gradually fade out the further out to the edges
-				# of the FOV they are. Outside the FOV cone, they are invisible.
-				var rangeShifted = clamp(look_angle - CONE_WIDTH, 0.0, CONE_WIDTH)
-				var rangeMapped = rangeShifted / (1.0 - CONE_WIDTH)
-				var fov_visibility = rangeMapped
-				
-				# FOV visibility can be faded out if at edge of distance visibility
-				var percent_visible: float = fov_visibility * distance_visibility
-				percent_visible = clamp(percent_visible, 0.0, 1.0)
-				
-				# The hider's set visibility method will handle the visible effects of this
-				hider.update_visibility(percent_visible)
+			# The hider's set visibility method will handle the visible effects of this
+			hider.update_visibility(percent_visible)
+
+
+# How brightly the flashlight beam falls on one point of a hider, or 0.0 when
+# anything stands between the seeker and that point
+func beam_strength_at(hider, point: Vector3) -> float:
+	# Cast a ray between the seeker's flashlight and this point
+	var look_vec := flash_light.to_local(point)
+	
+	seeker_ray_caster.target_position = look_vec
+	seeker_ray_caster.force_raycast_update()
+	
+	# Only if ray is colliding. If it's not, and we try to do logic,
+	# wierd stuff happens
+	if not seeker_ray_caster.is_colliding():
+		return 0.0
+	
+	# If the ray hits a wall or something else first, then this point is occluded
+	if seeker_ray_caster.get_collider() != hider.playerBody:
+		return 0.0
+	
+	# Calculate the angle of this ray from the cetner of the Flashlight's FOV
+	var look_angle := Vector3(0.0, 0.0, -1.0).dot(look_vec.normalized())
+	
+	# If hider is in the center of Seeker's FOV, they are fully visible
+	# otherwise, they will gradually fade out the further out to the edges
+	# of the FOV they are. Outside the FOV cone, they are invisible.
+	var rangeShifted = clamp(look_angle - CONE_WIDTH, 0.0, CONE_WIDTH)
+	return rangeShifted / (1.0 - CONE_WIDTH)
 
 
 # Hider detection
