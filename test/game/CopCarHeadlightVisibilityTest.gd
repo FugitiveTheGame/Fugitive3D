@@ -36,14 +36,20 @@ func visibility_at(metres_ahead: float) -> float:
 
 
 func test_a_hider_in_front_of_the_headlights_is_lit() -> void:
-	for metres in [1.0, 2.0, 3.0]:
+	for metres in [0.5, 1.0, 2.0, 3.0]:
 		var lit: float = await visibility_at(metres)
 		assert_float(lit).override_failure_message(
-			"Hider %.0fm in front of the headlights only read %f" % [metres, lit]
+			"Hider %.2fm in front of the headlights only read %f" % [metres, lit]
 		).is_greater(0.6)
 
 
-func test_a_hider_does_not_get_brighter_as_they_back_away() -> void:
+# Not a monotonic falloff. Brightness peaks around 1.75m and eases off either
+# side, because BODY_SAMPLES puts the nearest sample 0.123m under the beam axis
+# and that offset costs more angle the closer the hider stands. The dip is about
+# 0.015 between the peak and 1m. Closer than the hider's 0.3m capsule radius the
+# ray caster is inside them and Godot reports no hit at all, which is why this
+# only claims near beats far.
+func test_a_hider_at_the_headlights_reads_brighter_than_a_distant_one() -> void:
 	var close: float = await visibility_at(1.0)
 	var distant: float = await visibility_at(12.0)
 	assert_float(close).override_failure_message(
