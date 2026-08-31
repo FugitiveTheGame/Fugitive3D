@@ -5,10 +5,10 @@ extends GdUnitTestSuite
 # (which regenerates fresh copies and hides stale disk state); a healthy
 # surface's face normals score near -1 against its own vertex normals.
 const MAPS := [
-	"res://common/game/maps/freehold/Freehold.tscn",
-	"res://common/game/maps/cedar_point/CedarPoint.tscn",
-	"res://common/game/maps/littleton/Littleton.tscn",
-	"res://common/game/maps/grey_box/GreyBox.tscn",
+	"res://common/game/maps/freehold/Freehold.scn",
+	"res://common/game/maps/cedar_point/CedarPoint.scn",
+	"res://common/game/maps/littleton/Littleton.scn",
+	"res://common/game/maps/grey_box/GreyBox.scn",
 	"res://client/main_menu/background/Background.tscn",
 ]
 const HEALTHY := -0.85
