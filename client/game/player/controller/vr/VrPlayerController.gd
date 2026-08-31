@@ -21,10 +21,7 @@ const CROUCH_THRESHOLD := 0.75
 
 var update_threshold := Threshold.new(Utils.COMMON_NETWORK_UPDATE_THRESHOLD)
 
-const seated_standing_offset_meters := 1.0
 const seated_crouching_offset_meters := 0.45
-@onready var initial_origin := transform.origin as Vector3
-@onready var initial_shape_origin := player.playerShape.transform.origin as Vector3
 var is_standing := true
 
 # While fixed (seated in a car) the body stops simulating and the game code
@@ -32,6 +29,8 @@ var is_standing := true
 var is_fixed := false:
 	set(value):
 		is_fixed = value
+		if not value:
+			sync_body_to_rig()
 		playerCollision.enabled = not value
 
 const CENTER_MIN := 0.20
@@ -81,7 +80,7 @@ func _ready():
 
 	fpsLabel.visible = OS.is_debug_build()
 
-	call_deferred("apply_spawn_transform")
+	call_deferred("sync_body_to_rig")
 	call_deferred("update_standing")
 
 
@@ -89,10 +88,8 @@ func _ready():
 # then runs top level, but the game positions the controller after add_child().
 # Without this re-sync the body stays behind at the world origin and drags the
 # view up through the map.
-func apply_spawn_transform():
+func sync_body_to_rig():
 	playerCollision.global_transform = global_transform
-	initial_origin = transform.origin
-	initial_shape_origin = player.playerShape.transform.origin
 
 
 func _exit_tree():
@@ -134,7 +131,7 @@ func process_crouch():
 
 func _process(delta):
 	# Process what to show about the re-center indicator
-	var camTrans := playerCollision.position - camera.position
+	var camTrans := playerCollision.global_position - camera.global_position
 	var distFromCenter := Vector2(camTrans.x, camTrans.z).length()
 
 	centerLabel.visible = distFromCenter >= CENTER_MAX
@@ -147,7 +144,7 @@ func _process(delta):
 func inject_ptt_action(pressed: bool):
 	var event := InputEventAction.new()
 	event.action = "push_to_talk"
-	event.button_pressed = pressed
+	event.pressed = pressed
 	Input.parse_input_event(event)
 
 
@@ -189,12 +186,6 @@ func _physics_process(delta):
 		# We need to incorporate head turn into our network rotation
 		var totalRotation = rotation
 		totalRotation.y += camera.rotation.y
-
-		# Seated mode must adjust the position being send out to remote clients
-		if not is_standing:
-			if player.is_crouching:
-				totalTranslation.y += seated_crouching_offset_meters
-
 
 		player.rpc("network_update", totalTranslation, totalRotation, Vector3(), player.is_crouching, player.isMoving, player.sprint, player.stamina)
 
@@ -264,13 +255,11 @@ func update_standing():
 
 
 func update_head_height():
-	# Seated mode raises the origin so a seated head sits at standing height.
-	# The xr-tools PlayerBody also manages the origin, so this needs a
-	# headset-in-hand tuning pass before seated mode can be called ported.
-	if not is_standing:
+	# A standing player maps 1:1. A seated headset sits at chair height, so the
+	# body is pinned to a standing height instead of the measured head height.
+	if is_standing:
+		playerCollision.player_height_offset = 0.0
+	else:
+		playerCollision.calibrate_player_height()
 		if player.is_crouching:
-			transform.origin.y = initial_origin.y - seated_crouching_offset_meters
-			player.playerShape.transform.origin.y = initial_shape_origin.y + seated_crouching_offset_meters
-		else:
-			transform.origin.y = initial_origin.y
-			player.playerShape.transform.origin.y = initial_shape_origin.y
+			playerCollision.player_height_offset -= seated_crouching_offset_meters

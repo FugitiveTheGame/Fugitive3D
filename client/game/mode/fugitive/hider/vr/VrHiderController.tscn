@@ -41,6 +41,7 @@ collision_mask = 7
 playerPath = NodePath("../Player")
 
 [node name="CollisionShape3D" parent="PlayerBody" index="0" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 
 [node name="RemoteTransform3D" type="RemoteTransform3D" parent="PlayerBody" index="2"]
 remote_path = NodePath("../../Player")

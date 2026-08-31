@@ -39,7 +39,11 @@ offset_top = 33.0
 offset_right = 414.0
 offset_bottom = 70.0
 text = "Standing Mode"
-items = [ "Standing Mode", null, false, 0, null, "Seated Mode", null, false, 1, null ]
+item_count = 2
+popup/item_0/text = "Standing Mode"
+popup/item_0/id = 0
+popup/item_1/text = "Seated Mode"
+popup/item_1/id = 1
 selected = 0
 
 [node name="VignettingCheckBox" type="CheckBox" parent="VBoxContainer"]
@@ -59,7 +63,13 @@ offset_top = 167.0
 offset_right = 414.0
 offset_bottom = 204.0
 text = "Head"
-items = [ "Head", null, false, 0, null, "Left Hand", null, false, 1, null, "Right Hand", null, false, 2, null ]
+item_count = 3
+popup/item_0/text = "Head"
+popup/item_0/id = 0
+popup/item_1/text = "Left Hand"
+popup/item_1/id = 1
+popup/item_2/text = "Right Hand"
+popup/item_2/id = 2
 selected = 0
 
 [node name="MovementHandLabel" type="Label" parent="VBoxContainer"]
@@ -73,7 +83,11 @@ offset_top = 245.0
 offset_right = 414.0
 offset_bottom = 282.0
 text = "Move Left / Turn Right"
-items = [ "Move Left / Turn Right", null, false, 0, null, "Move Right / Turn Left", null, false, 1, null ]
+item_count = 2
+popup/item_0/text = "Move Left / Turn Right"
+popup/item_0/id = 0
+popup/item_1/text = "Move Right / Turn Left"
+popup/item_1/id = 1
 selected = 0
 [connection signal="about_to_popup" from="." to="." method="_on_SettingsDialog_about_to_show"]
 [connection signal="visibility_changed" from="." to="." method="_on_SettingsDialog_popup_hide"]
