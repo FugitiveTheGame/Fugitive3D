@@ -63,14 +63,29 @@ func process_hider(hider):
 		# The flashlight rides at the seeker's waist while a hider's head is most
 		# of a metre higher, so measuring a single point at the head swings outside
 		# the cone whenever the seeker looks down at someone close, even with the
-		# body squarely in the beam. Take the best view along the whole hider;
-		# update_visibility() keeps the highest value it is given.
+		# body squarely in the beam. Rank points up the hider by how near the beam
+		# centre they fall, then take the brightest one with a clear line to it: a
+		# ray can only confirm a point or occlude it, so the first hit is the best
+		# view available and the rest need no cast.
 		var feet: Vector3 = hider.playerController.global_transform.origin
 		var head: Vector3 = hider.get_current_shape().head.global_transform.origin
 		
+		var ranked := []
 		for sample in BODY_SAMPLES:
 			var point: Vector3 = feet.lerp(head, float(sample) / float(BODY_SAMPLES - 1))
-			var fov_visibility: float = beam_strength_at(hider, point)
+			var look_vec: Vector3 = flash_light.to_local(point)
+			ranked.append([cone_falloff(look_vec), look_vec])
+		ranked.sort_custom(func(a, b): return a[0] > b[0])
+		
+		for entry in ranked:
+			var fov_visibility: float = entry[0]
+			
+			# Brightest first, so nothing further down the hider can beat this
+			if fov_visibility <= 0.0:
+				return
+			
+			if not beam_reaches(hider, entry[1]):
+				continue
 			
 			# FOV visibility can be faded out if at edge of distance visibility
 			var percent_visible: float = fov_visibility * distance_visibility
@@ -78,26 +93,12 @@ func process_hider(hider):
 			
 			# The hider's set visibility method will handle the visible effects of this
 			hider.update_visibility(percent_visible)
+			return
 
 
-# How brightly the flashlight beam falls on one point of a hider, or 0.0 when
-# anything stands between the seeker and that point
-func beam_strength_at(hider, point: Vector3) -> float:
-	# Cast a ray between the seeker's flashlight and this point
-	var look_vec := flash_light.to_local(point)
-	
-	seeker_ray_caster.target_position = look_vec
-	seeker_ray_caster.force_raycast_update()
-	
-	# Only if ray is colliding. If it's not, and we try to do logic,
-	# wierd stuff happens
-	if not seeker_ray_caster.is_colliding():
-		return 0.0
-	
-	# If the ray hits a wall or something else first, then this point is occluded
-	if seeker_ray_caster.get_collider() != hider.playerBody:
-		return 0.0
-	
+# How brightly the beam falls on a point, ignoring anything in the way: full at
+# the centre of the cone, fading to nothing at its edge
+func cone_falloff(look_vec: Vector3) -> float:
 	# Calculate the angle of this ray from the cetner of the Flashlight's FOV
 	var look_angle := Vector3(0.0, 0.0, -1.0).dot(look_vec.normalized())
 	
@@ -106,6 +107,20 @@ func beam_strength_at(hider, point: Vector3) -> float:
 	# of the FOV they are. Outside the FOV cone, they are invisible.
 	var rangeShifted = clamp(look_angle - CONE_WIDTH, 0.0, CONE_WIDTH)
 	return rangeShifted / (1.0 - CONE_WIDTH)
+
+
+# Whether the flashlight has a clear line to this point on the hider
+func beam_reaches(hider, look_vec: Vector3) -> bool:
+	seeker_ray_caster.target_position = look_vec
+	seeker_ray_caster.force_raycast_update()
+	
+	# Only if ray is colliding. If it's not, and we try to do logic,
+	# wierd stuff happens
+	if not seeker_ray_caster.is_colliding():
+		return false
+	
+	# If the ray hits a wall or something else first, then this point is occluded
+	return seeker_ray_caster.get_collider() == hider.playerBody
 
 
 # Hider detection
