@@ -421,55 +421,32 @@ func process_hider(hider: Hider):
 	
 	# TODO: CLOSE_PROXIMITY_DISTANCE is a hack, see issue #14
 	if distance <=  MAX_VISION_DISTANCE:
-		# Cast a ray between the seeker's flashlight and this hider
-		var curHiderShape = hider.get_current_shape().head
-		var look_vec := headlight_ray_caster.to_local(curHiderShape.global_transform.origin)
+		############################################
+		# Begin visibility calculations
+		############################################
 		
-		headlight_ray_caster.target_position = look_vec
-		headlight_ray_caster.force_raycast_update()
+		# At a given distance, fade the hider out
+		var distance_visibility: float
 		
-		# Only if ray is colliding. If it's not, and we try to do logic,
-		# wierd stuff happens
-		if(headlight_ray_caster.is_colliding()):
-			
-			var bodySeen = headlight_ray_caster.get_collider()
-			
-			# If the ray hits a wall or something else first, then this Hider is fully occluded
-			if(bodySeen == hider.playerBody):
-				# Calculate the angle of this ray from the cetner of the Flashlight's FOV
-				var look_angle := Vector3(0.0, 0.0, -1.0).dot(look_vec.normalized())
-				
-				############################################
-				# Begin visibility calculations
-				############################################
-				
-				# At a given distance, fade the hider out
-				var distance_visibility: float
-				
-				# Hider is too far away, make invisible regardless of FOV visibility
-				if distance > MAX_VISION_DISTANCE:
-					distance_visibility = 0.0
-				# Hider is at the edge of distance visibility, calculate how close to the edge they are
-				elif distance > MIN_VISION_DISTANCE:
-					var shiftedDistance = distance - MIN_VISION_DISTANCE
-					distance_visibility = 1.0 - (shiftedDistance / (MAX_VISION_DISTANCE-MIN_VISION_DISTANCE))
-				# Hider is well with-in visible distance, we won't modify the FOV visibility at all
-				else:
-					distance_visibility = 1.0
-				
-				# If hider is in the center of Seeker's FOV, they are fully visible
-				# otherwise, they will gradually fade out the further out to the edges
-				# of the FOV they are. Outside the FOV cone, they are invisible.
-				var rangeShifted = clamp(look_angle - CONE_WIDTH, 0.0, CONE_WIDTH)
-				var rangeMapped = rangeShifted / (1.0 - CONE_WIDTH)
-				var fov_visibility = rangeMapped
-				
-				# FOV visibility can be faded out if at edge of distance visibility
-				var percent_visible: float = fov_visibility * distance_visibility
-				percent_visible = clamp(percent_visible, 0.0, 1.0)
-				
-				# The hider's set visibility method will handle the visible effects of this
-				hider.update_visibility(percent_visible)
+		# Hider is too far away, make invisible regardless of FOV visibility
+		if distance > MAX_VISION_DISTANCE:
+			distance_visibility = 0.0
+		# Hider is at the edge of distance visibility, calculate how close to the edge they are
+		elif distance > MIN_VISION_DISTANCE:
+			var shiftedDistance = distance - MIN_VISION_DISTANCE
+			distance_visibility = 1.0 - (shiftedDistance / (MAX_VISION_DISTANCE-MIN_VISION_DISTANCE))
+		# Hider is well with-in visible distance, we won't modify the FOV visibility at all
+		else:
+			distance_visibility = 1.0
+		
+		var fov_visibility := VisionCone.brightest_view_of(hider, headlight_ray_caster, CONE_WIDTH)
+		
+		# FOV visibility can be faded out if at edge of distance visibility
+		var percent_visible: float = fov_visibility * distance_visibility
+		percent_visible = clamp(percent_visible, 0.0, 1.0)
+		
+		# The hider's set visibility method will handle the visible effects of this
+		hider.update_visibility(percent_visible)
 
 
 func _on_EnterArea_body_entered(body):
