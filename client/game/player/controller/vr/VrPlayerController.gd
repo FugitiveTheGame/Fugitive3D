@@ -257,9 +257,16 @@ func update_standing():
 func update_head_height():
 	# A standing player maps 1:1. A seated headset sits at chair height, so the
 	# body is pinned to a standing height instead of the measured head height.
+	var previous_offset := playerCollision.player_height_offset
+
 	if is_standing:
 		playerCollision.player_height_offset = 0.0
 	else:
 		playerCollision.calibrate_player_height()
 		if player.is_crouching:
 			playerCollision.player_height_offset -= seated_crouching_offset_meters
+
+	# The body sits at origin_y minus the offset, so shifting the rig by the
+	# same amount leaves it exactly where it was. Skip this and the body floats
+	# or buries itself, and physics takes a second to settle it back.
+	global_position.y += playerCollision.player_height_offset - previous_offset

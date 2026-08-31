@@ -66,6 +66,7 @@ strafe = true
 
 [node name="MoveTurn" parent="LeftHand" instance=ExtResource("3")]
 enabled = false
+step_turn_angle = 30.0
 
 [node name="VisibilityToggle" type="Node3D" parent="LeftHand"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
@@ -162,6 +163,7 @@ enabled = false
 strafe = true
 
 [node name="MoveTurn" parent="RightHand" instance=ExtResource("3")]
+step_turn_angle = 30.0
 
 [node name="UiRaycast" parent="RightHand" instance=ExtResource("8")]
 visible = false
