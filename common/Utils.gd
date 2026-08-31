@@ -18,7 +18,9 @@ static func get_map_rotation(globalTransform: Transform3D) -> float:
 
 
 static func renderer_is_gles2() -> bool:
-	return ProjectSettings.get_setting("rendering/quality/driver/driver_name") == "GLES2"
+	# The low-end renderer is gl_compatibility in Godot 4; the name stays for
+	# the call sites that still pick cheap light setups by it
+	return ProjectSettings.get_setting("rendering/renderer/rendering_method", "") == "gl_compatibility"
 
 
 static func is_quest2() -> bool:
