@@ -21,6 +21,7 @@
 
 [node name="PlayerController" type="CharacterBody3D"]
 collision_mask = 31
+floor_max_angle = 0.959931
 script = ExtResource( 3 )
 virtual_joysticks_path = NodePath("HudCanvas/VirtualJoysticks")
 inGameMenuPath = NodePath("HudCanvas/HudContainer/InGameMenuHud")
