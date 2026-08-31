@@ -17,10 +17,13 @@ extends "res://client/main_menu/MainMenu.gd"
 
 
 func _enter_tree():
+	super._enter_tree()
 	UserData.connect("user_data_updated", Callable(self, "on_user_data_updated"))
 
 
 func _ready():
+	super._ready()
+	
 	if OS.is_debug_build():
 		debugButton.visible = true
 		driverLabel.text = str(ProjectSettings.get_setting("rendering/renderer/rendering_method", "unknown"))
@@ -33,6 +36,7 @@ func _ready():
 
 
 func _exit_tree():
+	super._exit_tree()
 	UserData.disconnect("user_data_updated", Callable(self, "on_user_data_updated"))
 
 
