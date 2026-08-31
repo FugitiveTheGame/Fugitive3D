@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://dbamljeilex65"]
 
-[ext_resource path="res://client/explore/ExploreGame.tscn" type="PackedScene" id=1]
-[ext_resource path="res://client/explore/FlatExploreGame.gd" type="Script" id=2]
+[ext_resource type="PackedScene" path="res://client/explore/ExploreGame.tscn" id="1"]
+[ext_resource type="Script" uid="uid://bov0hns2liw5" path="res://client/explore/FlatExploreGame.gd" id="2"]
 
-[node name="Game" instance=ExtResource( 1 )]
-script = ExtResource( 2 )
+[node name="Game" instance=ExtResource("1")]
+script = ExtResource("2")
