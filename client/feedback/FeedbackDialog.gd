@@ -29,7 +29,7 @@ func _on_SendButton_pressed():
 		description = $Container/DescriptionTextEdit.text.strip_edges()
 	
 	var logContents = null
-	if $Container/SendLogsCheckBox.pressed:
+	if $Container/SendLogsCheckBox.button_pressed:
 		logContents = Feedback.get_log_file_contents_gzip()
 	
 	send_feedback(userName, description, logContents)

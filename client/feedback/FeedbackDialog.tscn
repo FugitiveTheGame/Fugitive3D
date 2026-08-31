@@ -4,17 +4,11 @@
 
 [node name="FeedbackDialog" type="Window"]
 visible = false
-anchor_right = 0.543
-anchor_bottom = 0.658
-offset_right = -0.0400391
-offset_bottom = -12.76
+size = Vector2i(695, 498)
+min_size = Vector2i(420, 340)
 exclusive = true
 title = "Feedback"
-resizable = true
 script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Container" type="VBoxContainer" parent="."]
 anchor_right = 1.0
@@ -57,7 +51,7 @@ size_flags_vertical = 3
 offset_top = 336.0
 offset_right = 663.0
 offset_bottom = 382.0
-pressed = true
+button_pressed = true
 text = "Send Logs [important for crashes!]"
 
 [node name="SendButton" type="Button" parent="Container"]
