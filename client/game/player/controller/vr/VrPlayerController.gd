@@ -81,7 +81,18 @@ func _ready():
 
 	fpsLabel.visible = OS.is_debug_build()
 
+	call_deferred("apply_spawn_transform")
 	call_deferred("update_standing")
+
+
+# The xr-tools PlayerBody snapshots the rig position in its own _ready() and
+# then runs top level, but the game positions the controller after add_child().
+# Without this re-sync the body stays behind at the world origin and drags the
+# view up through the map.
+func apply_spawn_transform():
+	playerCollision.global_transform = global_transform
+	initial_origin = transform.origin
+	initial_shape_origin = player.playerShape.transform.origin
 
 
 func _exit_tree():
