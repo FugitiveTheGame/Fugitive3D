@@ -172,6 +172,7 @@ collision_layer = 1
 collision_mask = 31
 floor_max_angle = 0.959931
 player_calibrate_height = false
+player_height_rate = 20.0
 script = ExtResource("5")
 physics = SubResource("PlayerGroundPhysics")
 player_radius = 0.3
