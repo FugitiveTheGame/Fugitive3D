@@ -121,3 +121,47 @@ func test_visibility_fades_as_the_beam_tips_off_a_distant_hider() -> void:
 
 	assert_float(level).is_greater(steeply_down)
 	assert_float(steeply_down).is_less(0.25)
+
+# 3d_physics layers: 1 players, 2 walls, 3 see_through_walls, 4 cars,
+# 5 ground, 6 police_walls. The beam must stop at houses, and only houses:
+# see_through_walls is fences and pools, police_walls is flower beds and
+# bushes that police cannot walk through but can plainly see over.
+const LAYER_WALLS := 2
+const LAYER_SEE_THROUGH := 4
+const LAYER_CARS := 8
+const LAYER_POLICE_WALLS := 32
+
+
+func obstacle_on_layer(layer: int) -> StaticBody3D:
+	var body := StaticBody3D.new()
+	body.collision_layer = layer
+	var shape := CollisionShape3D.new()
+	var box := BoxShape3D.new()
+	box.size = Vector3(10, 6, 0.5)
+	shape.shape = box
+	body.add_child(shape)
+	add_child(body)
+	auto_free(body)
+	body.global_position = Vector3(0, 3, -4)
+	return body
+
+
+func test_only_solid_walls_hide_a_hider_from_the_beam() -> void:
+	var blocks := {
+		LAYER_WALLS: true,
+		LAYER_SEE_THROUGH: false,
+		LAYER_CARS: false,
+		LAYER_POLICE_WALLS: false,
+	}
+	for layer in blocks:
+		var obstacle := obstacle_on_layer(layer)
+		await place(8.0, 0.0)
+		var lit := visibility_of_hider()
+		obstacle.free()
+
+		if blocks[layer]:
+			assert_float(lit).override_failure_message(
+				"A solid wall on layer %d did not hide the hider" % layer).is_equal(0.0)
+		else:
+			assert_float(lit).override_failure_message(
+				"Geometry on layer %d should not block the beam" % layer).is_greater(0.0)
