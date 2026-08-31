@@ -81,7 +81,7 @@ playerVoiceChatPath = NodePath("../VoiceChat")
 flash_light_path = NodePath("../Flashlight")
 
 [node name="CollisionShape3D" parent="." index="3" instance=ExtResource( 4 )]
-transform = Transform3D( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 0.851208, 0 )
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.851208, 0 )
 
 [node name="Flashlight" parent="." index="4" instance=ExtResource( 5 )]
 transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0.175535, 0.851208, -0.200574 )

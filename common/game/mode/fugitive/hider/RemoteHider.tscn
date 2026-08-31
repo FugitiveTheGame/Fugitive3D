@@ -17,7 +17,7 @@ playerBodyPath = NodePath("..")
 playerVoiceChatPath = NodePath("../VoiceChat")
 
 [node name="CollisionShape3D" parent="." instance=ExtResource( 3 )]
-transform = Transform3D( 1, 0, 0, 0, -1.62921e-07, 1, 0, -1, -1.62921e-07, 0, 0.85, 0 )
+transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85, 0 )
 
 [node name="VoiceChatPlaybacl" type="AudioStreamPlayer3D" parent="."]
 volume_db = 2.0
