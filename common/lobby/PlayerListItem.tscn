@@ -67,7 +67,11 @@ offset_left = 398.0
 offset_right = 454.0
 offset_bottom = 44.0
 icon = ExtResource( 4 )
-items = [ "Make Host", null, 0, false, false, 0, 0, null, "", false, "Kick", null, 0, false, false, 1, 0, null, "", false ]
+item_count = 2
+popup/item_0/text = "Make Host"
+popup/item_0/id = 0
+popup/item_1/text = "Kick"
+popup/item_1/id = 1
 
 [node name="StatsLabel" type="Label" parent="."]
 offset_top = 52.0

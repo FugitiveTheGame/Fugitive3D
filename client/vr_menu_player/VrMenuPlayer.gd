@@ -51,5 +51,5 @@ func update_standing():
 func inject_ptt_action(pressed: bool):
 	var event := InputEventAction.new()
 	event.action = "push_to_talk"
-	event.button_pressed = pressed
+	event.pressed = pressed
 	Input.parse_input_event(event)
