@@ -23,7 +23,7 @@ func _enter_tree():
 func _ready():
 	if OS.is_debug_build():
 		debugButton.visible = true
-		driverLabel.text = ProjectSettings.get_setting("rendering/quality/driver/driver_name")
+		driverLabel.text = str(ProjectSettings.get_setting("rendering/renderer/rendering_method", "unknown"))
 		driverLabel.visible = true
 	else:
 		debugButton.visible = false
