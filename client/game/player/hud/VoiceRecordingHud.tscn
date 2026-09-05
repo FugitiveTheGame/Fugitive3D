@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene format=3]
 
-[ext_resource path="res://client/game/player/hud/ic_recording.png" type="Texture2D" id=1]
-[ext_resource path="res://client/game/player/hud/VoiceRecordingHud.gd" type="Script" id=2]
+[ext_resource type="Texture2D" path="res://client/game/player/hud/ic_recording.png" id="1"]
+[ext_resource type="Script" path="res://client/game/player/hud/VoiceRecordingHud.gd" id="2"]
 
 [node name="VoiceRecordingHud" type="Control"]
 layout_mode = 1
@@ -10,8 +10,8 @@ anchor_right = 0.037
 anchor_bottom = 0.067
 offset_right = -7.36
 offset_bottom = -8.24
-custom_minimum_size = Vector2( 48, 48 )
-script = ExtResource( 2 )
+custom_minimum_size = Vector2(48, 48)
+script = ExtResource("2")
 
 [node name="Icon" type="TextureRect" parent="."]
 layout_mode = 1
@@ -22,7 +22,7 @@ offset_right = 0.639999
 offset_bottom = -0.240002
 size_flags_horizontal = 0
 size_flags_vertical = 0
-texture = ExtResource( 1 )
+texture = ExtResource("1")
 __meta__ = {
 "_edit_use_anchors_": false
 }

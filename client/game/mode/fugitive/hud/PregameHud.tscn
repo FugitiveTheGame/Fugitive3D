@@ -1,26 +1,26 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene format=3]
 
-[ext_resource path="res://client/game/mode/fugitive/hud/PregameHud.gd" type="Script" id=1]
-[ext_resource path="res://client/game/mode/fugitive/hud/cops_released.ogg" type="AudioStream" id=2]
-[ext_resource path="res://fonts/content/ImportantContentFont.tres" type="FontFile" id=3]
-[ext_resource path="res://fonts/content/TitleFont.tres" type="FontFile" id=4]
-[ext_resource path="res://client/loading_spinner.png" type="Texture2D" id=5]
+[ext_resource type="Script" path="res://client/game/mode/fugitive/hud/PregameHud.gd" id="1"]
+[ext_resource type="AudioStream" path="res://client/game/mode/fugitive/hud/cops_released.ogg" id="2"]
+[ext_resource type="FontFile" path="res://fonts/content/ImportantContentFont.tres" id="3"]
+[ext_resource type="FontFile" path="res://fonts/content/TitleFont.tres" id="4"]
+[ext_resource type="Texture2D" path="res://client/loading_spinner.png" id="5"]
 
-[sub_resource type="Animation" id=1]
+[sub_resource type="Animation" id="1"]
 resource_name = "loading"
 length = 2.0
-loop = true
+loop_mode = 1
 tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/path = NodePath(".:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
 tracks/0/keys = {
-"times": PackedFloat32Array( 0, 2 ),
-"transitions": PackedFloat32Array( 1, 1 ),
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [ 0.0, 360.0 ]
+"values": [0.0, 360.0]
 }
 
 [node name="PregameHud" type="VBoxContainer"]
@@ -28,7 +28,7 @@ layout_mode = 1
 anchors_preset = -1
 offset_right = 14.0
 offset_bottom = 14.0
-script = ExtResource( 1 )
+script = ExtResource("1")
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -36,8 +36,8 @@ __meta__ = {
 [node name="PlayerClassLabel" type="Label" parent="."]
 offset_right = 495.0
 offset_bottom = 30.0
-custom_minimum_size = Vector2( 0, 24 )
-theme_override_fonts/font = ExtResource( 3 )
+custom_minimum_size = Vector2(0, 24)
+theme_override_fonts/font = ExtResource("3")
 text = "You are a: Hider"
 align = 1
 valign = 1
@@ -52,7 +52,7 @@ alignment = 1
 offset_top = 6.0
 offset_right = 423.0
 offset_bottom = 58.0
-theme_override_fonts/font = ExtResource( 4 )
+theme_override_fonts/font = ExtResource("4")
 text = "Waiting for Players "
 
 [node name="Spinner" type="TextureRect" parent="LoadContainer"]
@@ -60,20 +60,20 @@ process_mode = 3
 offset_left = 431.0
 offset_right = 495.0
 offset_bottom = 64.0
-custom_minimum_size = Vector2( 64, 64 )
-pivot_offset = Vector2( 32, 34 )
-texture = ExtResource( 5 )
+custom_minimum_size = Vector2(64, 64)
+pivot_offset = Vector2(32, 34)
+texture = ExtResource("5")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="LoadContainer/Spinner"]
 autoplay = "loading"
-anims/loading = SubResource( 1 )
+anims/loading = SubResource("1")
 
 [node name="PlayerClassInstructions" type="Label" parent="."]
 offset_top = 110.0
 offset_right = 495.0
 offset_bottom = 162.0
-custom_minimum_size = Vector2( 0, 24 )
-theme_override_fonts/font = ExtResource( 4 )
+custom_minimum_size = Vector2(0, 24)
+theme_override_fonts/font = ExtResource("4")
 text = "Get to the Safe Zone!"
 align = 1
 valign = 1
@@ -83,7 +83,7 @@ autowrap = true
 offset_top = 170.0
 offset_right = 495.0
 offset_bottom = 280.0
-theme_override_fonts/font = ExtResource( 4 )
+theme_override_fonts/font = ExtResource("4")
 text = "Press JUMP to ready up"
 align = 1
 autowrap = true
@@ -122,5 +122,5 @@ __meta__ = {
 }
 
 [node name="CopsReleasedAudio" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 2 )
+stream = ExtResource("2")
 volume_db = -20.0

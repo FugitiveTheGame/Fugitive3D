@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene format=3]
 
-[ext_resource path="res://client/game/mode/fugitive/seeker/CarLockHud.gd" type="Script" id=1]
-[ext_resource path="res://client/game/mode/fugitive/seeker/ic_locking.png" type="Texture2D" id=2]
+[ext_resource type="Script" path="res://client/game/mode/fugitive/seeker/CarLockHud.gd" id="1"]
+[ext_resource type="Texture2D" path="res://client/game/mode/fugitive/seeker/ic_locking.png" id="2"]
 
 [node name="CarLockHud" type="Control"]
 layout_mode = 1
@@ -9,8 +9,8 @@ anchors_preset = -1
 anchor_right = 0.2
 anchor_bottom = 0.06
 offset_bottom = 3.8147e-06
-custom_minimum_size = Vector2( 256, 48 )
-script = ExtResource( 1 )
+custom_minimum_size = Vector2(256, 48)
+script = ExtResource("1")
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -21,7 +21,7 @@ anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_bottom = -3.8147e-06
-custom_minimum_size = Vector2( 256, 32 )
+custom_minimum_size = Vector2(256, 32)
 size_flags_horizontal = 3
 size_flags_vertical = 3
 __meta__ = {
@@ -31,7 +31,7 @@ __meta__ = {
 [node name="TextureRect" type="TextureRect" parent="Container"]
 offset_right = 48.0
 offset_bottom = 48.0
-texture = ExtResource( 2 )
+texture = ExtResource("2")
 
 [node name="ProgressBar" type="ProgressBar" parent="Container"]
 offset_left = 52.0
@@ -43,4 +43,5 @@ size_flags_vertical = 3
 [node name="CarLockTimer" type="Timer" parent="Container"]
 wait_time = 2.0
 one_shot = true
+
 [connection signal="timeout" from="Container/CarLockTimer" to="." method="_on_CarLockTimer_timeout"]

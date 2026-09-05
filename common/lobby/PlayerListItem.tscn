@@ -1,10 +1,10 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene format=3]
 
-[ext_resource path="res://common/lobby/PlayerListItem.gd" type="Script" id=1]
-[ext_resource path="res://common/lobby/client_type_pc.png" type="Texture2D" id=2]
-[ext_resource path="res://common/lobby/host.png" type="Texture2D" id=3]
-[ext_resource path="res://common/lobby/menu.png" type="Texture2D" id=4]
-[ext_resource path="res://common/lobby/void_active.png" type="Texture2D" id=5]
+[ext_resource type="Script" path="res://common/lobby/PlayerListItem.gd" id="1"]
+[ext_resource type="Texture2D" path="res://common/lobby/client_type_pc.png" id="2"]
+[ext_resource type="Texture2D" path="res://common/lobby/host.png" id="3"]
+[ext_resource type="Texture2D" path="res://common/lobby/menu.png" id="4"]
+[ext_resource type="Texture2D" path="res://common/lobby/void_active.png" id="5"]
 
 [node name="PlayerListItem" type="VBoxContainer"]
 layout_mode = 1
@@ -12,7 +12,7 @@ anchors_preset = -1
 offset_left = 521.0
 offset_right = 521.0
 offset_bottom = 61.0
-script = ExtResource( 1 )
+script = ExtResource("1")
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -29,7 +29,7 @@ __meta__ = {
 [node name="PlatformIndicator" type="TextureRect" parent="Controls"]
 offset_right = 32.0
 offset_bottom = 44.0
-texture = ExtResource( 2 )
+texture = ExtResource("2")
 stretch_mode = 4
 
 [node name="NameLabel" type="Label" parent="Controls"]
@@ -45,8 +45,8 @@ valign = 1
 offset_left = 114.0
 offset_right = 146.0
 offset_bottom = 44.0
-custom_minimum_size = Vector2( 32, 32 )
-texture = ExtResource( 5 )
+custom_minimum_size = Vector2(32, 32)
+texture = ExtResource("5")
 expand_mode = 1
 stretch_mode = 4
 
@@ -54,21 +54,21 @@ stretch_mode = 4
 offset_left = 154.0
 offset_right = 186.0
 offset_bottom = 44.0
-texture = ExtResource( 3 )
+texture = ExtResource("3")
 stretch_mode = 4
 
 [node name="TeamButton" type="OptionButton" parent="Controls"]
 offset_left = 194.0
 offset_right = 390.0
 offset_bottom = 44.0
-custom_minimum_size = Vector2( 196, 0 )
+custom_minimum_size = Vector2(196, 0)
 text = "Team"
 
 [node name="HostMenuButton" type="MenuButton" parent="Controls"]
 offset_left = 398.0
 offset_right = 454.0
 offset_bottom = 44.0
-icon = ExtResource( 4 )
+icon = ExtResource("4")
 item_count = 2
 popup/item_0/text = "Make Host"
 popup/item_0/id = 0
@@ -86,4 +86,5 @@ align = 1
 offset_top = 85.0
 offset_right = 454.0
 offset_bottom = 93.0
+
 [connection signal="item_selected" from="Controls/TeamButton" to="." method="_on_TeamButton_item_selected"]

@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene format=3]
 
-[ext_resource path="res://client/game/mode/fugitive/hider/SafeZoneHud.gd" type="Script" id=1]
-[ext_resource path="res://fonts/content/TitleFont.tres" type="FontFile" id=2]
+[ext_resource type="Script" path="res://client/game/mode/fugitive/hider/SafeZoneHud.gd" id="1"]
+[ext_resource type="FontFile" path="res://fonts/content/TitleFont.tres" id="2"]
 
 [node name="SafeZoneHud" type="Control"]
 layout_mode = 1
@@ -9,7 +9,7 @@ anchors_preset = -1
 anchor_right = 0.1
 anchor_bottom = 0.08
 offset_bottom = -7.62939e-06
-script = ExtResource( 1 )
+script = ExtResource("1")
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -27,7 +27,7 @@ offset_right = 54.0
 offset_bottom = 26.0
 size_flags_horizontal = 3
 size_flags_vertical = 6
-theme_override_fonts/font = ExtResource( 2 )
+theme_override_fonts/font = ExtResource("2")
 text = "Safe!"
 align = 1
 __meta__ = {

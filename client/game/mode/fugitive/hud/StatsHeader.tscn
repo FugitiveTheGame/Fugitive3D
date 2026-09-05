@@ -1,14 +1,14 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene format=3]
 
-[ext_resource path="res://fonts/content/ImportantContentFont.tres" type="FontFile" id=1]
-[ext_resource path="res://client/game/mode/fugitive/hud/StatsHeader.gd" type="Script" id=2]
+[ext_resource type="FontFile" path="res://fonts/content/ImportantContentFont.tres" id="1"]
+[ext_resource type="Script" path="res://client/game/mode/fugitive/hud/StatsHeader.gd" id="2"]
 
 [node name="StatsHeader" type="VBoxContainer"]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 2 )
+script = ExtResource("2")
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -17,8 +17,8 @@ __meta__ = {
 offset_top = -1.0
 offset_right = 1280.0
 offset_bottom = 47.0
-custom_minimum_size = Vector2( 0, 48 )
-theme_override_fonts/font = ExtResource( 1 )
+custom_minimum_size = Vector2(0, 48)
+theme_override_fonts/font = ExtResource("1")
 text = "Header"
 valign = 2
 

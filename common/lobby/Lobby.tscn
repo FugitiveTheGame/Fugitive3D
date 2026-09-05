@@ -1,16 +1,16 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene format=3]
 
-[ext_resource path="res://common/lobby/Lobby.gd" type="Script" id=1]
-[ext_resource path="res://fonts/content/TitleFont.tres" type="FontFile" id=2]
-[ext_resource path="res://fonts/content/ImportantContentFont.tres" type="FontFile" id=3]
-[ext_resource path="res://fonts/content/ContentFont.tres" type="FontFile" id=4]
+[ext_resource type="Script" path="res://common/lobby/Lobby.gd" id="1"]
+[ext_resource type="FontFile" path="res://fonts/content/TitleFont.tres" id="2"]
+[ext_resource type="FontFile" path="res://fonts/content/ImportantContentFont.tres" id="3"]
+[ext_resource type="FontFile" path="res://fonts/content/ContentFont.tres" id="4"]
 
 [node name="Lobby" type="Control"]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 1 )
+script = ExtResource("1")
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -39,8 +39,8 @@ offset_bottom = 712.0
 [node name="Title" type="Label" parent="PanelContainer/VBoxContainer"]
 offset_right = 1264.0
 offset_bottom = 64.0
-custom_minimum_size = Vector2( 0, 64 )
-theme_override_fonts/font = ExtResource( 2 )
+custom_minimum_size = Vector2(0, 64)
+theme_override_fonts/font = ExtResource("2")
 text = "Lobby"
 align = 1
 __meta__ = {
@@ -123,7 +123,7 @@ offset_bottom = 41.0
 offset_top = 49.0
 offset_right = 628.0
 offset_bottom = 79.0
-theme_override_fonts/font = ExtResource( 3 )
+theme_override_fonts/font = ExtResource("3")
 text = "Map:"
 
 [node name="MapButton" type="OptionButton" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
@@ -150,7 +150,7 @@ alignment = 1
 offset_right = 310.0
 offset_bottom = 30.0
 size_flags_vertical = 1
-theme_override_fonts/font = ExtResource( 3 )
+theme_override_fonts/font = ExtResource("3")
 text = "Game Mode:"
 
 [node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer"]
@@ -164,7 +164,7 @@ offset_left = 110.0
 offset_right = 199.0
 offset_bottom = 28.0
 size_flags_vertical = 1
-theme_override_fonts/font = ExtResource( 4 )
+theme_override_fonts/font = ExtResource("4")
 text = "fugitive"
 align = 1
 valign = 1
@@ -173,14 +173,14 @@ valign = 1
 offset_top = 74.0
 offset_right = 310.0
 offset_bottom = 74.0
-custom_minimum_size = Vector2( 64, 0 )
+custom_minimum_size = Vector2(64, 0)
 
 [node name="SizeLabel" type="Label" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer"]
 offset_top = 82.0
 offset_right = 310.0
 offset_bottom = 112.0
 size_flags_vertical = 1
-theme_override_fonts/font = ExtResource( 3 )
+theme_override_fonts/font = ExtResource("3")
 text = "Map Size:"
 valign = 1
 
@@ -189,7 +189,7 @@ offset_top = 120.0
 offset_right = 310.0
 offset_bottom = 148.0
 size_flags_vertical = 3
-theme_override_fonts/font = ExtResource( 4 )
+theme_override_fonts/font = ExtResource("4")
 text = "small"
 align = 1
 valign = 1
@@ -203,7 +203,7 @@ size_flags_horizontal = 3
 [node name="TeamsLabel" type="Label" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/TeamsContainer"]
 offset_right = 310.0
 offset_bottom = 30.0
-theme_override_fonts/font = ExtResource( 3 )
+theme_override_fonts/font = ExtResource("3")
 text = "Max Team Sizes:"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/TeamsContainer"]
@@ -220,7 +220,7 @@ size_flags_horizontal = 3
 offset_top = 290.0
 offset_right = 628.0
 offset_bottom = 320.0
-theme_override_fonts/font = ExtResource( 3 )
+theme_override_fonts/font = ExtResource("3")
 text = "Map Description:"
 
 [node name="MapPanel" type="Panel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer"]
@@ -250,11 +250,12 @@ offset_left = 16.0
 offset_top = 16.0
 offset_right = 686.0
 offset_bottom = 256.0
-custom_minimum_size = Vector2( 0, 256 )
+custom_minimum_size = Vector2(0, 256)
 size_flags_horizontal = 3
 size_flags_vertical = 1
 autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 [connection signal="item_selected" from="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/MapButton" to="." method="_on_MapButton_item_selected"]
