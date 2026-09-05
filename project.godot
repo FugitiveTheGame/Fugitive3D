@@ -202,5 +202,6 @@ quality/driver/driver_name.server="GLES2"
 [xr]
 
 openxr/enabled=true
+openxr/reference_space=2
 openxr/startup_alert=false
 shaders/enabled=true
