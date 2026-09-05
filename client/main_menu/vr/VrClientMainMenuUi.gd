@@ -26,7 +26,7 @@ func _ready():
 	
 	if OS.is_debug_build():
 		debugButton.visible = true
-		driverLabel.text = str(ProjectSettings.get_setting("rendering/renderer/rendering_method", "unknown"))
+		driverLabel.text = RenderingServer.get_current_rendering_method()
 		driverLabel.visible = true
 	else:
 		debugButton.visible = false
