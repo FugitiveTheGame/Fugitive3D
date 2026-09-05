@@ -4,6 +4,8 @@
 [ext_resource path="res://client/game/mode/fugitive/hider/ic_visibility.png" type="Texture2D" id=2]
 
 [node name="VisibilityHud" type="HBoxContainer"]
+layout_mode = 1
+anchors_preset = -1
 anchor_right = 0.161
 anchor_bottom = 0.067
 offset_right = 305.92

@@ -1,26 +1,25 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene format=3]
 
-[ext_resource path="res://client/main_menu/MainMenu.gd" type="Script" id=1]
-[ext_resource path="res://client/main_menu/server_browser/ServerBrowser.tscn" type="PackedScene" id=2]
-[ext_resource path="res://fugitive_header.webp" type="Texture2D" id=3]
-[ext_resource path="res://client/HelpDialog.tscn" type="PackedScene" id=4]
-[ext_resource path="res://godot_logo.png" type="Texture2D" id=5]
-[ext_resource path="res://client/main_menu/main_menu_theme.ogg" type="AudioStream" id=6]
-[ext_resource path="res://client/main_menu/ic_headphones.webp" type="Texture2D" id=7]
-[ext_resource path="res://client/feedback/FeedbackDialog.tscn" type="PackedScene" id=8]
-[ext_resource path="res://fugitive_theme.tres" type="Theme" id=9]
-[ext_resource path="res://client/main_menu/discord_pressed.png" type="Texture2D" id=10]
-[ext_resource path="res://client/main_menu/discord_normal.png" type="Texture2D" id=11]
-[ext_resource path="res://godot_logo_pressed.png" type="Texture2D" id=12]
+[ext_resource type="Script" path="res://client/main_menu/MainMenu.gd" id="1"]
+[ext_resource type="PackedScene" path="res://client/main_menu/server_browser/ServerBrowser.tscn" id="2"]
+[ext_resource type="Texture2D" path="res://fugitive_header.webp" id="3"]
+[ext_resource type="PackedScene" path="res://client/HelpDialog.tscn" id="4"]
+[ext_resource type="Texture2D" path="res://godot_logo.png" id="5"]
+[ext_resource type="AudioStream" path="res://client/main_menu/main_menu_theme.ogg" id="6"]
+[ext_resource type="Texture2D" path="res://client/main_menu/ic_headphones.webp" id="7"]
+[ext_resource type="PackedScene" path="res://client/feedback/FeedbackDialog.tscn" id="8"]
+[ext_resource type="Theme" path="res://fugitive_theme.tres" id="9"]
+[ext_resource type="Texture2D" path="res://client/main_menu/discord_pressed.png" id="10"]
+[ext_resource type="Texture2D" path="res://client/main_menu/discord_normal.png" id="11"]
+[ext_resource type="Texture2D" path="res://godot_logo_pressed.png" id="12"]
 
 [node name="MainMenu" type="Control"]
+layout_mode = 1
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
-custom_minimum_size = Vector2( 1024, 600 )
-script = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+custom_minimum_size = Vector2(1024, 600)
+script = ExtResource("1")
 playerNamePath = NodePath("VBoxContainer/UsernamePanel/VBoxContainer/PlayerName")
 serverIpPath = NodePath("ManualContainer/VBoxContainer/HBoxContainer/ServerIp")
 serverPortPath = NodePath("ManualContainer/VBoxContainer/HBoxContainer/ServerPort")
@@ -39,6 +38,8 @@ versionCheckRequestPath = NodePath("VersionCheckRequest")
 newVersionDialogPath = NodePath("NewVersionDialog")
 
 [node name="ManualContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 8.0
@@ -46,9 +47,6 @@ offset_top = -138.0
 offset_right = 448.0
 offset_bottom = -8.0
 grow_vertical = 0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="ManualContainer"]
 offset_left = 8.0
@@ -60,9 +58,6 @@ offset_bottom = 122.0
 offset_right = 424.0
 offset_bottom = 25.0
 text = "Direct Connect:"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HBoxContainer" type="HBoxContainer" parent="ManualContainer/VBoxContainer"]
 offset_top = 33.0
@@ -79,9 +74,6 @@ clear_button_enabled = true
 placeholder_text = "server address"
 caret_blink = true
 caret_blink_interval = 0.5
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ServerPort" type="LineEdit" parent="ManualContainer/VBoxContainer/HBoxContainer"]
 offset_left = 264.0
@@ -96,9 +88,6 @@ clear_button_enabled = true
 placeholder_text = "port"
 caret_blink = true
 caret_blink_interval = 0.5
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ConnectButton" type="Button" parent="ManualContainer/VBoxContainer"]
 offset_top = 75.0
@@ -106,9 +95,6 @@ offset_right = 424.0
 offset_bottom = 114.0
 size_flags_vertical = 0
 text = "Connect"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="UserNameErrorDialog" type="AcceptDialog" parent="."]
 offset_right = 256.0
@@ -116,27 +102,20 @@ offset_bottom = 75.0
 exclusive = true
 dialog_text = "Player Name must be at least 3 charcters long."
 dialog_autowrap = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="OptionsContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 256.0
 offset_bottom = 182.0
-custom_minimum_size = Vector2( 175, 0 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+custom_minimum_size = Vector2(175, 0)
 
 [node name="ExitButton" type="Button" parent="OptionsContainer"]
 offset_right = 248.0
 offset_bottom = 39.0
 text = "Exit Game"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HelpButton" type="Button" parent="OptionsContainer"]
 offset_top = 47.0
@@ -158,20 +137,19 @@ pressed = true
 text = "Music"
 
 [node name="HeadphonesContainer" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 8.0
 offset_top = -208.0
 offset_right = 373.0
 offset_bottom = -160.0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="HeadphonesIcon" type="TextureRect" parent="HeadphonesContainer"]
 offset_right = 48.0
 offset_bottom = 48.0
-texture = ExtResource( 7 )
+texture = ExtResource("7")
 
 [node name="HeadphonesLabel" type="Label" parent="HeadphonesContainer"]
 offset_left = 56.0
@@ -187,11 +165,10 @@ size = Vector2i(261, 110)
 visible = false
 exclusive = true
 title = "Joining"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="JoiningDialog"]
+layout_mode = 1
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 16.0
@@ -199,9 +176,6 @@ offset_top = 16.0
 offset_right = -16.0
 offset_bottom = -16.0
 alignment = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="Label" type="Label" parent="JoiningDialog/VBoxContainer"]
 offset_top = 4.0
@@ -225,27 +199,23 @@ size = Vector2i(292, 110)
 title = "Bad Input"
 dialog_text = "Check your IP and Port"
 dialog_autowrap = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="ConnectionLostDialog" type="AcceptDialog" parent="."]
 size = Vector2i(380, 110)
 title = "Connection Lost"
 dialog_autowrap = true
 
-[node name="HelpDialog" parent="." instance=ExtResource( 4 )]
+[node name="HelpDialog" parent="." instance=ExtResource("4")]
 
 [node name="InfoContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
 anchor_left = 1.0
 anchor_right = 1.0
 offset_left = -72.0
 offset_right = -8.0
 offset_bottom = 148.0
 grow_horizontal = 0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VersionLabel" type="Label" parent="InfoContainer"]
 offset_right = 64.0
@@ -257,9 +227,9 @@ valign = 1
 offset_top = 33.0
 offset_right = 64.0
 offset_bottom = 97.0
-custom_minimum_size = Vector2( 64, 64 )
-texture_normal = ExtResource( 5 )
-texture_pressed = ExtResource( 12 )
+custom_minimum_size = Vector2(64, 64)
+texture_normal = ExtResource("5")
+texture_pressed = ExtResource("12")
 ignore_texture_size = true
 stretch_mode = 4
 
@@ -267,13 +237,15 @@ stretch_mode = 4
 offset_top = 105.0
 offset_right = 64.0
 offset_bottom = 169.0
-custom_minimum_size = Vector2( 64, 64 )
-texture_normal = ExtResource( 11 )
-texture_pressed = ExtResource( 10 )
+custom_minimum_size = Vector2(64, 64)
+texture_normal = ExtResource("11")
+texture_pressed = ExtResource("10")
 ignore_texture_size = true
 stretch_mode = 4
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -282,18 +254,12 @@ offset_right = -8.0
 offset_bottom = -8.0
 grow_horizontal = 0
 grow_vertical = 0
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="UsernamePanel" type="PanelContainer" parent="VBoxContainer"]
 offset_right = 250.0
 offset_bottom = 83.0
-custom_minimum_size = Vector2( 250, 0 )
+custom_minimum_size = Vector2(250, 0)
 size_flags_horizontal = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/UsernamePanel"]
 offset_left = 8.0
@@ -302,17 +268,11 @@ offset_right = 242.0
 offset_bottom = 75.0
 size_flags_horizontal = 3
 size_flags_vertical = 2
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="PlayerNameLabel" type="Label" parent="VBoxContainer/UsernamePanel/VBoxContainer"]
 offset_right = 234.0
 offset_bottom = 25.0
 text = "Player Name:"
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="PlayerName" type="LineEdit" parent="VBoxContainer/UsernamePanel/VBoxContainer"]
 offset_top = 33.0
@@ -323,39 +283,35 @@ clear_button_enabled = true
 placeholder_text = "Enter Name"
 caret_blink = true
 caret_blink_interval = 0.5
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="ServerBrowser" parent="VBoxContainer" instance=ExtResource( 2 )]
+[node name="ServerBrowser" parent="VBoxContainer" instance=ExtResource("2")]
 offset_left = 0.0
 offset_top = 91.0
 offset_right = 500.0
 offset_bottom = 391.0
-custom_minimum_size = Vector2( 500, 300 )
+custom_minimum_size = Vector2(500, 300)
 
 [node name="MainMenuMusicPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 6 )
+stream = ExtResource("6")
 volume_db = -16.0
 
 [node name="TitleGraphic" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = -1
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -256.0
 offset_top = 8.0
 offset_right = 256.0
 offset_bottom = 108.0
-texture = ExtResource( 3 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+texture = ExtResource("3")
 
-[node name="FeedbackDialog" parent="." instance=ExtResource( 8 )]
+[node name="FeedbackDialog" parent="." instance=ExtResource("8")]
 visible = false
 
 [node name="CrashDetectedDialog" type="AcceptDialog" parent="."]
 size = Vector2i(568, 298)
-theme = ExtResource( 9 )
+theme = ExtResource("9")
 title = "Crash Detected"
 dialog_text = "It looks like Fugitive 3D did not shutdown properly last time.
 
@@ -368,7 +324,7 @@ dialog_autowrap = true
 
 [node name="NewVersionDialog" type="AcceptDialog" parent="."]
 size = Vector2i(544, 176)
-theme = ExtResource( 9 )
+theme = ExtResource("9")
 title = "Update Available"
 resizable = true
 dialog_text = "There is a new version of Fugitive 3D available.

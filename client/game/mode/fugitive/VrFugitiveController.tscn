@@ -19,6 +19,8 @@ transform = Transform3D(0.001, 0, 0, 0, 0.001, 0, 0, 0, 0.001, 0, -0.508516, -1.
 transform = Transform3D(0.896695, -0.0624614, 0.43822, 0, 0.989994, 0.141108, -0.442649, -0.126531, 0.887723, 0, 0, 0)
 
 [node name="IndicatorsContainer" parent="LeftHand/VisibilityToggle/HudCanvas/HudViewport/HudContainer" index="2"]
+layout_mode = 1
+anchors_preset = -1
 alignment = 1
 
 [node name="CrouchingHud" parent="LeftHand/VisibilityToggle/HudCanvas/HudViewport/HudContainer/IndicatorsContainer" index="0"]
@@ -37,6 +39,8 @@ offset_right = 48.0
 offset_bottom = 208.0
 
 [node name="GameTimerReadout" parent="LeftHand/VisibilityToggle/HudCanvas/HudViewport/HudContainer" index="3" instance=ExtResource("4")]
+layout_mode = 1
+anchors_preset = -1
 anchor_left = 1.0
 anchor_right = 1.0
 anchor_bottom = 0.0
@@ -44,6 +48,8 @@ offset_left = -58.0
 offset_bottom = 45.504
 
 [node name="PregameHud" parent="LeftHand/VisibilityToggle/HudCanvas/HudViewport/HudContainer" index="4" instance=ExtResource("3")]
+layout_mode = 1
+anchors_preset = -1
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -254.0
@@ -51,6 +57,8 @@ offset_right = 254.0
 offset_bottom = 249.0
 
 [node name="HeightContainer" type="PanelContainer" parent="LeftHand/VisibilityToggle/HudCanvas/HudViewport/HudContainer" index="5"]
+layout_mode = 1
+anchors_preset = -1
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -78,12 +86,16 @@ text = "Height: 0.0m"
 horizontal_alignment = 1
 
 [node name="OverviewMapHud" parent="LeftHand/VisibilityToggle/HudCanvas/HudViewport/HudContainer" index="6" instance=ExtResource("8")]
+layout_mode = 1
+anchors_preset = -1
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_bottom = 0.0
 
 [node name="EndGameHud" parent="LeftHand/VisibilityToggle/HudCanvas/HudViewport/HudContainer" index="8" instance=ExtResource("6")]
+layout_mode = 1
+anchors_preset = -1
 visible = false
 anchor_right = 1.0
 anchor_bottom = 1.0

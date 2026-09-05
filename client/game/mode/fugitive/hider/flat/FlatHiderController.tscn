@@ -25,6 +25,8 @@ playerPath = NodePath("../../../../Player")
 playerPath = NodePath("../../../../Player")
 
 [node name="IndicatorsContainer" parent="HudCanvas/HudContainer" index="1"]
+layout_mode = 1
+anchors_preset = -1
 offset_left = -128.0
 grow_horizontal = 0
 
@@ -37,6 +39,8 @@ offset_right = 128.0
 playerPath = NodePath("../../../../Player")
 
 [node name="SafeZoneHud" parent="HudCanvas/HudContainer" index="2" instance=ExtResource( 6 )]
+layout_mode = 1
+anchors_preset = -1
 anchor_left = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.0
@@ -46,6 +50,8 @@ offset_bottom = 64.0
 playerPath = NodePath("../../../Player")
 
 [node name="PregameHud" parent="HudCanvas/HudContainer" index="3"]
+layout_mode = 1
+anchors_preset = -1
 anchor_top = 0.0
 anchor_bottom = 0.0
 offset_left = -150.0
@@ -54,6 +60,8 @@ offset_right = 137.0
 offset_bottom = 167.0
 
 [node name="GameTimerReadout" parent="HudCanvas/HudContainer" index="6"]
+layout_mode = 1
+anchors_preset = -1
 offset_left = -128.0
 
 [node name="Player" parent="." index="2" instance=ExtResource( 3 )]

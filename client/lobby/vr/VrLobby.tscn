@@ -26,6 +26,8 @@ environment = SubResource("LobbyEnvironment")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.57066, -0.706083)
 
 [node name="Lobby" parent="LobbyMenuDisplay" instance=ExtResource("1")]
+layout_mode = 1
+anchors_preset = -1
 voiceChatContainerPath = NodePath("../../VoiceChatContainer")
 
 [node name="VrMenuPlayer" parent="." instance=ExtResource("3")]

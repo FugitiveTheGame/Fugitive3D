@@ -4,6 +4,8 @@
 [ext_resource path="res://client/game/player/hud/VoiceRecordingHud.gd" type="Script" id=2]
 
 [node name="VoiceRecordingHud" type="Control"]
+layout_mode = 1
+anchors_preset = -1
 anchor_right = 0.037
 anchor_bottom = 0.067
 offset_right = -7.36
@@ -12,6 +14,8 @@ custom_minimum_size = Vector2( 48, 48 )
 script = ExtResource( 2 )
 
 [node name="Icon" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = -1
 anchor_right = 0.037
 anchor_bottom = 0.067
 offset_right = 0.639999

@@ -7,12 +7,16 @@
 [ext_resource path="res://fugitive_theme.tres" type="Theme" id=5]
 
 [node name="MainMenu" instance=ExtResource( 1 )]
+layout_mode = 1
+anchors_preset = -1
 script = ExtResource( 2 )
 settingsWindowPath = NodePath("SettingsDialog")
 debugButtonPath = NodePath("OptionsContainer/DebugButton")
 exploreDialogPath = NodePath("ExploreDialog")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="." index="0"]
+layout_mode = 1
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 stretch = true

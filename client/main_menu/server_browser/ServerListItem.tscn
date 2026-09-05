@@ -3,6 +3,8 @@
 [ext_resource path="res://client/main_menu/server_browser/ServerListItem.gd" type="Script" id=1]
 
 [node name="ServerItem" type="HBoxContainer"]
+layout_mode = 1
+anchors_preset = -1
 offset_right = 423.0
 offset_bottom = 37.0
 custom_minimum_size = Vector2( 0, 24 )

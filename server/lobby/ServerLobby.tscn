@@ -5,6 +5,8 @@
 [ext_resource path="res://addons/LANServerBroadcast/server_advertiser/ServerAdvertiser.gd" type="Script" id=3]
 
 [node name="Lobby" instance=ExtResource( 1 )]
+layout_mode = 1
+anchors_preset = -1
 script = ExtResource( 2 )
 
 [node name="VBoxContainer" parent="PanelContainer" index="0"]

@@ -6,6 +6,8 @@
 [ext_resource path="res://client/game/player/hud/ic_crouching.png" type="Texture2D" id=4]
 
 [node name="PlayerLegendEntry" type="VBoxContainer"]
+layout_mode = 1
+anchors_preset = -1
 anchor_right = 0.405
 anchor_bottom = 0.083
 offset_right = 0.599976

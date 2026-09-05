@@ -7,6 +7,8 @@
 [ext_resource path="res://client/HelpDialog.tscn" type="PackedScene" id=5]
 
 [node name="Lobby" instance=ExtResource( 1 )]
+layout_mode = 1
+anchors_preset = -1
 script = ExtResource( 2 )
 startButtonPath = NodePath("PanelContainer/VBoxContainer/StartButton")
 leaveButtonPath = NodePath("PanelContainer/VBoxContainer/LeaveButton")
@@ -117,6 +119,8 @@ wait_time = 5.0
 one_shot = true
 
 [node name="StartLabel" type="Label" parent="." index="2"]
+layout_mode = 1
+anchors_preset = -1
 anchor_left = 0.5
 anchor_right = 0.5
 offset_left = -229.5

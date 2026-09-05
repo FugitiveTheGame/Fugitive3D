@@ -13,6 +13,8 @@ script = ExtResource("1")
 transform = Transform3D(-0.00598646, 0, -0.999982, 0, 1, 0, 0.999982, 0, -0.00598646, 0.929554, 2.90218, 0.106663)
 
 [node name="MainMenu" parent="MainMenuDisplay" instance=ExtResource("2")]
+layout_mode = 1
+anchors_preset = -1
 
 [node name="VrMenuPlayer" parent="." instance=ExtResource("3")]
 transform = Transform3D(-0.00598646, 0, -0.999982, 0, 1, 0, 0.999982, 0, -0.00598646, 0.225457, 1.25288, 0.102448)

@@ -4,6 +4,8 @@
 [ext_resource path="res://common/lobby/RemotePlayerListItem.gd" type="Script" id=3]
 
 [node name="PlayerListItem" instance=ExtResource( 1 )]
+layout_mode = 1
+anchors_preset = -1
 script = ExtResource( 3 )
 
 [node name="HostMenuButton" parent="Controls" index="5"]

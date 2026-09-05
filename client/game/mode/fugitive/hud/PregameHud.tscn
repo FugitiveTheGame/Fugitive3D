@@ -24,6 +24,8 @@ tracks/0/keys = {
 }
 
 [node name="PregameHud" type="VBoxContainer"]
+layout_mode = 1
+anchors_preset = -1
 offset_right = 14.0
 offset_bottom = 14.0
 script = ExtResource( 1 )

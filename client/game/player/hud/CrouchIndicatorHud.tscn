@@ -4,6 +4,8 @@
 [ext_resource path="res://client/game/player/hud/ic_crouching.png" type="Texture2D" id=2]
 
 [node name="CrouchingHud" type="Control"]
+layout_mode = 1
+anchors_preset = -1
 anchor_right = 0.037
 anchor_bottom = 0.06
 offset_right = 0.640003
@@ -15,6 +17,8 @@ __meta__ = {
 }
 
 [node name="Indicator" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = -32.0

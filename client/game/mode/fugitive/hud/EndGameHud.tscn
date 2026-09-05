@@ -6,6 +6,8 @@
 [ext_resource path="res://client/game/mode/fugitive/hud/mapview/HistoryMapHud.tscn" type="PackedScene" id=4]
 
 [node name="EndGameHud" type="PanelContainer"]
+layout_mode = 1
+anchors_preset = -1
 self_modulate = Color( 0.592157, 0.592157, 0.592157, 1 )
 anchor_right = 0.4
 anchor_bottom = 0.711
