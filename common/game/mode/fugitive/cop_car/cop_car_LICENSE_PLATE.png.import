@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://cbtvv72lrvth1"
 path.s3tc="res://.godot/imported/cop_car_LICENSE_PLATE.png-7193ae179151ae1c49647868c6382b32.s3tc.ctex"
+path.etc2="res://.godot/imported/cop_car_LICENSE_PLATE.png-7193ae179151ae1c49647868c6382b32.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://common/game/mode/fugitive/cop_car/cop_car_LICENSE_PLATE.png"
-dest_files=["res://.godot/imported/cop_car_LICENSE_PLATE.png-7193ae179151ae1c49647868c6382b32.s3tc.ctex"]
+dest_files=["res://.godot/imported/cop_car_LICENSE_PLATE.png-7193ae179151ae1c49647868c6382b32.s3tc.ctex", "res://.godot/imported/cop_car_LICENSE_PLATE.png-7193ae179151ae1c49647868c6382b32.etc2.ctex"]
 
 [params]
 

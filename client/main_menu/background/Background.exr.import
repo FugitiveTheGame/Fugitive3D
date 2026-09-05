@@ -4,15 +4,16 @@ importer="2d_array_texture"
 type="CompressedTexture2DArray"
 uid="uid://bagsxlaryxbg3"
 path.bptc="res://.godot/imported/Background.exr-6ce5793ab84469123b801323c54d96e1.bptc.ctexarray"
+path.astc="res://.godot/imported/Background.exr-6ce5793ab84469123b801323c54d96e1.astc.ctexarray"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://client/main_menu/background/Background.exr"
-dest_files=["res://.godot/imported/Background.exr-6ce5793ab84469123b801323c54d96e1.bptc.ctexarray"]
+dest_files=["res://.godot/imported/Background.exr-6ce5793ab84469123b801323c54d96e1.bptc.ctexarray", "res://.godot/imported/Background.exr-6ce5793ab84469123b801323c54d96e1.astc.ctexarray"]
 
 [params]
 
