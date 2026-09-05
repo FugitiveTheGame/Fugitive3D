@@ -106,7 +106,7 @@ func prepare_mobile_vr():
 	# This will dynamically change the foveation level up to the previous level
 	vr.set_enable_dynamic_foveation(true)
 	
-	#vr.set_display_refresh_rate_to_highest()
+	vr.set_display_refresh_rate(72.0)
 
 
 func init_analytics():
