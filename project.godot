@@ -68,7 +68,6 @@ enabled=PackedStringArray("res://addons/Fugitive3D/plugin.cfg", "res://addons/Go
 [gui]
 
 theme/custom="res://fugitive_theme.tres"
-theme/use_hidpi=true
 
 [input]
 
