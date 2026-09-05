@@ -4,6 +4,8 @@
 [ext_resource path="res://client/main_menu/server_browser/ServerBrowser.gd" type="Script" id=2]
 
 [node name="ServerBrowser" type="PanelContainer"]
+layout_mode = 1
+anchors_preset = -1
 offset_left = 487.0
 offset_top = 262.0
 offset_right = 1010.0
@@ -54,6 +56,8 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 16.0

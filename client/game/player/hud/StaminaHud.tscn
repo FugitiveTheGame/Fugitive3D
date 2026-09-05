@@ -4,6 +4,8 @@
 [ext_resource path="res://client/game/player/hud/ic_stamina.png" type="Texture2D" id=2]
 
 [node name="StaminaHud" type="HBoxContainer"]
+layout_mode = 1
+anchors_preset = -1
 offset_right = 512.0
 offset_bottom = 48.0
 custom_minimum_size = Vector2( 256, 48 )

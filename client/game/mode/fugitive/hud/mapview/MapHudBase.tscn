@@ -4,6 +4,8 @@
 [ext_resource path="res://client/game/mode/fugitive/hud/mapview/MapHudBase.gd" type="Script" id=2]
 
 [node name="MapHud" type="Control"]
+layout_mode = 1
+anchors_preset = -1
 anchor_right = 0.4
 anchor_bottom = 0.711
 offset_bottom = 0.0799866
@@ -15,6 +17,8 @@ __meta__ = {
 streetNameFont = ExtResource( 1 )
 
 [node name="Map" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = -1
 show_behind_parent = true
 anchor_right = 1.0
 anchor_bottom = 1.0

@@ -37,6 +37,8 @@ script = ExtResource( 2 )
 [node name="HudCanvas" type="CanvasLayer" parent="."]
 
 [node name="HudContainer" type="Control" parent="HudCanvas"]
+layout_mode = 1
+anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
 mouse_filter = 2
@@ -45,6 +47,8 @@ __meta__ = {
 }
 
 [node name="BarsContainer" type="VBoxContainer" parent="HudCanvas/HudContainer"]
+layout_mode = 1
+anchors_preset = -1
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_top = -128.0
@@ -60,6 +64,8 @@ offset_top = 80.0
 offset_bottom = 128.0
 
 [node name="IndicatorsContainer" type="VBoxContainer" parent="HudCanvas/HudContainer"]
+layout_mode = 1
+anchors_preset = -1
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -132,6 +138,8 @@ action = "push_to_talk"
 visibility_mode = 1
 
 [node name="VirtualJoysticks" parent="HudCanvas" instance=ExtResource( 5 )]
+layout_mode = 1
+anchors_preset = -1
 anchor_top = 0.178
 anchor_right = 1.0
 anchor_bottom = 0.633

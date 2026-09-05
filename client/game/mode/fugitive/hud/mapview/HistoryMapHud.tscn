@@ -4,4 +4,6 @@
 [ext_resource path="res://client/game/mode/fugitive/hud/mapview/HistoryMapHud.gd" type="Script" id=2]
 
 [node name="HistoryMapHud" instance=ExtResource( 1 )]
+layout_mode = 1
+anchors_preset = -1
 script = ExtResource( 2 )

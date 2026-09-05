@@ -6,6 +6,8 @@
 [ext_resource path="res://client/game/player/controller/flat/mobile/button_ptt_normal.png" type="Texture2D" id=4]
 
 [node name="Lobby" instance=ExtResource( 1 )]
+layout_mode = 1
+anchors_preset = -1
 script = ExtResource( 2 )
 voiceChatContainerPath = NodePath("VoiceChatContainer")
 

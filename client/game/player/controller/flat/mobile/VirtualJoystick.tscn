@@ -6,6 +6,8 @@
 [ext_resource path="res://client/game/player/controller/flat/mobile/joystick_circle.png" type="Texture2D" id=4]
 
 [node name="VirtualJoystick" type="Control"]
+layout_mode = 1
+anchors_preset = -1
 anchor_left = -0.006
 anchor_top = -0.078
 anchor_right = 0.994
@@ -20,6 +22,8 @@ __meta__ = {
 }
 
 [node name="BaseLeft" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = -1
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 80.0
@@ -32,6 +36,8 @@ __meta__ = {
 }
 
 [node name="Stick" type="TextureRect" parent="BaseLeft"]
+layout_mode = 1
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
@@ -46,6 +52,8 @@ __meta__ = {
 }
 
 [node name="BaseRight" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = -1
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
@@ -60,6 +68,8 @@ __meta__ = {
 }
 
 [node name="Stick" type="TextureRect" parent="BaseRight"]
+layout_mode = 1
+anchors_preset = -1
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5

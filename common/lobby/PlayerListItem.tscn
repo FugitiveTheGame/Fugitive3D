@@ -7,6 +7,8 @@
 [ext_resource path="res://common/lobby/void_active.png" type="Texture2D" id=5]
 
 [node name="PlayerListItem" type="VBoxContainer"]
+layout_mode = 1
+anchors_preset = -1
 offset_left = 521.0
 offset_right = 521.0
 offset_bottom = 61.0
