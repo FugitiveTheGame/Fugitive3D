@@ -1,9 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene format=3]
 
-[ext_resource path="res://fonts/content/ContentFont.tres" type="FontFile" id=1]
-[ext_resource path="res://client/game/mode/fugitive/hud/PlayerLegendEntry.gd" type="Script" id=2]
-[ext_resource path="res://client/game/mode/fugitive/hud/ic_frozen.png" type="Texture2D" id=3]
-[ext_resource path="res://client/game/player/hud/ic_crouching.png" type="Texture2D" id=4]
+[ext_resource type="FontFile" path="res://fonts/content/ContentFont.tres" id="1"]
+[ext_resource type="Script" path="res://client/game/mode/fugitive/hud/PlayerLegendEntry.gd" id="2"]
+[ext_resource type="Texture2D" path="res://client/game/mode/fugitive/hud/ic_frozen.png" id="3"]
+[ext_resource type="Texture2D" path="res://client/game/player/hud/ic_crouching.png" id="4"]
 
 [node name="PlayerLegendEntry" type="VBoxContainer"]
 layout_mode = 1
@@ -13,7 +13,7 @@ anchor_bottom = 0.083
 offset_right = 0.599976
 offset_bottom = 11.24
 size_flags_horizontal = 3
-script = ExtResource( 2 )
+script = ExtResource("2")
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -34,7 +34,7 @@ __meta__ = {
 [node name="ColorDisplay" type="ColorRect" parent="Container"]
 offset_right = 32.0
 offset_bottom = 32.0
-custom_minimum_size = Vector2( 32, 32 )
+custom_minimum_size = Vector2(32, 32)
 size_flags_vertical = 0
 
 [node name="NameDisplay" type="Label" parent="Container"]
@@ -43,7 +43,7 @@ offset_right = 439.0
 offset_bottom = 28.0
 size_flags_horizontal = 3
 size_flags_vertical = 0
-theme_override_fonts/font = ExtResource( 1 )
+theme_override_fonts/font = ExtResource("1")
 text = "test	"
 clip_text = true
 
@@ -51,23 +51,23 @@ clip_text = true
 offset_left = 447.0
 offset_right = 479.0
 offset_bottom = 32.0
-custom_minimum_size = Vector2( 32, 32 )
-texture = ExtResource( 4 )
+custom_minimum_size = Vector2(32, 32)
+texture = ExtResource("4")
 expand_mode = 1
 
 [node name="FrozenIcon" type="TextureRect" parent="Container"]
 offset_left = 487.0
 offset_right = 519.0
 offset_bottom = 32.0
-custom_minimum_size = Vector2( 32, 32 )
-texture = ExtResource( 3 )
+custom_minimum_size = Vector2(32, 32)
+texture = ExtResource("3")
 expand_mode = 1
 
 [node name="StaminaBar" type="ProgressBar" parent="."]
 offset_top = 40.0
 offset_right = 519.0
 offset_bottom = 56.0
-custom_minimum_size = Vector2( 24, 16 )
+custom_minimum_size = Vector2(24, 16)
 size_flags_horizontal = 3
 size_flags_vertical = 1
 step = 1.0

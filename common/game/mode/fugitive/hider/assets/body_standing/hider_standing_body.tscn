@@ -1,12 +1,12 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene format=3]
 
-[ext_resource path="res://common/game/mode/fugitive/hider/assets/body_standing/hider_standing_body.glb" type="PackedScene" id=1]
-[ext_resource path="res://common/game/mode/fugitive/hider/assets/body_standing/alpha.material.res" type="Material" id=2]
-[ext_resource path="res://common/game/mode/fugitive/hider/assets/body_standing/hider_standing_body.gd" type="Script" id=3]
+[ext_resource type="PackedScene" path="res://common/game/mode/fugitive/hider/assets/body_standing/hider_standing_body.glb" id="1"]
+[ext_resource type="Material" path="res://common/game/mode/fugitive/hider/assets/body_standing/alpha.material.res" id="2"]
+[ext_resource type="Script" path="res://common/game/mode/fugitive/hider/assets/body_standing/hider_standing_body.gd" id="3"]
 
-[node name="hider_standing_body" instance=ExtResource( 1 )]
-script = ExtResource( 3 )
+[node name="hider_standing_body" instance=ExtResource("1")]
+script = ExtResource("3")
 
-[node name="hider_standing" parent="." index="0"]
-material_override = ExtResource( 2 )
+[node name="hider_standing" parent="." index="0" unique_id=136727774]
+material_override = ExtResource("2")
 gi_mode = 0

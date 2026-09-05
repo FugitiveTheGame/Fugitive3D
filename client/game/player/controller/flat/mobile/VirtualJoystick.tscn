@@ -1,9 +1,9 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene format=3]
 
-[ext_resource path="res://client/game/player/controller/flat/mobile/joystick_background_cross.png" type="Texture2D" id=1]
-[ext_resource path="res://client/game/player/controller/flat/mobile/joystick_background.png" type="Texture2D" id=2]
-[ext_resource path="res://client/game/player/controller/flat/mobile/VirtualJoystick.gd" type="Script" id=3]
-[ext_resource path="res://client/game/player/controller/flat/mobile/joystick_circle.png" type="Texture2D" id=4]
+[ext_resource type="Texture2D" path="res://client/game/player/controller/flat/mobile/joystick_background_cross.png" id="1"]
+[ext_resource type="Texture2D" path="res://client/game/player/controller/flat/mobile/joystick_background.png" id="2"]
+[ext_resource type="Script" path="res://client/game/player/controller/flat/mobile/VirtualJoystick.gd" id="3"]
+[ext_resource type="Texture2D" path="res://client/game/player/controller/flat/mobile/joystick_circle.png" id="4"]
 
 [node name="VirtualJoystick" type="Control"]
 layout_mode = 1
@@ -16,7 +16,7 @@ offset_left = 9.6
 offset_top = 70.2
 offset_right = 9.59998
 offset_bottom = 69.6
-script = ExtResource( 3 )
+script = ExtResource("3")
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -30,7 +30,7 @@ offset_left = 80.0
 offset_top = -330.0
 offset_right = 336.0
 offset_bottom = -74.0
-texture = ExtResource( 1 )
+texture = ExtResource("1")
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -46,7 +46,7 @@ offset_left = -64.0
 offset_top = -64.0002
 offset_right = 64.0
 offset_bottom = 64.0002
-texture = ExtResource( 4 )
+texture = ExtResource("4")
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -62,7 +62,7 @@ offset_left = -320.0
 offset_top = -340.0
 offset_right = -64.0
 offset_bottom = -84.0
-texture = ExtResource( 2 )
+texture = ExtResource("2")
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -78,9 +78,10 @@ offset_left = -64.0
 offset_top = -64.0002
 offset_right = 64.0
 offset_bottom = 64.0002
-texture = ExtResource( 4 )
+texture = ExtResource("4")
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 [connection signal="gui_input" from="BaseLeft" to="." method="_on_BaseLeft_gui_input"]
 [connection signal="gui_input" from="BaseRight" to="." method="_on_BaseRight_gui_input"]

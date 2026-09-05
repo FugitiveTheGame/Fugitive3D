@@ -1,19 +1,19 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene format=3]
 
-[ext_resource path="res://client/game/mode/fugitive/hud/EndGameHud.gd" type="Script" id=1]
-[ext_resource path="res://fonts/content/TitleFont.tres" type="FontFile" id=2]
-[ext_resource path="res://client/game/mode/fugitive/hud/end_game.ogg" type="AudioStream" id=3]
-[ext_resource path="res://client/game/mode/fugitive/hud/mapview/HistoryMapHud.tscn" type="PackedScene" id=4]
+[ext_resource type="Script" path="res://client/game/mode/fugitive/hud/EndGameHud.gd" id="1"]
+[ext_resource type="FontFile" path="res://fonts/content/TitleFont.tres" id="2"]
+[ext_resource type="AudioStream" path="res://client/game/mode/fugitive/hud/end_game.ogg" id="3"]
+[ext_resource type="PackedScene" path="res://client/game/mode/fugitive/hud/mapview/HistoryMapHud.tscn" id="4"]
 
 [node name="EndGameHud" type="PanelContainer"]
 layout_mode = 1
 anchors_preset = -1
-self_modulate = Color( 0.592157, 0.592157, 0.592157, 1 )
+self_modulate = Color(0.592157, 0.592157, 0.592157, 1)
 anchor_right = 0.4
 anchor_bottom = 0.711
 offset_bottom = 0.0799866
-custom_minimum_size = Vector2( 512, 512 )
-script = ExtResource( 1 )
+custom_minimum_size = Vector2(512, 512)
+script = ExtResource("1")
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -42,7 +42,7 @@ __meta__ = {
 offset_right = 496.0
 offset_bottom = 52.0
 size_flags_horizontal = 3
-theme_override_fonts/font = ExtResource( 2 )
+theme_override_fonts/font = ExtResource("2")
 text = "Hiders Won!"
 align = 1
 __meta__ = {
@@ -84,7 +84,7 @@ offset_bottom = 320.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="HistoryMapHud" parent="Container/PanelContainer/TabContainer/Replay/ReplayLayout/LeftReplayPanel" instance=ExtResource( 4 )]
+[node name="HistoryMapHud" parent="Container/PanelContainer/TabContainer/Replay/ReplayLayout/LeftReplayPanel" instance=ExtResource("4")]
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_right = 229.0
@@ -174,12 +174,13 @@ offset_bottom = 496.0
 text = "Return to Lobby"
 
 [node name="GameOverAudio" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 3 )
+stream = ExtResource("3")
 volume_db = -10.0
 
 [node name="DelayShowTimer" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
+
 [connection signal="value_changed" from="Container/PanelContainer/TabContainer/Replay/ReplayLayout/LeftReplayPanel/Scrub" to="." method="_on_Scrub_value_changed"]
 [connection signal="value_changed" from="Container/PanelContainer/TabContainer/Replay/ReplayLayout/RightReplayPanel/Speed" to="." method="_on_Speed_value_changed"]
 [connection signal="pressed" from="Container/PanelContainer/TabContainer/Replay/ReplayLayout/RightReplayPanel/Play" to="." method="_on_ButtonHistoryPlay_pressed"]

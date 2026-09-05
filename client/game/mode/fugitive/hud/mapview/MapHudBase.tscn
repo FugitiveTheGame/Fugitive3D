@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene format=3]
 
-[ext_resource path="res://fonts/content/ContentFont.tres" type="FontFile" id=1]
-[ext_resource path="res://client/game/mode/fugitive/hud/mapview/MapHudBase.gd" type="Script" id=2]
+[ext_resource type="FontFile" path="res://fonts/content/ContentFont.tres" id="1"]
+[ext_resource type="Script" path="res://client/game/mode/fugitive/hud/mapview/MapHudBase.gd" id="2"]
 
 [node name="MapHud" type="Control"]
 layout_mode = 1
@@ -9,12 +9,12 @@ anchors_preset = -1
 anchor_right = 0.4
 anchor_bottom = 0.711
 offset_bottom = 0.0799866
-custom_minimum_size = Vector2( 128, 128 )
-script = ExtResource( 2 )
+custom_minimum_size = Vector2(128, 128)
+script = ExtResource("2")
 __meta__ = {
 "_edit_use_anchors_": false
 }
-streetNameFont = ExtResource( 1 )
+streetNameFont = ExtResource("1")
 
 [node name="Map" type="TextureRect" parent="."]
 layout_mode = 1
@@ -25,5 +25,6 @@ anchor_bottom = 1.0
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 [connection signal="resized" from="." to="." method="_on_MapHud_resized"]
 [connection signal="draw" from="Map" to="." method="_on_Map_draw"]

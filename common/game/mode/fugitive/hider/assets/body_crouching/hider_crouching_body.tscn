@@ -1,12 +1,12 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene format=3]
 
-[ext_resource path="res://common/game/mode/fugitive/hider/assets/body_crouching/shadermaterial.material.res" type="Material" id=1]
-[ext_resource path="res://common/game/mode/fugitive/hider/assets/body_crouching/hider_crouching_body.gd" type="Script" id=2]
-[ext_resource path="res://common/game/mode/fugitive/hider/assets/body_crouching/hider_crouching_body.glb" type="PackedScene" id=3]
+[ext_resource type="Material" path="res://common/game/mode/fugitive/hider/assets/body_crouching/shadermaterial.material.res" id="1"]
+[ext_resource type="Script" path="res://common/game/mode/fugitive/hider/assets/body_crouching/hider_crouching_body.gd" id="2"]
+[ext_resource type="PackedScene" path="res://common/game/mode/fugitive/hider/assets/body_crouching/hider_crouching_body.glb" id="3"]
 
-[node name="hider_crouching_body" instance=ExtResource( 3 )]
-script = ExtResource( 2 )
+[node name="hider_crouching_body" instance=ExtResource("3")]
+script = ExtResource("2")
 
-[node name="hider_crouching" parent="." index="0"]
-material_override = ExtResource( 1 )
+[node name="hider_crouching" parent="." index="0" unique_id=1344472081]
+material_override = ExtResource("1")
 gi_mode = 0

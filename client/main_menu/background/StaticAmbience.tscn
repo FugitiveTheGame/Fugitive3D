@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene format=3]
 
-[ext_resource path="res://common/game/mode/fugitive/ambience/Ambience.tscn" type="PackedScene" id=1]
-[ext_resource path="res://client/main_menu/background/StaticAmbience.gd" type="Script" id=2]
+[ext_resource type="PackedScene" path="res://common/game/mode/fugitive/ambience/Ambience.tscn" id="1"]
+[ext_resource type="Script" path="res://client/main_menu/background/StaticAmbience.gd" id="2"]
 
-[node name="Ambience" instance=ExtResource( 1 )]
-script = ExtResource( 2 )
+[node name="Ambience" instance=ExtResource("1")]
+script = ExtResource("2")

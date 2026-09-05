@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene format=3]
 
-[ext_resource path="res://client/game/mode/fugitive/hud/FrozenHud.gd" type="Script" id=1]
-[ext_resource path="res://client/game/mode/fugitive/hud/ic_frozen.png" type="Texture2D" id=2]
+[ext_resource type="Script" path="res://client/game/mode/fugitive/hud/FrozenHud.gd" id="1"]
+[ext_resource type="Texture2D" path="res://client/game/mode/fugitive/hud/ic_frozen.png" id="2"]
 
 [node name="FrozenHud" type="Control"]
 layout_mode = 1
@@ -10,8 +10,8 @@ anchor_right = 0.037
 anchor_bottom = 0.06
 offset_right = 0.640003
 offset_bottom = 3.8147e-06
-custom_minimum_size = Vector2( 48, 48 )
-script = ExtResource( 1 )
+custom_minimum_size = Vector2(48, 48)
+script = ExtResource("1")
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -23,8 +23,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = -8.0
 offset_bottom = -8.0
-custom_minimum_size = Vector2( 48, 48 )
-texture = ExtResource( 2 )
+custom_minimum_size = Vector2(48, 48)
+texture = ExtResource("2")
 __meta__ = {
 "_edit_use_anchors_": false
 }

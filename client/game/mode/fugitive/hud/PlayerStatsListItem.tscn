@@ -1,14 +1,14 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene format=3]
 
-[ext_resource path="res://client/game/mode/fugitive/hud/PlayerStatsListItem.gd" type="Script" id=1]
-[ext_resource path="res://fonts/content/ImportantContentFont.tres" type="FontFile" id=2]
+[ext_resource type="Script" path="res://client/game/mode/fugitive/hud/PlayerStatsListItem.gd" id="1"]
+[ext_resource type="FontFile" path="res://fonts/content/ImportantContentFont.tres" id="2"]
 
 [node name="PlayerStatsListItem" type="VBoxContainer"]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
 anchor_bottom = 1.0
-script = ExtResource( 1 )
+script = ExtResource("1")
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -16,12 +16,12 @@ __meta__ = {
 [node name="PlayerNameLabel" type="Label" parent="."]
 offset_right = 1280.0
 offset_bottom = 30.0
-theme_override_fonts/font = ExtResource( 2 )
+theme_override_fonts/font = ExtResource("2")
 text = "Player Name"
 align = 1
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
-self_modulate = Color( 0.572549, 0.572549, 0.572549, 1 )
+self_modulate = Color(0.572549, 0.572549, 0.572549, 1)
 offset_top = 38.0
 offset_right = 1280.0
 offset_bottom = 66.0

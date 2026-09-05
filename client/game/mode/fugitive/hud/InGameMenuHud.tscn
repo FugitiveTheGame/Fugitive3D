@@ -1,13 +1,13 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene format=3]
 
-[ext_resource path="res://client/game/mode/fugitive/hud/InGameMenuHud.gd" type="Script" id=3]
+[ext_resource type="Script" path="res://client/game/mode/fugitive/hud/InGameMenuHud.gd" id="3"]
 
 [node name="InGameMenuHud" type="Window"]
 size = Vector2i(445, 147)
 visible = false
 exclusive = true
 title = "Menu"
-script = ExtResource( 3 )
+script = ExtResource("3")
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -42,6 +42,7 @@ offset_top = 90.0
 offset_right = 429.0
 offset_bottom = 127.0
 text = "Exit Game"
+
 [connection signal="about_to_popup" from="." to="." method="_on_InGameMenuHud_about_to_show"]
 [connection signal="pressed" from="VBoxContainer/ResumeButton" to="." method="_on_ResumeButton_pressed"]
 [connection signal="pressed" from="VBoxContainer/HelpButton" to="." method="_on_HelpButton_pressed"]

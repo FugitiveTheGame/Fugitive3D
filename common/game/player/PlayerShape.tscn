@@ -1,11 +1,11 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene format=3]
 
-[ext_resource path="res://common/game/player/PlayerShape.gd" type="Script" id=1]
+[ext_resource type="Script" path="res://common/game/player/PlayerShape.gd" id="1"]
 
-[sub_resource type="CapsuleShape3D" id=1]
+[sub_resource type="CapsuleShape3D" id="1"]
 radius = 0.3
 height = 2.6
 
 [node name="CollisionShape3D" type="CollisionShape3D"]
-shape = SubResource( 1 )
-script = ExtResource( 1 )
+shape = SubResource("1")
+script = ExtResource("1")

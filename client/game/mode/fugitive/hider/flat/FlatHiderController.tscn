@@ -1,19 +1,19 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene format=3]
 
-[ext_resource path="res://client/game/mode/fugitive/FlatFugitiveController.tscn" type="PackedScene" id=1]
-[ext_resource path="res://client/game/mode/fugitive/hider/flat/FlatHiderController.gd" type="Script" id=2]
-[ext_resource path="res://common/game/mode/fugitive/hider/Hider.tscn" type="PackedScene" id=3]
-[ext_resource path="res://common/game/mode/fugitive/hider/HiderShape.tscn" type="PackedScene" id=4]
-[ext_resource path="res://client/game/mode/fugitive/hider/VisibilityHud.tscn" type="PackedScene" id=5]
-[ext_resource path="res://client/game/mode/fugitive/hider/SafeZoneHud.tscn" type="PackedScene" id=6]
+[ext_resource type="PackedScene" path="res://client/game/mode/fugitive/FlatFugitiveController.tscn" id="1"]
+[ext_resource type="Script" path="res://client/game/mode/fugitive/hider/flat/FlatHiderController.gd" id="2"]
+[ext_resource type="PackedScene" path="res://common/game/mode/fugitive/hider/Hider.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://common/game/mode/fugitive/hider/HiderShape.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://client/game/mode/fugitive/hider/VisibilityHud.tscn" id="5"]
+[ext_resource type="PackedScene" path="res://client/game/mode/fugitive/hider/SafeZoneHud.tscn" id="6"]
 
-[node name="PlayerController" instance=ExtResource( 1 )]
-script = ExtResource( 2 )
+[node name="PlayerController" instance=ExtResource("1")]
+script = ExtResource("2")
 
 [node name="Camera3D" parent="." index="0"]
-transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.53504, 0 )
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.53504, 0)
 
-[node name="VisibilityHud" parent="HudCanvas/HudContainer/BarsContainer" index="0" instance=ExtResource( 5 )]
+[node name="VisibilityHud" parent="HudCanvas/HudContainer/BarsContainer" index="0" instance=ExtResource("5")]
 anchor_right = 0.0
 anchor_bottom = 0.0
 offset_top = 24.0
@@ -38,7 +38,7 @@ playerPath = NodePath("../../../../Player")
 offset_right = 128.0
 playerPath = NodePath("../../../../Player")
 
-[node name="SafeZoneHud" parent="HudCanvas/HudContainer" index="2" instance=ExtResource( 6 )]
+[node name="SafeZoneHud" parent="HudCanvas/HudContainer" index="2" instance=ExtResource("6")]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.5
@@ -64,15 +64,15 @@ layout_mode = 1
 anchors_preset = -1
 offset_left = -128.0
 
-[node name="Player" parent="." index="2" instance=ExtResource( 3 )]
-transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85203, 0 )
+[node name="Player" parent="." index="2" instance=ExtResource("3")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85203, 0)
 shapePath = NodePath("../CollisionShape3D")
 playerControllerPath = NodePath("..")
 playerBodyPath = NodePath("..")
 playerVoiceChatPath = NodePath("../VoiceChat")
 
-[node name="CollisionShape3D" parent="." index="3" instance=ExtResource( 4 )]
-transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85203, 0 )
+[node name="CollisionShape3D" parent="." index="3" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.85203, 0)
 
 [node name="VoiceChat" parent="." index="4"]
-transform = Transform3D( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.28414, 0 )
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.28414, 0)

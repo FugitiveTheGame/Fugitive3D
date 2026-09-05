@@ -1,18 +1,19 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene format=3]
 
-[ext_resource path="res://client/game/mode/fugitive/hud/ExitGameHud.gd" type="Script" id=1]
-[ext_resource path="res://fugitive_theme.tres" type="Theme" id=2]
+[ext_resource type="Script" path="res://client/game/mode/fugitive/hud/ExitGameHud.gd" id="1"]
+[ext_resource type="Theme" path="res://fugitive_theme.tres" id="2"]
 
 [node name="ExitGameDialog" type="ConfirmationDialog"]
 size = Vector2i(297, 117)
-theme = ExtResource( 2 )
+theme = ExtResource("2")
 exclusive = true
 title = "Leave Game"
 dialog_text = "Are you sure?"
-script = ExtResource( 1 )
+script = ExtResource("1")
 __meta__ = {
 "_edit_use_anchors_": false
 }
+
 [connection signal="about_to_popup" from="." to="." method="_on_ExitGameDialog_about_to_show"]
 [connection signal="confirmed" from="." to="." method="_on_ExitGameDialog_confirmed"]
 [connection signal="visibility_changed" from="." to="." method="_on_ExitGameDialog_popup_hide"]

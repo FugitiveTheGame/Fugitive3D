@@ -1,15 +1,15 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene format=3]
 
-[ext_resource path="res://common/lobby/Lobby.tscn" type="PackedScene" id=1]
-[ext_resource path="res://client/lobby/ClientLobby.gd" type="Script" id=2]
-[ext_resource path="res://fonts/content/TitleFont.tres" type="FontFile" id=3]
-[ext_resource path="res://client/lobby/count_down.ogg" type="AudioStream" id=4]
-[ext_resource path="res://client/HelpDialog.tscn" type="PackedScene" id=5]
+[ext_resource type="PackedScene" path="res://common/lobby/Lobby.tscn" id="1"]
+[ext_resource type="Script" path="res://client/lobby/ClientLobby.gd" id="2"]
+[ext_resource type="FontFile" path="res://fonts/content/TitleFont.tres" id="3"]
+[ext_resource type="AudioStream" path="res://client/lobby/count_down.ogg" id="4"]
+[ext_resource type="PackedScene" path="res://client/HelpDialog.tscn" id="5"]
 
-[node name="Lobby" instance=ExtResource( 1 )]
+[node name="Lobby" instance=ExtResource("1")]
 layout_mode = 1
 anchors_preset = -1
-script = ExtResource( 2 )
+script = ExtResource("2")
 startButtonPath = NodePath("PanelContainer/VBoxContainer/StartButton")
 leaveButtonPath = NodePath("PanelContainer/VBoxContainer/LeaveButton")
 randomButtonPath = NodePath("PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/RandomButton")
@@ -86,7 +86,7 @@ offset_bottom = 159.0
 offset_top = 301.0
 offset_right = 628.0
 offset_bottom = 317.0
-custom_minimum_size = Vector2( 0, 16 )
+custom_minimum_size = Vector2(0, 16)
 
 [node name="DescriptionLabel" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="6"]
 offset_top = 325.0
@@ -126,16 +126,17 @@ anchor_right = 0.5
 offset_left = -229.5
 offset_right = 229.5
 offset_bottom = 52.0
-theme_override_fonts/font = ExtResource( 3 )
+theme_override_fonts/font = ExtResource("3")
 text = "Game Starting in 0:05"
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="CountDownAudio" type="AudioStreamPlayer" parent="." index="3"]
-stream = ExtResource( 4 )
+stream = ExtResource("4")
 
-[node name="HelpDialog" parent="." index="4" instance=ExtResource( 5 )]
+[node name="HelpDialog" parent="." index="4" instance=ExtResource("5")]
+
 [connection signal="pressed" from="PanelContainer/VBoxContainer/LeaveButton" to="." method="_on_LeaveButton_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer/HBoxContainer/HelpButton" to="." method="_on_HelpButton_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/RandomButton" to="." method="_on_RandomButton_pressed"]
