@@ -4,15 +4,16 @@ importer="2d_array_texture"
 type="CompressedTexture2DArray"
 uid="uid://bx6yh38ht7r57"
 path.bptc="res://.godot/imported/CedarPoint.exr-86bf1bf3ddbe227f8cc2834769725daf.bptc.ctexarray"
+path.astc="res://.godot/imported/CedarPoint.exr-86bf1bf3ddbe227f8cc2834769725daf.astc.ctexarray"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://common/game/maps/cedar_point/CedarPoint.exr"
-dest_files=["res://.godot/imported/CedarPoint.exr-86bf1bf3ddbe227f8cc2834769725daf.bptc.ctexarray"]
+dest_files=["res://.godot/imported/CedarPoint.exr-86bf1bf3ddbe227f8cc2834769725daf.bptc.ctexarray", "res://.godot/imported/CedarPoint.exr-86bf1bf3ddbe227f8cc2834769725daf.astc.ctexarray"]
 
 [params]
 

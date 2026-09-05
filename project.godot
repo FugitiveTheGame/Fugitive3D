@@ -188,6 +188,7 @@ limits/multithreaded_server/rid_pool_prealloc=90
 
 [rendering]
 
+textures/vram_compression/import_etc2_astc=true
 shading/overrides/force_lambert_over_burley.mobile=false
 environment/defaults/default_clear_color=Color(0.117647, 0.101961, 0.188235, 1)
 environment/defaults/default_environment="res://default_environment.tres"

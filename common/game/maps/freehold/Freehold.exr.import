@@ -4,15 +4,16 @@ importer="2d_array_texture"
 type="CompressedTexture2DArray"
 uid="uid://drj8cfuigplmh"
 path.bptc="res://.godot/imported/Freehold.exr-68dccc61837bd7e2daf556938f6418bf.bptc.ctexarray"
+path.astc="res://.godot/imported/Freehold.exr-68dccc61837bd7e2daf556938f6418bf.astc.ctexarray"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 
 [deps]
 
 source_file="res://common/game/maps/freehold/Freehold.exr"
-dest_files=["res://.godot/imported/Freehold.exr-68dccc61837bd7e2daf556938f6418bf.bptc.ctexarray"]
+dest_files=["res://.godot/imported/Freehold.exr-68dccc61837bd7e2daf556938f6418bf.bptc.ctexarray", "res://.godot/imported/Freehold.exr-68dccc61837bd7e2daf556938f6418bf.astc.ctexarray"]
 
 [params]
 

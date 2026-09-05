@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://p1hnqacq1gfn"
 path.s3tc="res://.godot/imported/garage_light_garage_light_bake.png-83bdd41a445b3bd54a6b47d9d3d3c2b1.s3tc.ctex"
+path.etc2="res://.godot/imported/garage_light_garage_light_bake.png-83bdd41a445b3bd54a6b47d9d3d3c2b1.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://common/game/mode/fugitive/motion_sensor/garage_light_garage_light_bake.png"
-dest_files=["res://.godot/imported/garage_light_garage_light_bake.png-83bdd41a445b3bd54a6b47d9d3d3c2b1.s3tc.ctex"]
+dest_files=["res://.godot/imported/garage_light_garage_light_bake.png-83bdd41a445b3bd54a6b47d9d3d3c2b1.s3tc.ctex", "res://.godot/imported/garage_light_garage_light_bake.png-83bdd41a445b3bd54a6b47d9d3d3c2b1.etc2.ctex"]
 
 [params]
 

@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://bwjwqftkf3guy"
 path.s3tc="res://.godot/imported/cop_car_POLICE_LOGO.png-1c15e29c40a53809046bf5b9522d6779.s3tc.ctex"
+path.etc2="res://.godot/imported/cop_car_POLICE_LOGO.png-1c15e29c40a53809046bf5b9522d6779.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://common/game/mode/fugitive/cop_car/cop_car_POLICE_LOGO.png"
-dest_files=["res://.godot/imported/cop_car_POLICE_LOGO.png-1c15e29c40a53809046bf5b9522d6779.s3tc.ctex"]
+dest_files=["res://.godot/imported/cop_car_POLICE_LOGO.png-1c15e29c40a53809046bf5b9522d6779.s3tc.ctex", "res://.godot/imported/cop_car_POLICE_LOGO.png-1c15e29c40a53809046bf5b9522d6779.etc2.ctex"]
 
 [params]
 

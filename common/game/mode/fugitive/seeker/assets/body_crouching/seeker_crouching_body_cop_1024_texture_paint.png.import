@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://dplcnqnq8clov"
 path.s3tc="res://.godot/imported/seeker_crouching_body_cop_1024_texture_paint.png-16767de561ec2c3ca433cce4f70abed7.s3tc.ctex"
+path.etc2="res://.godot/imported/seeker_crouching_body_cop_1024_texture_paint.png-16767de561ec2c3ca433cce4f70abed7.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://common/game/mode/fugitive/seeker/assets/body_crouching/seeker_crouching_body_cop_1024_texture_paint.png"
-dest_files=["res://.godot/imported/seeker_crouching_body_cop_1024_texture_paint.png-16767de561ec2c3ca433cce4f70abed7.s3tc.ctex"]
+dest_files=["res://.godot/imported/seeker_crouching_body_cop_1024_texture_paint.png-16767de561ec2c3ca433cce4f70abed7.s3tc.ctex", "res://.godot/imported/seeker_crouching_body_cop_1024_texture_paint.png-16767de561ec2c3ca433cce4f70abed7.etc2.ctex"]
 
 [params]
 

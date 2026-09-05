@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://babgfsttcgs68"
 path.s3tc="res://.godot/imported/hider_standing_body_hider_texture_paint_1024x1024.png-d8a8a4d2c913589fd564f50703bc4053.s3tc.ctex"
+path.etc2="res://.godot/imported/hider_standing_body_hider_texture_paint_1024x1024.png-d8a8a4d2c913589fd564f50703bc4053.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://common/game/mode/fugitive/hider/assets/body_standing/hider_standing_body_hider_texture_paint_1024x1024.png"
-dest_files=["res://.godot/imported/hider_standing_body_hider_texture_paint_1024x1024.png-d8a8a4d2c913589fd564f50703bc4053.s3tc.ctex"]
+dest_files=["res://.godot/imported/hider_standing_body_hider_texture_paint_1024x1024.png-d8a8a4d2c913589fd564f50703bc4053.s3tc.ctex", "res://.godot/imported/hider_standing_body_hider_texture_paint_1024x1024.png-d8a8a4d2c913589fd564f50703bc4053.etc2.ctex"]
 
 [params]
 

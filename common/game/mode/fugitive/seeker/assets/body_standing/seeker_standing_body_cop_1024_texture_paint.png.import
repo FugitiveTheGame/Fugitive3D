@@ -4,8 +4,9 @@ importer="texture"
 type="CompressedTexture2D"
 uid="uid://b6hem0lxfmhsa"
 path.s3tc="res://.godot/imported/seeker_standing_body_cop_1024_texture_paint.png-4e088f225a04af2f20750c15a5d77a3e.s3tc.ctex"
+path.etc2="res://.godot/imported/seeker_standing_body_cop_1024_texture_paint.png-4e088f225a04af2f20750c15a5d77a3e.etc2.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc"],
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
 "vram_texture": true
 }
 generator_parameters={
@@ -15,7 +16,7 @@ generator_parameters={
 [deps]
 
 source_file="res://common/game/mode/fugitive/seeker/assets/body_standing/seeker_standing_body_cop_1024_texture_paint.png"
-dest_files=["res://.godot/imported/seeker_standing_body_cop_1024_texture_paint.png-4e088f225a04af2f20750c15a5d77a3e.s3tc.ctex"]
+dest_files=["res://.godot/imported/seeker_standing_body_cop_1024_texture_paint.png-4e088f225a04af2f20750c15a5d77a3e.s3tc.ctex", "res://.godot/imported/seeker_standing_body_cop_1024_texture_paint.png-4e088f225a04af2f20750c15a5d77a3e.etc2.ctex"]
 
 [params]
 
