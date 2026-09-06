@@ -15,9 +15,8 @@ func _ready():
 	
 	# If we are going to be public, handle the initial registration
 	if ServerUtils.get_public():
-		# Third argument is optional userdata, it can be any variable.
 		registerThread = Thread.new()
-		registerThread.start(Callable(self, "run_register_publicly"))
+		registerThread.start(register_publicly)
 	# If we're not registering publicly, just continue
 	else:
 		go_to_lobby()
@@ -26,10 +25,6 @@ func _ready():
 func go_to_lobby():
 	# Deferred: called both mid-_ready and from the registration thread
 	get_tree().change_scene_to_file.call_deferred("res://server/lobby/ServerLobby.tscn")
-
-
-func run_register_publicly(userdata):
-	register_publicly()
 
 
 func run_fetch_external_ip(advertiser):
