@@ -23,6 +23,9 @@ const RESCUE_DISTANCE := 35.0
 const HIDE_SEARCH_RADIUS := 12.0
 const FLEE_MIN_RADIUS := 10.0
 const FLEE_SEARCH_RADIUS := 24.0
+const SAFE_ZONE_DASH_DISTANCE := 20.0
+const SAFE_ZONE_SETTLE_DISTANCE := 0.5
+const SAFE_ZONE_SETTLE_PROGRESS := 0.05
 const MAX_SPOT_CANDIDATES := 40
 
 const SPRINT_START_STAMINA := 40.0
@@ -60,6 +63,7 @@ var sprinting := false
 var hold_position := false
 var remembered_threat = null
 var threat_memory_left := 0.0
+var settle_last_position := Vector3()
 
 # Each bot is a little more or less nervous than the next
 var caution_distance := CAUTION_DISTANCE
@@ -103,9 +107,7 @@ func _think(elapsed: float):
 		return
 
 	if player.is_in_winzone():
-		_set_mode(Mode.ESCAPED)
-		_stop()
-		controller.want_crouch = true
+		_settle_in_safe_zone()
 		return
 
 	_update_sprint_allowance()
@@ -115,7 +117,15 @@ func _think(elapsed: float):
 	var threat = _current_threat(elapsed)
 	var exposed := player.current_visibility > EXPOSED_VISIBILITY
 
-	if threat != null and threat.distance < panic_distance and exposed:
+	# Nothing can touch a hider inside the safe zone, so from this close the
+	# only sensible move is straight in, cop or no cop
+	if my_pos.distance_to(_nearest_win_zone_center()) < SAFE_ZONE_DASH_DISTANCE:
+		_dash_for_safe_zone()
+	elif threat != null and threat.distance < panic_distance and exposed:
+		_flee(threat)
+	# A flight already under way is seen through rather than second-guessed
+	# every tick as the light comes and goes
+	elif mode == Mode.FLEE and threat != null and threat.distance < caution_distance and not _flight_finished():
 		_flee(threat)
 	elif threat != null and threat.distance < caution_distance:
 		_hide(threat)
@@ -177,6 +187,36 @@ func _rescue(friend: FugitivePlayer):
 	controller.want_sprint = false
 
 
+# Stopping on the edge of the zone leaves a body in the doorway for the next
+# bot in, so keep walking to the centre. Whoever gets there first holds it
+# and the rest settle wherever they bump to a halt around them.
+func _settle_in_safe_zone():
+	var my_pos := controller.global_transform.origin
+	if _set_mode(Mode.ESCAPED):
+		settle_last_position = my_pos
+	var center := _nearest_win_zone_center()
+	var blocked := controller.has_target and my_pos.distance_to(settle_last_position) < SAFE_ZONE_SETTLE_PROGRESS
+	settle_last_position = my_pos
+	if _horizontal_distance(my_pos, center) > SAFE_ZONE_SETTLE_DISTANCE and not blocked:
+		controller.set_target(center, SAFE_ZONE_SETTLE_DISTANCE)
+	else:
+		_stop()
+	controller.want_crouch = true
+	controller.want_sprint = false
+
+
+func _dash_for_safe_zone():
+	_set_mode(Mode.ADVANCE)
+	hold_position = false
+	_advance_path()
+	controller.want_crouch = false
+	controller.want_sprint = sprinting
+
+
+func _flight_finished() -> bool:
+	return path.is_empty() and controller.reached_target()
+
+
 func _advance():
 	_set_mode(Mode.ADVANCE)
 	hold_position = false
@@ -225,7 +265,7 @@ func _go_to(goal: Vector3, force_repath := false, arrive := AiHiderController.DE
 		or repath_timer > REPATH_INTERVAL
 
 	if needs_path:
-		path = grid.find_path(my_pos, goal)
+		path = grid.find_path(my_pos, goal, _other_player_positions(), _known_threat_positions())
 		path_goal = goal
 		repath_timer = 0.0
 
@@ -259,10 +299,26 @@ func _check_stuck(elapsed: float):
 		stuck_timer = 0.0
 		var target_cell := grid.world_to_cell(controller.move_target)
 		# Never wall off the goal itself, only a waypoint on the way there
-		if path.size() > 1:
+		if target_cell != grid.world_to_cell(path_goal):
 			grid.block_cell(target_cell)
 		path = PackedVector3Array()
 		repath_timer = REPATH_INTERVAL
+
+
+# The cop this bot is aware of, if any, so paths keep well clear of them
+func _known_threat_positions() -> Array:
+	if remembered_threat == null:
+		return []
+	return [remembered_threat.position]
+
+
+# Where everyone else is standing right now, so paths bend around them
+func _other_player_positions() -> Array:
+	var positions := []
+	for other in game.players.values():
+		if other != player and other.playerController != null:
+			positions.push_back(other.playerController.global_transform.origin)
+	return positions
 
 
 func _horizontal_distance(a: Vector3, b: Vector3) -> float:

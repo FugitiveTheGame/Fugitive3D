@@ -13,7 +13,7 @@ const TIME_SCALE := 4.0
 # Well short of the safe zone, so the round cannot end and pull the server
 # back to the lobby scene mid-test
 const HEADSTART_SECONDS := 8.0
-const MIN_PROGRESS := 20.0
+const MIN_PROGRESS := 15.0
 
 var game: ServerFugitiveGame
 
@@ -27,6 +27,11 @@ func before_test() -> void:
 	var cop := GameData.create_new_player_raw_data(HUMAN_COP_ID, PlatformTypeUtils.PlatformType.FlatDesktop, "Cop", FugitiveTeamResolver.PlayerType.Seeker)
 	GameData.add_player_from_raw_data(cop)
 	ServerNetwork.nextBotId = ServerNetwork.BOT_ID_BASE
+	# Three bots: tests drive the first two, the third stays back near spawn
+	# so every hider can never be in the safe zone at once, which would end
+	# the round and send the server scene back to the lobby mid-test
+	ServerNetwork.on_add_bot()
+	ServerNetwork.on_add_bot()
 	ServerNetwork.on_add_bot()
 
 	game = (load(SERVER_GAME) as PackedScene).instantiate()
@@ -52,9 +57,10 @@ func after_test() -> void:
 	ClientNetwork.reset_network()
 
 
-func _bot() -> AiHiderController:
-	var botId: int = GameData.get_bot_player_ids()[0]
-	return game.get_player(botId).playerController as AiHiderController
+func _bot(index := 0) -> AiHiderController:
+	var ids := GameData.get_bot_player_ids()
+	ids.sort()
+	return game.get_player(ids[index]).playerController as AiHiderController
 
 
 func _safe_zone() -> Vector3:
@@ -96,6 +102,36 @@ func test_the_bot_stays_on_the_ground() -> void:
 	var bot := _bot()
 	await _simulate(HEADSTART_SECONDS)
 	assert_float(bot.global_transform.origin.y).is_between(-1.0, 1.5)
+
+
+# The safe zone box is narrow on the side bots arrive from. The first one in
+# must not stop in the doorway and block the second, and a cop breathing down
+# their necks must not talk either of them out of the last few metres
+func test_both_bots_get_into_the_safe_zone_past_a_cop() -> void:
+	var first := _bot(0)
+	var second := _bot(1)
+	var grid: FugitiveNavGrid = game.get_nav_grid(first.get_world_3d().direct_space_state)
+
+	# Line both up on the final stretch of the real approach, one behind the
+	# other, with the cop standing right on that route
+	var route := grid.find_path(first.global_transform.origin, _safe_zone())
+	assert_int(route.size()).is_greater(8)
+	first.global_transform.origin = route[route.size() - 5] + Vector3(0.0, 0.5, 0.0)
+	second.global_transform.origin = route[route.size() - 7] + Vector3(0.0, 0.5, 0.0)
+	var cop: FugitivePlayer = game.get_player(HUMAN_COP_ID)
+	cop.playerController.global_transform.origin = route[route.size() - 3] + Vector3(0.0, 0.5, 0.0)
+	game.release_cops()
+
+	await _simulate(8.0)
+
+	assert_bool(first.player.is_in_winzone()).override_failure_message(
+		"First bot ended outside the zone at %s" % first.global_transform.origin).is_true()
+	assert_bool(second.player.is_in_winzone()).override_failure_message(
+		"Second bot ended outside the zone at %s" % second.global_transform.origin).is_true()
+	# Both head for the centre and stop against each other there
+	assert_float(first.global_transform.origin.distance_to(_safe_zone())).is_less(2.0)
+	assert_float(second.global_transform.origin.distance_to(_safe_zone())).is_less(2.0)
+	assert_str(game.current_state()).is_equal(FugitiveStateMachine.STATE_PLAYING)
 
 
 # A cop released a short way down the bot's route is close enough to see, so

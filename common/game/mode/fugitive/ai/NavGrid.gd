@@ -41,6 +41,12 @@ var _obstacle := {}
 var _cover := {}
 var _cost := {}
 var _lit := {}
+var _temporary_blocks := {}
+
+const BLOCK_DURATION_MSEC := 15_000
+# Cells, so 2 keeps a path at least 4m from a cop's cell centre, beyond the
+# 3m arrest radius
+const DANGER_RADIUS := 2
 
 
 static func build(map: Node3D, space: PhysicsDirectSpaceState3D) -> FugitiveNavGrid:
@@ -107,15 +113,49 @@ func walkable_cells_within(center: Vector3, radius: float) -> Array:
 
 
 # World waypoints from one position to another, snapping both ends to the
-# nearest walkable cell. Empty when there is no route.
-func find_path(from: Vector3, to: Vector3) -> PackedVector3Array:
+# nearest walkable cell. For this query only, the cells under the positions
+# in avoid (other players) are routed around, and so is a ring of
+# DANGER_RADIUS cells around each position in danger (cops, whose reach is
+# wider than they are). When keeping clear of danger leaves no route at all,
+# the plain route is returned instead. Empty when there is none.
+func find_path(from: Vector3, to: Vector3, avoid: Array = [], danger: Array = []) -> PackedVector3Array:
+	_expire_blocks()
 	var start := nearest_walkable(world_to_cell(from))
 	var goal := nearest_walkable(world_to_cell(to))
-	var path := PackedVector3Array()
 	if start == INVALID_CELL or goal == INVALID_CELL:
-		return path
+		return PackedVector3Array()
+
+	var cells := _path_cells(start, goal, avoid, danger)
+	if cells.is_empty() and not danger.is_empty():
+		cells = _path_cells(start, goal, avoid, [])
+	return _cells_to_path(cells, start, from)
+
+
+func _path_cells(start: Vector2i, goal: Vector2i, avoid: Array, danger: Array) -> Array:
+	var closed := {}
+	for position in avoid:
+		closed[world_to_cell(position)] = true
+	for position in danger:
+		var center := world_to_cell(position)
+		for dx in range(-DANGER_RADIUS, DANGER_RADIUS + 1):
+			for dz in range(-DANGER_RADIUS, DANGER_RADIUS + 1):
+				closed[center + Vector2i(dx, dz)] = true
+
+	var reopened := []
+	for cell in closed:
+		if cell != start and cell != goal and is_walkable(cell):
+			astar.set_point_solid(cell, true)
+			reopened.push_back(cell)
 
 	var cells := astar.get_id_path(start, goal)
+
+	for cell in reopened:
+		astar.set_point_solid(cell, false)
+	return cells
+
+
+func _cells_to_path(cells: Array, start: Vector2i, from: Vector3) -> PackedVector3Array:
+	var path := PackedVector3Array()
 	for ii in range(1, cells.size()):
 		path.push_back(cell_to_world(cells[ii]))
 	# A goal one cell away yields only the start, which still means "go there"
@@ -125,11 +165,20 @@ func find_path(from: Vector3, to: Vector3) -> PackedVector3Array:
 
 
 # A body stuck against something the probe missed marks the cell so the next
-# path goes around it
+# few paths go around it. The block lapses, because what it ran into is as
+# likely another player as a piece of the map.
 func block_cell(cell: Vector2i):
-	if region.has_point(cell):
+	if is_walkable(cell):
 		astar.set_point_solid(cell, true)
-		_obstacle[cell] = true
+		_temporary_blocks[cell] = Time.get_ticks_msec() + BLOCK_DURATION_MSEC
+
+
+func _expire_blocks():
+	var now := Time.get_ticks_msec()
+	for cell in _temporary_blocks.keys():
+		if now >= _temporary_blocks[cell]:
+			astar.set_point_solid(cell, false)
+			_temporary_blocks.erase(cell)
 
 
 func _build(map: Node3D, space: PhysicsDirectSpaceState3D):
