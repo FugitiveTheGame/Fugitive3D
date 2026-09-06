@@ -22,10 +22,16 @@ cd "$ROOT"
 mkdir -p export
 touch export/.gdignore
 
+# A Windows Godot binary run from Git Bash needs a Windows-style project path.
+PROJECT_PATH="$ROOT"
+if command -v cygpath > /dev/null 2>&1; then
+	PROJECT_PATH="$(cygpath -m "$ROOT")"
+fi
+
 log() { echo "==> $*"; }
 
 godot() {
-	"$GODOT_BIN" --headless --path "$ROOT" "$@"
+	"$GODOT_BIN" --headless --path "$PROJECT_PATH" "$@"
 }
 
 # The first pass on a fresh checkout builds the GDExtension list and the

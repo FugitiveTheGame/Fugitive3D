@@ -27,12 +27,28 @@ for d in "${WIN_DIRS[@]}"; do
 done
 
 # zip -r keeps the executable bit on the Linux binaries; archive contents sit
-# at the root, matching what itch users already have installed.
+# at the root, matching what itch users already have installed. 7-Zip is the
+# fallback for local runs on Windows, where there is no executable bit anyway.
+ZIP_TOOL=""
+if command -v zip > /dev/null 2>&1; then
+	ZIP_TOOL=zip
+elif command -v 7z > /dev/null 2>&1; then
+	ZIP_TOOL=7z
+elif [[ -x "/c/Program Files/7-Zip/7z.exe" ]]; then
+	ZIP_TOOL="/c/Program Files/7-Zip/7z.exe"
+else
+	fail "neither zip nor 7z is available"
+fi
+
 zipdir() {
 	local src=$1 name=$2
 	local out="$DIST/${name}_v${VERSION}.zip"
 	log "packing $src -> $(basename "$out")"
-	(cd "$src" && zip -qr "$out" . -x '*.log' '*.idsig')
+	if [[ "$ZIP_TOOL" == "zip" ]]; then
+		(cd "$src" && zip -qr "$out" . -x '*.log' '*.idsig')
+	else
+		(cd "$src" && "$ZIP_TOOL" a -tzip -bso0 -bsp0 "$out" . '-xr!*.log' '-xr!*.idsig')
+	fi
 }
 
 zipdir export/client/flat/windows    Fugitive3D_Client_Flat_Windows
@@ -67,7 +83,9 @@ check_zip() {
 			grep -q '^libgodotopus.*\.so$' <<<"$listing" || fail "$zip: missing the opus GDExtension"
 			grep -q '^libgodotopenxrvendors.*\.so$' <<<"$listing" || fail "$zip: missing the OpenXR vendors GDExtension"
 			# unzip -Z prints the unix mode; the binary must stay executable.
-			unzip -Z "$zip" | grep '\.x86_64$' | grep -q '^-rwx' || fail "$zip: the binary lost its executable bit"
+			if [[ "$ZIP_TOOL" == "zip" ]]; then
+				unzip -Z "$zip" | grep '\.x86_64$' | grep -q '^-rwx' || fail "$zip: the binary lost its executable bit"
+			fi
 			;;
 	esac
 	[[ "$(grep -c '\.pck$' <<<"$listing")" == 1 ]] || fail "$zip: expected exactly one .pck"
