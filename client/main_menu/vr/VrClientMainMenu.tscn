@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" path="res://client/main_menu/vr/VrClientMainMenuUi.tscn" id="2"]
 [ext_resource type="PackedScene" path="res://client/vr_menu_player/VrMenuPlayer.tscn" id="3"]
 [ext_resource type="PackedScene" path="res://client/vr_menu_player/UiPanel3D.tscn" id="4"]
-[ext_resource type="PackedScene" path="res://client/main_menu/background/Background.tscn" id="5"]
+[ext_resource type="PackedScene" path="res://client/main_menu/background/Background.scn" id="5"]
 
 [node name="VrMainMenu" type="Node3D"]
 script = ExtResource("1")

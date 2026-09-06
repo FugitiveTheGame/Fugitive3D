@@ -9,7 +9,7 @@ const MAPS := [
 	"res://common/game/maps/cedar_point/CedarPoint.scn",
 	"res://common/game/maps/littleton/Littleton.scn",
 	"res://common/game/maps/grey_box/GreyBox.scn",
-	"res://client/main_menu/background/Background.tscn",
+	"res://client/main_menu/background/Background.scn",
 ]
 const HEALTHY := -0.85
 const MAX_TRIS_PER_SURFACE := 300

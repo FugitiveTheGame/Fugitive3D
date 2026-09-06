@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" path="res://client/main_menu/MainMenu.tscn" id="1"]
 [ext_resource type="Script" path="res://client/main_menu/flat/FlatMainMenu.gd" id="2"]
-[ext_resource type="PackedScene" path="res://client/main_menu/background/Background.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://client/main_menu/background/Background.scn" id="3"]
 [ext_resource type="PackedScene" path="res://client/main_menu/flat/SettingsDialog.tscn" id="4"]
 [ext_resource type="Theme" path="res://fugitive_theme.tres" id="5"]
 
