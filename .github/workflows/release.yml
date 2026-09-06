@@ -1,0 +1,430 @@
+name: Release
+
+# Pushing an annotated tag vX.Y.Z builds every export preset, publishes a
+# GitHub release with the artifacts attached, pushes the itch.io channels,
+# uploads the AAB to Google Play, updates the official game servers and
+# announces the release on Discord.
+#
+# workflow_dispatch runs the same build without publishing (dry_run, the
+# default) so the export pipeline can be exercised from any branch.
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+    inputs:
+      dry_run:
+        description: Build everything but skip the GitHub release, itch, Google Play, servers and Discord
+        type: boolean
+        default: true
+      version:
+        description: Version to stamp when not building from a tag (X.Y.Z)
+        type: string
+        default: '0.0.0'
+
+permissions:
+  contents: read
+
+# Re-running a release must not race an in-flight run for the same tag.
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+env:
+  ITCH_TARGET: stumpy-dog-studios/fugitive-3d
+
+jobs:
+  prepare:
+    name: Prepare
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.v.outputs.version }}
+      version_code: ${{ steps.v.outputs.version_code }}
+      publish: ${{ steps.v.outputs.publish }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Derive version, version code and release notes
+        id: v
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+          DRY_RUN: ${{ inputs.dry_run }}
+        run: |
+          set -euo pipefail
+          if [[ "$GITHUB_REF_TYPE" == "tag" ]]; then
+            TAG="$GITHUB_REF_NAME"
+            PUBLISH=true
+          else
+            TAG="v${INPUT_VERSION}"
+            PUBLISH=false
+            [[ "$DRY_RUN" == "false" ]] && PUBLISH=true
+          fi
+          if [[ ! "$TAG" =~ ^v([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+            echo "::error::'$TAG' is not a vX.Y.Z version"
+            exit 1
+          fi
+          MAJOR=${BASH_REMATCH[1]}; MINOR=${BASH_REMATCH[2]}; PATCH=${BASH_REMATCH[3]}
+          # Keeps major*10000 + minor*100 + patch collision-free.
+          if (( MINOR >= 100 || PATCH >= 100 )); then
+            echo "::error::minor and patch must be below 100 for the Android version code scheme"
+            exit 1
+          fi
+          CODE=$(( MAJOR * 10000 + MINOR * 100 + PATCH ))
+          (( CODE >= 1 )) || CODE=1
+
+          echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
+          echo "version_code=$CODE" >> "$GITHUB_OUTPUT"
+          echo "publish=$PUBLISH" >> "$GITHUB_OUTPUT"
+          echo "version ${TAG#v}, code $CODE, publish $PUBLISH"
+
+          # Release notes come from the annotated tag body. actions/checkout can
+          # leave the tag peeled to its commit, so fetch the real tag object.
+          git fetch --force origin "refs/tags/$TAG:refs/tags/$TAG" 2>/dev/null || true
+          git tag -l --format='%(contents:body)' "$TAG" > notes.md || true
+          if [[ ! -s notes.md ]]; then
+            echo "Release $TAG" > notes.md
+          fi
+          echo "--- release notes ---"; cat notes.md
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-notes
+          path: notes.md
+          if-no-files-found: error
+
+  build:
+    name: Build all presets
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    env:
+      VERSION: ${{ needs.prepare.outputs.version }}
+      VERSION_CODE: ${{ needs.prepare.outputs.version_code }}
+    steps:
+      # Textures, audio, meshes and every native library are LFS objects. A
+      # pointer file that slipped through would export a broken build.
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Verify LFS objects were fetched
+        run: |
+          set -euo pipefail
+          missing="$(git lfs ls-files | grep ' - ' || true)"
+          if [[ -n "$missing" ]]; then
+            echo "::error::LFS pointers were not smudged:"; echo "$missing"
+            exit 1
+          fi
+          echo "$(git lfs ls-files | wc -l) LFS objects present"
+
+      # Godot copies JAVA_HOME and ANDROID_HOME into its editor settings on
+      # its first launch, so both must be in place before any Godot run below.
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Accept Android SDK licenses
+        run: yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
+
+      - name: Read Godot version
+        id: godot
+        run: |
+          V="$(tr -d '[:space:]' < .godot-version)"
+          echo "version=$V" >> "$GITHUB_OUTPUT"
+          echo "templates_dir=$HOME/.local/share/godot/export_templates/${V/-/.}" >> "$GITHUB_OUTPUT"
+
+      - name: Cache Godot and export templates
+        id: godot-cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/godot
+            ~/.local/share/godot/export_templates
+          key: godot-${{ steps.godot.outputs.version }}
+
+      - name: Install Godot and export templates
+        if: steps.godot-cache.outputs.cache-hit != 'true'
+        env:
+          V: ${{ steps.godot.outputs.version }}
+          TPL_DIR: ${{ steps.godot.outputs.templates_dir }}
+        run: |
+          set -euo pipefail
+          BASE="https://github.com/godotengine/godot/releases/download/${V}"
+          mkdir -p "$HOME/godot" "$TPL_DIR"
+          curl -fsSL -o /tmp/godot.zip "${BASE}/Godot_v${V}_linux.x86_64.zip"
+          unzip -q /tmp/godot.zip -d "$HOME/godot"
+          chmod +x "$HOME/godot/Godot_v${V}_linux.x86_64"
+          curl -fsSL -o /tmp/templates.tpz "${BASE}/Godot_v${V}_export_templates.tpz"
+          unzip -q /tmp/templates.tpz -d /tmp/templates
+          mv /tmp/templates/templates/* "$TPL_DIR/"
+          rm -rf /tmp/godot.zip /tmp/templates.tpz /tmp/templates
+
+      - name: Expose Godot
+        env:
+          V: ${{ steps.godot.outputs.version }}
+        run: |
+          echo "GODOT_BIN=$HOME/godot/Godot_v${V}_linux.x86_64" >> "$GITHUB_ENV"
+          "$HOME/godot/Godot_v${V}_linux.x86_64" --version
+
+      - name: Write keys.json
+        env:
+          GAME_KEYS_JSON: ${{ secrets.GAME_KEYS_JSON }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$GAME_KEYS_JSON" ]]; then
+            echo "::error::GAME_KEYS_JSON secret is not set; the client reads res://keys.json at startup"
+            exit 1
+          fi
+          printf '%s' "$GAME_KEYS_JSON" > keys.json
+          jq -e '.game_analytics.game_key and .game_analytics.secret_key' keys.json > /dev/null
+
+      # Godot reads the release keystore from these environment variables
+      # ahead of anything in the preset, and validates that all three are set.
+      # A debug keystore has to exist too, even for release exports.
+      - name: Set up Android keystores
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_ALIAS: ${{ secrets.ANDROID_KEYSTORE_ALIAS }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+        run: |
+          set -euo pipefail
+          for v in ANDROID_KEYSTORE_BASE64 ANDROID_KEYSTORE_ALIAS ANDROID_KEYSTORE_PASSWORD; do
+            if [[ -z "${!v}" ]]; then
+              echo "::error::$v secret is not set"
+              exit 1
+            fi
+          done
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/release.keystore"
+          mkdir -p "$HOME/.local/share/godot/keystores"
+          keytool -genkeypair -v \
+            -keystore "$HOME/.local/share/godot/keystores/debug.keystore" \
+            -alias androiddebugkey -storepass android -keypass android \
+            -dname "CN=Android Debug,O=Android,C=US" \
+            -keyalg RSA -keysize 2048 -validity 10000 > /dev/null
+          {
+            echo "GODOT_ANDROID_KEYSTORE_RELEASE_PATH=$RUNNER_TEMP/release.keystore"
+            echo "GODOT_ANDROID_KEYSTORE_RELEASE_USER=$ANDROID_KEYSTORE_ALIAS"
+            echo "GODOT_ANDROID_KEYSTORE_RELEASE_PASSWORD=$ANDROID_KEYSTORE_PASSWORD"
+          } >> "$GITHUB_ENV"
+
+      # Godot only re-imports assets whose source changed, so a stale restore
+      # still saves most of the import time.
+      - name: Cache imported resources
+        uses: actions/cache@v4
+        with:
+          path: .godot
+          key: godot-import-${{ steps.godot.outputs.version }}-${{ hashFiles('**/*.import', 'project.godot') }}
+          restore-keys: |
+            godot-import-${{ steps.godot.outputs.version }}-
+
+      - name: Cache Gradle
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ steps.godot.outputs.version }}
+
+      - name: Stamp version into export presets
+        run: bash .github/scripts/set-version.sh
+
+      - name: Import, test and export all presets
+        run: bash .github/scripts/export-all.sh
+
+      - name: Package release artifacts
+        run: bash .github/scripts/package-artifacts.sh
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: release-artifacts
+          path: dist/*
+          if-no-files-found: error
+          compression-level: 0
+
+      - name: Upload export logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: export-logs
+          path: |
+            export/**/*.log
+            android/build/build/outputs/logs/**
+          if-no-files-found: ignore
+
+  release:
+    name: GitHub release
+    needs: [prepare, build]
+    if: needs.prepare.outputs.publish == 'true' && github.ref_type == 'tag'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    outputs:
+      html_url: ${{ steps.release.outputs.html_url }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-artifacts
+          path: dist
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-notes
+          path: .
+
+      - name: Create release
+        id: release
+        uses: ncipollo/release-action@339a81892b84b4eeb0f6e744e4574d79d0d9b8dd # v1.21.0
+        with:
+          tag: ${{ github.ref_name }}
+          name: ${{ github.ref_name }}
+          bodyFile: notes.md
+          artifacts: dist/*
+          artifactErrorsFailBuild: true
+          allowUpdates: true
+          makeLatest: true
+          draft: false
+          prerelease: false
+
+  itch:
+    name: Publish to itch.io
+    needs: [prepare, release]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-artifacts
+          path: dist
+
+      - uses: jdno/setup-butler@a28a0c10cb902786de2669a56953d101a89b48be # v2.0.0
+
+      - name: Push channels
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+          V: ${{ needs.prepare.outputs.version }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$BUTLER_API_KEY" ]]; then
+            echo "::error::BUTLER_API_KEY secret is not set"
+            exit 1
+          fi
+          push() { butler push "$1" "$ITCH_TARGET:$2" --userversion "$V"; }
+          push "dist/Fugitive3D_Client_Flat_Windows_v$V.zip" windows-flat
+          push "dist/Fugitive3D_Client_Flat_Linux_v$V.zip"   linux-flat
+          push "dist/Fugitive3D_Client_Flat_Android_v$V.apk" android-flat
+          push "dist/Fugitive3D_Client_VR_Windows_v$V.zip"   windows-vr
+          push "dist/Fugitive3D_Client_VR_Quest_v$V.apk"     quest-vr
+          push "dist/Fugitive3D_Server_Windows_v$V.zip"      windows-server
+          push "dist/Fugitive3D_Server_Linux_v$V.zip"        linux-server
+
+  google-play:
+    name: Publish to Google Play
+    needs: [prepare, release]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-artifacts
+          path: dist
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-notes
+          path: .
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+
+      - name: Install fastlane
+        run: |
+          bundle config set --local path vendor/bundle
+          bundle install --jobs 4 --retry 3
+
+      - name: Write service account key
+        env:
+          GOOGLE_PLAY_JSON: ${{ secrets.GOOGLE_PLAY_JSON }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$GOOGLE_PLAY_JSON" ]]; then
+            echo "::error::GOOGLE_PLAY_JSON secret is not set"
+            exit 1
+          fi
+          printf '%s' "$GOOGLE_PLAY_JSON" > "$HOME/google-play-service-account.json"
+          jq -e '.client_email' "$HOME/google-play-service-account.json" > /dev/null
+
+      - name: Upload to production
+        env:
+          AAB_PATH: dist/Fugitive3D_Client_Flat_Android_GP_v${{ needs.prepare.outputs.version }}.aab
+          VERSION_CODE: ${{ needs.prepare.outputs.version_code }}
+        run: |
+          set -euo pipefail
+          # Play's "What's new" for this version code, capped at its 500 chars.
+          mkdir -p fastlane/metadata/android/en-US/changelogs
+          head -c 500 notes.md > "fastlane/metadata/android/en-US/changelogs/${VERSION_CODE}.txt"
+          bundle exec fastlane android deploy
+
+  deploy-servers:
+    name: Update official game servers
+    needs: [prepare, release]
+    runs-on: ubuntu-latest
+    steps:
+      # The receiver on the game server box downloads this release's Linux
+      # server zip, installs it and restarts each instance. It holds the
+      # connection open until that finishes and answers 500 with the log on
+      # failure, so this step waits for the real result.
+      - name: Trigger the server update webhook
+        env:
+          URL: ${{ secrets.SERVER_DEPLOY_WEBHOOK_URL }}
+          SECRET: ${{ secrets.SERVER_DEPLOY_WEBHOOK_SECRET }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$URL" || -z "$SECRET" ]]; then
+            echo "::warning::SERVER_DEPLOY_WEBHOOK_URL or SERVER_DEPLOY_WEBHOOK_SECRET is not set; skipping the server update"
+            exit 0
+          fi
+          body="$(jq -nc --arg tag "$TAG" '{tag: $tag}')"
+          sig="sha256=$(printf '%s' "$body" | openssl dgst -sha256 -hmac "$SECRET" | sed 's/^.* //')"
+          curl -fsS --max-time 900 --retry 3 --retry-delay 20 --retry-all-errors \
+            -H "Content-Type: application/json" \
+            -H "X-Fugitive-Event: release" \
+            -H "X-Hub-Signature-256: $sig" \
+            -d "$body" \
+            "${URL%/}/hooks/fugitive-server"
+
+  notify:
+    name: Announce on Discord
+    needs: [prepare, release, itch, google-play, deploy-servers]
+    # Only after a fully successful release; a failed store or server job
+    # should not announce a release that is only partly out.
+    if: ${{ !cancelled() && needs.release.result == 'success' && !contains(needs.*.result, 'failure') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-notes
+          path: .
+
+      - name: Post to Discord
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          RELEASE_NAME: ${{ github.ref_name }}
+          RELEASE_URL: ${{ needs.release.outputs.html_url }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$DISCORD_WEBHOOK" ]]; then
+            echo "::error::DISCORD_WEBHOOK secret is not set"
+            exit 1
+          fi
+          RELEASE_BODY="$(cat notes.md)"
+          export RELEASE_BODY
+          content="$(bash .github/scripts/discord-release-message.sh)"
+          jq -n --arg content "$content" '{content: $content}' \
+            | curl -fsSL -X POST -H "Content-Type: application/json" -d @- "$DISCORD_WEBHOOK"

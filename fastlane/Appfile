@@ -1,0 +1,2 @@
+json_key_file(ENV.fetch("GOOGLE_PLAY_JSON_PATH", File.expand_path("~/google-play-service-account.json")))
+package_name("com.darkrockstudios.games.fugitive3d")
