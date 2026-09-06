@@ -5,6 +5,9 @@ class_name ServerListener
 signal new_server
 signal update_server
 signal remove_server
+signal repo_connecting
+signal repo_connected
+signal repo_connection_failed
 
 const REPOSITORY_REFRESH_INTERVAL := 5.0
 
@@ -109,9 +112,11 @@ func _exit_tree():
 
 func request_servers():
 	serverRepoRequest.cancel_request()
-	
+	emit_signal("repo_connecting")
+
 	var endpointUrl = serverRepositoryUrl + "/servers"
-	serverRepoRequest.request(endpointUrl)
+	if serverRepoRequest.request(endpointUrl) != OK:
+		emit_signal("repo_connection_failed")
 
 
 func _on_ServerRepoRequest_request_completed(result, response_code, headers, body):
@@ -119,10 +124,12 @@ func _on_ServerRepoRequest_request_completed(result, response_code, headers, bod
 		var test_json_conv = JSON.new()
 		test_json_conv.parse(body.get_string_from_utf8())
 		var servers = test_json_conv.get_data()
-		
+
 		if servers != null:
 			for server in servers:
 				server.lan = false
 				add_server(server)
+		emit_signal("repo_connected")
 	else:
 		print('Failed to get servers')
+		emit_signal("repo_connection_failed")

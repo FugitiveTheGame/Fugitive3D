@@ -3,6 +3,13 @@
 [ext_resource type="Script" path="res://addons/LANServerBroadcast/server_listener/ServerListener.gd" id="1"]
 [ext_resource type="Script" path="res://client/main_menu/server_browser/ServerBrowser.gd" id="2"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_status"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
 [node name="ServerBrowser" type="PanelContainer"]
 layout_mode = 1
 anchors_preset = -1
@@ -28,6 +35,12 @@ offset_bottom = 319.0
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 offset_right = 507.0
 offset_bottom = 39.0
+
+[node name="ConnectionStatusIndicator" type="Panel" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxFlat_status")
 
 [node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
 offset_top = 7.0
@@ -78,4 +91,7 @@ size_flags_horizontal = 3
 [connection signal="new_server" from="ServerListener" to="." method="_on_ServerListener_new_server"]
 [connection signal="remove_server" from="ServerListener" to="." method="_on_ServerListener_remove_server"]
 [connection signal="update_server" from="ServerListener" to="." method="_on_ServerListener_update_server"]
+[connection signal="repo_connecting" from="ServerListener" to="." method="_on_ServerListener_repo_connecting"]
+[connection signal="repo_connected" from="ServerListener" to="." method="_on_ServerListener_repo_connected"]
+[connection signal="repo_connection_failed" from="ServerListener" to="." method="_on_ServerListener_repo_connection_failed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/RefreshButton" to="." method="_on_RefreshButton_pressed"]

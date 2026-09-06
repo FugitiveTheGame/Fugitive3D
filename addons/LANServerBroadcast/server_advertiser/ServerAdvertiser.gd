@@ -6,7 +6,10 @@ signal register_failed
 signal register_succeeded
 
 const DEFAULT_PORT := 32000
-const REPOSITORY_ADVERTISE_INTERVAL := 30_000
+# The repository prunes a server once its last heartbeat is older than its
+# stale threshold (30s by default), so this must leave room for a missed
+# beat: map loads block the main thread, and _process stops with it
+const REPOSITORY_ADVERTISE_INTERVAL := 10_000
 
 const SERVER_ID_FORMAT := "%s:%d"
 

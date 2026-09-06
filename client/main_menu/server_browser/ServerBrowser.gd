@@ -8,9 +8,34 @@ signal connect_to_server(ip, port)
 var serverListItemScene := preload("res://client/main_menu/server_browser/ServerListItem.tscn")
 
 
+const STATUS_COLOR_CONNECTING := Color(1, 0.85, 0.1)
+const STATUS_COLOR_CONNECTED := Color(0.2, 0.8, 0.2)
+const STATUS_COLOR_FAILED := Color(0.9, 0.2, 0.2)
+
+@onready var connectionStatusIndicator: Panel = $VBoxContainer/HBoxContainer/ConnectionStatusIndicator
+
+
 func _ready():
 	$ServerListener.serverRepositoryUrl = ServerNetwork.SERVER_REPOSITORY_URL
+	set_connection_status(STATUS_COLOR_CONNECTING, "Connecting to server list...")
 	$ServerListener.call_deferred("request_servers")
+
+
+func set_connection_status(color: Color, tooltip: String):
+	connectionStatusIndicator.modulate = color
+	connectionStatusIndicator.tooltip_text = tooltip
+
+
+func _on_ServerListener_repo_connecting():
+	set_connection_status(STATUS_COLOR_CONNECTING, "Connecting to server list...")
+
+
+func _on_ServerListener_repo_connected():
+	set_connection_status(STATUS_COLOR_CONNECTED, "Connected to server list")
+
+
+func _on_ServerListener_repo_connection_failed():
+	set_connection_status(STATUS_COLOR_FAILED, "Failed to connect to server list")
 
 
 func _on_ServerListener_new_server(serverInfo):
