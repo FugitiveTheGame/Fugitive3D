@@ -65,9 +65,9 @@ func on_start_lobby_countdown():
 
 func create_player(playerId: int):
 	super.create_player(playerId)
-	advertiser.update_players(GameData.players.size())
+	advertiser.update_players(GameData.get_human_player_ids().size())
 
 
 func remove_player(playerId: int):
 	super.remove_player(playerId)
-	advertiser.update_players(GameData.players.size())
+	advertiser.update_players(GameData.get_human_player_ids().size())

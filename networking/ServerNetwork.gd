@@ -12,6 +12,13 @@ const PEER_TIMEOUT_MAX_MS := 120_000
 
 var is_joinable := false
 
+# Bots are registered players with no peer behind them. Their ids live far
+# above anything a lobby of real peers will reach, and they only ever play as
+# Fugitives.
+const BOT_ID_BASE := 1_000_000_000
+const BOT_TEAM := FugitiveTeamResolver.PlayerType.Hider
+var nextBotId := BOT_ID_BASE
+
 
 # Set to true to point at a locally running instance of the ServerRepository
 const debug_local := false
@@ -40,15 +47,14 @@ func _player_connected(id):
 
 
 func _player_disconnected(id):
-	print("SERVER: Player connected: " + str(id))
-	# If it was the host who left, and there are any
-	# players left, pick the first one and make them host
-	if not GameData.players.is_empty():
-		# No host, make the first player the new host
-		if GameData.get_host() == null:
-			var newHost = GameData.players.values().front()
-			if newHost != null:
-				make_host(newHost.get_id())
+	print("SERVER: Player disconnected: " + str(id))
+	var humans := GameData.get_human_player_ids()
+	# Bots cannot keep a game alive on their own
+	if humans.is_empty():
+		remove_all_bots()
+	# If it was the host who left, hand it to the first human still here
+	elif GameData.get_host() == null:
+		make_host(humans.front())
 
 
 func change_map(map_id: String):
@@ -115,6 +121,10 @@ func register_self(playerId: int, platformType: int, playerName: String, gameVer
 
 
 func make_host(playerId: int):
+	if GameData.is_bot(playerId):
+		print("Server: bots cannot host")
+		return
+	
 	print("Server: Making %d host" % playerId)
 	# If we have an existing host, make them no longer the host
 	var curHost := GameData.get_host() as PlayerData
@@ -163,6 +173,10 @@ func change_player_type(playerId: int, playerType: int):
 
 
 @rpc("any_peer", "call_local") func on_change_player_type(playerId: int, playerType: int):
+	if GameData.is_bot(playerId):
+		print("WARN: bots always play as team %d" % BOT_TEAM)
+		return
+	
 	if GameData.currentGame == null:
 		var player = GameData.get_player(playerId) as PlayerData
 		if player != null:
@@ -184,14 +198,89 @@ func kick_player(playerId: int):
 
 
 @rpc("any_peer") func on_kick_player(playerId: int):
-	ClientNetwork.force_disconnect(playerId, "You have been kicked from the server")
+	if GameData.is_bot(playerId):
+		unregister_bot(playerId)
+	else:
+		ClientNetwork.force_disconnect(playerId, "You have been kicked from the server")
+
+
+# Only the host, or the server itself, may add and remove bots
+func _sender_may_manage_bots() -> bool:
+	var sender := multiplayer.get_remote_sender_id()
+	if sender == 0 or sender == SERVER_ID:
+		return true
+	
+	var host := GameData.get_host()
+	return host != null and host.get_id() == sender
+
+
+func can_add_bot() -> bool:
+	if GameData.currentGame != null:
+		return false
+	
+	var mapId = GameData.general[GameData.GENERAL_MAP]
+	if mapId == null or mapId == "":
+		return false
+	
+	var teamSizes := Maps.get_team_sizes_for_map(mapId)
+	return GameData.count_players_of_type(BOT_TEAM) < teamSizes[BOT_TEAM]
+
+
+func add_bot():
+	rpc_id(SERVER_ID, "on_add_bot")
+
+
+@rpc("any_peer") func on_add_bot():
+	if not multiplayer.is_server() or not _sender_may_manage_bots():
+		return
+	
+	if not can_add_bot():
+		print("WARN: cannot add a bot right now")
+		return
+	
+	var botId := nextBotId
+	nextBotId += 1
+	
+	var botName := "AI Fugitive %d" % (botId - BOT_ID_BASE + 1)
+	var playerData = GameData.create_new_player_raw_data(botId, PlatformTypeUtils.PlatformType.Bot, botName, BOT_TEAM, true)
+	
+	ClientNetwork.on_register_player(playerData)
+	
+	for humanId in GameData.get_human_player_ids():
+		ClientNetwork.register_player_from_raw_data(humanId, playerData)
+
+
+func remove_bot(playerId: int):
+	rpc_id(SERVER_ID, "on_remove_bot", playerId)
+
+
+@rpc("any_peer") func on_remove_bot(playerId: int):
+	if not multiplayer.is_server() or not _sender_may_manage_bots():
+		return
+	
+	if GameData.currentGame != null:
+		print("WARN: not allowed to remove bots during a game")
+		return
+	
+	unregister_bot(playerId)
+
+
+func unregister_bot(playerId: int):
+	if GameData.is_bot(playerId):
+		ClientNetwork.unregister_player(playerId)
+
+
+func remove_all_bots():
+	for botId in GameData.get_bot_player_ids():
+		unregister_bot(botId)
 
 
 @rpc("any_peer", "call_local") func on_randomize_teams():
 	if not multiplayer.is_server():
 		return
 	
-	var playerIds = GameData.players.keys()
+	# Bots keep their fixed team, only humans are shuffled
+	var playerIds = GameData.get_human_player_ids()
 	
 	var mapId = GameData.general[GameData.GENERAL_MAP]
 	var mode = Maps.get_mode_for_map(mapId)

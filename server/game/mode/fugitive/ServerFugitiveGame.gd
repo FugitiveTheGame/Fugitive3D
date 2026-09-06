@@ -7,6 +7,9 @@ class_name ServerFugitiveGame
 var configuredPlayers := {}
 var readyPlayers := {}
 
+# Built by the first bot that needs it and shared by all of them
+var navGrid: FugitiveNavGrid = null
+
 
 func _enter_tree():
 	super._enter_tree()
@@ -41,9 +44,10 @@ func pre_configure():
 	report_start()
 
 
+# Bots are spawned by the server itself, so only humans have to report in
 func unconfigured_players() -> int:
 	var count := 0
-	for playerId in GameData.players:
+	for playerId in GameData.get_human_player_ids():
 		if not configuredPlayers.has(playerId):
 			count += 1
 	
@@ -52,11 +56,24 @@ func unconfigured_players() -> int:
 
 func not_ready_players() -> int:
 	var count := 0
-	for playerId in GameData.players:
+	for playerId in GameData.get_human_player_ids():
 		if not readyPlayers.has(playerId):
 			count += 1
 	
 	return count
+
+
+func create_bot_hider_node() -> Node:
+	var scene = preload("res://server/game/mode/fugitive/ai/AiHider.tscn")
+	return scene.instantiate()
+
+
+func get_nav_grid(space: PhysicsDirectSpaceState3D) -> FugitiveNavGrid:
+	if navGrid == null:
+		var started := Time.get_ticks_msec()
+		navGrid = FugitiveNavGrid.build(map, space)
+		print("Bot navigation grid built in %d ms" % (Time.get_ticks_msec() - started))
+	return navGrid
 
 
 func server_remove_player(playerId: int):
@@ -72,7 +89,7 @@ func server_remove_player(playerId: int):
 		elif stateMachine.current_state.name == FugitiveStateMachine.STATE_NOT_READY:
 			check_all_ready()
 	
-		advertiser.update_players(GameData.players.size())
+		advertiser.update_players(GameData.get_human_player_ids().size())
 
 
 func load_map():

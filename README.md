@@ -78,6 +78,12 @@ Personally I've created a shell script that contains that line called `run.sh` i
 - `--fps` print server FPS to log periodically
 
 
+## AI Fugitives
+
+The host can add AI players from the lobby with the `Add AI Fugitive` button. Bots only ever play as Fugitives, count toward the map's Fugitive team size, and can be removed with the same Kick menu as a human. They are driven entirely by the dedicated server: clients see them as ordinary remote hiders.
+
+On the server each bot walks a 2m grid built from the map's ground tiles and a physics probe (`common/game/mode/fugitive/ai/NavGrid.gd`), which costs roads and street-lit cells higher so routes favour yards and cover. The behaviour itself lives in `server/game/mode/fugitive/ai/AiHiderBrain.gd`: sprint for the safe zone during the headstart, walk it afterwards, crouch behind cover when a cop is in view or was seen recently, flee when caught in the light, and detour to unfreeze nearby teammates. A bot only knows about cops it has a line of sight to, or a car within earshot.
+
 ## Quick Dev
 To truly test things out, you need to run the server, spin up and connect multiple clients. It can all be done on one box, but it makes itteration times quite slow.
 

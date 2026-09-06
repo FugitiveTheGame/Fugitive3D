@@ -19,6 +19,10 @@ class_name Lobby
 @export var teamsListPath: NodePath
 @onready var teamsList := get_node(teamsListPath) as Control
 
+# Only lobbies that let the host add bots have this button
+@export var addBotButtonPath: NodePath
+@onready var addBotButton := get_node_or_null(addBotButtonPath) as Button
+
 
 var is_host := false
 var is_starting := false
@@ -260,6 +264,10 @@ func update_ui():
 	if item_id > -1:
 		mapSelect.select(item_id)
 		update_map_description(map_id)
+	
+	if addBotButton != null:
+		addBotButton.visible = is_host
+		addBotButton.disabled = is_starting or not ServerNetwork.can_add_bot()
 
 
 func on_start_lobby_countdown():
@@ -273,6 +281,11 @@ func _on_MapButton_item_selected(id):
 	GameAnalytics.design_event("lobby_map_changed")
 	update_map_description(map_id)
 	ServerNetwork.change_map(map_id)
+
+
+func _on_AddBotButton_pressed():
+	GameAnalytics.design_event("lobby_add_bot")
+	ServerNetwork.add_bot()
 
 
 func on_make_host(playerId: int):

@@ -38,13 +38,17 @@ func populate(player: PlayerData, is_starting: bool, is_host: bool, game_mode: D
 	var playerType := player.get_type()
 	teamButton.selected = playerType
 	
-	if (is_host or ClientNetwork.is_local_player(playerId)) and not is_starting and lobbyReady:
+	# Bots never change team
+	var isBot := player.get_is_bot()
+	if (is_host or ClientNetwork.is_local_player(playerId)) and not is_starting and lobbyReady and not isBot:
 		teamButton.disabled = false
 	else:
 		teamButton.disabled = true
 	
 	$Controls/HostMenuButton.visible = is_host
 	$Controls/HostMenuButton.disabled = (playerId == GameData.get_current_player_id() or not lobbyReady or is_starting)
+	# Bots can be kicked but never made host
+	$Controls/HostMenuButton.get_popup().set_item_disabled(0, isBot)
 	
 	var playerInfoData := GameData.get_player(playerId)
 

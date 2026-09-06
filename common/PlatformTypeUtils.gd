@@ -1,7 +1,7 @@
 extends Object
 class_name PlatformTypeUtils
 
-enum PlatformType { FlatDesktop, FlatMobile, VrDesktop, VrMobile, Unset }
+enum PlatformType { FlatDesktop, FlatMobile, VrDesktop, VrMobile, Unset, Bot }
 enum PlatformCategory { Flat, Vr, Unset }
 
 
@@ -51,6 +51,8 @@ static func print_platform_type(platformType: int) -> String:
 			return "PC VR"
 		PlatformType.VrMobile:
 			return "Mobile VR"
+		PlatformType.Bot:
+			return "AI"
 		_:
 			return "Unknown"
 
@@ -65,5 +67,7 @@ static func platform_type_icon(platformType: int) -> String:
 			return "res://common/lobby/client_type_vr.png"
 		PlatformType.VrMobile:
 			return "res://common/lobby/client_type_vr.png"
+		PlatformType.Bot:
+			return "res://common/lobby/client_type_bot.png"
 		_:
 			return "res://common/lobby/client_type_pc.png"

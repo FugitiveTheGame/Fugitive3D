@@ -97,6 +97,18 @@ func register_player_from_raw_data(recipientId: int, playerDataDictionary: Dicti
 	print("Total players: %d" % GameData.players.size())
 
 
+# The server drops a player that has no peer to disconnect
+func unregister_player(playerId: int):
+	rpc("on_unregister_player", playerId)
+
+
+@rpc("authority", "call_local") func on_unregister_player(playerId: int):
+	print("on_unregister_player: %d" % playerId)
+	GameData.remove_player(playerId)
+	emit_signal("remove_player", playerId)
+	print("Total players: %d" % GameData.players.size())
+
+
 # Sends this clients player data to all other clients
 func update_players():
 	var playerDictionaries := {}
@@ -160,15 +172,18 @@ func start_lobby_countdown():
 func start_game():
 	# The server will take care of it's self, tell all other players to start
 	for playerId in GameData.players:
-		if playerId != ServerNetwork.SERVER_ID:
+		if playerId != ServerNetwork.SERVER_ID and not GameData.is_bot(playerId):
 			rpc_id(playerId, "on_start_game")
 
 
 @rpc("any_peer", "call_local") func on_start_game():
-	# Unready all players when we start the game
+	# Unready all players when we start the game. Humans ready up again by
+	# re-registering when they return, bots never leave the server and so
+	# stay ready
 	print("Unready all lobby players")
 	for player in GameData.get_players():
-		player.set_lobby_ready(false)
+		if not player.get_is_bot():
+			player.set_lobby_ready(false)
 	
 	emit_signal("game_started")
 

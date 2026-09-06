@@ -154,8 +154,12 @@ func spawn_player(playerId: int, hiderSpawns: Array, seekerSpawns: Array):
 	var pcNode: Node
 	var spawnPointNode: Node3D
 	
+	# Bots are driven by the server and look like any other remote hider
+	if player.get_is_bot():
+		pcNode = create_bot_hider_node()
+		spawnPointNode = hiderSpawns.pop_front()
 	# Create the player controller for the local player
-	if multiplayer.get_unique_id() == playerId:
+	elif multiplayer.get_unique_id() == playerId:
 		match playerType:
 			FugitiveTeamResolver.PlayerType.Seeker:
 				pcNode = create_player_seeker_node()
@@ -173,7 +177,10 @@ func spawn_player(playerId: int, hiderSpawns: Array, seekerSpawns: Array):
 				pcNode = create_remote_hider_node()
 				spawnPointNode = hiderSpawns.pop_front()
 	
-	pcNode.set_multiplayer_authority(playerId)
+	if player.get_is_bot():
+		pcNode.set_multiplayer_authority(ServerNetwork.SERVER_ID)
+	else:
+		pcNode.set_multiplayer_authority(playerId)
 	pcNode.set_name(str(playerId))
 	
 	# Add the PlayerController to the player's node in the game scene
@@ -217,6 +224,11 @@ func create_remote_seeker_node() -> Node:
 func create_remote_hider_node() -> Node:
 	var scene = preload("res://common/game/mode/fugitive/hider/RemoteHider.tscn")
 	return scene.instantiate()
+
+
+# The server replaces this with a node that actually thinks
+func create_bot_hider_node() -> Node:
+	return create_remote_hider_node()
 
 
 ####################################
