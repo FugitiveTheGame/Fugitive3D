@@ -21,4 +21,7 @@ func _on_ExitGameDialog_about_to_show():
 
 
 func _on_ExitGameDialog_popup_hide():
+	# Connected to visibility_changed, which also fires on show
+	if visible:
+		return
 	emit_signal("on_exit_dialog_hide")

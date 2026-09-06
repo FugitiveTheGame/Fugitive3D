@@ -1,12 +1,14 @@
 extends "res://client/game/mode/fugitive/VrFugitiveController.gd"
 
-onready var car_lock_hud := hud.find_node("CarLockHud", true, false)
+@onready var car_lock_hud := hud.find_child("CarLockHud", true, false)
 
-export(NodePath) var flashlightPath: NodePath
-onready var flashlight := get_node(flashlightPath) as Spatial
+@export var flashlightPath: NodePath
+@onready var flashlight := get_node(flashlightPath) as Node3D
 
 
 func _physics_process(delta):
+	super._physics_process(delta)
+	
 	if debounced_button_just_released(vr.BUTTON.B):
 		flashlight.toggle_on()
 	
@@ -45,6 +47,6 @@ func _on_CarLockHud_locking_complete():
 
 
 func on_ui_raycast_visibility_changed():
-	.on_ui_raycast_visibility_changed()
+	super.on_ui_raycast_visibility_changed()
 	
 	flashlight.visible = not uiRaycast.visible

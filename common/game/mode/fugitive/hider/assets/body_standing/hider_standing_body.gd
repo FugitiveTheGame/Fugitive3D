@@ -1,3 +1,3 @@
-extends Spatial
+extends Node3D
 
-onready var head := find_node("Head") as Spatial
+@onready var head := find_child("Head") as Node3D

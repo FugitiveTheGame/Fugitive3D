@@ -1,9 +1,9 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene format=3]
 
-[ext_resource path="res://common/game/mode/fugitive/street_light/street_light.glb" type="PackedScene" id=1]
+[ext_resource type="PackedScene" path="res://common/game/mode/fugitive/street_light/street_light.glb" id="1"]
 
-[node name="street_light" instance=ExtResource( 1 )]
+[node name="street_light" instance=ExtResource("1")]
 
-[node name="collision_mesh" parent="street_light" index="0"]
+[node name="collision_mesh" parent="street_light" index="0" unique_id=477395616]
 collision_layer = 2
 collision_mask = 0

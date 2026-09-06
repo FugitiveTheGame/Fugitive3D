@@ -1,22 +1,19 @@
-extends CollisionShape
+extends CollisionShape3D
 
-onready var standing := $Standing as Spatial
-onready var crouching := $Crouching as Spatial
-onready var playerNameLabel := $PlayerNameLabel as Spatial
-
-func _ready():
-	get_name_label().transparent = not Utils.renderer_is_gles2()
+@onready var standing := $Standing as Node3D
+@onready var crouching := $Crouching as Node3D
+@onready var playerNameLabel := $PlayerNameLabel as Label3D
 
 
 func get_name_label():
 	return playerNameLabel
 
 
-func get_standing_shape() -> Spatial:
+func get_standing_shape() -> Node3D:
 	return standing
 
 
-func get_crouching_shape() -> Spatial:
+func get_crouching_shape() -> Node3D:
 	return crouching
 
 

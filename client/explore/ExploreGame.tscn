@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=3 format=3 uid="uid://dhb1nqoem0vmx"]
 
-[ext_resource path="res://client/game/mode/fugitive/ClientFugitiveGame.tscn" type="PackedScene" id=1]
-[ext_resource path="res://client/explore/ExploreGame.gd" type="Script" id=2]
+[ext_resource type="PackedScene" path="res://client/game/mode/fugitive/ClientFugitiveGame.tscn" id="1"]
+[ext_resource type="Script" uid="uid://ducy8cwaktw0e" path="res://client/explore/ExploreGame.gd" id="2"]
 
-[node name="Game" instance=ExtResource( 1 )]
-script = ExtResource( 2 )
+[node name="Game" instance=ExtResource("1")]
+script = ExtResource("2")

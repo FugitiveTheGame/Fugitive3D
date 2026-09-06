@@ -2,63 +2,63 @@ extends Control
 
 const MIN_NAME_LENGTH := 3
 
-export(NodePath) var playerNamePath: NodePath
-onready var playerNameInput := get_node(playerNamePath) as LineEdit
+@export var playerNamePath: NodePath
+@onready var playerNameInput := get_node(playerNamePath) as LineEdit
 
-export(NodePath) var serverIpPath: NodePath
-onready var serverIpInput := get_node(serverIpPath) as LineEdit
+@export var serverIpPath: NodePath
+@onready var serverIpInput := get_node(serverIpPath) as LineEdit
 
-export(NodePath) var serverPortPath: NodePath
-onready var serverPortInput := get_node(serverPortPath) as LineEdit
+@export var serverPortPath: NodePath
+@onready var serverPortInput := get_node(serverPortPath) as LineEdit
 
-export(NodePath) var versionLabelPath: NodePath
-onready var versionLabel := get_node(versionLabelPath) as Label
+@export var versionLabelPath: NodePath
+@onready var versionLabel := get_node(versionLabelPath) as Label
 
-export (NodePath) var joiningDialogPath: NodePath
-onready var joiningDialog := get_node(joiningDialogPath) as WindowDialog
+@export var joiningDialogPath: NodePath
+@onready var joiningDialog := get_node(joiningDialogPath) as Window
 
-export (NodePath) var joinFailedDialogPath: NodePath
-onready var joinFailedDialog := get_node(joinFailedDialogPath) as AcceptDialog
+@export var joinFailedDialogPath: NodePath
+@onready var joinFailedDialog := get_node(joinFailedDialogPath) as AcceptDialog
 
-export (NodePath) var badInputDialogPath: NodePath
-onready var badInputDialog := get_node(badInputDialogPath) as AcceptDialog
+@export var badInputDialogPath: NodePath
+@onready var badInputDialog := get_node(badInputDialogPath) as AcceptDialog
 
-export (NodePath) var lostConnectionDialogPath: NodePath
-onready var lostConnectionDialog := get_node(lostConnectionDialogPath) as AcceptDialog
+@export var lostConnectionDialogPath: NodePath
+@onready var lostConnectionDialog := get_node(lostConnectionDialogPath) as AcceptDialog
 
-export (NodePath) var helpButtonPath: NodePath
-onready var helpButton := get_node(helpButtonPath) as Button
+@export var helpButtonPath: NodePath
+@onready var helpButton := get_node(helpButtonPath) as Button
 
-export (NodePath) var helpDialogPath: NodePath
-onready var helpDialog := get_node(helpDialogPath) as WindowDialog
+@export var helpDialogPath: NodePath
+@onready var helpDialog := get_node(helpDialogPath) as Window
 
-export (NodePath) var menuMusicButtonPath: NodePath
-onready var menuMusicButton := get_node(menuMusicButtonPath) as CheckButton
+@export var menuMusicButtonPath: NodePath
+@onready var menuMusicButton := get_node(menuMusicButtonPath) as CheckButton
 
-export (NodePath) var menuMusicPlayerPath: NodePath
-onready var menuMusicPlayer := get_node(menuMusicPlayerPath) as AudioStreamPlayer
+@export var menuMusicPlayerPath: NodePath
+@onready var menuMusicPlayer := get_node(menuMusicPlayerPath) as AudioStreamPlayer
 
-export (NodePath) var feedbackDialogPath: NodePath
-onready var feedbackDialog := get_node(feedbackDialogPath) as WindowDialog
+@export var feedbackDialogPath: NodePath
+@onready var feedbackDialog := get_node(feedbackDialogPath) as Window
 
-export (NodePath) var crashDetectedDialogPath: NodePath
-onready var crashDetectedDialog := get_node(crashDetectedDialogPath) as AcceptDialog
+@export var crashDetectedDialogPath: NodePath
+@onready var crashDetectedDialog := get_node(crashDetectedDialogPath) as AcceptDialog
 
-export (NodePath) var versionCheckRequestPath: NodePath
-onready var versionCheckRequest := get_node(versionCheckRequestPath) as HTTPRequest
+@export var versionCheckRequestPath: NodePath
+@onready var versionCheckRequest := get_node(versionCheckRequestPath) as HTTPRequest
 
-export (NodePath) var newVersionDialogPath: NodePath
-onready var newVersionDialog := get_node(newVersionDialogPath) as AcceptDialog
+@export var newVersionDialogPath: NodePath
+@onready var newVersionDialog := get_node(newVersionDialogPath) as AcceptDialog
 
 
 func _enter_tree():
-	get_tree().connect("connected_to_server", self, "on_connected_to_server")
-	get_tree().connect("connection_failed", self, "on_connection_failed")
+	multiplayer.connected_to_server.connect(on_connected_to_server)
+	multiplayer.connection_failed.connect(on_connection_failed)
 
 
 func _exit_tree():
-	get_tree().disconnect("connected_to_server", self, "on_connected_to_server")
-	get_tree().disconnect("connection_failed", self, "on_connection_failed")
+	multiplayer.connected_to_server.disconnect(on_connected_to_server)
+	multiplayer.connection_failed.disconnect(on_connection_failed)
 	
 	joiningDialog.hide()
 	
@@ -75,7 +75,7 @@ func _ready():
 	serverIpInput.text = UserData.data.last_ip
 	serverPortInput.text = str(UserData.data.last_port)
 	
-	menuMusicButton.pressed = UserData.data.menu_music
+	menuMusicButton.button_pressed = UserData.data.menu_music
 	call_deferred("update_menu_music")
 	
 	if ClientNetwork.has_disconnect_reason():
@@ -113,7 +113,7 @@ func _on_ConnectButton_pressed():
 func validate_manual_connect(ip: String, port: int) -> bool:
 	var valid := true
 	
-	if ip.empty():
+	if ip.is_empty():
 		valid = false
 	
 	if port <= 0 or port > 65535:
@@ -193,12 +193,12 @@ func _on_FeedbackButton_pressed():
 		feedbackDialog.popup_centered()
 
 
-func _on_VersionCheckRequest_request_completed(result: int, response_code: int, headers: PoolStringArray, body: PoolByteArray):
+func _on_VersionCheckRequest_request_completed(result: int, response_code: int, headers: PackedStringArray, body: PackedByteArray):
 	if response_code >= 200 and response_code < 300:
 		var bodyStr := body.get_string_from_utf8()
-		var jsonResult := JSON.parse(bodyStr)
-		if jsonResult.error == OK:
-			var jsonObj = jsonResult.result
+		var test_json_conv = JSON.new()
+		if test_json_conv.parse(bodyStr) == OK:
+			var jsonObj = test_json_conv.get_data()
 			var latestVersion = jsonObj.version as int
 			if latestVersion > UserData.GAME_VERSION:
 				print("Newer version available")

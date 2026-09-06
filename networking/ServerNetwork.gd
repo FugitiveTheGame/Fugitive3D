@@ -5,6 +5,11 @@ const SERVER_ID := 1
 var SERVER_REPOSITORY_URL: String
 const MAX_PLAYERS := 10
 
+# ENet drops a peer that misses acks for this long. Map loads block the main
+# thread for many seconds, so the default 5s is far too aggressive.
+const PEER_TIMEOUT_MIN_MS := 60_000
+const PEER_TIMEOUT_MAX_MS := 120_000
+
 var is_joinable := false
 
 
@@ -18,22 +23,27 @@ func _init():
 
 
 func _exit_tree():
-	if get_tree().is_connected("network_peer_disconnected", self, "_player_disconnected"):
-		get_tree().disconnect("network_peer_disconnected", self, "_player_disconnected")
-	
-	if get_tree().is_connected("network_peer_connected", self, "_player_connected"):
-		get_tree().disconnect("network_peer_connected", self, "_player_connected")	
+	if multiplayer.peer_disconnected.is_connected(_player_disconnected):
+		multiplayer.peer_disconnected.disconnect(_player_disconnected)
+
+	if multiplayer.peer_connected.is_connected(_player_connected):
+		multiplayer.peer_connected.disconnect(_player_connected)
 
 
 func _player_connected(id):
 	print("SERVER: Player connected: " + str(id))
+	# Loading a map blocks the main thread well past ENet's 5s default
+	# timeout, so a peer that is merely busy gets dropped mid-load
+	var peer := multiplayer.multiplayer_peer as ENetMultiplayerPeer
+	if peer != null:
+		peer.get_peer(id).set_timeout(32, PEER_TIMEOUT_MIN_MS, PEER_TIMEOUT_MAX_MS)
 
 
 func _player_disconnected(id):
 	print("SERVER: Player connected: " + str(id))
 	# If it was the host who left, and there are any
 	# players left, pick the first one and make them host
-	if not GameData.players.empty():
+	if not GameData.players.is_empty():
 		# No host, make the first player the new host
 		if GameData.get_host() == null:
 			var newHost = GameData.players.values().front()
@@ -45,7 +55,7 @@ func change_map(map_id: String):
 	rpc_id(SERVER_ID, "on_change_map", map_id)
 
 
-remote func on_change_map(map_id: String):
+@rpc("any_peer") func on_change_map(map_id: String):
 	if GameData.currentGame == null:
 		GameData.general[GameData.GENERAL_MAP] = map_id
 		
@@ -59,7 +69,7 @@ func register_self(playerId: int, platformType: int, playerName: String, gameVer
 	rpc_id(SERVER_ID, "on_register_self", playerId, platformType, playerName, gameVersion)
 
 
-remote func on_register_self(playerId: int, platformType: int, playerName: String, gameVersion: int):
+@rpc("any_peer") func on_register_self(playerId: int, platformType: int, playerName: String, gameVersion: int):
 	# Enforce same game_version
 	if gameVersion != UserData.GAME_VERSION:
 		print("Player connected with bad game version %d. Dissconnecting them." % playerId)
@@ -119,29 +129,27 @@ func make_host(playerId: int):
 
 
 func is_hosting() -> bool:
-	if get_tree().network_peer != null and get_tree().network_peer.get_connection_status() != 0: # NetworkedMultiplayerPeer.ConnectionStatus.CONNECTION_DISCONNECTED
-		return true
-	else:
-		return false
+	return Utils.has_active_network_peer(multiplayer) \
+		and multiplayer.multiplayer_peer.get_connection_status() != MultiplayerPeer.CONNECTION_DISCONNECTED
 
 
 func host_game(port: int = SERVER_PORT) -> bool:
 	# Clear out any old state
 	ClientNetwork.reset_network()
 	
-	var peer = NetworkedMultiplayerENet.new()
-	peer.compression_mode = 4
+	var peer = ENetMultiplayerPeer.new()
 	var result = peer.create_server(port, MAX_PLAYERS)
 	if result == OK:
-		get_tree().set_network_peer(peer)
-		
-		GameData.general[GameData.GENERAL_SEED] = OS.get_unix_time()
-		
-		if not get_tree().is_connected("network_peer_disconnected", self, "_player_disconnected"):
-			get_tree().connect("network_peer_disconnected", self, "_player_disconnected")
-		
-		if not get_tree().is_connected("network_peer_connected", self, "_player_connected"):
-			get_tree().connect("network_peer_connected", self, "_player_connected")	
+		peer.host.compress(ENetConnection.COMPRESS_ZSTD)
+		multiplayer.multiplayer_peer = peer
+
+		GameData.general[GameData.GENERAL_SEED] = Time.get_unix_time_from_system()
+
+		if not multiplayer.peer_disconnected.is_connected(_player_disconnected):
+			multiplayer.peer_disconnected.connect(_player_disconnected)
+
+		if not multiplayer.peer_connected.is_connected(_player_connected):
+			multiplayer.peer_connected.connect(_player_connected)
 		
 		print("Server started.")
 		return true
@@ -154,7 +162,7 @@ func change_player_type(playerId: int, playerType: int):
 	rpc_id(SERVER_ID, "on_change_player_type", playerId, playerType)
 
 
-remotesync func on_change_player_type(playerId: int, playerType: int):
+@rpc("any_peer", "call_local") func on_change_player_type(playerId: int, playerType: int):
 	if GameData.currentGame == null:
 		var player = GameData.get_player(playerId) as PlayerData
 		if player != null:
@@ -175,12 +183,12 @@ func kick_player(playerId: int):
 	rpc_id(SERVER_ID, "on_kick_player", playerId)
 
 
-remote func on_kick_player(playerId: int):
+@rpc("any_peer") func on_kick_player(playerId: int):
 	ClientNetwork.force_disconnect(playerId, "You have been kicked from the server")
 
 
-remotesync func on_randomize_teams():
-	if not get_tree().is_network_server():
+@rpc("any_peer", "call_local") func on_randomize_teams():
+	if not multiplayer.is_server():
 		return
 	
 	var playerIds = GameData.players.keys()
@@ -197,10 +205,10 @@ remotesync func on_randomize_teams():
 	playerIds.shuffle()
 	
 	var teamId := 0
-	while not teamLayout.empty() and not playerIds.empty():
+	while not teamLayout.is_empty() and not playerIds.is_empty():
 		var teamCount = teamLayout.pop_front()
 	
-		while teamCount > 0 and not playerIds.empty():
+		while teamCount > 0 and not playerIds.is_empty():
 			teamCount -= 1
 			
 			var playerId = playerIds.pop_front()

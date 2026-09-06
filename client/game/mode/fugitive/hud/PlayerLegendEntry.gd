@@ -1,20 +1,20 @@
 extends VBoxContainer
 class_name PlayerLegendEntry
 
-export(NodePath) var colorPath: NodePath
-onready var colorEntryControl := get_node(colorPath) as ColorRect
+@export var colorPath: NodePath
+@onready var colorEntryControl := get_node(colorPath) as ColorRect
 
-export(NodePath) var labelPath: NodePath
-onready var labelNameControl := get_node(labelPath) as Label
+@export var labelPath: NodePath
+@onready var labelNameControl := get_node(labelPath) as Label
 
-export(NodePath) var crouchPath: NodePath
-onready var crouchControl := get_node(crouchPath) as TextureRect
+@export var crouchPath: NodePath
+@onready var crouchControl := get_node(crouchPath) as TextureRect
 
-export(NodePath) var frozenPath: NodePath
-onready var frozenControl := get_node(frozenPath) as TextureRect
+@export var frozenPath: NodePath
+@onready var frozenControl := get_node(frozenPath) as TextureRect
 
-export(NodePath) var staminaBarPath: NodePath
-onready var staminaBar := get_node(staminaBarPath) as ProgressBar
+@export var staminaBarPath: NodePath
+@onready var staminaBar := get_node(staminaBarPath) as ProgressBar
 
 
 var colorChosen: Color

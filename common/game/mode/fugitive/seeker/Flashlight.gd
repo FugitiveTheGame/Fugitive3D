@@ -1,17 +1,17 @@
-extends Spatial
+extends Node3D
 
 var update_threshold := Threshold.new(Utils.COMMON_NETWORK_UPDATE_THRESHOLD)
 
 var is_on := true
 # Quest 2 can handle a few more lights, so we re-enable flashlights
-onready var is_quest2 := Utils.is_quest2()
+@onready var is_quest2 := Utils.is_quest2()
 
 func _ready():
 	if Utils.renderer_is_gles2() and not is_quest2:
-		$SpotLight.visible = false
+		$SpotLight3D.visible = false
 		$LightBeam.alpha = 0.05
 	else:
-		$SpotLight.visible = true
+		$SpotLight3D.visible = true
 		$LightBeam.alpha = 0.004
 
 
@@ -24,24 +24,24 @@ func set_on(on: bool):
 	rpc("on_set_on", on)
 
 
-remotesync func on_set_on(on: bool):
+@rpc("any_peer", "call_local") func on_set_on(on: bool):
 	is_on = on
 	
 	if not Utils.renderer_is_gles2() or is_quest2:
-		$SpotLight.visible = is_on
+		$SpotLight3D.visible = is_on
 	
 	$LightBeam.visible = is_on
 
 
-puppet func network_update(networkPosition: Vector3, networkRotation: Vector3):
-	translation = networkPosition
+@rpc("unreliable") func network_update(networkPosition: Vector3, networkRotation: Vector3):
+	position = networkPosition
 	rotation = networkRotation
 
 
 func _physics_process(delta):
-	if get_tree().network_peer != null and is_network_master() and update_threshold.is_exceeded() and not GameData.currentGame.is_game_over():
-		rpc_unreliable("network_update", translation, rotation)
+	if Utils.has_active_network_peer(multiplayer) and is_multiplayer_authority() and update_threshold.is_exceeded() and not GameData.currentGame.is_game_over():
+		rpc("network_update", position, rotation)
 
 
 func get_ray_caster():
-	return $RayCast
+	return $RayCast3D

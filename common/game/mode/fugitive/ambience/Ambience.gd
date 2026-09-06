@@ -1,4 +1,4 @@
-extends Spatial
+extends Node3D
 
 
 var effects := []
@@ -9,7 +9,7 @@ func _ready():
 			effects.push_back(child);
 	
 	if GameData.currentGame != null:
-		GameData.currentGame.connect("preconfigure_complete", self, "on_game_configuration_complete")
+		GameData.currentGame.connect("preconfigure_complete", Callable(self, "on_game_configuration_complete"))
 
 
 func on_game_configuration_complete():
@@ -23,7 +23,7 @@ func calculate_bounding_box(roads) -> AABB:
 	var bb := AABB()
 	
 	for road in roads:
-		var colShape = road.get_node("CollisionShape")
+		var colShape = road.get_node("CollisionShape3D")
 		var aabb := Utils.aabb_from_shape(colShape)
 		bb = bb.merge(aabb)
 	

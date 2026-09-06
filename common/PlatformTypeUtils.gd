@@ -12,10 +12,10 @@ static func get_platform_type() -> int:
 	elif OS.has_feature("client_flat"):
 		type = PlatformType.FlatDesktop
 	elif VrUtils.isVrClient():
-		if OS.has_feature("client_vr_desktop"):
-			type = PlatformType.VrDesktop
-		elif OS.has_feature("client_vr_mobile"):
+		if OS.has_feature("client_vr_mobile") or OS.has_feature("mobile"):
 			type = PlatformType.VrMobile
+		else:
+			type = PlatformType.VrDesktop
 	# Debug builds from the editor expect this
 	else:
 		type = PlatformType.FlatDesktop

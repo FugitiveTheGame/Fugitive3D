@@ -2,7 +2,7 @@ extends "res://common/game/mode/fugitive/FugitivePlayer.gd"
 class_name Seeker
 
 const GROUP := "seeker"
-const CONE_WIDTH = cos(deg2rad(35.0))
+const CONE_WIDTH = cos(deg_to_rad(35.0))
 const MAX_DETECT_DISTANCE := 3.0
 const MAX_VISION_DISTANCE := 50.0
 const MIN_VISION_DISTANCE := 3.0
@@ -11,19 +11,20 @@ const CLOSE_PROXIMITY_DISTANCE := 1.5
 const MOVEMENT_VISIBILITY_PENALTY := 0.10
 const SPRINT_VISIBILITY_PENALTY := 0.75
 
-export(NodePath) var flash_light_path: NodePath
-onready var flash_light := get_node(flash_light_path) as Spatial
-onready var seeker_ray_caster := flash_light.get_ray_caster() as RayCast
+@export var flash_light_path: NodePath
+@onready var flash_light := get_node(flash_light_path) as Node3D
+@onready var seeker_ray_caster := flash_light.get_ray_caster() as RayCast3D
 
 
 func _ready():
+	super._ready()
 	add_to_group(GROUP)
 	
 	# Only the server listens for detections
-	if get_tree().is_network_server():
+	if multiplayer.is_server():
 		# SeekerShape has a special DetectionArea node
 		# Listen to it for detection logic
-		playerShape.get_node("DetectionArea").connect("body_entered", self, "body_entered_detection_radius")
+		playerShape.get_node("DetectionArea").connect("body_entered", Callable(self, "body_entered_detection_radius"))
 
 
 # Detect if a particular hider has been seen by the seeker
@@ -38,55 +39,32 @@ func process_hider(hider):
 		hider.update_visibility(1.0)
 	# Quick reject, if too far away, or flashlight is off, just give up
 	elif distance <=  MAX_VISION_DISTANCE and flash_light.is_on:
-		# Cast a ray between the seeker's flashlight and this hider
-		var curHiderShape = hider.get_current_shape().head
-		var look_vec := flash_light.to_local(curHiderShape.global_transform.origin)
+		############################################
+		# Begin visibility calculations
+		############################################
 		
-		seeker_ray_caster.cast_to = look_vec
-		seeker_ray_caster.force_raycast_update()
+		# At a given distance, fade the hider out
+		var distance_visibility: float
 		
-		# Only if ray is colliding. If it's not, and we try to do logic,
-		# wierd stuff happens
-		if(seeker_ray_caster.is_colliding()):
-			
-			var bodySeen = seeker_ray_caster.get_collider()
-			
-			# If the ray hits a wall or something else first, then this Hider is fully occluded
-			if(bodySeen == hider.playerBody):
-				# Calculate the angle of this ray from the cetner of the Flashlight's FOV
-				var look_angle := Vector3(0.0, 0.0, -1.0).dot(look_vec.normalized())
-				
-				############################################
-				# Begin visibility calculations
-				############################################
-				
-				# At a given distance, fade the hider out
-				var distance_visibility: float
-				
-				# Hider is too far away, make invisible regardless of FOV visibility
-				if distance > MAX_VISION_DISTANCE:
-					distance_visibility = 0.0
-				# Hider is at the edge of distance visibility, calculate how close to the edge they are
-				elif distance > MIN_VISION_DISTANCE:
-					var shiftedDistance = distance - MIN_VISION_DISTANCE
-					distance_visibility = 1.0 - (shiftedDistance / (MAX_VISION_DISTANCE-MIN_VISION_DISTANCE))
-				# Hider is well with-in visible distance, we won't modify the FOV visibility at all
-				else:
-					distance_visibility = 1.0
-				
-				# If hider is in the center of Seeker's FOV, they are fully visible
-				# otherwise, they will gradually fade out the further out to the edges
-				# of the FOV they are. Outside the FOV cone, they are invisible.
-				var rangeShifted = clamp(look_angle - CONE_WIDTH, 0.0, CONE_WIDTH)
-				var rangeMapped = rangeShifted / (1.0 - CONE_WIDTH)
-				var fov_visibility = rangeMapped
-				
-				# FOV visibility can be faded out if at edge of distance visibility
-				var percent_visible: float = fov_visibility * distance_visibility
-				percent_visible = clamp(percent_visible, 0.0, 1.0)
-				
-				# The hider's set visibility method will handle the visible effects of this
-				hider.update_visibility(percent_visible)
+		# Hider is too far away, make invisible regardless of FOV visibility
+		if distance > MAX_VISION_DISTANCE:
+			distance_visibility = 0.0
+		# Hider is at the edge of distance visibility, calculate how close to the edge they are
+		elif distance > MIN_VISION_DISTANCE:
+			var shiftedDistance = distance - MIN_VISION_DISTANCE
+			distance_visibility = 1.0 - (shiftedDistance / (MAX_VISION_DISTANCE-MIN_VISION_DISTANCE))
+		# Hider is well with-in visible distance, we won't modify the FOV visibility at all
+		else:
+			distance_visibility = 1.0
+		
+		var fov_visibility := VisionCone.brightest_view_of(hider, seeker_ray_caster, CONE_WIDTH)
+		
+		# FOV visibility can be faded out if at edge of distance visibility
+		var percent_visible: float = fov_visibility * distance_visibility
+		percent_visible = clamp(percent_visible, 0.0, 1.0)
+		
+		# The hider's set visibility method will handle the visible effects of this
+		hider.update_visibility(percent_visible)
 
 
 # Hider detection
@@ -106,7 +84,7 @@ func freeze_hider(hider):
 	print("Freeze hider!")
 	
 	# Only the server is actually making this decision
-	if get_tree().is_network_server():
+	if multiplayer.is_server():
 		hider.freeze()
 		
 		FugitivePlayerDataUtility.increment_stat_for_player_id(id, FugitivePlayerDataUtility.STAT_SEEKER_FREEZES)
@@ -117,7 +95,7 @@ func freeze_hider(hider):
 
 func on_state_playing():
 	print("Seeker: on_state_playing()")
-	if get_tree().is_network_server():
+	if multiplayer.is_server():
 		unfreeze()
 
 

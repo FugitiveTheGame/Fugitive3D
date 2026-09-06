@@ -1,4 +1,4 @@
-extends Spatial
+extends Node3D
 class_name Player
 
 
@@ -28,14 +28,14 @@ var playerType: int = -1
 #  can be configured differently
 var localPlayerType: int
 
-onready var walking_sound = $WalkingSound
-onready var jumping_sound = $JumpingSound
-onready var no_stamina_sound = $NoStaminaSound
+@onready var walking_sound = $WalkingSound
+@onready var jumping_sound = $JumpingSound
+@onready var no_stamina_sound = $NoStaminaSound
 
 
 var minimum_stamina_recovered := true
 
-var isMoving := false setget set_is_moving
+var isMoving := false: set = set_is_moving
 func set_is_moving(value: bool):
 	isMoving = value
 	
@@ -50,14 +50,14 @@ func set_is_moving(value: bool):
 
 var sprint := false
 
-var stamina := stamina_max setget set_stamina
+var stamina := stamina_max: set = set_stamina
 func set_stamina(value: float):
 	stamina = value
 	stamina = clamp(stamina, 0, DEFAULT_STAMINA_MAX)
 
 
 var show_avatar := true
-var is_crouching := false setget set_is_crouching
+var is_crouching := false: set = set_is_crouching
 func set_is_crouching(value: bool):
 	if value != is_crouching:
 		is_crouching = value
@@ -65,20 +65,20 @@ func set_is_crouching(value: bool):
 		if show_avatar:
 			playerShape.set_crouching(value)
 
-export(NodePath) var shapePath: NodePath
-export(NodePath) var playerControllerPath: NodePath
-export(NodePath) var playerBodyPath: NodePath
-export(NodePath) var playerVoiceChatPath: NodePath
+@export var shapePath: NodePath
+@export var playerControllerPath: NodePath
+@export var playerBodyPath: NodePath
+@export var playerVoiceChatPath: NodePath
 
 
-onready var playerController := get_node(playerControllerPath) as Spatial
-onready var playerShape := get_node(shapePath) as Spatial
-onready var playerBody := get_node(playerBodyPath) as KinematicBody
-onready var playerVoiceChat := get_node(playerVoiceChatPath) as VoiceChatReceiver
+@onready var playerController := get_node(playerControllerPath) as Node3D
+@onready var playerShape := get_node(shapePath) as Node3D
+@onready var playerBody := get_node(playerBodyPath) as CharacterBody3D
+@onready var playerVoiceChat := get_node(playerVoiceChatPath) as VoiceChatReceiver
 
 
-puppet func network_update(networkPosition: Vector3, networkRotation: Vector3, networkVelocity: Vector3, networkCrouching: bool, networkMoving: bool, networkSprinting, networkStamina: float):
-	playerController.translation = networkPosition
+@rpc("unreliable") func network_update(networkPosition: Vector3, networkRotation: Vector3, networkVelocity: Vector3, networkCrouching: bool, networkMoving: bool, networkSprinting, networkStamina: float):
+	playerController.position = networkPosition
 	playerController.rotation = networkRotation
 	self.is_crouching = networkCrouching
 	self.isMoving = networkMoving
@@ -88,7 +88,7 @@ puppet func network_update(networkPosition: Vector3, networkRotation: Vector3, n
 
 
 func _physics_process(delta):
-	if is_network_master():
+	if is_multiplayer_authority():
 		process_stamina(delta)
 	
 	# Move voice chat to the player's head
@@ -112,7 +112,7 @@ func set_not_local_player():
 
 
 func set_is_local_player():
-	walking_sound.unit_db = -15.0
+	walking_sound.volume_db = -15.0
 	print("set_is_local_player()")
 	add_to_group(Groups.LOCAL_PLAYER)
 	hide_avatar()
@@ -127,7 +127,7 @@ func hide_avatar():
 	playerShape.get_crouching_shape().hide()
 
 
-func get_current_shape() -> Spatial:
+func get_current_shape() -> Node3D:
 	if is_crouching:
 		return playerShape.get_crouching_shape()
 	else:
@@ -164,7 +164,7 @@ func jump():
 	rpc("on_jump")
 
 
-remotesync func on_jump():
+@rpc("any_peer", "call_local") func on_jump():
 	jumping_sound.play()
 
 
@@ -173,5 +173,5 @@ func out_of_stamina():
 	rpc("on_out_of_stamina")
 
 
-remotesync func on_out_of_stamina():
+@rpc("any_peer", "call_local") func on_out_of_stamina():
 	no_stamina_sound.play()

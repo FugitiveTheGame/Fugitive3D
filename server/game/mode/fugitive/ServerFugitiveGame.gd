@@ -1,22 +1,25 @@
 extends FugitiveGame
 class_name ServerFugitiveGame
 
-onready var reporter := ServerReporter.get_instance(get_tree()) as ServerReporter
-onready var advertiser := $ServerAdvertiser as ServerAdvertiser
+@onready var reporter := ServerReporter.get_instance(get_tree()) as ServerReporter
+@onready var advertiser := $ServerAdvertiser as ServerAdvertiser
 
 var configuredPlayers := {}
 var readyPlayers := {}
 
 
 func _enter_tree():
-	ClientNetwork.connect("remove_player", self, "server_remove_player")
+	super._enter_tree()
+	ClientNetwork.connect("remove_player", Callable(self, "server_remove_player"))
 
 
 func _exit_tree():
-	ClientNetwork.disconnect("remove_player", self, "server_remove_player")
+	super._exit_tree()
+	ClientNetwork.disconnect("remove_player", Callable(self, "server_remove_player"))
 
 
 func _ready():
+	super._ready()
 	if ServerUtils.get_fps():
 		$FpsTimer.start()
 	
@@ -32,7 +35,7 @@ func report_start():
 
 
 func pre_configure():
-	.pre_configure()
+	super.pre_configure()
 	
 	print("Server configuration complete")
 	report_start()
@@ -58,7 +61,7 @@ func not_ready_players() -> int:
 
 func server_remove_player(playerId: int):
 	# If all players are gone, return to lobby
-	if GameData.players.empty():
+	if GameData.players.is_empty():
 		print("All players disconnected, returning to lobby")
 		rpc("on_finish_game", -1)
 	else:
@@ -73,12 +76,12 @@ func server_remove_player(playerId: int):
 
 
 func load_map():
-	.load_map()
-	map.get_countdown_timer().connect("timeout", self, "countdown_timer_timeout")
-	map.get_headstart_timer().connect("timeout", self, "headstart_timer_timeout")
+	super.load_map()
+	map.get_countdown_timer().connect("timeout", Callable(self, "countdown_timer_timeout"))
+	map.get_headstart_timer().connect("timeout", Callable(self, "headstart_timer_timeout"))
 
 
-remote func on_client_configured(playerId: int):
+func on_client_configured(playerId: int):
 	print("client configured: %s" % playerId)
 	configuredPlayers[playerId] = true
 	
@@ -97,7 +100,7 @@ func check_all_configured():
 		print("Still waiting on %d players" % unconfigured_players())
 
 
-remote func on_client_ready(playerId: int):
+func on_client_ready(playerId: int):
 	print("client ready: %s" % playerId)
 	readyPlayers[playerId] = true
 	
@@ -127,13 +130,13 @@ func headstart_timer_timeout():
 
 # Only the server will call this as it sends all clients back to lobby
 func send_all_to_lobby():
-	if get_tree().is_network_server():
+	if multiplayer.is_server():
 		rpc("on_go_to_lobby")
 
 
-remotesync func on_go_to_lobby():
+func on_go_to_lobby():
 	print("SERVER: on_go_to_lobby()")
-	get_tree().change_scene("res://server/lobby/ServerLobby.tscn")
+	get_tree().change_scene_to_file("res://server/lobby/ServerLobby.tscn")
 
 
 func _on_FpsTimer_timeout():
@@ -153,7 +156,7 @@ func report_game_end(winningTeam: int):
 
 
 func finish_game(playerType: int):
-	.finish_game(playerType)
+	super.finish_game(playerType)
 	
 	report_game_end(playerType)
 	
@@ -190,6 +193,6 @@ func _on_StateMachine_state_change(new_state, transition):
 
 
 func on_state_game_over(current_state: State, transition: Transition):
-	.on_state_game_over(current_state, transition)
+	super.on_state_game_over(current_state, transition)
 	print("Server returning to lobby")
 	go_to_lobby()

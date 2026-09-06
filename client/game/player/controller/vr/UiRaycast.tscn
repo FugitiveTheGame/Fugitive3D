@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://client/game/player/controller/vr/UiRaycast.gd" id="1"]
+
+[sub_resource type="StandardMaterial3D" id="LaserMaterial"]
+transparency = 1
+shading_mode = 0
+albedo_color = Color(1, 0.3, 0.3, 0.6)
+
+[sub_resource type="BoxMesh" id="LaserMesh"]
+size = Vector3(0.004, 0.004, 1)
+
+[node name="UiRaycast" type="Node3D"]
+script = ExtResource("1")
+
+[node name="RayCast3D" type="RayCast3D" parent="."]
+enabled = false
+target_position = Vector3(0, 0, -3)
+collision_mask = 8388608
+
+[node name="Laser" type="MeshInstance3D" parent="."]
+mesh = SubResource("LaserMesh")
+material_override = SubResource("LaserMaterial")
+cast_shadow = 0

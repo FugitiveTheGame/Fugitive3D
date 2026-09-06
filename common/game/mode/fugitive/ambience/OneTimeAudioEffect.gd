@@ -5,7 +5,7 @@ signal audio_effect_complete(node)
 
 
 func _ready():
-	connect("finished", self, "on_finished")
+	connect("finished", Callable(self, "on_finished"))
 
 
 func on_finished():

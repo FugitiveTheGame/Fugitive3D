@@ -1,13 +1,13 @@
-tool
-extends Spatial
+@tool
+extends Node3D
 
 func _ready():
-	if Engine.editor_hint:
-		var tool_time_mesh := CSGSphere.new()
+	if Engine.is_editor_hint():
+		var tool_time_mesh := CSGSphere3D.new()
 		tool_time_mesh.radius = 0.25
 		add_child(tool_time_mesh)
 		
-		var tool_time_mesh_directional := CSGBox.new()
+		var tool_time_mesh_directional := CSGBox3D.new()
 		tool_time_mesh_directional.width = 0.1
 		tool_time_mesh_directional.height = 0.1
 		tool_time_mesh_directional.depth = 0.5

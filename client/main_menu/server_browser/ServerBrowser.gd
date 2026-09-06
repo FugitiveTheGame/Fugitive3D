@@ -2,15 +2,40 @@ extends PanelContainer
 
 signal connect_to_server(ip, port)
 
-export (NodePath) var serverListPath: NodePath
-onready var serverList := get_node(serverListPath)
+@export var serverListPath: NodePath
+@onready var serverList := get_node(serverListPath)
 
 var serverListItemScene := preload("res://client/main_menu/server_browser/ServerListItem.tscn")
 
 
+const STATUS_COLOR_CONNECTING := Color(1, 0.85, 0.1)
+const STATUS_COLOR_CONNECTED := Color(0.2, 0.8, 0.2)
+const STATUS_COLOR_FAILED := Color(0.9, 0.2, 0.2)
+
+@onready var connectionStatusIndicator: Panel = $VBoxContainer/HBoxContainer/ConnectionStatusIndicator
+
+
 func _ready():
 	$ServerListener.serverRepositoryUrl = ServerNetwork.SERVER_REPOSITORY_URL
+	set_connection_status(STATUS_COLOR_CONNECTING, "Connecting to server list...")
 	$ServerListener.call_deferred("request_servers")
+
+
+func set_connection_status(color: Color, tooltip: String):
+	connectionStatusIndicator.modulate = color
+	connectionStatusIndicator.tooltip_text = tooltip
+
+
+func _on_ServerListener_repo_connecting():
+	set_connection_status(STATUS_COLOR_CONNECTING, "Connecting to server list...")
+
+
+func _on_ServerListener_repo_connected():
+	set_connection_status(STATUS_COLOR_CONNECTED, "Connected to server list")
+
+
+func _on_ServerListener_repo_connection_failed():
+	set_connection_status(STATUS_COLOR_FAILED, "Failed to connect to server list")
 
 
 func _on_ServerListener_new_server(serverInfo):
@@ -26,9 +51,9 @@ func add_server(serverInfo):
 		print("Warning: Server is wrong version, throwing it away")
 	else:
 		print("add_server: " + serverInfo.name + " port " + str(serverInfo.port))
-		var serverNode := serverListItemScene.instance()
+		var serverNode := serverListItemScene.instantiate()
 		serverNode.populate(serverInfo)
-		serverNode.connect("connect_to_server", self, "on_connect_request")
+		serverNode.connect("connect_to_server", Callable(self, "on_connect_request"))
 		serverList.add_child(serverNode)
 
 
@@ -36,7 +61,7 @@ func remove_server(serverIp: String, port: int):
 	print("remove_server: " + serverIp)
 	for serverNode in serverList.get_children():
 		if serverNode.serverInfo.ip == serverIp and serverNode.serverInfo.port == port:
-			serverNode.disconnect("connect_to_server", self, "on_connect_request")
+			serverNode.disconnect("connect_to_server", Callable(self, "on_connect_request"))
 			serverNode.queue_free()
 			break
 

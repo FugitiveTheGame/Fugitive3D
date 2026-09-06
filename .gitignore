@@ -2,7 +2,26 @@
 export/*
 -export/.gdignore
 addons/wakatime
-android/build/.gradle
-android/build/build
+/android/build/.gradle
+/android/build/build
 extras/release-scripts/releases
-android
+/android
+.godot/
+reports/
+
+# godot-mcp injects these into the project while the game is running,
+# and removes them on stop. Never commit them: the autoload opens a socket.
+mcp_interaction_server.gd
+mcp_interaction_server.gd.uid
+
+# Machine-specific: absolute paths to the godot-mcp build and the Godot exe.
+.mcp.json
+
+# Godot renames a GDExtension library it still has open rather than
+# overwriting it, leaving the old copy behind.
+~*.dll
+
+# Holds real GameAnalytics credentials. keys.json.example documents the shape.
+keys.json
+
+deploy/

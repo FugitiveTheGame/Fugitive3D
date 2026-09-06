@@ -1,9 +1,13 @@
+@icon('res://addons/LANServerBroadcast/server_listener/ServerListener.png')
 extends Node
-class_name ServerListener, 'res://addons/LANServerBroadcast/server_listener/ServerListener.png'
+class_name ServerListener
 
 signal new_server
 signal update_server
 signal remove_server
+signal repo_connecting
+signal repo_connected
+signal repo_connection_failed
 
 const REPOSITORY_REFRESH_INTERVAL := 5.0
 
@@ -19,8 +23,8 @@ var serverRepoRequest := HTTPRequest.new()
 
 # Number of seconds to wait when a server hasn't been heard from
 # before calling remove_server
-export (int) var server_cleanup_threshold_lan: int = 3
-export (int) var server_cleanup_threshold_wan: int = 15
+@export var server_cleanup_threshold_lan: int = 3
+@export var server_cleanup_threshold_wan: int = 15
 
 func get_server_id(ip, port) -> String:
 	return str(ip) + ":" + str(port)
@@ -30,23 +34,24 @@ func _init():
 	cleanUpTimer.wait_time = server_cleanup_threshold_lan
 	cleanUpTimer.one_shot = false
 	cleanUpTimer.autostart = true
-	cleanUpTimer.connect("timeout", self, 'clean_up')
+	cleanUpTimer.connect("timeout", Callable(self, 'clean_up'))
 	add_child(cleanUpTimer)
+	# Parent the helper nodes here as well, so a listener that is freed
+	# before entering the tree does not leak them
+	add_child(serverRepoRequestTimer)
+	add_child(serverRepoRequest)
 
 func _ready():
 	knownServers.clear()
-	
+
 	serverRepoRequestTimer.wait_time = REPOSITORY_REFRESH_INTERVAL
 	serverRepoRequestTimer.one_shot = false
-	add_child(serverRepoRequestTimer)
-	serverRepoRequestTimer.connect("timeout", self, "request_servers")
+	serverRepoRequestTimer.connect("timeout", Callable(self, "request_servers"))
 	serverRepoRequestTimer.start()
+
+	serverRepoRequest.connect("request_completed", Callable(self, "_on_ServerRepoRequest_request_completed"))
 	
-	
-	add_child(serverRepoRequest)
-	serverRepoRequest.connect("request_completed", self, "_on_ServerRepoRequest_request_completed")
-	
-	if socketUDP.listen(listenPort) != OK:
+	if socketUDP.bind(listenPort) != OK:
 		print("GameServer LAN service: Error listening on port: " + str(listenPort))
 	else:
 		print("GameServer LAN service: Listening on port: " + str(listenPort))
@@ -60,7 +65,9 @@ func _process(delta):
 		
 		if serverIp != '' and serverPort > 0:
 			var serverMessage = array_bytes.get_string_from_ascii()
-			var gameInfo = parse_json(serverMessage)
+			var test_json_conv = JSON.new()
+			test_json_conv.parse(serverMessage)
+			var gameInfo = test_json_conv.get_data()
 			gameInfo.ip = serverIp
 			gameInfo.lan = true
 			
@@ -68,7 +75,7 @@ func _process(delta):
 
 
 func add_server(serverInfo):
-	serverInfo.lastSeen = OS.get_unix_time()
+	serverInfo.lastSeen = Time.get_unix_time_from_system()
 	
 	# We've discovered a new server! Add it to the list and let people know
 	var serverId = get_server_id(serverInfo.ip, serverInfo.port)
@@ -83,7 +90,7 @@ func add_server(serverInfo):
 
 
 func clean_up():
-	var now = OS.get_unix_time()
+	var now = Time.get_unix_time_from_system()
 	for serverId in knownServers:
 		var serverInfo = knownServers[serverId]
 		
@@ -105,18 +112,24 @@ func _exit_tree():
 
 func request_servers():
 	serverRepoRequest.cancel_request()
-	
+	emit_signal("repo_connecting")
+
 	var endpointUrl = serverRepositoryUrl + "/servers"
-	serverRepoRequest.request(endpointUrl)
+	if serverRepoRequest.request(endpointUrl) != OK:
+		emit_signal("repo_connection_failed")
 
 
 func _on_ServerRepoRequest_request_completed(result, response_code, headers, body):
 	if response_code == 200:
-		var servers = parse_json(body.get_string_from_utf8())
-		
+		var test_json_conv = JSON.new()
+		test_json_conv.parse(body.get_string_from_utf8())
+		var servers = test_json_conv.get_data()
+
 		if servers != null:
 			for server in servers:
 				server.lan = false
 				add_server(server)
+		emit_signal("repo_connected")
 	else:
 		print('Failed to get servers')
+		emit_signal("repo_connection_failed")

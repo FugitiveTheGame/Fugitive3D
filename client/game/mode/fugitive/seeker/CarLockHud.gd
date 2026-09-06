@@ -2,9 +2,9 @@ extends Control
 
 signal locking_complete
 
-onready var container := $Container
-onready var car_lock_timer := $Container/CarLockTimer as Timer
-onready var lock_progress_bar := $Container/ProgressBar as ProgressBar
+@onready var container := $Container
+@onready var car_lock_timer := $Container/CarLockTimer as Timer
+@onready var lock_progress_bar := $Container/ProgressBar as ProgressBar
 
 func start_locking():
 	car_lock_timer.start()

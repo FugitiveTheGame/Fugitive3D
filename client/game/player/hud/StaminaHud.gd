@@ -1,9 +1,9 @@
 extends Control
 
-export(NodePath) var playerPath: NodePath
-onready var player := get_node(playerPath) as Player
-onready var staminaBar := $ProgressBar as ProgressBar
-onready var icon := $TextureRect as TextureRect
+@export var playerPath: NodePath
+@onready var player := get_node(playerPath) as Player
+@onready var staminaBar := $ProgressBar as ProgressBar
+@onready var icon := $TextureRect as TextureRect
 
 
 var icon_stamina := load("res://client/game/player/hud/ic_stamina.png")

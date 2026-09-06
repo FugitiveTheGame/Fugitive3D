@@ -1,5 +1,9 @@
 extends Node
 
+# Fraction of the headset's recommended eye resolution the mobile VR client
+# renders at; foveation and lens distortion hide most of the difference
+const MOBILE_RENDER_SCALE := 0.9
+
 # Go to the proper entry for this client
 func _ready():
 	init_analytics()
@@ -24,28 +28,38 @@ func handle_commandline_args():
 	var playerName = UserData.data.user_name
 	var serverIp = UserData.data.last_ip
 	var serverPort = int(UserData.data.last_port)
+	if serverPort <= 0 or serverPort > 65535:
+		serverPort = ServerNetwork.SERVER_PORT
 	
-	var args := OS.get_cmdline_args()
+	var args := OS.get_cmdline_args() + OS.get_cmdline_user_args()
 	print("Command Line args: %d" % [args.size()])
-	if (args.size() > 0):
-		for arg in args:
-			print("    : %s" % arg)
-			var keyValuePair = arg.split("=")
-			
-			match keyValuePair[0]:
-				"--name":
-					playerName = keyValuePair[1]
-					# Also override the default file save path so each test user has its own settings.
-					UserData.file_name = 'user://user_data-%s.json' % playerName
-				"--ip":
-					serverIp = keyValuePair[1]
-				_:
-					print("UNKNOWN ARGUMENT %s" % keyValuePair[0])
+	
+	# Only a server given on the command line asks us to skip the menu and join
+	var autoJoin := false
+	
+	for arg in args:
+		print("    : %s" % arg)
+		var keyValuePair = arg.split("=", true, 1)
+		var key: String = keyValuePair[0]
+		var value: String = keyValuePair[1] if keyValuePair.size() > 1 else ""
+		
+		match key:
+			"--name":
+				playerName = value
+				# Also override the default file save path so each test user has its own settings.
+				UserData.file_name = 'user://user_data-%s.json' % playerName
+			"--ip":
+				serverIp = value
+				autoJoin = true
+			_:
+				print("UNKNOWN ARGUMENT %s" % key)
+	
+	if autoJoin:
 		ClientNetwork.join_game(serverIp, serverPort, playerName.strip_edges())
 
 
 func go_to_flat():
-	get_tree().change_scene("res://client/main_menu/flat/FlatMainMenu.tscn")
+	get_tree().change_scene_to_file("res://client/main_menu/flat/FlatMainMenu.tscn")
 	
 	# Note that this one time handling of command line arguments is intentionally
 	# happening after the MainMenu for a given client is initialized: those scenes have
@@ -58,7 +72,7 @@ func prepare_vr_common():
 	# Joypad mappings overlap w\ vr button inputs,
 	# we need to remove them for vr clients
 	for action in InputMap.get_actions():
-		for action_event in InputMap.get_action_list(action):
+		for action_event in InputMap.action_get_events(action):
 			if action_event is InputEventJoypadButton:
 				InputMap.action_erase_event(action, action_event)
 
@@ -83,6 +97,7 @@ func prepare_pc_vr():
 func prepare_mobile_vr():
 	print("Configuring for Mobile VR")
 	prepare_vr_common()
+	vr.render_target_size_multiplier = MOBILE_RENDER_SCALE
 	vr.initialize()
 	
 	# enable the extra latency mode: this gives some performance headroom at the cost
@@ -96,18 +111,18 @@ func prepare_mobile_vr():
 	# This will dynamically change the foveation level up to the previous level
 	vr.set_enable_dynamic_foveation(true)
 	
-	#vr.set_display_refresh_rate_to_highest()
+	vr.set_display_refresh_rate(72.0)
 
 
 func init_analytics():
-	var file = File.new()
-	if file.open('res://keys.json', File.READ) != 0:
+	var file = FileAccess.open('res://keys.json', FileAccess.READ)
+	if file == null:
 		print("Error keys opening file")
 		return
-	
+
 	var serialized = file.get_as_text()
-	var keys = JSON.parse(serialized).result
 	file.close()
+	var keys = JSON.parse_string(serialized)
 	
 	var gaKeys = keys["game_analytics"]
 	

@@ -1,34 +1,34 @@
 extends PanelContainer
 
-export(NodePath) var playerListPath: NodePath
-onready var playerList := get_node(playerListPath) as VBoxContainer
+@export var playerListPath: NodePath
+@onready var playerList := get_node(playerListPath) as VBoxContainer
 
-export(NodePath) var replayScrubSliderPath: NodePath
-onready var replayScrubSlider := get_node(replayScrubSliderPath) as HSlider
+@export var replayScrubSliderPath: NodePath
+@onready var replayScrubSlider := get_node(replayScrubSliderPath) as HSlider
 
-export(NodePath) var replaySpeedSliderPath: NodePath
-onready var replaySpeedSlider := get_node(replaySpeedSliderPath) as HSlider
+@export var replaySpeedSliderPath: NodePath
+@onready var replaySpeedSlider := get_node(replaySpeedSliderPath) as HSlider
 
-export(NodePath) var replayPlayButtonPath: NodePath
-onready var replayPlayButton := get_node(replayPlayButtonPath) as Button
+@export var replayPlayButtonPath: NodePath
+@onready var replayPlayButton := get_node(replayPlayButtonPath) as Button
 
-export(NodePath) var replayLabelHistoryPath: NodePath
-onready var replayLabelHistory := get_node(replayLabelHistoryPath) as Label
+@export var replayLabelHistoryPath: NodePath
+@onready var replayLabelHistory := get_node(replayLabelHistoryPath) as Label
 
-export(NodePath) var replayLabelSpeedPath: NodePath
-onready var replayLabelSpeed := get_node(replayLabelSpeedPath) as Label
+@export var replayLabelSpeedPath: NodePath
+@onready var replayLabelSpeed := get_node(replayLabelSpeedPath) as Label
 
-export(NodePath) var replayHudPath: NodePath
-onready var replayHud := get_node(replayHudPath) as HistoryMapHud
+@export var replayHudPath: NodePath
+@onready var replayHud := get_node(replayHudPath) as HistoryMapHud
 
-export(NodePath) var replayLegendPath: NodePath
-onready var replayLegend := get_node(replayLegendPath) as VBoxContainer
+@export var replayLegendPath: NodePath
+@onready var replayLegend := get_node(replayLegendPath) as VBoxContainer
 
-export(NodePath) var autostartReplayTimerPath: NodePath
-onready var autostartReplayTimer := get_node(autostartReplayTimerPath) as Timer
+@export var autostartReplayTimerPath: NodePath
+@onready var autostartReplayTimer := get_node(autostartReplayTimerPath) as Timer
 
-export(NodePath) var lobbyButtonPath: NodePath
-onready var lobbyButton := get_node(lobbyButtonPath) as Button
+@export var lobbyButtonPath: NodePath
+@onready var lobbyButton := get_node(lobbyButtonPath) as Button
 
 
 func _ready():
@@ -47,26 +47,26 @@ func team_won(winningTeam: int):
 	var hiders = get_tree().get_nodes_in_group(Hider.GROUP)
 	
 	# Rendering seekers
-	var header := headerListItem.instance()
+	var header := headerListItem.instantiate()
 	header.set_text( FugitiveTeamResolver.get_team_name(FugitiveTeamResolver.PlayerType.Seeker) + "s" )
 	playerList.add_child(header)
 	
 	for playerObj in seekers:
 		var playerInfoData := GameData.get_player(playerObj.id)
 		if playerObj != null:
-			var playerStatsListItem := playerStatsListItemScene.instance()
+			var playerStatsListItem := playerStatsListItemScene.instantiate()
 			playerStatsListItem.populate(playerInfoData, playerObj)
 			playerList.add_child(playerStatsListItem)
 	
 	# Render hiders
-	header = headerListItem.instance()
+	header = headerListItem.instantiate()
 	header.set_text( FugitiveTeamResolver.get_team_name(FugitiveTeamResolver.PlayerType.Hider) + "s" )
 	playerList.add_child(header)
 	
 	for playerObj in hiders:
 		var playerInfoData := GameData.get_player(playerObj.id)
 		if playerObj != null and playerInfoData != null:
-			var playerStatsListItem := playerStatsListItemScene.instance()
+			var playerStatsListItem := playerStatsListItemScene.instantiate()
 			playerStatsListItem.populate(playerInfoData, playerObj)
 			playerList.add_child(playerStatsListItem)
 	
