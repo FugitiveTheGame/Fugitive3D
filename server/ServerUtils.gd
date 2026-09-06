@@ -5,7 +5,7 @@ class_name ServerUtils
 static func normal_start(advertiser: ServerAdvertiser, joinable: bool):
 	var public := get_public()
 	
-	configure_advertiser(advertiser, get_name(), get_port(), public, joinable)
+	configure_advertiser(advertiser, get_server_name(), get_port(), public, joinable)
 	advertiser.initial_registration = false
 	
 	advertiser.update_players(GameData.players.size())
@@ -33,7 +33,7 @@ static func configure_advertiser(advertiser: ServerAdvertiser, _name: String, _p
 
 # Parse command line server name in the form of:
 # --name xxxxx
-static func get_name() -> String:
+static func get_server_name() -> String:
 	var name := "Fugitive 3D Server"
 	
 	var args := OS.get_cmdline_args() + OS.get_cmdline_user_args()

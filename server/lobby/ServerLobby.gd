@@ -9,7 +9,7 @@ var serverName: String
 func _enter_tree():
 	super._enter_tree()
 	serverPort = ServerUtils.get_port()
-	serverName = ServerUtils.get_name()
+	serverName = ServerUtils.get_server_name()
 	
 	if not ServerNetwork.is_hosting():
 		if not ServerNetwork.host_game(serverPort):
