@@ -2,8 +2,9 @@ name: Release
 
 # Pushing an annotated tag vX.Y.Z builds every export preset, publishes a
 # GitHub release with the artifacts attached, pushes the itch.io channels,
-# uploads the AAB to Google Play, updates the official game servers and
-# announces the release on Discord.
+# uploads the AAB to Google Play, publishes the dedicated server image to
+# GHCR, updates the official game servers and announces the release on
+# Discord.
 #
 # workflow_dispatch runs the same build without publishing (dry_run, the
 # default) so the export pipeline can be exercised from any branch.
@@ -368,6 +369,34 @@ jobs:
           head -c 500 notes.md > "fastlane/metadata/android/en-US/changelogs/${VERSION_CODE}.txt"
           bundle exec fastlane android deploy
 
+  docker:
+    name: Publish server image
+    needs: [prepare, release]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Log in to GHCR
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: echo "$GH_TOKEN" | docker login ghcr.io -u "$GITHUB_ACTOR" --password-stdin
+
+      # The image is built from the Linux server zip attached to the release
+      # this run just published, so it is byte-for-byte the same server.
+      - name: Build and push
+        env:
+          TAG: ${{ github.ref_name }}
+          VERSION: ${{ needs.prepare.outputs.version }}
+        run: |
+          set -euo pipefail
+          image="ghcr.io/${GITHUB_REPOSITORY_OWNER,,}/fugitive3d-server"
+          docker build --build-arg "VERSION=$TAG" -t "$image:$VERSION" -t "$image:latest" docker
+          docker push "$image:$VERSION"
+          docker push "$image:latest"
+
   deploy-servers:
     name: Update official game servers
     needs: [prepare, release]
@@ -399,7 +428,7 @@ jobs:
 
   notify:
     name: Announce on Discord
-    needs: [prepare, release, itch, google-play, deploy-servers]
+    needs: [prepare, release, itch, google-play, docker, deploy-servers]
     # Only after a fully successful release; a failed store or server job
     # should not announce a release that is only partly out.
     if: ${{ !cancelled() && needs.release.result == 'success' && !contains(needs.*.result, 'failure') }}

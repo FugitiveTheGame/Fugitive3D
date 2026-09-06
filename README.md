@@ -43,6 +43,38 @@ In Car:
 
 
 ## Server:
+
+### Docker
+
+The quickest way to run a dedicated server. Every release publishes
+`ghcr.io/fugitivethegame/fugitive3d-server` (tags `X.Y.Z` and `latest`):
+
+```bash
+docker run -d --name fugitive3d -p 31000:31000/udp \
+  -e SERVER_NAME="My Server" \
+  ghcr.io/fugitivethegame/fugitive3d-server:latest
+```
+
+Or with `docker/compose.yaml`, which also persists the server's identity
+across restarts:
+
+```bash
+cd docker
+docker compose up -d
+docker compose logs -f    # expect "Server started."
+```
+
+Environment: `SERVER_NAME`, `SERVER_PORT` (default `31000`, UDP) and
+`SERVER_FLAGS` for anything else, such as `--public`. Players on the same LAN
+see the server in the in-game browser automatically; `--public` lists it for
+everyone, and needs the UDP port forwarded to the host, because the server
+repository pings it back at boot and the server exits if that fails.
+
+To build the image yourself from a release: `docker build --build-arg
+VERSION=v0.8.0 -t fugitive3d-server docker/`.
+
+### From the Godot editor
+
 Download the Server [from here](https://godotengine.org/download/server)
 (server, not headless!)
 
@@ -93,7 +125,8 @@ the Discord announcement, so write it for players. The workflow:
    Windows), the two APKs and the Play AAB.
 3. Pushes the itch.io channels with butler and uploads the AAB to the Google
    Play production track with fastlane.
-4. Tells the official game servers to install the new Linux server build.
+4. Publishes the dedicated server as a Docker image (see below) and tells the
+   official game servers to install the new Linux server build.
 5. Posts to the Discord release channel. If that step is the only failure,
    the `Announce Release` workflow re-sends it for a given tag.
 
