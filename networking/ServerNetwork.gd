@@ -198,20 +198,28 @@ func kick_player(playerId: int):
 
 
 @rpc("any_peer") func on_kick_player(playerId: int):
+	if not is_host_or_server(multiplayer.get_remote_sender_id()):
+		print("WARN: only the host may kick players")
+		return
+
 	if GameData.is_bot(playerId):
 		unregister_bot(playerId)
 	else:
 		ClientNetwork.force_disconnect(playerId, "You have been kicked from the server")
 
 
-# Only the host, or the server itself, may add and remove bots
-func _sender_may_manage_bots() -> bool:
-	var sender := multiplayer.get_remote_sender_id()
+# The lobby host is the server's admin. Managing bots is theirs alone, as is
+# kicking. A sender of 0 is the server calling itself outside of any RPC.
+func is_host_or_server(sender: int) -> bool:
 	if sender == 0 or sender == SERVER_ID:
 		return true
-	
+
 	var host := GameData.get_host()
 	return host != null and host.get_id() == sender
+
+
+func _sender_may_manage_bots() -> bool:
+	return is_host_or_server(multiplayer.get_remote_sender_id())
 
 
 func can_add_bot() -> bool:

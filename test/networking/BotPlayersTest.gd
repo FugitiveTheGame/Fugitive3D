@@ -110,6 +110,24 @@ func test_bots_never_become_host() -> void:
 	assert_object(GameData.get_host()).is_null()
 
 
+# The first player to join is host, and the host is the server's admin: the
+# only peer allowed to add, remove or kick
+func test_only_the_host_may_manage_bots() -> void:
+	_add_human(HUMAN_ID)
+	_add_human(HUMAN_ID + 1)
+	ServerNetwork.make_host(HUMAN_ID)
+
+	assert_bool(ServerNetwork.is_host_or_server(HUMAN_ID)).is_true()
+	assert_bool(ServerNetwork.is_host_or_server(HUMAN_ID + 1)).is_false()
+	assert_bool(ServerNetwork.is_host_or_server(ServerNetwork.SERVER_ID)).is_true()
+	assert_bool(ServerNetwork.is_host_or_server(0)).is_true()
+
+
+func test_nobody_manages_bots_while_there_is_no_host() -> void:
+	_add_human(HUMAN_ID)
+	assert_bool(ServerNetwork.is_host_or_server(HUMAN_ID)).is_false()
+
+
 func test_host_passes_to_a_human_not_a_bot() -> void:
 	ServerNetwork.on_add_bot()
 	_add_human(HUMAN_ID)

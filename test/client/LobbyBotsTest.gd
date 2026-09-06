@@ -4,6 +4,7 @@ extends GdUnitTestSuite
 # like anyone else, but pinned to their team and marked as bots.
 
 const FLAT_LOBBY := "res://client/lobby/flat/FlatLobby.tscn"
+const VR_LOBBY_UI := "res://client/lobby/vr/VrLobbyUi.tscn"
 const SERVER_PORT := 31995
 const LITTLETON := "littleton"
 
@@ -44,6 +45,18 @@ func test_only_the_host_sees_the_add_bot_button() -> void:
 
 	assert_bool(lobby.addBotButton.visible).is_true()
 	assert_bool(lobby.addBotButton.disabled).is_false()
+
+
+# The VR lobby panel inherits the same client lobby scene, so the button and
+# its wiring come along without a separate copy
+func test_the_vr_lobby_carries_the_same_button() -> void:
+	var vr_lobby: Lobby = (load(VR_LOBBY_UI) as PackedScene).instantiate()
+	add_child(vr_lobby)
+	auto_free(vr_lobby)
+	await get_tree().process_frame
+
+	assert_object(vr_lobby.addBotButton).is_not_null()
+	assert_bool(vr_lobby.addBotButton.pressed.is_connected(vr_lobby._on_AddBotButton_pressed)).is_true()
 
 
 func test_an_added_bot_appears_in_the_player_list() -> void:
