@@ -32,7 +32,7 @@ var build_version = null
 
 
 # sandbox API urls
-var base_url = "http://sandbox-api.gameanalytics.com" if DEVELOPMENT else "http://api.gameanalytics.com" 
+var base_url = "https://sandbox-api.gameanalytics.com" if DEVELOPMENT else "https://api.gameanalytics.com"
 
 
 func set_game_key(new_game_key):

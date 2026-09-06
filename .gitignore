@@ -20,3 +20,6 @@ mcp_interaction_server.gd.uid
 # Godot renames a GDExtension library it still has open rather than
 # overwriting it, leaving the old copy behind.
 ~*.dll
+
+# Holds real GameAnalytics credentials. keys.json.example documents the shape.
+keys.json
