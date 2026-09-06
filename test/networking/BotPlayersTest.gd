@@ -151,6 +151,28 @@ func test_bots_leave_with_the_last_human() -> void:
 	assert_bool(GameData.players.is_empty()).is_true()
 
 
+# The base handler that drops the leaver from the player list runs first only
+# by connection order, so the leaver must not count as a remaining human
+func test_bots_leave_even_if_the_leaver_is_still_listed() -> void:
+	_add_human(HUMAN_ID)
+	ServerNetwork.on_add_bot()
+
+	ServerNetwork._player_disconnected(HUMAN_ID)
+
+	assert_array(GameData.get_bot_player_ids()).is_empty()
+
+
+func test_bots_stay_while_another_human_remains() -> void:
+	_add_human(HUMAN_ID)
+	_add_human(HUMAN_ID + 1)
+	ServerNetwork.on_add_bot()
+
+	GameData.remove_player(HUMAN_ID)
+	ServerNetwork._player_disconnected(HUMAN_ID)
+
+	assert_int(GameData.get_bot_player_ids().size()).is_equal(1)
+
+
 func test_starting_a_game_leaves_bots_ready() -> void:
 	_add_human(HUMAN_ID)
 	ServerNetwork.on_add_bot()

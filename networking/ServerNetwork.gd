@@ -48,8 +48,10 @@ func _player_connected(id):
 
 func _player_disconnected(id):
 	print("SERVER: Player disconnected: " + str(id))
+	# The leaver may still be listed if this runs before the base handler
 	var humans := GameData.get_human_player_ids()
-	# Bots cannot keep a game alive on their own
+	humans.erase(id)
+	# Bots cannot keep a lobby or a game alive on their own
 	if humans.is_empty():
 		remove_all_bots()
 	# If it was the host who left, hand it to the first human still here
