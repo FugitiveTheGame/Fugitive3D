@@ -23,3 +23,5 @@ mcp_interaction_server.gd.uid
 
 # Holds real GameAnalytics credentials. keys.json.example documents the shape.
 keys.json
+
+deploy/
