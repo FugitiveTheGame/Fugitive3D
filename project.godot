@@ -181,22 +181,14 @@ limits/multithreaded_server/rid_pool_prealloc=90
 
 [physics]
 
-3d/physics_engine="Bullet"
-3d/active_soft_world=false
+3d/physics_engine="Jolt Physics"
 
 [rendering]
 
 textures/vram_compression/import_etc2_astc=true
-shading/overrides/force_lambert_over_burley.mobile=false
 environment/defaults/default_clear_color=Color(0.117647, 0.101961, 0.188235, 1)
+lights_and_shadows/positional_shadow/atlas_size.mobile=1024
 environment/defaults/default_environment="res://default_environment.tres"
-quality/driver/fallback_to_gles2=true
-vram_compression/import_etc=true
-quality/shadows/filter_mode.mobile=1
-shading/overrides/force_vertex_shading.mobile=false
-shading/overrides/force_blinn_over_ggx.mobile=false
-quality/driver/driver_name.mobile="GLES2"
-quality/driver/driver_name.server="GLES2"
 
 [xr]
 

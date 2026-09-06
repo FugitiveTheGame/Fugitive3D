@@ -1,5 +1,9 @@
 extends Node
 
+# Fraction of the headset's recommended eye resolution the mobile VR client
+# renders at; foveation and lens distortion hide most of the difference
+const MOBILE_RENDER_SCALE := 0.9
+
 # Go to the proper entry for this client
 func _ready():
 	init_analytics()
@@ -93,6 +97,7 @@ func prepare_pc_vr():
 func prepare_mobile_vr():
 	print("Configuring for Mobile VR")
 	prepare_vr_common()
+	vr.render_target_size_multiplier = MOBILE_RENDER_SCALE
 	vr.initialize()
 	
 	# enable the extra latency mode: this gives some performance headroom at the cost

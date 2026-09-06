@@ -35,6 +35,7 @@ spot_angle = 53.6258
 spot_angle_attenuation = 0.435275
 
 [node name="RayCast3D" type="RayCast3D" parent="SpotLight3D"]
+enabled = false
 collision_mask = 3
 
 [node name="street_light" parent="." instance=ExtResource("2")]
@@ -43,6 +44,7 @@ collision_mask = 3
 transform = Transform3D(0.5, 0, 0, 0, 0.2, 0, 0, 0, 0.5, 0.916232, 3.92381, 0)
 material_override = SubResource("1")
 cast_shadow = 0
+visibility_range_end = 60.0
 gi_mode = 0
 mesh = ExtResource("4")
 material/0 = null

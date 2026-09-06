@@ -64,6 +64,10 @@ const BUTTON_ACTIONS := {
 
 var xr_interface: XRInterface = null
 
+# Fraction of the runtime's recommended eye resolution. Read when the OpenXR
+# session starts, so it must be set before initialize().
+var render_target_size_multiplier := 1.0
+
 var vrOrigin: XROrigin3D = null
 var vrCamera: XRCamera3D = null
 var leftController: XRController3D = null
@@ -102,6 +106,7 @@ func initialize() -> bool:
 		log_warning("OpenXR interface not found")
 		return false
 
+	xr_interface.render_target_size_multiplier = render_target_size_multiplier
 	if not xr_interface.is_initialized() and not xr_interface.initialize():
 		log_warning("OpenXR failed to initialize")
 		return false
@@ -172,6 +177,7 @@ func set_foveation_level(level):
 		return
 	# OQ levels Off/Low/Medium/High/HighTop map onto OpenXR 0..3
 	xr_interface.set("foveation_level", clampi(level, 0, 3))
+	log_info("Foveation level requested %d, interface reports %s" % [clampi(level, 0, 3), str(xr_interface.get("foveation_level"))])
 
 
 func set_enable_dynamic_foveation(enable: bool):

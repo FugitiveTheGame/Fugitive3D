@@ -1,5 +1,5 @@
 shader_type spatial;
-render_mode blend_add,cull_disabled,depth_draw_opaque,diffuse_burley,specular_schlick_ggx,unshaded;
+render_mode blend_add,cull_front,depth_draw_opaque,diffuse_burley,specular_schlick_ggx,unshaded;
 uniform vec4 albedo : source_color;
 
 void fragment() {

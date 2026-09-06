@@ -8,7 +8,13 @@ extends Node3D
 @onready var screen := $Screen as MeshInstance3D
 @onready var screenBody := $ScreenBody as StaticBody3D
 
+# The viewport only renders on request. The HUD controls poll their values
+# every frame, so the screen is refreshed at a fixed rate instead of once per
+# rendered frame.
+const REFRESH_HZ := 30.0
+
 var _last_position := Vector2.ZERO
+var _refresh_accumulator := 0.0
 
 
 func _ready():
@@ -16,6 +22,19 @@ func _ready():
 	var material := screen.material_override.duplicate() as StandardMaterial3D
 	material.albedo_texture = viewport.get_texture()
 	screen.material_override = material
+
+
+func _process(delta):
+	if not is_visible_in_tree():
+		return
+	_refresh_accumulator += delta
+	if _refresh_accumulator >= 1.0 / REFRESH_HZ:
+		_refresh_accumulator = fmod(_refresh_accumulator, 1.0 / REFRESH_HZ)
+		refresh()
+
+
+func refresh():
+	viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
 
 
 func is_screen_body(body: Node) -> bool:
@@ -50,3 +69,4 @@ func pointer_button(point: Vector3, pressed: bool):
 	event.pressed = pressed
 	_last_position = position
 	viewport.push_input(event)
+	refresh()

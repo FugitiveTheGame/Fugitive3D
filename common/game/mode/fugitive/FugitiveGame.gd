@@ -11,6 +11,11 @@ var playersContainer: Node
 var gameStarted := false
 var winningTeam: int
 
+# Hider visibility is sampled at a fixed rate: every sample raycasts from each
+# seeker, light and car, which is too much to repeat every rendered frame.
+const VISIBILITY_UPDATE_HZ := 30.0
+var _visibility_accumulator := 0.0
+
 func current_state() -> String:
 	return stateMachine.current_state.name
 
@@ -233,9 +238,16 @@ func create_player_hider_node() -> Node:
 
 
 func _process(delta):
-	if gameStarted and not is_game_over():
-		process_hiders()
-		check_win_conditions()
+	if not gameStarted or is_game_over():
+		return
+
+	_visibility_accumulator += delta
+	if _visibility_accumulator < 1.0 / VISIBILITY_UPDATE_HZ:
+		return
+	_visibility_accumulator = fmod(_visibility_accumulator, 1.0 / VISIBILITY_UPDATE_HZ)
+
+	process_hiders()
+	check_win_conditions()
 
 
 func process_hiders():

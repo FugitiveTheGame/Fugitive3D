@@ -16,3 +16,4 @@ script = ExtResource("3")
 transform = Transform3D(1, 0, 0, 0, -1.62921e-07, -1, 0, 1, -1.62921e-07, 0, 0, 0)
 material_override = SubResource("1")
 cast_shadow = 0
+visibility_range_end = 60.0

@@ -32,21 +32,21 @@ collision_mask = 0
 
 [node name="FeatureGridMap" type="GridMap" parent="." index="11" unique_id=1269696312]
 mesh_library = ExtResource("2")
-cell_octant_size = 16
+cell_octant_size = 32
 cell_center_y = false
 collision_layer = 2
 collision_mask = 0
 
 [node name="PoliceFeaturesGridMap" type="GridMap" parent="." index="12" unique_id=64861662]
 mesh_library = ExtResource("4")
-cell_octant_size = 16
+cell_octant_size = 32
 cell_center_y = false
 collision_layer = 32
 collision_mask = 0
 
 [node name="SeeThroughGridMap" type="GridMap" parent="." index="13" unique_id=801109883]
 mesh_library = ExtResource("5")
-cell_octant_size = 16
+cell_octant_size = 32
 cell_center_y = false
 collision_layer = 4
 collision_mask = 0

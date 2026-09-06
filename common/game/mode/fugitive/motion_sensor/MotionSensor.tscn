@@ -24,6 +24,7 @@ omni_shadow_mode = 0
 
 [node name="RayCast3D" type="RayCast3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.1)
+enabled = false
 collision_mask = 3
 
 [node name="AutoOffTimer" type="Timer" parent="."]
