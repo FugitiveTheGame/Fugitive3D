@@ -3,10 +3,7 @@ extends Node
 # Cross-platform. Should work in every platform supported by Godot
 # Adapted from REST_v2_example.py by Cristiano Reis Monteiro <cristianomonteiro@gmail.com> Abr/2018
 
-const PRODUCTION_URL = "https://api.gameanalytics.com"
-const SANDBOX_URL = "https://sandbox-api.gameanalytics.com"
-
-var DEVELOPMENT = false : set = set_development
+const BASE_URL = "https://api.gameanalytics.com"
 
 const MAX_ERROR_MSG_LENGTH = 8192
 
@@ -22,7 +19,6 @@ const PLATFORMS = {
 	'Web': 'webgl',
 }
 
-const ssl_validate_domain = true
 # Number of events to hold before flushing the event queue
 const event_queue_max_events = 16
 # A partial queue is flushed once it has been waiting this long
@@ -39,39 +35,15 @@ var _seconds_since_flush := 0.0
 
 
 # Game Keys
-var game_key : get = get_game_key, set = set_game_key
-var secret_key : get = get_secret_key, set = set_secret_key
+var game_key = null
+var secret_key = null
 
 var build_version = null
-
-
-var base_url = PRODUCTION_URL
-
-
-func set_development(new_development):
-	DEVELOPMENT = new_development
-	base_url = SANDBOX_URL if new_development else PRODUCTION_URL
 
 
 func _ready():
 	# Events have to keep flowing while the pause menu holds the rest of the tree
 	process_mode = Node.PROCESS_MODE_ALWAYS
-
-
-func set_game_key(new_game_key):
-	game_key = new_game_key 
-
-
-func get_game_key():
-	return game_key if not DEVELOPMENT else "5c6bcb5402204249437fb5a7a80a4959"
-
-
-func set_secret_key(new_secret_key):
-	secret_key = new_secret_key
-
-
-func get_secret_key():
-	return secret_key if not DEVELOPMENT else "16813a12f718bc5c620f56944e1abc3ea13ccbac"
 
 
 # global state to track changes when code is running
@@ -134,7 +106,7 @@ func _http_perform_request(endpoint, body, response_handler):
 	# TODO: Is request_complete guaranteed to be called? Otherwise, we have a memory leak
 	http_request.connect("request_completed", Callable(self, "_http_done").bind(http_request, response_handler))
 
-	var url = base_url + endpoint
+	var url = BASE_URL + endpoint
 	var json_payload = JSON.stringify(body)
 
 	var err = http_request.request(url, _auth_headers(json_payload), HTTPClient.METHOD_POST, json_payload)
@@ -429,11 +401,10 @@ func _submit_events_blocking():
 		return
 
 	var json_payload = JSON.stringify(body)
-	var use_tls = base_url.begins_with("https://")
-	var host = base_url.trim_prefix("https://").trim_prefix("http://")
+	var host = BASE_URL.trim_prefix("https://")
 
 	var client = HTTPClient.new()
-	var err = client.connect_to_host(host, 443 if use_tls else 80, TLSOptions.client() if use_tls else null)
+	var err = client.connect_to_host(host, 443, TLSOptions.client())
 	if err != OK:
 		log_info("Final flush could not connect, with godot error: " + str(err))
 		return
@@ -481,60 +452,37 @@ func queue_event(event):
 
 
 
-#func get_test_business_event_dict():
-#	var event_dict = {
-#		'category': 'business',
-#		'amount': 999,
-#		'currency': 'USD',
-#		'event_id': 'Weapon:SwordOfFire',  # item_type:item_id
-#		'cart_type': 'MainMenuShop',
-#		'transaction_num': 1,  # should be incremented and stored in local db
-#		'receipt_info': {'receipt': 'xyz', 'store': 'apple'}  # receipt is base64 encoded receipt
-#	}
-#	return event_dict
-#
-#
-#func get_test_user_event():
-#	var event_dict = {
-#		'category': 'user'
-#	}
-#	return event_dict
-#
-#
-#func get_test_session_end_event(length_in_seconds):
-#	var event_dict = {
-#		'category': 'session_end',
-#		'length': length_in_seconds
-#	}
-#	return event_dict
-#
-#
-#func get_test_design_event(event_id, value):
-#	var event_dict = {
-#		'category': 'design',
-#		'event_id': event_id,
-#		'value': value
-#	}
-#	return event_dict
-
 static func _dict_assign(target, patch):
 	for key in patch:
 		target[key] = patch[key]
 	return target
 
 
+# GameAnalytics wants "<platform> <major>[.<minor>[.<patch>]]" and nothing else,
+# so keep only the leading numeric run of each component the OS reports
 func _get_os_version():
 	var platform = PLATFORMS[OS.get_name()]
-	# Get version number on Android. Need something similar for iOS
-	if platform == "android":
-		var output = []
-		# TODO: Why is this not used?
-		var _pid = OS.execute("getprop", ["ro.build.version.release"], output)
-		# Trimming new line char at the end
-		output[0] = output[0].substr(0, output[0].length() - 1)
-		return platform + " " + output[0]
-	else:
-		return platform + ' '
+
+	var numbers = PackedStringArray()
+	for part in OS.get_version().split(".", false):
+		var digits = ""
+		for index in part.length():
+			var character = part[index]
+			if character < "0" or character > "9":
+				break
+			digits += character
+
+		if digits.is_empty():
+			break
+
+		numbers.append(digits.left(5))
+		if numbers.size() == 3:
+			break
+
+	if numbers.is_empty():
+		return platform + " 0"
+
+	return platform + " " + ".".join(numbers)
 
 
 func _get_default_annotations():
@@ -544,7 +492,6 @@ func _get_default_annotations():
 	var sdk_version = 'rest api v2'
 	var device = OS.get_model_name().to_lower()
 	var manufacturer = OS.get_name().to_lower()
-	var engine_version = Engine.get_version_info()['string']
 
 	var ts_offset = 0 if not state_config.has('client_ts_offset') else state_config['client_ts_offset']
 	var client_ts = _now() - ts_offset
@@ -578,7 +525,6 @@ func _get_default_annotations():
 		'session_num': session_num,                 # (required: Yes)
 		#'connection_type': 'wifi',                 # (required: No - send if available)
 		#'jailbroken                                # (required: No - send if true)
-		#'engine_version': engine_version           # (required: No - send if set by an engine)
 	}
 	if build_version:
 		default_annotations['build'] = build_version

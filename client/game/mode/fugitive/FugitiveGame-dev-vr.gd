@@ -8,9 +8,6 @@ func _enter_tree():
 	# Change this to test what ever map you wish
 	GameData.general[GameData.GENERAL_MAP] = "freehold"
 	
-	GameAnalytics.DEVELOPMENT = true
-	GameAnalytics.start_session()
-	
 	# Silence the start sound
 	(GameData.currentGame.get_node("StartAudio") as AudioStreamPlayer).volume_db = -100.0
 	(GameData.currentGame.get_node("PregameCountdownAudio") as AudioStreamPlayer).volume_db = -100.0
