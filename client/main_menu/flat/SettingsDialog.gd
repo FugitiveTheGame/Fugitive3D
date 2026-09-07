@@ -3,6 +3,9 @@ extends Window
 @export var fullscreenCheckboxPath: NodePath
 @onready var fullscreenCheckbox := get_node(fullscreenCheckboxPath) as CheckBox
 
+@export var controlHintsCheckboxPath: NodePath
+@onready var controlHintsCheckbox := get_node(controlHintsCheckboxPath) as CheckBox
+
 @export var mouseSensetivityLabelPath: NodePath
 @onready var mouseSensetivityLabel := get_node(mouseSensetivityLabelPath) as Label
 
@@ -15,10 +18,12 @@ const MOUSE_SENSETIVITY_CONTENT := "Look Sensitivity: %1.1f"
 
 func _ready():
 	fullscreenCheckbox.visible = not DisplayServer.is_touchscreen_available()
+	controlHintsCheckbox.visible = ControlHintsHud.is_supported()
 
 
 func load_data():
 	fullscreenCheckbox.button_pressed = ProjectSettings.get_setting("display/window/size/fullscreen") as bool
+	controlHintsCheckbox.button_pressed = UserData.data.on_screen_controls
 	mouseSensetivityLabel.text = MOUSE_SENSETIVITY_CONTENT % UserData.data.flat_mouse_sensetivity
 	mouseSensetivitySlider.value = UserData.data.flat_mouse_sensetivity
 
@@ -45,3 +50,7 @@ func _on_FullScreenCheckBox_toggled(button_pressed):
 func _on_MouseSensetivitySlider_value_changed(value):
 	UserData.data.flat_mouse_sensetivity = value
 	mouseSensetivityLabel.text = MOUSE_SENSETIVITY_CONTENT % UserData.data.flat_mouse_sensetivity
+
+
+func _on_ControlHintsCheckBox_toggled(button_pressed):
+	UserData.data.on_screen_controls = button_pressed
