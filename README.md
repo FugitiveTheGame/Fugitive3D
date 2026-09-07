@@ -43,6 +43,38 @@ In Car:
 
 
 ## Server:
+
+### Docker
+
+The quickest way to run a dedicated server. Every release publishes
+`ghcr.io/fugitivethegame/fugitive3d-server` (tags `X.Y.Z` and `latest`):
+
+```bash
+docker run -d --name fugitive3d -p 31000:31000/udp \
+  -e SERVER_NAME="My Server" \
+  ghcr.io/fugitivethegame/fugitive3d-server:latest
+```
+
+Or with `docker/compose.yaml`, which also persists the server's identity
+across restarts:
+
+```bash
+cd docker
+docker compose up -d
+docker compose logs -f    # expect "Server started."
+```
+
+Environment: `SERVER_NAME`, `SERVER_PORT` (default `31000`, UDP) and
+`SERVER_FLAGS` for anything else, such as `--public`. Players on the same LAN
+see the server in the in-game browser automatically; `--public` lists it for
+everyone, and needs the UDP port forwarded to the host, because the server
+repository pings it back at boot and the server exits if that fails.
+
+To build the image yourself from a release: `docker build --build-arg
+VERSION=v0.8.0 -t fugitive3d-server docker/`.
+
+### From the Godot editor
+
 Download the Server [from here](https://godotengine.org/download/server)
 (server, not headless!)
 
@@ -68,6 +100,76 @@ And execute this:
 To change the port that the server binds to, add this argument: `--port xxxxx`
 
 Personally I've created a shell script that contains that line called `run.sh` in that directory to make it quicker.
+
+## Releasing
+
+Releases are built and published by GitHub Actions
+(`.github/workflows/release.yml`). Push an annotated semver tag and the
+workflow does the rest:
+
+```bash
+git tag -a v0.8.0 -m "Fugitive 3D 0.8.0" -m "What changed, one item per line."
+git push origin v0.8.0
+```
+
+The tag body becomes the release notes, the Google Play "What's new" text and
+the Discord announcement, so write it for players. The workflow:
+
+1. Exports every preset in `export_presets.cfg` headlessly with the Godot
+   version in `.godot-version`, stamping `X.Y.Z` into the presets and an
+   Android version code of `major*10000 + minor*100 + patch` (`v0.8.0` is
+   `800`). `GAME_VERSION` in `common/UserData.gd` is the network protocol
+   number and is bumped by hand, separately.
+2. Creates the GitHub release with every build attached: zipped desktop
+   builds (binary, `.pck`, GDExtension libraries, and the MSVC runtime on
+   Windows), the two APKs and the Play AAB.
+3. Pushes the itch.io channels with butler and uploads the AAB to the Google
+   Play production track with fastlane.
+4. Publishes the dedicated server as a Docker image (see below) and tells the
+   official game servers to install the new Linux server build.
+5. Posts to the Discord release channel. If that step is the only failure,
+   the `Announce Release` workflow re-sends it for a given tag.
+
+Two legs can also be run on their own from the Actions tab, to retry one that
+failed without repeating a whole release: `Announce Release` posts the Discord
+message for a tag, and `Update Game Servers` installs a tag on the official
+servers. The latter is also how you roll them back, since it accepts any tag
+that has a release, and how to check the webhook end to end without releasing.
+
+### Secrets
+
+Set these under the repository's Actions secrets:
+
+| Secret | Purpose |
+| --- | --- |
+| `GAME_KEYS_JSON` | Contents of `keys.json` (see `keys.json.example`); packed into the client |
+| `ANDROID_KEYSTORE_BASE64` | The upload keystore, base64 encoded |
+| `ANDROID_KEYSTORE_ALIAS` | Key alias in that keystore |
+| `ANDROID_KEYSTORE_PASSWORD` | Keystore password (key password must match; Godot signs with one) |
+| `BUTLER_API_KEY` | itch.io API key |
+| `GOOGLE_PLAY_JSON` | Play Console service account JSON with release rights on the app |
+| `SERVER_DEPLOY_WEBHOOK_URL` | Base URL of the game servers' webhook receiver |
+| `SERVER_DEPLOY_WEBHOOK_SECRET` | Shared secret that signs the server update request |
+| `DISCORD_WEBHOOK` | Discord channel webhook URL |
+
+### Dry runs
+
+Run the `Release` workflow by hand from any branch with `dry_run` checked
+(the default). It builds and packages everything and uploads the result as
+the `release-artifacts` workflow artifact without publishing anywhere.
+
+The same scripts run locally, which is the fastest way to debug an export:
+
+```bash
+VERSION=0.0.1 VERSION_CODE=1 bash .github/scripts/set-version.sh
+GODOT_BIN=/path/to/godot bash .github/scripts/export-all.sh
+VERSION=0.0.1 VERSION_CODE=1 bash .github/scripts/package-artifacts.sh
+```
+
+Android exports need `JAVA_HOME` and `ANDROID_HOME` set before the first
+Godot run, a `keys.json` in the project root, and the release keystore in
+`GODOT_ANDROID_KEYSTORE_RELEASE_PATH`, `_USER` and `_PASSWORD`. Restore
+`export_presets.cfg` afterwards; `set-version.sh` edits it in place.
 
 ## Server Arguments:
 - `--port xxxxx` The port to bind to, default is `31000`
