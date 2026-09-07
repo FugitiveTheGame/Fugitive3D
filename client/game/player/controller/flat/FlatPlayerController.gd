@@ -57,6 +57,15 @@ func held_object_get() -> Node3D:
 @export var sprint_button_path: NodePath
 @onready var sprint_button := get_node(sprint_button_path) as TouchScreenButton
 
+const CONTROL_HINTS_REFRESH_MS := 250
+
+@export var control_hints_path: NodePath
+@onready var control_hints := get_node(control_hints_path) as ControlHintsHud
+
+# Which hints apply depends on where the player is standing, so they are rebuilt
+# on a timer rather than every frame
+var control_hints_threshold := Threshold.new(CONTROL_HINTS_REFRESH_MS)
+
 
 func mouse_captured() -> bool:
 	return Input.get_mouse_mode() == Input.MOUSE_MODE_CAPTURED
@@ -97,6 +106,31 @@ func _process(delta):
 	var look_x_joystick := Input.get_joy_axis(0, JOY_AXIS_RIGHT_X)
 	if abs(look_x_joystick) > 0.1 and mouse_captured():
 		rotate_y(-Sensitivity_X * mouseLookSensetivityModifier * look_x_joystick)
+	
+	if control_hints.visible and control_hints_threshold.is_exceeded():
+		control_hints.set_hints(build_control_hints())
+
+
+func build_control_hints() -> Array:
+	var hints := build_action_hints()
+	hints.append_array(build_general_hints())
+	return hints
+
+
+func build_action_hints() -> Array:
+	return [
+		InputHintUtils.composite("WASD", "Left Stick", "Move"),
+		InputHintUtils.hint("flat_player_sprint", "Sprint"),
+		InputHintUtils.hint("flat_player_crouch", "Crouch"),
+		InputHintUtils.hint("flat_player_jump", "Jump"),
+	]
+
+
+func build_general_hints() -> Array:
+	return [
+		InputHintUtils.hint("push_to_talk", "Talk", true),
+		InputHintUtils.hint("flat_player_exit", "Menu"),
+	]
 
 
 func _physics_process(delta):

@@ -18,6 +18,7 @@
 [ext_resource type="PackedScene" path="res://client/game/player/hud/VoiceRecordingHud.tscn" id="16"]
 [ext_resource type="Texture2D" path="res://client/game/player/controller/flat/mobile/button_ptt_pressed.png" id="17"]
 [ext_resource type="Texture2D" path="res://client/game/player/controller/flat/mobile/button_ptt_normal.png" id="18"]
+[ext_resource type="PackedScene" path="res://client/game/player/hud/ControlHintsHud.tscn" id="19"]
 
 [node name="PlayerController" type="CharacterBody3D"]
 collision_mask = 31
@@ -29,6 +30,7 @@ exitGameHudPath = NodePath("HudCanvas/HudContainer/ExitGameHud")
 helpDialogPath = NodePath("HudCanvas/HudContainer/HelpDialog")
 crouch_button_path = NodePath("HudCanvas/HudContainer/CrouchButton")
 sprint_button_path = NodePath("HudCanvas/HudContainer/SprintButton")
+control_hints_path = NodePath("HudCanvas/HudContainer/ControlHintsHud")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 far = 300.0
@@ -136,6 +138,17 @@ normal = ExtResource("18")
 pressed = ExtResource("17")
 action = "push_to_talk"
 visibility_mode = 1
+
+[node name="ControlHintsHud" parent="HudCanvas/HudContainer" instance=ExtResource("19")]
+layout_mode = 1
+anchors_preset = -1
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -440.0
+offset_right = 336.0
+offset_bottom = -136.0
+grow_vertical = 0
 
 [node name="VirtualJoysticks" parent="HudCanvas" instance=ExtResource("5")]
 layout_mode = 1

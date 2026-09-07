@@ -43,6 +43,15 @@ func _process(delta):
 			car_lock_button.hide()
 
 
+func build_action_hints() -> Array:
+	var hints := super.build_action_hints()
+	if player != null and player.car == null:
+		hints.append(InputHintUtils.hint("flat_seeker_flashlight", "Flashlight"))
+		if player.can_lock_car(get_nearest_car()):
+			hints.append(InputHintUtils.hint("flat_seeker_lock", "Lock Car", true))
+	return hints
+
+
 func _on_CarLockHud_locking_complete():
 	var car = get_nearest_car()
 	if car != null:

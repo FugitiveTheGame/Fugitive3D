@@ -81,6 +81,33 @@ func _process(delta):
 				use_button.hide()
 
 
+func build_control_hints() -> Array:
+	# The end-game hud takes over the screen, and none of the controls apply
+	if player != null and player.gameEnded:
+		return []
+	return super.build_control_hints()
+
+
+func build_action_hints() -> Array:
+	if player != null and player.car != null:
+		return build_in_car_hints()
+	
+	var hints := super.build_action_hints()
+	if get_nearest_car() != null:
+		hints.append(InputHintUtils.hint("flat_player_use", "Enter Car"))
+	hints.append(InputHintUtils.hint("flat_fugitive_map", "Map", true))
+	return hints
+
+
+func build_in_car_hints() -> Array:
+	var hints := [InputHintUtils.composite("WASD", "Left Stick", "Drive")]
+	if player.car.is_driver(player.id):
+		hints.append(InputHintUtils.hint("flat_player_jump", "Brake"))
+		hints.append(InputHintUtils.hint("flat_car_horn", "Horn"))
+	hints.append(InputHintUtils.hint("flat_player_use", "Exit Car"))
+	return hints
+
+
 func get_nearest_car():
 	var closestCar = null
 	

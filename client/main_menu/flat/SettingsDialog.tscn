@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://client/main_menu/flat/SettingsDialog.gd" id="1"]
 
 [node name="SettingsDialog" type="Window"]
-size = Vector2i(385, 199)
+size = Vector2i(385, 255)
 visible = false
 title = "Settings"
 script = ExtResource("1")
@@ -11,6 +11,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 fullscreenCheckboxPath = NodePath("VBoxContainer/FullScreenCheckBox")
+controlHintsCheckboxPath = NodePath("VBoxContainer/ControlHintsCheckBox")
 mouseSensetivityLabelPath = NodePath("VBoxContainer/MouseSensetivityLabel")
 mouseSensetivitySliderPath = NodePath("VBoxContainer/MouseSensetivitySlider")
 
@@ -32,16 +33,22 @@ offset_right = 353.0
 offset_bottom = 48.0
 text = "Full screen"
 
-[node name="MouseSensetivityLabel" type="Label" parent="VBoxContainer"]
+[node name="ControlHintsCheckBox" type="CheckBox" parent="VBoxContainer"]
 offset_top = 56.0
 offset_right = 353.0
-offset_bottom = 81.0
+offset_bottom = 104.0
+text = "On-screen controls"
+
+[node name="MouseSensetivityLabel" type="Label" parent="VBoxContainer"]
+offset_top = 112.0
+offset_right = 353.0
+offset_bottom = 137.0
 text = "Mouse Sensetivity:"
 
 [node name="MouseSensetivitySlider" type="HSlider" parent="VBoxContainer"]
-offset_top = 89.0
+offset_top = 145.0
 offset_right = 353.0
-offset_bottom = 121.0
+offset_bottom = 177.0
 min_value = 0.1
 max_value = 2.0
 step = 0.1
@@ -50,5 +57,6 @@ value = 1.0
 [connection signal="about_to_popup" from="." to="." method="_on_SettingsDialog_about_to_show"]
 [connection signal="visibility_changed" from="." to="." method="_on_SettingsDialog_popup_hide"]
 [connection signal="toggled" from="VBoxContainer/FullScreenCheckBox" to="." method="_on_FullScreenCheckBox_toggled"]
+[connection signal="toggled" from="VBoxContainer/ControlHintsCheckBox" to="." method="_on_ControlHintsCheckBox_toggled"]
 [connection signal="value_changed" from="VBoxContainer/MouseSensetivitySlider" to="." method="_on_MouseSensetivitySlider_value_changed"]
 [connection signal="close_requested" from="." to="." method="hide"]

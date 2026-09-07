@@ -19,6 +19,7 @@ static func get_default_data():
 		last_port = ServerNetwork.SERVER_PORT,
 		menu_music = true,
 		flat_mouse_sensetivity = 1.0,
+		on_screen_controls = true,
 		vr_standing = true, # Standing
 		vr_movement_orientation = 0, # HEAD
 		vr_movement_vignetting = false,
@@ -59,6 +60,22 @@ func load_data():
 		var defaultData = get_default_data()
 		save_data(defaultData)
 		data = defaultData
+	else:
+		fill_in_missing_settings()
+
+
+# Settings added since the file was written keep their default rather than
+# forcing a purge, which would throw away the player's name and last server
+func fill_in_missing_settings():
+	var defaults = get_default_data()
+	var missing := false
+	for key in defaults:
+		if not data.has(key):
+			data[key] = defaults[key]
+			missing = true
+
+	if missing:
+		save_data()
 
 
 func save_data(save_data = self.data):
