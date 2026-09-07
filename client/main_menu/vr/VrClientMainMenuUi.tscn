@@ -64,6 +64,11 @@ offset_top = 138.0
 offset_right = 65.0
 offset_bottom = 202.0
 
+[node name="WebsiteButton" parent="InfoContainer" index="4"]
+offset_top = 210.0
+offset_right = 65.0
+offset_bottom = 274.0
+
 [node name="VrModeLabel" type="Label" parent="." index="13"]
 layout_mode = 1
 anchors_preset = -1

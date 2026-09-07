@@ -213,5 +213,9 @@ func _on_DiscordButton_pressed():
 	OS.shell_open("https://discord.gg/49Kj5mMj6d")
 
 
+func _on_WebsiteButton_pressed():
+	OS.shell_open("https://darkrockstudios.com/")
+
+
 func _on_GodotLogo_pressed():
 	OS.shell_open("https://godotengine.org/")
