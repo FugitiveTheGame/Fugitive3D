@@ -1,3 +1,8 @@
+Superseded: releases are built and published by GitHub Actions when a vX.Y.Z
+tag is pushed. See the "Releasing" section of the top-level README.md.
+
+The scripts in this directory are the old manual flow, kept for reference:
+
 1) Apply credentials patch in git
 2) Increment version codes on all exports in Godot
 3) Export All from Godot (Release)

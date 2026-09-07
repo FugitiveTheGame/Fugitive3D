@@ -1,0 +1,25 @@
+# A Fugitive 3D dedicated server in one command:
+#
+#   docker compose up -d
+#   docker compose logs -f        # expect "Server started."
+#
+# Players on your LAN find it in the in-game server browser automatically.
+# To list it for everyone, forward UDP 31000 to this machine and set
+# SERVER_FLAGS to --public: the server repository pings the port back over
+# UDP at boot and the server exits if the reply never arrives.
+services:
+  fugitive3d-server:
+    image: ghcr.io/fugitivethegame/fugitive3d-server:latest
+    container_name: fugitive3d-server
+    restart: unless-stopped
+    environment:
+      SERVER_NAME: "My Fugitive 3D Server"
+      SERVER_PORT: "31000"
+      SERVER_FLAGS: ""
+    ports:
+      - "31000:31000/udp"
+    volumes:
+      - fugitive3d-data:/data
+
+volumes:
+  fugitive3d-data:
