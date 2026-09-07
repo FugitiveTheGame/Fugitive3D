@@ -35,3 +35,6 @@ vendor/bundle/
 
 # Release artifacts staged by .github/scripts/package-artifacts.sh
 dist/
+
+# Written by the release workflow to key the LFS object cache
+.lfs-assets-id
