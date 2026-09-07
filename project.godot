@@ -192,7 +192,9 @@ environment/defaults/default_environment="res://default_environment.tres"
 
 [xr]
 
-openxr/enabled=true
+openxr/enabled=false
+openxr/enabled.vr=true
+openxr/extensions/hand_tracking=false
 openxr/reference_space=2
 openxr/startup_alert=false
 shaders/enabled=true
