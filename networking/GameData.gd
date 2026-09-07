@@ -44,15 +44,52 @@ func get_player(playerId: int) -> PlayerData:
 	return data
 
 
-func create_new_player_raw_data(playerId: int, platformType: int, playerName: String, playerType: int) -> Dictionary:
+func create_new_player_raw_data(playerId: int, platformType: int, playerName: String, playerType: int, isBot := false, botDifficulty := AiDifficulty.DEFAULT) -> Dictionary:
 	return {
 		id = playerId,
 		name = playerName,
 		lobby_ready = true,
 		type = playerType,
 		is_host = false,
-		platform_type = platformType
+		platform_type = platformType,
+		is_bot = isBot,
+		bot_difficulty = botDifficulty
 	}
+
+
+func is_bot(playerId: int) -> bool:
+	var player := get_player(playerId)
+	return player != null and player.get_is_bot()
+
+
+# Players with a real network peer behind them
+func get_human_player_ids() -> Array:
+	var ids := []
+	lock.lock()
+	for playerId in players:
+		if not players[playerId].get_is_bot():
+			ids.push_back(playerId)
+	lock.unlock()
+	return ids
+
+
+func get_bot_player_ids() -> Array:
+	var ids := []
+	lock.lock()
+	for playerId in players:
+		if players[playerId].get_is_bot():
+			ids.push_back(playerId)
+	lock.unlock()
+	return ids
+
+
+func count_players_of_type(playerType: int) -> int:
+	var count := 0
+	for player in get_players():
+		if player.get_type() == playerType:
+			count += 1
+	return count
+
 
 func add_player_from_raw_data(newPlayerDictionary: Dictionary) -> bool:
 	lock.lock()

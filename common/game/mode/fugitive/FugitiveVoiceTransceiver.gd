@@ -6,7 +6,7 @@ func send_audio(sequence: int, packet: PackedByteArray):
 	var localPlayerPos := localPlayer.global_transform.origin
 	
 	for playerId in GameData.currentGame.players:
-		if playerId != GameData.currentGame.localPlayer.id:
+		if playerId != GameData.currentGame.localPlayer.id and not GameData.is_bot(playerId):
 			var player := GameData.currentGame.players[playerId] as Player
 			
 			if GameData.currentGame != null and not GameData.currentGame.is_game_over():

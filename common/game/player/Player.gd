@@ -9,12 +9,17 @@ const DEFAULT_STAMINA_MAX := 100.0
 const DEFAULT_STAMINA_SPRINT_RATE := 20.0
 const DEFAULT_STAMINA_REGEN_RATE := 5.0
 const JUMP_STAMINA_COST := DEFAULT_STAMINA_MAX / 4.0
+const GRAVITY := pow(9.8, 2)
+# Velocity never settles at exactly zero, so anything under this is standing
+const MOVEMENT_LAMBDA := 0.01
 
 var speed_crouch := DEFAULT_SPEED_CROUCH
 var speed_walk := DEFAULT_SPEED_WALK
 var speed_sprint := DEFAULT_SPEED_SPRINT
 var stamina_max := DEFAULT_STAMINA_MAX
 var stamina_sprint_rate := DEFAULT_STAMINA_SPRINT_RATE
+# Fraction of the speeds above this body actually reaches
+var speed_scale := 1.0
 var stamina_regen_rate := DEFAULT_STAMINA_REGEN_RATE
 
 # Use for clientside prediction
@@ -136,6 +141,27 @@ func get_current_shape() -> Node3D:
 
 func is_sprinting() -> bool:
 	return sprint and stamina > 0.0 and not is_crouching
+
+
+func max_speed() -> float:
+	if is_sprinting():
+		return speed_sprint * speed_scale
+	elif is_crouching:
+		return speed_crouch * speed_scale
+	else:
+		return speed_walk * speed_scale
+
+
+# Moves the body by the current velocity and records whether it is going
+# anywhere. Gravity keeps the Y component large even on the ground, so only
+# X and Z count as moving.
+func step_body(body: CharacterBody3D, allow_movement := true):
+	body.set_velocity(velocity)
+	body.set_up_direction(Vector3.UP)
+	body.move_and_slide()
+	velocity = body.velocity
+	
+	isMoving = (Vector3(velocity.x, 0.0, velocity.z).length() > MOVEMENT_LAMBDA) and allow_movement
 
 
 func is_moving():

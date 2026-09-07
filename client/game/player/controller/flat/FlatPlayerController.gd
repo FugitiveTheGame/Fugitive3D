@@ -8,8 +8,6 @@ signal return_to_main_menu
 func get_player() -> Player:
 	return player
 
-var update_threshold := Threshold.new(Utils.COMMON_NETWORK_UPDATE_THRESHOLD)
-
 @export var Sensitivity_X := 0.01
 @export var TouchSensitivity_X := 0.1
 @export var Sensitivity_Y := 0.005
@@ -35,10 +33,6 @@ var update_threshold := Threshold.new(Utils.COMMON_NETWORK_UPDATE_THRESHOLD)
 @onready var helpDialog := get_node(helpDialogPath) as Window
 
 var mouseLookSensetivityModifier := 1.0
-
-# Our velocity vector never seems to be exactly zero.
-# So any velocity under this threshold will be considered no moving
-const MOVEMENT_LAMBDA := 0.01
 
 var allowMovement := true
 
@@ -139,17 +133,14 @@ func _physics_process(delta):
 	player.velocity.y -= Gravity * delta
 	
 	var Accelaration: float
-	var Maximum_Speed: float
+	var Maximum_Speed: float = player.max_speed()
 	
 	if player.is_sprinting():
 		Accelaration = Sprint_Accelaration
-		Maximum_Speed = player.speed_sprint
 	elif player.is_crouching:
 		Accelaration = Crouch_Accelaration
-		Maximum_Speed = player.speed_crouch
 	else:
 		Accelaration = Walk_Accelaration
-		Maximum_Speed = player.speed_walk
 	
 	if Input.is_action_pressed("flat_player_up") or virtual_joysticks.left_output.y > 0.0:
 		Movement_Speed += Accelaration
@@ -200,17 +191,8 @@ func _physics_process(delta):
 	if not allowMovement:
 		player.velocity = Vector3()
 	
-	set_velocity(player.velocity)
-	set_up_direction(Vector3(0.0, 1.0, 0.0))
-	move_and_slide()
-	player.velocity = velocity
-	
-	# Gravity means that even when we're on the ground, our Y component always
-	# has a large size. So for isMoving we only consider X and Z
-	player.isMoving = (Vector3(player.velocity.x, 0.0, player.velocity.z).length() > MOVEMENT_LAMBDA) and allowMovement
-	
-	if not player.gameEnded and update_threshold.is_exceeded():
-		player.rpc("network_update", position, rotation, player.velocity, player.is_crouching, player.isMoving, player.sprint, player.stamina)
+	player.step_body(self, allowMovement)
+	player.publish_movement(self)
 
 
 func trigger_menu():

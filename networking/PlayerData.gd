@@ -60,5 +60,14 @@ func get_platform_type() -> int:
 	return player_data_dictionary.platform_type
 
 
+# Bots are server-owned players with no network peer behind them
+func get_is_bot() -> bool:
+	return player_data_dictionary.get("is_bot", false)
+
+
+func get_bot_difficulty() -> int:
+	return player_data_dictionary.get("bot_difficulty", AiDifficulty.DEFAULT)
+
+
 func set_platform_type(platform_type: int):
 	player_data_dictionary.platform_type = platform_type

@@ -6,5 +6,5 @@ func send_audio(sequence: int, packet: PackedByteArray):
 	
 	# Send to all players except our selves
 	for playerId in GameData.players:
-		if playerId != localPlayerId:
+		if playerId != localPlayerId and not GameData.is_bot(playerId):
 			rpc_id(playerId, "on_receive_audio", sequence, packet)

@@ -9,6 +9,8 @@ const EXHAUSTED_REPLENISH_POINT = 0.5
 
 var frozen := false
 
+var network_update_threshold := Threshold.new(Utils.COMMON_NETWORK_UPDATE_THRESHOLD)
+
 var gameStarted := false
 var gameEnded := false
 var exhausted := false: set = set_exhausted
@@ -106,6 +108,12 @@ func update_player_name_state():
 
 func is_playing() -> bool:
 	return gameStarted and not gameEnded
+
+
+# Sends the body's state to every peer at the shared network rate
+func publish_movement(body: Node3D):
+	if not gameEnded and network_update_threshold.is_exceeded():
+		rpc("network_update", body.position, body.rotation, velocity, is_crouching, isMoving, sprint, stamina)
 
 
 func freeze():
