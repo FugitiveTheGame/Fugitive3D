@@ -142,6 +142,13 @@ any tag that already has a release:
   how you roll them back and how to check the webhook without releasing.
 - `Announce Release` posts the Discord message.
 
+Windows builds currently ship without an embedded executable icon or version
+metadata. Godot 4.7 rewrites those into the .exe itself, having dropped
+rcedit, and that code aborts when the Linux export host writes a Windows
+executable, taking the whole export with it. The Windows Godot does it fine,
+so re-enabling `application/modify_resources` on the four Windows presets
+depends on either a Godot fix or moving those presets to a Windows runner.
+
 ### Secrets
 
 Set these under the repository's Actions secrets:
