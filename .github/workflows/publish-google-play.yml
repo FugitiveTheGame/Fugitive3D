@@ -53,6 +53,16 @@ jobs:
         with:
           ruby-version: '3.3'
 
+      # Cached explicitly rather than through setup-ruby's bundler-cache,
+      # which wants a committed Gemfile.lock. Add one and the key picks it up.
+      - name: Cache gems
+        uses: actions/cache@v4
+        with:
+          path: vendor/bundle
+          key: gems-${{ runner.os }}-${{ hashFiles('Gemfile', 'Gemfile.lock') }}
+          restore-keys: |
+            gems-${{ runner.os }}-
+
       - name: Install fastlane
         run: |
           bundle config set --local path vendor/bundle

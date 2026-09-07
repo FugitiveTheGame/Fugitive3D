@@ -104,12 +104,30 @@ jobs:
       VERSION: ${{ needs.prepare.outputs.version }}
       VERSION_CODE: ${{ needs.prepare.outputs.version_code }}
     steps:
-      # Textures, audio, meshes and every native library are LFS objects. A
-      # pointer file that slipped through would export a broken build.
+      # Textures, audio, meshes and every native library are LFS objects, some
+      # 400MB of them. Checking out without them and pulling separately lets
+      # the objects be cached, which keeps repeat runs off the LFS bandwidth
+      # quota entirely.
       - uses: actions/checkout@v4
         with:
-          lfs: true
+          lfs: false
 
+      - name: List the LFS objects this commit needs
+        run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
+
+      - name: Cache LFS objects
+        uses: actions/cache@v4
+        with:
+          path: .git/lfs
+          key: lfs-${{ hashFiles('.lfs-assets-id') }}
+          restore-keys: |
+            lfs-
+
+      - name: Fetch LFS objects
+        run: git lfs pull
+
+      # A pointer file that slipped through would export a broken build, so
+      # fail here rather than in an opaque way much later.
       - name: Verify LFS objects were fetched
         run: |
           set -euo pipefail
