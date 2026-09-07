@@ -113,13 +113,16 @@ func test_both_bots_get_into_the_safe_zone_past_a_cop() -> void:
 	var grid: FugitiveNavGrid = game.get_nav_grid(first.get_world_3d().direct_space_state)
 
 	# Line both up on the final stretch of the real approach, one behind the
-	# other, with the cop standing right on that route
+	# other, with the cop in plain view beside the zone. The approach is a
+	# single cell wide, so a cop standing in it would make the zone
+	# unreachable rather than merely dangerous.
 	var route := grid.find_path(first.global_transform.origin, _safe_zone())
 	assert_int(route.size()).is_greater(8)
 	first.global_transform.origin = route[route.size() - 5] + Vector3(0.0, 0.5, 0.0)
 	second.global_transform.origin = route[route.size() - 7] + Vector3(0.0, 0.5, 0.0)
 	var cop: FugitivePlayer = game.get_player(HUMAN_COP_ID)
-	cop.playerController.global_transform.origin = route[route.size() - 3] + Vector3(0.0, 0.5, 0.0)
+	var beside_zone := grid.nearest_walkable(grid.world_to_cell(_safe_zone() + Vector3(0.0, 0.0, -6.0)))
+	cop.playerController.global_transform.origin = grid.cell_to_world(beside_zone, 0.5)
 	game.release_cops()
 
 	await _simulate(8.0)

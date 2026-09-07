@@ -34,7 +34,7 @@ func report_start():
 		var numSeekers = get_tree().get_nodes_in_group(Seeker.GROUP).size()
 		var numHiders = get_tree().get_nodes_in_group(Hider.GROUP).size()
 		var mapName = Maps.directory[GameData.general[GameData.GENERAL_MAP]][Maps.MAP_NAME]
-		reporter.report_game_start(GameData.players.size(), numHiders, numSeekers, mapName)
+		reporter.report_game_start(GameData.get_human_player_ids().size(), numHiders, numSeekers, mapName)
 
 
 func pre_configure():
@@ -169,7 +169,7 @@ func report_game_end(winningTeam: int):
 		var timer = map.get_timelimit_timer()
 		var ellapsedTime := int(timer.wait_time - timer.time_left)
 		
-		reporter.report_game_end(GameData.players.size(), numHiders, numSeekers, mapName, winningTeam, ellapsedTime)
+		reporter.report_game_end(GameData.get_human_player_ids().size(), numHiders, numSeekers, mapName, winningTeam, ellapsedTime)
 
 
 func finish_game(playerType: int):

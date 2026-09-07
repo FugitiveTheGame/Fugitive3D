@@ -116,8 +116,9 @@ func walkable_cells_within(center: Vector3, radius: float) -> Array:
 # nearest walkable cell. For this query only, the cells under the positions
 # in avoid (other players) are routed around, and so is a ring of
 # DANGER_RADIUS cells around each position in danger (cops, whose reach is
-# wider than they are). When keeping clear of danger leaves no route at all,
-# the plain route is returned instead. Empty when there is none.
+# wider than they are). Keeping clear can seal the only corridor, so the
+# ring shrinks a cell at a time, then the other players are ignored too,
+# until a route exists. Empty when there is none at all.
 func find_path(from: Vector3, to: Vector3, avoid: Array = [], danger: Array = []) -> PackedVector3Array:
 	_expire_blocks()
 	var start := nearest_walkable(world_to_cell(from))
@@ -125,20 +126,24 @@ func find_path(from: Vector3, to: Vector3, avoid: Array = [], danger: Array = []
 	if start == INVALID_CELL or goal == INVALID_CELL:
 		return PackedVector3Array()
 
-	var cells := _path_cells(start, goal, avoid, danger)
-	if cells.is_empty() and not danger.is_empty():
-		cells = _path_cells(start, goal, avoid, [])
+	var radius := DANGER_RADIUS
+	var cells := _path_cells(start, goal, avoid, danger, radius)
+	while cells.is_empty() and not danger.is_empty() and radius > 0:
+		radius -= 1
+		cells = _path_cells(start, goal, avoid, danger, radius)
+	if cells.is_empty() and not avoid.is_empty():
+		cells = _path_cells(start, goal, [], [], 0)
 	return _cells_to_path(cells, start, from)
 
 
-func _path_cells(start: Vector2i, goal: Vector2i, avoid: Array, danger: Array) -> Array:
+func _path_cells(start: Vector2i, goal: Vector2i, avoid: Array, danger: Array, danger_radius: int) -> Array:
 	var closed := {}
 	for position in avoid:
 		closed[world_to_cell(position)] = true
 	for position in danger:
 		var center := world_to_cell(position)
-		for dx in range(-DANGER_RADIUS, DANGER_RADIUS + 1):
-			for dz in range(-DANGER_RADIUS, DANGER_RADIUS + 1):
+		for dx in range(-danger_radius, danger_radius + 1):
+			for dz in range(-danger_radius, danger_radius + 1):
 				closed[center + Vector2i(dx, dz)] = true
 
 	var reopened := []

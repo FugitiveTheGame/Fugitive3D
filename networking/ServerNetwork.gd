@@ -12,9 +12,9 @@ const PEER_TIMEOUT_MAX_MS := 120_000
 
 var is_joinable := false
 
-# Bots are registered players with no peer behind them. Their ids live far
-# above anything a lobby of real peers will reach, and they only ever play as
-# Fugitives.
+# Bots are registered players with no peer behind them, and they only ever
+# play as Fugitives. Peer ids are random 31-bit values, so a bot id is only
+# ever as unique as the check made when it is handed out.
 const BOT_ID_BASE := 1_000_000_000
 const BOT_TEAM := FugitiveTeamResolver.PlayerType.Hider
 var nextBotId := BOT_ID_BASE
@@ -90,6 +90,13 @@ func register_self(playerId: int, platformType: int, playerName: String, gameVer
 		return
 	
 	var existingPlayer = GameData.get_player(playerId)
+	# A peer whose random id landed on a bot cannot be told apart from it, so
+	# send them round again for a fresh id
+	if existingPlayer != null and existingPlayer.get_is_bot():
+		print("Peer %d collides with a bot id. Disconnecting them." % playerId)
+		ClientNetwork.force_disconnect(playerId, "Your connection id clashed with an AI player. Please reconnect.")
+		return
+	
 	# Ready up an existing plauyer
 	if existingPlayer != null:
 		existingPlayer.set_lobby_ready(true)
@@ -100,12 +107,7 @@ func register_self(playerId: int, platformType: int, playerName: String, gameVer
 		var playerType := 0
 		var playerData = GameData.create_new_player_raw_data(playerId, platformType, playerName, playerType)
 		
-		# Register this client with the server
-		ClientNetwork.on_register_player(playerData)
-		
-		# Register the new player with all existing clients
-		for curPlayerId in GameData.players:
-			ClientNetwork.register_player_from_raw_data(curPlayerId, playerData)
+		announce_new_player(playerData)
 		
 		# Catch the new player up on who is already here
 		for curPlayerId in GameData.players:
@@ -120,6 +122,14 @@ func register_self(playerId: int, platformType: int, playerName: String, gameVer
 		# Update player data
 		else:
 			ClientNetwork.update_game_data()
+
+
+# Registers a new player with the server and with every connected client
+func announce_new_player(playerData: Dictionary):
+	ClientNetwork.on_register_player(playerData)
+	
+	for humanId in GameData.get_human_player_ids():
+		ClientNetwork.register_player_from_raw_data(humanId, playerData)
 
 
 func make_host(playerId: int):
@@ -210,18 +220,15 @@ func kick_player(playerId: int):
 		ClientNetwork.force_disconnect(playerId, "You have been kicked from the server")
 
 
-# The lobby host is the server's admin. Managing bots is theirs alone, as is
-# kicking. A sender of 0 is the server calling itself outside of any RPC.
+# The lobby host is the server's admin. Adding bots is theirs alone, as is
+# kicking, which is also how bots are removed. A sender of 0 is the server
+# calling itself outside of any RPC.
 func is_host_or_server(sender: int) -> bool:
 	if sender == 0 or sender == SERVER_ID:
 		return true
 
 	var host := GameData.get_host()
 	return host != null and host.get_id() == sender
-
-
-func _sender_may_manage_bots() -> bool:
-	return is_host_or_server(multiplayer.get_remote_sender_id())
 
 
 func can_add_bot() -> bool:
@@ -241,38 +248,29 @@ func add_bot():
 
 
 @rpc("any_peer") func on_add_bot():
-	if not multiplayer.is_server() or not _sender_may_manage_bots():
+	if not multiplayer.is_server() or not is_host_or_server(multiplayer.get_remote_sender_id()):
 		return
 	
 	if not can_add_bot():
 		print("WARN: cannot add a bot right now")
 		return
 	
-	var botId := nextBotId
-	nextBotId += 1
-	
+	var botId := next_free_bot_id()
 	var botName := "AI Fugitive %d" % (botId - BOT_ID_BASE + 1)
 	var playerData = GameData.create_new_player_raw_data(botId, PlatformTypeUtils.PlatformType.Bot, botName, BOT_TEAM, true)
 	
-	ClientNetwork.on_register_player(playerData)
+	announce_new_player(playerData)
+
+
+# The next id in the bot range that no peer or player already holds
+func next_free_bot_id() -> int:
+	var peers := multiplayer.get_peers()
+	while GameData.players.has(nextBotId) or peers.has(nextBotId):
+		nextBotId += 1
 	
-	for humanId in GameData.get_human_player_ids():
-		ClientNetwork.register_player_from_raw_data(humanId, playerData)
-
-
-func remove_bot(playerId: int):
-	rpc_id(SERVER_ID, "on_remove_bot", playerId)
-
-
-@rpc("any_peer") func on_remove_bot(playerId: int):
-	if not multiplayer.is_server() or not _sender_may_manage_bots():
-		return
-	
-	if GameData.currentGame != null:
-		print("WARN: not allowed to remove bots during a game")
-		return
-	
-	unregister_bot(playerId)
+	var botId := nextBotId
+	nextBotId += 1
+	return botId
 
 
 func unregister_bot(playerId: int):
@@ -291,14 +289,18 @@ func remove_all_bots():
 	
 	# Bots keep their fixed team, only humans are shuffled
 	var playerIds = GameData.get_human_player_ids()
+	var botCount := GameData.get_bot_player_ids().size()
 	
 	var mapId = GameData.general[GameData.GENERAL_MAP]
 	var mode = Maps.get_mode_for_map(mapId)
 	
 	var teamResolver = mode[Maps.MODE_TEAM_RESOLVER]
 	
-	# Array containing the number of players for each team.
-	var teamLayout = teamResolver.get_random_team_layout(mapId, playerIds.size())
+	# Array containing the number of players for each team. Bots already
+	# fill part of their team's share, and the map's cap bounds the rest.
+	var teamLayout = teamResolver.get_random_team_layout(mapId, playerIds.size() + botCount)
+	var teamCap: int = Maps.get_team_sizes_for_map(mapId)[BOT_TEAM]
+	teamLayout[BOT_TEAM] = maxi(mini(teamLayout[BOT_TEAM], teamCap) - botCount, 0)
 	
 	# Randomize the order of the player ids
 	playerIds.shuffle()

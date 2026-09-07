@@ -64,6 +64,7 @@ var hold_position := false
 var remembered_threat = null
 var threat_memory_left := 0.0
 var settle_last_position := Vector3()
+var settled := false
 
 # Each bot is a little more or less nervous than the next
 var caution_distance := CAUTION_DISTANCE
@@ -166,10 +167,13 @@ func _hide(threat: Dictionary):
 		_stop()
 	else:
 		hold_position = false
-		if changed or path.is_empty() or exposed:
+		# A spot already chosen is kept until it is reached or the cop can see
+		# it, otherwise every tick under the light would pick a new one
+		var spot_is_blown := exposed and _can_be_seen_from(threat.position, path_goal)
+		if changed or not controller.has_target or spot_is_blown:
 			var spot = _best_hide_spot(threat)
 			if spot != null:
-				_go_to(spot, changed or exposed)
+				_go_to(spot, changed)
 			else:
 				_advance_path()
 		else:
@@ -189,17 +193,24 @@ func _rescue(friend: FugitivePlayer):
 
 # Stopping on the edge of the zone leaves a body in the doorway for the next
 # bot in, so keep walking to the centre. Whoever gets there first holds it
-# and the rest settle wherever they bump to a halt around them.
+# and the rest settle for good wherever they bump to a halt around them.
 func _settle_in_safe_zone():
 	var my_pos := controller.global_transform.origin
-	if _set_mode(Mode.ESCAPED):
-		settle_last_position = my_pos
 	var center := _nearest_win_zone_center()
-	var blocked := controller.has_target and my_pos.distance_to(settle_last_position) < SAFE_ZONE_SETTLE_PROGRESS
-	settle_last_position = my_pos
-	if _horizontal_distance(my_pos, center) > SAFE_ZONE_SETTLE_DISTANCE and not blocked:
+	# The first tick inside only takes aim; progress is judged from then on
+	if _set_mode(Mode.ESCAPED):
+		settled = false
+		settle_last_position = my_pos
 		controller.set_target(center, SAFE_ZONE_SETTLE_DISTANCE)
-	else:
+	elif not settled:
+		var blocked := controller.has_target and my_pos.distance_to(settle_last_position) < SAFE_ZONE_SETTLE_PROGRESS
+		settle_last_position = my_pos
+		if _horizontal_distance(my_pos, center) <= SAFE_ZONE_SETTLE_DISTANCE or blocked:
+			settled = true
+		else:
+			controller.set_target(center, SAFE_ZONE_SETTLE_DISTANCE)
+
+	if settled:
 		_stop()
 	controller.want_crouch = true
 	controller.want_sprint = false
@@ -351,7 +362,8 @@ func _current_threat(elapsed: float):
 		return null
 
 	threat_memory_left -= elapsed
-	if threat_memory_left <= 0.0 or remembered_threat.node.frozen:
+	# The cop may have left the game since they were last seen
+	if threat_memory_left <= 0.0 or not is_instance_valid(remembered_threat.node) or remembered_threat.node.frozen:
 		remembered_threat = null
 		return null
 

@@ -57,6 +57,28 @@ func test_bots_get_distinct_ids_above_the_peer_range() -> void:
 		assert_int(botId).is_greater_equal(ServerNetwork.BOT_ID_BASE)
 
 
+# Peer ids are random, so the bot range is no guarantee on its own
+func test_a_bot_never_takes_an_id_already_in_use() -> void:
+	_add_human(ServerNetwork.BOT_ID_BASE)
+	ServerNetwork.on_add_bot()
+
+	var bots := GameData.get_bot_player_ids()
+	assert_int(bots.size()).is_equal(1)
+	assert_int(bots[0]).is_not_equal(ServerNetwork.BOT_ID_BASE)
+	assert_bool(GameData.get_player(ServerNetwork.BOT_ID_BASE).get_is_bot()).is_false()
+
+
+func test_a_peer_whose_id_collides_with_a_bot_is_sent_away() -> void:
+	ServerNetwork.on_add_bot()
+	var botId: int = GameData.get_bot_player_ids()[0]
+
+	ServerNetwork.on_register_self(botId, PlatformTypeUtils.PlatformType.FlatDesktop, "Unlucky", UserData.GAME_VERSION)
+
+	assert_int(GameData.players.size()).is_equal(1)
+	assert_bool(GameData.get_player(botId).get_is_bot()).is_true()
+	assert_str(GameData.get_player(botId).get_name()).is_equal("AI Fugitive 1")
+
+
 func test_humans_and_bots_are_listed_apart() -> void:
 	_add_human(HUMAN_ID)
 	ServerNetwork.on_add_bot()
@@ -194,3 +216,18 @@ func test_randomizing_teams_leaves_bots_as_fugitives() -> void:
 	for attempt in 5:
 		ServerNetwork.on_randomize_teams()
 		assert_int(GameData.get_player(botId).get_type()).is_equal(FugitiveTeamResolver.PlayerType.Hider)
+
+
+# Bots already fill Fugitive slots, so a shuffle must hand the humans only
+# what is left under the map's cap or the lobby can no longer start
+func test_randomizing_teams_respects_the_fugitive_cap_with_bots() -> void:
+	var maxHiders: int = Maps.get_team_sizes_for_map(LITTLETON)[FugitiveTeamResolver.PlayerType.Hider]
+	for ii in 4:
+		_add_human(HUMAN_ID + ii)
+	for ii in maxHiders - 1:
+		ServerNetwork.on_add_bot()
+
+	for attempt in 5:
+		ServerNetwork.on_randomize_teams()
+		assert_int(GameData.count_players_of_type(FugitiveTeamResolver.PlayerType.Hider)).is_less_equal(maxHiders)
+		assert_int(GameData.count_players_of_type(FugitiveTeamResolver.PlayerType.Hider)).is_greater_equal(maxHiders - 1)

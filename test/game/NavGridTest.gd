@@ -97,6 +97,31 @@ func test_a_path_leads_from_spawn_to_the_win_zone() -> void:
 	assert_float(path[path.size() - 1].distance_to(_win_zone_center())).is_less(3.0)
 
 
+# A cop on the open road is given a wide berth; other players are stepped
+# around; when even that seals the corridor the constraints give way rather
+# than leaving the bot with no route
+func test_paths_keep_clear_of_danger_and_players_when_they_can() -> void:
+	var start: Vector3 = map.get_hider_spawns()[0].global_transform.origin
+	var plain := grid.find_path(start, _win_zone_center())
+	var midway: Vector3 = plain[plain.size() / 2]
+
+	var careful := grid.find_path(start, _win_zone_center(), [], [midway])
+	assert_int(careful.size()).is_greater(0)
+	for point in careful:
+		assert_float(Vector2(point.x, point.z).distance_to(Vector2(midway.x, midway.z))).is_greater_equal(2.0)
+
+	var polite := grid.find_path(start, _win_zone_center(), [midway], [])
+	assert_int(polite.size()).is_greater(0)
+	for point in polite:
+		assert_bool(grid.world_to_cell(point) == grid.world_to_cell(midway)).is_false()
+
+	# Somebody standing on the very last cell before the goal cannot make the
+	# goal unreachable
+	var doorway: Vector3 = plain[plain.size() - 2]
+	var forced := grid.find_path(start, _win_zone_center(), [doorway], [doorway])
+	assert_int(forced.size()).is_greater(0)
+
+
 func test_blocking_a_cell_reroutes_the_next_path() -> void:
 	var start: Vector3 = map.get_hider_spawns()[0].global_transform.origin
 	var first := grid.find_path(start, _win_zone_center())

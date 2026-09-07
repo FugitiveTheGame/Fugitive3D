@@ -8,7 +8,7 @@ static func normal_start(advertiser: ServerAdvertiser, joinable: bool):
 	configure_advertiser(advertiser, get_server_name(), get_port(), public, joinable)
 	advertiser.initial_registration = false
 	
-	advertiser.update_players(GameData.players.size())
+	advertiser.update_players(GameData.get_human_player_ids().size())
 	
 	if not get_no_lan():
 		advertiser.start_advertising_lan()
