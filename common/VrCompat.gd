@@ -108,7 +108,9 @@ func initialize() -> bool:
 
 	xr_interface.render_target_size_multiplier = render_target_size_multiplier
 	if not xr_interface.is_initialized() and not xr_interface.initialize():
-		log_warning("OpenXR failed to initialize")
+		# openxr/enabled is on only for builds tagged "vr", so an editor run has
+		# to force it before the runtime is ever asked for a session
+		log_warning("OpenXR failed to initialize. Is a headset runtime running, and was this started with --xr-mode on?")
 		return false
 
 	get_viewport().use_xr = true
