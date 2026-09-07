@@ -1,0 +1,106 @@
+name: Publish to Google Play
+
+# Uploads a released AAB to Google Play. Called by release.yml after a release
+# is published, and runnable by hand to retry a failed upload, to promote a
+# build to another track, or to check the service account credentials without
+# publishing anything (validate_only, which is the default for manual runs).
+#
+# The AAB and the changelog come from the GitHub release rather than from the
+# build job, so a manual run works for any tag that has a release.
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag to upload (e.g. v0.8.0)'
+        type: string
+        required: true
+      track:
+        description: 'Play track to upload to'
+        type: choice
+        required: true
+        default: internal
+        options:
+          - internal
+          - alpha
+          - beta
+          - production
+      validate_only:
+        description: 'Check the upload without publishing it'
+        type: boolean
+        default: true
+  workflow_call:
+    inputs:
+      tag:
+        type: string
+        required: true
+      track:
+        type: string
+        required: true
+      validate_only:
+        type: boolean
+        required: false
+        default: false
+
+jobs:
+  publish-google-play:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+
+      - name: Install fastlane
+        run: |
+          bundle config set --local path vendor/bundle
+          bundle install --jobs 4 --retry 3
+
+      - name: Write service account key
+        env:
+          GOOGLE_PLAY_JSON: ${{ secrets.GOOGLE_PLAY_JSON }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$GOOGLE_PLAY_JSON" ]]; then
+            echo "::error::GOOGLE_PLAY_JSON secret is not set"
+            exit 1
+          fi
+          printf '%s' "$GOOGLE_PLAY_JSON" > "$HOME/google-play-service-account.json"
+          jq -e '.client_email' "$HOME/google-play-service-account.json" > /dev/null
+
+      - name: Fetch the release AAB and notes
+        id: release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          TAG: ${{ inputs.tag }}
+        run: |
+          set -euo pipefail
+          if [[ ! "$TAG" =~ ^v([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+            echo "::error::'$TAG' is not a vX.Y.Z version"
+            exit 1
+          fi
+          # Same scheme the build stamps into the presets, so the changelog
+          # lands on the version code this AAB actually carries.
+          CODE=$(( ${BASH_REMATCH[1]} * 10000 + ${BASH_REMATCH[2]} * 100 + ${BASH_REMATCH[3]} ))
+          echo "version_code=$CODE" >> "$GITHUB_OUTPUT"
+
+          mkdir -p dist
+          gh release download "$TAG" --repo "$REPO" --pattern '*.aab' --dir dist
+          aab="$(ls dist/*.aab | head -1)"
+          [[ -n "$aab" ]] || { echo "::error::release $TAG has no .aab asset"; exit 1; }
+          echo "aab=$aab" >> "$GITHUB_OUTPUT"
+          echo "Uploading $aab (version code $CODE)"
+
+          mkdir -p fastlane/metadata/android/en-US/changelogs
+          gh release view "$TAG" --repo "$REPO" --json body --jq '.body // ""' \
+            | head -c 500 > "fastlane/metadata/android/en-US/changelogs/${CODE}.txt"
+
+      - name: Upload to ${{ inputs.track }}
+        env:
+          AAB_PATH: ${{ steps.release.outputs.aab }}
+          PLAY_TRACK: ${{ inputs.track }}
+          PLAY_VALIDATE_ONLY: ${{ inputs.validate_only }}
+        run: bundle exec fastlane android deploy
