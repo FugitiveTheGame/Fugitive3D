@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bb46xa7y2256r"
-path="res://.godot/imported/feature_tiles_leaf_texture.png-3c35636ea1dc794509251c81c4dd1f78.ctex"
+path.s3tc="res://.godot/imported/feature_tiles_leaf_texture.png-3c35636ea1dc794509251c81c4dd1f78.s3tc.ctex"
+path.etc2="res://.godot/imported/feature_tiles_leaf_texture.png-3c35636ea1dc794509251c81c4dd1f78.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "7f61f19a76931852feca848674d00c51"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://common/game/tilesets/suburban_neighborhood/features/feature_tiles_leaf_texture.png"
-dest_files=["res://.godot/imported/feature_tiles_leaf_texture.png-3c35636ea1dc794509251c81c4dd1f78.ctex"]
+dest_files=["res://.godot/imported/feature_tiles_leaf_texture.png-3c35636ea1dc794509251c81c4dd1f78.s3tc.ctex", "res://.godot/imported/feature_tiles_leaf_texture.png-3c35636ea1dc794509251c81c4dd1f78.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -40,4 +42,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0

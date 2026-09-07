@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cglujv72ilxor"
-path="res://.godot/imported/ground_tiles_road_straight_texture.png-2ff4d16701bc51eaf961cd1091b84286.ctex"
+path.s3tc="res://.godot/imported/ground_tiles_road_straight_texture.png-2ff4d16701bc51eaf961cd1091b84286.s3tc.ctex"
+path.etc2="res://.godot/imported/ground_tiles_road_straight_texture.png-2ff4d16701bc51eaf961cd1091b84286.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "d484637dfc0876cc0d7985a1da2adbbe"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://common/game/tilesets/suburban_neighborhood/ground/ground_tiles_road_straight_texture.png"
-dest_files=["res://.godot/imported/ground_tiles_road_straight_texture.png-2ff4d16701bc51eaf961cd1091b84286.ctex"]
+dest_files=["res://.godot/imported/ground_tiles_road_straight_texture.png-2ff4d16701bc51eaf961cd1091b84286.s3tc.ctex", "res://.godot/imported/ground_tiles_road_straight_texture.png-2ff4d16701bc51eaf961cd1091b84286.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -40,4 +42,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0

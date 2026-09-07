@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://ckgqmggit8vcn"
-path="res://.godot/imported/feature_tiles_Evergreen_bush_texture_artistic.png-c12b15c65f82b3fdd16732e20f5b76fe.ctex"
+path.s3tc="res://.godot/imported/feature_tiles_Evergreen_bush_texture_artistic.png-c12b15c65f82b3fdd16732e20f5b76fe.s3tc.ctex"
+path.etc2="res://.godot/imported/feature_tiles_Evergreen_bush_texture_artistic.png-c12b15c65f82b3fdd16732e20f5b76fe.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "1e61ac02dc6f7f319584ee8641206722"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://common/game/tilesets/suburban_neighborhood/features/feature_tiles_Evergreen_bush_texture_artistic.png"
-dest_files=["res://.godot/imported/feature_tiles_Evergreen_bush_texture_artistic.png-c12b15c65f82b3fdd16732e20f5b76fe.ctex"]
+dest_files=["res://.godot/imported/feature_tiles_Evergreen_bush_texture_artistic.png-c12b15c65f82b3fdd16732e20f5b76fe.s3tc.ctex", "res://.godot/imported/feature_tiles_Evergreen_bush_texture_artistic.png-c12b15c65f82b3fdd16732e20f5b76fe.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -40,4 +42,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0

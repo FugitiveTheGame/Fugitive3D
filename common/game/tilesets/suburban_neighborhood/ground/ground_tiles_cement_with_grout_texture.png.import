@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c1wmi3gvx3wct"
-path="res://.godot/imported/ground_tiles_cement_with_grout_texture.png-3b86fa949cc61dd2d4bf76697ab4e2ac.ctex"
+path.s3tc="res://.godot/imported/ground_tiles_cement_with_grout_texture.png-3b86fa949cc61dd2d4bf76697ab4e2ac.s3tc.ctex"
+path.etc2="res://.godot/imported/ground_tiles_cement_with_grout_texture.png-3b86fa949cc61dd2d4bf76697ab4e2ac.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "52bc5d4b6a465c9369f36e588a642c97"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://common/game/tilesets/suburban_neighborhood/ground/ground_tiles_cement_with_grout_texture.png"
-dest_files=["res://.godot/imported/ground_tiles_cement_with_grout_texture.png-3b86fa949cc61dd2d4bf76697ab4e2ac.ctex"]
+dest_files=["res://.godot/imported/ground_tiles_cement_with_grout_texture.png-3b86fa949cc61dd2d4bf76697ab4e2ac.s3tc.ctex", "res://.godot/imported/ground_tiles_cement_with_grout_texture.png-3b86fa949cc61dd2d4bf76697ab4e2ac.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -40,4 +42,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0

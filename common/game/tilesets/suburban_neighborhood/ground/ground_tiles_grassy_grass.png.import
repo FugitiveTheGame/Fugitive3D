@@ -3,9 +3,11 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://den10a4in5i4k"
-path="res://.godot/imported/ground_tiles_grassy_grass.png-8886f39a00984cc20765c62cf880687e.ctex"
+path.s3tc="res://.godot/imported/ground_tiles_grassy_grass.png-8886f39a00984cc20765c62cf880687e.s3tc.ctex"
+path.etc2="res://.godot/imported/ground_tiles_grassy_grass.png-8886f39a00984cc20765c62cf880687e.etc2.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
 }
 generator_parameters={
 "md5": "6e9b040b48150a95a7cc0c4dd141c88f"
@@ -14,11 +16,11 @@ generator_parameters={
 [deps]
 
 source_file="res://common/game/tilesets/suburban_neighborhood/ground/ground_tiles_grassy_grass.png"
-dest_files=["res://.godot/imported/ground_tiles_grassy_grass.png-8886f39a00984cc20765c62cf880687e.ctex"]
+dest_files=["res://.godot/imported/ground_tiles_grassy_grass.png-8886f39a00984cc20765c62cf880687e.s3tc.ctex", "res://.godot/imported/ground_tiles_grassy_grass.png-8886f39a00984cc20765c62cf880687e.etc2.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -40,4 +42,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0
