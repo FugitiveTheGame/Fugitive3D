@@ -59,10 +59,10 @@ func _ready():
 
 func _process(delta):
 	if socketUDP.get_available_packet_count() > 0:
+		var array_bytes = socketUDP.get_packet()
 		var serverIp = socketUDP.get_packet_ip()
 		var serverPort = socketUDP.get_packet_port()
-		var array_bytes = socketUDP.get_packet()
-		
+
 		if serverIp != '' and serverPort > 0:
 			var serverMessage = array_bytes.get_string_from_ascii()
 			var test_json_conv = JSON.new()
