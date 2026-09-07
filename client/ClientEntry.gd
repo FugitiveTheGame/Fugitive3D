@@ -78,27 +78,36 @@ func prepare_vr_common():
 
 
 func go_to_pc_vr():
-	prepare_pc_vr()
+	if not prepare_pc_vr():
+		go_to_flat()
+		return
 	
 	vr.switch_scene("res://client/main_menu/vr/VrClientMainMenu.tscn")
 
 
 func go_to_mobile_vr():
-	prepare_mobile_vr()
+	if not prepare_mobile_vr():
+		go_to_flat()
+		return
 	
 	vr.switch_scene("res://client/main_menu/vr/VrClientMainMenu.tscn")
 
 
-func prepare_pc_vr():
+func prepare_pc_vr() -> bool:
+	if not vr.initialize():
+		return false
+	
 	prepare_vr_common()
-	vr.initialize()
+	return true
 
 
-func prepare_mobile_vr():
+func prepare_mobile_vr() -> bool:
 	print("Configuring for Mobile VR")
-	prepare_vr_common()
 	vr.render_target_size_multiplier = MOBILE_RENDER_SCALE
-	vr.initialize()
+	if not vr.initialize():
+		return false
+	
+	prepare_vr_common()
 	
 	# enable the extra latency mode: this gives some performance headroom at the cost
 	# of one more frame of latency
@@ -112,6 +121,7 @@ func prepare_mobile_vr():
 	vr.set_enable_dynamic_foveation(true)
 	
 	vr.set_display_refresh_rate(72.0)
+	return true
 
 
 func init_analytics():
