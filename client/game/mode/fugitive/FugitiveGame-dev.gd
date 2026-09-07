@@ -10,6 +10,7 @@ func _enter_tree():
 	GameData.general[GameData.GENERAL_MAP] = "littleton"
 	
 	GameAnalytics.DEVELOPMENT = true
+	GameAnalytics.start_session()
 	
 	# Silence the start sound
 	(GameData.currentGame.get_node("StartAudio") as AudioStreamPlayer).volume_db = -100.0

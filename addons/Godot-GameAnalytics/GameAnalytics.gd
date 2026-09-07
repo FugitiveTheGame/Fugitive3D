@@ -3,7 +3,10 @@ extends Node
 # Cross-platform. Should work in every platform supported by Godot
 # Adapted from REST_v2_example.py by Cristiano Reis Monteiro <cristianomonteiro@gmail.com> Abr/2018
 
-var DEVELOPMENT = false
+const PRODUCTION_URL = "https://api.gameanalytics.com"
+const SANDBOX_URL = "https://sandbox-api.gameanalytics.com"
+
+var DEVELOPMENT = false : set = set_development
 
 const MAX_ERROR_MSG_LENGTH = 8192
 
@@ -22,6 +25,17 @@ const PLATFORMS = {
 const ssl_validate_domain = true
 # Number of events to hold before flushing the event queue
 const event_queue_max_events = 16
+# A partial queue is flushed once it has been waiting this long
+const event_queue_flush_interval = 8.0
+# Upper bound on how long the final flush may hold up shutdown
+const shutdown_flush_timeout_msec = 2000
+# Holds the lifetime session count this install has reported
+const state_file_path = "user://gameanalytics_state.json"
+
+# Sessions played since install, including the one about to start
+var session_num := 1
+
+var _seconds_since_flush := 0.0
 
 
 # Game Keys
@@ -31,8 +45,17 @@ var secret_key : get = get_secret_key, set = set_secret_key
 var build_version = null
 
 
-# sandbox API urls
-var base_url = "https://sandbox-api.gameanalytics.com" if DEVELOPMENT else "https://api.gameanalytics.com"
+var base_url = PRODUCTION_URL
+
+
+func set_development(new_development):
+	DEVELOPMENT = new_development
+	base_url = SANDBOX_URL if new_development else PRODUCTION_URL
+
+
+func _ready():
+	# Events have to keep flowing while the pause menu holds the rest of the tree
+	process_mode = Node.PROCESS_MODE_ALWAYS
 
 
 func set_game_key(new_game_key):
@@ -88,6 +111,17 @@ func _http_done(result, response_code, headers, body, http_request, response_han
 	self.call(response_handler, response_code, test_json_conv.get_data())
 	_http_free_request(http_request)
 
+func _now() -> int:
+	return int(Time.get_unix_time_from_system())
+
+
+func _auth_headers(json_payload) -> PackedStringArray:
+	return PackedStringArray([
+		"Authorization: " + Marshalls.raw_to_base64(hmac_sha256(json_payload, self.secret_key)),
+		"Content-Type: application/json"
+	])
+
+
 func _http_perform_request(endpoint, body, response_handler):
 	if !state_config['enabled']:
 		log_info("SDK Disabled, not performing any more requests")
@@ -101,13 +135,9 @@ func _http_perform_request(endpoint, body, response_handler):
 	http_request.connect("request_completed", Callable(self, "_http_done").bind(http_request, response_handler))
 
 	var url = base_url + endpoint
-	var json_payload = JSON.new().stringify(body)
-	var headers = PackedStringArray([
-		"Authorization: " + Marshalls.raw_to_base64(hmac_sha256(json_payload, self.secret_key)),
-		"Content-Type: application/json"
-	])
+	var json_payload = JSON.stringify(body)
 
-	var err = http_request.request(url, headers, HTTPClient.METHOD_POST, json_payload)
+	var err = http_request.request(url, _auth_headers(json_payload), HTTPClient.METHOD_POST, json_payload)
 	if err != OK:
 		log_info("Request failed, with godot error: " + str(err))
 		_http_free_request(http_request)
@@ -118,23 +148,58 @@ func start_session():
 		log_info("Session already started. Not creating a new one")
 		return
 
-	state_config['session_id'] = UUID.v4()
-	state_config['session_start'] = Time.get_unix_time_from_datetime_dict(Time.get_datetime_dict_from_system())
+	session_num = _load_session_num() + 1
+	_save_session_num(session_num)
 
-	log_info("Started session with id: " + str(state_config['session_id']))
+	state_config['session_id'] = UUID.v4()
+	state_config['session_start'] = _now()
+
+	log_info("Started session %d with id: %s" % [session_num, state_config['session_id']])
 	_init_request()
+
+	# GameAnalytics counts a session only when it sees a user event, so without
+	# this every dashboard built on sessions, DAU or playtime stays empty no
+	# matter how many design events arrive
+	queue_event({'category': 'user'})
+
+
+func _load_session_num() -> int:
+	if not FileAccess.file_exists(state_file_path):
+		return 0
+
+	var file = FileAccess.open(state_file_path, FileAccess.READ)
+	if file == null:
+		return 0
+
+	var parsed = JSON.parse_string(file.get_as_text())
+	file.close()
+
+	if typeof(parsed) != TYPE_DICTIONARY:
+		return 0
+
+	return int(parsed.get('session_num', 0))
+
+
+func _save_session_num(value: int):
+	var file = FileAccess.open(state_file_path, FileAccess.WRITE)
+	if file == null:
+		log_info("Could not persist the session count to " + state_file_path)
+		return
+
+	file.store_string(JSON.stringify({'session_num': value}))
+	file.close()
 
 
 func stop_session():
 	if state_config.has('session_start') and state_config['session_start'] is int:
 		log_info("Stopped session with id: " + str(state_config['session_id']))
 		
-		var client_ts = Time.get_unix_time_from_datetime_dict(Time.get_datetime_dict_from_system())
+		var client_ts = _now()
 		queue_event({
 			'category': 'session_end',
 			'length': client_ts - state_config['session_start']
 		})
-		_submit_events()
+		_submit_events_blocking()
 	
 	state_config['session_id'] = null
 	state_config['session_start'] = null
@@ -288,18 +353,23 @@ func error_event(severity, message):
 
 
 func _process(delta):
-	if state_config['event_queue'].size() >= event_queue_max_events:
+	if state_config['event_queue'].is_empty():
+		_seconds_since_flush = 0.0
+		return
+
+	_seconds_since_flush += delta
+	if state_config['event_queue'].size() >= event_queue_max_events or _seconds_since_flush >= event_queue_flush_interval:
 		_submit_events()
 
 
 ## Init Request
 func update_client_ts_offset(server_ts):
 	# calculate client_ts using offset from server time
-	var client_ts = Time.get_unix_time_from_datetime_dict(Time.get_datetime_dict_from_system())
+	var client_ts = _now()
 	var offset = client_ts - server_ts
 
 	# If the difference is too small, ignore it
-	state_config['client_ts_offset'] = 0 if offset < 10 else offset
+	state_config['client_ts_offset'] = 0 if abs(offset) < 10 else offset
 	log_info('Client TS offset calculated to: ' + str(offset))
 
 
@@ -333,15 +403,77 @@ func _handle_submit_events_response(response_code, body):
 
 
 func _submit_events():
-	var endpoint = "/v2/" + self.game_key + "/events"
+	_seconds_since_flush = 0.0
+	if state_config['event_queue'].is_empty():
+		return
+
+	var endpoint = "/v2/" + str(self.game_key) + "/events"
 	_http_perform_request(endpoint, state_config['event_queue'], "_handle_submit_events_response")
 	# It doesen't really matter if the request succeded, we are not going to send the events again
 	state_config['event_queue'] = []
 
 
+# THAR BE DRAGONS: shutdown tears the tree down before an HTTPRequest node ever
+# gets a frame to run in, so the last flush of a session has to be synchronous or
+# every event queued since the previous flush is lost.
+func _submit_events_blocking():
+	_seconds_since_flush = 0.0
+	if state_config['event_queue'].is_empty():
+		return
+
+	var body = state_config['event_queue']
+	state_config['event_queue'] = []
+
+	if !state_config['enabled']:
+		log_info("SDK Disabled, not performing any more requests")
+		return
+
+	var json_payload = JSON.stringify(body)
+	var use_tls = base_url.begins_with("https://")
+	var host = base_url.trim_prefix("https://").trim_prefix("http://")
+
+	var client = HTTPClient.new()
+	var err = client.connect_to_host(host, 443 if use_tls else 80, TLSOptions.client() if use_tls else null)
+	if err != OK:
+		log_info("Final flush could not connect, with godot error: " + str(err))
+		return
+
+	var deadline = Time.get_ticks_msec() + shutdown_flush_timeout_msec
+	while client.get_status() in [HTTPClient.STATUS_CONNECTING, HTTPClient.STATUS_RESOLVING]:
+		client.poll()
+		if Time.get_ticks_msec() > deadline:
+			log_info("Final flush timed out connecting to " + host)
+			return
+		OS.delay_msec(5)
+
+	if client.get_status() != HTTPClient.STATUS_CONNECTED:
+		log_info("Final flush failed to connect to " + host)
+		return
+
+	var endpoint = "/v2/" + str(self.game_key) + "/events"
+	err = client.request(HTTPClient.METHOD_POST, endpoint, _auth_headers(json_payload), json_payload)
+	if err != OK:
+		log_info("Final flush request failed, with godot error: " + str(err))
+		return
+
+	while client.get_status() == HTTPClient.STATUS_REQUESTING:
+		client.poll()
+		if Time.get_ticks_msec() > deadline:
+			log_info("Final flush timed out sending " + str(body.size()) + " events")
+			return
+		OS.delay_msec(5)
+
+	log_info("Final flush of " + str(body.size()) + " events. Response: " + str(client.get_response_code()))
+	client.close()
+
+
 func queue_event(event):
 	if typeof(event) != TYPE_DICTIONARY:
 		log_info("Submitted an event that's not a dictionary")
+		return
+
+	if state_config['session_id'] == null:
+		log_info("Dropping '" + str(event.get('event_id', event.get('category', 'unknown'))) + "', no session has been started")
 		return
 
 	event = _dict_assign(event, _get_default_annotations())
@@ -415,7 +547,7 @@ func _get_default_annotations():
 	var engine_version = Engine.get_version_info()['string']
 
 	var ts_offset = 0 if not state_config.has('client_ts_offset') else state_config['client_ts_offset']
-	var client_ts = Time.get_unix_time_from_datetime_dict(Time.get_datetime_dict_from_system()) - ts_offset
+	var client_ts = _now() - ts_offset
 
 	var default_annotations = {
 		'v': 2,                                     # (required: Yes)
@@ -443,7 +575,7 @@ func _get_default_annotations():
 		'platform': platform,                       # (required: Yes)
 		'session_id': state_config['session_id'],   # (required: Yes)
 		#'build': build_version,                    # (required: No - send if set)
-		'session_num': 1,                           # (required: Yes)
+		'session_num': session_num,                 # (required: Yes)
 		#'connection_type': 'wifi',                 # (required: No - send if available)
 		#'jailbroken                                # (required: No - send if true)
 		#'engine_version': engine_version           # (required: No - send if set by an engine)
@@ -458,53 +590,8 @@ func log_info(message):
 	print("GameAnalytics: " + str(message))
 
 
-func pool_byte_array_from_hex(hex):
-	var out = PackedByteArray()
-
-	for idx in range(0, hex.length(), 2):
-		var hex_int = ("0x" + hex.substr(idx, 2)).hex_to_int()
-		out.append(hex_int)
-
-	return out
-
-
-# TODO: This sucks, but its what we have right now
-# Returns the hex encoded sha256 hash of buffer
-func sha256(buffer):
-	var path = "user://__ga__sha256_temp"
-	var file = FileAccess.open(path, FileAccess.WRITE)
-	file.store_buffer(buffer)
-	file.close()
-	var sha_hash = FileAccess.get_sha256(path)
-
-	DirAccess.remove_absolute(path)
-
-	return sha_hash
-
-
 func hmac_sha256(message, key):
-	# Hash key if length > 64
-	if key.length() <= 64:
-		key = key.to_utf8_buffer()
-	else:
-		key = key.sha256_buffer()
-
-	# Right zero padding if key length < 64
-	while key.size() < 64:
-		key.append(0)
-
-	var inner_key = PackedByteArray()
-	var outer_key = PackedByteArray()
-
-	for idx in range(0, 64):
-		outer_key.append(key[idx] ^ 0x5c)
-		inner_key.append(key[idx] ^ 0x36)
-
-
-	var inner_hash = pool_byte_array_from_hex(sha256(inner_key + message.to_utf8_buffer()))
-	var outer_hash = pool_byte_array_from_hex(sha256(outer_key + inner_hash))
-
-	return outer_hash
+	return Crypto.new().hmac_digest(HashingContext.HASH_SHA256, key.to_utf8_buffer(), message.to_utf8_buffer())
 
 
 func _exit_tree():
