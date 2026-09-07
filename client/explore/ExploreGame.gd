@@ -10,8 +10,6 @@ func _enter_tree():
 	
 	GameData.currentGame = self
 	
-	GameAnalytics.DEVELOPMENT = true
-	
 	# Silence the start sound
 	(GameData.currentGame.get_node("StartAudio") as AudioStreamPlayer).volume_db = -100.0
 	(GameData.currentGame.get_node("PregameCountdownAudio") as AudioStreamPlayer).volume_db = -100.0
