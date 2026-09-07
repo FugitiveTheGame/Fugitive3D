@@ -140,5 +140,8 @@ func init_analytics():
 	GameAnalytics.game_key = gaKeys["game_key"]
 	GameAnalytics.secret_key = gaKeys["secret_key"]
 	
+	# Annotates every event, so it has to be set before the session start event
+	GameAnalytics.build_version = str(UserData.GAME_VERSION)
+	
 	# Start the session
 	GameAnalytics.start_session()
