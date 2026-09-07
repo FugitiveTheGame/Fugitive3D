@@ -14,6 +14,7 @@
 [ext_resource type="PackedScene" path="res://client/game/mode/fugitive/hud/mapview/OverviewMapHud.tscn" id="12"]
 [ext_resource type="Texture2D" path="res://client/game/player/controller/flat/mobile/button_map_normal.png" id="13"]
 [ext_resource type="Texture2D" path="res://client/game/player/controller/flat/mobile/button_map_pressed.png" id="14"]
+[ext_resource type="Script" path="res://client/game/player/controller/flat/mobile/TouchControlButton.gd" id="15"]
 
 [node name="PlayerController" instance=ExtResource("1")]
 script = ExtResource("2")
@@ -87,6 +88,10 @@ normal = ExtResource("8")
 pressed = ExtResource("7")
 action = "flat_player_use"
 visibility_mode = 1
+script = ExtResource("15")
+slot = 3
+slot_column = 0
+slot_row = 1
 
 [node name="HornButton" type="TouchScreenButton" parent="HudCanvas/HudContainer" index="11"]
 position = Vector2(960, 552)
@@ -94,6 +99,10 @@ normal = ExtResource("10")
 pressed = ExtResource("9")
 action = "flat_car_horn"
 visibility_mode = 1
+script = ExtResource("15")
+slot = 3
+slot_column = 1
+slot_row = 1
 
 [node name="MapButton" type="TouchScreenButton" parent="HudCanvas/HudContainer" index="12"]
 position = Vector2(1152, 552)
@@ -101,8 +110,14 @@ normal = ExtResource("13")
 pressed = ExtResource("14")
 action = "flat_fugitive_map"
 visibility_mode = 1
+script = ExtResource("15")
+slot = 3
+slot_column = 2
+slot_row = 1
 
 [node name="VirtualJoysticks" parent="HudCanvas" index="1"]
-layout_mode = 1
-anchors_preset = -1
 visible = false
+
+[node name="TouchControlsLayout" parent="HudCanvas" index="2"]
+timer_path = NodePath("../HudContainer/GameTimerReadout")
+map_path = NodePath("../HudContainer/OverviewMapHud")

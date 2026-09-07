@@ -4,6 +4,8 @@
 [ext_resource type="Script" path="res://client/lobby/flat/FlatLobby.gd" id="2"]
 [ext_resource type="Texture2D" path="res://client/game/player/controller/flat/mobile/button_ptt_pressed.png" id="3"]
 [ext_resource type="Texture2D" path="res://client/game/player/controller/flat/mobile/button_ptt_normal.png" id="4"]
+[ext_resource type="Script" path="res://client/game/player/controller/flat/mobile/TouchControlButton.gd" id="5"]
+[ext_resource type="Script" path="res://client/game/player/controller/flat/mobile/TouchControlsLayout.gd" id="6"]
 
 [node name="Lobby" instance=ExtResource("1")]
 layout_mode = 1
@@ -17,5 +19,13 @@ normal = ExtResource("4")
 pressed = ExtResource("3")
 action = "push_to_talk"
 visibility_mode = 1
+script = ExtResource("5")
+slot = 0
+slot_column = 0
+slot_row = 0
 
 [node name="VoiceChatContainer" type="Node" parent="." index="6"]
+
+[node name="TouchControlsLayout" type="Node" parent="." index="7"]
+script = ExtResource("6")
+button_root_path = NodePath("..")

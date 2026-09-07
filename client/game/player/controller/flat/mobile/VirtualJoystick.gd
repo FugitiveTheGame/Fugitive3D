@@ -1,6 +1,9 @@
 extends Control
 class_name VirtualJoysticks
 
+# The stick head is this much of its base across
+const STICK_HEAD_RATIO := 0.5
+
 @export var left_dead_zone := 0.40 # (float, 0.0, 1.0, 0.001)
 @export var right_dead_zone := 0.40 # (float, 0.0, 1.0, 0.001)
 
@@ -25,13 +28,48 @@ var right_output := Vector2()
 
 
 func _ready():
-	left_initial_position = stickLeft.position
-	right_initial_position = stickRight.position
-	
-	left_move_radius = get_min_size(baseLeft.size) / 2.0
-	right_move_radius = get_min_size(baseRight.size) / 2.0
-	
 	visible = DisplayServer.is_touchscreen_available()
+	
+	MobileUi.layout_changed.connect(layout)
+	layout()
+
+
+# Both sticks sit in the bottom corners of the safe area, sized off the design
+# height so a thumb covers the same slice of screen on any phone
+func layout():
+	# Touches are matched against the base rects in this control's own space, so
+	# it has to cover the whole screen for them to line up
+	set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+	
+	var area := MobileUi.safe_area()
+	var diameter := MobileUi.stick_diameter()
+	var base_size := Vector2(diameter, diameter)
+	
+	place_base(baseLeft, base_size, Vector2(area.position.x, area.end.y - diameter))
+	place_base(baseRight, base_size, Vector2(area.end.x - diameter, area.end.y - diameter))
+	
+	left_initial_position = place_stick(stickLeft, base_size)
+	right_initial_position = place_stick(stickRight, base_size)
+	
+	left_move_radius = get_min_size(base_size) / 2.0
+	right_move_radius = get_min_size(base_size) / 2.0
+
+
+func place_base(base: TextureRect, base_size: Vector2, top_left: Vector2):
+	base.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	base.stretch_mode = TextureRect.STRETCH_SCALE
+	base.set_anchors_preset(Control.PRESET_TOP_LEFT, false)
+	base.size = base_size
+	base.position = top_left
+
+
+func place_stick(stick: TextureRect, base_size: Vector2) -> Vector2:
+	stick.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+	stick.stretch_mode = TextureRect.STRETCH_SCALE
+	stick.set_anchors_preset(Control.PRESET_TOP_LEFT, false)
+	stick.size = base_size * STICK_HEAD_RATIO
+	stick.position = (base_size - stick.size) / 2.0
+	return stick.position
 
 
 func get_min_size(rect: Vector2) -> float:

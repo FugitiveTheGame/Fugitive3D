@@ -1,5 +1,11 @@
 extends "res://client/lobby/ClientLobby.gd"
 
+
+func _ready():
+	super._ready()
+	MobileUi.keep_menu_inside_safe_area(self)
+
+
 func on_start_game():
 	var mapId = GameData.general[GameData.GENERAL_MAP]
 	get_tree().change_scene_to_file(Maps.get_game_scene(mapId, Maps.TYPE_FLAT))

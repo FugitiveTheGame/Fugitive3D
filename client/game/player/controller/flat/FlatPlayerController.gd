@@ -74,6 +74,8 @@ var Movement_Speed := 0.0
 
 
 func _ready():
+	MobileUi.keep_popups_inside_safe_area(self)
+	
 	player.set_is_local_player()
 	
 	self.heldObject = get_node_or_null(HeldObjectPath)

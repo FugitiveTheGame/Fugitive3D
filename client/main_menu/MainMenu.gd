@@ -69,6 +69,8 @@ func _exit_tree():
 
 
 func _ready():
+	MobileUi.keep_menu_inside_safe_area(self)
+	
 	versionLabel.text = "v%d" % UserData.GAME_VERSION
 	
 	playerNameInput.text = UserData.data.user_name

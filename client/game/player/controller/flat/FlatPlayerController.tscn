@@ -19,6 +19,8 @@
 [ext_resource type="Texture2D" path="res://client/game/player/controller/flat/mobile/button_ptt_pressed.png" id="17"]
 [ext_resource type="Texture2D" path="res://client/game/player/controller/flat/mobile/button_ptt_normal.png" id="18"]
 [ext_resource type="PackedScene" path="res://client/game/player/hud/ControlHintsHud.tscn" id="19"]
+[ext_resource type="Script" path="res://client/game/player/controller/flat/mobile/TouchControlButton.gd" id="20"]
+[ext_resource type="Script" path="res://client/game/player/controller/flat/mobile/TouchControlsLayout.gd" id="21"]
 
 [node name="PlayerController" type="CharacterBody3D"]
 collision_mask = 31
@@ -118,12 +120,20 @@ normal = ExtResource("11")
 pressed = ExtResource("12")
 action = "flat_player_jump"
 visibility_mode = 1
+script = ExtResource("20")
+slot = 3
+slot_column = 1
+slot_row = 0
 
 [node name="CrouchButton" type="TouchScreenButton" parent="HudCanvas/HudContainer"]
 position = Vector2(1050, 650)
 normal = ExtResource("10")
 pressed = ExtResource("8")
 visibility_mode = 1
+script = ExtResource("20")
+slot = 3
+slot_column = 0
+slot_row = 0
 
 [node name="SprintButton" type="TouchScreenButton" parent="HudCanvas/HudContainer"]
 position = Vector2(890, 650)
@@ -131,6 +141,10 @@ normal = ExtResource("7")
 pressed = ExtResource("9")
 action = "flat_player_sprint"
 visibility_mode = 1
+script = ExtResource("20")
+slot = 2
+slot_column = 0
+slot_row = 0
 
 [node name="VoiceButton" type="TouchScreenButton" parent="HudCanvas/HudContainer"]
 position = Vector2(24, 24)
@@ -138,6 +152,10 @@ normal = ExtResource("18")
 pressed = ExtResource("17")
 action = "push_to_talk"
 visibility_mode = 1
+script = ExtResource("20")
+slot = 0
+slot_column = 0
+slot_row = 0
 
 [node name="ControlHintsHud" parent="HudCanvas/HudContainer" instance=ExtResource("19")]
 layout_mode = 1
@@ -151,15 +169,14 @@ offset_bottom = -136.0
 grow_vertical = 0
 
 [node name="VirtualJoysticks" parent="HudCanvas" instance=ExtResource("5")]
-layout_mode = 1
-anchors_preset = -1
-anchor_top = 0.178
-anchor_right = 1.0
-anchor_bottom = 0.633
-offset_top = -0.199997
-offset_right = 0.0
-offset_bottom = 0.299988
 right_dead_zone = 0.01
+
+[node name="TouchControlsLayout" type="Node" parent="HudCanvas"]
+script = ExtResource("21")
+button_root_path = NodePath("../HudContainer")
+joysticks_path = NodePath("../VirtualJoysticks")
+bars_path = NodePath("../HudContainer/BarsContainer")
+indicators_path = NodePath("../HudContainer/IndicatorsContainer")
 
 [node name="VoiceChatPlayback" type="AudioStreamPlayer3D" parent="."]
 

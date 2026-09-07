@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" path="res://client/game/player/controller/flat/mobile/button_lock_pressed.png" id="8"]
 [ext_resource type="Texture2D" path="res://client/game/player/controller/flat/mobile/button_flashlight_pressed.png" id="9"]
 [ext_resource type="Texture2D" path="res://client/game/player/controller/flat/mobile/button_flashlight_normal.png" id="10"]
+[ext_resource type="Script" path="res://client/game/player/controller/flat/mobile/TouchControlButton.gd" id="11"]
 
 [node name="PlayerController" instance=ExtResource("1")]
 collision_mask = 63
@@ -64,6 +65,10 @@ normal = ExtResource("7")
 pressed = ExtResource("8")
 action = "flat_seeker_lock"
 visibility_mode = 1
+script = ExtResource("11")
+slot = 3
+slot_column = 3
+slot_row = 1
 
 [node name="FlashlightButton" type="TouchScreenButton" parent="HudCanvas/HudContainer" index="13"]
 position = Vector2(728, 648)
@@ -71,12 +76,10 @@ normal = ExtResource("10")
 pressed = ExtResource("9")
 action = "flat_seeker_flashlight"
 visibility_mode = 1
-
-[node name="VirtualJoysticks" parent="HudCanvas" index="1"]
-layout_mode = 1
-anchors_preset = -1
-anchor_right = 0.994
-offset_right = 9.59998
+script = ExtResource("11")
+slot = 3
+slot_column = 2
+slot_row = 0
 
 [node name="Player" parent="." index="2" instance=ExtResource("3")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.851208, 0)
