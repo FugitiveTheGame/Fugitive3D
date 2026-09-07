@@ -9,13 +9,13 @@
 # To build it yourself, VERSION is a release tag; the Linux server build is
 # taken from that GitHub release:
 #
-#   docker build --build-arg VERSION=v0.8.0 -t fugitive3d-server docker/
+#   docker build --build-arg VERSION=0.8.0 -t fugitive3d-server docker/
 
 ARG VERSION
 
 FROM ubuntu:24.04 AS fetch
 ARG VERSION
-RUN test -n "$VERSION" || { echo "VERSION build-arg is required, e.g. --build-arg VERSION=v0.8.0" >&2; exit 1; }
+RUN test -n "$VERSION" || { echo "VERSION build-arg is required, e.g. --build-arg VERSION=0.8.0" >&2; exit 1; }
 RUN apt-get update \
 	&& apt-get install -y --no-install-recommends ca-certificates curl unzip \
 	&& rm -rf /var/lib/apt/lists/*

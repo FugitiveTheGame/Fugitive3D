@@ -1,6 +1,6 @@
 name: Release
 
-# Pushing an annotated tag vX.Y.Z builds every export preset, publishes a
+# Pushing an annotated tag X.Y.Z builds every export preset, publishes a
 # GitHub release with the artifacts attached, pushes the itch.io channels,
 # uploads the AAB to Google Play, publishes the dedicated server image to
 # GHCR, updates the official game servers and announces the release on
@@ -11,7 +11,7 @@ name: Release
 on:
   push:
     tags:
-      - 'v*'
+      - '[0-9]*'
   workflow_dispatch:
     inputs:
       dry_run:
@@ -58,12 +58,12 @@ jobs:
             TAG="$GITHUB_REF_NAME"
             PUBLISH=true
           else
-            TAG="v${INPUT_VERSION}"
+            TAG="${INPUT_VERSION}"
             PUBLISH=false
             [[ "$DRY_RUN" == "false" ]] && PUBLISH=true
           fi
-          if [[ ! "$TAG" =~ ^v([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
-            echo "::error::'$TAG' is not a vX.Y.Z version"
+          if [[ ! "$TAG" =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+            echo "::error::'$TAG' is not an X.Y.Z version"
             exit 1
           fi
           MAJOR=${BASH_REMATCH[1]}; MINOR=${BASH_REMATCH[2]}; PATCH=${BASH_REMATCH[3]}
@@ -75,10 +75,10 @@ jobs:
           CODE=$(( MAJOR * 10000 + MINOR * 100 + PATCH ))
           (( CODE >= 1 )) || CODE=1
 
-          echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
+          echo "version=${TAG}" >> "$GITHUB_OUTPUT"
           echo "version_code=$CODE" >> "$GITHUB_OUTPUT"
           echo "publish=$PUBLISH" >> "$GITHUB_OUTPUT"
-          echo "version ${TAG#v}, code $CODE, publish $PUBLISH"
+          echo "version ${TAG}, code $CODE, publish $PUBLISH"
 
           # Release notes come from the annotated tag body. actions/checkout can
           # leave the tag peeled to its commit, so fetch the real tag object.
@@ -330,13 +330,13 @@ jobs:
             exit 1
           fi
           push() { butler push "$1" "$ITCH_TARGET:$2" --userversion "$V"; }
-          push "dist/Fugitive3D_Client_Flat_Windows_v$V.zip" windows-flat
-          push "dist/Fugitive3D_Client_Flat_Linux_v$V.zip"   linux-flat
-          push "dist/Fugitive3D_Client_Flat_Android_v$V.apk" android-flat
-          push "dist/Fugitive3D_Client_VR_Windows_v$V.zip"   windows-vr
-          push "dist/Fugitive3D_Client_VR_Quest_v$V.apk"     quest-vr
-          push "dist/Fugitive3D_Server_Windows_v$V.zip"      windows-server
-          push "dist/Fugitive3D_Server_Linux_v$V.zip"        linux-server
+          push "dist/Fugitive3D_Client_Flat_Windows_$V.zip" windows-flat
+          push "dist/Fugitive3D_Client_Flat_Linux_$V.zip"   linux-flat
+          push "dist/Fugitive3D_Client_Flat_Android_$V.apk" android-flat
+          push "dist/Fugitive3D_Client_VR_Windows_$V.zip"   windows-vr
+          push "dist/Fugitive3D_Client_VR_Quest_$V.apk"     quest-vr
+          push "dist/Fugitive3D_Server_Windows_$V.zip"      windows-server
+          push "dist/Fugitive3D_Server_Linux_$V.zip"        linux-server
 
   # Shared with the manual runs of the same workflow, so a retry or a promotion
   # to another track uploads exactly what a release uploads.

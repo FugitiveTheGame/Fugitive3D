@@ -11,7 +11,7 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Release tag to upload (e.g. v0.8.0)'
+        description: 'Release tag to upload (e.g. 0.8.0)'
         type: string
         required: true
       track:
@@ -88,8 +88,8 @@ jobs:
           TAG: ${{ inputs.tag }}
         run: |
           set -euo pipefail
-          if [[ ! "$TAG" =~ ^v([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
-            echo "::error::'$TAG' is not a vX.Y.Z version"
+          if [[ ! "$TAG" =~ ^([0-9]+)\.([0-9]+)\.([0-9]+)$ ]]; then
+            echo "::error::'$TAG' is not an X.Y.Z version"
             exit 1
           fi
           # Same scheme the build stamps into the presets, so the changelog

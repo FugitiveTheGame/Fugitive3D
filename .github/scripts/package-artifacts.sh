@@ -42,7 +42,7 @@ fi
 
 zipdir() {
 	local src=$1 name=$2
-	local out="$DIST/${name}_v${VERSION}.zip"
+	local out="$DIST/${name}_${VERSION}.zip"
 	log "packing $src -> $(basename "$out")"
 	if [[ "$ZIP_TOOL" == "zip" ]]; then
 		(cd "$src" && zip -qr "$out" . -x '*.log' '*.idsig')
@@ -58,9 +58,9 @@ zipdir export/client/vr/oculus-rift  Fugitive3D_Client_VR_Oculus_Windows
 zipdir export/server/windows         Fugitive3D_Server_Windows
 zipdir export/server/linux           Fugitive3D_Server_Linux
 
-cp export/client/flat/android/Fugitive3D_Client_Flat_Android.apk                "$DIST/Fugitive3D_Client_Flat_Android_v${VERSION}.apk"
-cp export/client/vr/quest/Fugitive3D_Client_VR_Quest.apk                        "$DIST/Fugitive3D_Client_VR_Quest_v${VERSION}.apk"
-cp export/client/flat/android/google_play/Fugitive3D_Client_Flat_Android_GP.aab "$DIST/Fugitive3D_Client_Flat_Android_GP_v${VERSION}.aab"
+cp export/client/flat/android/Fugitive3D_Client_Flat_Android.apk                "$DIST/Fugitive3D_Client_Flat_Android_${VERSION}.apk"
+cp export/client/vr/quest/Fugitive3D_Client_VR_Quest.apk                        "$DIST/Fugitive3D_Client_VR_Quest_${VERSION}.apk"
+cp export/client/flat/android/google_play/Fugitive3D_Client_Flat_Android_GP.aab "$DIST/Fugitive3D_Client_Flat_Android_GP_${VERSION}.aab"
 
 log "checking archives"
 
@@ -94,12 +94,12 @@ check_zip() {
 		fail "$zip: contains Godot 3 leftovers"
 	fi
 }
-check_zip "$DIST/Fugitive3D_Client_Flat_Windows_v${VERSION}.zip"      windows
-check_zip "$DIST/Fugitive3D_Client_VR_Windows_v${VERSION}.zip"        windows
-check_zip "$DIST/Fugitive3D_Client_VR_Oculus_Windows_v${VERSION}.zip" windows
-check_zip "$DIST/Fugitive3D_Server_Windows_v${VERSION}.zip"           windows
-check_zip "$DIST/Fugitive3D_Client_Flat_Linux_v${VERSION}.zip"        linux
-check_zip "$DIST/Fugitive3D_Server_Linux_v${VERSION}.zip"             linux
+check_zip "$DIST/Fugitive3D_Client_Flat_Windows_${VERSION}.zip"      windows
+check_zip "$DIST/Fugitive3D_Client_VR_Windows_${VERSION}.zip"        windows
+check_zip "$DIST/Fugitive3D_Client_VR_Oculus_Windows_${VERSION}.zip" windows
+check_zip "$DIST/Fugitive3D_Server_Windows_${VERSION}.zip"           windows
+check_zip "$DIST/Fugitive3D_Client_Flat_Linux_${VERSION}.zip"        linux
+check_zip "$DIST/Fugitive3D_Server_Linux_${VERSION}.zip"             linux
 
 # What each pack actually contains, read from its index. The client must carry
 # the GameAnalytics keys it reads at startup, and the server presets exclude
@@ -122,7 +122,7 @@ if [[ "$server_client_files" != 0 ]]; then
 fi
 
 log "checking Android packages"
-quest="$DIST/Fugitive3D_Client_VR_Quest_v${VERSION}.apk"
+quest="$DIST/Fugitive3D_Client_VR_Quest_${VERSION}.apk"
 quest_listing="$(unzip -Z1 "$quest")"
 # VR is the leg most likely to break silently: without these the headset
 # launches the game as a flat 2D panel instead of failing outright.
@@ -131,7 +131,7 @@ for lib in libgodot_android.so libgodotopenxrvendors.so libopenxr_loader.so; do
 done
 grep -q '^lib/arm64-v8a/libgodotopus.*\.so$' <<<"$quest_listing" || fail "Quest APK is missing the opus GDExtension"
 
-aab_listing="$(unzip -Z1 "$DIST/Fugitive3D_Client_Flat_Android_GP_v${VERSION}.aab")"
+aab_listing="$(unzip -Z1 "$DIST/Fugitive3D_Client_Flat_Android_GP_${VERSION}.aab")"
 grep -q '^base/manifest/AndroidManifest.xml$' <<<"$aab_listing" || fail "the AAB has no base module manifest"
 
 # Package name and version checks need the SDK build tools; skip cleanly when
@@ -157,7 +157,7 @@ if [[ -n "$build_tools" && -x "$build_tools/aapt2" ]]; then
 		certs="$("$apksigner" verify --print-certs "$apk")" || fail "$apk: signature verification failed"
 		grep -i 'SHA-256' <<<"$certs" | head -1
 	}
-	check_apk "$DIST/Fugitive3D_Client_Flat_Android_v${VERSION}.apk" com.darkrockstudios.games.fugitive3d
+	check_apk "$DIST/Fugitive3D_Client_Flat_Android_${VERSION}.apk" com.darkrockstudios.games.fugitive3d
 	check_apk "$quest" com.darkrockstudios.games.vr.fugitive3d
 else
 	echo "::warning::Android build-tools not found; skipping package name and version checks"

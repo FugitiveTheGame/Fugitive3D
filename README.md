@@ -71,7 +71,7 @@ everyone, and needs the UDP port forwarded to the host, because the server
 repository pings it back at boot and the server exits if that fails.
 
 To build the image yourself from a release: `docker build --build-arg
-VERSION=v0.8.0 -t fugitive3d-server docker/`.
+VERSION=0.8.0 -t fugitive3d-server docker/`.
 
 ### From the Godot editor
 
@@ -108,8 +108,8 @@ Releases are built and published by GitHub Actions
 workflow does the rest:
 
 ```bash
-git tag -a v0.8.0 -m "Fugitive 3D 0.8.0" -m "What changed, one item per line."
-git push origin v0.8.0
+git tag -a 0.8.0 -m "Fugitive 3D 0.8.0" -m "What changed, one item per line."
+git push origin 0.8.0
 ```
 
 The tag body becomes the release notes, the Google Play "What's new" text and
@@ -117,7 +117,7 @@ the Discord announcement, so write it for players. The workflow:
 
 1. Exports every preset in `export_presets.cfg` headlessly with the Godot
    version in `.godot-version`, stamping `X.Y.Z` into the presets and an
-   Android version code of `major*10000 + minor*100 + patch` (`v0.8.0` is
+   Android version code of `major*10000 + minor*100 + patch` (`0.8.0` is
    `800`). `GAME_VERSION` in `common/UserData.gd` is the network protocol
    number and is bumped by hand, separately.
 2. Creates the GitHub release with every build attached: zipped desktop
