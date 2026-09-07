@@ -156,7 +156,7 @@ func spawn_player(playerId: int, hiderSpawns: Array, seekerSpawns: Array):
 	
 	# Bots are driven by the server and look like any other remote hider
 	if player.get_is_bot():
-		pcNode = create_bot_hider_node()
+		pcNode = create_bot_hider_node(player)
 		spawnPointNode = hiderSpawns.pop_front()
 	# Create the player controller for the local player
 	elif multiplayer.get_unique_id() == playerId:
@@ -226,8 +226,9 @@ func create_remote_hider_node() -> Node:
 	return scene.instantiate()
 
 
-# The server replaces this with a node that actually thinks
-func create_bot_hider_node() -> Node:
+# The server replaces this with a node that actually thinks, at the
+# difficulty on the player's data
+func create_bot_hider_node(_player: PlayerData) -> Node:
 	return create_remote_hider_node()
 
 

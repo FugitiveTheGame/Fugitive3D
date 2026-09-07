@@ -63,9 +63,11 @@ func not_ready_players() -> int:
 	return count
 
 
-func create_bot_hider_node() -> Node:
+func create_bot_hider_node(player: PlayerData) -> Node:
 	var scene = preload("res://server/game/mode/fugitive/ai/AiHider.tscn")
-	return scene.instantiate()
+	var node = scene.instantiate()
+	node.apply_difficulty(AiDifficulty.profile(player.get_bot_difficulty()))
+	return node
 
 
 func get_nav_grid(space: PhysicsDirectSpaceState3D) -> FugitiveNavGrid:

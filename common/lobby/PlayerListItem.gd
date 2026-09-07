@@ -22,6 +22,8 @@ func populate(player: PlayerData, is_starting: bool, is_host: bool, game_mode: D
 	var lobbyReady := player.get_lobby_ready()
 	
 	$Controls/NameLabel.text = player.get_name()
+	if player.get_is_bot():
+		$Controls/NameLabel.text += " (%s)" % AiDifficulty.label(player.get_bot_difficulty())
 	$Controls/HostIndicator.visible = player.get_is_host()
 	
 	var iconPath := PlatformTypeUtils.platform_type_icon(player.get_platform_type())

@@ -19,6 +19,7 @@ const HEAR_CAR_DISTANCE := 45.0
 const HIDE_SEARCH_RADIUS := 12.0
 const FLEE_MIN_RADIUS := 10.0
 const FLEE_SEARCH_RADIUS := 24.0
+const FLEE_SEEN_PENALTY := 8.0
 const SAFE_ZONE_SETTLE_DISTANCE := 0.5
 const SAFE_ZONE_SETTLE_PROGRESS := 0.05
 
@@ -64,10 +65,6 @@ var settled := false
 # A spot off the route the bot has decided to wander past on the way in
 var detour_goal = null
 
-# Each bot is a little more or less nervous than the next
-var caution_distance := 0.0
-var panic_distance := 0.0
-
 
 func _ready():
 	rng.randomize()
@@ -95,14 +92,13 @@ func _physics_process(delta):
 	_think(elapsed)
 
 
+# The body's profile is this bot's own copy, so its nerves can be jittered in
+# place and no two bots break cover at quite the same distance
 func _apply_difficulty():
-	var data := GameData.get_player(player.id)
-	var level := data.get_bot_difficulty() if data != null else AiDifficulty.DEFAULT
-	profile = AiDifficulty.profile(level)
-	player.speed_scale = profile.speed_scale
+	profile = controller.profile
+	profile.caution_distance *= rng.randf_range(0.8, 1.2)
+	profile.panic_distance *= rng.randf_range(0.8, 1.2)
 	think_accumulator = rng.randf() * profile.think_interval
-	caution_distance = profile.caution_distance * rng.randf_range(0.8, 1.2)
-	panic_distance = profile.panic_distance * rng.randf_range(0.8, 1.2)
 
 
 func _think(elapsed: float):
@@ -127,13 +123,13 @@ func _think(elapsed: float):
 	# only sensible move is straight in, cop or no cop
 	if my_pos.distance_to(_nearest_win_zone_center()) < profile.safe_zone_dash_distance:
 		_dash_for_safe_zone()
-	elif threat != null and threat.distance < panic_distance and exposed:
+	elif threat != null and threat.distance < profile.panic_distance and exposed:
 		_flee(threat)
 	# A flight already under way is seen through rather than second-guessed
 	# every tick as the light comes and goes
-	elif mode == Mode.FLEE and threat != null and threat.distance < caution_distance and not _flight_finished():
+	elif mode == Mode.FLEE and threat != null and threat.distance < profile.caution_distance and not _flight_finished():
 		_flee(threat)
-	elif threat != null and threat.distance < caution_distance:
+	elif threat != null and threat.distance < profile.caution_distance:
 		_hide(threat)
 	else:
 		var frozen_friend = _nearest_frozen_teammate(my_pos)
@@ -157,7 +153,7 @@ func _flee(threat: Dictionary):
 	else:
 		_go_to(path_goal)
 	controller.want_crouch = false
-	controller.want_sprint = sprinting and (profile.sprints_to_flee or _in_headstart())
+	controller.want_sprint = sprinting and _may_sprint()
 
 
 func _hide(threat: Dictionary):
@@ -226,7 +222,7 @@ func _dash_for_safe_zone():
 	hold_position = false
 	_advance_path()
 	controller.want_crouch = false
-	controller.want_sprint = sprinting
+	controller.want_sprint = sprinting and _may_sprint()
 
 
 func _flight_finished() -> bool:
@@ -247,17 +243,26 @@ func _in_headstart() -> bool:
 	return game.current_state() == FugitiveStateMachine.STATE_PLAYING_HEADSTART
 
 
+# Whether a burst of speed is on the table right now: always while the cops
+# are locked in, afterwards only for a profile willing to be that visible
+func _may_sprint() -> bool:
+	return profile.sprints_after_headstart or _in_headstart()
+
+
 # Head for the safe zone, by way of a detour when the profile allows one and
 # the caller does
 func _advance_path(allow_detour := false):
-	var goal := _nearest_win_zone_center()
 	if allow_detour:
 		_update_detour()
 		if detour_goal != null:
 			_go_to(detour_goal, false, DETOUR_ARRIVE_DISTANCE)
-			return
-	detour_goal = null
-	_go_to(goal)
+			if controller.has_target:
+				return
+			# The grid has no route to it, so the whim is dropped on the spot
+			detour_goal = null
+	else:
+		detour_goal = null
+	_go_to(_nearest_win_zone_center())
 
 
 # A detour under way is finished before another is rolled for, and a new one
@@ -274,16 +279,29 @@ func _update_detour():
 		detour_goal = _random_detour_spot(my_pos)
 
 
+# A random walkable cell a fair way off that is out of the street light and
+# not a step toward any cop the bot is keeping clear of. Null when there is
+# none nearby.
 func _random_detour_spot(my_pos: Vector3):
-	var cells: Array = grid.walkable_cells_within(my_pos, profile.detour_radius)
 	var min_distance := profile.detour_radius * DETOUR_MIN_FRACTION
-	var far_enough := []
-	for cell in cells:
-		if _horizontal_distance(my_pos, grid.cell_to_world(cell)) >= min_distance:
-			far_enough.push_back(cell)
-	if far_enough.is_empty():
-		return null
-	return grid.cell_to_world(far_enough[rng.randi_range(0, far_enough.size() - 1)], my_pos.y)
+	var threats := _known_threat_positions()
+	for cell in _nearby_candidates(my_pos, profile.detour_radius):
+		if grid.is_lit(cell):
+			continue
+		var spot: Vector3 = grid.cell_to_world(cell, my_pos.y)
+		if _horizontal_distance(my_pos, spot) < min_distance:
+			continue
+		if _closer_to_any(spot, my_pos, threats):
+			continue
+		return spot
+	return null
+
+
+func _closer_to_any(spot: Vector3, my_pos: Vector3, positions: Array) -> bool:
+	for position in positions:
+		if spot.distance_to(position) < my_pos.distance_to(position):
+			return true
+	return false
 
 
 func _stop():
@@ -480,17 +498,20 @@ func _nearby_candidates(center: Vector3, radius: float) -> Array:
 	return cells
 
 
+# The spot pickers below rank [score, position] pairs on everything that is
+# cheap to know, then spend raycasts on the ranked list in order of promise
+func _lower_score_first(a: Array, b: Array) -> bool:
+	return a[0] < b[0]
+
+
 # A nearby cell the cop cannot see, ideally behind something and on the way
 # to the safe zone. Null when there is none.
 func _best_hide_spot(threat: Dictionary):
 	var my_pos := controller.global_transform.origin
 	var goal := _nearest_win_zone_center()
-	var best = null
-	var best_score := INF
+	var ranked := []
 	for cell in _nearby_candidates(my_pos, HIDE_SEARCH_RADIUS):
 		var spot: Vector3 = grid.cell_to_world(cell, my_pos.y)
-		if _can_be_seen_from(threat.position, spot):
-			continue
 		var score := spot.distance_to(my_pos)
 		score -= spot.distance_to(threat.position) * 0.5
 		score += spot.distance_to(goal) * 0.1
@@ -498,10 +519,13 @@ func _best_hide_spot(threat: Dictionary):
 			score += 6.0
 		if grid.is_lit(cell):
 			score += 10.0
-		if score < best_score:
-			best = spot
-			best_score = score
-	return best
+		ranked.push_back([score, spot])
+	ranked.sort_custom(_lower_score_first)
+	# Being out of sight is a must, so the first unseen spot is the best one
+	for entry in ranked:
+		if not _can_be_seen_from(threat.position, entry[1]):
+			return entry[1]
+	return null
 
 
 # A cell well away from the cop, preferably out of their sight and toward
@@ -510,8 +534,7 @@ func _best_flee_spot(threat: Dictionary):
 	var my_pos := controller.global_transform.origin
 	var goal := _nearest_win_zone_center()
 	var away: Vector3 = (my_pos - threat.position).normalized()
-	var best = null
-	var best_score := INF
+	var ranked := []
 	for cell in _nearby_candidates(my_pos, FLEE_SEARCH_RADIUS):
 		var spot: Vector3 = grid.cell_to_world(cell, my_pos.y)
 		var offset := spot - my_pos
@@ -522,9 +545,19 @@ func _best_flee_spot(threat: Dictionary):
 		score += spot.distance_to(goal) * 0.1
 		if grid.is_lit(cell):
 			score += 10.0
-		if _can_be_seen_from(threat.position, spot):
-			score += 8.0
+		ranked.push_back([score, spot])
+	ranked.sort_custom(_lower_score_first)
+	var best = null
+	var best_score := INF
+	# Being seen only costs points, so once a spot cannot win on its cheap
+	# score alone neither can anything ranked after it
+	for entry in ranked:
+		if entry[0] >= best_score:
+			break
+		var score: float = entry[0]
+		if _can_be_seen_from(threat.position, entry[1]):
+			score += FLEE_SEEN_PENALTY
 		if score < best_score:
-			best = spot
+			best = entry[1]
 			best_score = score
 	return best

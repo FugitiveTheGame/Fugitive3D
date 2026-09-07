@@ -259,7 +259,7 @@ func add_bot(difficulty := AiDifficulty.DEFAULT):
 		difficulty = AiDifficulty.DEFAULT
 	
 	var botId := next_free_bot_id()
-	var botName := "AI Fugitive %d (%s)" % [botId - BOT_ID_BASE + 1, AiDifficulty.label(difficulty)]
+	var botName := "AI Fugitive %d" % (botId - BOT_ID_BASE + 1)
 	var playerData = GameData.create_new_player_raw_data(botId, PlatformTypeUtils.PlatformType.Bot, botName, BOT_TEAM, true, difficulty)
 	
 	announce_new_player(playerData)

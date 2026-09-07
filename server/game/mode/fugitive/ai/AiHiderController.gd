@@ -9,6 +9,9 @@ const DEFAULT_ARRIVE_DISTANCE := 0.7
 
 @onready var player := $Player as FugitivePlayer
 
+# The difficulty this bot was given in the lobby, shared with the brain
+var profile := AiDifficulty.profile(AiDifficulty.DEFAULT)
+
 var has_target := false
 var move_target := Vector3()
 var arrive_distance := DEFAULT_ARRIVE_DISTANCE
@@ -18,10 +21,17 @@ var want_crouch := false
 
 func _ready():
 	player.set_not_local_player()
+	player.speed_scale = profile.speed_scale
 
 
 func get_player() -> FugitivePlayer:
 	return player
+
+
+func apply_difficulty(new_profile: AiDifficulty):
+	profile = new_profile
+	if is_node_ready():
+		player.speed_scale = profile.speed_scale
 
 
 func set_target(target: Vector3, arrive := DEFAULT_ARRIVE_DISTANCE):

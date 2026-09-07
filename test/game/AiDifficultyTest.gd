@@ -47,8 +47,8 @@ func test_harder_bots_notice_more_and_evade_better() -> void:
 	assert_int(easy.spot_candidates).is_less(hard.spot_candidates)
 	assert_bool(easy.keeps_clear_of_cops).is_false()
 	assert_bool(hard.keeps_clear_of_cops).is_true()
-	assert_bool(easy.sprints_to_flee).is_false()
-	assert_bool(hard.sprints_to_flee).is_true()
+	assert_bool(easy.sprints_after_headstart).is_false()
+	assert_bool(hard.sprints_after_headstart).is_true()
 	assert_float(easy.rescue_distance).is_equal(0.0)
 	assert_float(hard.rescue_distance).is_greater(0.0)
 

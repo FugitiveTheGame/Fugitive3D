@@ -145,19 +145,31 @@ func test_the_bot_hides_from_a_cop_in_view() -> void:
 	var brain: AiHiderBrain = bot.get_node("Brain")
 	await _simulate(2.0)
 
+	# The cop stands a few cells along the route the bot is actually walking,
+	# so it is in plain view whichever way the road bends
 	var cop: FugitivePlayer = game.get_player(HUMAN_COP_ID)
-	var ahead: Vector3 = bot.global_transform.origin + (_safe_zone() - bot.global_transform.origin).normalized() * 10.0
 	var grid: FugitiveNavGrid = game.get_nav_grid(bot.get_world_3d().direct_space_state)
-	var cell := grid.nearest_walkable(grid.world_to_cell(ahead))
-	cop.playerController.global_transform.origin = grid.cell_to_world(cell, 0.5)
+	var route := grid.find_path(bot.global_transform.origin, _safe_zone())
+	assert_int(route.size()).is_greater(4)
+	cop.playerController.global_transform.origin = route[3] + Vector3(0.0, 0.5, 0.0)
 	game.release_cops()
 
-	await _simulate(3.0)
+	# A bot that runs far enough is out of range again and free to carry on,
+	# so what matters is that it went to ground at some point, not where it
+	# stands at the end
+	var went_to_ground := false
+	var sprinted_while_hiding := false
+	for step in 12:
+		await _simulate(0.25)
+		if brain.mode in [AiHiderBrain.Mode.HIDE, AiHiderBrain.Mode.FLEE]:
+			went_to_ground = true
+		if bot.want_sprint and brain.mode == AiHiderBrain.Mode.HIDE:
+			sprinted_while_hiding = true
 
 	assert_bool(cop.frozen).is_false()
-	assert_bool(brain.mode in [AiHiderBrain.Mode.HIDE, AiHiderBrain.Mode.FLEE]).override_failure_message(
+	assert_bool(went_to_ground).override_failure_message(
 		"Bot kept going in mode %s with a cop %.1fm away" % [AiHiderBrain.Mode.keys()[brain.mode], bot.global_transform.origin.distance_to(cop.playerController.global_transform.origin)]).is_true()
-	assert_bool(bot.want_sprint and brain.mode == AiHiderBrain.Mode.HIDE).is_false()
+	assert_bool(sprinted_while_hiding).is_false()
 
 
 # The difficulty chosen in the lobby reaches the body and the brain that
@@ -173,4 +185,50 @@ func test_difficulty_sets_the_pace_and_the_nerve() -> void:
 	assert_float(easy.player.speed_scale).is_equal(AiDifficulty.profile(AiDifficulty.Level.EASY).speed_scale)
 	assert_float(hard.player.max_speed()).is_greater(easy.player.max_speed())
 	assert_float(hard_brain.profile.see_distance).is_greater(easy_brain.profile.see_distance)
-	assert_float(hard_brain.caution_distance).is_greater(easy_brain.caution_distance)
+	assert_float(hard_brain.profile.caution_distance).is_greater(easy_brain.profile.caution_distance)
+	# The body and the brain read the same profile
+	assert_object(hard_brain.profile).is_same(hard.profile)
+
+
+# An easy bot wanders on its way in, and every wander has to end with it
+# back on the road to the safe zone rather than stood still somewhere
+func test_an_easy_bot_wanders_but_keeps_going() -> void:
+	var bot := _bot(2)
+	var brain: AiHiderBrain = bot.get_node("Brain")
+	await _simulate(0.5)
+	brain.profile.detour_chance = 1.0
+
+	# Wandering can bring it back past where it started, so the measure is
+	# how far it walked, not how far it got
+	var travelled := 0.0
+	var last: Vector3 = bot.global_transform.origin
+	for step in 16:
+		await _simulate(HEADSTART_SECONDS / 16.0)
+		travelled += bot.global_transform.origin.distance_to(last)
+		last = bot.global_transform.origin
+
+	assert_bool(bot.player.frozen).is_false()
+	assert_float(last.y).is_between(-1.0, 1.5)
+	assert_float(travelled).override_failure_message(
+		"Easy bot barely moved, %.1fm in %.0fs" % [travelled, HEADSTART_SECONDS]).is_greater(MIN_PROGRESS)
+	assert_int(brain.mode).is_equal(AiHiderBrain.Mode.ADVANCE)
+	assert_bool(bot.has_target).is_true()
+
+
+# A detour the grid cannot route to is dropped rather than held on to
+func test_a_detour_with_no_route_is_dropped() -> void:
+	var bot := _bot(1)
+	var brain: AiHiderBrain = bot.get_node("Brain")
+	await _simulate(0.5)
+	var start: Vector3 = bot.global_transform.origin
+	var nowhere := Vector3(1000.0, 0.0, 1000.0)
+	brain.detour_goal = nowhere
+
+	await _simulate(3.0)
+
+	# By now the bot may well have rolled a fresh, reachable detour
+	assert_bool(brain.detour_goal == null or brain.detour_goal != nowhere).override_failure_message(
+		"Bot is still holding on to a detour it cannot reach").is_true()
+	assert_bool(bot.has_target).is_true()
+	assert_float(bot.global_transform.origin.distance_to(start)).override_failure_message(
+		"Bot stood still on a dead detour at %s" % start).is_greater(3.0)

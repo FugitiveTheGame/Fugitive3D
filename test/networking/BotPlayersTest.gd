@@ -76,7 +76,7 @@ func test_a_peer_whose_id_collides_with_a_bot_is_sent_away() -> void:
 
 	assert_int(GameData.players.size()).is_equal(1)
 	assert_bool(GameData.get_player(botId).get_is_bot()).is_true()
-	assert_str(GameData.get_player(botId).get_name()).is_equal("AI Fugitive 1 (Medium)")
+	assert_str(GameData.get_player(botId).get_name()).is_equal("AI Fugitive 1")
 
 
 func test_humans_and_bots_are_listed_apart() -> void:
@@ -238,7 +238,8 @@ func test_bots_are_medium_unless_told_otherwise() -> void:
 	var bot := GameData.get_player(GameData.get_bot_player_ids()[0])
 
 	assert_int(bot.get_bot_difficulty()).is_equal(AiDifficulty.Level.MEDIUM)
-	assert_str(bot.get_name()).contains("Medium")
+	# The level is data, not part of the name
+	assert_str(bot.get_name()).is_equal("AI Fugitive 1")
 
 
 func test_the_host_picks_a_difficulty_for_each_bot() -> void:
@@ -248,9 +249,7 @@ func test_the_host_picks_a_difficulty_for_each_bot() -> void:
 	ids.sort()
 
 	assert_int(GameData.get_player(ids[0]).get_bot_difficulty()).is_equal(AiDifficulty.Level.HARD)
-	assert_str(GameData.get_player(ids[0]).get_name()).contains("Hard")
 	assert_int(GameData.get_player(ids[1]).get_bot_difficulty()).is_equal(AiDifficulty.Level.EASY)
-	assert_str(GameData.get_player(ids[1]).get_name()).contains("Easy")
 
 
 # A client can send anything in the RPC argument
