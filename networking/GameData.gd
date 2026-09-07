@@ -44,7 +44,7 @@ func get_player(playerId: int) -> PlayerData:
 	return data
 
 
-func create_new_player_raw_data(playerId: int, platformType: int, playerName: String, playerType: int, isBot := false) -> Dictionary:
+func create_new_player_raw_data(playerId: int, platformType: int, playerName: String, playerType: int, isBot := false, botDifficulty := AiDifficulty.DEFAULT) -> Dictionary:
 	return {
 		id = playerId,
 		name = playerName,
@@ -52,7 +52,8 @@ func create_new_player_raw_data(playerId: int, platformType: int, playerName: St
 		type = playerType,
 		is_host = false,
 		platform_type = platformType,
-		is_bot = isBot
+		is_bot = isBot,
+		bot_difficulty = botDifficulty
 	}
 
 

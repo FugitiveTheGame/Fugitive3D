@@ -110,3 +110,42 @@ func test_kicking_a_bot_removes_it_from_the_list() -> void:
 
 	assert_object(lobby.find_player_node(botId)).is_null()
 	assert_int(lobby.playerList.get_child_count()).is_equal(1)
+
+
+func test_the_difficulty_picker_offers_every_level_and_starts_on_medium() -> void:
+	assert_object(lobby.botDifficulty).is_not_null()
+	assert_int(lobby.botDifficulty.item_count).is_equal(AiDifficulty.Level.size())
+	assert_int(lobby.selected_bot_difficulty()).is_equal(AiDifficulty.Level.MEDIUM)
+	assert_bool(lobby.botDifficulty.visible).is_false()
+
+	await _join_as_host()
+
+	assert_bool(lobby.botDifficulty.visible).is_true()
+
+
+# The VR lobby inherits the same client lobby scene, so the picker comes along
+func test_the_vr_lobby_carries_the_difficulty_picker() -> void:
+	var vr_lobby: Lobby = (load(VR_LOBBY_UI) as PackedScene).instantiate()
+	add_child(vr_lobby)
+	auto_free(vr_lobby)
+	await get_tree().process_frame
+
+	assert_object(vr_lobby.botDifficulty).is_not_null()
+	assert_int(vr_lobby.botDifficulty.item_count).is_equal(AiDifficulty.Level.size())
+
+
+func test_the_host_adds_a_bot_at_the_picked_difficulty() -> void:
+	await _join_as_host()
+	lobby.botDifficulty.select(lobby.botDifficulty.get_item_index(AiDifficulty.Level.HARD))
+	assert_int(lobby.selected_bot_difficulty()).is_equal(AiDifficulty.Level.HARD)
+
+	# The button sends an RPC to the server, which a server never delivers to
+	# itself, so the request is handed over the way the server receives it
+	ServerNetwork.on_add_bot(lobby.selected_bot_difficulty())
+	await get_tree().process_frame
+	await get_tree().process_frame
+
+	var bots := GameData.get_bot_player_ids()
+	assert_int(bots.size()).is_equal(1)
+	assert_int(GameData.get_player(bots[0]).get_bot_difficulty()).is_equal(AiDifficulty.Level.HARD)
+	assert_str(lobby.find_player_node(bots[0]).get_node("Controls/NameLabel").text).contains("Hard")

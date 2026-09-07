@@ -7,40 +7,34 @@ extends Node
 # The server knows where every cop is, so the bot deliberately limits what it
 # admits to knowing: a cop on foot has to be in view, a car only has to be
 # within earshot, and the visibility the game already computes for every
-# hider doubles as "something is shining on me".
+# hider doubles as "something is shining on me". How far it sees, how long it
+# remembers, how fast and how directly it moves all come from the difficulty
+# profile chosen for it in the lobby.
 
 enum Mode { WAIT, ADVANCE, HIDE, FLEE, RESCUE, ESCAPED }
 
-const THINK_INTERVAL := 0.2
 const REPATH_INTERVAL := 3.0
 
-const SEE_DISTANCE := 25.0
 const HEAR_CAR_DISTANCE := 45.0
-const PANIC_DISTANCE := 9.0
-const CAUTION_DISTANCE := 20.0
-const CROUCH_DISTANCE := 14.0
-const RESCUE_DISTANCE := 35.0
 const HIDE_SEARCH_RADIUS := 12.0
 const FLEE_MIN_RADIUS := 10.0
 const FLEE_SEARCH_RADIUS := 24.0
-const SAFE_ZONE_DASH_DISTANCE := 20.0
 const SAFE_ZONE_SETTLE_DISTANCE := 0.5
 const SAFE_ZONE_SETTLE_PROGRESS := 0.05
-const MAX_SPOT_CANDIDATES := 40
 
 const SPRINT_START_STAMINA := 40.0
 const SPRINT_STOP_STAMINA := 15.0
 const EXPOSED_VISIBILITY := 0.05
-
-# A cop that ducks out of view is still assumed to be about for this long,
-# otherwise a bot behind cover stands straight back up and walks into them
-const THREAT_MEMORY := 5.0
 
 const STUCK_TIME := 1.5
 const STUCK_DISTANCE := 0.3
 const GOAL_CHANGE_DISTANCE := 2.0
 const CLOSE_ENOUGH_TO_WALK_STRAIGHT := 3.0
 const RESCUE_ARRIVE_DISTANCE := 0.3
+# A detour is a whim, so it only has to be roughly reached
+const DETOUR_ARRIVE_DISTANCE := 2.0
+# A detour shorter than this share of the radius is not worth the walk
+const DETOUR_MIN_FRACTION := 0.5
 
 # Players and walls, the same layers the flashlight raycaster sees
 const LOS_MASK := 3
@@ -51,6 +45,8 @@ var controller: AiHiderController
 var player: Hider
 var game: ServerFugitiveGame
 var grid: FugitiveNavGrid
+var profile: AiDifficulty
+var rng := RandomNumberGenerator.new()
 
 var mode := Mode.WAIT
 var path := PackedVector3Array()
@@ -65,18 +61,16 @@ var remembered_threat = null
 var threat_memory_left := 0.0
 var settle_last_position := Vector3()
 var settled := false
+# A spot off the route the bot has decided to wander past on the way in
+var detour_goal = null
 
 # Each bot is a little more or less nervous than the next
-var caution_distance := CAUTION_DISTANCE
-var panic_distance := PANIC_DISTANCE
+var caution_distance := 0.0
+var panic_distance := 0.0
 
 
 func _ready():
-	var rng := RandomNumberGenerator.new()
 	rng.randomize()
-	think_accumulator = rng.randf() * THINK_INTERVAL
-	caution_distance = CAUTION_DISTANCE * rng.randf_range(0.8, 1.2)
-	panic_distance = PANIC_DISTANCE * rng.randf_range(0.8, 1.2)
 
 
 func _physics_process(delta):
@@ -88,16 +82,27 @@ func _physics_process(delta):
 		game = GameData.currentGame as ServerFugitiveGame
 		grid = game.get_nav_grid(controller.get_world_3d().direct_space_state)
 		last_position = controller.global_transform.origin
+		_apply_difficulty()
 		return
 
 	think_accumulator += delta
 	repath_timer += delta
-	if think_accumulator < THINK_INTERVAL:
+	if think_accumulator < profile.think_interval:
 		return
 
 	var elapsed := think_accumulator
 	think_accumulator = 0.0
 	_think(elapsed)
+
+
+func _apply_difficulty():
+	var data := GameData.get_player(player.id)
+	var level := data.get_bot_difficulty() if data != null else AiDifficulty.DEFAULT
+	profile = AiDifficulty.profile(level)
+	player.speed_scale = profile.speed_scale
+	think_accumulator = rng.randf() * profile.think_interval
+	caution_distance = profile.caution_distance * rng.randf_range(0.8, 1.2)
+	panic_distance = profile.panic_distance * rng.randf_range(0.8, 1.2)
 
 
 func _think(elapsed: float):
@@ -120,7 +125,7 @@ func _think(elapsed: float):
 
 	# Nothing can touch a hider inside the safe zone, so from this close the
 	# only sensible move is straight in, cop or no cop
-	if my_pos.distance_to(_nearest_win_zone_center()) < SAFE_ZONE_DASH_DISTANCE:
+	if my_pos.distance_to(_nearest_win_zone_center()) < profile.safe_zone_dash_distance:
 		_dash_for_safe_zone()
 	elif threat != null and threat.distance < panic_distance and exposed:
 		_flee(threat)
@@ -152,7 +157,7 @@ func _flee(threat: Dictionary):
 	else:
 		_go_to(path_goal)
 	controller.want_crouch = false
-	controller.want_sprint = sprinting
+	controller.want_sprint = sprinting and (profile.sprints_to_flee or _in_headstart())
 
 
 func _hide(threat: Dictionary):
@@ -179,7 +184,7 @@ func _hide(threat: Dictionary):
 		else:
 			_go_to(path_goal)
 
-	controller.want_crouch = threat.distance < CROUCH_DISTANCE
+	controller.want_crouch = threat.distance < profile.crouch_distance
 	controller.want_sprint = false
 
 
@@ -231,17 +236,54 @@ func _flight_finished() -> bool:
 func _advance():
 	_set_mode(Mode.ADVANCE)
 	hold_position = false
-	_advance_path()
+	_advance_path(true)
 	controller.want_crouch = false
 	# Sprinting lights a hider up from far away, so only do it while the cops
 	# are still locked in
-	var headstart := game.current_state() == FugitiveStateMachine.STATE_PLAYING_HEADSTART
-	controller.want_sprint = sprinting and headstart
+	controller.want_sprint = sprinting and _in_headstart()
 
 
-func _advance_path():
+func _in_headstart() -> bool:
+	return game.current_state() == FugitiveStateMachine.STATE_PLAYING_HEADSTART
+
+
+# Head for the safe zone, by way of a detour when the profile allows one and
+# the caller does
+func _advance_path(allow_detour := false):
 	var goal := _nearest_win_zone_center()
+	if allow_detour:
+		_update_detour()
+		if detour_goal != null:
+			_go_to(detour_goal, false, DETOUR_ARRIVE_DISTANCE)
+			return
+	detour_goal = null
 	_go_to(goal)
+
+
+# A detour under way is finished before another is rolled for, and a new one
+# is only rolled for when the route is about to be replanned anyway
+func _update_detour():
+	var my_pos := controller.global_transform.origin
+	if detour_goal != null:
+		if _horizontal_distance(my_pos, detour_goal) <= DETOUR_ARRIVE_DISTANCE:
+			detour_goal = null
+		return
+	if profile.detour_chance <= 0.0 or repath_timer < REPATH_INTERVAL:
+		return
+	if rng.randf() < profile.detour_chance:
+		detour_goal = _random_detour_spot(my_pos)
+
+
+func _random_detour_spot(my_pos: Vector3):
+	var cells: Array = grid.walkable_cells_within(my_pos, profile.detour_radius)
+	var min_distance := profile.detour_radius * DETOUR_MIN_FRACTION
+	var far_enough := []
+	for cell in cells:
+		if _horizontal_distance(my_pos, grid.cell_to_world(cell)) >= min_distance:
+			far_enough.push_back(cell)
+	if far_enough.is_empty():
+		return null
+	return grid.cell_to_world(far_enough[rng.randi_range(0, far_enough.size() - 1)], my_pos.y)
 
 
 func _stop():
@@ -257,6 +299,7 @@ func _set_mode(new_mode: Mode) -> bool:
 	mode = new_mode
 	path = PackedVector3Array()
 	hold_position = false
+	detour_goal = null
 	return true
 
 
@@ -316,9 +359,10 @@ func _check_stuck(elapsed: float):
 		repath_timer = REPATH_INTERVAL
 
 
-# The cop this bot is aware of, if any, so paths keep well clear of them
+# The cop this bot is aware of, if any, so paths keep well clear of them.
+# A bot that does not plan around cops walks its route regardless.
 func _known_threat_positions() -> Array:
-	if remembered_threat == null:
+	if remembered_threat == null or not profile.keeps_clear_of_cops:
 		return []
 	return [remembered_threat.position]
 
@@ -355,7 +399,7 @@ func _current_threat(elapsed: float):
 	var seen = _nearest_threat()
 	if seen != null:
 		remembered_threat = seen
-		threat_memory_left = THREAT_MEMORY
+		threat_memory_left = profile.threat_memory
 		return seen
 
 	if remembered_threat == null:
@@ -383,7 +427,7 @@ func _nearest_threat():
 		var noticed := false
 		if seeker.car != null:
 			noticed = distance <= HEAR_CAR_DISTANCE
-		elif distance <= SEE_DISTANCE:
+		elif distance <= profile.see_distance:
 			noticed = _has_line_of_sight(_eye_position(), _eye_position_of(seeker), seeker.playerBody)
 		if noticed and (best == null or distance < best.distance):
 			best = { "node": seeker, "position": position, "distance": distance }
@@ -392,7 +436,7 @@ func _nearest_threat():
 
 func _nearest_frozen_teammate(my_pos: Vector3):
 	var best = null
-	var best_distance := RESCUE_DISTANCE
+	var best_distance := profile.rescue_distance
 	for hider in get_tree().get_nodes_in_group(Hider.GROUP):
 		if hider == player or not hider.frozen or hider.is_in_winzone():
 			continue
@@ -431,8 +475,8 @@ func _can_be_seen_from(viewer_pos: Vector3, spot: Vector3) -> bool:
 func _nearby_candidates(center: Vector3, radius: float) -> Array:
 	var cells: Array = grid.walkable_cells_within(center, radius)
 	cells.shuffle()
-	if cells.size() > MAX_SPOT_CANDIDATES:
-		cells.resize(MAX_SPOT_CANDIDATES)
+	if cells.size() > profile.spot_candidates:
+		cells.resize(profile.spot_candidates)
 	return cells
 
 

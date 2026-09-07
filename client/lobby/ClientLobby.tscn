@@ -15,7 +15,8 @@ leaveButtonPath = NodePath("PanelContainer/VBoxContainer/LeaveButton")
 randomButtonPath = NodePath("PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/RandomButton")
 randomCooldownTimerPath = NodePath("PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/RandomButton/RandomizeCooldownTimer")
 helpDialogPath = NodePath("HelpDialog")
-addBotButtonPath = NodePath("PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/AddBotButton")
+addBotButtonPath = NodePath("PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/AddBotRow/AddBotButton")
+botDifficultyPath = NodePath("PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/AddBotRow/BotDifficulty")
 
 [node name="LeaveButton" type="Button" parent="PanelContainer/VBoxContainer" index="0"]
 offset_left = 1187.0
@@ -106,10 +107,16 @@ text = "Randomize Teams"
 [node name="RandomizeCooldownTimer" type="Timer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/RandomButton" index="0"]
 one_shot = true
 
-[node name="AddBotButton" type="Button" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="9"]
+[node name="AddBotRow" type="HBoxContainer" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer" index="9"]
 offset_top = 546.0
 offset_right = 628.0
 offset_bottom = 585.0
+
+[node name="BotDifficulty" type="OptionButton" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/AddBotRow"]
+custom_minimum_size = Vector2(140, 0)
+
+[node name="AddBotButton" type="Button" parent="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/AddBotRow"]
+size_flags_horizontal = 3
 text = "Add AI Fugitive"
 
 [node name="StartButton" type="Button" parent="PanelContainer/VBoxContainer" index="3"]
@@ -147,7 +154,7 @@ stream = ExtResource("4")
 [connection signal="pressed" from="PanelContainer/VBoxContainer/LeaveButton" to="." method="_on_LeaveButton_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/HBoxContainer/DetailsContainer/HBoxContainer/HelpButton" to="." method="_on_HelpButton_pressed"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/RandomButton" to="." method="_on_RandomButton_pressed"]
-[connection signal="pressed" from="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/AddBotButton" to="." method="_on_AddBotButton_pressed"]
+[connection signal="pressed" from="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/AddBotRow/AddBotButton" to="." method="_on_AddBotButton_pressed"]
 [connection signal="timeout" from="PanelContainer/VBoxContainer/HSplitContainer/VBoxContainer/RandomButton/RandomizeCooldownTimer" to="." method="_on_RandomizeCooldownTimer_timeout"]
 [connection signal="pressed" from="PanelContainer/VBoxContainer/StartButton" to="." method="_on_StartButton_pressed"]
 [connection signal="timeout" from="StartTimer" to="." method="_on_StartTimer_timeout"]

@@ -76,7 +76,7 @@ func test_a_peer_whose_id_collides_with_a_bot_is_sent_away() -> void:
 
 	assert_int(GameData.players.size()).is_equal(1)
 	assert_bool(GameData.get_player(botId).get_is_bot()).is_true()
-	assert_str(GameData.get_player(botId).get_name()).is_equal("AI Fugitive 1")
+	assert_str(GameData.get_player(botId).get_name()).is_equal("AI Fugitive 1 (Medium)")
 
 
 func test_humans_and_bots_are_listed_apart() -> void:
@@ -231,3 +231,36 @@ func test_randomizing_teams_respects_the_fugitive_cap_with_bots() -> void:
 		ServerNetwork.on_randomize_teams()
 		assert_int(GameData.count_players_of_type(FugitiveTeamResolver.PlayerType.Hider)).is_less_equal(maxHiders)
 		assert_int(GameData.count_players_of_type(FugitiveTeamResolver.PlayerType.Hider)).is_greater_equal(maxHiders - 1)
+
+
+func test_bots_are_medium_unless_told_otherwise() -> void:
+	ServerNetwork.on_add_bot()
+	var bot := GameData.get_player(GameData.get_bot_player_ids()[0])
+
+	assert_int(bot.get_bot_difficulty()).is_equal(AiDifficulty.Level.MEDIUM)
+	assert_str(bot.get_name()).contains("Medium")
+
+
+func test_the_host_picks_a_difficulty_for_each_bot() -> void:
+	ServerNetwork.on_add_bot(AiDifficulty.Level.HARD)
+	ServerNetwork.on_add_bot(AiDifficulty.Level.EASY)
+	var ids := GameData.get_bot_player_ids()
+	ids.sort()
+
+	assert_int(GameData.get_player(ids[0]).get_bot_difficulty()).is_equal(AiDifficulty.Level.HARD)
+	assert_str(GameData.get_player(ids[0]).get_name()).contains("Hard")
+	assert_int(GameData.get_player(ids[1]).get_bot_difficulty()).is_equal(AiDifficulty.Level.EASY)
+	assert_str(GameData.get_player(ids[1]).get_name()).contains("Easy")
+
+
+# A client can send anything in the RPC argument
+func test_an_unknown_difficulty_falls_back_to_medium() -> void:
+	ServerNetwork.on_add_bot(99)
+	ServerNetwork.on_add_bot("Hard")
+	for botId in GameData.get_bot_player_ids():
+		assert_int(GameData.get_player(botId).get_bot_difficulty()).is_equal(AiDifficulty.DEFAULT)
+
+
+func test_humans_carry_no_bot_difficulty_of_their_own() -> void:
+	_add_human(HUMAN_ID)
+	assert_int(GameData.get_player(HUMAN_ID).get_bot_difficulty()).is_equal(AiDifficulty.DEFAULT)

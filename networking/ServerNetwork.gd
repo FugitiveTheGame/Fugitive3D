@@ -243,11 +243,11 @@ func can_add_bot() -> bool:
 	return GameData.count_players_of_type(BOT_TEAM) < teamSizes[BOT_TEAM]
 
 
-func add_bot():
-	rpc_id(SERVER_ID, "on_add_bot")
+func add_bot(difficulty := AiDifficulty.DEFAULT):
+	rpc_id(SERVER_ID, "on_add_bot", difficulty)
 
 
-@rpc("any_peer") func on_add_bot():
+@rpc("any_peer") func on_add_bot(difficulty = AiDifficulty.DEFAULT):
 	if not multiplayer.is_server() or not is_host_or_server(multiplayer.get_remote_sender_id()):
 		return
 	
@@ -255,9 +255,12 @@ func add_bot():
 		print("WARN: cannot add a bot right now")
 		return
 	
+	if not AiDifficulty.is_valid(difficulty):
+		difficulty = AiDifficulty.DEFAULT
+	
 	var botId := next_free_bot_id()
-	var botName := "AI Fugitive %d" % (botId - BOT_ID_BASE + 1)
-	var playerData = GameData.create_new_player_raw_data(botId, PlatformTypeUtils.PlatformType.Bot, botName, BOT_TEAM, true)
+	var botName := "AI Fugitive %d (%s)" % [botId - BOT_ID_BASE + 1, AiDifficulty.label(difficulty)]
+	var playerData = GameData.create_new_player_raw_data(botId, PlatformTypeUtils.PlatformType.Bot, botName, BOT_TEAM, true, difficulty)
 	
 	announce_new_player(playerData)
 

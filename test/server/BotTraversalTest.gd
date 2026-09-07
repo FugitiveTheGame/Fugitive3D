@@ -29,10 +29,11 @@ func before_test() -> void:
 	ServerNetwork.nextBotId = ServerNetwork.BOT_ID_BASE
 	# Three bots: tests drive the first two, the third stays back near spawn
 	# so every hider can never be in the safe zone at once, which would end
-	# the round and send the server scene back to the lobby mid-test
-	ServerNetwork.on_add_bot()
-	ServerNetwork.on_add_bot()
-	ServerNetwork.on_add_bot()
+	# the round and send the server scene back to the lobby mid-test. One of
+	# each difficulty, hardest first, so the driven bots are the direct ones.
+	ServerNetwork.on_add_bot(AiDifficulty.Level.HARD)
+	ServerNetwork.on_add_bot(AiDifficulty.Level.MEDIUM)
+	ServerNetwork.on_add_bot(AiDifficulty.Level.EASY)
 
 	game = (load(SERVER_GAME) as PackedScene).instantiate()
 	add_child(game)
@@ -157,3 +158,19 @@ func test_the_bot_hides_from_a_cop_in_view() -> void:
 	assert_bool(brain.mode in [AiHiderBrain.Mode.HIDE, AiHiderBrain.Mode.FLEE]).override_failure_message(
 		"Bot kept going in mode %s with a cop %.1fm away" % [AiHiderBrain.Mode.keys()[brain.mode], bot.global_transform.origin.distance_to(cop.playerController.global_transform.origin)]).is_true()
 	assert_bool(bot.want_sprint and brain.mode == AiHiderBrain.Mode.HIDE).is_false()
+
+
+# The difficulty chosen in the lobby reaches the body and the brain that
+# spawned for it
+func test_difficulty_sets_the_pace_and_the_nerve() -> void:
+	await _simulate(0.5)
+	var hard := _bot(0)
+	var easy := _bot(2)
+	var hard_brain: AiHiderBrain = hard.get_node("Brain")
+	var easy_brain: AiHiderBrain = easy.get_node("Brain")
+
+	assert_float(hard.player.speed_scale).is_equal(AiDifficulty.profile(AiDifficulty.Level.HARD).speed_scale)
+	assert_float(easy.player.speed_scale).is_equal(AiDifficulty.profile(AiDifficulty.Level.EASY).speed_scale)
+	assert_float(hard.player.max_speed()).is_greater(easy.player.max_speed())
+	assert_float(hard_brain.profile.see_distance).is_greater(easy_brain.profile.see_distance)
+	assert_float(hard_brain.caution_distance).is_greater(easy_brain.caution_distance)

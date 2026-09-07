@@ -18,6 +18,8 @@ var speed_walk := DEFAULT_SPEED_WALK
 var speed_sprint := DEFAULT_SPEED_SPRINT
 var stamina_max := DEFAULT_STAMINA_MAX
 var stamina_sprint_rate := DEFAULT_STAMINA_SPRINT_RATE
+# Fraction of the speeds above this body actually reaches
+var speed_scale := 1.0
 var stamina_regen_rate := DEFAULT_STAMINA_REGEN_RATE
 
 # Use for clientside prediction
@@ -143,11 +145,11 @@ func is_sprinting() -> bool:
 
 func max_speed() -> float:
 	if is_sprinting():
-		return speed_sprint
+		return speed_sprint * speed_scale
 	elif is_crouching:
-		return speed_crouch
+		return speed_crouch * speed_scale
 	else:
-		return speed_walk
+		return speed_walk * speed_scale
 
 
 # Moves the body by the current velocity and records whether it is going

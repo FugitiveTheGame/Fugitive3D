@@ -19,9 +19,13 @@ class_name Lobby
 @export var teamsListPath: NodePath
 @onready var teamsList := get_node(teamsListPath) as Control
 
-# Only lobbies that let the host add bots have this button
+# Only lobbies that let the host add bots have this button and the
+# difficulty picker beside it
 @export var addBotButtonPath: NodePath
 @onready var addBotButton := get_node_or_null(addBotButtonPath) as Button
+
+@export var botDifficultyPath: NodePath
+@onready var botDifficulty := get_node_or_null(botDifficultyPath) as OptionButton
 
 
 var is_host := false
@@ -50,6 +54,7 @@ func _exit_tree():
 
 func _ready():
 	populate_map_list()
+	populate_bot_difficulties()
 	
 	call_deferred("initialize_ui")
 
@@ -62,6 +67,21 @@ func initialize_ui():
 			create_player_ui(playerId)
 	
 	call_deferred("update_ui")
+
+
+func populate_bot_difficulties():
+	if botDifficulty == null:
+		return
+	botDifficulty.clear()
+	for level in AiDifficulty.Level.values():
+		botDifficulty.add_item(AiDifficulty.label(level), level)
+	botDifficulty.select(botDifficulty.get_item_index(AiDifficulty.DEFAULT))
+
+
+func selected_bot_difficulty() -> int:
+	if botDifficulty == null or botDifficulty.selected < 0:
+		return AiDifficulty.DEFAULT
+	return botDifficulty.get_selected_id()
 
 
 func populate_map_list():
@@ -268,6 +288,9 @@ func update_ui():
 	if addBotButton != null:
 		addBotButton.visible = is_host
 		addBotButton.disabled = is_starting or not ServerNetwork.can_add_bot()
+	if botDifficulty != null:
+		botDifficulty.visible = is_host
+		botDifficulty.disabled = is_starting
 
 
 func on_start_lobby_countdown():
@@ -285,7 +308,7 @@ func _on_MapButton_item_selected(id):
 
 func _on_AddBotButton_pressed():
 	GameAnalytics.design_event("lobby_add_bot")
-	ServerNetwork.add_bot()
+	ServerNetwork.add_bot(selected_bot_difficulty())
 
 
 func on_make_host(playerId: int):
