@@ -232,3 +232,83 @@ func test_a_detour_with_no_route_is_dropped() -> void:
 	assert_bool(bot.has_target).is_true()
 	assert_float(bot.global_transform.origin.distance_to(start)).override_failure_message(
 		"Bot stood still on a dead detour at %s" % start).is_greater(3.0)
+
+
+func _toward_safe_zone(from: Vector3) -> Vector3:
+	var toward := _safe_zone() - from
+	toward.y = 0.0
+	return toward.normalized()
+
+
+# The three tests below ask the brain who it would turn back for rather than
+# letting physics run, because any hider that walks over a frozen one thaws
+# it, and a bot sprinting its own route covers the ground between them in
+# well under a second.
+#
+# With everyone else frozen, this bot walking in ends the round as a win for
+# the hiders. Put one teammate back on their feet and the very same frozen
+# bot, on the very same spot, is worth the stop again.
+func test_the_last_bot_out_does_not_turn_back() -> void:
+	var bot := _bot(0)
+	var brain: AiHiderBrain = bot.get_node("Brain")
+	var friend := _bot(1)
+	var other := _bot(2)
+	await _simulate(0.5)
+
+	# Right on the bot's own way in, so the trip costs it nothing and only
+	# the state of the round can talk it out of the rescue
+	var my_pos: Vector3 = bot.global_transform.origin
+	friend.global_transform.origin = my_pos + _toward_safe_zone(my_pos) * 30.0
+	friend.player.on_freeze()
+	other.player.on_freeze()
+
+	assert_bool(brain._last_hider_out()).is_true()
+	assert_object(brain._rescue_candidate(my_pos)).override_failure_message(
+		"Last bot out turned back instead of walking in and winning it").is_null()
+
+	other.player.on_unfreeze()
+
+	assert_bool(brain._last_hider_out()).is_false()
+	assert_object(brain._rescue_candidate(my_pos)).override_failure_message(
+		"Bot ignored a free rescue with a teammate still on their feet").is_same(friend.player)
+
+
+# A friend the wrong side of a bot costs it more ground than the trip is
+# worth; the same friend on the way in is worth the stop
+func test_a_frozen_friend_is_only_worth_a_short_detour() -> void:
+	var bot := _bot(0)
+	var brain: AiHiderBrain = bot.get_node("Brain")
+	# The third bot stays on its feet, so this is never the last one out
+	var friend := _bot(1)
+	await _simulate(0.5)
+	friend.player.on_freeze()
+
+	var my_pos: Vector3 = bot.global_transform.origin
+	var toward := _toward_safe_zone(my_pos)
+
+	friend.global_transform.origin = my_pos - toward * 20.0
+	assert_object(brain._rescue_candidate(my_pos)).override_failure_message(
+		"Bot doubled back 20m for a friend").is_null()
+
+	friend.global_transform.origin = my_pos + toward * 10.0
+	assert_object(brain._rescue_candidate(my_pos)).override_failure_message(
+		"Bot walked past a friend lying on its own route").is_same(friend.player)
+
+
+# Time running out is a win for the cops, so the last of the clock goes on
+# the bot's own way in rather than on a friend
+func test_a_bot_stops_rescuing_when_the_clock_runs_down() -> void:
+	var bot := _bot(0)
+	var brain: AiHiderBrain = bot.get_node("Brain")
+	var friend := _bot(1)
+	await _simulate(0.5)
+	friend.player.on_freeze()
+
+	var my_pos: Vector3 = bot.global_transform.origin
+	friend.global_transform.origin = my_pos + _toward_safe_zone(my_pos) * 10.0
+	assert_object(brain._rescue_candidate(my_pos)).is_not_null()
+
+	game.map.get_timelimit_timer().start(AiHiderBrain.RESCUE_CLOCK_RESERVE - 5.0)
+
+	assert_object(brain._rescue_candidate(my_pos)).override_failure_message(
+		"Bot spent the last of the clock on a rescue").is_null()

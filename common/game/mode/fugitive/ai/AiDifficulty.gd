@@ -28,7 +28,8 @@ var panic_distance := 9.0
 var crouch_distance := 14.0
 # How long a cop that ducks out of view is assumed to still be about
 var threat_memory := 5.0
-# How far the bot will detour to unfreeze a teammate, zero for never
+# How far away a frozen teammate can be and still be worth going to, zero
+# for a bot that never turns back for anyone
 var rescue_distance := 35.0
 # From this close the bot goes straight into the safe zone, cop or no cop
 var safe_zone_dash_distance := 20.0
