@@ -32,6 +32,10 @@ const STUCK_DISTANCE := 0.3
 const GOAL_CHANGE_DISTANCE := 2.0
 const CLOSE_ENOUGH_TO_WALK_STRAIGHT := 3.0
 const RESCUE_ARRIVE_DISTANCE := 0.3
+# How much ground a bot will add to its own way in to go and unfreeze someone
+const RESCUE_DETOUR_BUDGET := 15.0
+# With less than this left on the clock it banks its own escape instead
+const RESCUE_CLOCK_RESERVE := 45.0
 # A detour is a whim, so it only has to be roughly reached
 const DETOUR_ARRIVE_DISTANCE := 2.0
 # A detour shorter than this share of the radius is not worth the walk
@@ -132,7 +136,7 @@ func _think(elapsed: float):
 	elif threat != null and threat.distance < profile.caution_distance:
 		_hide(threat)
 	else:
-		var frozen_friend = _nearest_frozen_teammate(my_pos)
+		var frozen_friend = _rescue_candidate(my_pos)
 		if frozen_friend != null:
 			_rescue(frozen_friend)
 		else:
@@ -452,17 +456,44 @@ func _nearest_threat():
 	return best
 
 
-func _nearest_frozen_teammate(my_pos: Vector3):
+# Who to go and unfreeze, if anyone. The round is won the moment every hider
+# still on their feet is home, so a bot that is the last one out throws that
+# away by turning back, and so does one that spends the end of the clock on a
+# friend. Short of that, a friend is worth only so much of a detour.
+func _rescue_candidate(my_pos: Vector3):
+	if profile.rescue_distance <= 0.0 or _last_hider_out() or _clock_is_short():
+		return null
+
+	var goal := _nearest_win_zone_center()
+	var my_goal_distance := my_pos.distance_to(goal)
 	var best = null
 	var best_distance := profile.rescue_distance
 	for hider in get_tree().get_nodes_in_group(Hider.GROUP):
 		if hider == player or not hider.frozen or hider.is_in_winzone():
 			continue
-		var distance := my_pos.distance_to(hider.playerController.global_transform.origin)
-		if distance < best_distance:
-			best = hider
-			best_distance = distance
+		var friend_pos: Vector3 = hider.playerController.global_transform.origin
+		var distance := my_pos.distance_to(friend_pos)
+		if distance >= best_distance:
+			continue
+		if distance + friend_pos.distance_to(goal) - my_goal_distance > RESCUE_DETOUR_BUDGET:
+			continue
+		best = hider
+		best_distance = distance
 	return best
+
+
+# Whether every other hider is frozen or already home, which leaves this
+# bot's own walk in as the only thing the round is waiting on
+func _last_hider_out() -> bool:
+	for hider in get_tree().get_nodes_in_group(Hider.GROUP):
+		if hider != player and not hider.frozen and not hider.is_in_winzone():
+			return false
+	return true
+
+
+func _clock_is_short() -> bool:
+	var timer := game.map.get_timelimit_timer() as Timer
+	return timer != null and not timer.is_stopped() and timer.time_left < RESCUE_CLOCK_RESERVE
 
 
 func _eye_position() -> Vector3:
