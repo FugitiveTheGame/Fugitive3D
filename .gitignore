@@ -32,3 +32,6 @@ fastlane/report.xml
 fastlane/README.md
 fastlane/metadata/android/*/changelogs/
 vendor/bundle/
+
+# Release artifacts staged by .github/scripts/package-artifacts.sh
+dist/

@@ -65,14 +65,15 @@ cp export/client/flat/android/google_play/Fugitive3D_Client_Flat_Android_GP.aab 
 log "checking archives"
 
 # Every desktop zip: exactly one main binary, exactly one pck, both
-# GDExtension libraries, and the runtime DLLs on Windows.
+# GDExtension libraries, and the runtime DLLs on Windows. The console
+# wrapper is a debug-only export option, so release builds have no
+# .console.exe.
 check_zip() {
 	local zip=$1 kind=$2 listing
 	listing="$(unzip -Z1 "$zip")"
 	case "$kind" in
 		windows)
-			[[ "$(grep -c '\.exe$' <<<"$listing")" == 2 ]] || fail "$zip: expected the exe and its .console.exe"
-			grep -q '\.console\.exe$' <<<"$listing" || fail "$zip: missing the console wrapper"
+			[[ "$(grep -c '\.exe$' <<<"$listing")" == 1 ]] || fail "$zip: expected exactly one .exe"
 			grep -q '^vcruntime140\.dll$' <<<"$listing" || fail "$zip: missing vcruntime140.dll"
 			grep -q '^vcruntime140_1\.dll$' <<<"$listing" || fail "$zip: missing vcruntime140_1.dll"
 			grep -q '^libgodotopus.*\.dll$' <<<"$listing" || fail "$zip: missing the opus GDExtension"
@@ -100,22 +101,38 @@ check_zip "$DIST/Fugitive3D_Server_Windows_v${VERSION}.zip"           windows
 check_zip "$DIST/Fugitive3D_Client_Flat_Linux_v${VERSION}.zip"        linux
 check_zip "$DIST/Fugitive3D_Server_Linux_v${VERSION}.zip"             linux
 
-# Resource paths are plaintext in an unencrypted pck. The client must carry the
-# GameAnalytics keys it reads at startup; the server presets exclude client/*.
-grep -aq 'res://keys.json' export/client/flat/windows/Fugitive3D_Client_Flat_Windows.pck \
-	|| fail "client pck does not contain keys.json"
-if grep -aq 'res://client/' export/server/linux/Fugitive3D_Server_Linux.pck; then
-	fail "server pck contains client/ resources"
+# What each pack actually contains, read from its index. The client must carry
+# the GameAnalytics keys it reads at startup, and the server presets exclude
+# client/*. Grepping the pck bytes would also match paths merely referenced
+# from inside packed scenes, which the server legitimately has.
+PYTHON=python3
+command -v python3 > /dev/null 2>&1 || PYTHON=python
+pck_files() { "$PYTHON" "$ROOT/.github/scripts/pck-files.py" "$1"; }
+
+# Listings are captured before being searched throughout this section: under
+# `set -o pipefail`, `grep -q` closes the pipe on its first match and the
+# producer dies with SIGPIPE, failing the whole pipeline.
+client_pck="$(pck_files export/client/flat/windows/Fugitive3D_Client_Flat_Windows.pck)"
+grep -qx 'keys.json' <<<"$client_pck" || fail "client pck does not contain keys.json"
+
+server_pck="$(pck_files export/server/linux/Fugitive3D_Server_Linux.pck)"
+server_client_files="$(grep -c '^client/' <<<"$server_pck" || true)"
+if [[ "$server_client_files" != 0 ]]; then
+	fail "server pck contains $server_client_files client/ resources"
 fi
 
 log "checking Android packages"
 quest="$DIST/Fugitive3D_Client_VR_Quest_v${VERSION}.apk"
+quest_listing="$(unzip -Z1 "$quest")"
+# VR is the leg most likely to break silently: without these the headset
+# launches the game as a flat 2D panel instead of failing outright.
 for lib in libgodot_android.so libgodotopenxrvendors.so libopenxr_loader.so; do
-	unzip -Z1 "$quest" | grep -q "^lib/arm64-v8a/$lib$" || fail "Quest APK is missing lib/arm64-v8a/$lib"
+	grep -q "^lib/arm64-v8a/$lib\$" <<<"$quest_listing" || fail "Quest APK is missing lib/arm64-v8a/$lib"
 done
-unzip -Z1 "$quest" | grep -q '^lib/arm64-v8a/libgodotopus.*\.so$' || fail "Quest APK is missing the opus GDExtension"
-unzip -Z1 "$DIST/Fugitive3D_Client_Flat_Android_GP_v${VERSION}.aab" | grep -q '^base/manifest/AndroidManifest.xml$' \
-	|| fail "the AAB has no base module manifest"
+grep -q '^lib/arm64-v8a/libgodotopus.*\.so$' <<<"$quest_listing" || fail "Quest APK is missing the opus GDExtension"
+
+aab_listing="$(unzip -Z1 "$DIST/Fugitive3D_Client_Flat_Android_GP_v${VERSION}.aab")"
+grep -q '^base/manifest/AndroidManifest.xml$' <<<"$aab_listing" || fail "the AAB has no base module manifest"
 
 # Package name and version checks need the SDK build tools; skip cleanly when
 # packaging on a machine without them.
@@ -124,6 +141,10 @@ if [[ -n "${ANDROID_HOME:-}" ]]; then
 	build_tools="$(ls -d "$ANDROID_HOME"/build-tools/*/ 2>/dev/null | sort -V | tail -1 || true)"
 fi
 if [[ -n "$build_tools" && -x "$build_tools/aapt2" ]]; then
+	# The signer is a .bat when these tools are run from Git Bash on Windows.
+	apksigner="$build_tools/apksigner"
+	[[ -f "$apksigner" ]] || apksigner="$build_tools/apksigner.bat"
+
 	check_apk() {
 		local apk=$1 package=$2 badging
 		badging="$("$build_tools/aapt2" dump badging "$apk" | head -1)"
@@ -132,7 +153,9 @@ if [[ -n "$build_tools" && -x "$build_tools/aapt2" ]]; then
 		if [[ -n "$VERSION_CODE" ]]; then
 			grep -q "versionCode='$VERSION_CODE'" <<<"$badging" || fail "$apk: versionCode is not $VERSION_CODE: $badging"
 		fi
-		"$build_tools/apksigner" verify --print-certs "$apk" | grep -i 'SHA-256' || fail "$apk: signature verification failed"
+		local certs
+		certs="$("$apksigner" verify --print-certs "$apk")" || fail "$apk: signature verification failed"
+		grep -i 'SHA-256' <<<"$certs" | head -1
 	}
 	check_apk "$DIST/Fugitive3D_Client_Flat_Android_v${VERSION}.apk" com.darkrockstudios.games.fugitive3d
 	check_apk "$quest" com.darkrockstudios.games.vr.fugitive3d

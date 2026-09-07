@@ -76,10 +76,14 @@ export_preset() {
 	log "exporting '$name' -> $out"
 	rm -rf "$dir"
 	mkdir -p "$dir"
+	# Log to a file rather than through a pipe: the Gradle daemons a gradle
+	# export leaves behind inherit Godot's stdout, and a pipe reader would wait
+	# on them forever after Godot itself has exited.
 	set +e
-	godot "$@" --export-release "$name" "$out" 2>&1 | tee "$logfile"
-	local status=${PIPESTATUS[0]}
+	godot "$@" --export-release "$name" "$out" > "$logfile" 2>&1
+	local status=$?
 	set -e
+	cat "$logfile"
 	if (( status != 0 )); then
 		echo "Godot exited with $status exporting '$name'" >&2
 		exit 1
