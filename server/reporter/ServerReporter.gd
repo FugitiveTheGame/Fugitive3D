@@ -14,8 +14,8 @@ var serverPort: int
 var serverVersion: int
 
 
-static func get_instance(tree: SceneTree):
-	return tree.root.get_node("ServerReporter")
+static func get_instance(tree: SceneTree) -> ServerReporter:
+	return tree.root.get_node_or_null("ServerReporter") as ServerReporter
 
 
 func _enter_tree():
