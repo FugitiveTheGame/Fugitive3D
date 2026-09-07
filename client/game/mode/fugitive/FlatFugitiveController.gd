@@ -100,8 +100,10 @@ func build_action_hints() -> Array:
 
 
 func build_in_car_hints() -> Array:
-	var hints := [InputHintUtils.composite("WASD", "Left Stick", "Drive")]
+	var hints := []
+	# Passengers steer nothing, so only the driver gets the wheel controls
 	if player.car.is_driver(player.id):
+		hints.append(InputHintUtils.composite("WASD", "Left Stick", "Drive"))
 		hints.append(InputHintUtils.hint("flat_player_jump", "Brake"))
 		hints.append(InputHintUtils.hint("flat_car_horn", "Horn"))
 	hints.append(InputHintUtils.hint("flat_player_use", "Exit Car"))
