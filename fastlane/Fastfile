@@ -1,24 +1,14 @@
 default_platform(:android)
 
 platform :android do
-  desc "Publish the AAB to the Google Play production track"
+  desc "Upload the release AAB to a Google Play track"
+  # Track and AAB come from the workflow so one lane serves both a release and
+  # a manual promotion. PLAY_VALIDATE_ONLY checks the upload without
+  # publishing it, which is how the credentials get tested.
   lane :deploy do
     upload_to_play_store(
-      track: 'production',
+      track: ENV.fetch('PLAY_TRACK', 'production'),
       release_status: 'completed',
-      aab: ENV.fetch('AAB_PATH'),
-      skip_upload_metadata: true,
-      skip_upload_images: true,
-      skip_upload_screenshots: true,
-      skip_upload_changelogs: false,
-      validate_only: ENV['PLAY_VALIDATE_ONLY'] == 'true'
-    )
-  end
-
-  desc "Upload the AAB to the internal testing track"
-  lane :internal do
-    upload_to_play_store(
-      track: 'internal',
       aab: ENV.fetch('AAB_PATH'),
       skip_upload_metadata: true,
       skip_upload_images: true,

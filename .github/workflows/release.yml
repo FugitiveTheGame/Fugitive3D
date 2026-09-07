@@ -320,54 +320,17 @@ jobs:
           push "dist/Fugitive3D_Server_Windows_v$V.zip"      windows-server
           push "dist/Fugitive3D_Server_Linux_v$V.zip"        linux-server
 
+  # Shared with the manual runs of the same workflow, so a retry or a promotion
+  # to another track uploads exactly what a release uploads.
   google-play:
     name: Publish to Google Play
     needs: [prepare, release]
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: release-artifacts
-          path: dist
-
-      - uses: actions/download-artifact@v4
-        with:
-          name: release-notes
-          path: .
-
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '3.3'
-
-      - name: Install fastlane
-        run: |
-          bundle config set --local path vendor/bundle
-          bundle install --jobs 4 --retry 3
-
-      - name: Write service account key
-        env:
-          GOOGLE_PLAY_JSON: ${{ secrets.GOOGLE_PLAY_JSON }}
-        run: |
-          set -euo pipefail
-          if [[ -z "$GOOGLE_PLAY_JSON" ]]; then
-            echo "::error::GOOGLE_PLAY_JSON secret is not set"
-            exit 1
-          fi
-          printf '%s' "$GOOGLE_PLAY_JSON" > "$HOME/google-play-service-account.json"
-          jq -e '.client_email' "$HOME/google-play-service-account.json" > /dev/null
-
-      - name: Upload to production
-        env:
-          AAB_PATH: dist/Fugitive3D_Client_Flat_Android_GP_v${{ needs.prepare.outputs.version }}.aab
-          VERSION_CODE: ${{ needs.prepare.outputs.version_code }}
-        run: |
-          set -euo pipefail
-          # Play's "What's new" for this version code, capped at its 500 chars.
-          mkdir -p fastlane/metadata/android/en-US/changelogs
-          head -c 500 notes.md > "fastlane/metadata/android/en-US/changelogs/${VERSION_CODE}.txt"
-          bundle exec fastlane android deploy
+    uses: ./.github/workflows/publish-google-play.yml
+    secrets: inherit
+    with:
+      tag: ${{ github.ref_name }}
+      track: production
+      validate_only: false
 
   docker:
     name: Publish server image

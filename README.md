@@ -130,11 +130,17 @@ the Discord announcement, so write it for players. The workflow:
 5. Posts to the Discord release channel. If that step is the only failure,
    the `Announce Release` workflow re-sends it for a given tag.
 
-Two legs can also be run on their own from the Actions tab, to retry one that
-failed without repeating a whole release: `Announce Release` posts the Discord
-message for a tag, and `Update Game Servers` installs a tag on the official
-servers. The latter is also how you roll them back, since it accepts any tag
-that has a release, and how to check the webhook end to end without releasing.
+Three legs can also be run on their own from the Actions tab, to retry one
+that failed without repeating a whole release. Each takes a tag and works on
+any tag that already has a release:
+
+- `Publish to Google Play` uploads that release's AAB. It defaults to the
+  internal track with "validate only" checked, which exercises the service
+  account without publishing, so it doubles as the credential check. Uncheck
+  it to promote a build to another track.
+- `Update Game Servers` installs a tag on the official servers, which is also
+  how you roll them back and how to check the webhook without releasing.
+- `Announce Release` posts the Discord message.
 
 ### Secrets
 
