@@ -84,18 +84,35 @@ export_preset() {
 	local status=$?
 	set -e
 	cat "$logfile"
-	if (( status != 0 )); then
-		echo "Godot exited with $status exporting '$name'" >&2
-		exit 1
-	fi
+
+	# What the export produced decides the outcome, not the exit status.
+	# Godot 4.7 aborts during shutdown on this project when exporting from
+	# Linux, after the pack is fully written: it leaks objects and resources
+	# at exit and dies on the way out. The artifact is complete, so a crash
+	# once the output exists and the log is clean is reported and tolerated.
+	# A genuine export failure still trips one of the two checks below, and
+	# package-artifacts.sh inspects the contents of everything afterwards.
 	if grep -qE "$FATAL_PATTERNS" "$logfile"; then
 		echo "export log for '$name' contains a fatal error:" >&2
 		grep -E "$FATAL_PATTERNS" "$logfile" >&2
 		exit 1
 	fi
 	if [[ ! -s "$out" ]]; then
-		echo "'$name' produced no output at $out" >&2
+		echo "'$name' produced no output at $out (Godot exited with $status)" >&2
 		exit 1
+	fi
+	# Desktop presets keep the pack beside the binary, so its absence means a
+	# truncated export rather than a crash on the way out.
+	case "$out" in
+		*.exe|*.x86_64)
+			if [[ ! -s "${out%.*}.pck" ]]; then
+				echo "'$name' wrote no pack beside $out (Godot exited with $status)" >&2
+				exit 1
+			fi
+			;;
+	esac
+	if (( status != 0 )); then
+		echo "::warning::Godot exited with $status after exporting '$name'; the output was written, continuing"
 	fi
 	log "ok: $(du -h "$out" | cut -f1) $out"
 }
