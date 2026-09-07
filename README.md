@@ -203,6 +203,18 @@ You can run this scene directly, and it will load the map: `TestMap01_dev.tscn`
 
 You can just edit `Game-dev.gd` to change which map it loads, but it can't load just any normal map. Take a look at `TestMap01_dev.tscn` and `TestMap01_dev.gd` to see what needs to be done to make a map loadable locally.
 
+### Running the VR client from the editor
+OpenXR is only enabled for exports tagged `vr`, so flat and server builds no
+longer talk to the OpenXR loader at all. An editor run has to turn it back on
+by hand: put `--xr-mode on --vr` in *Project Settings > Editor > Run > Main Run
+Args*. Without `--xr-mode on` the client logs `OpenXR failed to initialize` and
+drops back to the flat menu.
+
+`xr/openxr/extensions/hand_tracking` in `project.godot` is not a Godot 4.7
+setting. The `godotopenxrvendors` GDExtension still reads it, so declaring it
+keeps `Property not found` out of editor runs. Exported builds print it once
+anyway, because the extension reads it before the packed settings are loaded.
+
 ### Setting up a map for local testing
 1. Open `Game-dev.gd` and change the map path to the map you wish to load.
 2. Run the `Game-dev.tsch` scene directly ( **F6** )

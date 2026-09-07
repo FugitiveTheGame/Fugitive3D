@@ -52,12 +52,13 @@ func play(localPlayerPos: Vector3):
 	var effect := get_random_effect()
 	if effect != null:
 		#print("Remaining %s free_effects: %d" % [name, free_effects.size()])
-		# Randomly position the audio effect around the player
+		# Randomly position the audio effect around the player. The radius is drawn
+		# from the area of the annulus rather than from the radius itself, otherwise
+		# every ring gets the same number of sounds and the near ones dominate.
 		var soundPosition := localPlayerPos
-		var distance := randf_range(min_radius, max_radius)
-		var horizontalDirection := Utils.rand_unit_vec3(Vector3(1.0, 0.0, 1.0))
-		horizontalDirection = horizontalDirection * distance
-		soundPosition += horizontalDirection
+		var distance := sqrt(randf_range(min_radius * min_radius, max_radius * max_radius))
+		var angle := randf() * TAU
+		soundPosition += Vector3(cos(angle), 0.0, sin(angle)) * distance
 		soundPosition.y = randf_range(min_height, max_height)
 		
 		# Set the position and add the effect to the world
