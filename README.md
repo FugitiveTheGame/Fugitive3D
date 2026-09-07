@@ -130,6 +130,12 @@ the Discord announcement, so write it for players. The workflow:
 5. Posts to the Discord release channel. If that step is the only failure,
    the `Announce Release` workflow re-sends it for a given tag.
 
+Two legs can also be run on their own from the Actions tab, to retry one that
+failed without repeating a whole release: `Announce Release` posts the Discord
+message for a tag, and `Update Game Servers` installs a tag on the official
+servers. The latter is also how you roll them back, since it accepts any tag
+that has a release, and how to check the webhook end to end without releasing.
+
 ### Secrets
 
 Set these under the repository's Actions secrets:

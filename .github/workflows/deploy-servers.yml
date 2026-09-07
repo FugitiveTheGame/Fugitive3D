@@ -1,0 +1,47 @@
+name: Update Game Servers
+
+# Tells the official game servers to install a released build. Called by
+# release.yml after a release is published, and runnable by hand to retry a
+# failed update, to roll back to an earlier tag, or to check the webhook path
+# from outside the network without cutting a release.
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag to install (e.g. v0.8.0)'
+        type: string
+        required: true
+  workflow_call:
+    inputs:
+      tag:
+        type: string
+        required: true
+
+jobs:
+  deploy-servers:
+    runs-on: ubuntu-latest
+    steps:
+      # The receiver downloads that release's Linux server zip, installs it and
+      # restarts each instance in turn. It holds the connection open until that
+      # finishes and answers 500 with the script's log on failure, so this step
+      # waits for the real result rather than just queueing the work.
+      - name: Trigger the server update webhook
+        env:
+          URL: ${{ secrets.SERVER_DEPLOY_WEBHOOK_URL }}
+          SECRET: ${{ secrets.SERVER_DEPLOY_WEBHOOK_SECRET }}
+          TAG: ${{ inputs.tag }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$URL" || -z "$SECRET" ]]; then
+            echo "::warning::SERVER_DEPLOY_WEBHOOK_URL or SERVER_DEPLOY_WEBHOOK_SECRET is not set; skipping the server update"
+            exit 0
+          fi
+          # Sign the exact bytes that are sent, so build the body once.
+          body="$(jq -nc --arg tag "$TAG" '{tag: $tag}')"
+          sig="sha256=$(printf '%s' "$body" | openssl dgst -sha256 -hmac "$SECRET" | sed 's/^.* //')"
+          curl -fsS --max-time 900 --retry 3 --retry-delay 20 --retry-all-errors \
+            -H "Content-Type: application/json" \
+            -H "X-Fugitive-Event: release" \
+            -H "X-Hub-Signature-256: $sig" \
+            -d "$body" \
+            "${URL%/}/hooks/fugitive-server"
