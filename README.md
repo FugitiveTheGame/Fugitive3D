@@ -138,6 +138,9 @@ any tag that already has a release:
   internal track with "validate only" checked, which exercises the service
   account without publishing, so it doubles as the credential check. Uncheck
   it to promote a build to another track.
+- `Publish to Meta Horizon Store` uploads that release's Quest APK. It
+  defaults to the ALPHA channel, which reaches only testers you have added,
+  so a manual run cannot publish to the store by accident.
 - `Update Game Servers` installs a tag on the official servers, which is also
   how you roll them back and how to check the webhook without releasing.
 - `Announce Release` posts the Discord message.
@@ -154,6 +157,8 @@ Set these under the repository's Actions secrets:
 | `ANDROID_KEYSTORE_PASSWORD` | Keystore password (key password must match; Godot signs with one) |
 | `BUTLER_API_KEY` | itch.io API key |
 | `GOOGLE_PLAY_JSON` | Play Console service account JSON with release rights on the app |
+| `META_APP_ID` | Meta app id, from the app's Horizon developer dashboard |
+| `META_APP_SECRET` | That app's secret, under API in the same dashboard |
 | `SERVER_DEPLOY_WEBHOOK_URL` | Base URL of the game servers' webhook receiver |
 | `SERVER_DEPLOY_WEBHOOK_SECRET` | Shared secret that signs the server update request |
 | `DISCORD_WEBHOOK` | Discord channel webhook URL |
