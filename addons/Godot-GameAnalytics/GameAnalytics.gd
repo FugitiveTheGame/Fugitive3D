@@ -40,6 +40,24 @@ var secret_key = null
 
 var build_version = null
 
+# Identifies the install across sessions. Set this to something the game owns,
+# or leave it empty to fall back to the device's own id, which counts as a
+# device identifier to the app stores.
+var user_id: String = ''
+
+# The player's opt-out, distinct from state_config's 'enabled', which the
+# GameAnalytics init response owns
+var collection_enabled := true:
+	set(value):
+		if value == collection_enabled:
+			return
+
+		collection_enabled = value
+		if collection_enabled:
+			start_session()
+		else:
+			_discard_session()
+
 
 func _ready():
 	# Events have to keep flowing while the pause menu holds the rest of the tree
@@ -116,6 +134,14 @@ func _http_perform_request(endpoint, body, response_handler):
 
 
 func start_session():
+	if not collection_enabled:
+		log_info("Analytics are turned off, no session will be started")
+		return
+
+	if game_key == null or secret_key == null:
+		log_info("No game keys are configured, no session will be started")
+		return
+
 	if state_config['session_id'] != null:
 		log_info("Session already started. Not creating a new one")
 		return
@@ -160,6 +186,19 @@ func _save_session_num(value: int):
 
 	file.store_string(JSON.stringify({'session_num': value}))
 	file.close()
+
+
+# Turning analytics off throws away what was collected rather than flushing it,
+# so nothing from the session the player opted out of ever leaves the machine
+func _discard_session():
+	if state_config['session_id'] != null:
+		log_info("Discarding the session and %d queued events" % state_config['event_queue'].size())
+
+	state_config['session_id'] = null
+	state_config['session_start'] = null
+	state_config['event_queue'].clear()
+	state_config['ongoing_progression_event_info'].clear()
+	_seconds_since_flush = 0.0
 
 
 func stop_session():
@@ -439,6 +478,9 @@ func _submit_events_blocking():
 
 
 func queue_event(event):
+	if not collection_enabled:
+		return
+
 	if typeof(event) != TYPE_DICTIONARY:
 		log_info("Submitted an event that's not a dictionary")
 		return
@@ -485,6 +527,15 @@ func _get_os_version():
 	return platform + " " + ".".join(numbers)
 
 
+func _get_user_id() -> String:
+	if not user_id.is_empty():
+		return user_id.to_lower()
+
+	# OS.get_unique_id() is Settings.Secure.ANDROID_ID on Android, which the
+	# stores treat as a device identifier and require to be declared.
+	return OS.get_unique_id().to_lower()
+
+
 func _get_default_annotations():
 	# For some reason GameAnalytics only accepts lower case. Weird but happened to me
 	var platform = PLATFORMS[OS.get_name()]
@@ -498,7 +549,7 @@ func _get_default_annotations():
 
 	var default_annotations = {
 		'v': 2,                                     # (required: Yes)
-		'user_id': OS.get_unique_id().to_lower(),   # (required: Yes)
+		'user_id': _get_user_id(),                  # (required: Yes)
 		#'ios_idfa': idfa,                          # (required: No - required on iOS)
 		#'ios_idfv': idfv,                          # (required: No - send if found)
 		#'google_aid'                               # (required: No - required on Android)

@@ -125,6 +125,8 @@ func prepare_mobile_vr() -> bool:
 
 
 func init_analytics():
+	GameAnalytics.collection_enabled = UserData.data.analytics_enabled
+
 	var file = FileAccess.open('res://keys.json', FileAccess.READ)
 	if file == null:
 		print("Error keys opening file")
@@ -140,8 +142,10 @@ func init_analytics():
 	GameAnalytics.game_key = gaKeys["game_key"]
 	GameAnalytics.secret_key = gaKeys["secret_key"]
 	
-	# Annotates every event, so it has to be set before the session start event
+	# Annotate every event, so these have to be set before the session start
+	# event. The id is the game's own, never the device's.
 	GameAnalytics.build_version = str(UserData.GAME_VERSION)
+	GameAnalytics.user_id = UserData.data.analytics_id
 	
 	# Start the session
 	GameAnalytics.start_session()
