@@ -188,10 +188,20 @@ func set_enable_dynamic_foveation(enable: bool):
 	xr_interface.set("foveation_dynamic", enable)
 
 
-func set_display_refresh_rate(rate: float):
+# Rates the headset advertises, ascending. Empty when the runtime does not
+# offer XR_FB_display_refresh_rate, which is the norm on PC runtimes.
+func get_supported_refresh_rates() -> Array[float]:
+	var supported: Array[float] = []
 	if xr_interface == null or not xr_interface.has_method("get_available_display_refresh_rates"):
-		return
-	var rates: Array = xr_interface.get_available_display_refresh_rates()
+		return supported
+	for rate in xr_interface.get_available_display_refresh_rates():
+		supported.append(float(rate))
+	supported.sort()
+	return supported
+
+
+func set_display_refresh_rate(rate: float):
+	var rates := get_supported_refresh_rates()
 	if rates.is_empty():
 		return
 	log_info("Available display refresh rates: %s" % str(rates))
@@ -199,15 +209,18 @@ func set_display_refresh_rate(rate: float):
 	# The headset only accepts rates it advertises, so take the fastest one that
 	# does not exceed the request rather than the request itself.
 	var chosen: float = 0.0
-	for r in rates:
-		var value := float(r)
+	for value in rates:
 		if value <= rate and value > chosen:
 			chosen = value
 	if chosen <= 0.0:
-		chosen = float(rates.min())
+		chosen = rates.min()
 
 	xr_interface.set("display_refresh_rate", chosen)
 	log_info("Display refresh rate set to %s" % chosen)
+
+
+func apply_saved_refresh_rate():
+	set_display_refresh_rate(float(UserData.data.vr_refresh_rate))
 
 
 func is_oculus_quest_1_device() -> bool:

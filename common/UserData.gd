@@ -31,7 +31,8 @@ static func get_default_data():
 		vr_standing = true, # Standing
 		vr_movement_orientation = 0, # HEAD
 		vr_movement_vignetting = false,
-		vr_movement_hand = 0 # Left
+		vr_movement_hand = 0, # Left
+		vr_refresh_rate = 72
 	}
 	
 	return default

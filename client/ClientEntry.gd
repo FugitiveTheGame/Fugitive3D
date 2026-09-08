@@ -77,6 +77,8 @@ func prepare_vr_common():
 			if action_event is InputEventJoypadButton:
 				InputMap.action_erase_event(action, action_event)
 
+	vr.apply_saved_refresh_rate()
+
 
 func go_to_pc_vr():
 	if not prepare_pc_vr():
@@ -120,8 +122,6 @@ func prepare_mobile_vr() -> bool:
 	
 	# This will dynamically change the foveation level up to the previous level
 	vr.set_enable_dynamic_foveation(true)
-	
-	vr.set_display_refresh_rate(72.0)
 	return true
 
 
