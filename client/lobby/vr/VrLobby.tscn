@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" path="res://client/lobby/vr/VrLobbyUi.tscn" id="1"]
 [ext_resource type="PackedScene" path="res://client/vr_menu_player/UiPanel3D.tscn" id="2"]
 [ext_resource type="PackedScene" path="res://client/vr_menu_player/VrMenuPlayer.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://client/vr_menu_player/VrKeyboard.tscn" id="4"]
 
 [sub_resource type="ProceduralSkyMaterial" id="SkyMaterial"]
 sky_top_color = Color(0.00784314, 0.141176, 0.215686, 1)
@@ -25,16 +26,16 @@ environment = SubResource("LobbyEnvironment")
 [node name="LobbyMenuDisplay" parent="." instance=ExtResource("2")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.57066, -0.706083)
 
-[node name="Lobby" parent="LobbyMenuDisplay" instance=ExtResource("1")]
+[node name="Lobby" parent="LobbyMenuDisplay/Viewport" instance=ExtResource("1")]
 layout_mode = 1
 anchors_preset = -1
-voiceChatContainerPath = NodePath("../../VoiceChatContainer")
+voiceChatContainerPath = NodePath("../../../VoiceChatContainer")
+
+[node name="VrKeyboard" parent="LobbyMenuDisplay" instance=ExtResource("4")]
+transform = Transform3D(1, 0, 0, 0, 0.8660254, 0.5, 0, -0.5, 0.8660254, 0, -0.8125, 0.25)
 
 [node name="VrMenuPlayer" parent="." instance=ExtResource("3")]
 
-[node name="UiRaycast" parent="VrMenuPlayer/Origin/RightHand" index="0"]
-hudPath = NodePath("../../../../LobbyMenuDisplay")
-
 [node name="VoiceChatContainer" type="Node" parent="."]
 
-[editable path="VrMenuPlayer"]
+[editable path="LobbyMenuDisplay"]

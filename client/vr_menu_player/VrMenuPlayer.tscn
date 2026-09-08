@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://client/vr_menu_player/VrMenuPlayer.gd" id="1"]
 [ext_resource type="PackedScene" path="res://client/utils/ShaderCache.tscn" id="2"]
-[ext_resource type="PackedScene" path="res://client/game/player/controller/vr/UiRaycast.tscn" id="3"]
+[ext_resource type="PackedScene" uid="uid://cqhw276realc" path="res://addons/godot-xr-tools/functions/function_pointer.tscn" id="3"]
 
 [node name="VrMenuPlayer" type="Node3D"]
 script = ExtResource("1")
@@ -32,4 +32,7 @@ font_size = 48
 tracker = &"right_hand"
 pose = &"default"
 
-[node name="UiRaycast" parent="Origin/RightHand" instance=ExtResource("3")]
+[node name="FunctionPointer" parent="Origin/RightHand" instance=ExtResource("3")]
+distance = 3.0
+laser_length = 1
+collision_mask = 4194304

@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://client/vr_menu_player/VrKeyboard.gd" id="1"]
+[ext_resource type="PackedScene" uid="uid://dgdb1texynduw" path="res://addons/godot-xr-tools/objects/virtual_keyboard.tscn" id="2"]
+
+[node name="VrKeyboard" type="Node3D"]
+script = ExtResource("1")
+panelPath = NodePath("..")
+
+[node name="Keyboard" parent="." instance=ExtResource("2")]
+screen_size = Vector2(0.8, 0.4)
+collision_layer = 4194304

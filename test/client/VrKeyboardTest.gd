@@ -1,158 +1,149 @@
 extends GdUnitTestSuite
 
-# A headset has no system keyboard, so the VR panels carry their own. It has to
-# follow focus into whichever text field the pointer clicked and type into it.
+# A headset offers no system keyboard, so the VR menus carry the XR Tools one.
+# It has to appear for whichever text field the pointer clicked, and its keys
+# have to reach that field through the panel the menu is rendered on.
 
-const UI_PANEL := "res://client/vr_menu_player/UiPanel3D.tscn"
+const VR_MAIN_MENU := "res://client/main_menu/vr/VrClientMainMenu.tscn"
+const VR_LOBBY := "res://client/lobby/vr/VrLobby.tscn"
 
-var viewport: SubViewport
-var field: LineEdit
-var keyboard: VrKeyboard
+var menu: Node3D
+var panel: XRToolsViewport2DIn3D
+var vrKeyboard: VrKeyboard
+var playerName: LineEdit
 
 
 func before_test() -> void:
-	viewport = SubViewport.new()
-	viewport.size = Vector2i(1600, 900)
-	add_child(viewport)
-
-	field = LineEdit.new()
-	viewport.add_child(field)
-
-	keyboard = VrKeyboard.new()
-	viewport.add_child(keyboard)
+	menu = (load(VR_MAIN_MENU) as PackedScene).instantiate()
+	add_child(menu)
 	await _settle()
+
+	panel = menu.get_node("MainMenuDisplay")
+	vrKeyboard = menu.get_node("MainMenuDisplay/VrKeyboard")
+	playerName = panel.get_node(
+		"Viewport/MainMenu/VBoxContainer/UsernamePanel/VBoxContainer/PlayerName")
 
 
 func after_test() -> void:
-	viewport.queue_free()
+	menu.queue_free()
 	await _settle()
 
 
-# Focus is picked up in _process and keys are queued, so both need a frame to
-# land before anything is asserted
+# Focus is picked up in _process and keys travel through the input queue, so
+# both need a frame to land before anything is asserted
 func _settle() -> void:
 	await get_tree().process_frame
 	await get_tree().process_frame
 
 
-func _key(label: String) -> Button:
-	return _find_key(keyboard, label)
+func _keyboard_2d() -> XRToolsVirtualKeyboard2D:
+	return vrKeyboard.keyboard.get_scene_instance() as XRToolsVirtualKeyboard2D
 
 
-func _find_key(node: Node, label: String) -> Button:
+func _press(scan_code_text: String) -> void:
+	var key := _find_key(_keyboard_2d(), scan_code_text)
+	assert_object(key).override_failure_message(
+		"No '%s' key on the keyboard" % scan_code_text).is_not_null()
+	key.pressed.emit()
+	await _settle()
+
+
+func _find_key(node: Node, scan_code_text: String) -> XRToolsVirtualKeyChar:
 	for child in node.get_children():
-		if child is Button and (child as Button).text == label:
-			return child as Button
-		var found := _find_key(child, label)
+		if child is XRToolsVirtualKeyChar:
+			var key := child as XRToolsVirtualKeyChar
+			if key.scan_code_text == scan_code_text and key.visible:
+				return key
+		var found := _find_key(child, scan_code_text)
 		if found != null:
 			return found
 	return null
 
 
-func _press(label: String) -> void:
-	var key := _key(label)
-	assert_object(key).override_failure_message("No '%s' key" % label).is_not_null()
-	key.pressed.emit()
-	await _settle()
+func test_the_menu_renders_inside_the_panel_viewport() -> void:
+	assert_object(playerName).is_not_null()
+	assert_object(panel.get_scene_instance()).is_not_null()
 
 
 func test_the_keyboard_stays_hidden_until_a_field_takes_focus() -> void:
-	assert_bool(keyboard.visible).is_false()
+	assert_bool(vrKeyboard.keyboard.visible).is_false()
 
-	field.grab_focus()
+	playerName.grab_focus()
 	await _settle()
 
-	assert_bool(keyboard.visible).is_true()
+	assert_bool(vrKeyboard.keyboard.visible).is_true()
 
-	field.release_focus()
+	playerName.release_focus()
 	await _settle()
 
-	assert_bool(keyboard.visible).is_false()
+	assert_bool(vrKeyboard.keyboard.visible).is_false()
 
 
-func test_keys_type_into_the_focused_field() -> void:
-	field.grab_focus()
+func test_keys_reach_the_focused_field() -> void:
+	playerName.clear()
+	playerName.grab_focus()
 	await _settle()
 
-	await _press("q")
-	await _press("t")
-
-	assert_str(field.text).is_equal("qt")
-
-
-func test_shift_types_one_upper_case_letter() -> void:
-	field.grab_focus()
-	await _settle()
-
-	await _press("Shift")
 	await _press("Q")
-	await _press("t")
+	await _press("7")
 
-	assert_str(field.text).is_equal("Qt")
+	assert_str(playerName.text).is_equal("q7")
 
 
-func test_backspace_and_space_reach_the_field() -> void:
-	field.grab_focus()
+# The dialogs are popped up, not merely shown, and a popup grabs input away
+# from the global queue XR Tools types into
+func test_keys_reach_a_field_in_a_popped_up_dialog() -> void:
+	var feedback := panel.get_node("Viewport/MainMenu/FeedbackDialog") as Window
+	feedback.popup_centered()
 	await _settle()
 
-	await _press("q")
-	await _press("Space")
-	await _press("t")
-	await _press("Back")
-
-	assert_str(field.text).is_equal("q ")
-
-
-func test_the_symbol_page_swaps_the_letter_keys() -> void:
-	field.grab_focus()
+	var userName := feedback.get_node("Container/UserNameEdit") as LineEdit
+	userName.clear()
+	userName.grab_focus()
 	await _settle()
 
-	await _press("?123")
-	assert_object(_key("q")).is_null()
+	assert_object(vrKeyboard.focused_field()).is_same(userName)
+	assert_bool(vrKeyboard.keyboard.visible).is_true()
 
-	await _press("@")
+	await _press("Q")
+	await _press("7")
 
-	assert_str(field.text).is_equal("@")
+	assert_str(userName.text).is_equal("q7")
 
 
-func test_the_keys_never_steal_focus_from_the_field() -> void:
-	field.grab_focus()
+func test_a_key_types_once_and_only_once() -> void:
+	playerName.clear()
+	playerName.grab_focus()
 	await _settle()
 
-	await _press("q")
+	await _press("Q")
 
-	assert_bool(field.has_focus()).is_true()
-	assert_bool(keyboard.visible).is_true()
-
-
-func test_the_field_no_longer_asks_for_the_platform_keyboard() -> void:
-	assert_bool(field.virtual_keyboard_enabled).is_false()
+	assert_str(playerName.text).is_equal("q")
 
 
-func test_every_vr_panel_carries_a_keyboard() -> void:
-	var panel := (load(UI_PANEL) as PackedScene).instantiate()
-	add_child(panel)
+func test_the_fields_no_longer_ask_for_the_platform_keyboard() -> void:
+	assert_bool(playerName.virtual_keyboard_enabled).is_false()
+
+	var serverIp := panel.get_node(
+		"Viewport/MainMenu/ManualContainer/VBoxContainer/HBoxContainer/ServerIp") as LineEdit
+	assert_bool(serverIp.virtual_keyboard_enabled).is_false()
+
+
+func test_the_pointer_and_the_panel_share_a_collision_layer() -> void:
+	var pointer := menu.get_node(
+		"VrMenuPlayer/Origin/RightHand/FunctionPointer") as XRToolsFunctionPointer
+	var body := panel.get_node("StaticBody3D") as StaticBody3D
+
+	assert_int(pointer.collision_mask & body.collision_layer).is_not_equal(0)
+
+
+func test_the_vr_lobby_keeps_its_voice_chat_container() -> void:
+	var lobby := (load(VR_LOBBY) as PackedScene).instantiate()
+	add_child(lobby)
 	await _settle()
 
-	var found: Array = panel.viewport.find_children("*", "VrKeyboard", true, false)
-	assert_int(found.size()).is_equal(1)
+	var ui := lobby.get_node("LobbyMenuDisplay/Viewport/Lobby")
+	assert_object(ui.voiceChatContainer).is_same(lobby.get_node("VoiceChatContainer"))
 
-	panel.queue_free()
+	lobby.queue_free()
 	await _settle()
-
-
-func test_the_keyboard_moves_off_a_field_it_would_bury() -> void:
-	field.position = Vector2(0, 60)
-	field.size = Vector2(200, 40)
-	field.grab_focus()
-	await _settle()
-
-	assert_float(keyboard.position.y).is_greater(400.0)
-
-	field.release_focus()
-	await _settle()
-	field.position = Vector2(0, 820)
-	field.grab_focus()
-	await _settle()
-
-	assert_float(keyboard.position.y).is_equal(0.0)
