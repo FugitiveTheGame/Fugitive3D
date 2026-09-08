@@ -2,17 +2,21 @@ extends Node
 
 # Thar be dragons: Godot keeps one global microphone activation flag, and a
 # stopped AudioStreamMicrophone playback releases it on the audio thread some
-# frames later. Two microphone players overlapping across a scene change leave
-# the survivor reading a frozen input buffer on a loop, so the app holds this
-# single player for its whole life and never stops it.
+# frames later. Two microphone playbacks overlapping, whether from two players
+# or from re-playing this one, leave the survivor reading a frozen input buffer
+# on a loop. This node therefore runs while the tree is paused, so the player
+# never reports itself stopped, and start() only ever plays once.
 
 const BUS := &"Record"
 
 var capture: AudioEffectCapture
 var player: AudioStreamPlayer
+var started := false
 
 
 func _ready():
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	
 	var idx := AudioServer.get_bus_index(BUS)
 	capture = AudioServer.get_bus_effect(idx, 0) as AudioEffectCapture
 	
@@ -23,5 +27,7 @@ func _ready():
 
 
 func start():
-	if not player.playing:
-		player.play()
+	if started:
+		return
+	started = true
+	player.play()
