@@ -1,22 +1,19 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://br48jyqe2435m"]
 
-[ext_resource type="Script" path="res://client/HelpDialog.gd" id="1"]
+[ext_resource type="Script" uid="uid://bssfbxomsg5ds" path="res://client/HelpDialog.gd" id="1"]
 
-[node name="HelpDialog" type="Window"]
+[node name="HelpDialog" type="Window" unique_id=698087426]
+title = "Help"
 size = Vector2i(894, 524)
 visible = false
-title = "Help"
 script = ExtResource("1")
-__meta__ = {
-"_edit_use_anchors_": false
-}
 tabsContainerPath = NodePath("VBoxContainer/TabContainer")
 modeSelectContainerPath = NodePath("VBoxContainer/ModeSelectContainer")
 modeSelectButtonPath = NodePath("VBoxContainer/ModeSelectContainer/ModeSelectButton")
 rulesTextboxPath = NodePath("VBoxContainer/TabContainer/Rules")
 controlsTextboxPath = NodePath("VBoxContainer/TabContainer/Controls")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1497116047]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 1.0
@@ -27,69 +24,41 @@ offset_right = -8.0
 offset_bottom = -8.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
-[node name="ModeSelectContainer" type="HBoxContainer" parent="VBoxContainer"]
-offset_right = 878.0
-offset_bottom = 48.0
+[node name="ModeSelectContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=646607966]
 custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
 
-[node name="Label" type="Label" parent="VBoxContainer/ModeSelectContainer"]
-offset_top = 11.0
-offset_right = 151.0
-offset_bottom = 36.0
+[node name="Label" type="Label" parent="VBoxContainer/ModeSelectContainer" unique_id=1339045121]
+layout_mode = 2
 text = " Game Mode: "
 
-[node name="ModeSelectButton" type="OptionButton" parent="VBoxContainer/ModeSelectContainer"]
-offset_left = 159.0
-offset_top = 4.0
-offset_right = 334.0
-offset_bottom = 43.0
+[node name="ModeSelectButton" type="OptionButton" parent="VBoxContainer/ModeSelectContainer" unique_id=1766270675]
+layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 4
-text = "Game Mode"
 
-[node name="TabContainer" type="TabContainer" parent="VBoxContainer"]
-offset_top = 56.0
-offset_right = 878.0
-offset_bottom = 508.0
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer" unique_id=487500522]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-__meta__ = {
-"_edit_use_anchors_": false
-}
+current_tab = 0
 
-[node name="Rules" type="RichTextLabel" parent="VBoxContainer/TabContainer"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 7.0
-offset_top = 46.0
-offset_right = -7.0
-offset_bottom = -7.0
+[node name="Rules" type="RichTextLabel" parent="VBoxContainer/TabContainer" unique_id=646361905]
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 bbcode_enabled = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+metadata/_tab_index = 0
 
-[node name="Controls" type="RichTextLabel" parent="VBoxContainer/TabContainer"]
+[node name="Controls" type="RichTextLabel" parent="VBoxContainer/TabContainer" unique_id=1177922878]
 visible = false
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 7.0
-offset_top = 46.0
-offset_right = -7.0
-offset_bottom = -7.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 bbcode_enabled = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
+metadata/_tab_index = 1
 
 [connection signal="about_to_popup" from="." to="." method="_on_HelpDialog_about_to_show"]
-[connection signal="item_selected" from="VBoxContainer/ModeSelectContainer/ModeSelectButton" to="." method="_on_ModeSelectButton_item_selected"]
 [connection signal="close_requested" from="." to="." method="hide"]
+[connection signal="item_selected" from="VBoxContainer/ModeSelectContainer/ModeSelectButton" to="." method="_on_ModeSelectButton_item_selected"]
