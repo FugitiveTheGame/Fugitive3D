@@ -5,8 +5,12 @@ func send_audio(sequence: int, packet: PackedByteArray):
 	var localPlayer := GameData.currentGame.localPlayer
 	var localPlayerPos := localPlayer.global_transform.origin
 	
+	# Bots, the explore map's dummy players and anyone mid-disconnect have no
+	# peer behind them, and an RPC to a missing peer errors on every packet
+	var peers := multiplayer.get_peers()
+	
 	for playerId in GameData.currentGame.players:
-		if playerId != GameData.currentGame.localPlayer.id and not GameData.is_bot(playerId):
+		if playerId != GameData.currentGame.localPlayer.id and playerId in peers:
 			var player := GameData.currentGame.players[playerId] as Player
 			
 			if GameData.currentGame != null and not GameData.currentGame.is_game_over():
