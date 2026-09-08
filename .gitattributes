@@ -11,3 +11,6 @@
 *.dll filter=lfs diff=lfs merge=lfs -text
 *.so filter=lfs diff=lfs merge=lfs -text
 *.aar filter=lfs diff=lfs merge=lfs -text
+
+# GDExtension macOS framework payloads carry no file extension
+**/*.framework/** filter=lfs diff=lfs merge=lfs -text
