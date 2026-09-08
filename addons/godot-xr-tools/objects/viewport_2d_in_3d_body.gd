@@ -95,16 +95,19 @@ func _on_pointer_event(event : XRToolsPointerEvent) -> void:
 		_:
 			pressed = _presses.has(pointer)
 
-	# Dispatch touch events
-	match type:
-		XRToolsPointerEvent.Type.PRESSED:
-			_report_touch_down(index, at)
+	# Dispatch touch events. The pointer acting as the mouse is skipped: it
+	# already gets the full mouse events below, and a control that received
+	# both would see two presses, which opens and instantly recloses a dropdown.
+	if pointer != _mouse:
+		match type:
+			XRToolsPointerEvent.Type.PRESSED:
+				_report_touch_down(index, at)
 
-		XRToolsPointerEvent.Type.RELEASED:
-			_report_touch_up(index, at)
+			XRToolsPointerEvent.Type.RELEASED:
+				_report_touch_up(index, at)
 
-		XRToolsPointerEvent.Type.MOVED:
-			_report_touch_move(index, pressed, last, at)
+			XRToolsPointerEvent.Type.MOVED:
+				_report_touch_move(index, pressed, last, at)
 
 	# If the current mouse isn't pressed then consider switching to a new one
 	if not _presses.has(_mouse):
