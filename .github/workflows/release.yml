@@ -350,6 +350,17 @@ jobs:
       track: production
       validate_only: false
 
+  # Shared with the manual runs of the same workflow. A release goes to the
+  # store channel; a manual run defaults to testers only.
+  meta-quest:
+    name: Publish to Meta Horizon Store
+    needs: [prepare, release]
+    uses: ./.github/workflows/publish-meta-quest.yml
+    secrets: inherit
+    with:
+      tag: ${{ github.ref_name }}
+      channel: PRODUCTION
+
   docker:
     name: Publish server image
     needs: [prepare, release]
@@ -390,7 +401,7 @@ jobs:
 
   notify:
     name: Announce on Discord
-    needs: [prepare, release, itch, google-play, docker, deploy-servers]
+    needs: [prepare, release, itch, google-play, meta-quest, docker, deploy-servers]
     # Only after a fully successful release; a failed store or server job
     # should not announce a release that is only partly out.
     if: ${{ !cancelled() && needs.release.result == 'success' && !contains(needs.*.result, 'failure') }}

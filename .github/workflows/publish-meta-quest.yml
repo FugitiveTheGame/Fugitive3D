@@ -1,0 +1,92 @@
+name: Publish to Meta Horizon Store
+
+# Uploads a released Quest APK to a Meta release channel. Called by release.yml
+# after a release is published, and runnable by hand to retry a failed upload
+# or to put a build in front of testers.
+#
+# Manual runs default to ALPHA, which reaches only testers you have added, so
+# running this by hand cannot publish to the store by accident. The release
+# passes the store channel explicitly.
+#
+# The APK comes from the GitHub release rather than the build job, so a manual
+# run works for any tag that has a release.
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag to upload (e.g. 0.8.0)'
+        type: string
+        required: true
+      channel:
+        description: 'Meta release channel'
+        type: choice
+        required: true
+        default: ALPHA
+        options:
+          - ALPHA
+          - BETA
+          - RC
+          - PRODUCTION
+  workflow_call:
+    inputs:
+      tag:
+        type: string
+        required: true
+      channel:
+        type: string
+        required: true
+
+env:
+  # Mandatory on every upload, and a rating rather than a preference: changing
+  # it changes what Meta requires of the app.
+  AGE_GROUP: MIXED_AGES
+
+jobs:
+  publish-meta-quest:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Fetch the release APK
+        id: apk
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          TAG: ${{ inputs.tag }}
+        run: |
+          set -euo pipefail
+          mkdir -p dist
+          gh release download "$TAG" --repo "$REPO" --pattern '*_VR_Quest_*.apk' --dir dist
+          apk="$(ls dist/*_VR_Quest_*.apk | head -1)"
+          [[ -n "$apk" ]] || { echo "::error::release $TAG has no Quest APK"; exit 1; }
+          echo "path=$apk" >> "$GITHUB_OUTPUT"
+          echo "Uploading $apk"
+
+      # Meta labels the Linux build of the tool experimental; the Windows one
+      # is the supported path if this ever starts misbehaving.
+      - name: Install the Meta platform tool
+        run: |
+          set -euo pipefail
+          curl -fsSL -o ovr-platform-util \
+            "https://www.oculus.com/download_app/?id=5159709737372459&access_token=OC%7C5159709737372459%7C"
+          chmod +x ovr-platform-util
+          ./ovr-platform-util version || true
+
+      - name: Upload to the ${{ inputs.channel }} channel
+        env:
+          META_APP_ID: ${{ secrets.META_APP_ID }}
+          META_APP_SECRET: ${{ secrets.META_APP_SECRET }}
+          APK: ${{ steps.apk.outputs.path }}
+          CHANNEL: ${{ inputs.channel }}
+        run: |
+          set -euo pipefail
+          if [[ -z "$META_APP_ID" || -z "$META_APP_SECRET" ]]; then
+            echo "::warning::META_APP_ID or META_APP_SECRET is not set; skipping the Meta upload"
+            exit 0
+          fi
+          ./ovr-platform-util upload-quest-build \
+            --app-id "$META_APP_ID" \
+            --app-secret "$META_APP_SECRET" \
+            --apk "$APK" \
+            --channel "$CHANNEL" \
+            --age-group "$AGE_GROUP"
