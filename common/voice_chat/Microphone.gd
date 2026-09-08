@@ -8,6 +8,7 @@ extends Node
 # never reports itself stopped, and start() only ever plays once.
 
 const BUS := &"Record"
+const RECORD_AUDIO_PERMISSION := "RECORD_AUDIO"
 
 var capture: AudioEffectCapture
 var player: AudioStreamPlayer
@@ -30,4 +31,19 @@ func start():
 	if started:
 		return
 	started = true
+	
+	# Android answers the first request with a dialog and a refusal, and a mic
+	# started under that refusal leaves Godot's input flag stuck until relaunch
+	if OS.get_name() == "Android" and not OS.request_permission(RECORD_AUDIO_PERMISSION):
+		get_tree().on_request_permissions_result.connect(_on_permission_result)
+		return
+	
+	player.play()
+
+
+func _on_permission_result(permission: String, granted: bool):
+	# The result carries the full android.permission name
+	if not permission.ends_with(RECORD_AUDIO_PERMISSION) or not granted:
+		return
+	get_tree().on_request_permissions_result.disconnect(_on_permission_result)
 	player.play()
