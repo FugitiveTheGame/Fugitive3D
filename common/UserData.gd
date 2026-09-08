@@ -25,6 +25,7 @@ static func get_default_data():
 		menu_music = true,
 		analytics_enabled = true,
 		flat_mouse_sensetivity = 1.0,
+		flat_controller_sensetivity = 1.0,
 		fullscreen = false,
 		on_screen_controls = true,
 		vr_standing = true, # Standing

@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://client/main_menu/flat/SettingsDialog.gd" id="1"]
 
 [node name="SettingsDialog" type="Window"]
-size = Vector2i(385, 320)
+size = Vector2i(385, 400)
 visible = false
 title = "Settings"
 script = ExtResource("1")
@@ -15,6 +15,8 @@ controlHintsCheckboxPath = NodePath("VBoxContainer/ControlHintsCheckBox")
 analyticsCheckboxPath = NodePath("VBoxContainer/AnalyticsCheckBox")
 mouseSensetivityLabelPath = NodePath("VBoxContainer/MouseSensetivityLabel")
 mouseSensetivitySliderPath = NodePath("VBoxContainer/MouseSensetivitySlider")
+joystickSensetivityLabelPath = NodePath("VBoxContainer/JoystickSensetivityLabel")
+joystickSensetivitySliderPath = NodePath("VBoxContainer/JoystickSensetivitySlider")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -44,7 +46,7 @@ text = "On-screen controls"
 offset_top = 112.0
 offset_right = 353.0
 offset_bottom = 137.0
-text = "Mouse Sensetivity:"
+text = "Mouse Look Sensitivity:"
 
 [node name="MouseSensetivitySlider" type="HSlider" parent="VBoxContainer"]
 offset_top = 145.0
@@ -55,10 +57,25 @@ max_value = 2.0
 step = 0.1
 value = 1.0
 
-[node name="AnalyticsCheckBox" type="CheckBox" parent="VBoxContainer"]
+[node name="JoystickSensetivityLabel" type="Label" parent="VBoxContainer"]
 offset_top = 185.0
 offset_right = 353.0
-offset_bottom = 233.0
+offset_bottom = 210.0
+text = "Joystick Look Sensitivity:"
+
+[node name="JoystickSensetivitySlider" type="HSlider" parent="VBoxContainer"]
+offset_top = 218.0
+offset_right = 353.0
+offset_bottom = 250.0
+min_value = 0.1
+max_value = 2.0
+step = 0.1
+value = 1.0
+
+[node name="AnalyticsCheckBox" type="CheckBox" parent="VBoxContainer"]
+offset_top = 258.0
+offset_right = 353.0
+offset_bottom = 306.0
 text = "Share usage data"
 tooltip_text = "Send anonymous gameplay statistics to help improve the game"
 
@@ -67,5 +84,6 @@ tooltip_text = "Send anonymous gameplay statistics to help improve the game"
 [connection signal="toggled" from="VBoxContainer/FullScreenCheckBox" to="." method="_on_FullScreenCheckBox_toggled"]
 [connection signal="toggled" from="VBoxContainer/ControlHintsCheckBox" to="." method="_on_ControlHintsCheckBox_toggled"]
 [connection signal="value_changed" from="VBoxContainer/MouseSensetivitySlider" to="." method="_on_MouseSensetivitySlider_value_changed"]
+[connection signal="value_changed" from="VBoxContainer/JoystickSensetivitySlider" to="." method="_on_JoystickSensetivitySlider_value_changed"]
 [connection signal="toggled" from="VBoxContainer/AnalyticsCheckBox" to="." method="_on_AnalyticsCheckBox_toggled"]
 [connection signal="close_requested" from="." to="." method="hide"]

@@ -15,8 +15,15 @@ extends Window
 @export var mouseSensetivitySliderPath: NodePath
 @onready var mouseSensetivitySlider := get_node(mouseSensetivitySliderPath) as HSlider
 
+@export var joystickSensetivityLabelPath: NodePath
+@onready var joystickSensetivityLabel := get_node(joystickSensetivityLabelPath) as Label
 
-const MOUSE_SENSETIVITY_CONTENT := "Look Sensitivity: %1.1f"
+@export var joystickSensetivitySliderPath: NodePath
+@onready var joystickSensetivitySlider := get_node(joystickSensetivitySliderPath) as HSlider
+
+
+const MOUSE_SENSETIVITY_CONTENT := "Mouse Look Sensitivity: %1.1f"
+const JOYSTICK_SENSETIVITY_CONTENT := "Joystick Look Sensitivity: %1.1f"
 
 
 func _ready():
@@ -30,6 +37,8 @@ func load_data():
 	analyticsCheckbox.button_pressed = UserData.data.analytics_enabled
 	mouseSensetivityLabel.text = MOUSE_SENSETIVITY_CONTENT % UserData.data.flat_mouse_sensetivity
 	mouseSensetivitySlider.value = UserData.data.flat_mouse_sensetivity
+	joystickSensetivityLabel.text = JOYSTICK_SENSETIVITY_CONTENT % UserData.data.flat_controller_sensetivity
+	joystickSensetivitySlider.value = UserData.data.flat_controller_sensetivity
 
 
 func _on_SettingsDialog_about_to_show():
@@ -52,6 +61,11 @@ func _on_FullScreenCheckBox_toggled(button_pressed):
 func _on_MouseSensetivitySlider_value_changed(value):
 	UserData.data.flat_mouse_sensetivity = value
 	mouseSensetivityLabel.text = MOUSE_SENSETIVITY_CONTENT % UserData.data.flat_mouse_sensetivity
+
+
+func _on_JoystickSensetivitySlider_value_changed(value):
+	UserData.data.flat_controller_sensetivity = value
+	joystickSensetivityLabel.text = JOYSTICK_SENSETIVITY_CONTENT % UserData.data.flat_controller_sensetivity
 
 
 func _on_ControlHintsCheckBox_toggled(button_pressed):

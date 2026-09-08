@@ -6,14 +6,17 @@ class_name FpsCamera
 const JOY_THRESHOLD := 0.25
 
 var sensitivity_y := 0.0
+var controller_sensitivity_y := 0.0
 var inversion_mult := 1.0
 var max_y := 89.0
 var mouseLookSensetivityModifier := 1.0
+var controllerLookSensetivityModifier := 1.0
 
 var heldObject: Node3D
 
 func initialize_components():
 	sensitivity_y = self.get_parent().Sensitivity_Y
+	controller_sensitivity_y = self.get_parent().ControllerSensitivity_Y
 	max_y = self.get_parent().Maximum_Y_Look
 	if self.get_parent().Invert_Y_Axis:
 		inversion_mult = 1
@@ -25,6 +28,7 @@ func _ready():
 	self.initialize_components()
 	
 	mouseLookSensetivityModifier = UserData.data.flat_mouse_sensetivity
+	controllerLookSensetivityModifier = UserData.data.flat_controller_sensetivity
 
 
 func _input(event):
@@ -40,7 +44,7 @@ func _input(event):
 func _process(delta):
 	var look_y_joystick := Input.get_joy_axis(0, JOY_AXIS_RIGHT_Y)
 	if abs(look_y_joystick) > JOY_THRESHOLD:
-		var rotate_by = inversion_mult * sensitivity_y * mouseLookSensetivityModifier * look_y_joystick
+		var rotate_by = inversion_mult * controller_sensitivity_y * controllerLookSensetivityModifier * look_y_joystick * delta
 		look_vertical(rotate_by)
 
 

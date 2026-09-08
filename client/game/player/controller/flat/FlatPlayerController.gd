@@ -8,9 +8,13 @@ signal return_to_main_menu
 func get_player() -> Player:
 	return player
 
+# Mouse rates are radians per pixel of motion, stick rates are radians per
+# second at full deflection. The two are not interchangeable
 @export var Sensitivity_X := 0.01
-@export var TouchSensitivity_X := 0.1
 @export var Sensitivity_Y := 0.005
+@export var ControllerSensitivity_X := 0.6
+@export var ControllerSensitivity_Y := 0.3
+@export var TouchSensitivity_X := 6.0
 @export var Invert_Y_Axis := false
 @export var Maximum_Y_Look := 45
 @export var Crouch_Accelaration := 1.0
@@ -33,6 +37,7 @@ func get_player() -> Player:
 @onready var helpDialog := get_node(helpDialogPath) as Window
 
 var mouseLookSensetivityModifier := 1.0
+var controllerLookSensetivityModifier := 1.0
 
 var allowMovement := true
 
@@ -87,6 +92,7 @@ func _ready():
 	update_camera_to_head()
 	
 	mouseLookSensetivityModifier = UserData.data.flat_mouse_sensetivity
+	controllerLookSensetivityModifier = UserData.data.flat_controller_sensetivity
 
 
 func _process(delta):
@@ -97,11 +103,11 @@ func _process(delta):
 	if virtual_joysticks.right_output.x != 0.0:
 		var x := virtual_joysticks.right_output.x
 		# y=\frac{x^{6}}{x}
-		rotate_y(((pow(x, 6.0)/x) * -TouchSensitivity_X) * mouseLookSensetivityModifier)
+		rotate_y(((pow(x, 6.0)/x) * -TouchSensitivity_X) * controllerLookSensetivityModifier * delta)
 	
 	var look_x_joystick := Input.get_joy_axis(0, JOY_AXIS_RIGHT_X)
 	if abs(look_x_joystick) > 0.1 and mouse_captured():
-		rotate_y(-Sensitivity_X * mouseLookSensetivityModifier * look_x_joystick)
+		rotate_y(-ControllerSensitivity_X * controllerLookSensetivityModifier * look_x_joystick * delta)
 	
 	if control_hints.visible and control_hints_threshold.is_exceeded():
 		control_hints.set_hints(build_control_hints())
