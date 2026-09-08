@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://client/main_menu/vr/SettingsDialog.gd" id="1"]
 
 [node name="SettingsDialog" type="Window"]
-size = Vector2i(446, 320)
+size = Vector2i(446, 384)
 visible = false
 title = "VR Settings"
 script = ExtResource("1")
@@ -14,6 +14,7 @@ standingModeOptionsPath = NodePath("VBoxContainer/StandingModeOptions")
 movementOrientationOptionsPath = NodePath("VBoxContainer/MovementOrientationOptions")
 movementHandOptionsPath = NodePath("VBoxContainer/MovementHandOptions")
 movementVignettingCheckboxPath = NodePath("VBoxContainer/VignettingCheckBox")
+analyticsCheckboxPath = NodePath("VBoxContainer/AnalyticsCheckBox")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
@@ -92,10 +93,18 @@ popup/item_1/text = "Move Right / Turn Left"
 popup/item_1/id = 1
 selected = 0
 
+[node name="AnalyticsCheckBox" type="CheckBox" parent="VBoxContainer"]
+offset_top = 290.0
+offset_right = 414.0
+offset_bottom = 338.0
+text = "Share usage data"
+tooltip_text = "Send anonymous gameplay statistics to help improve the game"
+
 [connection signal="about_to_popup" from="." to="." method="_on_SettingsDialog_about_to_show"]
 [connection signal="visibility_changed" from="." to="." method="_on_SettingsDialog_popup_hide"]
 [connection signal="item_selected" from="VBoxContainer/StandingModeOptions" to="." method="_on_StandingModeOptions_item_selected"]
 [connection signal="toggled" from="VBoxContainer/VignettingCheckBox" to="." method="_on_VignettingCheckBox_toggled"]
 [connection signal="item_selected" from="VBoxContainer/MovementOrientationOptions" to="." method="_on_MovementOrientationOptions_item_selected"]
 [connection signal="item_selected" from="VBoxContainer/MovementHandOptions" to="." method="_on_MovementHandOptions_item_selected"]
+[connection signal="toggled" from="VBoxContainer/AnalyticsCheckBox" to="." method="_on_AnalyticsCheckBox_toggled"]
 [connection signal="close_requested" from="." to="." method="hide"]

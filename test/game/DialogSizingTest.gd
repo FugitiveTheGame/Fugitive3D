@@ -7,6 +7,7 @@ const DIALOGS := [
 	"res://client/game/mode/fugitive/hud/ExitGameHud.tscn",
 	"res://client/HelpDialog.tscn",
 	"res://client/main_menu/flat/SettingsDialog.tscn",
+	"res://client/main_menu/vr/SettingsDialog.tscn",
 ]
 
 const GODOT_DEFAULT_WINDOW_SIZE := Vector2i(100, 100)

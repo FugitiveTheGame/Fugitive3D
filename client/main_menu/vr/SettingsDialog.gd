@@ -12,6 +12,9 @@ extends Window
 @export var movementVignettingCheckboxPath: NodePath
 @onready var movementVignettingCheckbox := get_node(movementVignettingCheckboxPath) as CheckBox
 
+@export var analyticsCheckboxPath: NodePath
+@onready var analyticsCheckbox := get_node(analyticsCheckboxPath) as CheckBox
+
 
 func _ready():
 	# $TODO: https://github.com/GodotVR/godot_oculus_mobile/issues/72
@@ -28,6 +31,7 @@ func load_data():
 	movementVignettingCheckbox.button_pressed = UserData.data.vr_movement_vignetting
 	movementOrientationOptions.selected = UserData.data.vr_movement_orientation
 	movementHandOptions.selected = UserData.data.vr_movement_hand
+	analyticsCheckbox.button_pressed = UserData.data.analytics_enabled
 
 
 func _on_SettingsDialog_about_to_show():
@@ -63,3 +67,8 @@ func _on_StandingModeOptions_item_selected(id):
 	# Normally we just save on dialog close, but this one we want
 	# real-time feedback to the user
 	UserData.save_data()
+
+
+func _on_AnalyticsCheckBox_toggled(button_pressed):
+	UserData.data.analytics_enabled = button_pressed
+	GameAnalytics.collection_enabled = button_pressed
