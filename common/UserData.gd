@@ -14,10 +14,16 @@ var update_notification_presented := false
 static func get_default_data():
 	var default = {
 		version = USER_DATA_VERSION,
+		# Random per install, so analytics can count returning players without
+		# the game ever reading a device identifier. Deliberately generated
+		# here: fill_in_missing_settings copies it into an older file, giving
+		# existing installs one on next launch.
+		analytics_id = UUID.v4(),
 		user_name = '',
 		last_ip = '127.0.0.1',
 		last_port = ServerNetwork.SERVER_PORT,
 		menu_music = true,
+		analytics_enabled = true,
 		flat_mouse_sensetivity = 1.0,
 		on_screen_controls = true,
 		vr_standing = true, # Standing
