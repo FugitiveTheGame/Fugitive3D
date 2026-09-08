@@ -141,6 +141,11 @@ any tag that already has a release:
 - `Publish to Meta Horizon Store` uploads that release's Quest APK. It
   defaults to the ALPHA channel, which reaches only testers you have added,
   so a manual run cannot publish to the store by accident.
+
+The Quest preset pins its target SDK to 34 because Meta rejects anything
+higher, while Google Play requires 35 or above. The two stores disagree, so
+that setting belongs to the Quest preset alone and must not be applied to the
+Play preset.
 - `Update Game Servers` installs a tag on the official servers, which is also
   how you roll them back and how to check the webhook without releasing.
 - `Announce Release` posts the Discord message.
