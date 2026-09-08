@@ -5,9 +5,10 @@
 - Space - Jump
 - Q (hold) - Cops Lock car
 - E - Get in or out of car
-- F - Toggle flashlight
+- F - Toggle flashlight (on foot)
+- F - Honk horn (driving)
 - M (hold) - Map
-- TAB (hold) - Push-To-Talk (max 10 seconds)
+- V (hold) - Push-To-Talk (max 10 seconds)
 
 [u]XBox Controller:[/u]
 - Left Stick - Movement
@@ -17,6 +18,7 @@
 - A - Jump
 - Y (hold) - Cops Lock car
 - X - Get in or out of car
-- B - Toggle flashlight
+- B - Toggle flashlight (on foot)
+- B - Honk horn (driving)
 - Left Bumper (hold) - Map
 - Right Bumper (hold) - Push-To-Talk (max 10 seconds)
