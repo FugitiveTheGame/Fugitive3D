@@ -59,9 +59,12 @@ func get_log_file_contents() -> String:
 		combinedLogContents += "==============================\n"
 		
 		var logFile := FileAccess.open(LOG_PATH + fileName, FileAccess.READ)
+		if logFile == null:
+			combinedLogContents += "[could not open log file]\n\n"
+			continue
 		var logContents = logFile.get_as_text()
 		logFile.close()
-		
+
 		combinedLogContents += logContents + "\n\n"
 		
 	return combinedLogContents
@@ -76,7 +79,7 @@ func get_log_file_names() -> Array:
 
 	var file_name = dir.get_next()
 	while file_name != "":
-		if not dir.current_is_dir() and file_name != "log.txt":
+		if not dir.current_is_dir() and file_name != "godot.log":
 			print("Found log: " + file_name)
 			logFiles.push_back(file_name)
 		file_name = dir.get_next()

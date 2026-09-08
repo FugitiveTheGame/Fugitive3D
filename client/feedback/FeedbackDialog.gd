@@ -48,7 +48,7 @@ func send_feedback(userName: String, description: String, logContents):
 		var base64Logs = Marshalls.raw_to_base64(logContents)
 		postBody += "&logs=%s" % base64Logs.uri_encode()
 
-	$HTTPRequest.request("https://fugitivethegame.online/feedback.php", headers, true, HTTPClient.METHOD_POST, postBody)
+	$HTTPRequest.request("https://fugitivethegame.online/feedback.php", headers, HTTPClient.METHOD_POST, postBody)
 
 
 func _on_HTTPRequest_request_completed(result, response_code, headers, body):
