@@ -39,7 +39,7 @@ on:
 env:
   # Mandatory on every upload, and a rating rather than a preference: changing
   # it changes what Meta requires of the app.
-  AGE_GROUP: MIXED_AGES
+  AGE_GROUP: TEENS_AND_ADULTS
 
 jobs:
   publish-meta-quest:
