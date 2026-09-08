@@ -6,6 +6,9 @@ extends Window
 @export var controlHintsCheckboxPath: NodePath
 @onready var controlHintsCheckbox := get_node(controlHintsCheckboxPath) as CheckBox
 
+@export var analyticsCheckboxPath: NodePath
+@onready var analyticsCheckbox := get_node(analyticsCheckboxPath) as CheckBox
+
 @export var mouseSensetivityLabelPath: NodePath
 @onready var mouseSensetivityLabel := get_node(mouseSensetivityLabelPath) as Label
 
@@ -24,6 +27,7 @@ func _ready():
 func load_data():
 	fullscreenCheckbox.button_pressed = ProjectSettings.get_setting("display/window/size/fullscreen") as bool
 	controlHintsCheckbox.button_pressed = UserData.data.on_screen_controls
+	analyticsCheckbox.button_pressed = UserData.data.analytics_enabled
 	mouseSensetivityLabel.text = MOUSE_SENSETIVITY_CONTENT % UserData.data.flat_mouse_sensetivity
 	mouseSensetivitySlider.value = UserData.data.flat_mouse_sensetivity
 
@@ -54,3 +58,8 @@ func _on_MouseSensetivitySlider_value_changed(value):
 
 func _on_ControlHintsCheckBox_toggled(button_pressed):
 	UserData.data.on_screen_controls = button_pressed
+
+
+func _on_AnalyticsCheckBox_toggled(button_pressed):
+	UserData.data.analytics_enabled = button_pressed
+	GameAnalytics.collection_enabled = button_pressed

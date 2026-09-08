@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://client/main_menu/flat/SettingsDialog.gd" id="1"]
 
 [node name="SettingsDialog" type="Window"]
-size = Vector2i(385, 255)
+size = Vector2i(385, 320)
 visible = false
 title = "Settings"
 script = ExtResource("1")
@@ -12,6 +12,7 @@ __meta__ = {
 }
 fullscreenCheckboxPath = NodePath("VBoxContainer/FullScreenCheckBox")
 controlHintsCheckboxPath = NodePath("VBoxContainer/ControlHintsCheckBox")
+analyticsCheckboxPath = NodePath("VBoxContainer/AnalyticsCheckBox")
 mouseSensetivityLabelPath = NodePath("VBoxContainer/MouseSensetivityLabel")
 mouseSensetivitySliderPath = NodePath("VBoxContainer/MouseSensetivitySlider")
 
@@ -54,9 +55,17 @@ max_value = 2.0
 step = 0.1
 value = 1.0
 
+[node name="AnalyticsCheckBox" type="CheckBox" parent="VBoxContainer"]
+offset_top = 185.0
+offset_right = 353.0
+offset_bottom = 233.0
+text = "Share usage data"
+tooltip_text = "Send anonymous gameplay statistics to help improve the game"
+
 [connection signal="about_to_popup" from="." to="." method="_on_SettingsDialog_about_to_show"]
 [connection signal="visibility_changed" from="." to="." method="_on_SettingsDialog_popup_hide"]
 [connection signal="toggled" from="VBoxContainer/FullScreenCheckBox" to="." method="_on_FullScreenCheckBox_toggled"]
 [connection signal="toggled" from="VBoxContainer/ControlHintsCheckBox" to="." method="_on_ControlHintsCheckBox_toggled"]
 [connection signal="value_changed" from="VBoxContainer/MouseSensetivitySlider" to="." method="_on_MouseSensetivitySlider_value_changed"]
+[connection signal="toggled" from="VBoxContainer/AnalyticsCheckBox" to="." method="_on_AnalyticsCheckBox_toggled"]
 [connection signal="close_requested" from="." to="." method="hide"]
