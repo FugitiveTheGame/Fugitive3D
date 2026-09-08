@@ -55,10 +55,8 @@ window/stretch/aspect="expand"
 window/size/viewport_height.OSX=900
 window/size/viewport_width.X11=1600
 window/size/viewport_height.X11=900
-window/size/fullscreen.server=false
 window/size/viewport_width.Windows=1600
 window/size/viewport_height.Windows=900
-window/size/fullscreen.debug=false
 window/size/viewport_width.OSX=720
 
 [editor_plugins]

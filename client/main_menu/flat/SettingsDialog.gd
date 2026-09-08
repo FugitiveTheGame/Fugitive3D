@@ -20,12 +20,12 @@ const MOUSE_SENSETIVITY_CONTENT := "Look Sensitivity: %1.1f"
 
 
 func _ready():
-	fullscreenCheckbox.visible = not DisplayServer.is_touchscreen_available()
+	fullscreenCheckbox.visible = DisplayUtils.supports_fullscreen_toggle()
 	controlHintsCheckbox.visible = ControlHintsHud.is_supported()
 
 
 func load_data():
-	fullscreenCheckbox.button_pressed = ProjectSettings.get_setting("display/window/size/fullscreen") as bool
+	fullscreenCheckbox.button_pressed = UserData.data.fullscreen
 	controlHintsCheckbox.button_pressed = UserData.data.on_screen_controls
 	analyticsCheckbox.button_pressed = UserData.data.analytics_enabled
 	mouseSensetivityLabel.text = MOUSE_SENSETIVITY_CONTENT % UserData.data.flat_mouse_sensetivity
@@ -44,10 +44,8 @@ func _on_SettingsDialog_popup_hide():
 
 
 func _on_FullScreenCheckBox_toggled(button_pressed):
-	get_window().mode = Window.MODE_EXCLUSIVE_FULLSCREEN if (button_pressed) else Window.MODE_WINDOWED
-	
-	ProjectSettings.set_setting("display/window/size/fullscreen", button_pressed)
-	ProjectSettings.save()
+	UserData.data.fullscreen = button_pressed
+	DisplayUtils.apply_fullscreen(button_pressed)
 
 
 

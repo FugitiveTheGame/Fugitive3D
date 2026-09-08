@@ -59,6 +59,7 @@ func handle_commandline_args():
 
 
 func go_to_flat():
+	DisplayUtils.apply_fullscreen(UserData.data.fullscreen)
 	get_tree().change_scene_to_file("res://client/main_menu/flat/FlatMainMenu.tscn")
 	
 	# Note that this one time handling of command line arguments is intentionally
