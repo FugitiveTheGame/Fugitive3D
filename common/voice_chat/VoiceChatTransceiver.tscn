@@ -1,27 +1,20 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="PackedScene" path="res://common/voice_chat/VoiceChatReceiver.tscn" id="1"]
 [ext_resource type="Script" uid="uid://cx5wf6gqu33vh" path="res://common/voice_chat/VoiceChatTransceiver.gd" id="2"]
 [ext_resource type="AudioStream" uid="uid://bcjg1p0c8t50e" path="res://common/voice_chat/transmit_limit.ogg" id="3"]
 
-[sub_resource type="AudioStreamMicrophone" id="AudioStreamMicrophone_1"]
-
 [node name="VoiceChat" instance=ExtResource("1")]
 script = ExtResource("2")
 
-[node name="AudioStreamRecord" type="AudioStreamPlayer" parent="." index="1"]
-stream = SubResource("AudioStreamMicrophone_1")
-autoplay = true
-bus = &"Record"
-
-[node name="OpusEncoder" type="OpusEncoderNode" parent="." index="2"]
+[node name="OpusEncoder" type="OpusEncoderNode" parent="." index="1"]
 channels = 1
 
-[node name="TransmitLimitTimer" type="Timer" parent="." index="3"]
+[node name="TransmitLimitTimer" type="Timer" parent="." index="2"]
 wait_time = 10.0
 one_shot = true
 
-[node name="TransmitLimitAudio" type="AudioStreamPlayer" parent="." index="4"]
+[node name="TransmitLimitAudio" type="AudioStreamPlayer" parent="." index="3"]
 stream = ExtResource("3")
 
 [connection signal="timeout" from="TransmitLimitTimer" to="." method="_on_TransmitLimitTimer_timeout"]

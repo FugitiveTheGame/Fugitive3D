@@ -26,7 +26,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.848656, 0)
 
 [node name="VoiceChatPlayback" type="AudioStreamPlayer3D" parent="."]
 volume_db = 2.0
-unit_size = 0.6
+unit_size = 4.0
 
 [node name="VoiceChat" parent="." instance=ExtResource("5")]
 audioPlayerPath = NodePath("../VoiceChatPlayback")

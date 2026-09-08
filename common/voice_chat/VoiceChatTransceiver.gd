@@ -16,8 +16,8 @@ var packet_sequence := 0
 
 func _ready():
 	super._ready()
-	var idx := AudioServer.get_bus_index("Record")
-	capture = AudioServer.get_bus_effect(idx, 0) as AudioEffectCapture
+	Microphone.start()
+	capture = Microphone.capture
 
 
 func _input(event):
