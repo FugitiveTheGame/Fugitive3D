@@ -1,5 +1,5 @@
 Superseded: releases are built and published by GitHub Actions when a vX.Y.Z
-tag is pushed. See the "Releasing" section of the top-level README.md.
+tag is pushed. See docs/HOW-TO-RELEASE.md.
 
 The scripts in this directory are the old manual flow, kept for reference:
 
