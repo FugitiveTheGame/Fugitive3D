@@ -4,7 +4,9 @@ signal return_to_main_menu
 
 var standingHeight: float = -1.0
 const CROUCH_THRESHOLD := 0.75
-# Far clip for headsets that cannot afford the desktop draw distance
+# Far clips for standalone headsets; the desktop 300m pushes the Quest 3 into
+# heavy dynamic foveation
+const MOBILE_FAR := 200.0
 const LOW_END_MOBILE_FAR := 100.0
 
 @onready var camera := $Camera as XRCamera3D
@@ -76,8 +78,9 @@ func _ready():
 
 	player.set_is_local_player()
 
-	if OS.has_feature("mobile") and (vr.is_oculus_quest_1_device() or vr.is_oculus_quest_2_device()):
-		camera.far = LOW_END_MOBILE_FAR
+	if OS.has_feature("mobile"):
+		var low_end := vr.is_oculus_quest_1_device() or vr.is_oculus_quest_2_device()
+		camera.far = LOW_END_MOBILE_FAR if low_end else MOBILE_FAR
 
 	fpsLabel.visible = OS.is_debug_build()
 
