@@ -178,8 +178,14 @@ func set_foveation_level(level):
 	if xr_interface == null:
 		return
 	# OQ levels Off/Low/Medium/High/HighTop map onto OpenXR 0..3
-	xr_interface.set("foveation_level", clampi(level, 0, 3))
-	log_info("Foveation level requested %d, interface reports %s" % [clampi(level, 0, 3), str(xr_interface.get("foveation_level"))])
+	var openxr_level := clampi(level, 0, 3)
+	xr_interface.set("foveation_level", openxr_level)
+	# foveation_level alone only foveates the Compatibility renderer. The Mobile
+	# and Forward+ renderers foveate through variable rate shading, which the
+	# viewport has to opt into.
+	var viewport := get_viewport()
+	viewport.vrs_mode = Viewport.VRS_XR if openxr_level > 0 else Viewport.VRS_DISABLED
+	log_info("Foveation level requested %d, interface reports %s, viewport VRS mode %d" % [openxr_level, str(xr_interface.get("foveation_level")), viewport.vrs_mode])
 
 
 func set_enable_dynamic_foveation(enable: bool):
