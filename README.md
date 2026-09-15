@@ -101,6 +101,16 @@ To change the port that the server binds to, add this argument: `--port xxxxx`
 
 Personally I've created a shell script that contains that line called `run.sh` in that directory to make it quicker.
 
+## 🪨 Dark Rock Studios
+
+[**Dark Rock Studios**](https://darkrock.studio/) is all about building **Free and Open Source Software**.
+
+🐛 Found bugs?  
+💡 Have suggestions?  
+📚 Want to help translate?  
+🎮 Interested in our other apps?  
+👉 Join our community of Open Source enthusiasts on [**Discord**](https://discord.gg/49Kj5mMj6d)!
+
 ## Releasing
 
 Releases are built and published by GitHub Actions
