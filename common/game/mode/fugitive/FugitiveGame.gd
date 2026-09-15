@@ -195,8 +195,9 @@ func spawn_player(playerId: int, hiderSpawns: Array, seekerSpawns: Array):
 	# Add the player node to our list of players
 	players[playerId] = playerNode
 	
-	# Move to the spawn point
-	pcNode.global_transform = spawnPointNode.global_transform
+	# Move to the spawn point. Marker scale is not a spawn property and Jolt
+	# rejects a non-uniformly scaled body, so only position and facing carry over
+	pcNode.global_transform = spawnPointNode.global_transform.orthonormalized()
 
 
 @rpc("any_peer", "call_local") func on_all_clients_configured():
